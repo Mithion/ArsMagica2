@@ -271,8 +271,8 @@ am2.spell.manaregeniii=Manaregeneration III
 am2.spell.spellmotion=Zaubermobilität
 
 #tooltips
-am2.tooltip.phyEss=Essenz von
-am2.tooltip.pctFull=Prozent gefüllt
+am2.tooltip.phyEss=\247b%s\247f-Essenz
+am2.tooltip.pctFull=%.2f Prozent gefüllt
 am2.tooltip.empty=Leer
 am2.tooltip.none=Nichts
 am2.tooltip.rupees=Hält auch Rubine!
@@ -290,8 +290,9 @@ am2.tooltip.infOrbFail6=Hat alles eben für einen Moment lila geschmeckt?
 am2.tooltip.infOrbFail7=Eine Waffel ist wie ein Pfannkuchen mit Sirupfalle.
 am2.tooltip.infOrbFail8=Du wirst niemals wieder darüber sprechen, was du gerade gesehen hast.
 am2.tooltip.infOrbFail9=Du bist überzeugt, die Kürbisse werden kommen und dich holen.
-am2.tooltip.infOrbPrefix=Du hast einen Skillpunkt (
-am2.tooltip.infOrbSuffix=)bekommen
+am2.tooltip.infOrbBlue=Du hast einen \2479blauen\247f Skillpunkt bekommen!
+am2.tooltip.infOrbGreen=Du hast einen \2472grünen\247f Skillpunkt bekommen!
+am2.tooltip.infOrbRed=Du hast einen \2474roten\247f Skillpunkt bekommen!
 am2.tooltip.charge=Ladung
 
 #guis
@@ -358,11 +359,12 @@ am2.gui.burnoutNumeric=Numerischer Erschöpfungswert
 am2.gui.XPNumeric=Numerischer XP-Wert
 
 #death messages
-am2.death.fire= ging in Flammen auf.
-am2.death.frost= wurde steifgefroren.
-am2.death.lightning= starb durch Elektoschocks.
-am2.death.backfire='s Zauber kam zürück.
-am2.death.wtfboom= hat den Kaktus zu hart getroffen und ist dann, in Lava schwimmend, in die Luft gegangen.
+am2.death.fire=%s ging in Flammen auf.
+am2.death.wind=%s wurde weggeblasen.
+am2.death.frost=%s wurde steifgefroren.
+am2.death.lightning=%s starb durch Elektoschocks.
+am2.death.backfire=%s's Zauber kam zürück.
+am2.death.wtfboom=%s hat den Kaktus zu hart getroffen und ist dann, in Lava schwimmend, in die Luft gegangen.
 
 #npc messages
 am2.npc.partyjoin=Ich habe dich zurück!
