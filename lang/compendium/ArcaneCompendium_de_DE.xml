@@ -253,7 +253,7 @@
 		</component>
 		<component id="BanishRain">
 			<name>Banish Rain</name>
-			<desc>Rain rain, go away.  Come again another day!  Who would have thought that those were the words to the spell?</desc>
+			<desc>Regen Regen, breche ab.  Komme wieder an einem and'ren Tag!  Wer hätte gedacht, dass das die Worte zu diesem Zauber wären?</desc>
 		</component>
 		<component id="WaterBreathing">
 			<name>Water Breathing</name>
@@ -384,7 +384,7 @@
 			<desc>You are more attuned with the energy flowing through you.  Your magic regenerates faster than normal.  This replaces the bonus given by Mana Regen Boost I.</desc>
 		</talent>
 		<talent id="ManaRegenIII">
-			<name>Mana Regen Boost I</name>
+			<name>Mana Regen Boost III</name>
 			<desc>You are more attuned with the energy flowing through you.  Your magic regenerates much faster than normal. This replaces the bonus given by Mana Regen Boost II.</desc>
 		</talent>
 		<talent id="SpellMotion">
@@ -533,49 +533,69 @@
 				<desc></desc>
 			</subitem>
 		</item>
-		<item id="armorMage">
-			<name>Mage Armor</name>
-			<desc>A more advanced version of simple robes, mage armor allows for slightly more durability, recharge, and protection.  Mage armor, due to the runes inlaid in it, has minor capability to be enchanted.  It also can repair its condition using mana drawn from its wearer.  When wearing a full suit of mage armor, your mana regen speed is increased and all spells are slightly more effective.</desc>
-			<subitem id="helmet_mage">
-				<name>Mage Hood</name>
+		<item id="armorApprentice">
+			<name>Apprentice Armor</name>
+			<desc>The most basic of the armors, Apprentice Armor offers simplistic protection and minor repair capabilities, provided the mage wearing the armor has the mana to infuse it.  It isn't very durable though, and cannot be enchanted.</desc>
+			<subitem id="helmet_apprentice">
+				<name>Apprentice Hood</name>
 				<desc></desc>
 			</subitem>
-			<subitem id="chest_mage">
-				<name>Mage Robes</name>
+			<subitem id="chest_apprentice">
+				<name>Apprentice Robes</name>
 				<desc></desc>
 			</subitem>
-			<subitem id="legs_mage">
-				<name>Mage Leggings</name>
+			<subitem id="legs_apprentice">
+				<name>Apprentice Leggings</name>
 				<desc></desc>
 			</subitem>
-			<subitem id="boots_mage">
-				<name>Mage Boots</name>
+			<subitem id="boots_apprentice">
+				<name>Apprentice Boots</name>
 				<desc></desc>
 			</subitem>
 		</item>
-		<item id="armorBattlemage">
-			<name>Battlemage Armor</name>
-			<desc>Granted only to mages who have proven themselves true masters, Battlemage Armor offers a good amount of protection.  It has higher durability than Mage Armor, but has a slower repair rate and less enchantability, as well as giving lesser versions of the magical bonuses that mage armor does.  Battlemage Armor can also be given XP which will unlock protective spells that will come to the aid of its wearer, draining some of the magic within the armor.  The magic will then infuse back over time from your own mana pool.</desc>
-			<subitem id="helmet_battlemage">
-				<name>Battlemage Circlet</name>
-				<desc>The battlemage circlet has a water enchantment after 15 experience levels that will grant water breathing for a short duration when the wearer is low on air.  The effect will not occur more than once every 90 seconds.</desc>
+		<item id="armorPractitioner">
+			<name>Practitioner Armor</name>
+			<desc>A more advanced version of the Apprentice Armor, practitioner armor allows for slightly more durability, recharge, and protection.  Practitioner armor, due to the runes inlaid in it, has minor capability to be enchanted.</desc>
+			<subitem id="helmet_practitioner">
+				<name>Practitioner Hood</name>
+				<desc></desc>
 			</subitem>
-			<subitem id="chest_battlemage">
-				<name>Battlemage Armor</name>
-				<desc>The battlemage's armor is woven with life magic that can mend some of the damage done to their wearer.  Once the armor is level 24, when your health gets low enough, you will gain a regeneration effect that will restore 20% of your health over 12 seconds.  This effect will not occur more than once every 4 minutes.  The healing increases to 40% of your full life at level 46.</desc>
+			<subitem id="chest_practitioner">
+				<name>Practitioner Robes</name>
+				<desc></desc>
 			</subitem>
-			<subitem id="legs_battlemage">
-				<name>Battlemage Leggings</name>
-				<desc>The battlemage leggings were made with the power of lightning and fire.  Once they have reached 20 experience levels, while sprinting, you will be able to run faster than normal.  There is no cooldown on the speed increasing effect.</desc>
+			<subitem id="legs_practitioner">
+				<name>Practitioner Leggings</name>
+				<desc></desc>
 			</subitem>
-			<subitem id="boots_battlemage">
-				<name>Battlemage Boots</name>
-				<desc>The battlemage boots are infused with the power of air.  At level 5, the boots will protect you from falling one additional block.  At level 15, they allow you to step up over one block high gaps.  At level 20, the fall protection increases to 2 additional blocks.</desc>
+			<subitem id="boots_practitioner">
+				<name>Practitioner Boots</name>
+				<desc></desc>
+			</subitem>
+		</item>
+		<item id="armorMaster">
+			<name>Master Armor</name>
+			<desc>Granted only to mages who have proven themselves true masters, Master Armor offers a good amount of protection.  It has about the same durability as Practitioner Armor, but has a faster repair rate and more enchantability.  Master Armor can also be given XP which will unlock protective spells that will come to the aid of its wearer, draining some of the magic within the armor.  The magic will then infuse back over time from your own mana pool.</desc>
+			<subitem id="helmet_master">
+				<name>Master Hood</name>
+				<desc>The master hood has a water enchantment after 15 experience levels that will grant water breathing for a short duration when the wearer is low on air.  The effect will not occur more than once every 90 seconds.</desc>
+			</subitem>
+			<subitem id="chest_master">
+				<name>Master Robes</name>
+				<desc>The master robes are woven with life magic that can mend some of the damage done to their wearer.  Once the armor is level 24, when your health gets low enough, you will gain a regeneration effect that will restore 20% of your health over 12 seconds.  This effect will not occur more than once every 4 minutes.  The healing increases to 40% of your full life at level 46.</desc>
+			</subitem>
+			<subitem id="legs_master">
+				<name>Master Leggings</name>
+				<desc>The master leggings were made with the power of lightning and fire.  Once they have reached 20 experience levels, while sprinting, you will be able to run faster than normal.  There is no cooldown on the speed increasing effect.</desc>
+			</subitem>
+			<subitem id="boots_master">
+				<name>Master Boots</name>
+				<desc>The master boots are infused with the power of air.  At level 5, the boots will protect you from falling one additional block.  At level 15, they allow you to step up over one block high gaps.  At level 20, the fall protection increases to 2 additional blocks.</desc>
 			</subitem>
 		</item>
 		<item id="armorArchmage">
 			<name>Archmage Armor</name>
-			<desc>The legendary Archmage Armor was crafted by the Magic Weavers of old.  It has unparalleled defense, rendering the wearer nearly invulnerable when worn.  It is slightly less durable than Battlemage Armor initially, but you can give XP to the armor to increase its durability as well as grant it powerful protection effects.</desc>
+			<desc>The legendary Archmage Armor was crafted by the Magic Weavers of old.  It has unparalleled defense, rendering the wearer nearly invulnerable when worn.  It is slightly less durable than Master Armor initially, but you can give XP to the armor to increase its durability as well as grant it powerful protection effects. Archmage armor can only be obtained by summoning and defeating four powerful bosses.</desc>
 			<subitem id="helmet_archmage">
 				<name>Archmage Hood</name>
 				<desc>The archmage hood has a water enchantment after 15 experience levels that will grant water breathing for a short duration when the wearer is low on air.  The effect will not occur more than once every 35 seconds.</desc>
@@ -908,15 +928,15 @@
 	<bosses>
 		<boss id="BossNatureGuardian">
 			<name>Nature Guardian</name>
-			<desc>The Nature Guardian is a fearsome opponent.  Boasting a deadly scythe and the skill to use it, only the most powerful or foolish would seek it out. The few who have survived an encounter state that it is just as dangerous at range as in melee, if not more. !line! Recommended level: 60 !page! Rumor has it that it appears to guard the servants of nature when enough are slain in quick succession.  Nature can be harsh, but it will not tolerate a massacre. !line! !line!  Warning: !line! This is a very difficult boss that can take down even the most well geared players. </desc>
+			<desc>The Nature Guardian is a fearsome opponent.  Boasting a deadly scythe and the skill to use it, only the most powerful or foolish would seek it out. The few who have survived an encounter state that it is just as dangerous at range as in melee, if not more. !page! Rumor has it that it appears to guard the servants of nature when enough are slain in quick succession.  Nature can be harsh, but it will not tolerate a massacre. !line! !line!  Warning: !line! This is a very difficult boss that can take down even the most well geared players. </desc>
 		</boss>
 		<boss id="BossEarthGuardian">
 			<name>Earth Guardian</name>
-			<desc>Formed out of a core of stone, the Earth Guardian is a hardy opponent that can withstand incredible amounts of physical attacks.  With whirling attacks and strength of the earth itself, be prepared for a fight. !line! Recommended level: 25 !page! To summon the Earth Guardian, first build a 3x3 obsidian platform with a chiseled stone brick at the centre.  On top of the obsidian, build an iron inlay ring.  Off of each side, place a vinteum torch.  Then throw in a blue topaz, an emerald, and a chimerite. !line! !line! Upon summoning, the Earth Guardian will cleave out a large area of the surrounding blocks, so it would be wise to summon somewhere other than your basement.</desc>
+			<desc>Formed out of a core of stone, the Earth Guardian is a hardy opponent that can withstand incredible amounts of physical attacks.  With whirling attacks and strength of the earth itself, be prepared for a fight. !page! To summon the Earth Guardian, first build a 3x3 obsidian platform with a chiseled stone brick at the centre.  On top of the obsidian, build an iron inlay ring.  Off of each side, place a vinteum torch.  Then throw in a blue topaz, an emerald, and a chimerite. !line! !line! Upon summoning, the Earth Guardian will cleave out a large area of the surrounding blocks, so it would be wise to summon somewhere other than your basement.</desc>
 		</boss>
 		<boss id="BossWaterGuardian">
 			<name>Water Guardian</name>
-			<desc>The guardian of water is a unique being.  It is always in a state of fluidity, making it able to shrug off attacks occasionally.  It is a trickster as well, flowing into copies of itself and attacking from ambush if one is fooled by the decoy. !line! Recommended level: 10 !page! The water guardian can be summoned by creating a redstone inlay circle in any biome that is predominantly water.  Then, while raining, throw a boat and a bucket of water into the circle as homage to the many ships lost at sea.</desc>
+			<desc>The guardian of water is a unique being.  It is always in a state of fluidity, making it able to shrug off attacks occasionally.  It is a trickster as well, flowing into copies of itself and attacking from ambush if one is fooled by the decoy. !page! The water guardian can be summoned by creating a redstone inlay circle in any biome that is predominantly water.  Then, while raining, throw a boat and a bucket of water into the circle as homage to the many ships lost at sea.</desc>
 		</boss>
 		<boss id="BossWinterGuardian">
 			<name>Winter Guardian</name>
@@ -932,11 +952,11 @@
 		</boss>
 		<boss id="BossAirGuardian">
 			<name>Air Guardian</name>
-			<desc>The Air Guardian is a being of wind, and makes heavy use of knockback based attacks.  It would be foolish to go into battle with one without some form of falling protection.  The Air Guardian is a powerful ranged caster, but it requires a great deal of focus to finish some of it's spells... !line! Recommended level: 35 !page! To summon the Air Guardian, climb up well above the clouds and build a platform (y 150 or higher).  Build a gold inlay ring on the platform and throw in an Air Essence.</desc>
+			<desc>The Air Guardian is a being of wind, and makes heavy use of knockback based attacks.  It would be foolish to go into battle with one without some form of falling protection.  The Air Guardian is a powerful ranged caster, but it requires a great deal of focus to finish some of it's spells... !page! To summon the Air Guardian, climb up well above the clouds and build a platform (y 150 or higher).  Build a gold inlay ring on the platform and throw in an Air Essence.</desc>
 		</boss>
 		<boss id="BossFireGuardian">
 			<name>Fire Guardian</name>
-			<desc>The Fire Guardian is a living inferno from the depths of the nether.  To summon it, create a gold inlay ring in the nether with lava in the middle.  Throw a water essence into the lava and a portal will open to the fire guardian.  Be warned though, it does not take kindly to those that try to bring water to its domain.  Be prepared for a fight!  !line! Recommended level: 90</desc>
+			<desc>The Fire Guardian is a living inferno from the depths of the nether.  To summon it, create an iron inlay ring in the nether with lava in the middle.  Throw a water essence into the lava and a portal will open to the fire guardian.  Be warned though, it does not take kindly to those that try to bring water to its domain.  Be prepared for a fight!</desc>
 		</boss>
 	</bosses>
 	<blocks>
