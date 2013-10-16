@@ -384,7 +384,7 @@
 			<desc>You are more attuned with the energy flowing through you.  Your magic regenerates faster than normal.  This replaces the bonus given by Mana Regen Boost I.</desc>
 		</talent>
 		<talent id="ManaRegenIII">
-			<name>Mana Regen Boost I</name>
+			<name>Mana Regen Boost III</name>
 			<desc>You are more attuned with the energy flowing through you.  Your magic regenerates much faster than normal. This replaces the bonus given by Mana Regen Boost II.</desc>
 		</talent>
 		<talent id="SpellMotion">
