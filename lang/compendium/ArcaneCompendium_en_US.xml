@@ -872,10 +872,6 @@
 			<name>Mana Creeper</name>
 			<desc>The mana creeper is a variant on the normal creeper, but instead of a violent explosion, the mana creeper disintegrates into a mana vortex, which will drain the mana of everything nearby.  The vortex grows the longer it lives, but luckily all of them don't last for more than a few seconds.  The vortex drains more mana the more you have, so it is still a threat to even the most powerful of magi.</desc>
 		</mob>
-		<mob id="MobWisp">
-			<name>Wisp</name>
-			<desc>Wisps are playful little spirits that fly around.  They are curious by nature, and will follow anything they deem interesting.  They have short attention spans though, and are quick to distraction.  If angered, they can attack with devastating magical attacks that also blind their target.</desc>
-		</mob>
 		<mob id="MobLightMage">
 			<name>Light Mage</name>
 			<desc>Light magi are part of the white council.  They are powerful mages who have dedicated themselves to the forces of light.  They will heal friendly players and assist them in combat against the various enemies that plague the world of Minecraft.  They have a special distaste for Dark Mages.</desc>
@@ -891,10 +887,6 @@
 		<mob id="MobWaterElemental">
 			<name>Water Elemental</name>
 			<desc>Water elementals are beings of pure water.  They are found anywhere water is in abundance.  They attack in groups, using water to push and pull their target.  They can affect their targets with Watery Grave, which will pull unsuspecting down to the crushing black depths.</desc>
-		</mob>
-		<mob id="MobAirElemental">
-			<name>Air Elemental</name>
-			<desc>Air elementals are beings of pure air.  They are passive by nature, but if angered will attack with gusts of wind that will throw their target high into the air before fleeing.</desc>
 		</mob>
 		<mob id="EarthElemental">
 			<name>Earth Elemental</name>
@@ -925,10 +917,6 @@
 		<boss id="BossArcaneGuardian">
 			<name>Arcane Guardian</name>
 			<desc>A mage of ancient times, the Arcane Guardian has access to a wide variety of spells.  From attacks to buffs to debuffs, prepare for a magical duel that will test your counterspell knowledge.  Protected by a powerful sigil, the Arcane Guardian has as many tricks against melee opponents as it does against ranged attackers. !page! To summon the Arcane Guardian, first construct a Shrine of Knowledge.  The shrine is 2 pillars of bookshelves, 3 high, with a lectern on the ground in between them containing an Arcane Compendium.  Place an iron inlay circle directly in front of the structure, and throw an Arcane Essence directly in the middle of the circle to start the ritual.</desc>
-		</boss>
-		<boss id="BossTowerGuardian">
-			<name>Tower Guardian</name>
-			<desc>The tower guardian is an ancient construct created by mages of old.  It is highly resistant to magic and physical attacks alike, and attacks on its own with devastating spells.  It is a force to be reckoned with, but rumor has it great treasures can be found if one were to defeat the Tower Guardians...</desc>
 		</boss>
 		<boss id="BossAirGuardian">
 			<name>Air Guardian</name>
@@ -1064,15 +1052,15 @@
 			<desc>Inlays are runes that are used both for decoration and for summoning bosses when placed into the right pattern (see Structures).  There are a few different types of Inlay.</desc>
 			<subitem id="redstone_inlay">
 				<name>Redstone Inlay</name>
-				<desc></desc>
+				<desc>Redstone inlays are the most basic of inlay.  They are used to summon bosses, and can also be used as rails.  They will speed up a minecart as it passes over them.  Be wary when cornering too fast, as the cart can leave the tracks entirely.</desc>
 			</subitem>
 			<subitem id="iron_inlay">
 				<name>Iron Inlay</name>
-				<desc></desc>
+				<desc>Iron inlays are an intermediate inlay.  They are used to summon bosses, and can also be used as rails.  When a minecart touches an iron inlay, it will reverse direction.  Some of the momentum is preserved, but not all.</desc>
 			</subitem>
 			<subitem id="gold_inlay">
 				<name>Gold Inlay</name>
-				<desc></desc>
+				<desc>Gold inlays are the most advanced inlay.  They are used to summon the most powerful of bosses.  They can also be used as rails.  When a minecart touches a gold inlay, it will attempt to warp to the next gold inlay in the direction it is currently traveling within 8 blocks.  This can transport the minecart (and any passengers) through solid obstacles, as it is in fact teleportation.  There is a short delay before the minecart can teleport on a gold rail again after it warps.</desc>
 			</subitem>
 		</block>
 	</blocks>
