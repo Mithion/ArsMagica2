@@ -137,6 +137,9 @@ tile.arsmagica2:summoner.name=Summoner
 tile.arsmagica2:redstone_inlay.name=Redstone Inlay
 tile.arsmagica2:iron_inlay.name=Iron Inlay
 tile.arsmagica2:gold_inlay.name=Gold Inlay
+tile.arsmagica2:planksWitchwood.name=Witchwood Planks
+tile.arsmagica2:witchwoodSingleSlab.name=Witchwood Slab
+tile.arsmagica2:stairsWitchwood.name=Witchwood Stairs
 
 #entities
 entity.arsmagica2.EarthElemental.name=Earth Elemental
@@ -272,7 +275,7 @@ am2.spell.manaregeniii=Mana Regen III
 am2.spell.spellmotion=Spell Motion
 
 #tooltips
-am2.tooltip.phyEss=Essence of the \247b%s
+am2.tooltip.phyEss=Essence of the \\247b%s
 am2.tooltip.pctFull=%.2f Percent Filled
 am2.tooltip.empty=Empty
 am2.tooltip.none=None
@@ -291,9 +294,9 @@ am2.tooltip.infOrbFail6=Did everything just taste purple for a second?
 am2.tooltip.infOrbFail7=A waffle is like a pancake with a syrup trap.
 am2.tooltip.infOrbFail8=You will never speak of what you saw again.
 am2.tooltip.infOrbFail9=You're convinced the pumpkins are coming to get you.
-am2.tooltip.infOrbBlue=You have gained a \2479blue\247f skill point!
-am2.tooltip.infOrbGreen=You have gained a \2472green\247f skill point!
-am2.tooltip.infOrbRed=You have gained a \2474red\247f skill point!
+am2.tooltip.infOrbBlue=You have gained a \\2479blue\\247f skill point!
+am2.tooltip.infOrbGreen=You have gained a \\2472green\\247f skill point!
+am2.tooltip.infOrbRed=You have gained a \\2474red\\247f skill point!
 am2.tooltip.charge=Charge
 
 #guis
@@ -358,6 +361,9 @@ am2.gui.numericValues=Numeric
 am2.gui.manaNumeric=Numeric Mana Value
 am2.gui.burnoutNumeric=Numeric Burnout Value
 am2.gui.XPNumeric=Numeric XP Value
+am2.gui.mbb=Multiblock Display Behaviour
+am2.gui.cycle=Cycle
+am2.gui.pause=Pause
 
 #death messages
 am2.death.fire=%s went up in flames.
