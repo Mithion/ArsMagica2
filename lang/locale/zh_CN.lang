@@ -137,6 +137,9 @@ tile.arsmagica2:summoner.name=召唤站
 tile.arsmagica2:redstone_inlay.name=红石镶嵌物
 tile.arsmagica2:iron_inlay.name=黑铁镶嵌物
 tile.arsmagica2:gold_inlay.name=黄金镶嵌物
+tile.arsmagica2:planksWitchwood.name=巫魂树木板
+tile.arsmagica2:witchwoodSingleSlab.name=巫魂树台阶
+tile.arsmagica2:stairsWitchwood.name=巫魂树楼梯
 
 #entities
 entity.arsmagica2.EarthElemental.name=地之元素
@@ -271,7 +274,7 @@ am2.spell.manaregeniii=魔力回复III
 am2.spell.spellmotion=施术动作
 
 #tooltips
-am2.tooltip.phyEss= \247b%s源质
+am2.tooltip.phyEss= \\247b%s源质
 am2.tooltip.pctFull=已充满%.2f百分比
 am2.tooltip.empty=空
 am2.tooltip.none=无
@@ -290,9 +293,9 @@ am2.tooltip.infOrbFail6=做这些仅仅是为了耍帅?
 am2.tooltip.infOrbFail7=华夫饼就像沾了甜酱的煎饼.
 am2.tooltip.infOrbFail8=你还敢不敢说你看到了啥.
 am2.tooltip.infOrbFail9=你深信有什么重要人物会接见你.
-am2.tooltip.infOrbBlue=你获得了一个\2479蓝色\247f技能点!
-am2.tooltip.infOrbGreen=你获得了一个\2472绿色\247f 技能点!
-am2.tooltip.infOrbRed=你获得了一个\2474红色\247f 技能点!
+am2.tooltip.infOrbBlue=你获得了一个\\2479蓝色\\247f技能点!
+am2.tooltip.infOrbGreen=你获得了一个\\2472绿色\\247f 技能点!
+am2.tooltip.infOrbRed=你获得了一个\\2474红色\\247f 技能点!
 
 #guis
 am2.gui.back=返回
@@ -356,6 +359,9 @@ am2.gui.numericValues=数显
 am2.gui.manaNumeric=数显魔力
 am2.gui.burnoutNumeric=数显耗魔
 am2.gui.XPNumeric=数显经验
+am2.gui.mbb=多方块功能显示
+am2.gui.cycle=循环
+am2.gui.pause=暂停
 
 #death messages
 am2.death.fire=%s被火烤焦了.
