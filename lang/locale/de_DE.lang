@@ -137,6 +137,9 @@ tile.arsmagica2:summoner.name=Beschwörer
 tile.arsmagica2:redstone_inlay.name=Redstone-Intarsie
 tile.arsmagica2:iron_inlay.name=Eisenintarsie
 tile.arsmagica2:gold_inlay.name=Goldintarsie
+tile.arsmagica2:planksWitchwood.name=Hexholzplanken
+tile.arsmagica2:witchwoodSingleSlab.name=Hexholzstufe
+tile.arsmagica2:stairsWitchwood.name=Hexholztreppe
 
 #entities
 entity.arsmagica2.EarthElemental.name=Erdelementar
@@ -272,7 +275,7 @@ am2.spell.manaregeniii=Manaregeneration III
 am2.spell.spellmotion=Zaubermobilität
 
 #tooltips
-am2.tooltip.phyEss=\247b%s\247f-Essenz
+am2.tooltip.phyEss=\\247b%s\\247f-Essenz
 am2.tooltip.pctFull=%.2f Prozent gefüllt
 am2.tooltip.empty=Leer
 am2.tooltip.none=Nichts
@@ -291,9 +294,9 @@ am2.tooltip.infOrbFail6=Hat alles eben für einen Moment lila geschmeckt?
 am2.tooltip.infOrbFail7=Eine Waffel ist wie ein Pfannkuchen mit Sirupfalle.
 am2.tooltip.infOrbFail8=Du wirst niemals wieder darüber sprechen, was du gerade gesehen hast.
 am2.tooltip.infOrbFail9=Du bist überzeugt, die Kürbisse werden kommen und dich holen.
-am2.tooltip.infOrbBlue=Du hast einen \2479blauen\247f Skillpunkt bekommen!
-am2.tooltip.infOrbGreen=Du hast einen \2472grünen\247f Skillpunkt bekommen!
-am2.tooltip.infOrbRed=Du hast einen \2474roten\247f Skillpunkt bekommen!
+am2.tooltip.infOrbBlue=Du hast einen \\2479blauen\\247f Skillpunkt bekommen!
+am2.tooltip.infOrbGreen=Du hast einen \\2472grünen\\247f Skillpunkt bekommen!
+am2.tooltip.infOrbRed=Du hast einen \\2474roten\\247f Skillpunkt bekommen!
 am2.tooltip.charge=Ladung
 
 #guis
@@ -358,6 +361,9 @@ am2.gui.numericValues=Numerisch
 am2.gui.manaNumeric=Numerischer Manawert
 am2.gui.burnoutNumeric=Numerischer Erschöpfungswert
 am2.gui.XPNumeric=Numerischer XP-Wert
+am2.gui.mbb=Multiblock-Display-Verhalten
+am2.gui.cycle=Durchlaufen
+am2.gui.pause=Pause
 
 #death messages
 am2.death.fire=%s ging in Flammen auf.
