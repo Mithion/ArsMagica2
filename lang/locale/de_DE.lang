@@ -275,7 +275,7 @@ am2.spell.manaregeniii=Manaregeneration III
 am2.spell.spellmotion=Zaubermobilität
 
 #tooltips
-am2.tooltip.phyEss=\\247b%s\\247f-Essenz
+am2.tooltip.phyEss=§b%s§f-Essenz
 am2.tooltip.pctFull=%.2f Prozent gefüllt
 am2.tooltip.empty=Leer
 am2.tooltip.none=Nichts
@@ -294,9 +294,9 @@ am2.tooltip.infOrbFail6=Hat alles eben für einen Moment lila geschmeckt?
 am2.tooltip.infOrbFail7=Eine Waffel ist wie ein Pfannkuchen mit Sirupfalle.
 am2.tooltip.infOrbFail8=Du wirst niemals wieder darüber sprechen, was du gerade gesehen hast.
 am2.tooltip.infOrbFail9=Du bist überzeugt, die Kürbisse werden kommen und dich holen.
-am2.tooltip.infOrbBlue=Du hast einen \\2479blauen\\247f Skillpunkt bekommen!
-am2.tooltip.infOrbGreen=Du hast einen \\2472grünen\\247f Skillpunkt bekommen!
-am2.tooltip.infOrbRed=Du hast einen \\2474roten\\247f Skillpunkt bekommen!
+am2.tooltip.infOrbBlue=Du hast einen §9blauen§f Skillpunkt bekommen!
+am2.tooltip.infOrbGreen=Du hast einen §2grünen§f Skillpunkt bekommen!
+am2.tooltip.infOrbRed=Du hast einen §4roten§f Skillpunkt bekommen!
 am2.tooltip.charge=Ladung
 
 #guis

@@ -275,7 +275,7 @@ am2.spell.manaregeniii=Mana Regen III
 am2.spell.spellmotion=Spell Motion
 
 #tooltips
-am2.tooltip.phyEss=Essence of the \\247b%s
+am2.tooltip.phyEss=Essence of the §b%s
 am2.tooltip.pctFull=%.2f Percent Filled
 am2.tooltip.empty=Empty
 am2.tooltip.none=None
@@ -294,9 +294,9 @@ am2.tooltip.infOrbFail6=Did everything just taste purple for a second?
 am2.tooltip.infOrbFail7=A waffle is like a pancake with a syrup trap.
 am2.tooltip.infOrbFail8=You will never speak of what you saw again.
 am2.tooltip.infOrbFail9=You're convinced the pumpkins are coming to get you.
-am2.tooltip.infOrbBlue=You have gained a \\2479blue\\247f skill point!
-am2.tooltip.infOrbGreen=You have gained a \\2472green\\247f skill point!
-am2.tooltip.infOrbRed=You have gained a \\2474red\\247f skill point!
+am2.tooltip.infOrbBlue=You have gained a §9blue§f skill point!
+am2.tooltip.infOrbGreen=You have gained a §2green§f skill point!
+am2.tooltip.infOrbRed=You have gained a §4red§f skill point!
 am2.tooltip.charge=Charge
 
 #guis

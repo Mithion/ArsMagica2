@@ -274,7 +274,7 @@ am2.spell.manaregeniii=魔力回复III
 am2.spell.spellmotion=施术动作
 
 #tooltips
-am2.tooltip.phyEss= \\247b%s源质
+am2.tooltip.phyEss= §b%s源质
 am2.tooltip.pctFull=已充满%.2f百分比
 am2.tooltip.empty=空
 am2.tooltip.none=无
@@ -293,9 +293,9 @@ am2.tooltip.infOrbFail6=做这些仅仅是为了耍帅?
 am2.tooltip.infOrbFail7=华夫饼就像沾了甜酱的煎饼.
 am2.tooltip.infOrbFail8=你还敢不敢说你看到了啥.
 am2.tooltip.infOrbFail9=你深信有什么重要人物会接见你.
-am2.tooltip.infOrbBlue=你获得了一个\\2479蓝色\\247f技能点!
-am2.tooltip.infOrbGreen=你获得了一个\\2472绿色\\247f 技能点!
-am2.tooltip.infOrbRed=你获得了一个\\2474红色\\247f 技能点!
+am2.tooltip.infOrbBlue=你获得了一个§9蓝色§f技能点!
+am2.tooltip.infOrbGreen=你获得了一个§2绿色§f 技能点!
+am2.tooltip.infOrbRed=你获得了一个§4红色§f 技能点!
 
 #guis
 am2.gui.back=返回
