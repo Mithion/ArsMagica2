@@ -140,6 +140,7 @@ tile.arsmagica2:gold_inlay.name=Gold Inlay
 tile.arsmagica2:planksWitchwood.name=Witchwood Planks
 tile.arsmagica2:witchwoodSingleSlab.name=Witchwood Slab
 tile.arsmagica2:stairsWitchwood.name=Witchwood Stairs
+tile.arsmagica2:saplingWitchwood.name=Witchwood Sapling
 
 #entities
 entity.arsmagica2.EarthElemental.name=Earth Elemental

@@ -740,19 +740,19 @@
 			</subitem>
 			<subitem id="mana_potion_greater">
 				<name>Greater Mana Potion</name>
-				<desc>The greater mana potion uses the power of vinteum combined with a potion base at a brewing stand to restore a good amount of mana.  One use will restore 500 mana.</desc>
+				<desc>The greater mana potion uses the power of #5vinteum#0 combined with a #9Awkward Potion#0 at a brewing stand to restore a good amount of mana.  One use will restore 500 mana.</desc>
 			</subitem>
 			<subitem id="mana_potion_epic">
 				<name>Epic Mana Potion</name>
-				<desc>The epic mana potion is created by combining arcane ash with a potion base at a brewing stand to restore 1000 mana per potion.</desc>
+				<desc>The epic mana potion is created by combining #5arcane ash#0 with a #9Awkward Potion#0 at a brewing stand to restore 1000 mana per potion.</desc>
 			</subitem>
 			<subitem id="mana_potion_legendary">
 				<name>Legendary Mana Potion</name>
-				<desc>The legendary mana potion is created by combining purified vinteum dust with a potion base at a brewing stand.  One potion will restore a whopping 2500 mana!</desc>
+				<desc>The legendary mana potion is created by combining #5purified vinteum dust#0 with a #9Awkward Potion#0 at a brewing stand.  One potion will restore a whopping 2500 mana!</desc>
 			</subitem>
 			<subitem id="mana_boost_potion">
 				<name>Infused Essence Potion</name>
-				<desc>By taking a bucket of liquid essence, a mage can combine it with chimerite and tarma root in order to create a potion to give a temporary boost to maximum mana.  Unfortunately, the process is minimally efficient and much of the liquid essence is lost along the way.</desc>
+				<desc>By taking a #5bucket of liquid essence#0, a mage can combine it with #5chimerite#0 and #5tarma root#0 in order to create a potion to give a temporary boost to maximum mana.  Unfortunately, the process is minimally efficient and much of the liquid essence is lost along the way.</desc>
 			</subitem>
 		</item>
 		<item id="crystal_wrench">
@@ -780,17 +780,17 @@
 		<structure id="essenceNexus">
 			<name>Essence Nexus</name>
 			<controller>TileEntityEssenceNexus</controller>
-			<desc>Adapted as a middle ground between the Light Nexus and the Dark Nexus, the Essence Nexus boasts more powerful generation capabilities than the Light Nexus, but without the side effects of the Dark Nexus.  It requires at least one liquid essence source or flowing block below it to act as a source of power.  Keep in mind the essence cannot be directly below it as breaking the block directly below will also destroy the nexus.  Once one block is found below it (up to 10 blocks down), the nexus will search recursively based off of that location in an attempt to find additional liquid essence sources.  It will continually drain the liquid essence source blocks found and create raw essence.  The liquid essence source blocks are eventually consumed.  Each one gives roughly 500 essence, but there is some randomization to it.  Flowing liquid essence blocks are not used to generate power and are not consumed, but are used to search for additional source blocks.</desc>
+			<desc>Adapted as a middle ground between the Light Nexus and the Dark Nexus, the Essence Nexus boasts more powerful generation capabilities than the Light Nexus, but without the side effects of the Dark Nexus.  !l To create the middle rune, simply craft #9Blue Chalk#0 and right click the top of a block to make the rune at that position. !d To generate raw essence, it requires at least one liquid essence source or flowing block below it to act as a source of power.  Keep in mind the essence cannot be directly below it as breaking the block directly below will also destroy the nexus.  Once one block is found below it (up to 10 blocks down), the nexus will search recursively based off of that location in an attempt to find additional liquid essence sources.  It will continually drain the liquid essence source blocks found and create raw essence.  The liquid essence source blocks are eventually consumed.  Each one gives roughly 500 essence, but there is some randomization to it.  Flowing liquid essence blocks are not used to generate power and are not consumed, but are used to search for additional source blocks.  AM2 adds a recipe for #9Chiseled Stone Bricks#0 for the caps.  Look under #9Blocks#0 for the recipe.</desc>
 		</structure>
 		<structure id="darkNexus">			
 			<name>Dark Nexus</name>
 			<controller>TileEntityDarkNexus</controller>
-			<desc>A sinister construction, the Dark Nexus slowly but invariably pulls living creatures from around it inward to its center.  Upon reaching the middle, the souls of the damned emerge from the nexus and tear the life force out of the creature.  The Dark Nexus feeds on the life force, gaining a great deal of power; the more life experiences the creature has had, and the strength of its constitution all play a role in power generation.  The power does come with a cost though, as the Dark Nexus will rapidly corrupt the area its in, so great is its evil.  It produces a dark power that tends to make machines run faster, but become unstable over periods of extended use.</desc>
+			<desc>A sinister construction, the Dark Nexus slowly but invariably pulls living creatures from around it inward to its center.  Upon reaching the middle, the souls of the damned emerge from the nexus and tear the life force out of the creature. !l To create the middle rune, simply craft #4Red Chalk#0 and right click the top of a block to make the rune at that position. !d The Dark Nexus feeds on the life force, gaining a great deal of power; the more life experiences the creature has had, and the strength of its constitution all play a role in power generation.  The power does come with a cost though, as the Dark Nexus will rapidly corrupt the area its in, so great is its evil.  It produces a dark power that tends to make machines run faster, but become unstable over periods of extended use.</desc>
 		</structure>
 		<structure id="lightNexus">			
 			<name>Light Nexus</name>
 			<controller>TileEntityLightNexus</controller>
-			<desc>The Light Nexus is by far the weakest of the three, but is the most easily attainable, as well as the most reliable.  Drawing essence out of the atmosphere, the Light Nexus will serve to increase the purity of an area.  It requires no items or living souls as sacrifice, and constantly generates power, but at a steady trickle.  It does have the benefit of being able to upgrade its capstones with gold, and eventually diamond, to be more powerful.  The power it provides causes machines to run slower, but often provides additional benefits to their operation.</desc>
+			<desc>The Light Nexus is by far the weakest of the three, but is the most easily attainable, as well as the most reliable. !l To create the middle rune, simply craft #9White Chalk#0 and right click the top of a block to make the rune at that position. !d Drawing essence out of the atmosphere, the Light Nexus will serve to increase the purity of an area.  It requires no items or living souls as sacrifice, and constantly generates power, but at a steady trickle.  It does have the benefit of being able to upgrade its capstones with gold, and eventually diamond, to be more powerful.  The power it provides causes machines to run slower, but often provides additional benefits to their operation.</desc>
 		</structure>
 		<structure id="gateways">
 			<name>Gateway</name>
@@ -936,15 +936,15 @@
 		</block>
 		<block id="essence_refiner_front_idle">
 			<name>Essence Refiner</name>
-			<desc>"Essence is in everything.  But to extract it in its purest form; that will require some special machinery." -Antimony Dalen, scholar at the White Mage Citadel</desc>
+			<desc>The essence refiner takes everyday items and using #5Arcane Ash#0, refines them into a pure representation of their parts, known as #5essences#0.  The recipes for specific essences can be found under #9Items -> Essences#0. The essence refiner also requires #2Raw Essence#0 to function.  This can be obtained from a %9Light Nexus#0, where raw light essence makes the process quite a bit slower, but there is a chance you will either not consume some of the recipe ingredients, or could get a second essence.  Neutral raw essence can also be obtained from a #9Neutral Nexus#0 or a #9Mana Battery#0, which has no specific advantages or drawbacks.  Finally, raw dark essence can be used from a #9Dark Nexus#0, which significantly reduces the amount of time it takes to refine the essence, but can cause the machine to build up #4Deficit#0.  The spinning ring on the UI will shift from blue to purple as the refinement process progresses and eventually completes.  A flashing red ring means there is insufficient power to continue, and the process has been paused.</desc>
 		</block>
 		<block id="essenceconduit">
 			<name>Essence Conduit</name>
-			<desc>Infused with dusts to direct essence through the air, the Essence Conduit began seeing heavy use almost immediately after its invention.  However, channeling such magic often creates a minor void inside the crystal, a defecit of magic.  Should this not be properly managed, the residual essence in the air will violently shatter the vinteum crystal in order to balance the scales once again.</desc>
+			<desc>Infused with dusts to direct raw essence through the air, the Essence Conduit began seeing heavy use almost immediately after its invention.  However, channeling such magic often creates a minor void inside the crystal, a #4defecit#0 of magic.  Should this not be properly managed, the void of magic will begin to consume part of the raw essence travelling through the conduit, making it take more raw essence than normal to complete the transfer chain.</desc>
 		</block>
 		<block id="crystalpillar">
 			<name>Crystal Pillar</name>
-			<desc>Originally intended to be an improved design of the Essence Conduit, researchers found its ability to channel essence severely lacking.  The materials simply didn't have the conductiveness to relay enough power.  However, the materials were exceptional at preventing magical voids from forming.  A slight re-design allowed these crystals to directly inject residual mana from the area into a magical void from a short distance away, stabilizing it and preventing the vinteum crystals in an Essence Conduit from rupturing.</desc>
+			<desc>Originally intended to be an improved design of the Essence Conduit, researchers found its ability to channel essence severely lacking.  The materials simply didn't have the conductiveness to relay enough power.  However, the materials were exceptional at preventing magical voids from forming.  A slight re-design allowed these crystals to directly inject residual mana from the area into a magical void from a short distance away, stabilizing it and preventing the vinteum crystals in an Essence Conduit from building deficit.</desc>
 		</block>
 		<block id="blockcaster">
 			<name>Caster</name>
