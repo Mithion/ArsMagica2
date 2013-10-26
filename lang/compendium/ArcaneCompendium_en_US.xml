@@ -713,7 +713,7 @@
 		</item>
 		<item id="spell_staff">
 			<name>Staves</name>
-			<desc>Magical staves can be inlaid with a spell scroll and will cast that spell for no mana, draining the staff's charge instead.  Reagent costs still do apply though.  Use the #5runecrafting table#0 to infuse a spell on to a staff.  Staves can also be dyed different colors to tell them apart.</desc>
+			<desc>Magical staves can be inlaid with a spell scroll and will cast that spell for no mana, draining the staff's charge instead.  Reagent costs still do apply though.  Use a #5crafting table#0 to infuse a spell on to a staff.  This is a temporary way to set staff spells and will be changed in the near future.</desc>
 			<subitem id="spell_staff_novice">
 				<name>Novice Spell Staff</name>
 				<desc>The novice spell staff casts weaker versions of spells, but each cast uses less of the essence stored in the staff.  It doesn't have as much of a cap to begin with as the other staff levels.</desc>
