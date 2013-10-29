@@ -15,11 +15,7 @@
 		<shape id="Self">
 			<name>Self</name>
 			<desc>One of the simplest forms of magic application is applying the magic to yourself.  The distance is low, and the target is willing.  You only hope you don't accidentally light yourself on fire.</desc>
-		</shape>
-		<shape id="Summon">
-			<name>Summon</name>
-			<desc>You have learned to harvest the essence of creatures you defeat in combat.  These essences can be used in creating a spell to summon that creature to protect you.</desc>
-		</shape>
+		</shape>		
 		<shape id="Touch">
 			<name>Touch</name>
 			<desc>Simply wrap your hand in magic, and reach out.</desc>
@@ -42,37 +38,37 @@
 		</shape>
 		<shape id="Contingency_Fall">
 			<name>Contingency: Fall</name>
-			<desc>You have figured out a spell shape that triggers when falling the instant before you hit the ground. !line! !line! Oh gravity, thou art a heartless... !line! !line! You can only have one contingency active at a time.</desc>
+			<desc>You have figured out a spell shape that triggers when falling the instant before you hit the ground. !d Oh gravity, thou art a heartless... !d You can only have one contingency active at a time.</desc>
 		</shape>
 		<shape id="Contingency_Damage">
 			<name>Contingency: Damage</name>
-			<desc>You have managed to create a spell that triggers only when you get hurt. !line! !line! Let's play shot for shot. !line! !line! You can only have one contingency active at a time.</desc>
+			<desc>You have managed to create a spell that triggers only when you get hurt. !d Let's play shot for shot. !d You can only have one contingency active at a time.</desc>
 		</shape>
 		<shape id="Contingency_Fire">
 			<name>Contingency: Fire</name>
-			<desc>You've decided you really don't like being on fire anymore.  To that end, you made a spell that will light up when the flames do. !line! !line! You can only have one contingency active at a time.</desc>
+			<desc>You've decided you really don't like being on fire anymore.  To that end, you made a spell that will light up when the flames do. !d You can only have one contingency active at a time.</desc>
 		</shape>
 		<shape id="Contingency_Health">
 			<name>Contingency: Health</name>
-			<desc>No matter how subtle the wizard, a knife between the shoulder blades will seriously cramp his style.  You think you have found a way to make them regret trying that.  Or need two knives. !line! !line! You can only have one contingency active at a time.</desc>
+			<desc>No matter how subtle the wizard, a knife between the shoulder blades will seriously cramp his style.  You think you have found a way to make them regret trying that.  Or need two knives. !d You can only have one contingency active at a time.</desc>
 		</shape>
 		<shape id="Contingency_Death">
 			<name>Contingency: Death</name>
-			<desc>You may get me, but in those few seconds it takes you, I will have all the time I need to ensure you come along for the ride. !line! !line! You can only have one contingency active at a time.</desc>
+			<desc>You may get me, but in those few seconds it takes you, I will have all the time I need to ensure you come along for the ride. !d You can only have one contingency active at a time.</desc>
 		</shape>
 		<shape id="Binding">
 			<name>Binding</name>
-			<desc>You can create solid objects out of nothing!  The binding shape allows you to bind tools to yourself, which drain constant mana while bound, and burst mana when used instead of durability.  Dropping the item with the drop hotkey (default 'q') will instead unbind it. !line! !line! This shape is not implemented yet.</desc>
+			<desc>You can create solid objects out of nothing!  The binding shape allows you to bind tools to yourself, which drain constant mana while bound, and burst mana when used instead of durability.  Dropping the item with the drop hotkey (default 'q') will instead unbind it. !d This shape is not implemented yet.</desc>
 		</shape>
 	</shapes>
 	<components zeroItemText="You don't know any components yet, and aren't eligible to learn any!">
 		<component id="PhysicalDamage">
 			<name>Physical Damage</name>
-			<desc>Often a young mage will begin his training with simple physical force.  More often he will continue that training by smacking his colleagues in the back of the head with more physical force.</desc>
+			<desc>Often a young mage will begin his training with simple physical force.  More often he will continue that training by smacking his colleagues in the back of the head with more physical force.  Physical damage is one of the weaker damage types, and does not pierce armor.</desc>
 		</component>
 		<component id="MagicDamage">
 			<name>Magic Damage</name>
-			<desc>Magical damage differs from physical damage in that it bypasses many kinds of armors and attacks the target's aura directly - which can be just as devastating, if not more.  This makes summoned creatures especially vulnerable.</desc>
+			<desc>Magical damage differs from physical damage in that it bypasses many kinds of armors and attacks the target's aura directly - which can be just as devastating, if not more.  This makes summoned and charmed creatures especially vulnerable, making them take triple damage.</desc>
 		</component>
 		<component id="FrostDamage">
 			<name>Frost Damage</name>
@@ -80,17 +76,17 @@
 		</component>
 		<component id="LightningDamage">
 			<name>Lightning Damage</name>
-			<desc>I held my hands in front of me, and with a sharp crack a bolt of brilliant white lightning forked across the sky.  His metal armor acted as a lightning rod, drawing each bolt down into him.</desc>
+			<desc>I held my hands in front of me, and with a sharp crack a bolt of brilliant white lightning forked across the sky.  His metal armor acted as a lightning rod, drawing each bolt down into him.  Lightning does an exceptional amount of damage, but carries a hefty mana cost.</desc>
 		</component>
 		<component id="FireDamage">
 			<name>Fire Damage</name>
-			<desc>With a word, I released my will and fire erupted from out in front of me, searing everything in its path.</desc>
+			<desc>With a word, I released my will and fire erupted from out in front of me, searing everything in its path.  Fire damage is hard hitting, but many nether mobs are immune to its effects.</desc>
 		</component>
 		<component id="Ignition">
 			<name>Ignition</name>
 			<desc>Many magi see fire as a damaging, destructive force, and that can be true.  But how many hear fire and imagine lighting a stove, campfire or candle?  </desc>
 		</component>
-		<component id="FurnaceTouch">
+		<component id="Forge">
 			<name>Forge</name>
 			<desc>You have gained fine control over fire and can use it to magically smelt blocks where they stand, without charring them to ash.</desc>
 		</component>
@@ -104,7 +100,7 @@
 		</component>
 		<component id="Freeze">
 			<name>Freeze</name>
-			<desc>Eira breathed deeply and opened her eyes.  The caps of the mountains now glistened white with snow and a sublime frost covered everything.  Water had become ice.  Nothing was moving.  Perfect.</desc>
+			<desc>Eira breathed deeply and opened her eyes.  The caps of the mountains now glistened white with snow and a sublime frost covered everything.  Water had become ice.  Enemies moved at a crawl.  Perfect.</desc>
 		</component>
 		<component id="Knockback">
 			<name>Knockback</name>
@@ -117,7 +113,7 @@
 		</component>
 		<component id="AstralDistortion">
 			<name>Astral Distortion</name>
-			<desc>As I tried to step into the void, the warp shimmered and seemed to solidify.  I walked face first into it, much to the amusement of my students.  I had to turn this against Endermen as well.</desc>
+			<desc>As I tried to step into the void, the warp shimmered and seemed to solidify.  I walked face first into it, much to the amusement of my students.  This effect seemed to prevent my teleportation abilities entirely.  I had to turn this against Endermen as well.</desc>
 		</component>
 		<component id="Fling">
 			<name>Fling</name>
@@ -125,7 +121,7 @@
 		</component>
 		<component id="WateryGrave">
 			<name>Watery Grave</name>
-			<desc>The water seemed to come alive, wrapping tendrils around the light mage and dragging him down into the black, crushing depths.</desc>
+			<desc>The water seemed to come alive, wrapping tendrils around the light mage and dragging him down into the black, crushing depths.  His friend on the shore could only watch helplessly, for to jump into the water would mean the same fate for him.</desc>
 		</component>
 		<component id="Leap">
 			<name>Leap</name>
@@ -193,11 +189,11 @@
 		</component>
 		<component id="Shield">
 			<name>Shield</name>
-			<desc>You can summon arcane energy to shield yourself.  This shield will reduce all damage taken.</desc>
+			<desc>You can summon arcane energy to shield yourself.  This shield will reduce all damage taken.  This cannot be active at the same time as reflect.</desc>
 		</component>
 		<component id="Reflect">
 			<name>Reflect</name>
-			<desc>You can change the makeup of your shield so that spells will bounce off instead of physical damage.  This cannot be active at the same time as shield.</desc>
+			<desc>You can change the makeup of your shield so that spells will bounce off instead of reducing physical damage.  This cannot be active at the same time as shield.</desc>
 		</component>
 		<component id="ChronoAnchor">
 			<name>Chrono Anchor</name>
@@ -205,7 +201,7 @@
 		</component>
 		<component id="Charm">
 			<name>Charm</name>
-			<desc>You can charm creatures into fighting for you, and certain creatures will do special things when charmed.  Charming also causes creatures to breed.</desc>
+			<desc>You can charm creatures into fighting for you, and certain creatures will do special things when charmed.  Charming also causes creatures to breed (if they are capable of doing so by other means).</desc>
 		</component>
 		<component id="Dig">
 			<name>Dig</name>
@@ -221,7 +217,7 @@
 		</component>
 		<component id="Rift">
 			<name>Rift Storage</name>
-			<desc>You can tear open a rift in space, granting access to a small dimension to store items in.</desc>
+			<desc>You can tear open a rift in space, granting access to a small dimension to store items in.  The rift lasts for 60 seconds before closing automatically.  Higher casting moes give greater storage access.  Sneak+Right click to close the rift once it is opened.</desc>
 		</component>
 		<component id="Attract">
 			<name>Attract</name>
@@ -297,17 +293,21 @@
 		</component>
 		<component id="DivineIntervention">
 			<name>Divine Intervention</name>
-			<desc>You have mastered teleportation magic, to the level at which you can transcend interdimensional barriers, and can enter the overworld from anywhere.</desc>
+			<desc>You have mastered teleportation magic, to the level at which you can transcend interdimensional barriers, and can enter the overworld from anywhere.  If cast when you are already in the overworld, you will be returned to your bed, or to spawn if no bed exists.</desc>
+		</component>
+		<component id="Summon">
+			<name>Summon</name>
+			<desc>You have learned to harvest the essence of creatures you defeat in combat.  These essences can be used in creating a spell to summon that creature to protect you. !d To summon a creature, first craft a #5Crystal Phylactery#0.  Once you kill something while holding an empty phylactery, that phylactery will become #9attuned#0 to that specific mob.  Kill enough of the same mob and you will fill the phylactery. !d During spell creation, you can throw in any filled phylactery when prompted by the lectern.  This step is what determines what your spell will summon. !d Summoned creatures drop no loot, and no xp, but can be interacted with normally, such as breeding, milking cows, or riding horses.  Horses are the exception to the item drop rule and will drop saddles and armor given to them. !l Tameable creatures such as wolves and cats are automatically tamed to their owner upon summoning. </desc>
 		</component>
 	</components>
 	<modifiers zeroItemText="You don't know any modifiers yet, and aren't eligible to learn any!">
 		<modifier id="Gravity">
 			<name>Gravity</name>
-			<desc>Amplifies the gravity of certain spell shapes.  Zones and projectiles will be affected by gravity.</desc>
+			<desc>Amplifies the gravity of certain spell shapes.  Zones and projectiles will be affected by gravity.  AoE spells will search farther down when applying to terrain for a valid spot to apply (this is useful as it causes it to hug the terrain).</desc>
 		</modifier>
 		<modifier id="Bounce">
 			<name>Bounce</name>
-			<desc>Causes projectile and beam spell shapes to bounce off surfaces.</desc>
+			<desc>Causes the projectile spell shape to bounce off surfaces.</desc>
 		</modifier>
 		<modifier id="Damage">
 			<name>Damage</name>
@@ -315,19 +315,19 @@
 		</modifier>
 		<modifier id="Healing">
 			<name>Healing</name>
-			<desc>Amplifies the healing done by spells, or the damage to the undead.</desc>
+			<desc>Amplifies the healing done by spells, or the damage dealt by healing spells to the undead.</desc>
 		</modifier>
 		<modifier id="Speed">
 			<name>Speed</name>
-			<desc>Enhances the speed altering effects of spells, velocity added, and the speed of projectiles.</desc>
+			<desc>Enhances the speed altering effects of spells, and the speed of projectiles.</desc>
 		</modifier>
 		<modifier id="Duration">
 			<name>Duration</name>
-			<desc>Enhances the duration of all buff/debuff effects, and increases the duration of zones.  Gives runes additional procs.</desc>
+			<desc>Enhances the duration of all buff/debuff effects, and increases the duration of zones.</desc>
 		</modifier>
 		<modifier id="Range">
 			<name>Range</name>
-			<desc>Increases the range of channeled, projectile, and beam spells.</desc>
+			<desc>Increases the range of projectile and beam spells.</desc>
 		</modifier>
 		<modifier id="Radius">
 			<name>Radius</name>
@@ -339,11 +339,11 @@
 		</modifier>
 		<modifier id="VelocityAdded">
 			<name>Velocity Added</name>
-			<desc>Increases the amount of velocity added by a spell.</desc>
+			<desc>Increases the amount of velocity added by spell parts such as #5Fling#0.</desc>
 		</modifier>
 		<modifier id="WaterTarget">
-			<name>Water Target</name>
-			<desc>Allows the spell to target water rather than passing through it.</desc>
+			<name>Target Non-Solid Blocks</name>
+			<desc>Allows the spell to target non-solid blocks (grass, water, lava) rather than passing through it.</desc>
 		</modifier>
 		<modifier id="Lunar">
 			<name>Lunar</name>
@@ -361,7 +361,7 @@
 	<talents zeroItemText="You don't know any talents yet, and aren't eligible to learn any!">
 		<talent id="AffinityGains">
 			<name>Affinity Gains Boost</name>
-			<desc>You have decided that elemental attunement is more important than arcane knowledge.  You can receive a boost to affinity gains in exchange for slower magic XP gain.</desc>
+			<desc>You have decided that elemental attunement is more important than arcane knowledge.  You can receive a boost to affinity gains in exchange for slower magic XP gain.  This is a permanent effect.</desc>
 		</talent>
 		<talent id="AugmentedCasting">
 			<name>Augmented Casting</name>
@@ -369,7 +369,7 @@
 		</talent>
 		<talent id="ExtraSummon">
 			<name>Extra Summon</name>
-			<desc>Why do things yourself when you can have others do them for you?  You can now have one additional summoned/charmed creature or recruited mage (if you have the Mage Posse talent)</desc>
+			<desc>Why do things yourself when you can have others do them for you?  You can now have one additional summoned/charmed creature or recruited mage (if you have the #5Mage Posse#0 talent)</desc>
 		</talent>
 		<talent id="MageBandI">
 			<name>Mage Posse I</name>
@@ -391,6 +391,10 @@
 			<name>Spell Movement</name>
 			<desc>You have realized that agility is key.  To that end, you have trained yourself to be able to move at normal speed while using a spell.</desc>
 		</talent>
+		<talent id="Color">
+			<name>Colour</name>
+			<desc>This modifier allows you to change the color of the particles on your spell.  Want green fireballs?  Have at it!  Color is determined by the color dye that you throw in during the crafting process.  Any one will be accepted, regardless of what the lectern prompts for.</desc>
+		</talent>
 	</talents>
 	<items>
 		<item id="ores">
@@ -406,11 +410,11 @@
 			</subitem>
 			<subitem id="itemOre@2">
 				<name>Arcane Ash</name>
-				<desc>Created by burning Arcane Compounds in a furnace, Arcane Ash's essence storage capabilities have made it a cornerstone of advanced magical machinery.</desc>
+				<desc>Created by burning #5Arcane Compounds#0 in a furnace, Arcane Ash's essence storage capabilities have made it a cornerstone of advanced magical machinery.</desc>
 			</subitem>
 			<subitem id="itemOre@3">
 				<name>Purified Vinteum Dust</name>
-				<desc>By adding Arcane Ash to strengthen its magical properties, and adding Blue Orchids as a catalyst and Desert Novas to release instability, Vinteum Dust can be put into a purified state with much higher capacity for essence.</desc>
+				<desc>By adding #5Arcane Ash#0 to strengthen its magical properties, and adding #5Blue Orchids#0 as a catalyst and #5Desert Novas#0 to release instability, Vinteum Dust can be put into a purified state with much higher capacity for essence.</desc>
 			</subitem>
 			<subitem id="itemOre@4">
 				<name>Chimerite</name>
@@ -431,7 +435,7 @@
 		</item>
 		<item id="essence">
 			<name>Essences / Essence Bag</name>
-			<desc>Essences are used both in crafting magical items, as well as reagents for spells.  Elemental essences are dropped by their respective guardians, and all essences can also be crafted using the Essence Refiner.</desc>
+			<desc>Essences are used both in crafting magical items, as well as reagents for spells.  Elemental essences are dropped by their respective guardians, and all essences can also be crafted using the #5Essence Refiner#0.</desc>
 			<subitem id="essence@0">
 				<name>Arcane Essence</name>
 				<desc></desc>
@@ -535,7 +539,7 @@
 		</item>
 		<item id="armorMage">
 			<name>Mage Armor</name>
-			<desc>A more advanced version of simple robes, mage armor allows for slightly more durability, recharge, and protection.  Mage armor, due to the runes inlaid in it, has minor capability to be enchanted.  It also can repair its condition using mana drawn from its wearer.  When wearing a full suit of mage armor, your mana regen speed is increased and all spells are slightly more effective.</desc>
+			<desc>A more advanced version of simple robes, mage armor allows for slightly more durability, recharge, and protection.  Mage armor, due to the runes inlaid in it, has very high capability to be enchanted.  It also can repair its condition using mana drawn from its wearer.  When wearing a full suit of mage armor, your mana regen speed is increased and all spells are slightly more effective.</desc>
 			<subitem id="helmet_mage">
 				<name>Mage Hood</name>
 				<desc></desc>
@@ -558,39 +562,19 @@
 			<desc>Granted only to mages who have proven themselves true masters, Battlemage Armor offers a good amount of protection.  It has higher durability than Mage Armor, but has a slower repair rate and less enchantability, as well as giving lesser versions of the magical bonuses that mage armor does.  Battlemage Armor can also be given XP which will unlock protective spells that will come to the aid of its wearer, draining some of the magic within the armor.  The magic will then infuse back over time from your own mana pool.</desc>
 			<subitem id="helmet_battlemage">
 				<name>Battlemage Circlet</name>
-				<desc>The battlemage circlet has a water enchantment after 15 experience levels that will grant water breathing for a short duration when the wearer is low on air.  The effect will not occur more than once every 90 seconds.</desc>
+				<desc></desc>
 			</subitem>
 			<subitem id="chest_battlemage">
 				<name>Battlemage Armor</name>
-				<desc>The battlemage's armor is woven with life magic that can mend some of the damage done to their wearer.  Once the armor is level 24, when your health gets low enough, you will gain a regeneration effect that will restore 20% of your health over 12 seconds.  This effect will not occur more than once every 4 minutes.  The healing increases to 40% of your full life at level 46.</desc>
+				<desc></desc>
 			</subitem>
 			<subitem id="legs_battlemage">
 				<name>Battlemage Leggings</name>
-				<desc>The battlemage leggings were made with the power of lightning and fire.  Once they have reached 20 experience levels, while sprinting, you will be able to run faster than normal.  There is no cooldown on the speed increasing effect.</desc>
+				<desc></desc>
 			</subitem>
 			<subitem id="boots_battlemage">
 				<name>Battlemage Boots</name>
-				<desc>The battlemage boots are infused with the power of air.  At level 5, the boots will protect you from falling one additional block.  At level 15, they allow you to step up over one block high gaps.  At level 20, the fall protection increases to 2 additional blocks.</desc>
-			</subitem>
-		</item>
-		<item id="armorArchmage">
-			<name>Archmage Armor</name>
-			<desc>The legendary Archmage Armor was crafted by the Magic Weavers of old.  It has unparalleled defense, rendering the wearer nearly invulnerable when worn.  It is slightly less durable than Battlemage Armor initially, but you can give XP to the armor to increase its durability as well as grant it powerful protection effects.</desc>
-			<subitem id="helmet_archmage">
-				<name>Archmage Hood</name>
-				<desc>The archmage hood has a water enchantment after 15 experience levels that will grant water breathing for a short duration when the wearer is low on air.  The effect will not occur more than once every 35 seconds.</desc>
-			</subitem>
-			<subitem id="chest_archmage">
-				<name>Archmage Robes</name>
-				<desc>The archmage robes are woven with life magic that can mend some of the damage done to their wearer.  Once the armor is level 24, when your health gets low enough, you will gain a regeneration effect that will restore 40% of your health over 12 seconds.  This effect will not occur more than once every 2 minutes.  The healing increases to 75% of your full life at level 46.</desc>
-			</subitem>
-			<subitem id="legs_archmage">
-				<name>Archmage Leggings</name>
-				<desc>The archmage leggings were made with the power of lightning and fire.  Once they have reached 20 experience levels, while sprinting, you will be able to run much faster than normal, and will be able to swim faster.  There is no cooldown on the speed increasing effect.</desc>
-			</subitem>
-			<subitem id="boots_archmage">
-				<name>Archmage Boots</name>
-				<desc>The archmage boots are infused with the power of air. At level 5, they allow you to step up over one block high gaps.  At level 10, they will protect you from falling by applying slowfall when you are close to the ground.  The effect has a 10 second cooldown.  At level 25, by sneaking in midair, you will be able to glide forwards and fall at a decreased rate, though you will still take fall damage when you land if you are not properly protected.</desc>
+				<desc></desc>
 			</subitem>
 		</item>
 		<item id="affinityTomes">
@@ -647,55 +631,55 @@
 			<subitem id="chargefocus">
 				<name>Charge Focus</name>
 				<desc>
-					Charge Foci are used to increase the rate at which Ars Magica machines charge.  In Calefactors and Arcane Reconstructors, they also increase the rate at which the machine performs its task.  In Essence Conduits, charge foci can also reduce the amount of deficit gained, allowing more power to flow through them.
+					Charge Foci are used to increase the rate at which Ars Magica machines charge.  In #9Calefactors#0 and #9Arcane Reconstructors#0, they also increase the rate at which the machine performs its task.  In #9Essence Conduits#0, charge foci can also reduce the amount of deficit gained, allowing more power to flow through them.
 				</desc>
 			</subitem>
 			<subitem id="manafocus">
 				<name>Mana Focus</name>
 				<desc>
-					Mana Foci are used to decrease costs of operation in Ars Magica machines.  In the case of Essence Conduits, they increase the rate at which deficit is shed naturally over time.
+					Mana Foci are used to decrease costs of operation in Ars Magica machines.  In the case of #9Essence Conduits#0 and #9Calefactors#0 they increase the rate at which deficit is shed naturally over time.
 				</desc>
 			</subitem>
 			<subitem id="lesserfocus">
 				<name>Lesser Focus</name>
 				<desc>
-					Lesser foci are used in the Caster and Caster Rune, and define caster blocks as using Diminished casting mode.
+					Lesser foci are used in the #9Caster#0 and #9Caster Rune#0, and define caster blocks as using #5Diminished#0 casting mode.
 				</desc>
 			</subitem>
 			<subitem id="standardfocus">
 				<name>Standard Focus</name>
 				<desc>
-					Standard foci are used in the Caster and Caster Rune, and define caster blocks as using Normal casting mode.
+					Standard foci are used in the #9Caster#0 and #9Caster Rune#0, and define caster blocks as using #5Normal#0 casting mode.
 				</desc>
 			</subitem>
 			<subitem id="greaterfocus">
 				<name>Greater Focus</name>
 				<desc>
-					Greater foci are used in the Caster and Caster Rune, and define caster blocks as using Augmented casting mode.
+					Greater foci are used in the #9Caster#0 and #9Caster Rune#0, and define caster blocks as using #5Augmented#0 casting mode.
 				</desc>
 			</subitem>
 			<subitem id="item_focus">
 				<name>Item Focus</name>
 				<desc>
-					Item foci are used in the Seer Stone, and instruct it to search for nearby items on the ground.
+					Item foci are used in the #9Seer Stone#0, and instruct it to search for nearby items on the ground.
 				</desc>
 			</subitem>
 			<subitem id="player_focus">
 				<name>Player Focus</name>
 				<desc>
-					Player foci are used in the Seer Stone, and instruct it to search for nearby players.
+					Player foci are used in the #9Seer Stone#0, and instruct it to search for nearby players.
 				</desc>
 			</subitem>
 			<subitem id="monster_focus">
 				<name>Monster Focus</name>
 				<desc>
-					Monster foci are used in the Seer Stone, and instruct it to search for nearby mobs (Zombies, Skeletons, etc).
+					Monster foci are used in the #9Seer Stone#0, and instruct it to search for nearby mobs (Zombies, Skeletons, etc).
 				</desc>
 			</subitem>
 			<subitem id="creature_focus">
 				<name>Creature Focus</name>
 				<desc>
-					Creature foci are used in the Seer Stone, and instruct it to search for nearby critters (Sheep, Cows, etc).
+					Creature foci are used in the #9Seer Stone#0, and instruct it to search for nearby critters (Sheep, Cows, etc).
 				</desc>
 			</subitem>
 		</item>
@@ -721,7 +705,7 @@
 		</item>
 		<item id="keystone">
 			<name>Keystone</name>
-			<desc>Keystones are used to link Gateways to each other, as well as to restrict access to Ars Magica machines (Keystone Chest, Seer Stone, Astral Barrier and Keystone Recepticle)</desc>
+			<desc>Keystones are used to link Gateways to each other, as well as to restrict access to Ars Magica machines (#5Keystone Chest#0, #5Seer Stone#0, #5Astral Barrier#0 and #5Keystone Recepticle#0).  The UI for these blocks will not open if you are not holding a keystone with the same rune combination.</desc>
 		</item>
 		<item id="mana_cake">
 			<name>Mana Cake</name>
@@ -729,7 +713,7 @@
 		</item>
 		<item id="spell_staff">
 			<name>Staves</name>
-			<desc>Magical staves can be inlaid with a spell scroll and will cast that spell for no mana, draining the staff's charge instead.  Reagent costs still do apply though.</desc>
+			<desc>Magical staves can be inlaid with a spell scroll and will cast that spell for no mana, draining the staff's charge instead.  Reagent costs still do apply though.  Use a #5crafting table#0 to infuse a spell on to a staff.  This is a temporary way to set staff spells and will be changed in the near future.</desc>
 			<subitem id="spell_staff_novice">
 				<name>Novice Spell Staff</name>
 				<desc>The novice spell staff casts weaker versions of spells, but each cast uses less of the essence stored in the staff.  It doesn't have as much of a cap to begin with as the other staff levels.</desc>
@@ -756,24 +740,24 @@
 			</subitem>
 			<subitem id="mana_potion_greater">
 				<name>Greater Mana Potion</name>
-				<desc>The greater mana potion uses the power of vinteum combined with a potion base at a brewing stand to restore a good amount of mana.  One use will restore 500 mana.</desc>
+				<desc>The greater mana potion uses the power of #5vinteum#0 combined with a #9Awkward Potion#0 at a brewing stand to restore a good amount of mana.  One use will restore 500 mana.</desc>
 			</subitem>
 			<subitem id="mana_potion_epic">
 				<name>Epic Mana Potion</name>
-				<desc>The epic mana potion is created by combining arcane ash with a potion base at a brewing stand to restore 1000 mana per potion.</desc>
+				<desc>The epic mana potion is created by combining #5arcane ash#0 with a #9Awkward Potion#0 at a brewing stand to restore 1000 mana per potion.</desc>
 			</subitem>
 			<subitem id="mana_potion_legendary">
 				<name>Legendary Mana Potion</name>
-				<desc>The legendary mana potion is created by combining purified vinteum dust with a potion base at a brewing stand.  One potion will restore a whopping 2500 mana!</desc>
+				<desc>The legendary mana potion is created by combining #5purified vinteum dust#0 with a #9Awkward Potion#0 at a brewing stand.  One potion will restore a whopping 2500 mana!</desc>
 			</subitem>
 			<subitem id="mana_boost_potion">
 				<name>Infused Essence Potion</name>
-				<desc>By taking a bucket of liquid essence, a mage can combine it with chimerite and tarma root in order to create a potion to give a temporary boost to maximum mana.  Unfortunately, the process is minimally efficient and much of the liquid essence is lost along the way.</desc>
+				<desc>By taking a #5bucket of liquid essence#0, a mage can combine it with #5chimerite#0 and #5tarma root#0 in order to create a potion to give a temporary boost to maximum mana.  Unfortunately, the process is minimally efficient and much of the liquid essence is lost along the way.</desc>
 			</subitem>
 		</item>
 		<item id="crystal_wrench">
 			<name>Crystal Wrench</name>
-			<desc>The crystal wrench serves many purposes.  It can be used to direct raw essence through your power network.  To do this, right click first on the source of power you want to use, then click on the destination.  This will force a pairing, and ensures the essence goes where you want it to.  Keep in mind that if you force a different type of power through, it will destroy any power contained in the destination.  !page! The crystal wrench can also be used to show hidden particle emitters, and can copy their settings by right clicking.  The settings can then be pasted to another emitter by right clicking.  Each time you "paste" settings, you will need to copy them again if you wish to paste to additional emitters.</desc>
+			<desc>The crystal wrench serves many purposes.  It can be used to direct raw essence through your power network.  To do this, #9right click first on the source of power you want to use#0.  This puts the source block in a #5pairing mode#0, indicated by a white beam shooting skyward. Then, #9click on the destination#0.  This will force a pairing, and ensures the essence goes where you want it to.  Keep in mind that if you force a different type of power through, it will destroy any power contained in the destination.  !p The crystal wrench can also be used to show hidden particle emitters, and can copy their settings by right clicking.  The settings can then be pasted to another emitter by right clicking.  Each time you "paste" settings, you will need to copy them again if you wish to paste to additional emitters.</desc>
 		</item>
 		<item id="spell_parchment">
 			<name>Spell Parchment</name>
@@ -785,72 +769,78 @@
 		</item>
 		<item id="spell_staff_magitech">
 			<name>Magitech's Staff</name>
-			<desc>The magitech's staff is a modified version of a spell staff that is attuned to ambient mana.  It can be used to sense the essence levels in powered blocks.</desc>
+			<desc>The magitech's staff is a modified version of a spell staff that is attuned to ambient mana.  It can be used to sense the essence levels in powered blocks by right clicking the block with the staff in your hand.</desc>
+		</item>
+		<item id="spell_book">
+			<name>Spell Book</name>
+			<desc>The spell book is a useful item to have, allowing mages to organize their spells and save space at the same time.  The spell book, when equipped, can be scrolled through either by pressing x/z (default), or by sneaking and rolling the mouse wheel.  Spell books can be dyed a variety of different colors.  They can also be #5enchanted#0 with some useful powers.</desc>
 		</item>
 	</items>
 	<structures>
 		<structure id="essenceNexus">
 			<name>Essence Nexus</name>
 			<controller>TileEntityEssenceNexus</controller>
-			<desc>Adapted as a middle ground between the Light Nexus and the Dark Nexus, the Essence Nexus boasts more powerful generation capabilities than the Light Nexus, but without the side effects of the Dark Nexus.  It requires at least one liquid essence source block directly below it to act as a source of power.  It will continually drain the liquid essence and create raw essence.</desc>
+			<desc>Adapted as a middle ground between the Light Nexus and the Dark Nexus, the Essence Nexus boasts more powerful generation capabilities than the Light Nexus, but without the side effects of the Dark Nexus.  !l To create the middle rune, simply craft #9Blue Chalk#0 and right click the top of a block to make the rune at that position. !d To generate raw essence, it requires at least one liquid essence source or flowing block below it to act as a source of power.  Keep in mind the essence cannot be directly below it as breaking the block directly below will also destroy the nexus.  Once one block is found below it (up to 10 blocks down), the nexus will search recursively based off of that location in an attempt to find additional liquid essence sources.  It will continually drain the liquid essence source blocks found and create raw essence.  The liquid essence source blocks are eventually consumed.  Each one gives roughly 500 essence, but there is some randomization to it.  Flowing liquid essence blocks are not used to generate power and are not consumed, but are used to search for additional source blocks.  AM2 adds a recipe for #9Chiseled Stone Bricks#0 for the caps.  Look under #9Blocks#0 for the recipe.</desc>
 		</structure>
 		<structure id="darkNexus">			
 			<name>Dark Nexus</name>
 			<controller>TileEntityDarkNexus</controller>
-			<desc>A sinister construction, the Dark Nexus slowly but invariably pulls living creatures from around it inward to its center.  Upon reaching the middle, the souls of the damned emerge from the nexus and tear the life force out of the creature.  The Dark Nexus feeds on the life force, gaining a great deal of power; the more life experiences the creature has had, and the strength of its constitution all play a role in power generation.  The power does come with a cost though, as the Dark Nexus will rapidly corrupt the area its in, so great is its evil.  It produces a dark power that tends to make machines run faster, but become unstable over periods of extended use.</desc>
+			<desc>A sinister construction, the Dark Nexus slowly but invariably pulls living creatures from around it inward to its center.  Upon reaching the middle, the souls of the damned emerge from the nexus and tear the life force out of the creature. !l To create the middle rune, simply craft #4Red Chalk#0 and right click the top of a block to make the rune at that position. !d The Dark Nexus feeds on the life force, gaining a great deal of power; the more life experiences the creature has had, and the strength of its constitution all play a role in power generation.  The power does come with a cost though, as the Dark Nexus will rapidly corrupt the area its in, so great is its evil.  It produces a dark power that tends to make machines run faster, but become unstable over periods of extended use.</desc>
 		</structure>
 		<structure id="lightNexus">			
 			<name>Light Nexus</name>
 			<controller>TileEntityLightNexus</controller>
-			<desc>The Light Nexus is by far the weakest of the three, but is the most easily attainable, as well as the most reliable.  Drawing essence out of the atmosphere, the Light Nexus will serve to increase the purity of an area.  It requires no items or living souls as sacrifice, and constantly generates power, but at a steady trickle.  It does have the benefit of being able to upgrade its capstones with gold, and eventually diamond, to be more powerful.  The power it provides causes machines to run slower, but often provides additional benefits to their operation.</desc>
+			<desc>The Light Nexus is by far the weakest of the three, but is the most easily attainable, as well as the most reliable. !l To create the middle rune, simply craft #9White Chalk#0 and right click the top of a block to make the rune at that position. !d Drawing essence out of the atmosphere, the Light Nexus will serve to increase the purity of an area.  It requires no items or living souls as sacrifice, and constantly generates power, but at a steady trickle.  It does have the benefit of being able to upgrade its capstones with gold, and eventually diamond, to be more powerful.  The power it provides causes machines to run slower, but often provides additional benefits to their operation.</desc>
 		</structure>
 		<structure id="gateways">
 			<name>Gateway</name>
 			<controller>TileEntityKeystoneRecepticle</controller>
-			<desc>Gateways were originally created by the Dark Magi as a means of stealth attack on the Light Magi.  Creating several of these gateways using what is now known as a Keystone Recepticle, they were able to cover a lot of ground with a relatively small force, while the majority of the Dark Magi were free to concentrate on other mantters.  The gateways are extremely efficient at short range, but longer distances require significantly more power.  The maximum range for a Gateway has been tested to be roughly 12km, though an extreme amount of power is required to traverse such a span.</desc>
+			<desc>Gateways are quite efficient at short range, but longer distances require significantly more power.  The maximum range for a Gateway has been tested to be roughly 12km, though an extreme amount of power is required to traverse such a span.  A keystone can be inserted into the Keystone Receptacle in order to lock the gateway to the keystone's rune combination.  Only then by activating another gateway with a matching keystone can one arrive at the keyed gateway.  If the key does not match or no keystone is held at all when the gate is activated, it will be as if the keyed gateway doesn't even exist.  This method can be used to control where you will wind up in the gateway network.</desc>
 		</structure>
-		<structure id="altarOfCreation">
+		<structure id="craftingAltar">
 			<name>Crafting Altar</name>
 			<controller>TileEntityCraftingAltar</controller>			
 			<desc>
 			Harnessing the forces of creation, the crafting altar allows mages to work miracles of magic.  This is where you will create all of your spells in Ars Magica.  The structure is upgradeable by 2 main groups, the caps and the main material.  Both groups individually increase the available power of the altar and allow it to make more powerful spells.  The main blocks, in order of power, are as follows:
-			!line!
+			!l
 			Wood Planks (+1 Effect)
-			!line!
+			!l
 			Stone Brick (+1 Effect)
-			!line!
+			!l
 			Sandstone (+1 Effect)
-			!line!
+			!l
 			Bricks (+2 Effects)
-			!line!
+			!l
+			Witchwood (+3 Effects)
+			!l
 			Nether Bricks (+3 Effects)
-			!line!
+			!l
 			Nether Quartz (+3 Effects)
-			!line!
-			!line!
+			!l
+			!l
 			For the caps (grand total of 5 in the structure), the progression is as follows:
-			!line!
+			!l
 			Glass (+1 Effect)
-			!line!
+			!l
 			Coal Blocks (+2 Effects)
-			!line!
+			!l
 			Redstone Blocks (+3 Effects)
-			!line!
+			!l
 			Iron Blocks (+4 Effects)
-			!line!
+			!l
 			Lapis Blocks (+5 Effects)
-			!line!
+			!l
 			Gold Blocks (+6 Effects)
-			!line!
+			!l
 			Diamond Blocks (+7 Effects)
-			!line!
+			!l
 			Emerald Blocks (+8 Effects)
-			!line!
+			!l
 			Moonstone Blocks (+9 Effects)
-			!line!
+			!l
 			Sunstone Blocks (+10 Effects)
-			!line!
-			!line!
+			!l
+			!l
 			These stack cumulatively, so for example wood planks with glass caps would equal a maximum of 2 effects, whereas stone bricks with redstone caps would have a maximum of 4 effects in a spell.  The maximum number of effects you can currently have on a spell is 13.
 			</desc>
 		</structure>
@@ -900,31 +890,31 @@
 	<bosses>
 		<boss id="BossNatureGuardian">
 			<name>Nature Guardian</name>
-			<desc>The Nature Guardian is a fearsome opponent.  Boasting a deadly scythe and the skill to use it, only the most powerful or foolish would seek it out. The few who have survived an encounter state that it is just as dangerous at range as in melee, if not more. !line! Recommended level: 60 !page! Rumor has it that it appears to guard the servants of nature when enough are slain in quick succession.  Nature can be harsh, but it will not tolerate a massacre. !line! !line!  Warning: !line! This is a very difficult boss that can take down even the most well geared players. </desc>
+			<desc>The Nature Guardian is a fearsome opponent.  Boasting a deadly scythe and the skill to use it, only the most powerful or foolish would seek it out. The few who have survived an encounter state that it is just as dangerous at range as in melee, if not more. !l Recommended level: 60 !p Rumor has it that it appears to guard the servants of nature when enough are slain in quick succession.  Nature can be harsh, but it will not tolerate a massacre. !d  Warning: !l This is a very difficult boss that can take down even the most well geared players. </desc>
 		</boss>
 		<boss id="BossEarthGuardian">
 			<name>Earth Guardian</name>
-			<desc>Formed out of a core of stone, the Earth Guardian is a hardy opponent that can withstand incredible amounts of physical attacks.  With whirling attacks and strength of the earth itself, be prepared for a fight. !line! Recommended level: 25 !page! To summon the Earth Guardian, first build a 3x3 obsidian platform with a chiseled stone brick at the centre.  On top of the obsidian, build an iron inlay ring.  Off of each side, place a vinteum torch.  Then throw in a blue topaz, an emerald, and a chimerite. !line! !line! Upon summoning, the Earth Guardian will cleave out a large area of the surrounding blocks, so it would be wise to summon somewhere other than your basement.</desc>
+			<desc>Formed out of a core of stone, the Earth Guardian is a hardy opponent that can withstand incredible amounts of physical attacks.  With whirling attacks and strength of the earth itself, be prepared for a fight. !l Recommended level: 25 !p To summon the Earth Guardian, first build a 3x3 obsidian platform with a chiseled stone brick at the centre.  On top of the obsidian, build an iron inlay ring.  Off of each side, place a vinteum torch.  Then throw in a blue topaz, an emerald, and a chimerite. !d Upon summoning, the Earth Guardian will cleave out a large area of the surrounding blocks, so it would be wise to summon somewhere other than your basement.</desc>
 		</boss>
 		<boss id="BossWaterGuardian">
 			<name>Water Guardian</name>
-			<desc>The guardian of water is a unique being.  It is always in a state of fluidity, making it able to shrug off attacks occasionally.  It is a trickster as well, flowing into copies of itself and attacking from ambush if one is fooled by the decoy. !line! Recommended level: 10 !page! The water guardian can be summoned by creating a redstone inlay circle in any biome that is predominantly water.  Then, while raining, throw a boat and a bucket of water into the circle as homage to the many ships lost at sea.</desc>
+			<desc>The guardian of water is a unique being.  It is always in a state of fluidity, making it able to shrug off attacks occasionally.  It is a trickster as well, flowing into copies of itself and attacking from ambush if one is fooled by the decoy. !l Recommended level: 10 !p The water guardian can be summoned by creating a redstone inlay circle in any biome that is predominantly water.  Then, while raining, throw a boat and a bucket of water into the circle as homage to the many ships lost at sea.</desc>
 		</boss>
 		<boss id="BossWinterGuardian">
 			<name>Winter Guardian</name>
-			<desc>The Winter Guardian is truly the embodiment of it's namesake.  Surrounded by frigid winds that sap the strength of all who near it, the Winter Guardian pummels its frozen foes and shatters them with powerful strikes. !page! To summon the Winter Guardian, seek out an area in the grips of winter.  Place a gold inlay circle on the ground and build an effigy to the Winter Guardian in the centre, Ice on top of two Blue Topaz blocks.  Then create 3 snow golems close by to fuel the summoning.  !line! !line!  Warning: !line! This is a very difficult boss that can take down even the most well geared players. </desc>
+			<desc>The Winter Guardian is truly the embodiment of it's namesake.  Surrounded by frigid winds that sap the strength of all who near it, the Winter Guardian pummels its frozen foes and shatters them with powerful strikes. !p To summon the Winter Guardian, seek out an area in the grips of winter.  Place a gold inlay circle on the ground and build an effigy to the Winter Guardian in the centre, Ice on top of two Blue Topaz blocks.  Then create 3 snow golems close by to fuel the summoning.  !d  Warning: !l This is a very difficult boss that can take down even the most well geared players. </desc>
 		</boss>
 		<boss id="BossArcaneGuardian">
 			<name>Arcane Guardian</name>
-			<desc>A mage of ancient times, the Arcane Guardian has access to a wide variety of spells.  From attacks to buffs to debuffs, prepare for a magical duel that will test your counterspell knowledge.  Protected by a powerful sigil, the Arcane Guardian has as many tricks against melee opponents as it does against ranged attackers. !page! To summon the Arcane Guardian, first construct a Shrine of Knowledge.  The shrine is 2 pillars of bookshelves, 3 high, with a lectern on the ground in between them containing an Arcane Compendium.  Place an iron inlay circle directly in front of the structure, and throw an Arcane Essence directly in the middle of the circle to start the ritual.</desc>
+			<desc>A mage of ancient times, the Arcane Guardian has access to a wide variety of spells.  From attacks to buffs to debuffs, prepare for a magical duel that will test your counterspell knowledge.  Protected by a powerful sigil, the Arcane Guardian has as many tricks against melee opponents as it does against ranged attackers. !p To summon the Arcane Guardian, first construct a Shrine of Knowledge.  The shrine is 2 pillars of bookshelves, 3 high, with a lectern on the ground in between them containing an Arcane Compendium.  Place an iron inlay circle directly in front of the structure, and throw an Arcane Essence directly in the middle of the circle to start the ritual.</desc>
 		</boss>
 		<boss id="BossAirGuardian">
 			<name>Air Guardian</name>
-			<desc>The Air Guardian is a being of wind, and makes heavy use of knockback based attacks.  It would be foolish to go into battle with one without some form of falling protection.  The Air Guardian is a powerful ranged caster, but it requires a great deal of focus to finish some of it's spells... !line! Recommended level: 35 !page! To summon the Air Guardian, climb up well above the clouds and build a platform (y 150 or higher).  Build a gold inlay ring on the platform and throw in an Air Essence.</desc>
+			<desc>The Air Guardian is a being of wind, and makes heavy use of knockback based attacks.  It would be foolish to go into battle with one without some form of falling protection.  The Air Guardian is a powerful ranged caster, but it requires a great deal of focus to finish some of it's spells... !l Recommended level: 35 !p To summon the Air Guardian, climb up well above the clouds and build a platform (y 150 or higher).  Build a gold inlay ring on the platform and throw in an Air Essence.</desc>
 		</boss>
 		<boss id="BossFireGuardian">
 			<name>Fire Guardian</name>
-			<desc>The Fire Guardian is a living inferno from the depths of the nether.  To summon it, create a gold inlay ring in the nether with lava in the middle.  Throw a water essence into the lava and a portal will open to the fire guardian.  Be warned though, it does not take kindly to those that try to bring water to its domain.  Be prepared for a fight!  !line! Recommended level: 90</desc>
+			<desc>The Fire Guardian is a living inferno from the depths of the nether.  To summon it, create a gold inlay ring in the nether with lava in the middle.  Throw a water essence into the lava and a portal will open to the fire guardian.  Be warned though, it does not take kindly to those that try to bring water to its domain.  Be prepared for a fight!  !l Recommended level: 90</desc>
 		</boss>
 	</bosses>
 	<blocks>
@@ -932,33 +922,29 @@
 			<name>Illusion Blocks</name>
 			<desc>
 			Illusion blocks are so realistic that your brain will not allow you to walk through them due to self preservation and common sense.  Only with true sight can you convince yourself that the illusion is not real, and pass through to the other side.
-			!line!
+			!l
 			“Is that it?”
-			!line!
+			!l
 			"No. That’s a wall."
-			!line!
+			!l
 			"It could be disguised."
-			!line!
+			!l
 			"You’re not very good at looking for things, are you?"
-			!line!
+			!l
 			"I’m good at looking for walls. Look, I found another one."
 			</desc>
 		</block>
-		<block id="archmagepodium">
-			<name>Archmage Podium</name>
-			<desc>Many a mage would give their right arm to get a simple glimpse at the book atop this lectern.  The research by the mysterious Archmage allowed him to take magic to levels that had never been seen before...and have never been seen since.  Simply by reading this book, you will learn the highest forms of magic.</desc>
-		</block>
 		<block id="essence_refiner_front_idle">
 			<name>Essence Refiner</name>
-			<desc>"Essence is in everything.  But to extract it in its purest form; that will require some special machinery." -Antimony Dalen, scholar at the White Mage Citadel</desc>
+			<desc>The essence refiner takes everyday items and using #5Arcane Ash#0, refines them into a pure representation of their parts, known as #5essences#0.  The recipes for specific essences can be found under #9Items -> Essences#0. The essence refiner also requires #2Raw Essence#0 to function.  This can be obtained from a %9Light Nexus#0, where raw light essence makes the process quite a bit slower, but there is a chance you will either not consume some of the recipe ingredients, or could get a second essence.  Neutral raw essence can also be obtained from a #9Neutral Nexus#0 or a #9Mana Battery#0, which has no specific advantages or drawbacks.  Finally, raw dark essence can be used from a #9Dark Nexus#0, which significantly reduces the amount of time it takes to refine the essence, but can cause the machine to build up #4Deficit#0.  The spinning ring on the UI will shift from blue to purple as the refinement process progresses and eventually completes.  A flashing red ring means there is insufficient power to continue, and the process has been paused.</desc>
 		</block>
 		<block id="essenceconduit">
 			<name>Essence Conduit</name>
-			<desc>Infused with dusts to direct essence through the air, the Essence Conduit began seeing heavy use almost immediately after its invention.  However, channeling such magic often creates a minor void inside the crystal, a defecit of magic.  Should this not be properly managed, the residual essence in the air will violently shatter the vinteum crystal in order to balance the scales once again.</desc>
+			<desc>Infused with dusts to direct raw essence through the air, the Essence Conduit began seeing heavy use almost immediately after its invention.  However, channeling such magic often creates a minor void inside the crystal, a #4defecit#0 of magic.  Should this not be properly managed, the void of magic will begin to consume part of the raw essence travelling through the conduit, making it take more raw essence than normal to complete the transfer chain.</desc>
 		</block>
 		<block id="crystalpillar">
 			<name>Crystal Pillar</name>
-			<desc>Originally intended to be an improved design of the Essence Conduit, researchers found its ability to channel essence severely lacking.  The materials simply didn't have the conductiveness to relay enough power.  However, the materials were exceptional at preventing magical voids from forming.  A slight re-design allowed these crystals to directly inject residual mana from the area into a magical void from a short distance away, stabilizing it and preventing the vinteum crystals in an Essence Conduit from rupturing.</desc>
+			<desc>Originally intended to be an improved design of the Essence Conduit, researchers found its ability to channel essence severely lacking.  The materials simply didn't have the conductiveness to relay enough power.  However, the materials were exceptional at preventing magical voids from forming.  A slight re-design allowed these crystals to directly inject residual mana from the area into a magical void from a short distance away, stabilizing it and preventing the vinteum crystals in an Essence Conduit from building deficit.</desc>
 		</block>
 		<block id="blockcaster">
 			<name>Caster</name>
@@ -982,7 +968,7 @@
 		</block>
 		<block id="mana_battery">
 			<name>Mana Battery</name>
-			<desc>Drawing further on vinteum dust's ability to conduct essence, a small group of brilliant magi created a frame out of iron and gold which is capable of storing massive amounts of essence.  The ratios of iron to gold cause any power entering the battery to be polarized, removing it of any dark or light power effects.</desc>
+			<desc>Drawing further on vinteum dust's ability to conduct essence, a small group of brilliant magi created a frame out of iron and gold which is capable of storing massive amounts of essence.  The ratios of iron to gold cause any power entering the battery to be polarized, removing it of any dark or light power effects.  Mana batteries will always provide power to connected devices, but they can also request power from a nexus (or another battery) when given a redstone signal.</desc>
 		</block>
 		<block id="blue_orchid">
 			<name>Blue Orchid</name>
@@ -995,13 +981,13 @@
 		<block id="keystonechest">
 			<name>Keystone Chest</name>
 			<desc>The keystone chest was developed as a simple way to have a magically locked chest.  When a keystone is inserted into the internal slot, in order to open it, one must have a matching keystone in their hand.  By inserting the keystone into the outer lock*, the chest can be opened.  If there is no keystone, the chest opens normally.
-			!line!
-			!line!
+			!l
+			!l
 			* Just right click the chest with the keystone in your hand.</desc>
 		</block>
 		<block id="magicWall">
 			<name>Magic Wall</name>
-			<desc>An early attempt at the illusion block, the magic wall wasn't really able to blend with it's surroundings.  Or even prevent people from looking through.  The value, though, was just after having master mage Leonidus criticize us for our efforts, watching him walk face first into one.  That's when we knew it at least had the stopping power part right.  But when te fireball he threw at it BOUNCED back and burnt his beard off, we knew it was a keeper.</desc>
+			<desc>An early attempt at the illusion block, the magic wall wasn't really able to blend with it's surroundings.  Or even prevent people from looking through.  The value, though, was just after having master mage Leonidus criticize us for our efforts, watching him walk face first into one.  That's when we knew it at least had the stopping power part right.  But when the fireball he threw at it BOUNCED back and burnt his beard off, we knew it was a keeper.</desc>
 		</block>
 		<block id="arcanereconstructor">
 			<name>Arcane Reconstructor</name>
@@ -1017,11 +1003,11 @@
 		</block>
 		<block id="nullmagicblock">
 			<name>Null Magic Rune</name>
-			<desc></desc>
+			<desc>The null magic rune negates all magical effects in a radius around it.  This includes buffs and spell projectiles.  They will simply fizzle out.</desc>
 		</block>
 		<block id="calefactor">
 			<name>Calefactor</name>
-			<desc></desc>
+			<desc>A magical furnace, the calefactor can produce vinteum dust as it cooks in addition to the smelted item.  It behaves differently based on what kind of power it is receiving. !d Light: !l Slower cooking, but chance to double ores. !d Neutral: !l Standard functionality.  !d Dark: !l Extremely fast cook speeds, but a 5% chance to destroy an item rather than smelt it.</desc>
 		</block>
 		<block id="inscriptionTable">
 			<name>Inscription Table</name>
@@ -1033,19 +1019,19 @@
 		</block>
 		<block id="aum">
 			<name>Aum</name>
-			<desc></desc>
+			<desc>A flower with healing properties, Aum is a component in many spells.  It can only be found at the base of witchwood trees.</desc>
 		</block>
 		<block id="tarmaroot">
 			<name>Tarma Root</name>
-			<desc></desc>
+			<desc>Lighter than it looks, Tarma Root grows in caves and other dark places.  It is an ingredient in spells, and air essences.</desc>
 		</block>
 		<block id="wakebloom">
 			<name>Wakebloom</name>
-			<desc></desc>
+			<desc>Growing on the surface of water in warm climates, wakebloom is used in water-based spells frequently as well as being a component in water essence.</desc>
 		</block>
 		<block id="summoner">
 			<name>Summoner</name>
-			<desc>The summoner takes essence one step farther and uses it to summon creatures to do your bidding upon receipt of a redstone signal.  It has a hefty summon cost, as well as a maintain cost to keep the summon alive.  If the redstone signal ever dies out or power runs out, the creature will unsummon.  When the creature is unsummoned or killed, there is a short delay before it can be summoned again.</desc>
+			<desc>The summoner takes essence one step farther and uses it to summon creatures to do your bidding upon receipt of a redstone signal.  It has a hefty summon cost, as well as a maintain cost to keep the summon alive.  If the redstone signal ever dies out or power runs out, the creature will unsummon.  When the creature is unsummoned or killed, there is a short delay before it can be summoned again.  Note that the summoner requires a full-fledged summon spell, not a filled crystal phylactery.</desc>
 		</block>
 		<block id="inlays">
 			<name>Inlays</name>
@@ -1063,12 +1049,16 @@
 				<desc>Gold inlays are the most advanced inlay.  They are used to summon the most powerful of bosses.  They can also be used as rails.  When a minecart touches a gold inlay, it will attempt to warp to the next gold inlay in the direction it is currently traveling within 8 blocks.  This can transport the minecart (and any passengers) through solid obstacles, as it is in fact teleportation.  There is a short delay before the minecart can teleport on a gold rail again after it warps.</desc>
 			</subitem>
 		</block>
+		<block id="stonebricksmooth@3">
+			<name>Chiseled Stone Blocks</name>
+			<desc>You can create chiseled stone blocks that you need by crafting 4 stone bricks together in a 2x2 grid.</desc>
+		</block>
 	</blocks>
 	<mechanics>
 		<mechanic id="affinity">
 			<name>Affinities</name>
-			<desc>Affinity represents a bond to certain areas of magic.  You start with no affinity.  Your affinity is represented as a small chart on the HUD, and can be viewed in more detail at an Occulus (craftable Block).  Your affinity will shift based on what spells you cast, meaning as you cast certain types of spells more often, you will get better at them.
-			Casting spells of a differing affinity will shift you towards that affinity.  Once you reach 100% in an affinity, you become locked to that affinity, and will need to cast a significant amount of opposing spells or read an opposing affinity tome to unlock your affinity, at which point normal progression will resume.  Unlocking a full affinity will drop you down to 80% depth.
+			<desc>#5Affinity#0 represents a bond to certain areas of magic.  You start with no affinity.  Your affinity is represented as a small chart on the HUD, and can be viewed in more detail at an Occulus (craftable Block).  Your affinity will shift based on what spells you cast, meaning as you cast certain types of spells more often, you will get better at them.
+			Casting spells of a differing affinity will shift you towards that affinity.  Once you reach 100% in an affinity, you become locked to that affinity, and will need to read an opposing affinity tome to unlock your affinity, at which point normal progression will resume.  Unlocking a full affinity will drop you down to 80% depth.
 			
 			Each spell component has an affinity.  Components of the same affinity as you will cost less mana, and depending on your affinity depth (how far into the affinity you are), may not even cost reagents.  Components of the opposing affinity, however, will cost more mana and again, depending on your affinity depth, may cost additional reagents.  Affinities offer specific bonuses and disadvantages, described on the affinity-specific pages.			
 			</desc>
@@ -1076,7 +1066,7 @@
 				<name>Earth Affinity</name>
 				<desc>
 					Earth affinity grants a minor defense bonus, due to your hardened skin.  At max, you will have 10% overall damage reduction, applied before armor.  This amount depends on your affinity depth into earth, and begins at 25% depth.
-					!line!
+					!d
 					With earth affinity, you are heavier, and as such you will sink more quickly in water (though never enough that you cannot surface), and you cannot fall as far without taking fall damage.
 				</desc>
 			</subitem>
@@ -1084,7 +1074,7 @@
 				<name>Water Affinity</name>
 				<desc>
 					Water affinity grants a bonus to swim speed as well as slower breath loss underwater.  You are also not pushed by flowing water.  Endermen that attack a full water-affinity mage will take damage as if they had touched water.
-					!line!
+					!d
 					Water affinity mages take damage periodically if exposed to fire, making the nether particularly dangerous.  This damage will not take you below 75% health, and will not occur at all if you are lower.
 				</desc>
 			</subitem>
@@ -1092,15 +1082,15 @@
 				<name>Air Affinity</name>
 				<desc>
 					Air affinity grants a bonus to jump height and lets you fall farther before taking damage.  These bonuses are dependent on your affinity depth: you can jump one block higher and fall one block farther at 50% depth.  This bonus increases to 2 at 75%, and 3 at full depth.
-					!line!
-					Air affinity mages are hindered by rain and storms; the wind blows you around and you must move slower.
+					!d
+					Air affinity mages are hindered by rain and storms; the wind blows you around and you must move slower.  #5Sneaking#0 or casting a spell of #5Gravity Well#0 can negate the effect and allow you to move in the storm, albeit slowly.
 				</desc>
 			</subitem>
 			<subitem id="fire_affinity">
 				<name>Fire Affinity</name>
 				<desc>
 					Fire affinity grants damage reduction in fire and lava, though never complete immunity.  The protection is directly related to your affinity depth, and reaches 60% reduction at full depth.  Punching enemies at full affinity will light them on fire.
-					!line!
+					!d
 					Once your fire affinity reaches 50%, you will start to take damage periodically when touching water sources.  This damage will not take you down below 75% health and will not occur if lower.
 				</desc>
 			</subitem>
@@ -1108,7 +1098,7 @@
 				<name>Nature Affinity</name>
 				<desc>
 					Nature affinity gives you additional seeds and saplings when harvesting plants from around the world.  At 50% depth, you will gain the Thorns effect, causing melee attackers to take damage (similar to the armor enchant).  This damage increases at 75% affinity and at full affinity.  At full nature affinity you also slowly regenerate hunger in direct sunlight.  At full nature affinity, you can extend roots into the ground, allowing you to climb certain surfaces like a spider does.
-					!line!
+					!d
 					Nature affinity causes you to move slightly slower due to your roots. At full nature affinity depth, you lose hunger more quickly at night or in dark areas.
 				</desc>
 			</subitem>
@@ -1116,7 +1106,7 @@
 				<name>Ice Affinity</name>
 				<desc>
 					Ice affinity causes attackers to be slowed.  At 50% depth, while sneaking you will freeze water to ice in front of you, allowing you to make bridges as you move.  At 100% depth, you can freeze lava to obsidian.
-					!line!
+					!d
 					All ice mages move slightly slower due to being cold blooded, unless on ice or water.
 				</desc>
 			</subitem>
@@ -1124,7 +1114,7 @@
 				<name>Lightning Affinity</name>
 				<desc>
 					Lightning affinity causes you to run faster.  The speed increase is directly related to your affinity depth, ranging from 1 to 30%.  At 50% depth, you gain the ability to step up over one block high ledges.
-					!line!
+					!d
 					Unfortunately due to your affinity you are also somewhat of a living lightning rod (50% depth or greater).  Better take cover during rain and thunderstorms.  Lightning bolts still hurt.
 				</desc>
 			</subitem>
@@ -1132,7 +1122,7 @@
 				<name>Life Affinity</name>
 				<desc>
 					Life affinity causes you to very slowly regenerate additional life.  The regen speed is directly related to your depth.  This regen happens regardless of your hunger level.
-					!line!
+					!d
 					Due to your close ties with life, any time you kill something it makes you sick and nauseated for a while.
 				</desc>
 			</subitem>
@@ -1140,7 +1130,7 @@
 				<name>Arcane Affinity</name>
 				<desc>
 					Arcane affinity causes all spells to cost 5% less mana, in addition to other mana reductions.  At full depth, there is also a chance that upon casting a spell, you will gain the clarity effect, causing your next spell to cost 0 mana.
-					!line!
+					!d
 					As a disadvantage, all magical damage sources do more damage to you.
 				</desc>
 			</subitem>
@@ -1148,60 +1138,72 @@
 				<name>Ender Affinity</name>
 				<desc>
 					Ender affinity gives you poison resistance at 50% depth, and at 75% depth you gain night vision automatically in dark areas.  At full ender affinity, Endermen will not attack you, unless you attack them first.
-					!line!
+					!d
 					Due to your dark nature, your maximum health is reduced in light, and at full ender affinity, it is reduced in water as well.
 				</desc>
 			</subitem>			
 		</mechanic>
 		<mechanic id="spellCreation">
 			<name>Spell Creation</name>
-			<desc>Creating spells is somewhat time consuming, but simple.  First, learn some spell parts using an Occulus.  Next, lay out the spell you want to create at an Inscription Table.  Place the book from the inscription table on the lectern of your crafting altar structure, and throw in a Blank Rune.  The book will guide you through the rest of the process, showing you what you need.  When essence is required during the spell creation process, use a crystal wrench to change the power type if necessary, then flip the switch on the multiblock.  The structure will draw enough power, then turn the switch off automatically.  Once your spell is created, equip it and right click to name it and set the icon.  Once you have done this correctly, the spell will be castable!  Otherwise it will show the customization UI again when you cast.</desc>
+			<desc>Creating spells is somewhat time consuming, but simple.  First, learn some spell parts using an #5Occulus#0.  Next, lay out the spell you want to create at an #5Inscription Table#0.  Place the book from the inscription table on the lectern of your crafting altar structure, and throw in a #5Blank Rune#0.  The book will guide you through the rest of the process, showing you what you need.  When essence is required during the spell creation process, use a #5crystal wrench#0 to change the power type if necessary, then flip the switch on the multiblock.  The structure will draw enough power, then turn the switch off automatically.  Once your spell is created, equip it and right click to name it and set the icon.  Once you have done this correctly, the spell will be castable!  Otherwise it will show the customization UI again when you cast.</desc>
 		</mechanic>
 		<mechanic id="infusion">
 			<name>Infusion</name>
-			<desc>Infusion is a process in which Ars Magica armor will drain mana from your mana pool to repair itself.  Due to this mechanic, all Ars Magica armor has low durability, and won't last in a prolonged fight.  Taking the armor off will cause it to stop infusing - it must be equipped for the mechanic to function.  If the armor is at full durability, there is no mana cost.</desc>
+			<desc>#5Infusion#0 is a process in which AM armor will drain mana from your mana pool to repair itself.  Due to this mechanic, all AM armor has low durability, and won't last in a prolonged fight.  Taking the armor off will cause it to stop infusing - it must be equipped for the mechanic to function.  If the armor is at full durability, there is no mana cost.</desc>
 		</mechanic>		
 		<mechanic id="mana">
 			<name>Mana</name>
-			<desc>Mana is your magical energy level.  You gain more mana by increasing your Magic Level.  Mana regenerates over time, but you can gain boosts to regeneration by eating a Mana Cake or standing in a Nexus with more than 10% charge.  Mana Potions and Mana Potion Bundles can be used to give an instant boost to mana.  Mana is represented by a blue bar on your HUD.  The mana display in your inventory can be toggled on and off (Default 'O') to help avoid conflicts with other mods that use that space, such as NEI.</desc>
+			<desc>Mana is your magical energy level.  You gain more mana by increasing your Magic Level. !d Mana regenerates over time, but you can gain boosts to regeneration by eating a #9Mana Cake#0 or standing in a #9Nexus#0 with more than 10% charge.  #9Mana Potions#0 and #9Mana Potion Bundles#0 can be used to give an instant boost to mana.  Mana is represented by a blue bar on your HUD.  You can use "#2/amuicfg#0" to toggle an option to show the actual numeric values of your mana.</desc>
 		</mechanic>
 		<mechanic id="magicLevel">
 			<name>Magic Level</name>
-			<desc>Magic Level represents your strength as a mage.  As your Magic Level increases, so will your Mana and Burnout capacities.  Magic level can be increased by casting valid spells.  A valid spell cast is one that does what is intended, meaning casting fire bolt at a wall for an hour won't get you anywhere.  Certain components that have valid targets more rarely award more magical XP towards the next level.  Your Magic Level is represented by a blue number on your HUD.</desc>
+			<desc>Magic Level represents your strength as a mage.  As your Magic Level increases, so will your Mana and Burnout capacities.  Magic level can be increased by casting valid spells.  A valid spell cast is one that does what is intended, meaning casting fire bolt at a wall for an hour won't get you anywhere.  Certain components that have valid targets more rarely award more magical XP towards the next level.  Your Magic Level is represented by a blue number on your HUD.  You can use "#2/amuicfg#0" to toggle an option to show the actual numeric values of your magic XP bar.</desc>
 		</mechanic>
 		<mechanic id="burnout">
 			<name>Burnout</name>
-			<desc>Burnout is your level of strain when casting spells.  The higher your Burnout, the more mana each spell will cost.  Casting more powerful spells will cause more Burnout.  It will decrease over time.  Gaining Magic Levels will give you a higher Burnout cap, allowing you to cast more spells before becoming completely fatigued.  Your Burnout level is displayed as a red bar on the HUD.</desc>
+			<desc>Burnout is your level of strain when casting spells.  The higher your Burnout, the more mana each spell will cost.  Casting more powerful spells will cause more Burnout.  It will decrease over time.  Gaining Magic Levels will give you a higher Burnout cap, allowing you to cast more spells before becoming completely fatigued.  Your Burnout level is displayed as a red bar on the HUD.  You can use "#2/amuicfg#0" to toggle an option to show the actual numeric values of your burnout.</desc>
 		</mechanic>
 		<mechanic id="rituals">
 			<name>Summoning Rituals</name>
-			<desc>Summoning Rituals are what are performed to call upon bosses in Ars Magica.  See the bosses section of this compendium for the rituals specific to each boss.</desc>
+			<desc>Summoning Rituals are what are performed to call upon bosses in Ars Magica.  See the #5bosses section#0 of this compendium for the rituals specific to each boss.</desc>
 		</mechanic>
 		<mechanic id="moonstone_meteors">
 			<name>Moonstone Meteors</name>
 			<desc>On occasion, during the night, small meteors may crash down into the overworld.  This is the only way to obtain moonstone ore.  A full moon increases the odds of one spawning.  The meteor always falls within 32 blocks of a player, and they will only ever fall on a biome's cover block.  Meaning unless you have a house made of grass, it won't even hit your home.  If you do have a house made of grass, then what is wrong with you?  Didn't you ever read the three little pigs?</desc>
 		</mechanic>
+		<mechanic id="enchantments">
+			<name>Enchantments</name>
+			<desc>AM adds a few useful enchantments to the game to assist in your ascent to magical mastery.</desc>
+			<subitem id="magic_resistance">
+				<name>Magic Resistance</name>
+				<desc>As the name suggests, this enchant offers protection against magic damage.  There are 4 ranks to the enchantment, and it goes on armor.</desc>
+			</subitem>
+			<subitem id="soulbound">
+				<name>Soulbound</name>
+				<desc>Ever get tired of losing your gear on death?  You can fix that now.  The soulbound enchant can be applied to just about any item that accepts enchantments, and will cause that item to remain in your inventory on death.  You will respawn with the item in the same slot in your inventory it was when you died.  Soulbound has a max enchantment level of 1.</desc>
+			</subitem>
+		</mechanic>
 	</mechanics>
 	<guides>
 		<guide id="introToArsMagica" order="1">
 			<name>Foreword</name>
-			<desc>Ars Magica began as my first foray into modding.  I have been developing software professionally for about 11 years as of AM2's release, but haven't done much game design.  I loved the game of Minecraft, but felt that it would be the perfect place for a magical world.  So I began, and who would have thought I would enjoy it so much.  I have spent literally hundreds of hours developing AM1 and AM2.  With some good tutorials and a bit of luck, I managed to figure out how to write AM1.  Now I have taken what I learned, solved some of the problems that came up (and probably introduced twice as many more), and have made Ars Magica 2.  I want to thank all of the people who helped this mod come to be what it is today, my beta testers, everyone who helped me with code, models, and texturing - this wouldn't be what it is without you.  And to you, the player, I hope that you have as much fun playing this mod as I did making it. !line! !line! Happy Casting! !line! ~Mithion</desc>
+			<desc>Ars Magica began as my first foray into modding.  I have been developing software professionally for about 11 years as of AM2's release, but haven't done much game design.  I loved the game of Minecraft, but felt that it would be the perfect place for a magical world.  So I began, and who would have thought I would enjoy it so much.  I have spent literally hundreds of hours developing AM1 and AM2.  With some good tutorials and a bit of luck, I managed to figure out how to write AM1.  Now I have taken what I learned, solved some of the problems that came up (and probably introduced twice as many more), and have made Ars Magica 2.  I want to thank all of the people who helped this mod come to be what it is today, my beta testers, everyone who helped me with code, models, and texturing - this wouldn't be what it is without you.  And to you, the player, I hope that you have as much fun playing this mod as I did making it. !d Happy Casting! !l ~Mithion</desc>
 		</guide>
 		<guide id="theAMUI" order="2">
 			<name>The Ars Magica UI</name>
-			<desc>The act of picking up this compendium has unlocked the arcane magics within you.  You now have the Ars Magica HUD activated.  To configure this UI, at any time, enter the command "/amuicfg".  This will open a drag and drop configuration interface.  Make your changes and press ESC to save them.</desc>
+			<desc>The act of picking up a compendium has unlocked the arcane magics within you.  You now have the AM2 HUD activated.  To configure this UI, at any time, enter the command "#2/amuicfg#0".  This will open a drag and drop configuration interface.  Make your changes and press ESC to save them.</desc>
 		</guide>
 		<guide id="spellComponents101" order="3">
 			<name>Spell Components 101</name>
-			<desc>Spells are comprised of shapes, components, and modifiers.  Shapes dictate how the spell targets things, Components dictate what the spell does to the things it targets, and Modifiers change certain aspects of spells.  A shape can only appear once in a single spell.  Shapes can be chained together to create spell stages, for example, a "Projectile AoE".  Components can be added once per spell stage. As for modifiers, a single aspect of a spell can be modified three times per stage.  What this means is that if you have modifiers that change multiple parts of a spell, they may lock out other ones that modify the same stats if the total stat modifier for the shape is equal to three.  The compendium will only show you the shapes, components, and modifiers you already know, or are eligible to learn.</desc>
+			<desc>Spells are comprised of #4shapes#0, #9components#0, and #2modifiers#0.  Shapes dictate how the spell targets things, Components dictate what the spell does to the things it targets, and Modifiers change certain aspects of spells.  A #4shape#0 can only appear once in a single spell.  Shapes can be chained together to create spell stages, for example, a "Projectile AoE".  Components can be added once per spell stage. As for modifiers, a single aspect of a spell can be modified three times per stage.  What this means is that if you have modifiers that change multiple parts of a spell, they may lock out other ones that modify the same stats if the total stat modifier for the shape is equal to three.  The compendium will only show you the shapes, components, and modifiers you already know, or are eligible to learn.</desc>
 		</guide>
 		<guide id="yourFirstSpell" order="4">
 			<name>Your First Spell</name>
-			<desc>To make a spell, you will first need to create an Occulus and unlock at least one spell shape and one component.  You start with three blue skill points to make this possible.  Then, craft a writable book and head over to your Inscription Table.  Place the book in the inscription table and drag the spell parts you want, in order, from the top gray section to the bottom gray section.  Once your combination is completed, go to your Crafting Altar and place your book containing the spell recipe on the lectern.  Throw a blank rune into the middle of the crafting altar to begin the process, then follow the book's prompts.  The book itself is worth reading as well, as it contains a recap of what the spell recipe is for, the materials list for the spell and an affinity breakdown of the spell.  Note that certain crafting altars can only craft spells that are so powerful.  Too much power and bad things can happen.  See the entry on the Crafting Altar for more information.</desc>
+			<desc>To make a spell, you will first need to create an #5Occulus#0 and unlock at least one spell shape and one component.  You start with three blue skill points to make this possible.  Then, craft a writable book and head over to your #5Inscription Table#0.  Place the book in the inscription table and drag the spell parts you want, in order, from the top gray section to the bottom gray section.  Once your combination is completed, go to your #5Crafting Altar#0 and place your book containing the spell recipe on the lectern.  Throw a #5blank rune#0 into the middle of the crafting altar to begin the process, then follow the book's prompts.  The book itself is worth reading as well, as it contains a recap of what the spell recipe is for, the materials list for the spell and an affinity breakdown of the spell.  Note that certain crafting altars can only craft spells that are so powerful.  Too much power and bad things can happen.  See the entry on the #5Crafting Altar#0 for more information.</desc>
 		</guide>	
 		<guide id="gainingMagicLevels" order="5">
 			<name>Gaining Magic Levels</name>
-			<desc>You gain magic levels by casting spells.  You don't gain magic XP if the cast isn't successful, and there are diminishing returns on a cooldown, so spamming spells to grind won't get you anywhere.  Casting spells also modifies your affinity.  See Mechanics -> Affinity for more information.</desc>
+			<desc>You gain magic levels by casting spells.  You don't gain magic XP if the cast isn't successful, and there are diminishing returns on a cooldown, so spamming spells to grind won't get you anywhere.  Casting spells also modifies your affinity.  See #5Mechanics -> Affinity#0 for more information.</desc>
 		</guide>
 		<guide id="unlockingPowers" order="6">
 			<name>Obtaining Skill Points</name>
@@ -1213,7 +1215,7 @@
 		</guide>
 		<guide id="essenceAllAround" order="8">
 			<name>The Essence System</name>
-			<desc>Ars Magica contains a unique power system called Essence.  Essence is generated from a Nexus.  A Nexus will stream to other powered blocks within a 10 block radius.  To extend the range of the nexus, you can place essence conduits within the 10 blocks of the nexus.  Each conduit also projects a radius of 10 blocks  in which it can relay power from the nexus.  Conduits can only transmit so much power before they begin to build up deficit.  The conduit will slowly turn red and begin to smoke, and if the deficit gets too high, the conduit will explode.  Deficit can be mitigated by inserting charge or mana foci into the conduit, or by placing a crystal pillar next to the conduit if that isn't enough.  See conduits for more information.</desc>
+			<desc>Ars Magica contains a unique power system called #5Essence#0.  Essence is generated from a #5Nexus#0.  A Nexus will stream to other powered blocks within a 10 block radius.  To extend the range of the nexus, you can place #5essence conduits#0 within the 10 blocks of the nexus.  Each conduit also projects a radius of 10 blocks in which it can relay power from the nexus, essentially extending the range in a chain. !d #5Conduits#0 and #5Other Machines powered by essence such as Calefactors, Reconstructors, etc#0 can only transmit/consume so much power in a given period of time before they begin to build up #4deficit#0.  Machines will begin to smoke as deficit increases, and conduits also turn red.  As deficit grows, the machines will become less efficient, and will require more power to perform their standard operations.  Once deficit reaches a certain point (1000), the machine will shut down and will be unable to operate until the deficit drops below 1000 again.  Deficit can be mitigated by inserting #5charge foci#0 or #5mana foci$0 into the conduit, or by placing a #5crystal pillar#0 next to the conduit if that isn't enough.  See conduits for more information.</desc>
 		</guide>
 		<guide id="powerTypes" order="9">
 			<name>Types of Nexi</name>
