@@ -1,0 +1,32 @@
+Hey Mithion I´ve an Exception if I try to join on my Server
+
+On the client: Internal Exception: java.io.IOException: bad packet id 160
+
+In the client-forge log:
+2013-10-29 14:21:21 [Schwerwiegend] [ForgeModLoader] AMDataReader (getInt): java.io.EOFException
+2013-10-29 14:21:21 [Information] [STDERR] java.io.EOFException
+2013-10-29 14:21:21 [Information] [STDERR]  at java.io.DataInputStream.readInt(Unknown Source)
+2013-10-29 14:21:21 [Information] [STDERR]  at am2.network.AMDataReader.getInt(AMDataReader.java:43)
+2013-10-29 14:21:21 [Information] [STDERR]  at am2.playerextensions.SkillData.handlePacketData(SkillData.java:342)
+2013-10-29 14:21:21 [Information] [STDERR]  at am2.network.ClientPacketHandler.handleSyncSpellKnowledge(ClientPacketHandler.java:182)
+2013-10-29 14:21:21 [Information] [STDERR]  at am2.network.ClientPacketHandler.onPacketData(ClientPacketHandler.java:113)
+2013-10-29 14:21:21 [Information] [STDERR]  at cpw.mods.fml.common.network.NetworkRegistry.handlePacket(NetworkRegistry.java:255)
+2013-10-29 14:21:21 [Information] [STDERR]  at cpw.mods.fml.common.network.NetworkRegistry.handleCustomPacket(NetworkRegistry.java:245)
+2013-10-29 14:21:21 [Information] [STDERR]  at cpw.mods.fml.common.network.FMLNetworkHandler.handlePacket250Packet(FMLNetworkHandler.java:84)
+2013-10-29 14:21:21 [Information] [STDERR]  at net.minecraft.client.multiplayer.NetClientHandler.func_72501_a(NetClientHandler.java:1647)
+2013-10-29 14:21:21 [Information] [STDERR]  at net.minecraft.network.packet.Packet250CustomPayload.func_73279_a(SourceFile:61)
+2013-10-29 14:21:21 [Information] [STDERR]  at net.minecraft.network.TcpConnection.func_74428_b(TcpConnection.java:462)
+2013-10-29 14:21:21 [Information] [STDERR]  at net.minecraft.client.multiplayer.NetClientHandler.func_72551_d(NetClientHandler.java:281)
+2013-10-29 14:21:21 [Information] [STDERR]  at net.minecraft.client.multiplayer.GuiConnecting.func_73876_c(GuiConnecting.java:51)
+2013-10-29 14:21:21 [Information] [STDERR]  at net.minecraft.client.Minecraft.func_71407_l(Minecraft.java:1580)
+2013-10-29 14:21:21 [Information] [STDERR]  at net.minecraft.client.Minecraft.func_71411_J(Minecraft.java:910)
+2013-10-29 14:21:21 [Information] [STDERR]  at net.minecraft.client.Minecraft.func_99999_d(Minecraft.java:838)
+2013-10-29 14:21:21 [Information] [STDERR]  at net.minecraft.client.main.Main.main(SourceFile:101)
+2013-10-29 14:21:21 [Information] [STDERR]  at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2013-10-29 14:21:21 [Information] [STDERR]  at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+2013-10-29 14:21:21 [Information] [STDERR]  at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+2013-10-29 14:21:21 [Information] [STDERR]  at java.lang.reflect.Method.invoke(Unknown Source)
+2013-10-29 14:21:21 [Information] [STDERR]  at net.minecraft.launchwrapper.Launch.launch(Launch.java:131)
+2013-10-29 14:21:21 [Information] [STDERR]  at net.minecraft.launchwrapper.Launch.main(Launch.java:27)
+
+Can you help me? 
