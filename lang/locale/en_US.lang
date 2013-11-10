@@ -93,6 +93,16 @@ item.arsmagica2:whiteRune.name=White Rune
 item.arsmagica2:infinityOrb.name=Infinity Orb
 item.arsmagica2:debugRune.name=Rune of Debugging
 item.arsmagica2:unknownRune.name=Unknown Rune
+item.arsmagica2:sigil_base=Sigil of %s
+item.arsmagica2:sigil_gentlerains=Gentle Rains
+item.arsmagica2:sigil_naturesbounty=Nature's Bounty
+item.arsmagica2:sigil_felledoak=the Felled Oak
+item.arsmagica2:sigil_flatlands=the Flat Lands
+item.arsmagica2:sigil_butchery=Butchery
+item.arsmagica2:sigil_progeny=Progeny
+item.arsmagica2:sigil_containment=Containment
+item.arsmagica2:sigil_interdiction=Interdiction
+item.arsmagica2:magic_broom.name=Magic Broom
 
 #blocks
 tile.arsmagica2:essence_refiner.name=Essence Refiner
@@ -141,6 +151,10 @@ tile.arsmagica2:planksWitchwood.name=Witchwood Planks
 tile.arsmagica2:witchwoodSingleSlab.name=Witchwood Slab
 tile.arsmagica2:stairsWitchwood.name=Witchwood Stairs
 tile.arsmagica2:saplingWitchwood.name=Witchwood Sapling
+tile.arsmagica2:slabWitchwood.name=Witchwood Slab
+tile.arsmagica2:magiciansWorkbench.name=Magician's Workbench
+tile.arsmagica2:magic_sigil.name=Sigil Stand
+tile.arsmagica2:everstone.name=Everstone
 
 #entities
 entity.arsmagica2.EarthElemental.name=Earth Elemental
@@ -365,6 +379,9 @@ am2.gui.XPNumeric=Numeric XP Value
 am2.gui.mbb=Multiblock Display Behaviour
 am2.gui.cycle=Cycle
 am2.gui.pause=Pause
+am2.gui.componentsMissing=Recipe Components Missing
+am2.gui.gridInUse1=All possible crafting grids are in use.
+am2.gui.gridInUse2=Clear components first.
 
 #death messages
 am2.death.fire=%s went up in flames.
