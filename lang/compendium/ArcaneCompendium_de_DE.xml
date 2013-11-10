@@ -30,7 +30,7 @@
 		</shape>
 		<shape id="Chain">
 			<name>Chain</name>
-			<desc>You can shape your magic into a blast that jumps from one target to the next.</desc>
+			<desc>You can shape your magic into a blast that jumps from one target to the next.  Chain by default contains an 8-block built in touch-like component, so there is no need to add additional stages; though you can if you like, projectile for example to start the chain somewhere else.  A chain spell cannot affect the caster.  Chain jump range can be extended by using the #5Range#0 modifier, and the number of jumps can be increased by using #5Procs#0</desc>
 		</shape>
 		<shape id="Rune">
 			<name>Rune</name>
@@ -740,15 +740,15 @@
 			</subitem>
 			<subitem id="mana_potion_greater">
 				<name>Greater Mana Potion</name>
-				<desc>The greater mana potion uses the power of #5vinteum#0 combined with a #9Awkward Potion#0 at a brewing stand to restore a good amount of mana.  One use will restore 500 mana.</desc>
+				<desc>The greater mana potion uses the power of #5vinteum#0 combined with a #9Awkward Potion#0 at a brewing stand to restore a good amount of mana.  One use will restore 2000 mana.  The crafting table recipe is temporary while I figure out the derpy brewing stand.</desc>
 			</subitem>
 			<subitem id="mana_potion_epic">
 				<name>Epic Mana Potion</name>
-				<desc>The epic mana potion is created by combining #5arcane ash#0 with a #9Awkward Potion#0 at a brewing stand to restore 1000 mana per potion.</desc>
+				<desc>The epic mana potion is created by combining #5arcane ash#0 with a #9Awkward Potion#0 at a brewing stand to restore 5000 mana per potion.  The crafting table recipe is temporary while I figure out the derpy brewing stand.</desc>
 			</subitem>
 			<subitem id="mana_potion_legendary">
 				<name>Legendary Mana Potion</name>
-				<desc>The legendary mana potion is created by combining #5purified vinteum dust#0 with a #9Awkward Potion#0 at a brewing stand.  One potion will restore a whopping 2500 mana!</desc>
+				<desc>The legendary mana potion is created by combining #5purified vinteum dust#0 with a #9Awkward Potion#0 at a brewing stand.  One potion will restore a whopping 10000 mana!  The crafting table recipe is temporary while I figure out the derpy brewing stand.</desc>
 			</subitem>
 			<subitem id="mana_boost_potion">
 				<name>Infused Essence Potion</name>
@@ -774,6 +774,10 @@
 		<item id="spell_book">
 			<name>Spell Book</name>
 			<desc>The spell book is a useful item to have, allowing mages to organize their spells and save space at the same time.  The spell book, when equipped, can be scrolled through either by pressing x/z (default), or by sneaking and rolling the mouse wheel.  Spell books can be dyed a variety of different colors.  They can also be #5enchanted#0 with some useful powers.</desc>
+		</item>
+		<item id="magicbroom">
+			<name>Magic Broom</name>
+			<desc>You have taken the magical properties of Arcane Ash and combined them with a broom.  Why?  You're not entirely sure.  What you do know is that this broom loves to keep the area clean, picking up any loose items near it and putting them in it's assigned chest.  To place the broom once you craft it, right click on a #5any block with an inventory#0 with the broom equipped.  It won't work otherwise. Currently the broom will grab all loose items, though it will be configurable at a later time.</desc>
 		</item>
 	</items>
 	<structures>
@@ -1052,6 +1056,63 @@
 		<block id="stonebricksmooth@3">
 			<name>Chiseled Stone Blocks</name>
 			<desc>You can create chiseled stone blocks that you need by crafting 4 stone bricks together in a 2x2 grid.</desc>
+		</block>
+		<block id="saplingWitchwood">
+			<name>Witchwood Saplings</name>
+			<desc>Witchwood saplings can be obtained from the leaves of a witchwood tree.  They can be planted, however they need a source of essence within 1 block and below them (x/z +/- 1, y-1).  The more liquid essence source pools nearby (max 8), the faster the sapling will grow.  Even with all 8, however, the grow time can be significant.  Once the sapling grows into a full witchwood tree, it can sometimes also cause aum to grow nearby as well.</desc>
+		</block>
+		<block id="altarOfCreation">
+			<name>Crafting Altar</name>
+			<desc>Harnessing the forces of creation, the crafting altar allows mages to work miracles of magic.  This is where you will create all of your spells in AM2.  The crafting altar as a component of a #9multiblock structure#0.
+			</desc>
+		</block>
+		<block id="magiciansWorkbench">
+			<name>Magician's Workbench</name>
+			<desc>The magician's workbench was born out of necessity from the large number of items mages tend to make.  However, one particular mage got tired of having to clear out the crafting grid every time he forgot a sub-component, and having to run to a chest, usually dropping items along the way.  This table #5has multiple crafting grids#0 that you can use simultaneously to make items.  It also remembers previous crafting recipes (the most recent 8) and can restore that recipe to the crafting grid with the click of a button, provided the components are in its #5internal storage#0.  There is an upgrade you can craft that will increase the size of the second grid to a 3x3 from a 2x2.</desc>
+		</block>
+		<block id="everstone">
+			<name>Everstone</name>
+			<desc>Everstone is a magically-infused block that can mimic other blocks much like #5illusion blocks#0 can.  However, when broken, Everstone will #9not drop, but rather become incorporeal for a brief time#0.  After that time, it will re-solidify and return to its original state.  While it is solidifying, everstone can be passed through as if it is not there.  To make it mimic a block, simply right click on the everstone with the desired block in hand.  If it is not already mimicing a block, it will assume the properties of the new block.  To remove the mask, simply right click the everstone with a #5Crystal Wrench#0.  Right clicking an everstone that is not already mimicing a texture will cause it to drop as normal and be recovered.</desc>
+		</block>
+		<block id="magic_sigil_glossary">
+			<name>Magic Sigils</name>
+			<desc>Magic sigils comprise the start of magical automation in AM2.  The base of all sigils is the #9Sigil Stand#0.  From there, #5Sigils#0 can be added to a stand to cause specific functionality.  A stand can have a maximum of 3 sigils at one time.  See the individual sigil entries for crafing recipes and functionality.</desc>
+			<subitem id="magic_sigil">
+				<name>Sigil Stand</name>
+				<desc>The sigil stand is the starting point for all sigils.  It dictates the center point for all sigil effects, and is what the individual #5Sigils#0 are applied to.  To apply a sigil, place a Sigil Stand in the world, and then right click it with any sigil.  Multiple sigils can be put on one stand, up to a maximum of 3.</desc>
+			</subitem>
+			<subitem id="sigilstone@1">
+				<name>Sigil of Gentle Rains</name>
+				<desc>The sigil of gentle rains causes a small localized rainfall for 4 blocks in all directions which causes #5soil to be hydrated without the need for nearby water#0.</desc>
+			</subitem>
+			<subitem id="sigilstone@2">
+				<name>Sigil of Nature's Bounty</name>
+				<desc>The sigil of Nature's Bounty causes #5all plants#0 within 4 blocks in any direction to #5grow faster#0.</desc>
+			</subitem>
+			<subitem id="sigilstone@4">
+				<name>Sigil of the Felled Oak</name>
+				<desc>The sigil of the Felled Oak #5peroidically harvests trees#0 up to 4 blocks in any direction of it.</desc>
+			</subitem>
+			<subitem id="sigilstone@8">
+				<name>Sigil of the Flat Lands</name>
+				<desc>The sigil of the Flat Lands #9pulls blocks from a chest below the sigil stand#0 and fills in terrain up to 4 blocks in any direction of it.  Blocks that are at the same y level as the sigil stand or above, are broken.  This only affects up to 4 y levels above the sigil stand.</desc>
+			</subitem>
+			<subitem id="sigilstone@16">
+				<name>Sigil of Butchery</name>
+				<desc>The Sigil of Butchery will periodically kill animals within 4 blocks in any direction if it detects more than 2 of them.</desc>
+			</subitem>
+			<subitem id="sigilstone@32">
+				<name>Sigil of Progeny</name>
+				<desc>The Sigil of Progeny periodically causes animals within 4 blocks in any direction to breed.</desc>
+			</subitem>
+			<subitem id="sigilstone@64">
+				<name>Sigil of Containment</name>
+				<desc>The Sigil of Containment erects an invisible wall 4 blocks in any direction that any non-player entity cannot leave through.  Entities can come in, but they cannot leave.  This stacks with the #5Sigil of Interdiction#0, and can create a barrier from both sides.</desc>
+			</subitem>
+			<subitem id="sigilstone@128">
+				<name>Sigil of Interdiction</name>
+				<desc>The Sigil of Containment erects an invisible wall 4 blocks in any direction that any non-player entity cannot enter through.  Entities can leave, but they cannot come in.  This stacks with the #5Sigil of Containment#0, and can create a barrier from both sides.</desc>
+			</subitem>
 		</block>
 	</blocks>
 	<mechanics>
