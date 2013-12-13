@@ -93,6 +93,16 @@ item.arsmagica2:whiteRune.name=白色符文
 item.arsmagica2:infinityOrb.name=无限之球
 item.arsmagica2:debugRune.name=调试符文
 item.arsmagica2:unknownRune.name=未知符文
+item.arsmagica2:sigil_base=%s徽记
+item.arsmagica2:sigil_gentlerains=和风细雨
+item.arsmagica2:sigil_naturesbounty=自然的馈赠
+item.arsmagica2:sigil_felledoak=倒下的橡木
+item.arsmagica2:sigil_flatlands=大地平坦
+item.arsmagica2:sigil_butchery=屠宰场
+item.arsmagica2:sigil_progeny=后裔
+item.arsmagica2:sigil_containment=蕴含
+item.arsmagica2:sigil_interdiction=禁制
+item.arsmagica2:magic_broom.name=魔法扫帚
 
 #blocks
 tile.arsmagica2:essence_refiner.name=源质提炼机
@@ -118,7 +128,7 @@ tile.arsmagica2:particleEmitter.name=粒子效果发生器
 tile.arsmagica2:vinteumTorch.name=温特姆火把
 tile.arsmagica2:casterRune.name=施术台符文
 tile.arsmagica2:inscriptionTable.name=符文拓印台
-tile.arsmagica2:aum.name=全知方块
+tile.arsmagica2:aum.name=全知草
 tile.arsmagica2:wakebloom.name=觉苏草
 tile.arsmagica2:tarmaroot.name=塔尔玛根
 tile.arsmagica2:witchwoodlog.name=巫魂树原木
@@ -140,6 +150,10 @@ tile.arsmagica2:gold_inlay.name=黄金镶嵌物
 tile.arsmagica2:planksWitchwood.name=巫魂树木板
 tile.arsmagica2:witchwoodSingleSlab.name=巫魂树台阶
 tile.arsmagica2:stairsWitchwood.name=巫魂树楼梯
+tile.arsmagica2:slabWitchwood.name=巫魂树台阶
+tile.arsmagica2:magiciansWorkbench.name=巫师工作台
+tile.arsmagica2:magic_sigil.name=徽记底座
+tile.arsmagica2:everstone.name=不灭石
 
 #entities
 entity.arsmagica2.EarthElemental.name=地之元素
@@ -175,7 +189,7 @@ am2.spell.aoe=AOE法术
 am2.spell.beam=束状法术
 am2.spell.binding=具现化法术
 am2.spell.chain=链状法术
-am2.spell.channel=魔力流法术
+am2.spell.channel=引导法术
 am2.spell.projectile=抛射物法术
 am2.spell.rune=符文法术
 am2.spell.self=自我施放法术
@@ -205,7 +219,7 @@ am2.spell.enderintervention=末影干涉
 am2.spell.entangle=缠绕术
 am2.spell.firedamage=灼烧伤害
 am2.spell.flight=舞空术
-am2.spell.fling=冲刺术
+am2.spell.fling=抛掷术
 am2.spell.forge=熔炼术
 am2.spell.freeze=冻结术
 am2.spell.frostdamage=寒冰伤害
@@ -362,6 +376,9 @@ am2.gui.XPNumeric=数显经验
 am2.gui.mbb=多方块功能显示
 am2.gui.cycle=循环
 am2.gui.pause=暂停
+am2.gui.componentsMissing=缺失材料.
+am2.gui.gridInUse1=可用合成网格均被占用.
+am2.gui.gridInUse2=先清除材料.
 
 #death messages
 am2.death.fire=%s被火烤焦了.
