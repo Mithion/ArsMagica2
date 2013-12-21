@@ -1,0 +1,1287 @@
+<compendium>
+        <shapes zeroItemText="你还不了解任何法术构型,也尚未学会它们!">
+                <shape id="Projectile">
+                        <name>投射物法术</name>
+                        <desc>你已经能够将意志力凝聚成球状,并将其抛射至前方.</desc>
+                </shape>
+                <shape id="Channel">
+                        <name>引导法术</name>
+                        <desc>通过凝神贯注,巫师能够掌控他们面前的魔力流.虽非精确控制,但在合适情形下却恰恰足以满足需求.</desc>
+                </shape>
+                <shape id="Beam">
+                        <name>束状法术</name>
+                        <desc>将魔力流法术转换为束状法术并不会过分耗神.然后大量转换当然是另外一回事了.束状法术相当于魔力流法术更可控的版本.</desc>
+                </shape>
+                <shape id="Self">
+                        <name>自我施放法术</name>
+                        <desc>最简单的一种施法形式莫过于对自身施法了.距离够近,目标也不需要费神去锁定.但你多半是不会希望意外地把自己给点着的.</desc>
+                </shape>
+                <shape id="Summon">
+                        <name>召唤法术</name>
+                        <desc>你已经学会如何回收击败敌人掉落的生物源质.这些源质能够用于制作召唤法术-能够召唤出忠心耿耿护卫你左右的魔宠.</desc>
+                </shape>
+                <shape id="Touch">
+                        <name>接触法术</name>
+                        <desc>简单地在掌心凝聚魔力,并通过碰触来触发施法效果.</desc>
+                </shape>
+                <shape id="Zone">
+                        <name>区域法术</name>
+                        <desc>你已学会凝神聚气对一片区域持续施放魔法效果.  </desc>
+                </shape>
+                <shape id="AoE">
+                        <name>AoE范围法术</name>
+                        <desc>施术时,你能够将魔力塑造成以施术位置为中心圆周状向外冲击的能量波.</desc>
+                </shape>
+                <shape id="Chain">
+                        <name>链状法术</name>
+                        <desc>你能够将将魔力转换为链状振荡形态,会从一个目标跳转到下一个目标继续造成效果.</desc>
+                </shape>
+                <shape id="Rune">
+                        <name>符文法术</name>
+                        <desc>你能够制作可以放置在地上的魔力符文,它们被触发后,有的能够提供强力buff,有的则能变成致命的陷阱.</desc>
+                </shape>
+                <shape id="Contingency_Fall">
+                        <name>应急激发:坠落</name>
+                        <desc>你发现一种能够在坠落时未触及地面前触发的法术构造.!line! !line! 喔重力,汝乃无情婊子...!line! !line! 你一次只能加持一种应急激发法术.</desc>
+                </shape>
+                <shape id="Contingency_Damage">
+                        <name>应急激发:伤害</name>
+                        <desc>你发现一种仅在你受到伤害时才会触发的法术构造.!line! !line! 让我们激情对射!!line! !line! 你一次只能加持一种应急激发法术.</desc>
+                </shape>
+                <shape id="Contingency_Fire">
+                        <name>应急激发:灼烧</name>
+                        <desc>你下定决心再也不想着火了. 为了免于灼烧,你研究出一种当火焰将加身时触发的法术构造.!line! !line! 你一次只能加持一种应急激发法术.</desc>
+                </shape>
+                <shape id="Contingency_Health">
+                        <name>应急激发:健康</name>
+                        <desc>无论巫师多么的机敏,刺穿琵琶骨的刀刃都将让他的发挥受到严重束缚.你认为你已经找到一种方法使得尝试这么做的人都感到后悔,或者认识到至少预备两把行刺之刀.!line! !line! 你一次只能加持一种应急激发法术.</desc>
+                </shape>
+                <shape id="Contingency_Death">
+            <name>应急激发:死亡</name>
+                        <desc>如果需要,你将拥有我的力量数秒.而我,将拥有我所需的足够时间来确定你不是为了寻开心来寻求我.!line! !line! 你一次只能加持一种应急激发法术.</desc>
+                </shape>
+                <shape id="Binding">
+                        <name>具现化法术</name>
+                        <desc>你能够无中生有了! 具现化法术能够使得你能够具现化工具,维持具现化需要持续抽取魔力,且这种工具在使用时不消耗耐久而消耗施法者的魔力.试图扔掉(默认按键:Q)具现化的物品将解除法术效果.  !line! !line! 该法术结构当前尚不可用.</desc>
+                </shape>
+        </shapes>
+        <components zeroItemText="你尚未了解法术成分,也尚未学会它们!">
+                <component id="PhysicalDamage">
+                        <name>物理伤害</name>
+                        <desc>通常年轻的法师最初使用物理伤害的法术来作为训练课程.更为常见的情形还有,年轻的法师会延续这种训练课程-他们会使用更多的武力伤害法术去砸小伙伴们的后脑勺.</desc>
+                </component>
+                <component id="MagicDamage">
+                        <name>魔力伤害</name>
+                        <desc>魔法伤害与武力伤害相比,区别在于前者能够穿透多种护甲并直接攻击内在目标-即使不比后者更厉害,这也同样有破坏性.魔法伤害使得召唤生物显得尤其脆弱.</desc>
+                </component>
+                <component id="FrostDamage">
+                        <name>冰冻伤害</name>
+                        <desc>许多巫师低估了冷冻法术的力量.彻骨寒意能够浸透装甲,且冷冻伤害对下界生物极具破坏性.</desc>
+                </component>
+                <component id="LightningDamage">
+                        <name>电击伤害</name>
+                        <desc>我将握着的手放在身前,一道耀眼的白色雷光掠过在天幕上留下锋利的裂纹.他的金属铠甲就彷佛一个引雷针似的,将雷电的威力纷纷吸引了过去.</desc>
+                </component>
+                <component id="FireDamage">
+                        <name>灼烧伤害</name>
+                        <desc>念出咒语,我释放出我的意志,向前方喷发出熊熊燃烧的火焰,焚尽它经过的一切事物.</desc>
+                </component>
+                <component id="Ignition">
+                        <name>点火术</name>
+                        <desc>许多法师将火焰法术视为伤害和破坏的力量,这种观念确实符合真实.但是你们有多少人听说并想象过利用火焰法术来点燃暖炉,营火和蜡烛呢?</desc>
+                </component>
+                <component id="FurnaceTouch">
+                        <name>熔炼术</name>
+                        <desc>你对火焰法术的应用已渐入佳境,已能够把方块熔炼成相应的材料,而非把它们焚烧成灰烬.</desc>
+                </component>
+                <component id="Explosion">
+                        <name>爆破术</name>
+                        <desc>你能够将足够的能量灌入法术构造来在施法位置造成一次凶残的爆炸.</desc>
+                </component>
+                <component id="Blind">
+                        <name>失明术</name>
+                        <desc>将火球丢向暗法师棒极了.但是最好先让他们失明以免被报复.</desc>
+                </component>
+                <component id="Freeze">
+                        <name>冻结术</name>
+                        <desc>Eira气喘吁吁,睁开了眼睛.山巅覆盖着白雪,肃杀的寒意席卷万物.水凝成了冰.一切都凝滞不动.完美.</desc>
+                </component>
+                <component id="Knockback">
+                        <name>击退术</name>
+                        <desc>很多法师都不希望面对肉搏战斗,这种法术正可以免除这种窘境.</desc>
+                        <affinity>None</affinity>
+                </component>
+                <component id="Storm">
+                        <name>雷暴术</name>
+                        <desc>黑云压顶,暴雨骤降.风咆哮着,一道闪电掠过天际,在我视野里映上一片明亮.雷鸣声震耳欲聋.雷光击中了我周遭的所有敌人.风暴的伟力无边无际. </desc>
+                </component>
+                <component id="AstralDistortion">
+                        <name>星界屏障</name>
+                        <desc>当我试图穿入虚空,扭曲的空间闪烁着又固定下来.我第一次意识到这法术不仅仅是我的法师学徒们的消遣.我已经用它来对付末影人了.</desc>
+                </component>
+                <component id="Fling">
+                        <name>抛掷术</name>
+                        <desc>盘旋的风刮到爬行者的脚下将其高高地抛向空中,吹飞到天边.</desc>
+                </component>
+                <component id="WateryGrave">
+                        <name>水墓术</name>
+                        <desc>水像活了过来,挥舞着触手缠绕着光巫师并将其投入了黑暗,破碎的深渊中.</desc>
+                </component>
+                <component id="Leap">
+                        <name>腾跃术</name>
+                        <desc>脚底生风,一飞冲天.掌握着风的力量高高跃起,落下时将其释放出来以免跌伤.</desc>
+                </component>
+                <component id="Regeneration">
+                        <name>重生术</name>
+                        <desc>我用治愈之光包裹着臂膀,看着每一个在眼前转淡消失的伤.</desc>
+                </component>
+                <component id="Slowfall">
+                        <name>羽落术</name>
+                        <desc>轻若鸿毛,无畏高跳.</desc>
+                </component>
+                <component id="LifeTap">
+                        <name>生命分流</name>
+                        <desc>如若法师孤独无靠而魔力岌岌可危,则可以燃烧生命来获得所需的魔力施展法术.</desc>
+                </component>
+                <component id="Heal">
+                        <name>治愈术</name>
+                        <desc>通过极大地投入加强重生效果的能量,巫师能够让全部伤口转瞬被治愈.但这法术消耗颇巨.</desc>
+                </component>
+                <component id="Slow">
+                        <name>迟钝术</name>
+                        <desc>通过应用魔力球和锁链以及类似的法术构型变换,巫师能够减缓施法目标的移动速度.</desc>
+                </component>
+                <component id="Haste">
+                        <name>急迫术</name>
+                        <desc>用奥术能量包裹住施法目标的腿,巫师能够让他们迅捷如飞.</desc>
+                </component>
+                <component id="GravityWell">
+                        <name>重力之井</name>
+                        <desc>你已学会在目标所在位置制造出一个局部的重力场,加快他们的跌落速度.</desc>
+                </component>
+                <component id="LifeDrain">
+                        <name>生命汲取</name>
+                        <desc>通过建立于施法目标的生命力与自己之间的歹毒链接,你可以抽取他们的生命来恢复自己的健康.</desc>
+                </component>
+                <component id="Dispel">
+                        <name>驱散术</name>
+                        <desc>通过创造局部的魔力稀缺,你可以移除施法目标身上的状态和效果.</desc>
+                </component>
+                <component id="Repel">
+                        <name>驱逐术</name>
+                        <desc>你可以在空间中创造出一个奇点.维持它存在,就能够推开靠近你的敌人以及射向你的箭矢.</desc>
+                </component>
+                <component id="SwiftSwim">
+                        <name>快泳术</name>
+                        <desc>掌控水流,你能推动自己游得更快.</desc>
+                </component>
+                <component id="Levitate">
+                        <name>浮空术</name>
+                        <desc>风系魔法的实践让你学会如何将自己悬浮在半空,而荡漾的微风让你得以缓慢移动.</desc>
+                </component>
+                <component id="ManaDrain">
+                        <name>魔力汲取</name>
+                        <desc>通过寄生施法目标的法力池,抽取他们的魔力为己所用来加速魔力回复.</desc>
+                </component>
+                <component id="Entangle">
+                        <name>缠绕术</name>
+                        <desc>急急如律令,藤蔓从地下蔓延出来缠绕住施法目标,让他们完全动弹不得.</desc>
+                </component>
+                <component id="Flight">
+                        <name>舞空术</name>
+                        <desc>念出咒语,浮腾在空中,与白云天空相融.我飞得灵动,快捷和机敏.天空是我的孤独.</desc>
+                </component>
+                <component id="Shield">
+                        <name>护盾术</name>
+                        <desc>你可以召唤出奥术能量来防护自己.护盾将减免所有类型的伤害.</desc>
+                </component>
+                <component id="Reflect">
+                        <name>反弹术</name>
+                        <desc>你可以改变护盾术的构造,使其能够反弹物理伤害.不能与护盾术同时开启.</desc>
+                </component>
+                <component id="ChronoAnchor">
+                        <name>时空之锚</name>
+                        <desc>你可以在时间流中锚定自己.当计时结束时,你会被传送回你施放该技能的地点,同时你的生命,魔法,施法疲劳和饥饿将会返回至你第一次施放该技能时的数值.</desc>
+                </component>
+                <component id="Charm">
+                        <name>魅惑术</name>
+                        <desc>你可以魅惑生物来为你战斗,某些生物被魅惑后会做一些特别的事情. 魅惑也可以使生物繁殖.</desc>
+                </component>
+                <component id="Dig">
+                        <name>挖掘术</name>
+                        <desc>动动你的手指就能让地面断裂粉碎.  方块越硬,破坏它需要消耗的魔法值就越多.</desc>
+                </component>
+                <component id="Light">
+                        <name>照明术</name>
+                        <desc>你可以用魔法来照亮一片区域.</desc>
+                </component>
+                <component id="Disarm">
+                        <name>缴械术</name>
+                        <desc>现在你已经学会如何召唤工具到你手中了, 而让别人扔掉自己手中的东西只需要小小的改进一下就行了.</desc>
+                </component>
+                <component id="Rift">
+                        <name>断裂术</name>
+                        <desc>你现在可以撕开一个空间裂隙,  并访问一个小位面在其中储存物品.</desc>
+                </component>
+                <component id="Attract">
+                        <name>吸纳术</name>
+                        <desc>在你周围创建一个负压区域, 把范围内的一切生物拉向你.</desc>
+                </component>
+                <component id="Telekinesis">
+                        <name>念力术</name>
+                        <desc>你可以使用魔法来放大脑波, 从而使其拥有物理特性. 脑波可以用来把物品或经验值拉向你.</desc>
+                </component>
+                <component id="HarvestPlants">
+                        <name>收获术</name>
+                        <desc>你可以让所有的植物,树叶和花朵收获.</desc>
+                </component>
+                <component id="Plow">
+                        <name>犁地术</name>
+                        <desc>你可以让大地在你的命令下搅动, 以此创造理想的犁沟用来种植.</desc>
+                </component>
+                <component id="PlantSeeds">
+                        <name>种植术</name>
+                        <desc>你可以让你物品栏内的种子种在地面上,  如果条件适宜它生长的话.</desc>
+                </component>
+                <component id="CreateWater">
+                        <name>涌泉术</name>
+                        <desc>你可以将周围的空气中的水汽汇聚到一处, 在没有水的地方创造出水源.</desc>
+                </component>
+                <component id="Grow">
+                        <name>回春术</name>
+                        <desc>将能量灌注进植物内, 相当于植物已经成长了数月, 这会让那些植物快速生长.</desc>
+                </component>
+                <component id="BanishRain">
+                        <name>放逐之雨</name>
+                        <desc>雨水啊雨水,你离开罢,改日再来!见鬼谁想出来这样的法术咒语?</desc>
+                </component>
+                <component id="WaterBreathing">
+                        <name>水肺术</name>
+                        <desc>你可以用魔法从水中分解出氧气,从而保证你不会溺水憋死.</desc>
+                </component>
+                <component id="NightVision">
+                        <name>夜视术</name>
+                        <desc>你关于光的知识让你能够设计出一种允许你在黑暗中视物,就好像提高了光照等级的法术.</desc>
+                </component>
+                <component id="TrueSight">
+                        <name>真视术</name>
+                        <desc>你的魔力之眼让你能够看清事物的真实模样.谁知道你会看到什么美丽…或者恐怖的事物呢?</desc>
+                </component>
+                <component id="Invisibility">
+                        <name>隐身术</name>
+                        <desc>你可以扭曲光线来让自己隐形.</desc>
+                </component>
+                <component id="RandomTeleport">
+                        <name>随机传送</name>
+                        <desc>你可以随机将自己传送到附近某处.</desc>
+                </component>
+                <component id="Blink">
+                        <name>闪现术</name>
+                        <desc>你可以将自己面朝方向传送一小段距离.</desc>
+                </component>
+                <component id="Transplace">
+                        <name>转置术</name>
+                        <desc>你关于传送魔法的知识有了进步,现在你学会了如何交换施法目标与自己的位置.</desc>
+                </component>
+                <component id="Mark">
+                        <name>标记术</name>
+                        <desc>你可以使用法术标记一个位置,以便配合回传术从其他几乎任意的地方回到该处.</desc>
+                </component>
+                <component id="Recall">
+                        <name>回传术</name>
+                        <desc>你可以使用传送魔法将自己或者施法目标传送到标记术标记位置.</desc>
+                </component>
+                <component id="EnderIntervention">
+                        <name>末影干涉</name>
+                        <desc>你已经掌握了传送魔法, 并精通到了能突破空间障壁的程度, 你可以在任何地方进入末地.</desc>
+                </component>
+                <component id="DivineIntervention">
+                        <name>神圣干涉</name>
+                        <desc>你已经掌握了传送魔法, 并精通到了能突破空间障壁的程度, 你可以在任何地方回到主世界.</desc>
+                </component>
+        </components>
+        <modifiers zeroItemText="你还不了解任何法术调剂 , 而且你也没有资格习得它们!">
+                <modifier id="Gravity">
+                        <name>重力</name>
+                        <desc>放大某些法术的重力性状. 区域和投射类法术会被重力影响.</desc>
+                </modifier>
+                <modifier id="Bounce">
+                        <name>弹跳</name>
+                        <desc>影响投射和束状类法术的性状,使其能在物体表面反弹.</desc>
+                </modifier>
+                <modifier id="Damage">
+                        <name>伤害</name>
+                        <desc>提升法术伤害.</desc>
+                </modifier>
+                <modifier id="Healing">
+                        <name>治愈</name>
+                        <desc>提升由法术的愈合数值, 或提高对亡灵生物的伤害.</desc>
+                </modifier>
+                <modifier id="Speed">
+                        <name>速度</name>
+                        <desc>提高法术的速度改变效果, 施法速率增加, 投射物速度提高.</desc>
+                </modifier>
+                <modifier id="Duration">
+                        <name>持续</name>
+                        <desc>提高所有增益/减益效果的持续时间, 并且增加区域效果的持续时间. 给符文附加额外特效.</desc>
+                </modifier>
+                <modifier id="Range">
+                        <name>范围</name>
+                        <desc>增加引导类,投射和束状法术的范围.</desc>
+                </modifier>
+                <modifier id="Radius">
+                        <name>半径</name>
+                        <desc>增加区域和范围攻击(AOE)法术的半径.</desc>
+                </modifier>
+                <modifier id="RuneProcs">
+                        <name>符文触发</name>
+                        <desc>增加符文损坏前能够触发特效的次数.</desc>
+                </modifier>
+                <modifier id="VelocityAdded">
+                        <name>快速释放</name>
+                        <desc>增加施放同一法术法术时的施法提速程度.</desc>
+                </modifier>
+                <modifier id="WaterTarget">
+                        <name>水体目标</name>
+                        <desc>允许法术目标为液体,而非直接穿透它.</desc>
+                </modifier>
+                <modifier id="Lunar">
+                        <name>法术调剂:月亮</name>
+                        <desc>在夜晚提升你的法术威力. 越接近午夜(从黄昏开始计算), 你的法术就愈能造成更多的伤害和治疗. 在午夜过后黎明到来的时间里, 法术会变得越来越弱. 范围,持续时间,和半径都会根据月亮的相位而改变(满月模式会获得更高的威力效率). 月亮调剂比太阳调剂更强大, 因为夜晚不会持续白天那么久.</desc>
+                </modifier>
+                <modifier id="Solar">
+                        <name>法术调剂:太阳</name>
+                        <desc>在白天提升你的法术威力. 越接近正午(从黎明开始计算), 你的法术就愈能造成更多的伤害和治疗. 在正午过后黄昏到来的时间里, 法术会变的越来越弱. 范围,持续时间,和半径都会根据月亮的相位而改变(新月模式会获得更高的威力效率). </desc>
+                </modifier>
+                <modifier id="Piercing">
+                        <name>法术调剂:穿刺</name>
+                        <desc>允许你的法术穿透实体和方块. 每次调剂能够增加2个穿刺数量,而最大穿刺数为6.</desc>
+                </modifier>
+        </modifiers>
+        <talents zeroItemText="你尚不了解天赋,也未能获得它们!">
+                <talent id="AffinityGains">
+                        <name>亲和力获取增幅</name>
+                        <desc>你认为元素亲和力要比奥术知识本身更为重要. 你的魔法经验增长较慢,但是你能更快地获得魔法亲和增益.</desc>
+                </talent>
+                <talent id="AugmentedCasting">
+                        <name>增广施法</name>
+                        <desc>你已经知道如何利用你拥有的一切来施放法术. 你能够使用新的施法模式来施放真正强力的法术.</desc>
+                </talent>
+                <talent id="ExtraSummon">
+                        <name>额外召唤</name>
+                        <desc>在能让别人代劳的情况下为什么还要事事躬亲? 你现在可以召唤/魅惑一个额外的生物或雇佣法师(如果你拥有法师联合会天赋).</desc>
+                </talent>
+                <talent id="MageBandI">
+                        <name>法师联合会</name>
+                        <desc>你作为一名法师的天赋让人影响深刻,现在你已经名声在外了. 你可以雇佣一个光法师作为追随者保护你. 这会占用你的召唤上限.</desc>
+                </talent>
+                <talent id="ManaRegenI">
+                        <name>魔力回复I</name>
+                        <desc>你更加习惯能量流转全身. 你的魔法回复速度会比正常人略微快一些.</desc>
+                </talent>
+                <talent id="ManaRegenII">
+                        <name>魔力回复II</name>
+                        <desc>你更加习惯能量流转全身. 你的魔法回复速度会比正常人快. 该天赋将取代魔力回复I. </desc>
+                </talent>
+                <talent id="ManaRegenIII">
+                        <name>魔力回复III</name>
+                        <desc>你更加习惯能量流转全身. 你的魔法回复速度会比正常人快得多. 该天赋将取代魔力回复II.</desc>
+                </talent>
+                <talent id="SpellMotion">
+                        <name>移动施法</name>
+                        <desc>你已经意识到机动能力至关重要. 为此, 你训练了自己以便能够在正常的移动速度下施放法术.</desc>
+                </talent>
+        </talents>
+        <items>
+                <item id="ores">
+                        <name>AM 矿物</name>
+                        <desc>AM2向游戏中新添了几种可以采集熔炼的矿石.</desc>
+                        <subitem id="itemOre@0">
+                                <name>温特姆粉末</name>
+                                <desc>发现于一个小村庄,那里一个爬行者被击倒掉进了枯井里. 法师们很快意识到温特姆矿石在熔炉烧制后得到的产物是一种有用的魔法粉末.</desc>
+                        </subitem>
+                        <subitem id="itemOre@1">
+                                <name>奥术复合物</name>
+                                <desc>从许多世界中采集的物品融合的产物, 奥术复合物乃是获取奥术粉末的基本资源.</desc>
+                        </subitem>
+                        <subitem id="itemOre@2">
+                                <name>奥术粉末</name>
+                                <desc>在熔炉中烧制奥术复合物后就能获得奥术粉末, 奥术粉末储存源质的能力,使其成为了制造先进魔力设备的基石.</desc>
+                        </subitem>
+                        <subitem id="itemOre@3">
+                                <name>纯净温特姆粉末</name>
+                                <desc>添加奥术粉末以强化其魔力特性, 添加万代兰作为催化剂,添加沙漠之星以释放其不稳定的能量,最终可以提纯温特姆粉末从而使其能够储存更多源质.</desc>
+                        </subitem>
+                        <subitem id="itemOre@4">
+                                <name>精灵石</name>
+                                <desc>能够变幻成各种颜色并且一直处于变幻莫测状态的精灵石,用于施放那些需要大量变化或幻象的法术.</desc>
+                        </subitem>
+                        <subitem id="itemOre@5">
+                                <name>蓝晶石</name>
+                                <desc>蓝晶石是一种比较常见的宝石,常被法师用来制作凝聚源质的入门级水晶. </desc>
+                        </subitem>
+                        <subitem id="itemOre@6">
+                                <name>太阳石Sunstone</name>
+                                <desc>太阳石只分布于Minecraft以及其他世界中极端炎热的地区. 只有在具有极高热量而压力非常低的外部环境中才能形成, 通常分布于下界的岩浆湖中, 不过如果你够幸运的话,也会在主世界的岩浆塘里发现它们.</desc>
+                        </subitem>
+                        <subitem id="itemOre@7">
+                                <name>月亮石Moonstone</name>
+                                <desc>若有人在恰当的时间仰望夜空, 也许能看到一颗颗流星从天而降的美景. 这些流星里含有一种稀有矿物:月亮石. 没人确切地知道这些流星究竟从何而来. 但是月亮石远胜世间万物的魔力特性毋庸置疑. 研究表明,满月时这些流星下落的数量和几率会大大增加, 随后数量又会慢慢下降直至开始新的循环.</desc>
+                        </subitem>
+                </item>
+                <item id="essence">
+                        <name>源质/源质手袋</name>
+                        <desc>源质用来制作各式各样的魔法物品,同时也是法术的试剂.杀死元素生物有几率掉落对应源质,你也可以使用源质提炼机来提炼各种源质.</desc>
+                        <subitem id="essence@0">
+                                <name>奥术源质</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="essence@1">
+                                <name>地之源质</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="essence@2">
+                                <name>风之源质</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="essence@3">
+                                <name>火之源质</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="essence@4">
+                                <name>水之源质</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="essence@5">
+                                <name>自然源质</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="essence@6">
+                                <name>冰之源质</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="essence@7">
+                                <name>雷霆源质</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="essence@8">
+                                <name>生命源质</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="essence@9">
+                                <name>末影源质</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="essence@10">
+                                <name>纯净源质</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="essence@11">
+                                <name>高级源质核心</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="essence@12">
+                                <name>基本源质核心</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="essence@13">
+                                <name>天然源质</name>
+                                <desc>这些物质是天然源质, 它们会作为某些法术配方的部分材料.当这些东西出现时, 确保你的创造者祭坛已经连接了正确的源质类型(查看本书"讲坛"章节,并由颜色来确认),且你已经打开了创造者祭坛上的拉杆. </desc>
+                        </subitem>
+                        <subitem id="essence_bag">
+                                <name>源质手袋</name>
+                                <desc>制作源质手袋用来在冒险时提供额外储物空间.</desc>
+                        </subitem>
+                </item>
+                <item id="runes">
+                        <name>符文</name>
+                        <desc>符文乃法术构筑之基石.将它与许多其他物品以恰当方式组合就能制作出法术卷轴.</desc>
+                        <subitem id="runes@0">
+                                <name>空白符文</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="runes@1">
+                                <name>蓝色符文</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="runes@2">
+                                <name>红色符文</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="runes@3">
+                                <name>黄色符文</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="runes@4">
+                                <name>橙色符文</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="runes@5">
+                                <name>绿色符文</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="runes@6">
+                                <name>紫色符文</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="runes@7">
+                                <name>黑色符文</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="runes@8">
+                                <name>白色符文</name>
+                                <desc></desc>
+                        </subitem>
+                </item>
+                <item id="armorMage">
+                        <name>法师套装Mage Armor</name>
+                        <desc>作为简易袍子的升级版本,法师套装具有更多耐久,更强防护以及更好的魔力回复效果.由于镶嵌了符文,法师套装具有一定的附魔亲和效果.而且,它能够吸取穿戴者的魔力来回复耐久.当你穿着全套法师套装时, 你的魔力回复速度会有所提升,你的法术也会稍微变得更有效一些.</desc>
+                        <subitem id="helmet_mage">
+                                <name>法师头巾</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="chest_mage">
+                                <name>法师长袍</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="legs_mage">
+                                <name>法师护腿</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="boots_mage">
+                                <name>法师靴子</name>
+                                <desc></desc>
+                        </subitem>
+                </item>
+                <item id="armorBattlemage">
+                        <name>战斗法师套装</name>
+                        <desc>仅能装备给那些已经证明自己是真正的大师的巫师,战斗法师套装能够提供强大的防护.相比法师套装它的耐久度更高,但修复速率和附魔亲和却会降低,因此它给法师提供的魔法增益相比法师套装也会更少.战斗法师套装同样可以灌注经验值解锁保护类法术从而给其穿戴着提供援助, 直至护甲内的魔力耗尽.套装的魔力会随着时间推移抽取穿戴者的法力池来回复.</desc>
+                        <subitem id="helmet_battlemage">
+                                <name>战斗法师头箍</name>
+                                <desc>战斗法师头箍在15级后会激发一个水下附魔,当穿戴者处于缺氧状态时会提供一个暂时的水下呼吸buff.这个魔法效果每90秒之内激活一次.</desc>
+                        </subitem>
+                        <subitem id="chest_battlemage">
+                                <name>战斗法师护甲</name>
+                                <desc>使用生命魔法编织的战斗法师护甲能够治愈它的穿戴者.当护甲为24级而你的生命值降到足够低时,你将会获取一个最多持续12秒的重生buff恢复20%的血量.这种效果每4分钟之内激活一次.当46级时最多治愈40%的血量.</desc>
+                        </subitem>
+                        <subitem id="legs_battlemage">
+                                <name>战斗法师护腿Battlemage Leggings</name>
+                                <desc>使用雷霆与火焰之力打造的战斗法师护腿在穿戴的巫师到达20级后能够提升主人的移动速度,这个魔法效果没有冷却限制.</desc>
+                        </subitem>
+                        <subitem id="boots_battlemage">
+                                <name>战斗法师靴子Battlemage Boots</name>
+                                <desc>战斗法师靴子蕴含风的力量,能够减少掉落伤害.5级时增加一格高的掉落距离,15级时允许你翻越一格高的障碍,20级时增加两格高的掉落距离.</desc>
+                        </subitem>
+                </item>
+                <item id="armorArchmage">
+                        <name>大法师套装Archmage Armor</name>
+                        <desc>这种传奇级别的大法师套装是由年长的织魔法师制作. 它拥有无与伦比的防御力, 穿着它的人近乎无懈可击. 最初时的大法师套装要比法师布甲的耐久还要低, 但是你可以给它灌注经验值从而提高它的耐久,并且提升它的保护效果.</desc>
+                        <subitem id="helmet_archmage">
+                                <name>大法师头巾</name>
+                                <desc>大法师头巾附带一个在15级解锁的水下呼吸附魔, 当你的氧气不足时,这个有短时间隔的附魔就会生效. 该效果拥有35秒的内置冷却时间.</desc>
+                        </subitem>
+                        <subitem id="chest_archmage">
+                                <name>大法师袍子</name>
+                                <desc>大法师长袍在编制的时候嵌入了生命魔法,从而使其能恢复一些穿戴着所受的伤害. 一旦护甲等级达到24级, 濒死时你会获得在12秒内恢复40%生命值的恢复效果. 而当等级达到46级的时候则会恢复75%生命. 该效果拥有2分钟内置冷却时间. </desc>
+                        </subitem>
+                        <subitem id="legs_archmage">
+                                <name>大法师护腿</name>
+                                <desc>战斗法师护腿蕴含着雷霆和火的力量. 一旦你到达20级, 在冲刺时你会比平时的速度快的多,而且游泳速度也会更快. 这个增加速度的效果没有冷却时间.</desc>
+                        </subitem>
+                        <subitem id="boots_archmage">
+                                <name>大法师靴子</name>
+                                <desc>大法师靴子蕴含着风的力量. 在等级5时允许你无视1格高的地形而直接踏过去. 等级10的时候, 在你即将坠落到地面的时候会给你施加缓落术来保护你不受坠落伤害. 这一效果有10秒内置冷却时间. 等级25的时候,在空中使用潜行会让你进入滑翔状态,降低你的下坠速率.不过如果没有适当的保护措施的话,你仍然会在着陆时受到坠落伤害.</desc>
+                        </subitem>
+                </item>
+                <item id="affinityTomes">
+                        <name>亲和力宝典</name>
+                        <desc>亲和力宝典包含有魔法师多年来研究的关于特定元素亲和力的细节和信息. 除了亲和力宝典:综述之外, 当你阅读它们的时候, 会提高特有元素10%的亲和力.同时降低所有其他类型元素亲和力10%.</desc>
+                        <subitem id="affinity_tome@0">
+                                <name>亲和力宝典:综述</name>
+                                <desc>亲和力宝典:综述很特殊, 它能解锁一些被锁定的亲和力状态. 它会降低所有元素的亲和力10%,而不是提高它们.</desc>
+                        </subitem>
+                        <subitem id="affinity_tome@1">
+                                <name>亲和力宝典:奥术</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="affinity_tome@2">
+                                <name>亲和力宝典:水</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="affinity_tome@3">
+                                <name>亲和力宝典:火</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="affinity_tome@4">
+                                <name>亲和力宝典:地</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="affinity_tome@5">
+                                <name>亲和力宝典:风</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="affinity_tome@6">
+                                <name>亲和力宝典:雷霆</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="affinity_tome@7">
+                                <name>亲和力宝典:寒冰</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="affinity_tome@8">
+                                <name>亲和力宝典:自然</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="affinity_tome@9">
+                                <name>亲和力宝典:生命</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="affinity_tome@10">
+                                <name>亲和力宝典:末影</name>
+                                <desc></desc>
+                        </subitem>
+                </item>
+                <item id="foci">
+                        <name>核心Foci</name>
+                        <desc>核心是放置在魔法艺术的魔导机器中,用来改变其功能的东西.
+                        <subitem id="chargefocus">
+                                <name>充能核心</name>
+                                <desc>充能核心是用来增加某些魔法艺术魔导机器的充能速率的物品. 在魔力炉和奥术重构台中,它同样也能增加这些机器的执行效率. 在源质中导站中, 充能核心可以降低能量枯竭数值,使其能够传输更多的魔法能量.
+                                </desc>
+                        </subitem>
+                        <subitem id="manafocus">
+                                <name>魔法核心</name>
+                                <desc>魔法核心是用来降低魔法艺术魔导机器操作消耗的物品. 法力赤额会随着时间的推移自然降低.
+                                </desc>
+                        </subitem>
+                        <subitem id="lesserfocus">
+                                <name>次级核心</name>
+                                <desc>次级核心是用在施术台以及施术台符文中的物品. 使施术方块使用弱化施术模式.
+                                </desc>
+                        </subitem>
+                        <subitem id="standardfocus">
+                                <name>标准核心</name>
+                                <desc>标准核心是用在施术台以及施术台符文中的物品. 使施术方块使用普通施术模式.
+                                </desc>
+                        </subitem>
+                        <subitem id="greaterfocus">
+                                <name>卓越核心</name>
+                                <desc>卓越核心是用在施术台以及施术台符文中的物品. 使施术方块使用增强施术模式.
+                                </desc>
+                        </subitem>
+                        <subitem id="item_focus">
+                                <name>物品核心</name>
+                                <desc>物品核心可用在预言家之眼中, 引导其搜索附近地面上的物品.
+                                </desc>
+                        </subitem>
+                        <subitem id="player_focus">
+                                <name>玩家核心</name>
+                                <desc>玩家核心可用在预言家之眼中, 引导其搜索附近的玩家.
+                                </desc>
+                        </subitem>
+                        <subitem id="monster_focus">
+                                <name>怪物核心</name>
+                                <desc>怪物核心可用在预言家之眼中, 引导其搜索附近的怪物(例如僵尸,骷髅等...).
+                                </desc>
+                        </subitem>
+                        <subitem id="creature_focus">
+                                <name>生物核心</name>
+                                <desc>生物核心可用在预言家之眼中, 引导其搜索附近的生物(例如牛,羊等...).
+                                </desc>
+                        </subitem>
+                </item>
+                <item id="chalk">
+                        <name>粉笔Chalk</name>
+                        <desc>粉笔是用来创建不同类型的枢纽,符文和召唤阵.</desc>
+                        <subitem id="white_chalk">
+                                <name>白粉笔</name>
+                                <desc>白色的粉笔常被用来绘制枢纽符文,这是因为人们常把白色和纯洁联系起来.当以恰当结构组合时,白粉笔绘制的符文将能够创建出光明枢纽,这种枢纽能够缓慢吸收周围大气中的源质,并将其转换成浓缩的形式.</desc>
+                        </subitem>
+                        <subitem id="blue_chalk">
+                                <name>蓝粉笔</name>
+                                <desc>蓝粉笔常用来绘制枢纽符文, 这是最接近天然源质的颜色.事实上,任何用蓝粉笔画出的枢纽都会输出中性魔力.</desc>
+                        </subitem>
+                        <subitem id="red_chalk">
+                                <name>红粉笔</name>
+                                <desc>虽然天然源质在红粉笔绘制的枢纽的影响下会生成黑暗和邪恶的元素,但红粉笔仍然在绘制符文枢纽时被使用. 当正确的用红粉笔将符文绘制在适当的结构中后, 其产生的黑暗枢纽几乎能将任何生物拖进它的魔力场内并吸取它们的生命能量.</desc>
+                        </subitem>                        
+                        <subitem id="purple_chalk">
+                                <name>紫粉笔</name>
+                                <desc>紫粉笔常与纯粹的魔法联系起来, 它可以在地上绘制出让附近所有魔法失效的符文, 例如增益魔法或飞行咒语. 这些符文常被战斗法师在魔力枯竭时使用. 这样你也不能用魔法来对抗他们了.</desc>
+                        </subitem>
+                </item>
+                <item id="keystone">
+                        <name>楔石</name>
+                        <desc>楔石是用来互相连接两个星门的东西, 亦或是能限制使用古代魔法的魔导机器(楔石箱子,预言者之眼,星界屏障和楔石插槽.)</desc>
+                </item>
+                <item id="mana_cake">
+                        <name>魔力蛋糕</name>
+                        <desc>魔力蛋糕能在恢复饱食度的同时给予你魔力回复增加的效果!</desc>
+                </item>
+                <item id="spell_staff">
+                        <name>魔杖</name>
+                        <desc>魔杖能嵌入魔法卷轴,这样施法者可以使用法杖充能来取代魔力施放法术. 你仍然需要拥有施法材料才能使用魔法.</desc>
+                        <subitem id="spell_staff_novice">
+                                <name>见习魔杖</name>
+                                <desc>见习魔杖只能够用来施放弱化版本的法术咒语, 但相应的,每次施法法杖消耗的源质也会较少. 它并不具有其他法杖那样多的初始能力. </desc>
+                        </subitem>
+                        <subitem id="spell_staff_journeyman">
+                                <name>学徒魔杖</name>
+                                <desc>使用了升级版核心的学徒魔杖能够用来施放中等威力的法术. 它充能后能施法的次数要比见习魔杖多. 由于制作学徒魔杖时使用了更多的奥术粉末, 因此它的源质储量更大.</desc>
+                        </subitem>
+                        <subitem id="spell_staff_master">
+                                <name>大师魔杖</name>
+                                <desc>大师魔杖能够用来施放真正强大的法术, 这要归功于魔杖顶端镶嵌的卓越核心. 由纯净温特姆粉末制成的大法师魔杖允许其在损坏前引导巨量的魔法源质. </desc>
+                        </subitem>
+                </item>                
+                <item id="mana_potion">
+                        <name>魔力药水</name>
+                        <desc>喝下后可立即回复魔力的药水.  喝下后可以得到一个空瓶. 3瓶相同的魔力药水可以用线捆绑成一束. 捆绑后的魔力药水可以使用3次并且同样会返还空瓶.</desc>
+                        <subitem id="mana_potion_lesser">
+                                <name>次级魔力药水</name>
+                                <desc>次级魔力药水拥有与一杯咖啡一样的神奇功效: 短暂提升魔法值且不会让你一整天都兴奋无比. 每瓶将会恢复100魔力.</desc>
+                        </subitem>
+                        <subitem id="mana_potion_standard">
+                                <name>标准魔力药水</name>
+                                <desc>只需增加少量的材料成本制成的标准魔力药水能比次级魔法药水提供更多的魔力恢复值. 每瓶将会恢复250魔力.</desc>
+                        </subitem>
+                        <subitem id="mana_potion_greater">
+                                <name>卓越魔力药水</name>
+                                <desc>在酿造台中混合了#5温特姆#0与#9粗制的药水#0的力量制成的卓越魔力药水能够恢复不错的魔力. 每瓶将会恢复500魔力.</desc>
+                        </subitem>
+                        <subitem id="mana_potion_epic">
+                                <name>史诗魔力药水</name>
+                                <desc>史诗魔力药水是#9粗制的药水#0结合了#5奥术粉末#0在酿造台中制作出来的药水, 每瓶能恢复1000魔力.</desc>
+                        </subitem>
+                        <subitem id="mana_potion_legendary">
+                                <name>传奇魔力药水</name>
+                                <desc>传奇魔力药水是#9粗制的药水#0结合了纯净温特姆粉末在酿造台中制作出来的药水. 每瓶药水能恢复巨量的2000魔力!</desc>
+                        </subitem>
+                        <subitem id="mana_boost_potion">
+                                <name>蕴魔源质药水</name>
+                                <desc> 魔法师可以将一桶液体源质与精灵石和塔尔玛根混合在一起来制成暂时提高最大魔力值上限的药水. 不幸的是这种处理办法对材料的利用效率很低, 很多液体源质在制作的过程中流失浪费了.</desc>
+                        </subitem>
+                </item>
+                <item id="crystal_wrench">
+                        <name>水晶扳手</name>
+                        <desc>水晶扳手拥有多种功能. 它可以用来引导天然源质通过你的魔力网络. 想要做到这一点, 右键单击第一个你要使用的能量源, 然后点击目的地即可.这样做将会强制将两个不同的能量源配对, 请确保源质的去向与你的想要的相同.记住,如果你强制使不同的源质配对, 就会毁掉目的地中的任何能量源. !page! 水晶扳手同样可以用来显示隐藏的粒子效果发生器. 并且可以通过右键单击来复制它的设置. 复制的设置可以用过右键单击另一个粒子效果发生器粘贴过去. 复制效果是一次性的. 如果你要复制复数个相同发生器的设置, 在每次粘贴后你都要再次复制一次.</desc>
+                </item>
+                <item id="spell_parchment">
+                        <name>法术卷轴</name>
+                        <desc>任何想要不用魔杖或法杖来施法的魔法师都可以把法术绘写成法术卷轴. 这种制作法术卷轴的方式已经流传了千年, 而更让人惊奇的是这几千年来没有发明出来比这更有效的方式.</desc>
+                </item>
+                <item id="crystal_phylactery">
+                        <name>水晶护符</name>
+                        <desc>水晶护符是一个生命吸取和采集的装置. 一个魔法师的物品栏内如果装有这个物品, 那么她在杀死生物的时候就会捕捉被杀生物产生的小块生命源质. 一旦水晶充满了源质, 她就可以用这个护符作为召唤咒语的一部分来召唤一个听从她指令的生物.</desc>
+                </item>
+                <item id="spell_staff_magitech">
+                        <name>魔导魔杖</name>
+                        <desc>魔导魔杖是一种改装版的能够探测环境的魔力的法杖, 可用来感应蕴含魔力的方块内的源质的量.</desc>
+                </item>
+                <item id="spell_book">
+                        <name>法术书</name>
+                        <desc>法术书非常实用,拥有它的巫师能够节约存放卷轴的空间同时整理其学会的法术.装备法术书后可以通过按下X/Z(默认按键)来切换当前激活的法术卷轴,或者也可以按下shift潜行时使用鼠标滚轮来切换法术.法术书可以使用不同颜料染色.而且还能使用一些有用的能量对它们进行#5附魔#0.</desc>
+                </item>
+                <item id="magicbroom">
+                        <name>魔法扫帚</name>
+                        <desc>你已经提取出奥术粉末中的魔力特性并将其与扫帚相融合.为什么要这样呢?你自己亦不完全能确定.你所知的是这种扫帚喜欢保持周围的区域整洁干净,当任何物品掉落在地上时它们会将其捡起来丢进旁边的箱子里.当你制作出这种扫帚后,拿着它右击#5任何有物品栏的方块#0就能将其安附于其上,否则不会有效. 现在它就能为你拾取所有的掉落物品了,尽管之后它还能够进一步设定.</desc>
+                </item>
+        </items>
+        <structures>
+                <structure id="essenceNexus">
+                        <name>源质枢纽</name>#需重新翻译
+                        <controller>TileEntityEssenceNexus</controller>
+                        <desc>被改造成介于光明枢纽与黑暗枢纽之间的特性的源质枢纽, 拥有比光明枢纽更强大的魔力产量,却不会有黑暗枢纽的副作用.如果想要创建中央的符文,首先合成一支#9蓝粉笔#0 ,然后右键单击方块顶部,这样就能够在其上绘制符文!要生成天然源质,它下方至少需要一个静态/流动的液态源质作为能量来源.注意源质不能直接放于枢纽下方一格因为枢纽下方方块被破坏的话也会摧毁枢纽.而只要发现位于其下方的源质(最低可以在其下方10格处),枢纽将持续抽取液态源质来生成天然源质.液态源质最终将被消耗掉,而每个液态源质方块能够产生500点的天然源质,不过这个数字有时会随机上下浮动.如果流动的液体源质方块,将不能够生成天然源质也不会被消耗掉,但它会使得枢纽能够定位到与之相连的静态源质方块.AM2添加了#9錾制石砖#0的合成以适应源质枢纽的材料需求.请查看本书的#9方块#0章节来查看这些合成.它需要至少一个液体源质来源方块在其正下方来作为其能量的来源. 它会不停的消耗液体源质并产生天然源质.</desc>
+                </structure>
+                <structure id="darkNexus">                        
+                        <name>黑暗枢纽</name>
+                        <controller>TileEntityDarkNexus</controller>
+                        <desc>黑暗枢纽是个危险的装置, 它会将活物慢慢地却无法抗拒地拉入枢纽中心.而一旦到达中心, 冤魂将从枢纽法阵中浮现,活物的生命力将会被强制从肉体上撕裂下来. !l如果想要创建中央的符文,首先合成一支#4红粉笔#0,然后右击方块顶部,这样就能够在其上绘制符文.!d黑暗枢纽以生命能量为食, 并以此来产生大量魔法能量. 吸入的生物拥有更多的生命能量, 黑暗枢纽就能够生成更多的魔法能量. 但这些大量生产的魔力并非毫无代价, 黑暗枢纽不仅会迅速污染它所在的区域内,还会带来强大的邪恶力量.它提供的黑暗能量能够使魔导机器运行得更快,但也会使机器长期处于不稳定地滥用状态. </desc>
+                </structure>
+                <structure id="lightNexus">                        
+                        <name>光明枢纽</name>
+                        <controller>TileEntityLightNexus</controller>
+                        <desc>光明枢纽是三种枢纽中最弱的枢纽, 但它却更加易行可靠. !l 如果想要创建中央的符文,需要先合成一支#9白粉笔#0,然后拿着它右击方块顶部,这样就能够在其上绘制符文.!d通过从大气中抽离源质,光明枢纽有助于增加一片区域的纯净度. 它不需要物品或活物的灵魂作为献祭,就能够持续不断却宛如涓涓细流地产生魔法能量.通过将法阵顶部材料替换成金块能够提升它的性能,而替换成钻石块则会让它变得更加强大. 它提供的能量类型让魔导机器运行缓慢, 但却常常带来额外的收益.</desc>
+                </structure>
+                <structure id="gateways">
+                        <name>星门</name>
+                        <controller>TileEntityKeystoneRecepticle</controller>
+                        <desc>星门最初是由黑巫师们创造出来用来突袭白巫师阵营的一种工具. 创造几个这种星门的已知材料里有楔石插槽,它能够用相对较小的力场覆盖一大片地面, 这样就能让黑巫师挤出更多时间来专注于其他事物. 星门默认有效的距离非常短, 更长的距离则会消耗更多魔力. 星门的最大有效范围经测试约为12公里,但要实现这种跨度会消耗巨量的法术能量.</desc>
+                </structure>
+                <structure id="altarOfCreation">
+                        <name>创造者祭坛</name>
+                        <controller>TileEntityCraftingAltar</controller>                        
+                        <desc>
+                       创造者祭坛,掌握着创造之力,能够让法师实现魔法的奇迹.你可以在这里创造所有魔法艺术中的法术. 其结构有两个主要部分可以升级, 顶部以及主要建筑材料. 这两种升级分别会提升可用的魔力或允许其制作更强大的法术. 可用于升级的方块按魔力排序,主要有以下几种:  
+                        !line!
+                        木板(效果 +1)
+                        !line!
+                        石砖(效果 +1)
+                        !line!
+                        沙石(效果 +1)
+                        !line!
+                        砖块(效果 +2)
+                        !line!
+                        地狱砖块(效果 +3)
+                        !line!
+                        下界石英(效果 +3)
+                        !line!
+                        !line!
+                       建筑物顶部方块,效果如下所示:
+                        !line!
+                        玻璃(效果 +1)
+                        !line!
+                        煤块(效果 +2)
+                        !line!
+                        红石块(效果 +3)
+                        !line!
+                        铁块(效果 +4)
+                        !line!
+                        青金石块(效果 +5)
+                        !line!
+                        金块(效果 +6)
+                        !line!
+                        钻石块(效果 +7)
+                        !line!
+                        绿宝石块(效果 +8)
+                        !line!
+                        月亮石块(效果 +9)
+                        !line!
+                        太阳石块(效果 +10)
+                        !line!
+                        !line!
+                        这些提升效果可以叠加, 例如使用木板作为建材,玻璃作为建筑顶端则会拥有最大2的效果提升, 而石砖和红石顶则会拥有最大4的效果提升.目前在单个法术上累计最大效果提升为13.
+                        </desc>
+                </structure>
+                <structure id="inlays">
+                <name>镶嵌</name>
+                <desc>将镶嵌方块放入3X3大小的环状结构中可创建出镶嵌. 全部方块必须处于相同高度(即Y坐标相同),且都必须属于同类镶嵌方块. 当方块上出现符文就可以确认已经创建成功.</desc>
+                </structure>
+        </structures>
+        <mobs>
+                <mob id="MobHecate">
+                        <name>夜魇</name>
+                        <desc>夜魇乃是来自下界的黑暗幽灵. 下界和主世界位面的晶壁偶然衰弱期间,会让夜魇出现在主世界. 夜魇乃是暗杀者-它的移动速度极快并且在攻击时可以隐身. 他们能造成大量伤害, 但是幸好它没有其他方面的能力了. 据说如果你移动的足够缓慢且安静,那么你就可以在没有靠他太近的情况下避免被其发现而绕过他们.</desc>
+                </mob>
+                <mob id="MobManaElemental">
+                        <name>魔力元素</name>
+                        <desc>魔力元素是用天然源质作结合温特姆碎片并以闪电作为骨架而形成的元素生物. 它们的身高通常有3米. 他们使用魔力闪电猛击敌人, 造成少量伤害的同时会偷取被击中目标的魔法值. 偷取的魔法值会回馈给魔力元素并使其恢复等量生命. 他们对物理伤害的抗性极高. 如果元素体本身蕴含的魔力全部耗尽,则魔力元素会自己死亡. /desc>
+                </mob>
+                <mob id="MobManaCreeper">
+                        <name>魔力爬行者</name>
+                        <desc>魔力爬行者是普通爬行者的一个变种, 与普通爬行者的剧烈爆炸不同, 魔力爬行者会爆裂分解为一个魔法漩涡,这个漩涡会吞噬附近的一切魔力. 随着漩涡持续的时间增长它会变得越来越大. 不过幸运的是漩涡不会持续几秒钟. 你拥有的魔法越多,魔力漩涡吸收的就越多, 因此即便是最强大的魔法师也会视其为一个威胁.</desc>
+                </mob>
+                <mob id="MobWisp">
+                        <name>精灵</name>
+                        <desc>小精灵是一种顽皮的元素生物,会在四周飘荡飞行. 它们天生拥有很强的好奇心, 会跟随任何它们感兴趣的事物. 不过它们的注意力很短暂, 很快就会分心忘掉感兴趣的事. 如果它被激怒了,会使用毁灭性的的法术攻击,同时使它的目标致盲.</desc>
+                </mob>
+                <mob id="MobLightMage">
+                        <name>白巫师</name>
+                        <desc>白巫师是白色政务会成员之一.  这是一群致力于研究光明的强大法师. 它们会治疗治疗友善玩家,协助他们对抗minecraft世界的各种敌人. 他们异常厌恶黑巫师.</desc>
+                </mob>
+                <mob id="MobDarkMage">
+                        <name>黑巫师</name>
+                        <desc>黑巫师隶属于黑暗议院. 他们是一群致力于研究可怕而邪恶魔法的施法者. 而强大的同时是要付出代价的. 黑巫师都是被扭曲的人. 他们与不死族(总而言之就是没有"活着"的生物)和爬行者之外的任何生物敌对. 他们会与白巫师战斗.</desc>
+                </mob>
+                <mob id="MobFireElemental">
+                        <name>火之元素</name>
+                        <desc>火之元素由纯粹的火焰构成. 他们极具破坏性,会点燃沿途上的一切. 火之元素仅出没于下界.</desc>
+                </mob>
+                <mob id="MobWaterElemental">
+                        <name>水之元素Water Elemental</name>
+                        <desc>水之元素由纯粹的水构成.它们常出现在水资源丰富的地方. 它们成群结队地出现,并使用水来推开或拉取目标. 它们可以给目标施加水墓术,将毫无防备的目标拖入碎裂的黑暗深渊.</desc>
+                </mob>
+                <mob id="MobAirElemental">
+                        <name>空气元素</name>
+                        <desc>空气元素由纯粹的空气构成. 它们是被动生物, 不过一旦被激怒, 它们将会在目标逃离前将它们卷入狂风并抛向高空.</desc>
+                </mob>
+                <mob id="EarthElemental">
+                        <name>地之元素</name>
+                        <desc>地之元素常在洞穴内沉睡. 他们是被动生物, 并且拥有极高的物理伤害抗性. 结合其极高的生命值, 任何召唤它的人都可以获得一个名副其实的坦克. 它们的攻击会嘲讽目标强制攻击他们. 同时还能将伤害反弹回去.</desc>
+                </mob>                
+                <mob id="MobDryad">
+                        <name>树妖</name>
+                        <desc>树妖是一种爱好和平的生物,常常出现于森林和草原附近. 它们会被树苗吸引,并且会周期性地催生附近的植物.</desc>
+                </mob>
+        </mobs>
+        <bosses>
+                <boss id="BossNatureGuardian">
+                        <name>自然守卫者</name>
+                        <desc>自然守卫者是可怕的敌人,它娴熟而富有技巧地挥舞着致命的镰刀耀武扬威,只有最强大或者愚蠢的家伙才会找上门去.那些遇见过它的幸存者宣称自然守卫者远战即使不比肉搏更出色,也一样危险.!line!推荐挑战等级:60!page!坊间相传当生灵被大量屠戮之时自然守卫者会现身以守卫自然.尽管大自然残酷无情,但它不会容忍肆意屠杀. !line! !line!  警告: !line!这是一种非常难以对付的boss,甚至能击败拥有最好装备的勇者.</desc>
+                </boss>
+                <boss id="BossEarthGuardian">
+                        <name>地之守卫者</name>
+                        <desc>由岩石核心凝结成的地之守卫者能够承受海量的物理伤害,是相当难以对付的敌人.回旋攻击和来自大地自身的力量让它时刻为战斗而准备着.!line!推荐等级:25!page!要召唤地之守卫者,需要搭建一个中间为錾制石砖的3X3大小的黑曜石平台.在黑曜石上方搭建一个铁镶嵌物的环.然后在外沿插上温特姆火把.然后向环中央扔下一块蓝晶石,一块绿宝石和一块精灵石.!line! !line! 一旦召唤仪式完成,地之守卫者将会黏住地表大片的方块,所以足够明智的话最好在你的基地外进行召唤.</desc>
+                </boss>
+                <boss id="BossWaterGuardian">
+                        <name>水之守卫者</name>
+                        <desc>水之守卫者是一种独特的存在.它总是以液体的状态出现,使得它能够摆脱突如其来的袭击.它也非常地狡猾,会藏身于大量替身之中伏击被诱饵愚弄的家伙.!line! 推荐等级:10!page! 若想召唤水之守卫者,需要在任何以水体为主的生态群落搭建一个红石镶嵌物环,然后完成向海难致敬的特殊仪式:雨天向环中扔下一只船以及一个水桶.</desc>
+                </boss>
+                <boss id="BossWinterGuardian">
+                        <name>冬之守卫者</name>
+                        <desc>冬之守卫者是实至名归的冬之化身.身旁盘旋着的凛冽寒风削弱它附近的所有生物,冬之守卫者将会狠揍被冻僵了的敌人,用强力猛击将他们撕裂.!page!想要召唤冬之守卫者,寻找一片被水体包围的地域,在地表搭建一个黄金镶嵌物环,并在环中央搭建一个冬之守卫者的塑像:两块蓝晶石方块上方放置一个冰块.然后在附近制造出三个雪傀儡为召唤仪式提供能量.!line! !line! 这是一种非常难以对付的boss,甚至能击败拥有最好装备的勇者. </desc>
+                </boss>
+                <boss id="BossArcaneGuardian">
+                        <name>奥术守卫者</name>
+                        <desc>奥术守卫者身为古代法师掌握了很多种技能.为斗法而准备的各种攻击法术、增益或负面buff法术,将会成为对你的法术反制知识的巨大考验.被强力的徽记保护的奥术守卫者无论是对付肉搏还是远战都有用同样多的诡计.!page!想要召唤奥术守卫者,需要先搭建名为知识圣地的建筑.这种建筑包含两个三层高的书架,其间的地面上放置一个摆着巫师宝典的讲坛.在该建筑前搭建一个铁镶嵌物环,并向环中央直接扔下奥术源质就能完成召唤仪式.</desc>
+                </boss>
+                <boss id="BossTowerGuardian">
+                        <name>法师塔守卫者</name>
+                        <desc>法师塔守卫是一种古代巫师制造的构装生物.它对物理伤害或者魔法伤害都有很高的抗性,且能自己使用具有毁灭性威力的法术.它的力量不可小觑,但据传如果击败它就能得到巨额的财宝...</desc>
+                </boss>
+                <boss id="BossAirGuardian">
+                        <name>风之守卫者</name>
+                        <desc>风之守卫者是风的化身,擅长使用带击退效果的攻击技能.没有准备一些对掉落伤害的防护就去挑战它的家伙都是蠢蛋.风之守卫者是强大的远程施法者,但它在完成法术的时候需要投入足够的专注...!line!推荐等级:35 !page!想要召唤风之守卫者,需要攀爬到云层之上搭建一个平台(y坐标大于等于150).在平台上搭建一个黄金镶嵌物环,向中央扔下风之源质就可以完成仪式.</desc>
+                </boss>
+                <boss id="BossFireGuardian">
+                        <name>火之守卫者</name>
+                        <desc>火之守卫者是来自下界深处的生物,堪称活生生的地狱.要召唤它,需要在下界搭建一个黄金镶嵌物环,在中心浇入岩浆.向岩浆中扔下水之源质,召唤火之守卫者的传送门就会被开启.需要警告的是,它对那些向它的领域灌水的家伙不会太友善.所以准备好战斗吧!!line!推荐等级: 90</desc>
+                </boss>
+        </bosses>
+        <blocks>
+                <block id="illusionBlock">
+                        <name>幻象方块</name>
+                        <desc>
+                        幻象方块如此真实,以至于你的大脑出于自我防范机制以及常识,会禁止你去穿过它.只有当你开启了真视之眼,确认幻象确实并非真实后,才能给穿过它们来到彼侧.
+                        !line!
+                        "这个就是咯?"
+                        !line!
+                        "不,那是面墙."
+                        !line!
+                        “它可能只是伪装成一面墙.”
+                        !line!
+                        "你不是很擅长找东西,对吧?"
+                        !line!
+                        "我很擅长找墙.看,我又找到了另一面."
+                        </desc>
+                </block>
+                <block id="archmagepodium">
+                        <name>大法师讲坛</name>
+                        <desc>许多巫师在第一眼看到这个讲坛上放置的书册就会给予高度的重视.神秘大法师的研究允许他达到空前绝后的魔法等级.只需阅读这本书你就能学会最高等级的法术.</desc>
+                </block>
+                <block id="essence_refiner_front_idle">
+                        <name>源质提炼机</name>
+                        <desc>源质提炼机消耗#5奥术粉末#0,从日常的物品中提炼名为#5源质#0,代表本源的纯净精华物质.特殊源质的配方可以在#9物品 -> 源质#0的条目下查看.源质提炼机还需要一种被称为#2天然源质#的能量才能驱动.%9光明枢纽#0能够提供这种能量,虽然极其缓慢,但它不仅有几率节约材料还有几率额外产出.中性的天然源质还能通过#9中立枢纽#0或者#9魔力电池#0获得,但它们在没有效率缓慢的缺点外也都吗没有特殊的额外增益效果. 而黑暗的天然源质可以通过#9黑暗枢纽#0得到,虽然效率很高,但会使得设备出现#4法力赤额#0.ui中的旋转的环在源质提炼开始到完成的过程中会从蓝变紫.而圆环变成红色则说明供能不足,此时提炼过程会被暂停.</desc>
+                </block>
+                <block id="essenceconduit">
+                        <name>魔力中导站</name>
+                        <desc>用粉尘灌注魔力来引导空气中的天然源质,魔力中导站自发明伊始就开始被大量地使用.然后,引导魔力经常会使得水晶中出现被称为 #4法力赤额#0的微小虚空.如果这种情况未被恰当地应对,这种魔力的虚空将会消耗经过中导站的天然源质,使得魔力运输网络中消耗的源质比正常增多.</desc>
+                </block>
+                <block id="crystalpillar">
+                        <name>水晶柱</name>
+                        <desc>水晶柱最初的设计目的是用以提升魔力中导站,但研究者随后发现它能够引导散失源质的特性.这种材料虽然并不具备传递足够能量的传导性能,但却能够阻止魔力虚空形成.因此稍微改良后这种水晶便能够向魔力虚空中直接注入区域内的残余魔力,使其保持稳定从而防止魔力中导站内的温特姆水晶产生法力赤额.</desc>
+                </block>
+                <block id="blockcaster">
+                        <name>施术台</name>
+                        <desc>法术无外乎被引导的源质.施法者的意志决定了源质做什么,而如果已经汇聚了足够的源质,魔法就能够施展出来.施术台被设计成能够复制这种能量,通过法术核心(或者有时也用法力核心)导引,将天然的源质转换成魔力流并通过特定的法术卷轴将其构筑成法术.由于某些法术需要额外汇聚源质,因此水晶内还需要放置充能核心来汇聚充足的源质.而其他格子里放置的法力核心能够让内部的源质流转得更有效率.</desc>
+                </block>
+                <block id="blockseerstone">
+                        <name>预言家之眼</name>
+                        <desc>预言家之眼,操作原理类似星界屏障—通过法术核心使用源质灵气来侦测附近的物品.通过汇聚源质可以控制它侦测特定类型的对象,而使用楔石则能够指定源质的共振频率.若没有使用楔石,共振频率将难以预知且不能豁免任何对象.然而预言家之眼还有更加微妙的用途,它发出的微弱信号常常能激活更加强大的防御措施.潜行接近并激活预言家之眼(若操作者拥有正确组合的楔石)会使得它反转探测对象,探测与楔石组合匹配的对象(默认是豁免这些对象).</desc>
+                </block>
+                <block id="blockastralbarrier">
+                        <name>星界屏障</name>
+                        <desc>漫步虚空,必觉屏障.通过法术核心发出一个源质灵气场,这些屏障按照楔石设置的频率与特定的魔法频率共鸣.若没有携带合适的与之匹配的楔石,就会被它们破掉法术跌落出虚空.如果星界屏障没有装楔石,则它的魔法频率就不可预知,此时任何楔石都不能豁免它的阻挡效果.一些黑巫师的失败突袭,以及一些白巫师的意外被捕,都归咎于未能及时发现屏障.</desc>
+                </block>
+                <block id="blockkeystonerecepticle">
+                        <name>楔石插槽</name>
+                        <desc>并非所有法师都能够以漫步虚空作为旅行方式,也不是所有法师都愿意这样做.虚空是可以被探知,被阻挡的.星门最初是黑巫师在战争中发展起来的一种新技术,它可以通过扭曲交替路径来直达目的地,用于突袭很多白巫师营地.星界屏障也无力阻挡黑巫师的到来,而作为目的地的星门自身并不需要消耗能量.白巫师尽可能多地摧毁他们能找到的星门,但黑巫师们仅仅只需要一座就能成功突袭.唯一的希望是:一位名为Damien Callitri的年轻白巫师发现,如果于星门机制中合适位置的一种设计缺陷造成的裂隙中插入楔石,就能锁定星门,并使得这个星门将黑巫师传送到不同的星门去(如果当前没有其他星门存在就不会被锁定).这完全阻绝了黑巫师的偷袭,并且使得白巫师按他们的喜好引导了这项研究的潮流,他们运用星门网络来返回楔石标记的星门.而这道设计缺陷造成的裂隙在白巫师中被玩笑般地称为了"楔石插槽".</desc>
+                </block>
+                <block id="ore_vinteum">
+                        <name>温特姆矿石</name>
+                        <desc>温特姆矿石发现于白巫师与黑巫师的一场鏖战之中,那时一道打偏的奥术飞弹撞上了末影飞弹.它们产生的爆炸造成了一个数米深的坑洞,坑底闪烁的蓝色矿石在午后的日光中隐隐放光.它本身并无魔法特性,但加热后会变成一种具有特异的源质传导能力的细粉.因此,它被广泛用于全世界的魔法装置.</desc>
+                </block>
+                <block id="mana_battery">
+                        <name>魔力电池</name>
+                        <desc>进一步吸收了温特姆粉末传导源质的能力,一小撮天赋异禀的法师制作出一种以黄金和铁为框架,能够储存大量源质的设备.铁和黄金的比率使得任何存储进这种电池的能量都被极化,以移除其光明或者黑暗的效果.</desc>
+                </block>
+                <block id="blue_orchid">
+                        <name>万代兰</name>
+                        <desc>万代兰生长于苍翠繁茂的绿色环境之中.它是最早被发现的魔法植物,用于药水膏剂之中.万代兰周围散发出闪烁的微光,不仅常被用作装饰,也是重要的炼金材料.它发现后不久,便被注意到能够用于温特姆粉末的提纯.坊间传闻,万代兰生长之处,常常离精灵出没之地不远.</desc>
+                </block>
+                <block id="desert_nova">
+                        <name>沙漠新星</name>
+                        <desc>沙漠新星生长在干燥环境中.它们因周期性地喷发出魔力冲击而得名.沙漠新星是一种具有非凡魔法特性的沙漠植物,广受好评.它也是用于温特姆粉末提纯的两种魔法植物之一.</desc>
+                </block>
+                <block id="keystonechest">
+                        <name>楔石箱子</name>
+                        <desc>楔石箱子是一门作为魔法锁箱方法而发展起来的技术.当楔石插入内置格子中,为了开启这个箱子,必须持有与之匹配的楔石.通过将这块楔石插入外置锁孔中,箱子就能开启.如果唯有插入楔石,则箱子可以正常开启.
+                        !line!
+                        !line!
+                        *只需手持楔石右击即可.</desc>
+                </block>
+                <block id="magicWall">
+                        <name>魔力屏障Magic Wall</name>
+                        <desc>作为研发幻象方块时的早期尝试之一,魔力屏障并无将自己混淆于周遭环境的能力,甚至无力阻止人们看穿它们.它的价值直到大法师Leonidus苛责我们的努力,第一次走向它之后才体现出来.那时我们起码知道它能够阻挡能量通过.但当大法师扔出的火球被弹回来点着了他的胡子后,我们知道了它能够胜任防护建材.</desc>
+                </block>
+                <block id="arcanereconstructor">
+                        <name>奥术重构台</name>
+                        <desc>魔法能够以美好结局来做成任何事情.通过引导天然源质作用于那些平凡物品的脆弱之处,源质能够稳固并修复器内在的损伤,使其焕然一新.</desc>
+                </block>
+                <block id="lectern">
+                        <name>讲坛</name>
+                        <desc>任何有组织的法师的必备物.讲坛可以用来易拿易取地放置书籍,巫师宝典或者魔导手册.书被摊开放置,这样不需要把书拿下来就能很方便地阅读它.它同样还是合成祭坛的重要组成部分,因为法术构筑确实需要有组织一些.</desc>
+                </block>
+                <block id="occulus">
+                        <name>全知之眼</name>
+                        <desc>全知之眼,一扇通往亿万星辰的星门,能够向你展现内心最深处的自我.在它这里你可以花费技能点解锁法术构型,法术成分,法术调剂.共有三类技能点,能够通过探索地牢等野外建筑以及召唤仪式等获得.学会技能后,相连的可解锁技能会亮起来.蓝色技能点最常见,其次是绿色,最罕见的是红色.</desc>
+                </block>
+                <block id="nullmagicblock">
+                        <name>禁魔符文</name>
+                        <desc>禁魔符文能够使得其有效半径内的所有魔法效果失效.包括buff效果以及投射物法术.</desc>
+                </block>
+                <block id="calefactor">
+                        <name>魔力炉</name>
+                        <desc>魔力炉,一种魔法熔炉,能够在熔炼物品时额外产生温特姆粉末.提供不同类型的燃料其性能也不尽相同.!d 光明枢纽能量: !l熔炼速度缓慢,但有几率双倍产率.!d 中立枢纽能量: !l标准性能.!d 黑暗枢纽能量: !l熔炼速度极块,但有5%几率烧坏物品. </desc>
+                </block>
+                <block id="inscriptionTable">
+                        <name>符文拓印台</name>
+                        <desc>组织性对于任何想要成功的施法者所必须的.通过这张放着笔记书册的桌子,你能够使用不可思议的能量编写各种法术.多数法师会把已经学会的法术组件放在桌面上方,并将其拖拽到桌面下方区域来构建法术.如果对当前组合出的法术满意,可以将其抄写在书册中(你确实有记得放置一本可书写的书,对吗？).这本书可以放置在合成祭坛的讲坛上,并指导法术构建过程.这本书册本书也有阅读价值,它包含了你创建法术的目录,材料列表以及亲和力类别.</desc>
+                </block>
+                <block id="particleEmitter">
+                        <name>粒子效果发生器</name>
+                        <desc>粒子效果发生器作为一个纯粹的装饰方块可用于各种地方来营造魔幻的气氛.可以右键发生器来自定义其设置,而且还能设置它隐形.当设为隐形后,在其附近拿出水晶扳手就能使其再次显形.拿着水晶扳手右击发生器能够复制它的设置.此后右击其他发生器就能以相同参数设置它们.</desc>
+                </block>
+                <block id="aum">
+                        <name>全知草</name>
+                        <desc></desc>
+                </block>
+                <block id="tarmaroot">
+                        <name>塔尔玛根</name>
+                        <desc></desc>
+                </block>
+                <block id="wakebloom">
+                        <name>觉苏草</name>
+                        <desc></desc>
+                </block>
+                <block id="summoner">
+                        <name>召唤站</name>
+                        <desc>召唤站进一步利用源质来召唤生物并会激活红石信号.召唤和维持召唤物存在都需要高昂的消耗.当驱散召唤生物或者召唤生物被杀死后,需要一个短暂的冷却时间过去后才能再次召唤.</desc>
+                </block>
+                <block id="inlays">
+                        <name>镶嵌物Inlays</name>
+                        <desc>镶嵌物是一种用作装饰或者放置在合适的平台上召唤boss生物(相关部分见建筑物条目)的符文.有数种不同的镶嵌物.</desc>
+                        <subitem id="redstone_inlay">
+                                <name>红石镶嵌物</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="iron_inlay">
+                                <name>黑铁镶嵌物</name>
+                                <desc></desc>
+                        </subitem>
+                        <subitem id="gold_inlay">
+                                <name>黄金镶嵌物</name>
+                                <desc></desc>
+                        </subitem>
+                </block>                              
+     <block id="saplingWitchwood">
+                <name>巫魂树树苗</name>
+                <desc>巫魂树树苗可以在修减巫魂树枝叶时得到.它们可以人工种植但需要在生长位置的一格内或者下方提供液态源质(x/z +/- 1, y-1).附近的液态源质越多,树苗生长得越快.但即使供应允许最多的八格液态源质,其生长时间依然至关重要.当巫魂树苗长大时,附近也会长出一些全知草.</desc>
+    </block>
+    <block id="altarOfCreation">
+                <name>创造者祭坛</name>
+                <desc>创造者祭坛,掌握着创造之力,能够让法师实现魔法的奇迹.这里是你创造所有属于你的AM2法术的地方.合成祭坛同时也是一种#9多方块结构#0的组件.
+                </desc>
+    </block>
+    <block id="magiciansWorkbench">
+                <name>巫师工作台</name>
+                <desc>巫师工作台这项发明的必要性起源于法师试图制造大量物品.然后,某位法师厌倦了每次忘记合成材料时都必须清理掉合成网格,必须跑向箱子时还常常会掉落所有已经放置的合成材料.这种新的工作台#5拥有多个合成网格#0是的你可以同时合成多个物品.同时它还能记录之前使用过的合成(最多记录最近的8个)并且能够一键自动排列保存好的合成表,只需在#5内部储物栏#0中放置好需要的材料即可.你还可以升级巫师工作台,使其附带的额外合成网格从2X2变成3X3大小.</desc>
+    </block>
+    <block id="everstone">
+                <name>不灭石</name>
+                <desc>不灭石是一种类似#5幻象方块#0那样能够模拟其它方块,灌注了魔力的方块.然后,被挖下来的时候,它#9不会掉落,而是暂时虚像化#0,过一段时间又会重新回到原来的状态.当不灭石处于非实体状态时,能允许生物或者物品通过,就好像它在的位置空无一物一样.想要让不灭石模拟某种方块,只需要手持这种方块右击它即可.如果它当前没有模拟某种方块,就会被设置成模拟这种新方块.只需要拿着#5水晶扳手#0右击拟态的不灭石就能移除伪装,而右击没有伪装过的不灭石则可以使得它像普通方块那样掉落以便回收.</desc>
+    </block>
+    <block id="magic_sigil_glossary">
+                <name>魔法徽记</name>
+                <desc>魔法徽记乃AM2中利用魔力的自动化实现.所有徽记的基础内容是 #9徽记底座#0.#5徽记#0可以安装在底座上来发挥特殊功能.一个底座上最多能安装3个徽记.你可以查看每一个徽记的合成表以及功能.</desc>
+                <subitem id="magic_sigil">
+                        <name>徽记底座</name>
+                        <desc>徽记底座是所有徽记相关内容的起点.用它来指定所有徽记效果的中心位置,并且指定应用什么样的#5徽记#0. 放好徽记底座,拿着任意徽记右击即可安装徽记.一个底座上能够安装多次徽记,最多能安装3个.</desc>
+                </subitem>
+                <subitem id="sigilstone@1">
+                        <name>和风细雨徽记</name>
+                        <desc>和风细雨徽记能够在距离徽记底座范围4格内制造局部降雨,#5无须水源便能湿润泥土#0.</desc>
+                </subitem>
+                <subitem id="sigilstone@2">
+                        <name>自然的馈赠徽记</name>
+                        <desc>自然的馈赠徽记能够让以徽记底座中心4格范围内的#5所有植物生长速度加快#0.</desc>
+                </subitem>
+                <subitem id="sigilstone@4">
+                        <name>倒下的橡木徽记</name>
+                        <desc>倒下的橡木徽记能够#5周期性自动砍伐#0徽记底座4格范围内的树木.</desc>
+                </subitem>
+                <subitem id="sigilstone@8">
+                        <name>大地平坦徽记</name>
+                        <desc>大地平坦徽记能够#9从徽记底座下方的箱子中抽取方块#0并用来铺平徽记底座中心4格内的区域.在底座或者其上4格的高度的方块则均被挖开.</desc>
+                </subitem>
+                <subitem id="sigilstone@16">
+                        <name>屠宰场徽记</name>
+                        <desc>当屠宰场徽记监测到底座中心范围4格内的同种动物超过两只就开始屠宰动物.</desc>
+                </subitem>
+                <subitem id="sigilstone@32">
+                        <name>后裔徽记</name>
+                        <desc>后裔徽记会周期性的让底座中心4格范围内的生物繁殖后代.</desc>
+                </subitem>
+                <subitem id="sigilstone@64">
+                        <name>蕴含徽记</name>
+                        <desc>蕴含徽记能够在距离底座中心4格位置竖起任何非玩家的实体都不能离开的隐形墙壁.这些实体能够进入该区域,但会被困住无法离开.如果和#5禁制徽记#0效果叠加,则能够制造双向的屏障.</desc>
+                </subitem>
+                <subitem id="sigilstone@128">
+                        <name>禁制徽记</name>
+                        <desc>禁制徽记能够在距离底座中心4格位置竖起任何非玩家的实体都不能进入的隐形墙壁.已经进去的实体能够离开该区域,但会被挡住无法进入.如果和#5蕴含徽记#0效果叠加,则能够制造双向的屏障.</desc>
+                </subitem>
+    </block>
+        </blocks>
+        <mechanics>
+                <mechanic id="affinity">
+                        <name>亲和力</name>
+                        <desc>亲和力是对某种领域的魔法的亲和度的体现.亲和力并非天然属性.你的亲和力属性将会在HUD中以小图标显示,并且可以在全知之眼(可合成)中详细查看. 你的亲和力会随着施法而变化,这意味着若你经常偏向于施展某种法术,你就会变得越发地擅长使用它们.
+                        施展不同属性的法术也会随着你亲和力不同而变化.当你对某种法术亲和力达到了100%,你将会被锁定为对这种法术亲和,除非施放大量相反属性的法术或者阅读相反属性的亲和力宝典才能解锁,而这之后亲和力又会像以往那样随着法术施展而加强.解锁对某种法术的圆满亲和力会使得亲和力程度下降到80%.
+                        每种法术成分均对应有亲和力属性.使用和你自身亲和力相符合的法术消耗更少魔力,甚至可以无需消耗施法材料,其程度取决于你的亲和度(你对某种法术亲和的程度).但施展与自身亲和力属性相抵触的法术类型则意味着更多的魔力消耗,甚至需要消耗额外的施法材料,这同样也取决于你的亲和度.亲和力能够提供不同的增益以及副作用,详见本宝典讲述亲和力特点的章节.                 
+                        </desc>
+                        <subitem id="earth_affinity">
+                                <name>地之亲和力</name>
+                                <desc>
+                                由于地之亲和力能够强化皮肤,因此会略微增强防御力.满亲和度时,你所受到的所有伤害都会降低10%,且它的结算先于护甲.伤害减少的量取决于亲和度,在高于25%时开始生效.
+                                !line!
+                                地之亲和力令你骨骼沉重,会更快地沉入水中(不论水多浅也浮不起来),且掉落伤害的判定高度也会降低.
+                                </desc>
+                        </subitem>
+                <subitem id="water_affinity">
+                                <name>水之亲和力</name>
+                                <desc>
+                                水之亲和力会增加你的游泳速度并使你能在水下呼吸的消耗减少.你也不会被流水推动.末影人攻击满水之亲和程度的巫师会受到伤害,就像它们碰到了水一样.
+                                !line!
+                                拥有水之亲和力的巫师靠近火焰时会周期性地受到伤害,这使得下界变得更为危险.该伤害不会使你的血量低于75%,同样,当你的血量低于该数值时它也根本不会发生.
+                                </desc>
+                        </subitem>
+                        <subitem id="air_affinity">
+                                <name>风之亲和力</name>
+                                <desc>
+                                风之亲和力能够增强你的弹跳力并减少掉落伤害判定高度.其增幅取决于亲和度,在50%亲和度时你能够跳得比平时高一格,同时掉落伤害的判定高度也会减小一格.这些增益在亲和度达到75%时会上升至2,在满亲和度下则增加到3.
+                                !line!
+                                下雨或风暴时会削弱风之亲和力的巫师;呼啸盘旋的风让你举步维艰.
+                                </desc>
+                        </subitem>
+                        <subitem id="fire_affinity">
+                                <name>火之亲和力Fire Affinity</name>
+                                <desc>
+                                火之亲和力尽管不能使你完全免疫,但却能够减免火焰和岩浆带来的灼烧伤害.保护强度直接取决于亲和程度,在满亲和度时将能够减免60%灼烧伤害,并在徒手捶打敌人时将他们点燃.
+                                !line!
+                                一旦你的火焰亲和达到了50%,你在接触水源时会周期性得受到伤害.当你血量低于75%时,此副作用不再发生.
+                                </desc>
+                        </subitem>
+                        <subitem id="nature_affinity">
+                                <name>自然亲和力</name>
+                                <desc>自然亲和力使得你在收获时能够额外的种子和树苗.亲和度达到50%时,你会获得荆棘buff,反伤攻击你的肉搏者.(类似于同名护甲附魔)反伤数值在亲合度分别达到75%和100%时会进一步提升.满自然亲和度时,阳光能够使你缓慢地回复饥饿度.你还能够生出根须,宛如蜘蛛那样在一些表面爬行.
+                                !line!
+                                拥有自然亲和力会因为脚底的根须使得移动速度稍微减慢.满亲和程度时,夜晚和黑暗区域内你常常很快便饥肠辘辘.
+                                </desc>
+                        </subitem>
+                        <subitem id="ice_affinity">
+                                <name>寒冰亲和力</name>
+                                <desc>
+                                寒冰亲和力令你的攻击带有减速效果,亲和度超过50%可以让水结冰,满亲和度时可以将岩浆变成黑曜石.
+                                !line!
+                                由于其冷血体质,除非是在冰面或者水上,冰巫师移动速度会比常人略微缓慢.
+                                </desc>
+                        </subitem>
+                        <subitem id="lightning_affinity">
+                                <name>雷霆亲和力</name>
+                                <desc>雷霆亲和力会使你跑得更快.速度增幅直接取决于你的亲和度,范围从1%~30%.亲和度达到50%时,你将获得自动翻阅一格高的障碍的能力.
+                                 !line!
+                                 不幸的是,由于你的亲和力属性某种程度上你就好比一根避雷针(亲和程度≥50%时).因此在雨天和风暴中你最好找个地方避雨.闪电依然会使你受伤. Lightning bolts still hurt.
+                                </desc>
+                        </subitem>
+                        <subitem id="life_affinity">
+                                <name>生命亲和力</name>
+                                <desc>生命亲和力会使你略微增幅生命回复速度.回复速率增幅直接取决于你的亲和度.此额外回复无关饥饿度.
+                                !line!
+                                由于与生命的亲密关系,你在杀生后会有一段时间感觉不适和恶心.
+                                </desc>
+                        </subitem>
+                        <subitem id="arcane_affinity">
+                                <name>奥术亲和力</name>
+                                <desc>
+                                奥术亲和力可以使得所有法术的魔力消耗减少5%,在满亲和度时有几率获得下一次施法零魔耗的效果.
+                                !line!
+                                而不好的一面是,任意法术类型的攻击均会对你造成更高的伤害.
+                                </desc>
+                        </subitem>
+                        <subitem id="ender_affinity">
+                                <name>末影亲和力</name>
+                                <desc>
+                                50%亲和度时,末影亲和力能够给予你毒素抗性;75%亲和度时,能够在黑暗区域中自动获得夜视buff;而在满亲和度时,末影人将不会主动攻击你,除非你去先招惹它们.
+                                !line!囿于暗属性的体质,在阳光下你的最大生命值会减少.满亲和度时,即使在水下微弱的光照中也会这样!
+                                </desc>
+                        </subitem>                        
+                </mechanic>
+                <mechanic id="spellCreation">
+                        <name>法术构筑</name>
+                        <desc>构筑法术虽然需要耗费大量时间,但却并不复杂.首先,用全知之眼学习一些零碎的法术.下一步,将你想要用来创造的法术置于符文拓印台.将符文拓印台中的书放在你的构建祭台之上,并投放空白符文.这本书将指引你进行生下来的操作步骤,并告知你需要什么.当在构筑法术过程中需要源质时,使用水晶扳手可以按需改变所需源质类型,而后在多方块结构中将其翻转.这个结构将会吸取足够能量,然后会自动拉下拉杆.若你的法术创建完毕之后,装备它并点击其名称来设置其图标位置.一旦你正确完成了上述步骤,这个法术就能够使用了!否则它只会在你要召唤的时候于自定义UI里重新显示.</desc>
+                </mechanic>
+                <mechanic id="infusion">
+                        <name>魔力灌注</name>
+                        <desc>魔力灌注指AM中的装备从你的法力池中抽取法力修复自身的机制.由于存在这种机制,AM中的装备普遍耐久不高,不适合持久战斗.脱下装备将使得魔力灌注过程中断——必须装备上才能使得这个机制正常发挥作用.如果装备并无破损,则不会抽取法力.</desc>
+                </mechanic>                
+                <mechanic id="mana">
+                        <name>法力</name>
+                        <desc>法力表示你的魔法能量等级.随着魔法等级提升你将获得更多的法力.法力随着时间流逝会自己回复,但你可以通过食用魔法蛋糕来获取加速回复效果,或者站在枢纽附近,可以获得10%的法力回复增幅.在HUD界面中,法力用蓝条表示.而物品栏界面中显示的法力数字可以开启或关闭(默认按键:O),这样不至于和其他使用这个位置的模组(比如NEI)发生冲突.</desc>
+                </mechanic>
+                <mechanic id="magicLevel">
+                        <name>魔法等级</name>
+                        <desc>魔法等级彰显你作为法师的水平.当你的魔法等级提高后,你的魔力以及施法冷却条也会提高.魔法等级通过积累有效施法次数来提升.有效施法指的是对成功对合理对象施展的法术,这意味着对着一堵墙连续一小时施展火球术无法提高你的魔法等级.某些组合法术有效施展后能够罕见地提高更多的魔法经验来让你快速升级.  你的魔法等级将会在HUD中以蓝色数字显示.</desc>
+                </mechanic>
+                <mechanic id="burnout">
+                        <name>施法疲劳</name>
+                        <desc>施法疲劳会影响你施展法术时消耗魔力的多少.施法疲劳越高,施展法术需要消耗的魔力就越多.施展越强力的法术,造成的施法疲劳就越多.随着时间流逝施法疲劳会自然回复.取得更高的魔法等级能够让你拥有更高的施法疲劳上限,从而让你能够在完全疲惫前施放出更多法术.在HUD界面中你的施法疲劳显示为一个红色的条.</desc>
+                </mechanic>
+                <mechanic id="rituals">
+                        <name>召唤仪式</name>
+                        <desc>召唤仪式用于召唤AM世界中存在的那些boss.阅读《巫法宝典》涉及boss的页面来查看每个boss的特定召唤仪式.</desc>
+                </mechanic>
+                <mechanic id="moonstone_meteors">
+                        <name>月亮石流星</name>
+                        <desc>夜晚,有时一些流星会陨落到主世界的大地上,这是获得月亮石的唯一途径.满月时该事件几率会上升.流星总是出现在玩家附近32格范围内,并且总会掉落在生态群落的地表.这意味着除非你用草地修建房子,否则流星不可能砸坏你的家.如果你确实选择用草地去修房子,那你让我如何吐槽你呢?难道你没读过《三只小猪》的故事?</desc>
+                </mechanic>
+        </mechanics>
+        <guides>
+                <guide id="introToArsMagica" order="1">
+                        <name>前言</name
+                        <desc>魔法艺术(Ars Magica,以下简称AM)是我第一次尝试模组制作.在魔法艺术2发布前我已经从事软件开发11年,但从未尝试过游戏设计.我热爱minecraft这款游戏,也感觉它能够成为一个打造魔法世界的完美平台.于是我开始尝试,而谁又料想到我是如此地享受这个过程呢?我已花费了数百小时来开发AM1以及AM2.通过一些优秀的教程以及一点点运气,我总算学会了如何来制作AM1.而今我已更熟悉我学会的这些内容,解决若干问题(同时可能引入双倍多的新问题)并且制作出了AM2.我希望在这里感谢所有帮助我完成这款模组,让它得以像今天这样发布的人-我的beta版本测试者以及所有帮助过编程,建模,绘制贴图的人-没有你们这一切没有可能!而你们呢,亲爱的玩家们,我希望你们能够充分享受到这款模组的乐趣,就像我制作它时的那种快乐. !line! !line! 请开心地玩吧! !line! ~Mithion</desc>
+                </guide>
+                <guide id="theAMUI" order="2">
+                        <name>魔法艺术UI</name>
+                        <desc>得到这本巫师宝典的同时你将解锁奥术魔法的能力.你的AM2HUD界面已经激活.你可以输入"/amuicfg"来配置UI,这会使得大部分UI界面可以自由拖拽到不同位置.当调整到你觉得合适的位置后可以按下ESC来保存它们.</desc>
+                </guide>
+                <guide id="spellComponents101" order="3">
+                        <name>法术构筑入门</name
+                        <desc>法术是由法术构型,法术成分和法术调剂构筑的.法术构型决定法术作用何种目标,法术成分决定法术对目标产生何种影响,而法术调剂则会对法术的特定部分产生影响.在一个法术中只能出现唯一的法术构型.法术构型可以在法术创造阶段被连接到一起,例如,"范围抛射(Projectile AoE)".法术成分可以在每一次法术阶段被加入.至于法术调剂,每阶段可以对法术的单一特征进行三次调整.意思就是,如果你对法术的多个特征使用调剂,它们会锁定那些在总调整次数等于三的法术构型上的修改了相同特征的法术.这本宝典中只会显示你已掌握或可以掌握的法术构型,法术成分和法术调剂.</desc>
+                </guide>
+                <guide id="yourFirstSpell" order="4">
+                        <name>第一个法术</name>
+                        <desc>要构筑法术,你需要先制作出全知之眼,并起码解锁一种法术构型与法术成分.你在初始时获得的三个蓝色技能点能够帮你达成这个要求.然后,你可以制作一本可编写的书并打开你的符文拓印台.将书册置于桌面上,并将你需要的构筑法术用的部件从顶部的灰色区域拖拽到底部的灰色区域,然后将其抄写到书册中.当合完毕后,前往创造者祭坛,将包含了法术配方的书册放在讲坛上.向祭坛中央扔下一块空白符文石,之后将会按照书册中的提示开始法术构筑过程.这本书册包含了法术配方的纵览,施法材料的列表以及亲和力属性,本身也值得一读.注意特定类型的创造者祭坛只能用来构筑合适威力的法术.强行构筑更高威力的法术会法术不好的事情.你可以查看创造者祭坛条目来阅读详细信息.</desc>
+                </guide>        
+                <guide id="gainingMagicLevels" order="5">
+                        <name>提升魔法等级</name>
+                        <desc>你可以通过使用魔法来提升魔法等级.如果施法失败将无法获得魔法熟练度,而且有一个获取熟练度递减的冷却,所以不断的反复使用魔法并不会获得很多熟练度.使用魔法也可以增加你的魔法亲和力.查看#5机制->亲和力#0获取更多信息.</desc>
+                </guide>
+                <guide id="unlockingPowers" order="6">
+                        <name>获取技能点</name>
+                        <desc>你获取技能点的主要方式是升级.每升一级,你将获得一点技能点.在2-20级奖励蓝色技能点,22-40级奖励绿色技能点,42-50级奖励红色技能点.额外的技能点可以通过挑战BOSS,与村民交易以及探索研究来获取.你来选择如何做这件事.</desc>
+                </guide>
+                <guide id="dungeonsAndExploring" order="7">
+                        <name>地牢探索</name>
+                        <desc>传闻古代法师的建筑曾经遍布全世界,内藏凶险又无处不在.然而,由于岁月的摧残,它们远不如夕日常见.AM2和"更好地牢模组(Better Dungeons)"有特别的交集内容,因此若你安装了此模组,将会出现可供探索与发行特殊AM地牢.</desc>
+                </guide>
+                <guide id="essenceAllAround" order="8">
+                        <name>源质系统</name>
+                        <desc>AM内建了一套名为源质的独特能量系统.通过枢纽可以收集源质.而枢纽能够将能量传递给10格内的魔力设备.若希望扩展枢纽传递能量的范围,可以放置魔导中转站,魔力传递可以从中转位置算起再拓展10格.中转站会渐渐损坏以至于无法传递如此多的能量.中转站会逐渐发热变红,开始冒烟,损坏得极为厉害时甚至会发生爆炸.可以通过向中转站中插入充能核心或者魔力核心来减轻法力赤额,如果还不够的话可以在中转站旁边放置水晶柱.详细信息可以查阅中转站章节.
+                        </desc>
+                </guide>
+                <guide id="powerTypes" order="9">
+                        <name>枢纽类型</name>
+                        <desc>共有三种枢纽和三种源质.分别为光明枢纽,中立枢纽,以及黑暗枢纽.查看其结构来修建改造它们吧. 每种枢纽都以不尽相同的方式影响魔力设备,各有优劣.在制作法术时,由于某些法术构型,法术成分和法术调剂需要不同类型的源质,因此你需要建造出全部类型的枢纽.</desc>
+                </guide>
+        </guides>
+</compendium>
