@@ -93,6 +93,16 @@ item.arsmagica2:whiteRune.name=Weiße Rune
 item.arsmagica2:infinityOrb.name=Unendlichkeitsorb
 item.arsmagica2:debugRune.name=Rune des Debugging
 item.arsmagica2:unknownRune.name=Unbekannte Rune
+item.arsmagica2:sigil_base=Siegel %s
+item.arsmagica2:sigil_gentlerains=des Freundlichen Regens
+item.arsmagica2:sigil_naturesbounty=der Fülle der Natur
+item.arsmagica2:sigil_felledoak=der gefällten Eiche
+item.arsmagica2:sigil_flatlands=des Flachen Landes
+item.arsmagica2:sigil_butchery=des Abschlachtens
+item.arsmagica2:sigil_progeny=der Nachkommenschaft
+item.arsmagica2:sigil_containment=des Behaltens
+item.arsmagica2:sigil_interdiction=des Verbots
+item.arsmagica2:magic_broom.name=des Magischen Besens
 
 #blocks
 tile.arsmagica2:essence_refiner.name=Essenzraffinierer
@@ -141,6 +151,10 @@ tile.arsmagica2:planksWitchwood.name=Hexholzplanken
 tile.arsmagica2:witchwoodSingleSlab.name=Hexholzstufe
 tile.arsmagica2:stairsWitchwood.name=Hexholztreppe
 tile.arsmagica2:saplingWitchwood.name=Hexholzsetzling
+tile.arsmagica2:slabWitchwood.name=Hexholzstufe
+tile.arsmagica2:magiciansWorkbench.name=Werkbank des Magiers
+tile.arsmagica2:magic_sigil.name=Siegelstand
+tile.arsmagica2:everstone.name=Immerstein
 
 #entities
 entity.arsmagica2.EarthElemental.name=Erdelementar
@@ -365,6 +379,9 @@ am2.gui.XPNumeric=Numerischer XP-Wert
 am2.gui.mbb=Multiblock-Display-Verhalten
 am2.gui.cycle=Durchlaufen
 am2.gui.pause=Pause
+am2.gui.componentsMissing=Rezeptkomponenten fehlen
+am2.gui.gridInUse1=Alle möglichen Werkfelder werden genutzt.
+am2.gui.gridInUse2=Leere Komponenten zuerst.
 
 #death messages
 am2.death.fire=%s ging in Flammen auf.
