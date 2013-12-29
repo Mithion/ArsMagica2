@@ -6,7 +6,7 @@
 		</shape>
 		<shape id="Channel">
 			<name>Channeled</name>
-			<desc>Through intense concentration, a mage can maintain a flow of magic in front of them.  There is no precise control, but under the right circumstances, that can be exactly what is needed.</desc>
+			<desc>Through intense concentration, a mage can maintain a flow of magic on themselves.  This is useful for things like Telekinesis, Healing, Attract, and Storm.</desc>
 		</shape>
 		<shape id="Beam">
 			<name>Beam</name>
@@ -58,7 +58,11 @@
 		</shape>
 		<shape id="Binding">
 			<name>Binding</name>
-			<desc>You can create solid objects out of nothing!  The binding shape allows you to bind tools to yourself, which drain constant mana while bound, and burst mana when used instead of durability.  Dropping the item with the drop hotkey (default 'q') will instead unbind it. !d This shape is not implemented yet.</desc>
+			<desc>You can create solid objects out of nothing!  The binding shape allows you to bind tools to yourself, which drain constant mana while bound, and burst mana when used instead of durability.  Dropping the item with the drop hotkey (default 'q') will instead unbind it.</desc>
+		</shape>
+		<shape id="Wall">
+			<name>Wall</name>
+			<desc>You can manifest a wall in front of you.  The wall will run perpendicular to your current direction.  Walls function similarly to zones, but with a different form factor.  Walls also apply their effects more rapidly.</desc>
 		</shape>
 	</shapes>
 	<components zeroItemText="You don't know any components yet, and aren't eligible to learn any!">
@@ -140,7 +144,7 @@
 			<desc>If a mage is desparate and mana is scarce, he can fuel his spells using his own life force.</desc>
 		</component>
 		<component id="Heal">
-			<name>Instant Heal</name>
+			<name>Heal</name>
 			<desc>By greatly increasing the amount of power put into regenerative effects, a mage can knit almost any injury back together.  The effect is taxing, however.</desc>
 		</component>
 		<component id="Slow">
@@ -248,7 +252,7 @@
 			<desc>Pouring energy into plants, equal to months of talking to them, will cause them to grow more rapidly.</desc>
 		</component>
 		<component id="BanishRain">
-			<name>Banish Rain</name>
+			<name>Regen Verbannen</name>
 			<desc>Regen Regen, breche ab.  Komme wieder an einem and'ren Tag!  Wer hätte gedacht, dass das die Worte zu diesem Zauber wären?</desc>
 		</component>
 		<component id="WaterBreathing">
@@ -298,6 +302,46 @@
 		<component id="Summon">
 			<name>Summon</name>
 			<desc>You have learned to harvest the essence of creatures you defeat in combat.  These essences can be used in creating a spell to summon that creature to protect you. !d To summon a creature, first craft a #5Crystal Phylactery#0.  Once you kill something while holding an empty phylactery, that phylactery will become #9attuned#0 to that specific mob.  Kill enough of the same mob and you will fill the phylactery. !d During spell creation, you can throw in any filled phylactery when prompted by the lectern.  This step is what determines what your spell will summon. !d Summoned creatures drop no loot, and no xp, but can be interacted with normally, such as breeding, milking cows, or riding horses.  Horses are the exception to the item drop rule and will drop saddles and armor given to them. !l Tameable creatures such as wolves and cats are automatically tamed to their owner upon summoning. </desc>
+		</component>
+		<component id="Blizzard">
+			<name>Blizzard</name>
+			<desc>You have learned to summon a fearsome blizzard, which will slow and damage any entities in its radius.  Blizzard has a built-in AoE to it.  A blizzard cannot be summoned within 5 blocks of another existing blizzard.  It initially does less damage than other attacks, but scales more quickly with modifiers and casting mode.  It also has the unique capability to deal damage more often than regular attacks. Though blizzard will harm all entities in its radius, it will never harm its caster.</desc>
+		</component>
+		<component id="Daylight">
+			<name>Daylight</name>
+			<desc>You have gained the ability to control time.  This spell will cause the time to move to Dawn.</desc>
+		</component>
+		<component id="FallingStar">
+			<name>Starstrike</name>
+			<desc>You can call down a star from the skies and cause it to strike all entities within the blast radius.  It will harm friendly targets but not the caster.  There is a short delay between casting the spell and the impact.  This spell will not work underground (the star will fall onto the surface).</desc>
+		</component>
+		<component id="FireRain">
+			<name>Firestorm</name>
+			<desc>You have learned to summon a terrible firestorm, which will do large amounts of damage any entities in its radius.  Firestorm has a built-in AoE to it.  A firestorm cannot be summoned within 5 blocks of another existing firestorm.  It initially does less damage than other attacks, but scales more quickly with modifiers and casting mode.  It also has the unique capability to deal damage more often than regular attacks.  Firestorm does not ignite the ground.  Though firestorm will harm all entities in its radius, it will never harm its caster.</desc>
+		</component>
+		<component id="ManaLink">
+			<name>Mana Link</name>
+			<desc>You have discovered the secret to linking your mana together with another entity.  When you cast this spell, your target will be able to draw upon your mana pool as if it were their own. !d The target will use their own mana first, then will begin to draw upon yours. !d It has a limited radius that increases with casting mode, and can have radius modifiers if you so desire.  If the target leaves the radius, the link is not broken, but is rather temporarily disabled.  When they again return into the radius, the link will reactivate and will function again.  To end the link, simply cast the spell on the target again. !d You can link your own mana to multiple entities, and on the other side, you can have multiple links coming in from other sources.</desc>
+		</component>
+		<component id="ManaShield">
+			<name>Mana Shield</name>
+			<desc>Your target becomes shielded by their available mana, causing damage to drain 250 mana per half heart absorbed, and preventing HP damage entirely.</desc>
+		</component>
+		<component id="Moonrise">
+			<name>Moonrise</name>
+			<desc>You have gained the ability to control time.  This spell will cause the time to move to Dusk.</desc>
+		</component>
+		<component id="Drought">
+			<name>Drought</name>
+			<desc>You have taken your knowledge of creating water and have reversed the process.  This spell will draw water out of whatever it hits, removing water blocks and turning dirt to sand.</desc>
+		</component>
+		<component id="Plant">
+			<name>Plant</name>
+			<desc>You can magically plant seeds from your inventory into tilled ground targeted by this spell.</desc>
+		</component>
+		<component id="Accelerate">
+			<name>Accelerate</name>
+			<desc>This spell causes targeted blocks to tick faster.  Note that it does not make tile entities any quicker.  This spell is best used in a shape like beam, wall, or zone, due to its need to be cast multiple times to have any real effect.</desc>
 		</component>
 	</components>
 	<modifiers zeroItemText="You don't know any modifiers yet, and aren't eligible to learn any!">
@@ -375,6 +419,9 @@
 			<name>Mage Posse I</name>
 			<desc>Your talents as a mage have impressed others, and your reputation precedes you.  You can request that a light mage follow and guard you.  This counts against your summon cap.</desc>
 		</talent>
+		<talent id="MageBandII">
+			<name>Mage Posse II</name>
+			<desc>You have gained the trust of other mages to the point that they feel safe linking their magic to yours.  Whenever you befriend a light mage, they will mana link to you.</desc></talent>
 		<talent id="ManaRegenI">
 			<name>Mana Regen Boost I</name>
 			<desc>You are more attuned with the energy flowing through you.  Your magic regenerates slightly faster than normal.</desc>
@@ -500,39 +547,39 @@
 		<item id="runes">
 			<name>Runes</name>
 			<desc>Runes are the building blocks for spells.  When combined with multiple other items in the right combination, a magical spell scroll can be created.</desc>
-			<subitem id="runes@0">
+			<subitem id="runes@0" unlocked="true">
 				<name>Blank Rune</name>
 				<desc></desc>
 			</subitem>
-			<subitem id="runes@1">
+			<subitem id="runes@1" unlocked="true">
 				<name>Blue Rune</name>
 				<desc></desc>
 			</subitem>
-			<subitem id="runes@2">
+			<subitem id="runes@2" unlocked="true">
 				<name>Red Rune</name>
 				<desc></desc>
 			</subitem>
-			<subitem id="runes@3">
+			<subitem id="runes@3" unlocked="true">
 				<name>Yellow Rune</name>
 				<desc></desc>
 			</subitem>
-			<subitem id="runes@4">
+			<subitem id="runes@4" unlocked="true">
 				<name>Orange Rune</name>
 				<desc></desc>
 			</subitem>
-			<subitem id="runes@5">
+			<subitem id="runes@5" unlocked="true">
 				<name>Green Rune</name>
 				<desc></desc>
 			</subitem>
-			<subitem id="runes@6">
+			<subitem id="runes@6" unlocked="true">
 				<name>Purple Rune</name>
 				<desc></desc>
 			</subitem>
-			<subitem id="runes@7">
+			<subitem id="runes@7" unlocked="true">
 				<name>Black Rune</name>
 				<desc></desc>
 			</subitem>
-			<subitem id="runes@8">
+			<subitem id="runes@8" unlocked="true">
 				<name>White Rune</name>
 				<desc></desc>
 			</subitem>
@@ -775,10 +822,70 @@
 			<name>Spell Book</name>
 			<desc>The spell book is a useful item to have, allowing mages to organize their spells and save space at the same time.  The spell book, when equipped, can be scrolled through either by pressing x/z (default), or by sneaking and rolling the mouse wheel.  Spell books can be dyed a variety of different colors.  They can also be #5enchanted#0 with some useful powers.</desc>
 		</item>
-		<item id="magicbroom">
+		<item id="magic_broom">
 			<name>Magic Broom</name>
 			<desc>You have taken the magical properties of Arcane Ash and combined them with a broom.  Why?  You're not entirely sure.  What you do know is that this broom loves to keep the area clean, picking up any loose items near it and putting them in it's assigned chest.  To place the broom once you craft it, right click on a #5any block with an inventory#0 with the broom equipped.  It won't work otherwise. Currently the broom will grab all loose items, though it will be configurable at a later time.</desc>
 		</item>
+		<item id="nature_scythe">
+			<name>Nature's Scythe</name>
+			<desc>Taken from the guardian of nature itself, this scythe wields immense power.  It can clear leaves and plants with astounding efficiency.  It can be thrown like a boomerang by right clicking, though it costs 250 mana to do so.  All plant clearing effects apply while thrown, and damage is increased.</desc>
+		</item>
+		<item id="arcane_spellbook">
+			<name>Arcane Spellbook</name>
+			<desc>Imbued with unknowable enchantments by ancient mages, the arcane spell book #9increases the effectiveness of all spells cast from it#0.  Damage is increased, and mana cost is lowered.  Things like duration and radius are not modified.</desc>
+		</item>
+		<item id="winter_arm">
+			<name>Winter's Grasp</name>
+			<desc>Taken from the guardian of winter, this arm can be used as a blunt weapon.  It retains its unearthly chill, and drastically slows and weakens all struck with it.  For 250 mana, it can be thrown, and will pull back an entity to you if it is hit by the arm, applying a more powerful slow and weaken effect.</desc>
+		</item>
+		<item id="air_sled">
+			<name>Air Sled</name>
+			<desc>The air sled allows you to take to the sky with ease.  It is slightly faster than creative mode flight, but does not afford the same level of control.</desc>
+		</item>
+		<item id="earth_armor">
+			<name>Earth Armor</name>
+			<desc>The earth armor is the chest of the guardian of earth.  It offers significant physical damage resistance for a single piece of armor.  It adds a sizeable amount of damage (+4) and knockback to unarmed strikes (no item equipped).</desc>
+		</item>
+		<item id="water_orbs">
+			<name>Water Orbs</name>
+			<desc>The water orbs allow you to control water subconsciously.  While wearing them (they are a leg slot item), you will not be pushed by flowing liquids.  You will also have infinite breath while underwater.</desc>
+		</item>
+		<item id="fire_ears">
+			<name>Fire Antenna</name>
+			<desc>The fire antenna, when worn, grant full immunity to fire and lava.</desc>
+		</item>
+		<item id="workbenchUpgrade">
+			<name>Workbench Grid Upgrade</name>
+			<desc>You've figured out a way to make an upgrade for the Magician's workbench that makes the secondary grid a 3x3 instead of a 2x2.  Simply craft it and right click a placed bench to apply it.  Keep in mind, the modifications are rather fragile, and will break off if the workbench is destroyed and will have to be re-made.</desc>
+		</item>
+		<item id="bindingcatalysts">
+			<name></name>
+			<desc>Binding Catalysts are used by the #5Binding#0 shape to determine what type of tool or weapon will be bound.</desc>
+			<subitem id="bindingCatalyst@0">
+				<name>Binding Catalyst: Pickaxe</name>
+				<desc></desc>
+			</subitem>
+			<subitem id="bindingCatalyst@1">
+				<name>Binding Catalyst: Axe</name>
+				<desc></desc>
+			</subitem>
+			<subitem id="bindingCatalyst@2">
+				<name>Binding Catalyst: Sword</name>
+				<desc></desc>
+			</subitem>
+			<subitem id="bindingCatalyst@3">
+				<name>Binding Catalyst: Shovel</name>
+				<desc></desc>
+			</subitem>
+			<subitem id="bindingCatalyst@4">
+				<name>Binding Catalyst: Hoe</name>
+				<desc></desc>
+			</subitem>
+			<subitem id="bindingCatalyst@5">
+				<name>Binding Catalyst: Bow</name>
+				<desc>This one isn't implemented yet - look for it soon!</desc>
+			</subitem>
+		</item>		
 	</items>
 	<structures>
 		<structure id="essenceNexus">
@@ -794,7 +901,7 @@
 		<structure id="lightNexus">			
 			<name>Light Nexus</name>
 			<controller>TileEntityLightNexus</controller>
-			<desc>The Light Nexus is by far the weakest of the three, but is the most easily attainable, as well as the most reliable. !l To create the middle rune, simply craft #9White Chalk#0 and right click the top of a block to make the rune at that position. !d Drawing essence out of the atmosphere, the Light Nexus will serve to increase the purity of an area.  It requires no items or living souls as sacrifice, and constantly generates power, but at a steady trickle.  It does have the benefit of being able to upgrade its capstones with gold, and eventually diamond, to be more powerful.  The power it provides causes machines to run slower, but often provides additional benefits to their operation.</desc>
+			<desc>The Light Nexus is by far the weakest of the three, but is the most easily attainable, as well as the most reliable. !l To create the middle rune, simply craft #9White Chalk#0 and right click the top of a block to make the rune at that position. !d Drawing essence out of the atmosphere, the Light Nexus will serve to increase the purity of an area.  It requires no items or living souls as sacrifice, and constantly generates power, but at a steady trickle.  It does have the benefit of being able to upgrade its capstones with gold, diamond and eventually moonstone, to be more powerful.  The power it provides causes machines to run slower, but often provides additional benefits to their operation.  The light nexus #5will only charge during the day#0 with the exception of #9Moonstone caps, which only charge at night#0.</desc>
 		</structure>
 		<structure id="gateways">
 			<name>Gateway</name>
@@ -848,9 +955,9 @@
 			These stack cumulatively, so for example wood planks with glass caps would equal a maximum of 2 effects, whereas stone bricks with redstone caps would have a maximum of 4 effects in a spell.  The maximum number of effects you can currently have on a spell is 13.
 			</desc>
 		</structure>
-		<structure id="inlays">
-		<name>Inlays</name>
-		<desc>Inlays are created by putting inlay blocks into a 3x3 ring with an empty center block.  All blocks must be on the same Y level, and must all be of the same type of inlay block.  You will know it is working when runes begin to appear on the blocks.</desc>
+		<structure id="inlays_structure">
+		<name>Inlay Rings</name>
+		<desc>Inlay Rings are created by putting inlay blocks into a 3x3 ring with an empty center block.  All blocks must be on the same Y level, and must all be of the same type of inlay block.  You will know it is working when runes begin to appear on the blocks.</desc>
 		</structure>
 	</structures>
 	<mobs>
@@ -860,35 +967,98 @@
 		</mob>
 		<mob id="MobManaElemental">
 			<name>Mana Elemental</name>
-			<desc>The mana elemental is a combination of vinteum shards held together by bolts of raw essence.  They are towering creatures, often reaching 3m in height.  They attack with bolts of raw mana that lash out, dealing minor damage but stealing mana, and return to the elemental, healing it based on the amount of mana stolen. They are highly resistant to physical damage.  If all the mana is drained from the elemental, it will die.</desc>
+			<desc>
+				The mana elemental is a combination of vinteum shards
+				held together by bolts of raw essence. They are towering
+				creatures, often reaching 3m in height. They attack with
+				bolts of raw mana that lash out, dealing minor damage
+				but stealing mana, and return to the elemental, healing
+				it based on the amount of mana stolen. They are highly
+				resistant to physical damage. If all the mana is drained
+				from the elemental, it will die.
+			</desc>
 		</mob>
 		<mob id="MobManaCreeper">
 			<name>Mana Creeper</name>
-			<desc>The mana creeper is a variant on the normal creeper, but instead of a violent explosion, the mana creeper disintegrates into a mana vortex, which will drain the mana of everything nearby.  The vortex grows the longer it lives, but luckily all of them don't last for more than a few seconds.  The vortex drains more mana the more you have, so it is still a threat to even the most powerful of magi.</desc>
+			<desc>
+				The mana creeper is a variant on the normal creeper, but
+				instead of a violent explosion, the mana creeper
+				disintegrates into a mana vortex, which will drain the
+				mana of everything nearby. The vortex grows the longer
+				it lives, but luckily all of them don't last for more
+				than a few seconds. The vortex drains more mana the more
+				you have, so it is still a threat to even the most
+				powerful of magi.
+			</desc>
 		</mob>
 		<mob id="MobLightMage">
 			<name>Light Mage</name>
-			<desc>Light magi are part of the white council.  They are powerful mages who have dedicated themselves to the forces of light.  They will heal friendly players and assist them in combat against the various enemies that plague the world of Minecraft.  They have a special distaste for Dark Mages.</desc>
+			<desc>
+				Light magi are part of the white council. They are
+				powerful mages who have dedicated themselves to the
+				forces of light. They will heal friendly players and
+				assist them in combat against the various enemies that
+				plague the world of Minecraft. They have a special
+				distaste for Dark Mages.
+			</desc>
 		</mob>
 		<mob id="MobDarkMage">
 			<name>Dark Mage</name>
-			<desc>Dark magi are part of the Black Court.  They are sinister casters who are capable of terrifying feats of magic.  These feats come at a price though, dark magi are reviled and twisted beings.  They will fight anything living except the undead (which tehnically aren't "living" anyways) and creepers.  They will go out of their way to fight a Light Mage.</desc>
+			<desc>
+				Dark magi are part of the Black Court. They are sinister
+				casters who are capable of terrifying feats of magic.
+				These feats come at a price though, dark magi are
+				reviled and twisted beings. They will fight anything
+				living except the undead (which tehnically aren't
+				"living" anyways) and creepers. They will go out of
+				their way to fight a Light Mage.
+			</desc>
 		</mob>
 		<mob id="MobFireElemental">
 			<name>Fire Elemental</name>
-			<desc>Fire elementals are beings of pure fire.  They are destructive and ignite anything in their path.  Fire Elementals are only found in the nether.</desc>
+			<desc>
+				Fire elementals are beings of pure fire. They are
+				destructive and ignite anything in their path. Fire
+				Elementals are only found in the nether.
+			</desc>
 		</mob>
 		<mob id="MobWaterElemental">
 			<name>Water Elemental</name>
-			<desc>Water elementals are beings of pure water.  They are found anywhere water is in abundance.  They attack in groups, using water to push and pull their target.  They can affect their targets with Watery Grave, which will pull unsuspecting down to the crushing black depths.</desc>
+			<desc>
+				Water elementals are beings of pure water. They are
+				found anywhere water is in abundance. They attack in
+				groups, using water to push and pull their target. They
+				can affect their targets with Watery Grave, which will
+				pull unsuspecting down to the crushing black depths.
+			</desc>
 		</mob>
 		<mob id="EarthElemental">
 			<name>Earth Elemental</name>
-			<desc>Earth elementals are found slumbering deep within caves.  They are passive by nature, and boast an extreme resistance to physical damage.  Combined with a high health pool, anyone learning to summon one could conjure up a veritable tank.  Their attacks force the target to focus on them and they will try to bounce from target to target.</desc>
-		</mob>		
+			<desc>
+				Earth elementals are found slumbering deep within caves.
+				They are passive by nature, and boast an extreme
+				resistance to physical damage. Combined with a high
+				health pool, anyone learning to summon one could conjure
+				up a veritable tank. Their attacks force the target to
+				focus on them and they will try to bounce from target to
+				target.
+			</desc>
+		</mob>
 		<mob id="MobDryad">
 			<name>Dryad</name>
-			<desc>Dryads are peaceful creatures often found in forests and grasslands.  They can be lured with a sapling and will periodically make nearby plants grow faster.</desc>
+			<desc>
+				Dryads are peaceful creatures often found in forests and
+				grasslands. They can be lured with a sapling and will
+				periodically make nearby plants grow faster.
+			</desc>
+		</mob>
+		<mob id="MobDarkling">
+			<name>Darkling</name>
+			<desc>Darklings are small dog-like creatures that are found in the nether.  Their body becomes less visible during night, fading to near invsibility at midnight.  As dawn approaches, the Darklings will begin to gradually appear again until they become fully visible again for the day.</desc>
+		</mob>
+		<mob id="MobHellCow">
+			<name>Hell Cow</name>
+			<desc>Moo? Moo moo moo, moo moo moo moo.  Moo.  Moo moo moo moo moo, moo moo moo?  Moo!  Moo moo moo moo moo - moo moo moo. !d 1.) Moo moo moo moo !d 2.) Moo, moo moo moo moo. !d 3.) Moo! !d Moo, moo moo moo, moo moo moo.  Moo moo moo moo moo moo.  Moo, moo!</desc>
 		</mob>
 	</mobs>
 	<bosses>
@@ -898,31 +1068,99 @@
 		</boss>
 		<boss id="BossEarthGuardian">
 			<name>Earth Guardian</name>
-			<desc>Formed out of a core of stone, the Earth Guardian is a hardy opponent that can withstand incredible amounts of physical attacks.  With whirling attacks and strength of the earth itself, be prepared for a fight. !l Recommended level: 25 !p To summon the Earth Guardian, first build a 3x3 obsidian platform with a chiseled stone brick at the centre.  On top of the obsidian, build an iron inlay ring.  Off of each side, place a vinteum torch.  Then throw in a blue topaz, an emerald, and a chimerite. !d Upon summoning, the Earth Guardian will cleave out a large area of the surrounding blocks, so it would be wise to summon somewhere other than your basement.</desc>
+			<desc>
+				Formed out of a core of stone, the Earth Guardian is a
+				hardy opponent that can withstand incredible amounts of
+				physical attacks. With whirling attacks and strength of
+				the earth itself, be prepared for a fight. !l
+				Recommended level: 25 !p To summon the Earth Guardian,
+				first build a 3x3 obsidian platform with a chiseled
+				stone brick at the centre. On top of the obsidian, build
+				an iron inlay ring. Off of each side, on the same level
+				as the inlays, place a vinteum torch. Then throw in a
+				blue topaz, an emerald, and a chimerite. !d Upon
+				summoning, the Earth Guardian will cleave out a large
+				area of the surrounding blocks, so it would be wise to
+				summon somewhere other than your basement.
+			</desc>
 		</boss>
 		<boss id="BossWaterGuardian">
 			<name>Water Guardian</name>
-			<desc>The guardian of water is a unique being.  It is always in a state of fluidity, making it able to shrug off attacks occasionally.  It is a trickster as well, flowing into copies of itself and attacking from ambush if one is fooled by the decoy. !l Recommended level: 10 !p The water guardian can be summoned by creating a redstone inlay circle in any biome that is predominantly water.  Then, while raining, throw a boat and a bucket of water into the circle as homage to the many ships lost at sea.</desc>
+			<desc>
+				The guardian of water is a unique being. It is always in
+				a state of fluidity, making it able to shrug off attacks
+				occasionally. It is a trickster as well, flowing into
+				copies of itself and attacking from ambush if one is
+				fooled by the decoy. !l Recommended level: 10 !p The
+				water guardian can be summoned by creating a redstone
+				inlay circle in any biome that is predominantly water.
+				Then, while raining, throw a boat and a bucket of water
+				into the circle as homage to the many ships lost at sea.
+			</desc>
 		</boss>
 		<boss id="BossWinterGuardian">
 			<name>Winter Guardian</name>
-			<desc>The Winter Guardian is truly the embodiment of it's namesake.  Surrounded by frigid winds that sap the strength of all who near it, the Winter Guardian pummels its frozen foes and shatters them with powerful strikes. !p To summon the Winter Guardian, seek out an area in the grips of winter.  Place a gold inlay circle on the ground and build an effigy to the Winter Guardian in the centre, Ice on top of two Blue Topaz blocks.  Then create 3 snow golems close by to fuel the summoning.  !d  Warning: !l This is a very difficult boss that can take down even the most well geared players. </desc>
+			<desc>
+				The Winter Guardian is truly the embodiment of it's
+				namesake. Surrounded by frigid winds that sap the
+				strength of all who near it, the Winter Guardian pummels
+				its frozen foes and shatters them with powerful strikes.
+				!p To summon the Winter Guardian, seek out an area in
+				the grips of winter. Place a gold inlay circle on the
+				ground and build an effigy to the Winter Guardian in the
+				centre, Ice on top of two Blue Topaz blocks. Then create
+				3 snow golems close by to fuel the summoning. !d
+				Warning: !l This is a very difficult boss that can take
+				down even the most well geared players.
+			</desc>
 		</boss>
 		<boss id="BossArcaneGuardian">
 			<name>Arcane Guardian</name>
-			<desc>A mage of ancient times, the Arcane Guardian has access to a wide variety of spells.  From attacks to buffs to debuffs, prepare for a magical duel that will test your counterspell knowledge.  Protected by a powerful sigil, the Arcane Guardian has as many tricks against melee opponents as it does against ranged attackers. !p To summon the Arcane Guardian, first construct a Shrine of Knowledge.  The shrine is 2 pillars of bookshelves, 3 high, with a lectern on the ground in between them containing an Arcane Compendium.  Place an iron inlay circle directly in front of the structure, and throw an Arcane Essence directly in the middle of the circle to start the ritual.</desc>
+			<desc>
+				A mage of ancient times, the Arcane Guardian has access
+				to a wide variety of spells. From attacks to buffs to
+				debuffs, prepare for a magical duel that will test your
+				counterspell knowledge. Protected by a powerful sigil,
+				the Arcane Guardian has as many tricks against melee
+				opponents as it does against ranged attackers. !l Recommended level: 45 !p To
+				summon the Arcane Guardian, first construct a Shrine of
+				Knowledge. The shrine is 2 pillars of bookshelves, 3
+				high, with a lectern on the ground in between them
+				containing an Arcane Compendium. Place an iron inlay
+				circle directly in front of the structure, and throw an
+				Arcane Essence directly in the middle of the circle to
+				start the ritual.
+			</desc>
 		</boss>
 		<boss id="BossAirGuardian">
 			<name>Air Guardian</name>
-			<desc>The Air Guardian is a being of wind, and makes heavy use of knockback based attacks.  It would be foolish to go into battle with one without some form of falling protection.  The Air Guardian is a powerful ranged caster, but it requires a great deal of focus to finish some of it's spells... !l Recommended level: 35 !p To summon the Air Guardian, climb up well above the clouds and build a platform (y 150 or higher).  Build a gold inlay ring on the platform and throw in an Air Essence.</desc>
+			<desc>
+				The Air Guardian is a being of wind, and makes heavy use
+				of knockback based attacks. It would be foolish to go
+				into battle with one without some form of falling
+				protection. The Air Guardian is a powerful ranged
+				caster, but it requires a great deal of focus to finish
+				some of it's spells... !l Recommended level: 35 !p To
+				summon the Air Guardian, climb up well above the clouds
+				and build a platform (y 150 or higher). Build a gold
+				inlay ring on the platform and throw in an Air Essence.
+			</desc>
 		</boss>
 		<boss id="BossFireGuardian">
 			<name>Fire Guardian</name>
-			<desc>The Fire Guardian is a living inferno from the depths of the nether.  To summon it, create a gold inlay ring in the nether with lava in the middle.  Throw a water essence into the lava and a portal will open to the fire guardian.  Be warned though, it does not take kindly to those that try to bring water to its domain.  Be prepared for a fight!  !l Recommended level: 90</desc>
+			<desc>
+				The Fire Guardian is a living inferno from the depths of
+				the nether. To summon it, create a gold inlay ring in
+				the nether with lava in the middle. Throw a water
+				essence into the lava and a portal will open to the fire
+				guardian. Be warned though, it does not take kindly to
+				those that try to bring water to its domain. Be prepared
+				for a fight! !l Recommended level: 90
+			</desc>
 		</boss>
 	</bosses>
 	<blocks>
-		<block id="illusionBlock">
+		<block id="illusionBlocks">
 			<name>Illusion Blocks</name>
 			<desc>
 			Illusion blocks are so realistic that your brain will not allow you to walk through them due to self preservation and common sense.  Only with true sight can you convince yourself that the illusion is not real, and pass through to the other side.
@@ -937,50 +1175,213 @@
 			!l
 			"I’m good at looking for walls. Look, I found another one."
 			</desc>
+			<subitem id="illusionBlock@0">
+				<name>Illusion Block</name>
+				<desc>Standard illusion blocks will look and function as solid blocks unless the entity attempting to pass through has #9True Sight#0 active.</desc>
+			</subitem>
+			<subitem id="illusionBlock@1">
+				<name>Ethereal Illusion Block</name>
+				<desc>Ethereal illusion blocks will look like solid blocks, but anything can pass through them.  They still will emit particles if you have #9True Sight#0 active.  Ethereal Illusion Blocks will not change their appearance due to True Sight though.</desc>
+			</subitem>
 		</block>
 		<block id="essence_refiner_front_idle">
 			<name>Essence Refiner</name>
-			<desc>The essence refiner takes everyday items and using #5Arcane Ash#0, refines them into a pure representation of their parts, known as #5essences#0.  The recipes for specific essences can be found under #9Items -> Essences#0. The essence refiner also requires #2Raw Essence#0 to function.  This can be obtained from a %9Light Nexus#0, where raw light essence makes the process quite a bit slower, but there is a chance you will either not consume some of the recipe ingredients, or could get a second essence.  Neutral raw essence can also be obtained from a #9Neutral Nexus#0 or a #9Mana Battery#0, which has no specific advantages or drawbacks.  Finally, raw dark essence can be used from a #9Dark Nexus#0, which significantly reduces the amount of time it takes to refine the essence, but can cause the machine to build up #4Deficit#0.  The spinning ring on the UI will shift from blue to purple as the refinement process progresses and eventually completes.  A flashing red ring means there is insufficient power to continue, and the process has been paused.</desc>
+			<desc>
+				The essence refiner takes everyday items and using
+				#5Arcane Ash#0, refines them into a pure representation
+				of their parts, known as #5essences#0. The recipes for
+				specific essences can be found under #9Items ->
+				Essences#0. The essence refiner also requires #2Raw
+				Essence#0 to function. This can be obtained from a
+				%9Light Nexus#0, where raw light essence makes the
+				process quite a bit slower, but there is a chance you
+				will either not consume some of the recipe ingredients,
+				or could get a second essence. Neutral raw essence can
+				also be obtained from a #9Neutral Nexus#0 or a #9Mana
+				Battery#0, which has no specific advantages or
+				drawbacks. Finally, raw dark essence can be used from a
+				#9Dark Nexus#0, which significantly reduces the amount
+				of time it takes to refine the essence, but can cause
+				the machine to build up #4Deficit#0. The spinning ring
+				on the UI will shift from blue to purple as the
+				refinement process progresses and eventually completes.
+				A flashing red ring means there is insufficient power to
+				continue, and the process has been paused.
+			</desc>
 		</block>
 		<block id="essenceconduit">
 			<name>Essence Conduit</name>
-			<desc>Infused with dusts to direct raw essence through the air, the Essence Conduit began seeing heavy use almost immediately after its invention.  However, channeling such magic often creates a minor void inside the crystal, a #4defecit#0 of magic.  Should this not be properly managed, the void of magic will begin to consume part of the raw essence travelling through the conduit, making it take more raw essence than normal to complete the transfer chain.</desc>
+			<desc>
+				Infused with dusts to direct raw essence through the
+				air, the Essence Conduit began seeing heavy use almost
+				immediately after its invention. However, channeling
+				such magic often creates a minor void inside the
+				crystal, a #4defecit#0 of magic. Should this not be
+				properly managed, the void of magic will begin to
+				consume part of the raw essence travelling through the
+				conduit, making it take more raw essence than normal to
+				complete the transfer chain.
+			</desc>
 		</block>
 		<block id="crystalpillar">
 			<name>Crystal Pillar</name>
-			<desc>Originally intended to be an improved design of the Essence Conduit, researchers found its ability to channel essence severely lacking.  The materials simply didn't have the conductiveness to relay enough power.  However, the materials were exceptional at preventing magical voids from forming.  A slight re-design allowed these crystals to directly inject residual mana from the area into a magical void from a short distance away, stabilizing it and preventing the vinteum crystals in an Essence Conduit from building deficit.</desc>
+			<desc>
+				Originally intended to be an improved design of the
+				Essence Conduit, researchers found its ability to
+				channel essence severely lacking. The materials simply
+				didn't have the conductiveness to relay enough power.
+				However, the materials were exceptional at preventing
+				magical voids from forming. A slight re-design allowed
+				these crystals to directly inject residual mana from the
+				area into a magical void from a short distance away,
+				stabilizing it and preventing the vinteum crystals in an
+				Essence Conduit from building deficit.
+			</desc>
 		</block>
-		<block id="blockcaster">
-			<name>Caster</name>
-			<desc>A spell is nothing more than directed essence.  The will of a magic user dictates what the essence does, and if they have enough capacity for essence, the magic will flow forth.  The caster was designed to replicate that ability, converting raw essence into a burst of magic that is directed through a spell focus (as well as the occasional mana focus) and shaped via the instructions on a spell scroll.  Because of the extreme essence draw of certain spells, the internal crystals were fitted with a slot to allow a charge focus which causes the amount of incoming essence to be increased substantially.  Alternately, a mana focus can be fitted into the same slots, causing the internal essence routing to be much more efficient.</desc>
+		<block id="casters">
+			<name>Caster Blocks</name>
+			<desc>
+				A spell is nothing more than directed essence. The will
+				of a magic user dictates what the essence does, and if
+				they have enough capacity for essence, the magic will
+				flow forth. The caster was designed to replicate that
+				ability, converting raw essence into a burst of magic
+				that is directed through a spell focus (as well as the
+				occasional mana focus) and shaped via the instructions
+				on a spell scroll. Because of the extreme essence draw
+				of certain spells, the internal crystals were fitted
+				with a slot to allow a charge focus which causes the
+				amount of incoming essence to be increased
+				substantially. Alternately, a mana focus can be fitted
+				into the same slots, causing the internal essence
+				routing to be much more efficient.
+			</desc>
+			<subitem id="blockGroundCaster">
+				<name>Caster Rune</name>
+				<desc>The Caster Rune functions in the same way as a #5Caster#0, save for one specific difference:  The caster rune does not required a redstone signal to operate, and rather casts when walked upon.  It will cast directly on whatever triggers it.</desc>
+			</subitem>
+			<subitem id="blockcaster">
+				<name>Caster</name>
+				<desc></desc>
+			</subitem>
 		</block>
 		<block id="blockseerstone">
 			<name>Seer Stone</name>
-			<desc>Operating on a similar principle as the Astral Barrier, the Seer Stone uses an essence aura projected through a spell focus to detect nearby objects.  It can be controlled by focusing the essence to a particular type of object, and the resonant frequency of the essence can be dictated with the use of a Keystone.  Without the use of a Keystone, the resonant frequency fluxuates unpredictably and cannot be avoided.  The seer stone, however, is meant for a more subtle approach, letting the object continue, but emitting a small signal that often activates much more powerful defenses.  By sneaking up and activating the stone, one can even (if he has the correct key of course) cause the stone to invert its detection methods, detecting those with the matching keystone combination.</desc>
+			<desc>
+				Operating on a similar principle as the Astral Barrier,
+				the Seer Stone uses an essence aura projected through a
+				spell focus to detect nearby objects. It can be
+				controlled by focusing the essence to a particular type
+				of object, and the resonant frequency of the essence can
+				be dictated with the use of a Keystone. Without the use
+				of a Keystone, the resonant frequency fluxuates
+				unpredictably and cannot be avoided. The seer stone,
+				however, is meant for a more subtle approach, letting
+				the object continue, but emitting a small signal that
+				often activates much more powerful defenses. By sneaking
+				up and activating the stone, one can even (if he has the
+				correct key of course) cause the stone to invert its
+				detection methods, detecting those with the matching
+				keystone combination.
+			</desc>
 		</block>
 		<block id="blockastralbarrier">
 			<name>Astral Barrier</name>
-			<desc>When walking the void, one must be aware of barriers.  Projecting an essence aura through a spell focus, these barriers resonate at a specific magical frequency, dictated by a keytstone.  Without the proper matching keystone, these barriers will destabilize your magics and force you out of the void.  Should the astral barrier not have a keystone present, its magic frequency will fluxuate unpredictably, and no amount of Keystones can protect you from its effects.  Several Dark Magi raids have been foiled and several Light Magi have been captured due to their failure to spot the barrier in time.</desc>
+			<desc>
+				When walking the void, one must be aware of barriers.
+				Projecting an essence aura through a spell focus, these
+				barriers resonate at a specific magical frequency,
+				dictated by a keytstone. Without the proper matching
+				keystone, these barriers will destabilize your magics
+				and force you out of the void. Should the astral barrier
+				not have a keystone present, its magic frequency will
+				fluxuate unpredictably, and no amount of Keystones can
+				protect you from its effects. Several Dark Magi raids
+				have been foiled and several Light Magi have been
+				captured due to their failure to spot the barrier in
+				time.
+			</desc>
 		</block>
 		<block id="blockkeystonerecepticle">
 			<name>Keystone Recepticle</name>
-			<desc>Not all magi are capable of walking the void as a means of travel, nor are all willing.  The void is detectable, blockable.  Gateways were developed by the Dark Magi early in the war, and it allowed them to take many Light Mage encampments by surprise, as it uses alternate pathways to transport to its destination.  Astral Barriers were ineffective at stopping the arrival of the Dark Magi, and the destination gate required no power of its own.  The Light Magi destroyed as many as they could find, but the Dark Magi only needed one.  The only hope was when a young Light Mage by the name of Damien Callitri discovered that the gateways could be locked down if a Keystone was inserted into a flaw in the design at just the right spot in the gateway mechanism, and would actually cause the gateway to send the Dark Mages to a different gateway (or nowhere if none others existed that weren't locked down).  This halted the raids completely, and allowed the White Magi to turn the tides back in their favour, as they could actually use the gateways to return to their keystone gate.  The design flaw became jokingly known as the "Keystone Recepticle" amongst the White Magi.</desc>
+			<desc>
+				Not all magi are capable of walking the void as a means
+				of travel, nor are all willing. The void is detectable,
+				blockable. Gateways were developed by the Dark Magi
+				early in the war, and it allowed them to take many Light
+				Mage encampments by surprise, as it uses alternate
+				pathways to transport to its destination. Astral
+				Barriers were ineffective at stopping the arrival of the
+				Dark Magi, and the destination gate required no power of
+				its own. The Light Magi destroyed as many as they could
+				find, but the Dark Magi only needed one. The only hope
+				was when a young Light Mage by the name of Damien
+				Callitri discovered that the gateways could be locked
+				down if a Keystone was inserted into a flaw in the
+				design at just the right spot in the gateway mechanism,
+				and would actually cause the gateway to send the Dark
+				Mages to a different gateway (or nowhere if none others
+				existed that weren't locked down). This halted the raids
+				completely, and allowed the White Magi to turn the tides
+				back in their favour, as they could actually use the
+				gateways to return to their keystone gate. The design
+				flaw became jokingly known as the "Keystone Recepticle"
+				amongst the White Magi.
+			</desc>
 		</block>
 		<block id="ore_vinteum">
 			<name>Vinteum Ore</name>
-			<desc>Vinteum was discovered during a heated battle between the Light and Dark magi when a stray arcane bolt collided with an ender bolt.  The resulting explosion created a crater several meters deep, where a sparkling blue ore shimmered in the light of the afternoon.  It appears to have no magical properties of its own, but when heat is applied, it becomes a fine dust with an exceptional capacity to conduct essence.  As such, it is widely used in magical contraptions all over the world.</desc>
+			<desc>
+				Vinteum was discovered during a heated battle between
+				the Light and Dark magi when a stray arcane bolt
+				collided with an ender bolt. The resulting explosion
+				created a crater several meters deep, where a sparkling
+				blue ore shimmered in the light of the afternoon. It
+				appears to have no magical properties of its own, but
+				when heat is applied, it becomes a fine dust with an
+				exceptional capacity to conduct essence. As such, it is
+				widely used in magical contraptions all over the world.
+			</desc>
 		</block>
 		<block id="mana_battery">
 			<name>Mana Battery</name>
-			<desc>Drawing further on vinteum dust's ability to conduct essence, a small group of brilliant magi created a frame out of iron and gold which is capable of storing massive amounts of essence.  The ratios of iron to gold cause any power entering the battery to be polarized, removing it of any dark or light power effects.  Mana batteries will always provide power to connected devices, but they can also request power from a nexus (or another battery) when given a redstone signal.</desc>
+			<desc>
+				Drawing further on vinteum dust's ability to conduct
+				essence, a small group of brilliant magi created a frame
+				out of iron and gold which is capable of storing massive
+				amounts of essence. The ratios of iron to gold cause any
+				power entering the battery to be polarized, removing it
+				of any dark or light power effects. Mana batteries will
+				always provide power to connected devices, but they can
+				also request power from a nexus (or another battery)
+				when given a redstone signal.
+			</desc>
 		</block>
 		<block id="blue_orchid">
 			<name>Blue Orchid</name>
-			<desc>Blue Orchids thrive in lush, green environments.  They were one of the first magical plants discovered, being used in potions and salves.  The Blue Orchid emits a faint sparkling glow of light around it as well, and was used just as much for decoration as an alchemical ingredient.  A short while after its discovery, it was also noted that the Blue Orchid could be used as part of the purification process for Vinteum dust.  It is said that anywhere a Blue Orchid can grow, Wisps aren't usually far off.</desc>
+			<desc>
+				Blue Orchids thrive in lush, green environments. They
+				were one of the first magical plants discovered, being
+				used in potions and salves. The Blue Orchid emits a
+				faint sparkling glow of light around it as well, and was
+				used just as much for decoration as an alchemical
+				ingredient. A short while after its discovery, it was
+				also noted that the Blue Orchid could be used as part of
+				the purification process for Vinteum dust. It is said
+				that anywhere a Blue Orchid can grow, Wisps aren't
+				usually far off.
+			</desc>
 		</block>
 		<block id="desert_nova">
 			<name>Desert Nova</name>
-			<desc>Desert Novas grow in dry conditions.  They get their name from the small bursts of magic that they periodically emit.  The Nova has extraordinary magical properties for a desert plant, and is highly sought after.  It is one of the two plants used in the purification process of Vinteum dust.</desc>
+			<desc>
+				Desert Novas grow in dry conditions. They get their name
+				from the small bursts of magic that they periodically
+				emit. The Nova has extraordinary magical properties for
+				a desert plant, and is highly sought after. It is one of
+				the two plants used in the purification process of
+				Vinteum dust.
+			</desc>
 		</block>
 		<block id="keystonechest">
 			<name>Keystone Chest</name>
@@ -1001,7 +1402,7 @@
 			<name>Lectern</name>
 			<desc>A must have for any organized mage, the Lectern is an ideal place to store books, compendiums, and thaumonomicons for easy access.  The book sits perfectly where it can be read without having to remove it from the lectern.  It is also a critical part of the Crafting Altar, as spell crafting does require organization.</desc>
 		</block>
-		<block id="occulus">
+		<block id="occulus" unlocked="true">
 			<name>Occulus</name>
 			<desc>A gateway to the stars, the Occulus shows you your innermost self.  It is here that you can spend skill points to unlock new shapes, components, and modifiers.  There are 3 kinds of skill points, which can be learned by obtaining Infinity Orbs from Dungeons, other worldgen, and Summoning Rituals.  The skills, when learnable, will glow with the corresponding skill point needed to unlock it.  Blue are the most common skill points, followed by Green, and finally Red.</desc>
 		</block>
@@ -1017,7 +1418,7 @@
 			<name>Inscription Table</name>
 			<desc>Organization is a must for any mage who wants to be successful.  Using this table along with a writable book, you can compose spells of incredible power.  Most mages will lay out what spell parts they know at the top of the table, and will drag them to the bottom area of the table to lay out a spell.  Once satisfied with the spell, you can write the spells down in a writable book (you did remember to bring one, didn't you?).  This book can be placed upon a lectern that is part of the Crafting Altar structure, and will guide you through the process needed to make the spell.  The book is worth reading too, as it contains a recap of the spell you will be creating, a materials list, and an affinity breakdown.</desc>
 		</block>
-		<block id="particleEmitter">
+		<block id="particleEmitter" unlocked="true">
 			<name>Particle Emitter</name>
 			<desc>Purely a decoration block, the particle emitter can be used to create a magical feel in any area.  The emitter can be customized by right clicking it, and it can be hidden.  If hidden, simply holding a crystal wrench while near it will cause it to be visible again.  Right clicking a particle emitter with a crystal wrench will cause its settings to be copied.  Right clicking another particle emitter will copy those settings to the second emitter.</desc>
 		</block>
@@ -1059,11 +1460,11 @@
 		</block>
 		<block id="saplingWitchwood">
 			<name>Witchwood Saplings</name>
-			<desc>Witchwood saplings can be obtained from the leaves of a witchwood tree.  They can be planted, however they need a source of essence within 1 block and below them (x/z +/- 1, y-1).  The more liquid essence source pools nearby (max 8), the faster the sapling will grow.  Even with all 8, however, the grow time can be significant.  Once the sapling grows into a full witchwood tree, it can sometimes also cause aum to grow nearby as well.</desc>
+			<desc>Witchwood saplings can rarely be obtained from the leaves of a witchwood tree.  They can be planted, however they need a source of essence within 1 block and below them (x/z +/- 1, y-1).  The more liquid essence source pools nearby (max 8), the faster the sapling will grow.  Even with all 8, however, the grow time can be significant.  Once the sapling grows into a full witchwood tree, it can sometimes also cause aum to grow nearby as well.</desc>
 		</block>
 		<block id="altarOfCreation">
 			<name>Crafting Altar</name>
-			<desc>Harnessing the forces of creation, the crafting altar allows mages to work miracles of magic.  This is where you will create all of your spells in AM2.  The crafting altar as a component of a #9multiblock structure#0.
+			<desc>Harnessing the forces of creation, the crafting altar allows mages to work miracles of magic.  This is where you will create all of your spells in AM2.  The crafting altar is a component of a #9multiblock structure#0.
 			</desc>
 		</block>
 		<block id="magiciansWorkbench">
@@ -1083,36 +1484,52 @@
 			</subitem>
 			<subitem id="sigilstone@1">
 				<name>Sigil of Gentle Rains</name>
-				<desc>The sigil of gentle rains causes a small localized rainfall for 4 blocks in all directions which causes #5soil to be hydrated without the need for nearby water#0.</desc>
+				<desc>The sigil of gentle rains causes a small localized rainfall for 4 blocks in all directions which causes #5soil to be hydrated without the need for nearby water#0.  The radius can be expanded to 6, 8 and 10 blocks by surrounding the stand with redstone, iron, and gold inlays respectively.</desc>
 			</subitem>
 			<subitem id="sigilstone@2">
 				<name>Sigil of Nature's Bounty</name>
-				<desc>The sigil of Nature's Bounty causes #5all plants#0 within 4 blocks in any direction to #5grow faster#0.</desc>
+				<desc>The sigil of Nature's Bounty causes #5all plants#0 within 4 blocks in any direction to #5grow faster#0.  The radius can be expanded to 6, 8 and 10 blocks by surrounding the stand with redstone, iron, and gold inlays respectively.</desc>
 			</subitem>
 			<subitem id="sigilstone@4">
 				<name>Sigil of the Felled Oak</name>
-				<desc>The sigil of the Felled Oak #5peroidically harvests trees#0 up to 4 blocks in any direction of it.</desc>
+				<desc>The sigil of the Felled Oak #5peroidically harvests trees#0 up to 4 blocks in any direction of it.  The radius can be expanded to 6, 8 and 10 blocks by surrounding the stand with redstone, iron, and gold inlays respectively.</desc>
 			</subitem>
 			<subitem id="sigilstone@8">
 				<name>Sigil of the Flat Lands</name>
-				<desc>The sigil of the Flat Lands #9pulls blocks from a chest below the sigil stand#0 and fills in terrain up to 4 blocks in any direction of it.  Blocks that are at the same y level as the sigil stand or above, are broken.  This only affects up to 4 y levels above the sigil stand.</desc>
+				<desc>The sigil of the Flat Lands finds blocks that are at the same y level as the sigil stand or above, and breaks them.  This only affects up to 4 y levels above the sigil stand.  The radius can be expanded to 6, 8 and 10 blocks by surrounding the stand with redstone, iron, and gold inlays respectively.</desc>
 			</subitem>
 			<subitem id="sigilstone@16">
 				<name>Sigil of Butchery</name>
-				<desc>The Sigil of Butchery will periodically kill animals within 4 blocks in any direction if it detects more than 2 of them.</desc>
+				<desc>The Sigil of Butchery will periodically kill animals within 4 blocks in any direction if it detects more than 2 of them.  The radius can be expanded to 6, 8 and 10 blocks by surrounding the stand with redstone, iron, and gold inlays respectively.</desc>
 			</subitem>
 			<subitem id="sigilstone@32">
 				<name>Sigil of Progeny</name>
-				<desc>The Sigil of Progeny periodically causes animals within 4 blocks in any direction to breed.</desc>
+				<desc>The Sigil of Progeny periodically causes animals within 4 blocks in any direction to breed.  The radius can be expanded to 6, 8 and 10 blocks by surrounding the stand with redstone, iron, and gold inlays respectively.</desc>
 			</subitem>
 			<subitem id="sigilstone@64">
 				<name>Sigil of Containment</name>
-				<desc>The Sigil of Containment erects an invisible wall 4 blocks in any direction that any non-player entity cannot leave through.  Entities can come in, but they cannot leave.  This stacks with the #5Sigil of Interdiction#0, and can create a barrier from both sides.</desc>
+				<desc>The Sigil of Containment erects an invisible wall 4 blocks in any direction that any non-player entity cannot leave through.  Entities can come in, but they cannot leave.  This stacks with the #5Sigil of Interdiction#0, and can create a barrier from both sides.  The radius can be expanded to 6, 8 and 10 blocks by surrounding the stand with redstone, iron, and gold inlays respectively.</desc>
 			</subitem>
 			<subitem id="sigilstone@128">
 				<name>Sigil of Interdiction</name>
-				<desc>The Sigil of Containment erects an invisible wall 4 blocks in any direction that any non-player entity cannot enter through.  Entities can leave, but they cannot come in.  This stacks with the #5Sigil of Containment#0, and can create a barrier from both sides.</desc>
+				<desc>The Sigil of Containment erects an invisible wall 4 blocks in any direction that any non-player entity cannot enter through.  Entities can leave, but they cannot come in.  This stacks with the #5Sigil of Containment#0, and can create a barrier from both sides.  The radius can be expanded to 6, 8 and 10 blocks by surrounding the stand with redstone, iron, and gold inlays respectively.</desc>
 			</subitem>
+			<subitem id="sigilstone@256">
+				<name>Sigil of the Light</name>
+				<desc>The Sigil of the Light scans a 16x16 area and looks for areas with low light.  If found, it lights them up.  This does not require line of sight. The sigil will take some time to completely light up its radius.</desc>
+			</subitem>
+			<subitem id="sigilstone@512">
+				<name>Sigil of Lunar Tides</name>
+				<desc>The Sigil of Lunar Tides causes all moonstone meteors within 128 blocks in any direction of it to strike within an 8 block radius of the sigil stand instead.  This radius cannot be upgraded with inlays.</desc>
+			</subitem>
+			<subitem id="sigilstone@1024">
+				<name>Sigil of The Packed Earth</name>
+				<desc>The Sigil of the Packed Earth will #9pull blocks from a chest below the sigil stand#0 and uses them to fill gaps in the terrain up to 4 blocks horizontally and below. The radius can be expanded to 6, 8 and 10 blocks by surrounding the stand with redstone, iron, and gold inlays respectively.</desc>
+			</subitem>
+		</block>
+		<block id="vinteumTorch">
+			<name>Vinteum Torches</name>
+			<desc>Vinteum Torches are crafted in a simplistic way, and glow with roughly the same brightness as a standard torch.  They are just an aesthetic alternative.</desc>
 		</block>
 	</blocks>
 	<mechanics>
@@ -1204,7 +1621,7 @@
 				</desc>
 			</subitem>			
 		</mechanic>
-		<mechanic id="spellCreation">
+		<mechanic id="spellCreation" unlocked="true">
 			<name>Spell Creation</name>
 			<desc>Creating spells is somewhat time consuming, but simple.  First, learn some spell parts using an #5Occulus#0.  Next, lay out the spell you want to create at an #5Inscription Table#0.  Place the book from the inscription table on the lectern of your crafting altar structure, and throw in a #5Blank Rune#0.  The book will guide you through the rest of the process, showing you what you need.  When essence is required during the spell creation process, use a #5crystal wrench#0 to change the power type if necessary, then flip the switch on the multiblock.  The structure will draw enough power, then turn the switch off automatically.  Once your spell is created, equip it and right click to name it and set the icon.  Once you have done this correctly, the spell will be castable!  Otherwise it will show the customization UI again when you cast.</desc>
 		</mechanic>
@@ -1212,15 +1629,19 @@
 			<name>Infusion</name>
 			<desc>#5Infusion#0 is a process in which AM armor will drain mana from your mana pool to repair itself.  Due to this mechanic, all AM armor has low durability, and won't last in a prolonged fight.  Taking the armor off will cause it to stop infusing - it must be equipped for the mechanic to function.  If the armor is at full durability, there is no mana cost.</desc>
 		</mechanic>		
-		<mechanic id="mana">
+		<mechanic id="mana" unlocked="true">
 			<name>Mana</name>
 			<desc>Mana is your magical energy level.  You gain more mana by increasing your Magic Level. !d Mana regenerates over time, but you can gain boosts to regeneration by eating a #9Mana Cake#0 or standing in a #9Nexus#0 with more than 10% charge.  #9Mana Potions#0 and #9Mana Potion Bundles#0 can be used to give an instant boost to mana.  Mana is represented by a blue bar on your HUD.  You can use "#2/amuicfg#0" to toggle an option to show the actual numeric values of your mana.</desc>
 		</mechanic>
-		<mechanic id="magicLevel">
+		<mechanic id="castingMode" unlocked="true">	
+			<name>Casting Modes</name>
+			<desc>Casting modes allow a mage to control how much power s/he puts into a spell.  !d  There are three casting modes:  #4Diminished#0, #5Normal#0, and #9Augmented#0. !d #4Diminished#0 is the weakest casting mode, but costs the least mana.  It's recommended that you cast on diminished until you are around magic level 10. !d #5Normal#0 is a medium mode with moderate damage and mana cost. !d #9Augmented#0 casting is the most powerful, but carries the most mana cost. Augmented must be unlocked before it can be used. !d Casting mode is represented on your HUD by the #9fullness of the moon next to your mana bar#0.  #4Diminished#0 is a #4waning moon#0, #5Normal#0 is a #5half moon#0, and #9Augmented#0 is a full moon. !d The default key to change your casting mode is 'c'.</desc>
+		</mechanic>
+		<mechanic id="magicLevel" unlocked="true">
 			<name>Magic Level</name>
 			<desc>Magic Level represents your strength as a mage.  As your Magic Level increases, so will your Mana and Burnout capacities.  Magic level can be increased by casting valid spells.  A valid spell cast is one that does what is intended, meaning casting fire bolt at a wall for an hour won't get you anywhere.  Certain components that have valid targets more rarely award more magical XP towards the next level.  Your Magic Level is represented by a blue number on your HUD.  You can use "#2/amuicfg#0" to toggle an option to show the actual numeric values of your magic XP bar.</desc>
 		</mechanic>
-		<mechanic id="burnout">
+		<mechanic id="burnout" unlocked="true">
 			<name>Burnout</name>
 			<desc>Burnout is your level of strain when casting spells.  The higher your Burnout, the more mana each spell will cost.  Casting more powerful spells will cause more Burnout.  It will decrease over time.  Gaining Magic Levels will give you a higher Burnout cap, allowing you to cast more spells before becoming completely fatigued.  Your Burnout level is displayed as a red bar on the HUD.  You can use "#2/amuicfg#0" to toggle an option to show the actual numeric values of your burnout.</desc>
 		</mechanic>
@@ -1244,21 +1665,33 @@
 				<desc>Ever get tired of losing your gear on death?  You can fix that now.  The soulbound enchant can be applied to just about any item that accepts enchantments, and will cause that item to remain in your inventory on death.  You will respawn with the item in the same slot in your inventory it was when you died.  Soulbound has a max enchantment level of 1.</desc>
 			</subitem>
 		</mechanic>
+		<mechanic id="armor_xp_infusion">
+			<name>Armor XP Infusion</name>
+			<desc>This is not fully implemented in the current version of AM2. Look for it in a future update!</desc>
+		</mechanic>
+		<mechanic id="silver_skills">
+			<name>Silver Skills</name>
+			<desc>Silver skills are skills inside the occulus that cannot be obtained in normal ways.  To unlock a silver skill, the correct spell combination must be crafted, and then cast.  There are a few rules to silver skill unlock combinations that will make them somewhat easier to decipher. !d 1.) All parts required to unlock a silver skill will be in the #9same tree as the silver skill itself#0. !d 2.) All silver skills require between #9 2 and 4 components and/or modifiers to unlock#0. !d 3.) Shapes do not matter in unlocking a silver skill.  #9Any shape can be used#0.</desc>
+		</mechanic>
 	</mechanics>
 	<guides>
-		<guide id="introToArsMagica" order="1">
+		<guide id="introToArsMagica" order="0" unlocked="true" new="false">
 			<name>Foreword</name>
 			<desc>Ars Magica began as my first foray into modding.  I have been developing software professionally for about 11 years as of AM2's release, but haven't done much game design.  I loved the game of Minecraft, but felt that it would be the perfect place for a magical world.  So I began, and who would have thought I would enjoy it so much.  I have spent literally hundreds of hours developing AM1 and AM2.  With some good tutorials and a bit of luck, I managed to figure out how to write AM1.  Now I have taken what I learned, solved some of the problems that came up (and probably introduced twice as many more), and have made Ars Magica 2.  I want to thank all of the people who helped this mod come to be what it is today, my beta testers, everyone who helped me with code, models, and texturing - this wouldn't be what it is without you.  And to you, the player, I hope that you have as much fun playing this mod as I did making it. !d Happy Casting! !l ~Mithion</desc>
 		</guide>
-		<guide id="theAMUI" order="2">
+		<guide id="usingThisCompendium" order="1" unlocked="true">
+			<name>Using this Compendium</name>
+			<desc>This compendium is set up to unlock entries as you get to them, to somewhat guide you through the getting started process of the mod.  You will be notified when you unlock a new entry.  Categories with new items in them will shimmer, and new entries themselves will have a crescent moon marking them as new.  !d If you prefer to not have this, you can disable it in config by changing "Staged Compendium" to false.  This compendium is #9intra-linking#0.  Any item you hover over that has green text can be clicked and you will jump to the entry for that item. !d This compendium also leaves a breadcrumb trail, meaning you can step back through in reverse order through pages you have visited.</desc>
+		</guide>
+		<guide id="theAMUI" order="2" unlocked="true">
 			<name>The Ars Magica UI</name>
 			<desc>The act of picking up a compendium has unlocked the arcane magics within you.  You now have the AM2 HUD activated.  To configure this UI, at any time, enter the command "#2/amuicfg#0".  This will open a drag and drop configuration interface.  Make your changes and press ESC to save them.</desc>
 		</guide>
-		<guide id="spellComponents101" order="3">
+		<guide id="spellComponents101" order="4">
 			<name>Spell Components 101</name>
 			<desc>Spells are comprised of #4shapes#0, #9components#0, and #2modifiers#0.  Shapes dictate how the spell targets things, Components dictate what the spell does to the things it targets, and Modifiers change certain aspects of spells.  A #4shape#0 can only appear once in a single spell.  Shapes can be chained together to create spell stages, for example, a "Projectile AoE".  Components can be added once per spell stage. As for modifiers, a single aspect of a spell can be modified three times per stage.  What this means is that if you have modifiers that change multiple parts of a spell, they may lock out other ones that modify the same stats if the total stat modifier for the shape is equal to three.  The compendium will only show you the shapes, components, and modifiers you already know, or are eligible to learn.</desc>
 		</guide>
-		<guide id="yourFirstSpell" order="4">
+		<guide id="yourFirstSpell" order="3" unlocked="true">
 			<name>Your First Spell</name>
 			<desc>To make a spell, you will first need to create an #5Occulus#0 and unlock at least one spell shape and one component.  You start with three blue skill points to make this possible.  Then, craft a writable book and head over to your #5Inscription Table#0.  Place the book in the inscription table and drag the spell parts you want, in order, from the top gray section to the bottom gray section.  Once your combination is completed, go to your #5Crafting Altar#0 and place your book containing the spell recipe on the lectern.  Throw a #5blank rune#0 into the middle of the crafting altar to begin the process, then follow the book's prompts.  The book itself is worth reading as well, as it contains a recap of what the spell recipe is for, the materials list for the spell and an affinity breakdown of the spell.  Note that certain crafting altars can only craft spells that are so powerful.  Too much power and bad things can happen.  See the entry on the #5Crafting Altar#0 for more information.</desc>
 		</guide>	
@@ -1268,7 +1701,7 @@
 		</guide>
 		<guide id="unlockingPowers" order="6">
 			<name>Obtaining Skill Points</name>
-			<desc>You get skill points primarily by leveling up.  At each even level, you will gain one skill point.  Levels 2-20 award blue skill points, 22-40 award green skill points, and 42-50 award red skill points.  Additional points can be obtained by fighting bosses, trading with villagers, and exploring.  You choose how you want to go about it!</desc>
+			<desc>You get skill points primarily by leveling up.  At each even level, you will gain one skill point.  Levels 2-20 award blue skill points, 22-40 award green skill points, and 42-50 award red skill points.  Additional points can be obtained by fighting bosses, trading with villagers, and exploring.  You choose how you want to go about it!  When viewing unlockables in the #5Occulus#0, hovering over the item will display #9text that matches the skill point color needed to unlock it#0.</desc>
 		</guide>
 		<guide id="dungeonsAndExploring" order="7">
 			<name>Dungeons / Exploring</name>
