@@ -53,7 +53,7 @@ item.arsmagica2:ArcaneCompendium.name=Arcane Compendium
 item.arsmagica2:wakebloom.name=Wakebloom
 item.arsmagica2:crystal_phylactery.name=Crystal Phylactery
 item.arsmagica2:liquidEssenceBucket.name=Bucket of Liquid Essence
-item.arsmagica2:nature_scythe.name=Scythe of the Nature Guardian
+item.arsmagica2:nature_scythe.name=§6Nature's Scythe§f
 item.arsmagica2:mana_boost_potion.name=Infused Essence Potion
 item.arsmagica2:evilBook.name=Evil-Looking Book
 item.arsmagica2:woodenLeg.name=Wooden Leg
@@ -71,7 +71,6 @@ item.arsmagica2:enderEssence.name=Ender Essence
 item.arsmagica2:pureEssence.name=Pure Essence
 item.arsmagica2:highEssenceCore.name=High Essence Core
 item.arsmagica2:baseEssenceCore.name=Base Essence Core
-item.arsmagica2:unknownEssence.name=Unknown Essence
 item.arsmagica2:vinteumDust.name=Vinteum Dust
 item.arsmagica2:arcaneCompound.name=Arcane Compound
 item.arsmagica2:arcaneAsh.name=Arcane Ash
@@ -92,7 +91,7 @@ item.arsmagica2:blackRune.name=Black Rune
 item.arsmagica2:whiteRune.name=White Rune
 item.arsmagica2:infinityOrb.name=Infinity Orb
 item.arsmagica2:debugRune.name=Rune of Debugging
-item.arsmagica2:unknownRune.name=Unknown Rune
+item.arsmagica2:unknown.name=Unknown
 item.arsmagica2:sigil_base=Sigil of %s
 item.arsmagica2:sigil_gentlerains=Gentle Rains
 item.arsmagica2:sigil_naturesbounty=Nature's Bounty
@@ -102,7 +101,24 @@ item.arsmagica2:sigil_butchery=Butchery
 item.arsmagica2:sigil_progeny=Progeny
 item.arsmagica2:sigil_containment=Containment
 item.arsmagica2:sigil_interdiction=Interdiction
+item.arsmagica2:sigil_light=the Light
+item.arsmagica2:sigil_moonstoneattraction=Lunar Tides
+item.arsmagica2:sigil_packedearth=Packed Earth
 item.arsmagica2:magic_broom.name=Magic Broom
+item.arsmagica2:arcaneSpellBook.name=§6Arcane Spellbook§f
+item.arsmagica2:winter_arm.name=§6Winter's Grasp§f
+item.arsmagica2:air_sled.name=§6Air Sled§f
+item.arsmagica2:earth_armor.name=§6Earth Armor§f
+item.arsmagica2:water_orbs.name=§6Water Orbs§f
+item.arsmagica2:fire_ears.name=§6Antenna of the Fire Guardian§f
+item.arsmagica2:workbenchUpgrade.name=Magician's Workbench Upgrade: Crafting
+item.arsmagica2:bindingCatalyst.name=Binding Catalyst
+item.arsmagica2:bindingCatalystPick.name=: Pickaxe
+item.arsmagica2:bindingCatalystAxe.name=: Axe
+item.arsmagica2:bindingCatalystSword.name=: Sword
+item.arsmagica2:bindingCatalystHoe.name=: Hoe
+item.arsmagica2:bindingCatalystShovel.name=: Shovel
+item.arsmagica2:bindingCatalystBow.name=: Bow
 
 #blocks
 tile.arsmagica2:essence_refiner.name=Essence Refiner
@@ -110,7 +126,8 @@ tile.arsmagica2:essenceconduit.name=Essence Conduit
 tile.arsmagica2:blockcaster.name=Caster
 tile.arsmagica2:crystalpillar.name=Crystal Pillar
 tile.arsmagica2:calefactor.name=Calefactor
-tile.arsmagica2:illusionBlock.name=Illusion Block
+tile.arsmagica2:illusionBlock.default.name=Illusion Block
+tile.arsmagica2:illusionBlock.nobarrier.name=Ethereal Illusion Block
 tile.arsmagica2:blockkeystonerecepticle.name=Keystone Receptacle
 tile.arsmagica2:blockastralbarrier.name=Astral Barrier
 tile.arsmagica2:blockseerstone.name=Seer Stone
@@ -202,6 +219,14 @@ am2.spell.contingency_damage=Contingency: Damage
 am2.spell.contingency_fire=Contingency: Fire
 am2.spell.contingency_health=Contingency: Health
 am2.spell.contingency_death=Contingency: Death
+am2.spell.wall=Wall
+am2.spell.manalink=Mana Link
+am2.spell.manashield=Mana Shield
+am2.spell.moonrise=Moonrise
+am2.spell.daylight=Daylight
+am2.spell.blizzard=Blizzard
+am2.spell.fallingstar=Starstrike
+am2.spell.firerain=Firestorm
 
 am2.spell.accelerate=Accelerate
 am2.spell.astraldistortion=Astral Distortion
@@ -262,6 +287,7 @@ am2.spell.transplace=Transplace
 am2.spell.truesight=True Sight
 am2.spell.waterbreathing=Water Breathing
 am2.spell.waterygrave=Watery Grave
+am2.spell.drown=Drown
 
 am2.spell.bounce=Bounce
 am2.spell.damage=Damage
@@ -313,6 +339,15 @@ am2.tooltip.infOrbBlue=You have gained a §9blue§f skill point!
 am2.tooltip.infOrbGreen=You have gained a §2green§f skill point!
 am2.tooltip.infOrbRed=You have gained a §4red§f skill point!
 am2.tooltip.charge=Charge
+am2.tooltip.armorxp=Infused Experience: %d
+am2.tooltip.armorlevel=Armor XP Level: %d
+am2.tooltip.arcanespellbook=§3Gain the power of the magi of old.§f
+am2.tooltip.winter_arm=§3It's freezing cold.§f
+am2.tooltip.air_sled=§3Fly through the air with the greatest of ease...§f
+am2.tooltip.earth_armor=§3Become as resilient as the earth itself.§f
+am2.tooltip.water_orbs=§3Water becomes your friend.§f
+am2.tooltip.fire_ears=§3Embrace the flames.§f
+am2.tooltip.nature_scythe=§3I have defeated your master.  Kneel before me!§f
 
 #guis
 am2.gui.back=Back
@@ -382,6 +417,12 @@ am2.gui.pause=Pause
 am2.gui.componentsMissing=Recipe Components Missing
 am2.gui.gridInUse1=All possible crafting grids are in use.
 am2.gui.gridInUse2=Clear components first.
+am2.gui.options=Options
+am2.gui.minimalHud=Minimal Hud
+am2.gui.minimalHudDesc=If yes, the AM HUD will show only when a spell,\nspell book, or staff are equipped.
+am2.gui.affinity=Affinity UI
+am2.gui.armorUI=Show Armor Status
+am2.gui.lockWarning=WARNING: Spending a point in Offense, Defense, or Utility will make it your primary tree, and will limit your selection in the other two trees.  Choose wisely!
 
 #death messages
 am2.death.fire=%s went up in flames.
@@ -397,3 +438,48 @@ am2.npc.partyleave=Best of luck, friend.
 am2.npc.partyrefuse=You need to become more powerful before I will follow you.
 am2.npc.partyfull=Looks like your party is already full.
 am2.npc.nopartyskill=Do I know you?
+
+#affinity effect descriptions
+#air
+am2.affinity.agile=Agile
+am2.affinity.lightasafeather=Light as a Feather
+#arcane
+am2.affinity.clearcaster=Clearcaster
+am2.affinity.onewithmagic=Magical Focus
+am2.affinity.magicweakness=Magic Weakness
+#earth
+am2.affinity.stoneskin=Stone Skin
+am2.affinity.solidbones=Solid Bones
+#ender
+am2.affinity.waterweakness=Weakness to Water
+am2.affinity.darkvision=Darkvision
+am2.affinity.sunlightweakness=Weakness to Sunlight
+am2.affinity.poisonresistance=Resistant to Poison
+#fire
+am2.affinity.fireresistance=Resistant to Fire
+am2.affinity.firepunch=Fire Punch
+am2.affinity.waterweakness=Weakness to Water
+#ice
+am2.affinity.waterfreeze=Frozen Footsteps (Water)
+am2.affinity.lavafreeze=Frozen Footsteps (Lava)
+am2.affinity.coldblooded=Cold Blooded
+#life
+am2.affinity.fasthealing=Fast Healing
+am2.affinity.pacifist=Pacifist
+#water
+am2.affinity.swiftswim=Swift Swimmer
+am2.affinity.expandedlungs=Expanded Lungs
+am2.affinity.fluidity=Fluidity
+am2.affinity.antiendermen=Endermen-Repellant
+am2.affinity.fireweakness=Fire Weakness
+#nature
+am2.affinity.harvester=Harvester
+am2.affinity.thorns=Thorns Aura
+am2.affinity.photosynthesis=Photosynthesis
+am2.affinity.rooted=Rooted
+#lightning
+am2.affinity.reflexes=Lightning Reflexes
+am2.affinity.lightningrod=Lightning Rod
+ 
+achievement.compendiumData=New Entry Unlocked
+achievement.componentUnlock=Discovered Spell Part
