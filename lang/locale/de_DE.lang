@@ -53,7 +53,7 @@ item.arsmagica2:ArcaneCompendium.name=Arkanes Kompendium
 item.arsmagica2:wakebloom.name=Wachblüte
 item.arsmagica2:crystal_phylactery.name=Kristallphylakterion
 item.arsmagica2:liquidEssenceBucket.name=Eimer mit flüssiger Essenz
-item.arsmagica2:nature_scythe.name=Sense des Naturwächters
+item.arsmagica2:nature_scythe.name=§6Sense der Natur§f
 item.arsmagica2:mana_boost_potion.name=Infundierter Essenztrank
 item.arsmagica2:evilBook.name=Böse aussehendes Buch
 item.arsmagica2:woodenLeg.name=Holzbein
@@ -71,7 +71,6 @@ item.arsmagica2:enderEssence.name=Enderessenz
 item.arsmagica2:pureEssence.name=Pure Essenz
 item.arsmagica2:highEssenceCore.name=Hoch-Essenzkern
 item.arsmagica2:baseEssenceCore.name=Basis-Essenzkern
-item.arsmagica2:unknownEssence.name=Unbekannte Essenz
 item.arsmagica2:vinteumDust.name=Vinteumstaub
 item.arsmagica2:arcaneCompound.name=Arkane Verbindung
 item.arsmagica2:arcaneAsh.name=Arkane Asche
@@ -92,7 +91,7 @@ item.arsmagica2:blackRune.name=Schwarze Rune
 item.arsmagica2:whiteRune.name=Weiße Rune
 item.arsmagica2:infinityOrb.name=Unendlichkeitsorb
 item.arsmagica2:debugRune.name=Rune des Debugging
-item.arsmagica2:unknownRune.name=Unbekannte Rune
+item.arsmagica2:unknownRune.name=Unbekannt
 item.arsmagica2:sigil_base=Siegel %s
 item.arsmagica2:sigil_gentlerains=des Freundlichen Regens
 item.arsmagica2:sigil_naturesbounty=der Fülle der Natur
@@ -102,7 +101,24 @@ item.arsmagica2:sigil_butchery=des Abschlachtens
 item.arsmagica2:sigil_progeny=der Nachkommenschaft
 item.arsmagica2:sigil_containment=des Behaltens
 item.arsmagica2:sigil_interdiction=des Verbots
-item.arsmagica2:magic_broom.name=des Magischen Besens
+item.arsmagica2:sigil_light=des Lichts
+item.arsmagica2:sigil_moonstoneattraction=der Mondgezeiten
+item.arsmagica2:sigil_packedearth=der gepackted Erde
+item.arsmagica2:magic_broom.name=Magischer Besen
+item.arsmagica2:arcaneSpellBook.name=§6Arcane Spellbook§f
+item.arsmagica2:winter_arm.name=§6Griff des Winters§f
+item.arsmagica2:air_sled.name=§6Luftschlitten§f
+item.arsmagica2:earth_armor.name=§6Erdrüstung§f
+item.arsmagica2:water_orbs.name=§6Wasserorb§f
+item.arsmagica2:fire_ears.name=§6Antenne des Feuerwächters§f
+item.arsmagica2:workbenchUpgrade.name=Magierwerkbank-Upgrade: Herstellung
+item.arsmagica2:bindingCatalyst.name=Bindungskatalysator
+item.arsmagica2:bindingCatalystPick.name=: Spitzhacke
+item.arsmagica2:bindingCatalystAxe.name=: Axt
+item.arsmagica2:bindingCatalystSword.name=: Schwert
+item.arsmagica2:bindingCatalystHoe.name=: Hacke
+item.arsmagica2:bindingCatalystShovel.name=: Schaufel
+item.arsmagica2:bindingCatalystBow.name=: Bogen
 
 #blocks
 tile.arsmagica2:essence_refiner.name=Essenzraffinierer
@@ -110,7 +126,8 @@ tile.arsmagica2:essenceconduit.name=Essenzleitung
 tile.arsmagica2:blockcaster.name=Zaubermaschine
 tile.arsmagica2:crystalpillar.name=Kristallsäule
 tile.arsmagica2:calefactor.name=Kalefaktor
-tile.arsmagica2:illusionBlock.name=Illusionsblock
+tile.arsmagica2:illusionBlock.default.name=Illusionsblock
+tile.arsmagica2:illusionBlock.nobarrier.name=Ätherischer Illusionsblock
 tile.arsmagica2:blockkeystonerecepticle.name=Schlusssteinbehälter
 tile.arsmagica2:blockastralbarrier.name=Astralbarriere
 tile.arsmagica2:blockseerstone.name=Seherstein
@@ -152,7 +169,7 @@ tile.arsmagica2:witchwoodSingleSlab.name=Hexholzstufe
 tile.arsmagica2:stairsWitchwood.name=Hexholztreppe
 tile.arsmagica2:saplingWitchwood.name=Hexholzsetzling
 tile.arsmagica2:slabWitchwood.name=Hexholzstufe
-tile.arsmagica2:magiciansWorkbench.name=Werkbank des Magiers
+tile.arsmagica2:magiciansWorkbench.name=Magierwerkbank
 tile.arsmagica2:magic_sigil.name=Siegelstand
 tile.arsmagica2:everstone.name=Immerstein
 
@@ -202,6 +219,14 @@ am2.spell.contingency_damage=Vorkehrung: Schaden
 am2.spell.contingency_fire=Vorkehrung: Feuer
 am2.spell.contingency_health=Vorkehrung: Gesundheit
 am2.spell.contingency_death=Vorkehrung: Tod
+am2.spell.wall=Wand
+am2.spell.manalink=Mana-Link
+am2.spell.manashield=Mana-Schild
+am2.spell.moonrise=Mondschein
+am2.spell.daylight=Tageslicht
+am2.spell.blizzard=Blizzard
+am2.spell.fallingstar=Sternenfall
+am2.spell.firerain=Feuersturm
 
 am2.spell.accelerate=Beschleunigen
 am2.spell.astraldistortion=Astrale Verzerrung
@@ -262,6 +287,7 @@ am2.spell.transplace=Translokieren
 am2.spell.truesight=Wahre Sicht
 am2.spell.waterbreathing=Unterwasseratmung
 am2.spell.waterygrave=Wässernes Grab
+am2.spell.drown=Ertrinken
 
 am2.spell.bounce=Springen
 am2.spell.damage=Schaden
@@ -313,6 +339,15 @@ am2.tooltip.infOrbBlue=Du hast einen §9blauen§f Skillpunkt bekommen!
 am2.tooltip.infOrbGreen=Du hast einen §2grünen§f Skillpunkt bekommen!
 am2.tooltip.infOrbRed=Du hast einen §4roten§f Skillpunkt bekommen!
 am2.tooltip.charge=Ladung
+am2.tooltip.armorxp=Infused Experience: %d
+am2.tooltip.armorlevel=Rüstungs-XP-Level: %d
+am2.tooltip.arcanespellbook=§3Erhalte die Macht der Magier aus früheren Zeiten.§f
+am2.tooltip.winter_arm=§3Es ist frostig kalt.§f
+am2.tooltip.air_sled=§3Fliege durch die Luft mit größter Leichtigkeit...§f
+am2.tooltip.earth_armor=§3Werde so zäh wie die Erde selbst.§f
+am2.tooltip.water_orbs=§3Wasser wird dein Freund.§f
+am2.tooltip.fire_ears=§3Umfasse die Flammen.§f
+am2.tooltip.nature_scythe=§3Ich habe deinen Meister besiegt. Knie vor mir!§f
 
 #guis
 am2.gui.back=Zurück
@@ -382,6 +417,12 @@ am2.gui.pause=Pause
 am2.gui.componentsMissing=Rezeptkomponenten fehlen
 am2.gui.gridInUse1=Alle möglichen Werkfelder werden genutzt.
 am2.gui.gridInUse2=Leere Komponenten zuerst.
+am2.gui.options=Options
+am2.gui.minimalHud=Minimales HUD
+am2.gui.minimalHudDesc=Wenn Ja, wird sich die AM HUD nur zeigen, wenn ein Zauber,\nZauberbuch oder Stab ausgerüstet ist.
+am2.gui.affinity=Affinitäts-UI
+am2.gui.armorUI=Zeige Rüstungs-Status
+am2.gui.lockWarning=WARNUNG: Einen Punk in Offensive, Defensive oder Nutzen auszugeben, wird ihn zu deinem Primärbaum machen, und das wird deine Auswahlmöglichkeiten in den anderen beiden Bäumen begrenzen.  Wähle weise!
 
 #death messages
 am2.death.fire=%s ging in Flammen auf.
@@ -397,3 +438,48 @@ am2.npc.partyleave=Viel Glück, mein Freund.
 am2.npc.partyrefuse=Du musst noch stärker werden, bevor ich dir folgen werde.
 am2.npc.partyfull=Sieht aus, als wäre deine Gruppe bereits voll.
 am2.npc.nopartyskill=Kenne ich dich?
+
+#affinity effect descriptions
+#air
+am2.affinity.agile=Agil
+am2.affinity.lightasafeather=Leicht wie eine Feder
+#arcane
+am2.affinity.clearcaster=Klarzauber
+am2.affinity.onewithmagic=Magischer Fokus
+am2.affinity.magicweakness=Magieschwäche
+#earth
+am2.affinity.stoneskin=Steinhaut
+am2.affinity.solidbones=Feste Knochen
+#ender
+am2.affinity.waterweakness=Wasserschwach
+am2.affinity.darkvision=Dunkelsicht
+am2.affinity.sunlightweakness=Sonnenschwach
+am2.affinity.poisonresistance=Resistend gegen Gift
+#fire
+am2.affinity.fireresistance=Resistent gegen Feuer
+am2.affinity.firepunch=Feuerschlag
+am2.affinity.waterweakness=Wasserschwach
+#ice
+am2.affinity.waterfreeze=Frostiger Schritt (Wasser)
+am2.affinity.lavafreeze=Frostiger Schritt (Lava)
+am2.affinity.coldblooded=Kaltblütig
+#life
+am2.affinity.fasthealing=Schnelle Heilung
+am2.affinity.pacifist=Pazifistisch
+#water
+am2.affinity.swiftswim=Schnellschwimmer
+am2.affinity.expandedlungs=Vergrößerte Lunge
+am2.affinity.fluidity=Flüssigkeit
+am2.affinity.antiendermen=Endermen-Abwehrer
+am2.affinity.fireweakness=Feuerschwäche
+#nature
+am2.affinity.harvester=Ernter
+am2.affinity.thorns=Dornenaura
+am2.affinity.photosynthesis=Photosynthese
+am2.affinity.rooted=Verwurzelt
+#lightning
+am2.affinity.reflexes=Blitzreflexe
+am2.affinity.lightningrod=Blitzableiter
+ 
+achievement.compendiumData=Neuen Eintrag entdeckt
+achievement.componentUnlock=Zauberteil entdeckt
