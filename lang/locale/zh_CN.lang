@@ -53,7 +53,7 @@ item.arsmagica2:ArcaneCompendium.name=巫师宝典
 item.arsmagica2:wakebloom.name=觉苏草
 item.arsmagica2:crystal_phylactery.name=水晶护符
 item.arsmagica2:liquidEssenceBucket.name=液态源质桶
-item.arsmagica2:nature_scythe.name=自然守卫者之镰
+item.arsmagica2:nature_scythe.name=§6自然之镰§f
 item.arsmagica2:mana_boost_potion.name=蕴魔源质药水
 item.arsmagica2:evilBook.name=邪性之书
 item.arsmagica2:woodenLeg.name=木腿
@@ -71,7 +71,6 @@ item.arsmagica2:enderEssence.name=末影源质
 item.arsmagica2:pureEssence.name=纯净源质
 item.arsmagica2:highEssenceCore.name=高级源质核心
 item.arsmagica2:baseEssenceCore.name=基本源质核心
-item.arsmagica2:unknownEssence.name=未知源质
 item.arsmagica2:vinteumDust.name=温特姆粉末
 item.arsmagica2:arcaneCompound.name=奥术复合物
 item.arsmagica2:arcaneAsh.name=奥术粉末
@@ -92,7 +91,7 @@ item.arsmagica2:blackRune.name=黑色符文
 item.arsmagica2:whiteRune.name=白色符文
 item.arsmagica2:infinityOrb.name=无限之球
 item.arsmagica2:debugRune.name=调试符文
-item.arsmagica2:unknownRune.name=未知符文
+item.arsmagica2:unknown.name=未知
 item.arsmagica2:sigil_base=%s徽记
 item.arsmagica2:sigil_gentlerains=和风细雨
 item.arsmagica2:sigil_naturesbounty=自然的馈赠
@@ -102,7 +101,24 @@ item.arsmagica2:sigil_butchery=屠宰场
 item.arsmagica2:sigil_progeny=后裔
 item.arsmagica2:sigil_containment=蕴含
 item.arsmagica2:sigil_interdiction=禁制
+item.arsmagica2:sigil_light=要有光
+item.arsmagica2:sigil_moonstoneattraction=月汐
+item.arsmagica2:sigil_packedearth=壅塞大地
 item.arsmagica2:magic_broom.name=魔法扫帚
+item.arsmagica2:arcaneSpellBook.name=§6法术书§f
+item.arsmagica2:winter_arm.name=§6寒冬之爪§f
+item.arsmagica2:air_sled.name=§6风之橇§f
+item.arsmagica2:earth_armor.name=§6大地之甲§f
+item.arsmagica2:water_orbs.name=§6水之球§f
+item.arsmagica2:fire_ears.name=§6焰之触须§f
+item.arsmagica2:workbenchUpgrade.name==巫师工作台升级:合成
+item.arsmagica2:bindingCatalyst.name=具象化媒介
+item.arsmagica2:bindingCatalystPick.name=:镐
+item.arsmagica2:bindingCatalystAxe.name=:斧
+item.arsmagica2:bindingCatalystSword.name=:剑
+item.arsmagica2:bindingCatalystHoe.name=:锄
+item.arsmagica2:bindingCatalystShovel.name=:铲
+item.arsmagica2:bindingCatalystBow.name=:弓
 
 #blocks
 tile.arsmagica2:essence_refiner.name=源质提炼机
@@ -110,7 +126,8 @@ tile.arsmagica2:essenceconduit.name=魔力中导站
 tile.arsmagica2:blockcaster.name=施术台
 tile.arsmagica2:crystalpillar.name=水晶柱
 tile.arsmagica2:calefactor.name=魔力炉
-tile.arsmagica2:illusionBlock.name=幻象方块
+tile.arsmagica2:illusionBlock.default.name=幻象方块
+tile.arsmagica2:illusionBlock.nobarrier.name=天域幻象方块
 tile.arsmagica2:blockkeystonerecepticle.name=楔石插槽
 tile.arsmagica2:blockastralbarrier.name=星界屏障
 tile.arsmagica2:blockseerstone.name=预言家之眼
@@ -201,6 +218,14 @@ am2.spell.contingency_damage=应急激发:伤害
 am2.spell.contingency_fire=应急激发:灼烧
 am2.spell.contingency_health=应急激发:健康
 am2.spell.contingency_death=应急激发:死亡
+am2.spell.wall=塑墙
+am2.spell.manalink=魔力链接
+am2.spell.manashield=魔力盾
+am2.spell.moonrise=升月
+am2.spell.daylight=白昼之光
+am2.spell.blizzard=暴雪
+am2.spell.fallingstar=星袭
+am2.spell.firerain=火焰风暴
 
 am2.spell.accelerate=神行术
 am2.spell.astraldistortion=星界扭曲
@@ -260,6 +285,7 @@ am2.spell.transplace=转置术
 am2.spell.truesight=真视术
 am2.spell.waterbreathing=水下呼吸
 am2.spell.waterygrave=水墓术
+am2.spell.drown=浸溺
 
 am2.spell.bounce=弹跳
 am2.spell.damage=伤害
@@ -310,6 +336,16 @@ am2.tooltip.infOrbFail9=你深信有什么重要人物会接见你.
 am2.tooltip.infOrbBlue=你获得了一个§9蓝色§f技能点!
 am2.tooltip.infOrbGreen=你获得了一个§2绿色§f 技能点!
 am2.tooltip.infOrbRed=你获得了一个§4红色§f 技能点!
+am2.tooltip.charge=充能
+am2.tooltip.armorxp=灌魔经验:%d
+am2.tooltip.armorlevel=护甲XP等级:%d
+am2.tooltip.arcanespellbook=§3获得老巫师的力量.§f
+am2.tooltip.winter_arm=§3冷酷到底.§f
+am2.tooltip.air_sled=§3飘逸地翱翔天际...§f
+am2.tooltip.earth_armor=§3像大地一样弹乎乎的.§f
+am2.tooltip.water_orbs=§3水乃你盆友.§f
+am2.tooltip.fire_ears=§3拥抱火焰.§f
+am2.tooltip.nature_scythe=§3我杀死了你的主人,臣服于我吧!§f
 
 #guis
 am2.gui.back=返回
@@ -379,6 +415,12 @@ am2.gui.pause=暂停
 am2.gui.componentsMissing=缺失材料.
 am2.gui.gridInUse1=可用合成网格均被占用.
 am2.gui.gridInUse2=先清除材料.
+am2.gui.options=选项
+am2.gui.minimalHud=迷你HUD
+am2.gui.minimalHudDesc=若选中,则AM HUD仅仅在装备了法术,法术书或者法杖时才显示.
+am2.gui.affinity=亲和力UI
+am2.gui.armorUI=显示护甲状态
+am2.gui.lockWarning=警告: 花费技能点在进攻,防御或者实用分支之一上,会选定它为主技能树,这会限制你在其他两个技能树上的选择.请做出明智选择!
 
 #death messages
 am2.death.fire=%s被火烤焦了.
@@ -394,3 +436,48 @@ am2.npc.partyleave=祝你好运,我的朋友.
 am2.npc.partyrefuse=你还满足不了我!
 am2.npc.partyfull=看起来你的队伍已经满员了.
 am2.npc.nopartyskill=我认识你吗?
+
+#affinity effect descriptions
+#air
+am2.affinity.agile=敏捷
+am2.affinity.lightasafeather=轻若鸿毛
+#arcane
+am2.affinity.clearcaster=清晰施法
+am2.affinity.onewithmagic=魔法聚焦
+am2.affinity.magicweakness=法力虚弱
+#earth
+am2.affinity.stoneskin=石肤
+am2.affinity.solidbones=坚实骨骼
+#ender
+am2.affinity.waterweakness=畏水
+am2.affinity.darkvision=夜视
+am2.affinity.sunlightweakness=惧光
+am2.affinity.poisonresistance=抗毒
+#fire
+am2.affinity.fireresistance=抗火
+am2.affinity.firepunch=火拳
+am2.affinity.waterweakness=畏水
+#ice
+am2.affinity.waterfreeze=寒径(水)
+am2.affinity.lavafreeze=寒径(岩浆)
+am2.affinity.coldblooded=冷血
+#life
+am2.affinity.fasthealing=急愈
+am2.affinity.pacifist=和平
+#water
+am2.affinity.swiftswim=蛙泳
+am2.affinity.expandedlungs=超肺
+am2.affinity.fluidity=流质
+am2.affinity.antiendermen=末影之斥
+am2.affinity.fireweakness=惧火
+#nature
+am2.affinity.harvester=丰收
+am2.affinity.thorns=荆棘之环
+am2.affinity.photosynthesis=光合作用
+am2.affinity.rooted=根须之脚
+#lightning
+am2.affinity.reflexes=闪电反应
+am2.affinity.lightningrod=雷霆之棍
+ 
+achievement.compendiumData=新条目解锁
+achievement.componentUnlock=发现法术组件
