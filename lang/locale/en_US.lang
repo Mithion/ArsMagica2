@@ -119,6 +119,7 @@ item.arsmagica2:bindingCatalystSword.name=: Sword
 item.arsmagica2:bindingCatalystHoe.name=: Hoe
 item.arsmagica2:bindingCatalystShovel.name=: Shovel
 item.arsmagica2:bindingCatalystBow.name=: Bow
+item.arsmagica2:keystoneDoor.name=Keystone Door
 
 #blocks
 tile.arsmagica2:essence_refiner.name=Essence Refiner
@@ -172,6 +173,7 @@ tile.arsmagica2:slabWitchwood.name=Witchwood Slab
 tile.arsmagica2:magiciansWorkbench.name=Magician's Workbench
 tile.arsmagica2:magic_sigil.name=Sigil Stand
 tile.arsmagica2:everstone.name=Everstone
+tile.arsmagica2:slipstreamGenerator.name=Slipstream Generator
 
 #entities
 entity.arsmagica2.EarthElemental.name=Earth Elemental
@@ -423,6 +425,7 @@ am2.gui.minimalHudDesc=If yes, the AM HUD will show only when a spell,\nspell bo
 am2.gui.affinity=Affinity UI
 am2.gui.armorUI=Show Armor Status
 am2.gui.lockWarning=WARNING: Spending a point in Offense, Defense, or Utility will make it your primary tree, and will limit your selection in the other two trees.  Choose wisely!
+am2.gui.xpAlways=XP Always Visible
 
 #death messages
 am2.death.fire=%s went up in flames.
