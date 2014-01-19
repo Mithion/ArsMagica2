@@ -343,6 +343,9 @@
 			<name>Accelerate</name>
 			<desc>This spell causes targeted blocks to tick faster.  Note that it does not make tile entities any quicker.  This spell is best used in a shape like beam, wall, or zone, due to its need to be cast multiple times to have any real effect.</desc>
 		</component>
+		<component id="Drown">
+			<name>Drown</name>
+			<desc>You can create water directly inside the target's lungs, causing them to take drowning damage.</desc></component>
 	</components>
 	<modifiers zeroItemText="You don't know any modifiers yet, and aren't eligible to learn any!">
 		<modifier id="Gravity">
@@ -744,10 +747,6 @@
 			<subitem id="red_chalk">
 				<name>Red Chalk</name>
 				<desc>Red chalk is on occasion used as chalk for a nexus, though the essence that nexus will produce is dark and sinister in nature.  Correctly drawn runes, with the proper structure around them, can form a Dark Nexus that will suck the life force out of almost anything unfortunate enough to be caught in it's grasp. </desc>
-			</subitem>			
-			<subitem id="purple_chalk">
-				<name>Purple Chalk</name>
-				<desc>Purple chalk, often associated with pure magic, can be used to draw a rune on the ground that will nullify all magic near it, be it buffs or flying spells.  It's often used by battle mages, who, upon running out of mana, use these runes to ensure you can't use yours either.</desc>
 			</subitem>
 		</item>
 		<item id="keystone">
@@ -1056,7 +1055,7 @@
 			<name>Darkling</name>
 			<desc>Darklings are small dog-like creatures that are found in the nether.  Their body becomes less visible during night, fading to near invsibility at midnight.  As dawn approaches, the Darklings will begin to gradually appear again until they become fully visible again for the day.</desc>
 		</mob>
-		<mob id="MobHellCow">
+		<mob id="HellCow">
 			<name>Hell Cow</name>
 			<desc>Moo? Moo moo moo, moo moo moo moo.  Moo.  Moo moo moo moo moo, moo moo moo?  Moo!  Moo moo moo moo moo - moo moo moo. !d 1.) Moo moo moo moo !d 2.) Moo, moo moo moo moo. !d 3.) Moo! !d Moo, moo moo moo, moo moo moo.  Moo moo moo moo moo moo.  Moo, moo!</desc>
 		</mob>
@@ -1184,7 +1183,7 @@
 				<desc>Ethereal illusion blocks will look like solid blocks, but anything can pass through them.  They still will emit particles if you have #9True Sight#0 active.  Ethereal Illusion Blocks will not change their appearance due to True Sight though.</desc>
 			</subitem>
 		</block>
-		<block id="essence_refiner_front_idle">
+		<block id="essence_refiner">
 			<name>Essence Refiner</name>
 			<desc>
 				The essence refiner takes everyday items and using
@@ -1256,7 +1255,7 @@
 				into the same slots, causing the internal essence
 				routing to be much more efficient.
 			</desc>
-			<subitem id="blockGroundCaster">
+			<subitem id="casterRune">
 				<name>Caster Rune</name>
 				<desc>The Caster Rune functions in the same way as a #5Caster#0, save for one specific difference:  The caster rune does not required a redstone signal to operate, and rather casts when walked upon.  It will cast directly on whatever triggers it.</desc>
 			</subitem>
@@ -1329,7 +1328,7 @@
 				amongst the White Magi.
 			</desc>
 		</block>
-		<block id="ore_vinteum">
+		<block id="ores@0">
 			<name>Vinteum Ore</name>
 			<desc>
 				Vinteum was discovered during a heated battle between
@@ -1531,6 +1530,9 @@
 			<name>Vinteum Torches</name>
 			<desc>Vinteum Torches are crafted in a simplistic way, and glow with roughly the same brightness as a standard torch.  They are just an aesthetic alternative.</desc>
 		</block>
+		<block id="slipstreamGenerator">
+			<name>Slipstream Generator</name>
+			<desc>You have managed to create a device that can project a cushion of air around you to make you float upwards or gently lower down towards the ground.  The machine only works on mages above it (#5players only#0), but has a large vertical range.  In testing, you note that if you are falling when you enter its effect radius, it takes a little while before it can completely catch you.  You have also managed to make it work #9based on the direction you are looking#0.  Look up, go up.  Look down, go down.  Look forward, hover.  You can also #9sneak to remain vertically stationary#0, regardless of where you are looking.</desc></block>
 	</blocks>
 	<mechanics>
 		<mechanic id="affinity">
@@ -1671,7 +1673,7 @@
 		</mechanic>
 		<mechanic id="silver_skills">
 			<name>Silver Skills</name>
-			<desc>Silver skills are skills inside the occulus that cannot be obtained in normal ways.  To unlock a silver skill, the correct spell combination must be crafted, and then cast.  There are a few rules to silver skill unlock combinations that will make them somewhat easier to decipher. !d 1.) All parts required to unlock a silver skill will be in the #9same tree as the silver skill itself#0. !d 2.) All silver skills require between #9 2 and 4 components and/or modifiers to unlock#0. !d 3.) Shapes do not matter in unlocking a silver skill.  #9Any shape can be used#0.</desc>
+			<desc>Silver skills are skills inside the occulus that cannot be obtained in normal ways.  To unlock a silver skill, the correct spell combination must be crafted, and then cast.  There are a few rules to silver skill unlock combinations that will make them somewhat easier to decipher. !d 1.) All parts required to unlock a silver skill will be in the #9same tree as the silver skill itself#0. !d 2.) All silver skills require between #9 2 and 4 components and/or modifiers to unlock#0. !d 3.) Shapes do not matter in unlocking a silver skill.  #9Any shape can be used#0. !d 4.) The combination #9does not have to be in any specific order#0.  As long as the correct components are present, it will work. !d 5.) The components/modifiers #9all have to be in the same stage#0. !d 6.) The components and modifiers #9will logcally make sense with the silver skill#0.  For example, Firestorm won't require drown. !d 7.) The spell to unlocka silver skill may not be the most practical for common use.</desc>
 		</mechanic>
 	</mechanics>
 	<guides>
