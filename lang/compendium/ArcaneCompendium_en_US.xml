@@ -1149,12 +1149,13 @@
 			<name>Fire Guardian</name>
 			<desc>
 				The Fire Guardian is a living inferno from the depths of
-				the nether. To summon it, create a gold inlay ring in
-				the nether with lava in the middle. Throw a water
-				essence into the lava and a portal will open to the fire
-				guardian. Be warned though, it does not take kindly to
-				those that try to bring water to its domain. Be prepared
-				for a fight! !l Recommended level: 90
+				the nether. To summon it, place obsidian in a ring with 
+				gold inlay above it in the nether with lava in the 
+				middle. Throw a water essence into the lava and a portal 
+				will open to the fire guardian. Be warned though, it 
+				does not take kindly to those that try to bring water to
+				its domain. Be prepared for a fight! 
+				!l Recommended level: 90
 			</desc>
 		</boss>
 	</bosses>
