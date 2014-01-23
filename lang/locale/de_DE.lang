@@ -119,6 +119,7 @@ item.arsmagica2:bindingCatalystSword.name=: Schwert
 item.arsmagica2:bindingCatalystHoe.name=: Hacke
 item.arsmagica2:bindingCatalystShovel.name=: Schaufel
 item.arsmagica2:bindingCatalystBow.name=: Bogen
+item.arsmagica2:keystoneDoor.name=Schlüsselsteintür
 
 #blocks
 tile.arsmagica2:essence_refiner.name=Essenzraffinierer
@@ -133,7 +134,7 @@ tile.arsmagica2:blockastralbarrier.name=Astralbarriere
 tile.arsmagica2:blockseerstone.name=Seherstein
 tile.arsmagica2:blue_orchid.name=Blaue Orchidee
 tile.arsmagica2:desert_nova.name=Wüstennova
-tile.arsmagica2:keystonechest.name=Schlusssteintruhe
+tile.arsmagica2:keystonechest.name=Schlüsselsteintruhe
 tile.arsmagica2:lectern.name=Pult
 tile.arsmagica2:arcanereconstructor.name=Arkaner Rekonstruktor
 tile.arsmagica2:mana_battery.name=Manabatterie
@@ -172,6 +173,7 @@ tile.arsmagica2:slabWitchwood.name=Hexholzstufe
 tile.arsmagica2:magiciansWorkbench.name=Magierwerkbank
 tile.arsmagica2:magic_sigil.name=Siegelstand
 tile.arsmagica2:everstone.name=Immerstein
+tile.arsmagica2:slipstreamGenerator.name=Windsog-Generator
 
 #entities
 entity.arsmagica2.EarthElemental.name=Erdelementar
@@ -423,6 +425,7 @@ am2.gui.minimalHudDesc=Wenn Ja, wird sich das AM HUD nur zeigen, wenn ein Zauber
 am2.gui.affinity=Affinitäts-UI
 am2.gui.armorUI=Zeige Rüstungs-Status
 am2.gui.lockWarning=WARNUNG: Einen Punkt in Offensive, Defensive oder Nutzen auszugeben, wird ihn zu deinem Primärbaum machen, und das wird deine Auswahlmöglichkeiten in den anderen beiden Bäumen begrenzen.  Wähle weise!
+am2.gui.xpAlways=XP Immer sichtbar
 
 #death messages
 am2.death.fire=%s ging in Flammen auf.
