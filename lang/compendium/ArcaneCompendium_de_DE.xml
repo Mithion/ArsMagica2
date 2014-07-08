@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <compendium>
-  <version>1.0.1</version>
+  <version>1.0.3</version>
   <shapes zeroItemText="You don't know any shapes yet, and aren't eligible to learn any!">
     <shape id="Projectile">
       <name>Projectile</name>
@@ -267,8 +267,8 @@
     </component>
     <component id="Dig">
       <name>Dig</name>
-      <desc>The ground shatters with a snap of your fingers.  Harder blocks take more mana to break.</desc>
-      <modifiedBy>MINING_POWER,PROSPERITY,SILKTOUCH_LEVEL</modifiedBy>
+      <desc>The ground shatters with a snap of your fingers.  Harder blocks take more mana to break.  Dig starts out equivalent to an Iron pickaxe, but can be upgraded with the use of the #5Mining Power#0 modifier.</desc>
+      <modifiedBy>MINING_POWER,FORTUNE_LEVEL,SILKTOUCH_LEVEL</modifiedBy>
     </component>
     <component id="Light">
       <name>Light</name>
@@ -944,14 +944,14 @@
         <desc>
 					Charge Foci are used to increase the rate at which Ars Magica machines charge.  In #9Calefactors#0 and #9Arcane Reconstructors#0, they also increase the rate at which the machine performs its task.
 				</desc>
-        <relatedEntries>summoner,arcanereconstructor</relatedEntries>
+        <relatedEntries>summoner,arcanereconstructor,arcane_deconstructor</relatedEntries>
       </subitem>
       <subitem id="manafocus">
         <name>Mana Focus</name>
         <desc>
-					Mana Foci are used to decrease costs of operation in Ars Magica machines.  In the case of #9Essence Conduits#0 and #9Calefactors#0 they increase the rate at which deficit is shed naturally over time.
+					Mana Foci are used to decrease costs of operation in Ars Magica machines.
 				</desc>
-        <relatedEntries>summoner,arcanereconstructor</relatedEntries>
+        <relatedEntries>summoner,calefactor</relatedEntries>
       </subitem>
       <subitem id="lesserfocus">
         <name>Lesser Focus</name>
@@ -1002,11 +1002,11 @@
 				</desc>
         <relatedEntries>blockseerstone</relatedEntries>
       </subitem>
-      <relatedEntries></relatedEntries>
+      <relatedEntries>flicker_lure</relatedEntries>
     </item>
     <item id="keystone">
       <name>Keystone</name>
-      <desc>Keystones are used to link Gateways to each other, as well as to restrict access to Ars Magica machines (#5Keystone Chest#0, #5Seer Stone#0, #5Astral Barrier#0 and #5Keystone Recepticle#0).  The UI for these blocks will not open if you are not holding a keystone with the same rune combination.</desc>
+      <desc>Keystones are used to link Gateways to each other, as well as to restrict access to Ars Magica machines.  The UI for these blocks will not open if you are not holding a keystone with the same rune combination.</desc>
       <relatedEntries>keystonechest,blockkeystonerecepticle,blockastralbarrier,blockseerstone,keystoneDoors,gateways</relatedEntries>
     </item>
     <item id="mana_cake">
@@ -1193,7 +1193,67 @@
     <item id="flickerFocus">
       <name>Flicker Focus</name>
       <desc>Flicker foci are used to create livable conditions inside a #9Flicker Habitat#0 for Flickers.  It will enable them to perform several tasks, each of which are detailed to the right.</desc>
-      <relatedEntries>flickerHabitat,Flicker,crystalMarkers</relatedEntries>
+      <relatedEntries>flickerHabitat,Flicker,crystalMarker</relatedEntries>
+      <subitem id="flickerFocus@1">
+        <name>Flicker Focus: Item Transport</name>
+        <desc>The air flickers contained within this crystal have been attuned to the movement of items. Placing this within a #9Flicker Habitat#0 will allow you to link it with #9Crystal Markers#0 to interact with inventories containing items. To link the habitat containing this foci with a #9Crystal Marker#0 simply right click on the #9Flicker Habitat#0 then right click on the #9Crystal Marker#0. This foci can be upgraded using additional #9Flicker Habitats#0 with flickers inside them. This foci can operate without access to Etherium however it is very slow. Adding power increases the speed and allows the foci to make use of attached upgrades. !d Arcane: !l Increases the number of items the flickers inside can move at one time. The first arcane flicker will increase the count to 32, each additional arcane flicker will add an additional 32 items to the air flickers carrying capacity !d Lightning: !l Lightning flickers will increase the speed at which the flickers move items. Additional lightning flickers after the first will still increase the speed but suffer from diminishing returns. Most Magitechs belive its a waste to go higher then three lightning flickers.</desc>
+        <relatedEntries>flickerFocus,crystalMarker</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@3">
+        <name>Flicker Focus: Interdiction</name>
+        <desc>Arcane and air flickers working together can create a wall around their habitat if they are provided enough Etherium to do so. By placing this focus in a #9Flicker Habitat#0 and providing it with Etherium a nearly invisible wall is created in a 6 block radius from the #9Flicker Habitat#0.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@9">
+        <name>Flicker Focus: Containment</name>
+        <desc>Ender and air flickers working in tandem can create a wall surrounding their #9Flicker Habitat#0 provided they have been given the Etherium to do so. Placing this focus in a habitat and providing it with Etherium will create a nearly invisible wall in a 6 block radius from their #9Flicker Habitat#0 that non-player entities can not pass out of.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@4">
+        <name>Flicker Focus: Packed Earth</name>
+        <desc>Earth flickers when contained within this focus can flatten terrain in a 6 block radius around their #9Flicker Habitat#0 using materials stored in an inventory below their habitat. While these flickers can operate without access to Etherium they are much faster when they have access to a source of power.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@36">
+        <name>Flicker Focus: Flat Lands</name>
+        <desc>The earth and ice flickers inside this focus will flatten a 6 block radius area surrounding their #9Flicker Habitat#0. They can operate without power but are much more effective when connected to a source of Etherium.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@64">
+        <name>Flicker Focus: Progeny</name>
+        <desc>The life flickers inside this focus can use a source of Etherium to cause animals within 8 blocks to breed.  This focus requires etherium of any kind for each operation.  The default operation time is 2000 ticks (100 seconds), but this can be reduced by placing additional habitats adjacent to the original and placing lightning flicker jars in them.  There isn't much point in adding more than 4, as the minimum is 600 ticks (30 seconds).  Each upgrade multiplies the current duration by 0.75, so the effect is diminishing.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@80">
+        <name>Flicker Focus: Butchery</name>
+        <desc>The flickers inside this focus are constantly at odds. The fire flicker seeks to consume the life around its self, while the life flicker seeks to defend it. The balance that is struck in this conflict is that all but two of every animal type with a 6 block radius around the #9Flicker Habitat#0 that contains this focus will eventually be killed. Provided that the fire flicker has access to a source of Etherium to do its grisly work.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@134">
+        <name>Flicker Focus: Lunar Tides</name>
+        <desc>The three flickers inside this focus can use their combined power to pull moonstone meteors that would land within 128 blocks of their #9Flicker Habitat#0 to land within 8 blocks. However to accomplish this they need a trickle of Etherium to keep them alert and watching for meteors.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@144">
+        <name>Flicker Focus: Light</name>
+        <desc>The fire and lightning flickers contained within can use the power of the sun stone used in the construction of their focus to light a 16 block radius around their #9Flicker Habitat#0.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@384">
+        <name>Flicker Focus: Felled Oak</name>
+        <desc>The nature flicker contained within this focus will seek out trees within a 6 block radius around their #9Flicker Habitat#0, once they do the lightning flickers will fell the tree one block at a time. These flicker can operate without a source of power but they are much faster when they have a source of Etherium to fuel themselves.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@512">
+        <name>Flicker Focus: Gentle Rains</name>
+        <desc>The water flicker contained within this focus will hydrate the terrain in a 6 block radius around it's #9Flicker Habitat#0.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@832">
+        <name>Flicker Focus: Nature's Bounty</name>
+        <desc>The life, nature and water flickers contained within this focus will work together to help all plants within a 6 block radius grow faster. These hard working flickers will help all nearby plants with or without Etherium but providing them with a source of power will allow them to do their work faster.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
     </item>
     <item id="wizardChalk">
       <name>Wizard's Chalk</name>
@@ -1205,17 +1265,22 @@
       <desc>Journals can be used to #9record your experiences#0 for later use.  These experiences can #9later be recovered by reading the journal#0.</desc>
       <relatedEntries />
     </item>
+	<item id="deficit_crystal">
+      <name>Deficit Crystal</name>
+      <desc>Often noted as the antimatter of magic, Deficit represents a void in the fabric of reality.  You've managed to create a refined, crystallized version of it.  Crystals like these are often used in the unmaking of things.</desc>
+      <relatedEntries>essence_refiner,arcane_deconstructor</relatedEntries>
+    </item>
   </items>
   <structures>
     <structure id="obelisk_structure">
       <name>Obelisk</name>
       <controller>TileEntityObelisk</controller>
-      <desc>The Obelisk is somewhat of a magical furnace.  It can generate Etherium by burning #5Vinteum Dust#0 or #5Liquid Essence#0 out of a bucket.  The Obelisk generates #5Neutral Etherium#0.
+      <desc>The Obelisk is somewhat of a magical furnace.  It can generate Etherium by burning #5Vinteum Dust#0 or #5Liquid Etherium#0 out of a bucket.  The Obelisk generates #5Neutral Etherium#0.
 			!d
 			The structure depicted here does not have to be built all at once; it can be built in sections.  The #9Wizard's Chalk Circle#0 is a standalone upgrade that when completed, will increase the output of the Obelisk's burn capabilities.  The #9Pillars#0 are another upgrade, and will further increase the output of the Obelisk.  
 			!d
 			If space is a concern however, these upgrades are not required for the Obelisk to function.</desc>
-      <relatedEntries>obelisk,crystal_wrench,spell_staff_magitech</relatedEntries>
+      <relatedEntries>obelisk,crystal_wrench,spell_staff_magitech,magitechGoggles</relatedEntries>
     </structure>
     <structure id="blackaurem_structure">
       <name>Black Aurem</name>
@@ -1223,6 +1288,8 @@
       <desc>A sinister construction, the Black Aurem slowly but invariably pulls living creatures from around it inward to its center.  Upon reaching the middle, bolts of pure darkness lash out and tear the life force out of the creature. The Black Aurem generates #4Dark Etherium#0.  Mobs killed by the Aurem drop neither XP nor loot.
 			!d
 			The Black Aurem is created by performing the #9Ritual of Corruption#0 on an #9Obelisk#0.  Like the Obelisk, the Black Aurem can be upgraded by adding certain multiblock configurations around it.  The first of these is the #5Wizard's Chalk Circle#0, and will increase the amount of power generated from each mob the Aurem consumes.  The second upgrade is the #5Pillars#0, which will further increase the power generation.  The pillars can also have specific #5cap upgrades#0, which modify the amount of benefit.
+			!d
+			Obsidian and Chimerite are on the same level, with Sunstone giving a large bonus to generation.
 			!d
 			Neither the chalk circle or the pillars are required for the Aurem to function.</desc>
       <relatedEntries>obelisk,ritual_of_corruption,crystal_wrench,spell_staff_magitech</relatedEntries>
@@ -1747,13 +1814,12 @@
       <name>Fire Guardian</name>
       <desc>
 				The Fire Guardian is a living inferno from the depths of
-				the nether. To summon it, place obsidian in a ring with 
-				gold inlay above it in the nether with lava in the 
-				middle. Throw a water essence into the lava and a portal 
-				will open to the fire guardian. Be warned though, it 
-				does not take kindly to those that try to bring water to
-				its domain. Be prepared for a fight! 
-				!l Recommended level: 90
+				the nether. To summon it, create a gold inlay ring in
+				the nether on top of obsidian with lava in the middle. Throw a water
+				essence into the lava and the fire
+				guardian will appear. Be warned though, it does not take kindly to
+				those that try to bring water to its domain. Be prepared
+				for a fight! !l Recommended level: 90
 			</desc>
       <relatedEntries></relatedEntries>
     </boss>
@@ -1779,15 +1845,15 @@
       <desc>
 			Illusion blocks are so realistic that your brain will not allow you to walk through them due to self preservation and common sense.  Only with true sight can you convince yourself that the illusion is not real, and pass through to the other side.
 			!l
-			“Is that it?”
+			"Is that it?"
 			!l
-			"No. That’s a wall."
+			"No. That's a wall."
 			!l
 			"It could be disguised."
 			!l
-			"You’re not very good at looking for things, are you?"
+			"You're not very good at looking for things, are you?"
 			!l
-			"I’m good at looking for walls. Look, I found another one."
+			"I'm good at looking for walls. Look, I found another one."
 			</desc>
       <subitem id="illusionBlock@0">
         <name>Illusion Block</name>
@@ -1828,7 +1894,7 @@
       <name>Etherium Conduit</name>
       <desc>
 				Infused with dusts to direct Etherium through the 
-				air, the Essence Conduit began seeing heavy use almost 
+				air, the Etherium Conduit began seeing heavy use almost 
 				immediately after its invention.  They can be used to 
 				transfer Etherium over longer distances than the direct 
 				range of Etherium generation apparatus.  Each one has a 
@@ -1871,12 +1937,12 @@
       <name>Seer Stone</name>
       <desc>
 				Operating on a similar principle as the Astral Barrier,
-				the Seer Stone uses an essence aura projected through a
+				the Seer Stone uses an Etherium aura projected through a
 				spell focus to detect nearby objects. It can be
-				controlled by focusing the essence to a particular type
-				of object, and the resonant frequency of the essence can
-				be dictated with the use of a Keystone. Without the use
-				of a Keystone, the resonant frequency fluxuates
+				controlled by focusing the Etherium to a particular type
+				of object, and the resonant frequency of the Etherium can
+				be dictated with the use of a rune combination. Without the use
+				of a rune combination, the resonant frequency fluxuates
 				unpredictably and cannot be avoided. The seer stone,
 				however, is meant for a more subtle approach, letting
 				the object continue, but emitting a small signal that
@@ -2027,7 +2093,7 @@
     <block id="arcanereconstructor">
       <name>Arcane Reconstructor</name>
       <desc>Magic can, with the right influence, do anything.  By directing Etherium at the weak spots in otherwise mundane items, the Etherium will solidify to repair the damage, making it good as new.</desc>
-      <relatedEntries>foci,manafocus,chargefocus</relatedEntries>
+      <relatedEntries>chargefocus,arcane_deconstructor</relatedEntries>
     </block>
     <block id="lectern">
       <name>Lectern</name>
@@ -2041,7 +2107,7 @@
     </block>
     <block id="calefactor">
       <name>Calefactor</name>
-      <desc>A magical furnace, the calefactor can produce vinteum dust as it cooks in addition to the smelted item.  It behaves differently based on what kind of power it is receiving. !d Light: !l Slower cooking, but chance to double ores. !d Neutral: !l Standard functionality.  !d Dark: !l Extremely fast cook speeds, but a 5% chance to destroy an item rather than smelt it.</desc>
+      <desc>A magical furnace, the calefactor can produce vinteum dust as it cooks in addition to the smelted item.  If provided with light, neutral, and dark etherium, the calefactor can double ores.  It always has a small chance to double food.</desc>
       <relatedEntries>foci,manafocus,chargefocus</relatedEntries>
     </block>
     <block id="inscriptionTable">
@@ -2101,7 +2167,7 @@
     </block>
     <block id="saplingWitchwood">
       <name>Witchwood Saplings</name>
-      <desc>Witchwood saplings can rarely be obtained from the leaves of a witchwood tree.  They can be planted, however they need a source of Liquid Etherium within 1 block and below them (x/z +/- 1, y-1).  The more liquid essence source pools nearby (max 8), the faster the sapling will grow.  Even with all 8, however, the grow time can be significant.  Once the sapling grows into a full witchwood tree, it can sometimes also cause aum to grow nearby as well.</desc>
+      <desc>Witchwood saplings can rarely be obtained from the leaves of a witchwood tree.  They can be planted, however they need a source of Liquid Etherium within 1 block and below them (x/z +/- 1, y-1).  The more liquid etherium source pools nearby (max 8), the faster the sapling will grow.  Even with all 8, however, the grow time can be significant.  Once the sapling grows into a full witchwood tree, it can sometimes also cause aum to grow nearby as well.</desc>
       <relatedEntries></relatedEntries>
     </block>
     <block id="altarOfCreation">
@@ -2131,7 +2197,7 @@
     </block>
     <block id="obelisk">
       <name>Obelisk</name>
-      <desc>The Obelisk is a runed block that is used to generate #5Raw Essence#0 (the power system in Ars Magica 2).  It acts as a magical furnace, and burns Vinteum Dust or Liquid Etherium to generate power.
+      <desc>The Obelisk is a runed block that is used to generate #5Etherium#0 (the power system in Ars Magica 2).  It acts as a magical furnace, and burns Vinteum Dust or Liquid Etherium to generate power.
 			!d
 			It can be altered using #9Rituals#0 to become a #4Black Aurem#0 or a #9Celestial Prism#0.</desc>
       <relatedEntries>obelisk_structure,blackaurem_structure,celestialprism_structure,essenceAllAround,powerTypes,mana_battery,essence_refiner,essenceconduit,casters,arcanereconstructor,slipstreamGenerator</relatedEntries>
@@ -2152,42 +2218,42 @@
 			See the flicker focus entries for more information on how they can be modified.</desc>
       <relatedEntries>flickerFocus,flicker_jar,crystalMarkers</relatedEntries>
     </block>
-    <block id="crystalMarkers">
-      <name>Crystal Marker</name>
+    <block id="crystalMarker">
+      <name>Crystal Markers</name>
       <desc>Crystal Markers are used to instruct Flickers inside of a Flicker Habitat on how to sort items.</desc>
-      <subitem id="crystalMarker@0">
-        <name>Crystal Marker: Input</name>
-        <desc>Input into the flicker network from an inventory</desc>
+      <subitem id="cm_import">
+        <name>Import Crystal</name>
+        <desc>This crystal instructs the flickers to collect items from the inventory it is attached to and bring it into the item transportation network</desc>
         <relatedEntries>flickerFocus</relatedEntries>
       </subitem>
-      <subitem id="crystalMarker@1">
-        <name>Crystal Marker: Output</name>
-        <desc>Output to an inventory from the flicker network</desc>
+      <subitem id="cm_export">
+        <name>Export Crystal</name>
+        <desc>This crystal instructs the flickers that all items in the item transportation network can be exported to the inventory this crystal is attached to</desc>
         <relatedEntries>flickerFocus</relatedEntries>
       </subitem>
-      <subitem id="crystalMarker@2">
-        <name>Crystal Marker: Like Export</name>
-        <desc>Outputs items into the inventory that are already there from the flicker network.</desc>
+      <subitem id="cm_likeExport">
+        <name>Mimic Export Crystal</name>
+        <desc>This crystal instructs the flickers that items maybe exported from the item transportation network to the inventory this crystal is attached to so long as the inventory contains that item already</desc>
         <relatedEntries>flickerFocus</relatedEntries>
       </subitem>
-      <subitem id="crystalMarker@3">
-        <name>Crystal Marker: Set Export</name>
-        <desc>Outputs specific items into the inventory (set via GUI) from the flicker network.</desc>
+      <subitem id="cm_setExport">
+        <name>Set Export Crystal</name>
+        <desc>This crystal instructs the flickers that items may be exported from the item transportation network to the inventory this crystal is attached to so long as the item has been set through this crystals GUI</desc>
         <relatedEntries>flickerFocus</relatedEntries>
       </subitem>
-      <subitem id="crystalMarker@4">
-        <name>Crystal Marker: Regulated Export</name>
-        <desc>Outputs a set quantity of the specified items from the flicker network.</desc>
+      <subitem id="cm_regulateExport">
+        <name>Regulate Export Crystal</name>
+        <desc>This crystal instructs the flickers that items may be exported from the item transportation network to the inventory this crystal is attached to so long as the item has been set through this crystals GUI and the inventory contains less then number of items set in the crystals GUI</desc>
         <relatedEntries>flickerFocus</relatedEntries>
       </subitem>
-      <subitem id="crystalMarker@5">
-        <name>Crystal Marker: Regulate Multi</name>
-        <desc>I like trains.</desc>
+      <subitem id="cm_regulateMulti">
+        <name>Regulate Bidirectional Crystal</name>
+        <desc>This crystal instructs the flickers that they may both import and export from the inventory this crystal is attached to !d Import: !l Flickers will take items from the inventory so long as the item has been added to this crystals GUI and the number of items in the chest is greater then the number set in the GUI !d Export: !l Flickers will put items into the inventory so long as the item has been added to this crystals GUI and the number of items is below the number set in the GUI</desc>
         <relatedEntries>flickerFocus</relatedEntries>
       </subitem>
-      <subitem id="crystalMarker@6">
-        <name>Crystal Marker: Set Import</name>
-        <desc>Die, potato!</desc>
+      <subitem id="cm_setImport">
+        <name>Set Import Crystal</name>
+        <desc>This crystal instructs the flickers that they may import items into the item transportation network from the inventory this crystal is attached to so long as the item has been added to this crystals GUI</desc>
         <relatedEntries>flickerFocus</relatedEntries>
       </subitem>
     </block>
@@ -2210,7 +2276,7 @@
       <desc>The Armor Imbuement Table can be used to attach special imbuements to any armor in Minecraft.  In order to do this, you first need to have the armor equipped.  Mousing over any armor will display a prompt of "Press SHIFT for more information".  Doing so will show you how much XP has been absorbed into the armor.  Armor gains XP when you do.  See #5Mechanics -&gt; Armor XP Infusion#0 for more information on how it works. !d Once your armor has reached at least level 30, you can apply a Tier I imbuement to it.  Simply equip the armor and activate the Armor Imbuement Table.  Place the armor from the equip slots at the bottom of the UI into the active slot.  Available imbuements will appear in colour, unavailable ones will be grayscale.  You can only apply one tier of imbuement per armor piece, so choose wisely!  !d The tier costs are: !l Tier 1: 30 levels !l Tier 2: 42 levels !l Tier 3: 54 levls !l Tier 4: 66 levels !d Each time you imbue the armor, XP is deducted from it to apply the imbuement.</desc>
       <subitem id="imbuement_burnout_reduction">
         <name>Imbuement:  Burnout Reduction</name>
-        <desc>The Burnout Reduction imbuement grants a 15% increase in the rate that your Burnout reduces. !d Available Slots:  Head, Chest, Legs, Boots</desc>
+        <desc>The Burnout Reduction imbuement grants a 150% increase in the rate that your Burnout reduces. The effect is additive for each piece, with a maximum of 600%. !d Available Slots:  Head, Chest, Legs, Boots</desc>
       </subitem>
       <subitem id="imbuement_fall_damage">
         <name>Imbuement: Fall Damage</name>
@@ -2332,12 +2398,22 @@
       </subitem>
       <subitem id="imbuement_water_walking">
         <name>Imbuement: Water Walking</name>
-        <desc>You can walk on water with these boots.  You're a ninja! !d Available Slots: Boots</desc>
+        <desc>You can walk on water with these boots.  You're a ninja! !d Water walking is only applied when you're on top of the water.  If you're in, or under the water, you can swim as normal.  Simply swim to the top of the water and jump out to start water walking.  From the top of the water, start sneaking to drop down into the depths. !d Available Slots: Boots</desc>
       </subitem>
       <subitem id="imbuement_light_step">
         <name>Imbuement: Light Step</name>
         <desc>The Light Step Imbuement automatically causes a mage light to be placed at your feet (if possible) wherever the light level is low enough for monsters to spawn. !d Available Slots: Boots</desc>
       </subitem>
+    </block>
+	<block id="flicker_lure">
+      <name>Flicker Lure</name>
+      <desc>Flickers aren't normally able to enter our world, but with a little help and incentive, you can make that happen.  Placing this block and powering it with Etherium will cause flickers to be pulled into our world!  The type of flicker will depend on where the lure is.  See the entry on #9Flickers#0 for information on where to find specific ones.</desc>
+      <relatedEntries>Flicker</relatedEntries>
+    </block>
+	<block id="arcane_deconstructor">
+      <name>Arcane Deconstructor</name>
+      <desc>The Arcane Deconstructor, when powerd with #5Dark Etherium#0 can disassemble an item back into its crafting components. !d  Oh yeah, it can also disassemble spells.  You will get most of the items back from a spell, but items such as the initial blank rune or etherium investments, as well as the final spell parchment, will not be refunded. !d The deconstructor will attempt to place items into adjacent inventories if its own is full upon un-crafting.  Any items that cannot be placed are simply ejected into the world.</desc>
+      <relatedEntries>chargefocus</relatedEntries>
     </block>
   </blocks>
   <mechanics>
@@ -2407,7 +2483,7 @@
         <desc>
 					Lightning affinity causes you to run faster.  The speed increase is directly related to your affinity depth, ranging from 1 to 30%.  At 50% depth, you gain the ability to step up over one block high ledges.
 					!d
-					Unfortunately due to your affinity you are also somewhat of a living lightning rod (50% depth or greater).  Better take cover during rain and thunderstorms.  Lightning bolts still hurt.
+					Unfortunately due to your affinity you are also sort of short out in water. You can also light nearby TNT and supercharge nearby creepers!  Don't worry though, as you gain more control over your electric nature, you will be able to reduce the TNT and Creeper effects.
 				</desc>
         <relatedEntries></relatedEntries>
       </subitem>
@@ -2452,7 +2528,7 @@
     </mechanic>
     <mechanic id="mana" unlocked="true">
       <name>Mana</name>
-      <desc>Mana is your magical energy level.  You gain more mana by increasing your Magic Level. !d Mana regenerates over time, but you can gain boosts to regeneration by eating a #9Mana Cake#0 or standing in a #9Nexus#0 with more than 10% charge.  #9Mana Potions#0 and #9Mana Potion Bundles#0 can be used to give an instant boost to mana.  Mana is represented by a blue bar on your HUD.  You can use "#2/amuicfg#0" to toggle an option to show the actual numeric values of your mana.</desc>
+      <desc>Mana is your magical energy level.  You gain more mana by increasing your Magic Level. !d Mana regenerates over time, but you can gain boosts to regeneration by eating a #9Mana Cake#0 or standing near an Obelisk, Celestial Prism, or Black Aurem with more than 10% charge.  #9Mana Potions#0 and #9Mana Potion Bundles#0 can be used to give an instant boost to mana.  Mana is represented by a blue bar on your HUD.  You can use "#2/amuicfg#0" to toggle an option to show the actual numeric values of your mana.</desc>
       <relatedEntries></relatedEntries>
     </mechanic>
     <mechanic id="magicLevel" unlocked="true">
