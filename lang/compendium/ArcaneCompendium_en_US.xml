@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <compendium>
-  <version>1.0.3</version>
+  <version>1.0.4</version>
   <shapes zeroItemText="You don't know any shapes yet, and aren't eligible to learn any!">
     <shape id="Projectile">
       <name>Projectile</name>
@@ -134,6 +134,7 @@
       <name>Blind</name>
       <desc>Having a fireball to throw at dark mages is great.  Making it so they also can't see to retaliate is better.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+	  <relatedEntries>rituals_overview</relatedEntries>
     </component>
     <component id="Freeze">
       <name>Freeze</name>
@@ -1163,7 +1164,7 @@
       <desc>Warding Candles, when held, are moving sources of light.  They can also be #9attuned#0 to a specific block by #9sneaking and right clicking on the block while holding the candle#0.  This will cause the candle flame to turn blue when within 15 blocks of the specified block, and red when within 5 blocks.  A warding candle will burn for 15 minutes, but is put out when not equipped.
 			!d
 			Warding candles are also used in #5Rituals#0, and are placed down as part of the layout.  A Warding Candle that has been attuned cannot be used in a ritual.</desc>
-      <relatedEntries></relatedEntries>
+      <relatedEntries>rituals_overview</relatedEntries>
     </item>
     <item id="flicker_jar">
       <name>Flicker Jar</name>
@@ -1201,12 +1202,12 @@
       </subitem>
       <subitem id="flickerFocus@3">
         <name>Flicker Focus: Interdiction</name>
-        <desc>Arcane and air flickers working together can create a wall around their habitat if they are provided enough Etherium to do so. By placing this focus in a #9Flicker Habitat#0 and providing it with Etherium a nearly invisible wall is created in a 6 block radius from the #9Flicker Habitat#0.</desc>
+        <desc>Arcane and air flickers working together can create a wall around their habitat if they are provided enough Etherium to do so. By placing this focus in a #9Flicker Habitat#0 and providing it with Etherium a nearly invisible wall is created in a 6 block radius from the #9Flicker Habitat#0. !d This operator can be upgraded with an #9Ender Flicker#0 which will cause the #5Containment#0 effect to be applied as well.</desc>
         <relatedEntries>flickerFocus</relatedEntries>
       </subitem>
       <subitem id="flickerFocus@9">
         <name>Flicker Focus: Containment</name>
-        <desc>Ender and air flickers working in tandem can create a wall surrounding their #9Flicker Habitat#0 provided they have been given the Etherium to do so. Placing this focus in a habitat and providing it with Etherium will create a nearly invisible wall in a 6 block radius from their #9Flicker Habitat#0 that non-player entities can not pass out of.</desc>
+        <desc>Ender and air flickers working in tandem can create a wall surrounding their #9Flicker Habitat#0 provided they have been given the Etherium to do so. Placing this focus in a habitat and providing it with Etherium will create a nearly invisible wall in a 6 block radius from their #9Flicker Habitat#0 that non-player entities can not pass out of. !d This operator can be upgraded with an #9Arcane Flicker#0 which will cause the #5Interdiction#0 effect to be applied as well.</desc>
         <relatedEntries>flickerFocus</relatedEntries>
       </subitem>
       <subitem id="flickerFocus@4">
@@ -1258,7 +1259,7 @@
     <item id="wizardChalk">
       <name>Wizard's Chalk</name>
       <desc>Wizard's Chalk is used to create #9Rituals#0 by drawing the correct shapes on the ground.</desc>
-      <relatedEntries>corruption,purification,hourglass</relatedEntries>
+      <relatedEntries>corruption,purification,hourglass,rituals_overview</relatedEntries>
     </item>
     <item id="playerjournal">
       <name>Journal</name>
@@ -2407,7 +2408,7 @@
     </block>
 	<block id="flicker_lure">
       <name>Flicker Lure</name>
-      <desc>Flickers aren't normally able to enter our world, but with a little help and incentive, you can make that happen.  Placing this block and powering it with Etherium will cause flickers to be pulled into our world!  The type of flicker will depend on where the lure is.  See the entry on #9Flickers#0 for information on where to find specific ones.</desc>
+      <desc>Flickers aren't normally able to enter our world, but with a little help and incentive, you can make that happen.  Placing this block and powering it with Etherium will allow flickers to be pulled into our world!  When you want them, just apply a redstone signal.  The type of flicker will depend on where the lure is.  See the entry on #9Flickers#0 for information on where to find specific ones.</desc>
       <relatedEntries>Flicker</relatedEntries>
     </block>
 	<block id="arcane_deconstructor">
