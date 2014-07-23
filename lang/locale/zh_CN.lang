@@ -160,7 +160,7 @@ tile.arsmagica2:illusionBlock.default.name=幻象方块
 tile.arsmagica2:illusionBlock.nobarrier.name=天域幻象方块
 tile.arsmagica2:blockkeystonerecepticle.name=楔石插槽
 tile.arsmagica2:blockastralbarrier.name=星界屏障
-tile.arsmagica2:blockseerstone.name=预言家之眼
+tile.arsmagica2:blockseerstone.name=占卜之眼
 tile.arsmagica2:blue_orchid.name=万代兰
 tile.arsmagica2:desert_nova.name=沙漠新星
 tile.arsmagica2:keystonechest.name=楔石箱子
@@ -169,7 +169,7 @@ tile.arsmagica2:arcanereconstructor.name=奥术重构台
 tile.arsmagica2:mana_battery.name=魔力存储器
 tile.arsmagica2:magicWall.name=魔力屏障
 tile.arsmagica2:occulus.name=全知之眼
-tile.arsmagica2:altarOfCreation.name=创造者祭坛
+tile.arsmagica2:altarOfCreation.name=创造祭坛
 tile.arsmagica2:spellRune.name=法术符文
 tile.arsmagica2:particleEmitter.name=粒子效果发生器
 tile.arsmagica2:vinteumTorch.name=温特姆火把
@@ -207,7 +207,7 @@ tile.arsmagica2:wizardchalk.name=巫师粉笔符文
 tile.arsmagica2:obelisk.name=方尖碑
 tile.arsmagica2:blackaurem.name=夜黑之耳
 tile.arsmagica2:celestialprism.name=仙域棱镜
-tile.arsmagica2:flickerHabitat.name=闪烁之地
+tile.arsmagica2:flickerHabitat.name=闪烁栖息地
 tile.arsmagica2:crystalMarker.cm_import.name=导入水晶
 tile.arsmagica2:crystalMarker.cm_export.name=导出水晶
 tile.arsmagica2:crystalMarker.cm_likeExport.name=伪装导出水晶
@@ -220,7 +220,7 @@ tile.arsmagica2:keystoneTrapdoor.name=楔石陷阱门
 tile.arsmagica2:candle.name=守护蜡烛
 tile.arsmagica2:inertSpawner.name=惰性刷怪笼
 tile.arsmagica2:brokenLink.name=破损能量链接
-tile.arsmagica2:arcane_deconstructor.name=奥能毁灭者
+tile.arsmagica2:arcane_deconstructor.name=奥能解构台
 tile.arsmagica2:flicker_lure.name=闪烁诱饵
 
 #entities
@@ -249,7 +249,7 @@ entity.arsmagica2.HellCow.name=深渊牛
 entity.arsmagica2.BossLifeGuardian.name=生命守卫者
 entity.arsmagica2.BossLightningGuardian.name=雷霆守卫者
 entity.arsmagica2.BossEnderGuardian.name=末影守卫者
-entity.arsmagica2.Flicker.name=闪烁者
+entity.arsmagica2.Flicker.name=闪烁妖精
 
 #spells
 am2.spell.validate.compMiss=至少需要一种复合物作为施法材料.
