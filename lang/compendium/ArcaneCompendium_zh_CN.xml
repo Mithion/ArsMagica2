@@ -1,10 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
 <compendium>
-        <shapes zeroItemText="你还不了解任何法术构型,也尚未学会它们!">
+	<version>1.0.4</version>
+		<shapes zeroItemText="你还不了解任何法术构型,也尚未学会它们!">
                 <shape id="Projectile">
                         <name>投射物法术</name>
                         <desc>
 						你已经能够将意志力凝聚成球状,并将其抛射至前方.
 						</desc>
+						<modifiedBy>SPEED,GRAVITY,BOUNCE,DURATION,PIERCING,TARGET_NONSOLID_BLOCKS</modifiedBy>
                 </shape>
                 <shape id="Channel">
                         <name>引导法术</name>
@@ -12,6 +15,7 @@
 						通过凝神贯注,巫师能够掌控他们面前的魔力流.虽非
 						精确控制,但在合适情形下却恰恰足以满足需求.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </shape>
                 <shape id="Beam">
                         <name>束状法术</name>
@@ -20,6 +24,7 @@
 						量转换当然是另外一回事了.束状法术相当于魔力流法
 						术更可控的版本.
 						</desc>
+						<modifiedBy>RANGE,TARGET_NONSOLID_BLOCKS</modifiedBy>
                 </shape>
                 <shape id="Self">
                         <name>自我施放法术</name>
@@ -28,26 +33,21 @@
 						,目标也不需要费神去锁定.但你多半是不会希望意外
 						地把自己给点着的.
 						</desc>
-                </shape>
-                <shape id="Summon">
-                        <name>召唤法术</name>
-                        <desc>
-						你已经学会如何回收击败敌人掉落的生物源质.这些源
-						质能够用于制作召唤法术-能够召唤出忠心耿耿护卫你
-						左右的魔宠.</desc>
-                </shape>
+						<modifiedBy></modifiedBy>
                 <shape id="Touch">
                         <name>接触法术</name>
                         <desc>
 						简单地在掌心凝聚魔力,并通过碰触来触发施法
 						效果.
 						</desc>
+						<modifiedBy>TARGET_NONSOLID_BLOCKS</modifiedBy>
                 </shape>
                 <shape id="Zone">
                         <name>区域法术</name>
                         <desc>
 						你已学会凝神聚气对一片区域持续施放魔法效果.
 						</desc>
+						<modifiedBy>RADIUS,GRAVITY,DURATION</modifiedBy>
                 </shape>
                 <shape id="AoE">
                         <name>AoE范围法术</name>
@@ -55,6 +55,7 @@
 						施术时,你能够将魔力塑造成以施术位置为中心圆
 						周状向外冲击的能量波.
 						</desc>
+						<modifiedBy>RADIUS,GRAVITY</modifiedBy>
                 </shape>
                 <shape id="Chain">
                         <name>链状法术</name>
@@ -62,6 +63,7 @@
 						你能够将将魔力转换为链状振荡形态,会从一个目
 						标跳转到下一个目标继续造成效果.
 						</desc>
+						<modifiedBy>RANGE,PROCS</modifiedBy>
                 </shape>
                 <shape id="Rune">
                         <name>符文法术</name>
@@ -69,16 +71,18 @@
 						你能够制作可以放置在地上的魔力符文,它们被触
 						发后,有的能够提供强力buff,有的则能变成致命的陷阱.
 						</desc>
+						<modifiedBy>PROCS,TARGET_NONSOLID_BLOCKS</modifiedBy>
                 </shape>
                 <shape id="Contingency_Fall">
                         <name>应急激发:坠落</name>
                         <desc>
 						你发现一种能够在坠落时未触及地面前触发的法术构造.
-						!line! !line! 
+						!d
 						喔重力,汝乃无情婊子...
-						!line! !line! 
+						!d
 						你一次只能加持一种应急激发法术.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </shape>
                 <shape id="Contingency_Damage">
                         <name>应急激发:伤害</name>
@@ -86,18 +90,20 @@
 						你发现一种仅在你受到伤害时才会触发的法术构造.
 						!line! !line!
 						让我们激情对射
-						!!line! !line! 
+						!!d
 						你一次只能加持一种应急激发法术.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </shape>
                 <shape id="Contingency_Fire">
                         <name>应急激发:灼烧</name>
                         <desc>
 						你下定决心再也不想着火了. 为了免于灼烧,你研究
 						出一种当火焰将加身时触发的法术构造.
-						!line! !line! 
+						!d
 						你一次只能加持一种应急激发法术.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </shape>
                 <shape id="Contingency_Health">
                         <name>应急激发:健康</name>
@@ -106,18 +112,20 @@
 						发挥受到严重束缚.你认为你已经找到一种方法使得
 						尝试这么做的人都感到后悔,或者认识到至少预备两
 						把行刺之刀.
-						!line! !line! 
+						!d
 						你一次只能加持一种应急激发法术.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </shape>
                 <shape id="Contingency_Death">
-            <name>应急激发:死亡</name>
+            		<name>应急激发:死亡</name>
                         <desc>
 						如果需要,你将拥有我的力量数秒.而我,将拥有我所
 						需的足够时间来确定你不是为了寻开心来寻求我.
-						!line! !line! 
+						!d
 						你一次只能加持一种应急激发法术.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </shape>
                 <shape id="Binding">
                         <name>具现化法术</name>
@@ -126,10 +134,29 @@
 						化工具,维持具现化需要持续抽取魔力,且这种工具在
 						使用时不消耗耐久而消耗施法者的魔力.试图扔掉(默
 						认按键:Q)具现化的物品将解除法术效果.  
-						!line! !line! 
+						!d
 						该法术结构当前尚不可用.
 						</desc>
+						<modifiedBy></modifiedBy>
+      					<relatedEntries>bindingCatalyst@0,bindingCatalyst@1,bindingCatalyst@2,bindingCatalyst@3,bindingCatalyst@4,bindingCatalyst@5</relatedEntries
                 </shape>
+                <shape id="Wall">
+						<name>塑墙</name>
+						<desc>
+						你能够在面前凝聚出一面墙壁.墙壁延伸方向垂直于
+						你当前朝向.塑墙法术类似区域法术，但外在形式不
+						同,生效速度也更迅捷.
+						</desc>
+						<modifiedBy>RADIUS,GRAVITY,DURATION</modifiedBy>
+    		</shape>
+    		<shape id="Wave">
+						<name>塑波</name>
+						<desc>
+						发出一道魔力之浪滚滚向前,对途径之物造成法术效果.
+						</desc>
+						<modifiedBy>RADIUS,DURATION,SPEED,GRAVITY,PIERCING</modifiedBy>
+    		</shape>
+  </shapes>
         </shapes>
         <components zeroItemText="你尚未了解法术成分,也尚未学会它们!">
                 <component id="PhysicalDamage">
@@ -140,6 +167,7 @@
 						练课程- 他们会使用更多的武力伤害法术去砸小伙伴
 						们的后脑勺.
 						</desc>
+						<modifiedBy>DAMAGE</modifiedBy>
                 </component>
                 <component id="MagicDamage">
                         <name>魔力伤害</name>
@@ -148,6 +176,7 @@
 						护甲并直接攻击内在目标-即使不比后者更厉害, 这也
 						同样有破坏性.魔法伤害使得召唤生物显得尤其脆弱.
 						</desc>
+						<modifiedBy>DAMAGE</modifiedBy>
                 </component>
                 <component id="FrostDamage">
                         <name>冰冻伤害</name>
@@ -155,6 +184,7 @@
 						许多巫师低估了冷冻法术的力量.彻骨寒意能够浸透装
 						甲,且冷冻伤害对下界生物极具破坏性.
 						</desc>
+						<modifiedBy>DAMAGE,BUFF_POWER</modifiedBy>
                 </component>
                 <component id="LightningDamage">
                         <name>电击伤害</name>
@@ -163,6 +193,7 @@
 						幕上留下锋利的裂纹.他的金属铠甲就彷佛一个引雷针
 						似的, 将雷电的威力纷纷吸引了过去.
 						</desc>
+						<modifiedBy>DAMAGE</modifiedBy>
                 </component>
                 <component id="FireDamage">
                         <name>灼烧伤害</name>
@@ -170,6 +201,7 @@
 						念出咒语,我释放出我的意志,向前方喷发出熊熊燃烧
 						的火焰,焚尽它经过的一切事物.
 						</desc>
+						<modifiedBy>DAMAGE</modifiedBy>
                 </component>
                 <component id="Ignition">
                         <name>点火术</name>
@@ -178,6 +210,7 @@
 						确实符合真实.但是你们有多少人听说并想象过利用火
 						焰法术来点燃暖炉,营火和蜡烛呢?
 						</desc>
+						<modifiedBy>DURATION</modifiedBy>
                 </component>
                 <component id="FurnaceTouch">
                         <name>熔炼术</name>
@@ -185,6 +218,7 @@
 						你对火焰法术的应用已渐入佳境,已能够把方块熔炼成
 						相应的材料,而非把它们焚烧成灰烬.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
                 <component id="Explosion">
                         <name>爆破术</name>
@@ -192,12 +226,14 @@
 						你能够将足够的能量灌入法术构造来在施法位置造成
 						一次凶残的爆炸.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
                 <component id="Blind">
                         <name>失明术</name>
                         <desc>
 						将火球丢向暗法师棒极了.但是最好先让他们失明以免
 						被报复.</desc>
+						<relatedEntries>rituals_overview</relatedEntries>
                 </component>
                 <component id="Freeze">
                         <name>冻结术</name>
@@ -205,6 +241,7 @@
 						Eira气喘吁吁,睁开了眼睛.山巅覆盖着白雪,肃杀的寒
 						意席卷万物.水凝成了冰.一切都凝滞不动.完美.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="Knockback">
                         <name>击退术</name>
@@ -212,7 +249,7 @@
 						很多法师都不希望面对肉搏战斗,这种法术正可以免除
 						这种窘境.
 						</desc>
-                        <affinity>None</affinity>
+                        <modifiedBy>VELOCITY_ADDED</modifiedBy>
                 </component>
                 <component id="Storm">
                         <name>雷暴术</name>
@@ -221,6 +258,7 @@
 						视野里映上一片明亮.雷鸣声震耳欲聋.雷光击中了我周
 						遭的所有敌人.风暴的伟力无边无际. 
 						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
                 <component id="AstralDistortion">
                         <name>星界屏障</name>
@@ -229,6 +267,7 @@
 						一次意识到这法术不仅仅是我的法师学徒们的消遣.我
 						已经用它来对付末影人了.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="Fling">
                         <name>抛掷术</name>
@@ -236,6 +275,7 @@
 						盘旋的风刮到爬行者的脚下将其高高地抛向空中,吹飞
 						到天边.
 						</desc>
+						<modifiedBy>VELOCITY_ADDED</modifiedBy>
                 </component>
                 <component id="WateryGrave">
                         <name>水墓术</name>
@@ -243,6 +283,7 @@
 						水像活了过来,挥舞着触手缠绕着光巫师并将其投入了
 						黑暗, 破碎的深渊中.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="Leap">
                         <name>腾跃术</name>
@@ -250,6 +291,7 @@
 						脚底生风,一飞冲天.掌握着风的力量高高跃起,落下时
 						将其释放出来以免跌伤.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="Regeneration">
                         <name>重生术</name>
@@ -257,12 +299,14 @@
 						我用治愈之光包裹着臂膀,看着每一个在眼前转淡消失
 						的伤.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="Slowfall">
                         <name>羽落术</name>
                         <desc>
 						轻若鸿毛,无畏高跳.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="LifeTap">
                         <name>生命分流</name>
@@ -270,6 +314,7 @@
 						如若法师孤独无靠而魔力岌岌可危,则可以燃烧生命来
 						获得所需的魔力施展法术.
 						</desc>
+						<modifiedBy>DAMAGE</modifiedBy>
                 </component>
                 <component id="Heal">
                         <name>治愈术</name>
@@ -277,6 +322,7 @@
 						通过极大地投入加强重生效果的能量,巫师能够让全部
 						伤口转瞬被治愈.但这法术消耗颇巨.
 						</desc>
+						<modifiedBy>HEALING</modifiedBy>
                 </component>
                 <component id="Slow">
                         <name>迟钝术</name>
@@ -284,6 +330,7 @@
 						通过应用魔力球和锁链以及类似的法术构型变换,巫师
 						能够减缓施法目标的移动速度.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="Haste">
                         <name>急迫术</name>
@@ -291,6 +338,7 @@
 						用奥术能量包裹住施法目标的腿,巫师能够让他们迅捷
 						如飞.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="GravityWell">
                         <name>重力之井</name>
@@ -298,6 +346,7 @@
 						你已学会在目标所在位置制造出一个局部的重力场,加
 						快他们的跌落速度.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="LifeDrain">
                         <name>生命汲取</name>
@@ -305,6 +354,7 @@
 						通过建立于施法目标的生命力与自己之间的歹毒链接,
 						你可以抽取他们的生命来恢复自己的健康.
 						</desc>
+						<modifiedBy>DAMAGE</modifiedBy>
                 </component>
                 <component id="Dispel">
                         <name>驱散术</name>
@@ -312,6 +362,7 @@
 						通过创造局部的魔力稀缺,你可以移除施法目标身上的
 						状态和效果.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
                 <component id="Repel">
                         <name>驱逐术</name>
@@ -319,12 +370,14 @@
 						你可以在空间中创造出一个奇点.维持它存在,就能够推开靠
 						近你的敌人以及射向你的箭矢.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
                 <component id="SwiftSwim">
                         <name>快泳术</name>
                         <desc>
 						掌控水流,你能推动自己游得更快.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="Levitate">
                         <name>浮空术</name>
@@ -332,6 +385,7 @@
 						风系魔法的实践让你学会如何将自己悬浮在半空,而荡漾的
 						微风让你得以缓慢移动.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="ManaDrain">
                         <name>魔力汲取</name>
@@ -339,6 +393,7 @@
 						通过寄生施法目标的法力池,抽取他们的魔力为己所用来加
 						速魔力回复.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
                 <component id="Entangle">
                         <name>缠绕术</name>
@@ -346,6 +401,7 @@
 						急急如律令,藤蔓从地下蔓延出来缠绕住施法目标,让他们完
 						全动弹不得.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="Flight">
                         <name>舞空术</name>
@@ -353,6 +409,7 @@
 						念出咒语,浮腾在空中,与白云天空相融.我飞得灵动,快捷和
 						机敏.天空是我的孤独.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="Shield">
                         <name>护盾术</name>
@@ -360,6 +417,7 @@
 						你可以召唤出奥术能量来防护自己.护盾将减免所有类型的
 						伤害.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="Reflect">
                         <name>反弹术</name>
@@ -367,6 +425,7 @@
 						你可以改变护盾术的构造,使其能够反弹物理伤害.不能与护
 						盾术同时开启.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="ChronoAnchor">
                         <name>时空之锚</name>
@@ -375,6 +434,7 @@
 						施放该技能的地点,同时你的生命,魔法,施法疲劳和饥饿将会
 						返回至你第一次施放该技能时的数值.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="Charm">
                         <name>魅惑术</name>
@@ -382,6 +442,7 @@
 						你可以魅惑生物来为你战斗,某些生物被魅惑后会做一些特别
 						的事情. 魅惑也可以使生物繁殖.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="Dig">
                         <name>挖掘术</name>
@@ -389,12 +450,14 @@
 						动动你的手指就能让地面断裂粉碎.  方块越硬,破坏它需要消
 						耗的魔法值就越多.
 						</desc>
+						<modifiedBy>MINING_POWER,FORTUNE_LEVEL,SILKTOUCH_LEVEL</modifiedBy>
                 </component>
                 <component id="Light">
                         <name>照明术</name>
                         <desc>
 						你可以用魔法来照亮一片区域.
 						</desc>
+						<modifiedBy>COLOR</modifiedBy>
                 </component>
                 <component id="Disarm">
                         <name>缴械术</name>
@@ -402,19 +465,22 @@
 						现在你已经学会如何召唤工具到你手中了, 而让别人扔掉自己
 						手中的东西只需要小小的改进一下就行了.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
                 <component id="Rift">
-                        <name>断裂术</name>
+                        <name>裂隙术</name>
                         <desc>
 						你现在可以撕开一个空间裂隙,  并访问一个小位面在其中储
 						存物品.
 						</desc>
+						<modifiedBy>BUFF_POWER</modifiedBy>
                 </component>
                 <component id="Attract">
                         <name>吸纳术</name>
                         <desc>
 						在你周围创建一个负压区域, 把范围内的一切生物拉向你.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
                 <component id="Telekinesis">
                         <name>念力术</name>
@@ -422,12 +488,14 @@
 						你可以使用魔法来放大脑波, 从而使其拥有物理特性. 脑波可
 						以用来把物品或经验值拉向你.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
                 <component id="HarvestPlants">
                         <name>收获术</name>
                         <desc>
 						你可以让所有的植物,树叶和花朵收获.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
                 <component id="Plow">
                         <name>犁地术</name>
@@ -435,13 +503,7 @@
 						你可以让大地在你的命令下搅动, 以此创造理想的犁沟用来种
 						植.
 						</desc>
-                </component>
-                <component id="PlantSeeds">
-                        <name>种植术</name>
-                        <desc>
-						你可以让你物品栏内的种子种在地面上,如果条件适宜它生长的
-						话.
-						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
                 <component id="CreateWater">
                         <name>涌泉术</name>
@@ -449,6 +511,7 @@
 						你可以将周围的空气中的水汽汇聚到一处, 在没有水的地方创造
 						出水源.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
                 <component id="Grow">
                         <name>回春术</name>
@@ -456,18 +519,21 @@
 						将能量灌注进植物内, 相当于植物已经成长了数月, 这会让那些
 						植物快速生长.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
                 <component id="BanishRain">
                         <name>放逐之雨</name>
                         <desc>
 						雨水啊雨水,你离开罢,改日再来!见鬼谁想出来这样的法术咒语?
 						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
                 <component id="WaterBreathing">
                         <name>水肺术</name>
                         <desc>
 						你可以用魔法从水中分解出氧气,从而保证你不会溺水憋死.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="NightVision">
                         <name>夜视术</name>
@@ -475,6 +541,7 @@
 						你关于光的知识让你能够设计出一种允许你在黑暗中视物,就好像
 						提高了光照等级的法术.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="TrueSight">
                         <name>真视术</name>
@@ -482,24 +549,28 @@
 						你的魔力之眼让你能够看清事物的真实模样.谁知道你会看到什么
 						美丽…或者恐怖的事物呢?
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="Invisibility">
                         <name>隐身术</name>
                         <desc>
 						你可以扭曲光线来让自己隐形.
 						</desc>
+						<modifiedBy>BUFF_POWER,DURATION</modifiedBy>
                 </component>
                 <component id="RandomTeleport">
                         <name>随机传送</name>
                         <desc>
 						你可以随机将自己传送到附近某处.
 						</desc>
+						<modifiedBy>RANGE</modifiedBy>
                 </component>
                 <component id="Blink">
                         <name>闪现术</name>
                         <desc>
 						你可以将自己面朝方向传送一小段距离.
 						</desc>
+						<modifiedBy>RANGE</modifiedBy>
                 </component>
                 <component id="Transplace">
                         <name>转置术</name>
@@ -507,6 +578,7 @@
 						你关于传送魔法的知识有了进步,现在你学会了如何交换施法目标
 						与自己的位置.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
                 <component id="Mark">
                         <name>标记术</name>
@@ -514,12 +586,14 @@
 						你可以使用法术标记一个位置,以便配合回传术从其他几乎任意的
 						地方回到该处.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
                 <component id="Recall">
                         <name>回传术</name>
                         <desc>
 						你可以使用传送魔法将自己或者施法目标传送到标记术标记位置.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
                 <component id="EnderIntervention">
                         <name>末影干涉</name>
@@ -527,6 +601,7 @@
 						你已经掌握了传送魔法, 并精通到了能突破空间障壁的程度, 你可
 						以在任何地方进入末地.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
                 <component id="DivineIntervention">
                         <name>神圣干涉</name>
@@ -534,7 +609,98 @@
 						你已经掌握了传送魔法, 并精通到了能突破空间障壁的程度, 你可
 						以在任何地方回到主世界.
 						</desc>
+						<modifiedBy></modifiedBy>
                 </component>
+				<component id="Summon">
+						<name>召唤</name>
+						<desc>You have learned to harvest the souls of creatures you defeat in combat.  These souls can be used in creating a spell to summon that creature to protect you. !d To summon a creature, first craft a #5Crystal Phylactery#0.  Once you kill something while holding an empty phylactery, that phylactery will become #9attuned#0 to that specific mob.  Kill enough of the same mob and you will fill the phylactery. !d During spell creation, you can throw in any filled phylactery when prompted by the lectern.  This step is what determines what your spell will summon. !d Summoned creatures drop no loot, and no xp, but can be interacted with normally, such as breeding, milking cows, or riding horses.  Horses are the exception to the item drop rule and will drop saddles and armor given to them. !l Tameable creatures such as wolves and cats are automatically tamed to their owner upon summoning. !d Bosses cannot be trapped in phylacteries in survival/adventure mode. </desc>
+						<modifiedBy>DURATION</modifiedBy>
+				</component>
+				<component id="Blizzard">
+						<name>Blizzard</name>
+						<desc>You have learned to summon a fearsome blizzard, which will slow and damage any entities in its radius.  Blizzard has a built-in AoE to it.  A blizzard cannot be summoned within 5 blocks of another existing blizzard.  It initially does less damage than other attacks, but scales more quickly with modifiers.  It also has the unique capability to deal damage more often than regular attacks. Though blizzard will harm all entities in its radius, it will never harm its caster.</desc>
+						<modifiedBy>RADIUS,DAMAGE,DURATION</modifiedBy>
+				</component>
+				<component id="Daylight">
+						<name>白昼之光</name>
+						<desc>You have gained the ability to control time.  This spell will cause the time to move to Dawn.</desc>
+						<modifiedBy></modifiedBy>
+				</component>
+				<component id="FallingStar">
+						<name>Starstrike</name>
+						<desc>You can call down a star from the skies and cause it to strike all entities within the blast radius.  It will harm friendly targets but not the caster.  There is a short delay between casting the spell and the impact.  This spell will not work underground (the star will fall onto the surface).</desc>
+						<modifiedBy>DAMAGE</modifiedBy>
+				</component>
+				<component id="FireRain">
+						<name>Firestorm</name>
+						<desc>You have learned to summon a terrible firestorm, which will do large amounts of damage any entities in its radius.  Firestorm has a built-in AoE to it.  A firestorm cannot be summoned within 5 blocks of another existing firestorm.  It initially does less damage than other attacks, but scales more quickly with modifiers.  It also has the unique capability to deal damage more often than regular attacks.  Firestorm does not ignite the ground.  Though firestorm will harm all entities in its radius, it will never harm its caster.</desc>
+						<modifiedBy>RADIUS,DAMAGE,DURATION</modifiedBy>
+				</component>
+				<component id="ManaLink">
+						<name>Mana Link</name>
+						<desc>You have discovered the secret to linking your mana together with another entity.  When you cast this spell, your target will be able to draw upon your mana pool as if it were their own. !d The target will use their own mana first, then will begin to draw upon yours. !d It has a limited radius, but can have radius modifiers if you so desire.  If the target leaves the radius, the link is not broken, but is rather temporarily disabled.  When they again return into the radius, the link will reactivate and will function again.  To end the link, simply cast the spell on the target again. !d You can link your own mana to multiple entities, and on the other side, you can have multiple links coming in from other sources.</desc>
+						<modifiedBy></modifiedBy>
+				</component>
+						<component id="ManaShield">
+						<name>Mana Shield</name>
+						<desc>Your target becomes shielded by their available mana, causing damage to drain 250 mana per half heart absorbed, and preventing HP damage entirely.</desc>
+				<modifiedBy>DURATION,BUFF_POWER</modifiedBy>
+				</component>
+				<component id="Moonrise">
+						<name>Moonrise</name>
+						<desc>You have gained the ability to control time.  This spell will cause the time to move to Dusk.</desc>
+						<modifiedBy></modifiedBy>
+				</component>
+				<component id="Drought">
+						<name>Drought</name>
+						<desc>You have taken your knowledge of creating water and have reversed the process.  This spell will draw water out of whatever it hits, removing water blocks and turning dirt to sand.</desc>
+						<modifiedBy></modifiedBy>
+				</component>
+				<component id="Plant">
+						<name>Plant</name>
+						<desc>You can cause seeds from your inventory to be planted in the ground, if conditions are right for it to grow.  Best coupled with AoE or some other such shape for rapid planting.</desc>
+						<modifiedBy></modifiedBy>
+				</component>
+				<component id="Accelerate">
+						<name>Accelerate</name>
+						<desc>This spell causes targeted blocks to tick faster.  Note that it does not make tile entities any quicker.  This spell is best used in a shape like beam, wall, or zone, due to its need to be cast multiple times to have any real effect.</desc>
+						<modifiedBy></modifiedBy>
+				</component>
+				<component id="Drown">
+						<name>Drown</name>
+						<desc>You can create water directly inside the target's lungs, causing them to take drowning damage.</desc>
+						<modifiedBy>DAMAGE</modifiedBy>
+				</component>
+				<component id="WizardsAutumn">
+						<name>巫师之秋</name>
+						<desc>You have learned to focus your digging magic into a small radius that directly affects leaves.  This component has a built in AoE that can be modified with Radius modifiers.  You can use it to clear those pesky hard to reach leaves.</desc>
+						<modifiedBy>RADIUS</modifiedBy>
+				</component>
+				<component id="Fury">
+						<name>Fury</name>
+						<desc>You can send yourself into an absolute rage, dealing increased damage, moving extremely fast, passively regenerating, and mining at inhuman speeds.  When the effect ends, you are left exhausted for a few moments and must recover.</desc>
+						<modifiedBy>DURATION,BUFF_POWER</modifiedBy>
+				</component>
+				<component id="Appropriation">
+						<name>Appropriation</name>
+						<desc>You can appropriate one block or entity into your spell.  Casting the spell again will place a picked up entity or block at the targeted location.</desc>
+						<modifiedBy></modifiedBy>
+				</component>
+				<component id="Silence">
+						<name>沉默术</name>
+						<desc>You can silence another entity, preventing all spell casting for a short duration.  THe duration cannot be extended.</desc>
+						<modifiedBy></modifiedBy>
+				</component>
+				<component id="Shrink">
+						<name>Shrink</name>
+						<desc>You can make yourself tiny!  When this effect is active, you are physically smaller, so you can fit through 1x1 gaps.  Due to your light weight, you fall slowly enough that landing doesn't hurt either.  However, all damage you do is halved.</desc>
+						<modifiedBy>DURATION,BUFF_POWER</modifiedBy>
+				</component>
+				<component id="PlaceBlock">
+						<name>放置方块</name>
+						<desc>You can use this spell part to place blocks!  Can be extremely powerful when combined with different shape combinations.  In order to place a block, you need to set the spell to place it, and you need to have at least one of said block in your inventory.  No creating them out of thin air, sorry!  To set the block to be placed, cast the spell on a block while sneaking.  You need to be sneaking when the spell actually applies, so keep that in mind when using something like Projectile.  It's recommended to not use AoE to set the block, as it can sometimes set it to something you don't expect (as it will apply to everything in a radius, setting the block over and over).  To see what block the spell will place, hover your mouse over it in your inventory and press SHIFT.</desc>
+						<modifiedBy></modifiedBy>
+				</component>
         </components>
         <modifiers zeroItemText="你还不了解任何法术调剂 , 而且你也没有资格习得它们!">
                 <modifier id="Gravity">
@@ -688,6 +854,12 @@
 						正常的移动速度下施放法术.
 						</desc>
                 </talent>
+				<talent id="Colour">
+						<name>颜色</name>
+						<desc>
+						This modifier allows you to change the color of the particles on your spell.  Want green fireballs?  Have at it!  Color is determined by the color dye that you throw in during the crafting process.  Any one will be accepted, regardless of what the lectern prompts for.
+						</desc>
+				</talent>
         </talents>
         <items>
                 <item id="ores">
@@ -704,6 +876,7 @@
 								温特姆矿石在熔炉烧制后得到的产物
 								是一种有用的魔法粉末.
 								</desc>
+								<relatedEntries>ores@0,calefactor,vinteumTorch</relatedEntries>
                         </subitem>
                         <subitem id="itemOre@1">
                                 <name>奥术复合物</name>
@@ -712,6 +885,7 @@
 								奥术复合物乃是获取奥术粉末的基本
 								资源.
 								</desc>
+								<relatedEntries>itemOre@2,calefactor</relatedEntries>
                         </subitem>
                         <subitem id="itemOre@2">
                                 <name>奥术粉末</name>
@@ -720,6 +894,7 @@
 								奥术粉末,奥术粉末储存源质的能力,
 								使其成为了制造先进魔力设备的基石.
 								</desc>
+								<relatedEntries>itemOre@1,calefactor</relatedEntries>
                         </subitem>
                         <subitem id="itemOre@3">
                                 <name>纯净温特姆粉末</name>
@@ -729,6 +904,7 @@
 								放其不稳定的能量,最终可以提纯温特
 								姆粉末从而使其能够储存更多源质.
 								</desc>
+								<relatedEntries></relatedEntries>
                         </subitem>
                         <subitem id="itemOre@4">
                                 <name>精灵石</name>
@@ -737,6 +913,7 @@
 								幻莫测状态的精灵石,用于施放那些需
 								要大量变化或幻象的法术.
 								</desc>
+								<relatedEntries></relatedEntries>
                         </subitem>
                         <subitem id="itemOre@5">
                                 <name>蓝晶石</name>
@@ -744,6 +921,7 @@
 								蓝晶石是一种比较常见的宝石,常被法
 								师用来制作凝聚源质的入门级水晶. 
 								</desc>
+								<relatedEntries></relatedEntries>
                         </subitem>
                         <subitem id="itemOre@6">
                                 <name>太阳石</name>
@@ -755,6 +933,7 @@
 								果你够幸运的话,也会在主世界的岩浆
 								塘里发现它们.
 								</desc>
+								<relatedEntries></relatedEntries>
                         </subitem>
                         <subitem id="itemOre@7">
                                 <name>月亮石</name>
@@ -768,7 +947,9 @@
 								量和几率会大大增加,随后数量又会慢慢
 								下降直至开始新的循环.
 								</desc>
+								<relatedEntries></relatedEntries>
                         </subitem>
+						<relatedEntries>calefactor</relatedEntries>
                 </item>
                 <item id="essence">
                         <name>源质/源质手袋</name>
@@ -780,54 +961,67 @@
                         <subitem id="essence@0">
                                 <name>奥术源质</name>
                                 <desc></desc>
+								<relatedEntries>essence_bag,essence_refiner</relatedEntries>
                         </subitem>
                         <subitem id="essence@1">
                                 <name>地之源质</name>
                                 <desc></desc>
+								<relatedEntries>essence_bag,essence_refiner</relatedEntries>
                         </subitem>
                         <subitem id="essence@2">
                                 <name>风之源质</name>
                                 <desc></desc>
+								<relatedEntries>essence_bag,essence_refiner</relatedEntries>
                         </subitem>
                         <subitem id="essence@3">
                                 <name>火之源质</name>
                                 <desc></desc>
+								<relatedEntries>essence_bag,essence_refiner</relatedEntries>
                         </subitem>
                         <subitem id="essence@4">
                                 <name>水之源质</name>
                                 <desc></desc>
+								<relatedEntries>essence_bag,essence_refiner</relatedEntries>
                         </subitem>
                         <subitem id="essence@5">
                                 <name>自然源质</name>
                                 <desc></desc>
+								<relatedEntries>essence_bag,essence_refiner</relatedEntries>
                         </subitem>
                         <subitem id="essence@6">
                                 <name>冰之源质</name>
                                 <desc></desc>
+								<relatedEntries>essence_bag,essence_refiner</relatedEntries>
                         </subitem>
                         <subitem id="essence@7">
                                 <name>雷霆源质</name>
                                 <desc></desc>
+								<relatedEntries>essence_bag,essence_refiner</relatedEntries>
                         </subitem>
                         <subitem id="essence@8">
                                 <name>生命源质</name>
                                 <desc></desc>
+								<relatedEntries>essence_bag,essence_refiner</relatedEntries>
                         </subitem>
                         <subitem id="essence@9">
                                 <name>末影源质</name>
                                 <desc></desc>
+								<relatedEntries>essence_bag,essence_refiner</relatedEntries>
                         </subitem>
                         <subitem id="essence@10">
                                 <name>纯净源质</name>
                                 <desc></desc>
+								<relatedEntries>essence_bag,essence_refiner</relatedEntries>
                         </subitem>
                         <subitem id="essence@11">
                                 <name>高级源质核心</name>
                                 <desc></desc>
+								<relatedEntries>essence_bag,essence_refiner</relatedEntries>
                         </subitem>
                         <subitem id="essence@12">
                                 <name>基本源质核心</name>
                                 <desc></desc>
+								<relatedEntries>essence_bag,essence_refiner</relatedEntries>
                         </subitem>
                         <subitem id="essence@13">
                                 <name>天然源质</name>
@@ -837,58 +1031,118 @@
 								源质类型(查看本书"讲坛"章节,并由颜色来确认),且你已经
 								打开了创造者祭坛上的拉杆. 
 								</desc>
+								<relatedEntries>altarOfCreation</relatedEntries>
                         </subitem>
                         <subitem id="essence_bag">
                                 <name>源质手袋</name>
                                 <desc>
 								制作源质手袋用来在冒险时提供额外储物空间.
 								</desc>
+								<relatedEntries>essence_refiner</relatedEntries>
                         </subitem>
+						<relatedEntries></relatedEntries>
                 </item>
-                <item id="runes">
-                        <name>符文</name>
-                        <desc>
+				<item id="runes">
+						<name>符文</name>
+						 <desc>
 						符文乃法术构筑之基石.将它与许多其
 						他物品以恰当方式组合就能制作出法
 						术卷轴.
 						</desc>
-                        <subitem id="runes@0">
-                                <name>空白符文</name>
-                                <desc></desc>
-                        </subitem>
-                        <subitem id="runes@1">
-                                <name>蓝色符文</name>
-                                <desc></desc>
-                        </subitem>
-                        <subitem id="runes@2">
-                                <name>红色符文</name>
-                                <desc></desc>
-                        </subitem>
-                        <subitem id="runes@3">
-                                <name>黄色符文</name>
-                                <desc></desc>
-                        </subitem>
-                        <subitem id="runes@4">
-                                <name>橙色符文</name>
-                                <desc></desc>
-                        </subitem>
-                        <subitem id="runes@5">
-                                <name>绿色符文</name>
-                                <desc></desc>
-                        </subitem>
-                        <subitem id="runes@6">
-                                <name>紫色符文</name>
-                                <desc></desc>
-                        </subitem>
-                        <subitem id="runes@7">
-                                <name>黑色符文</name>
-                                <desc></desc>
-                        </subitem>
-                        <subitem id="runes@8">
-                                <name>白色符文</name>
-                                <desc></desc>
-                        </subitem>
-                </item>
+						<subitem id="runes@0" unlocked="true">
+						<name>黑色符文</name>
+						<desc></desc>
+						<relatedEntries>runebag,keystone</relatedEntries>
+						</subitem>
+						<subitem id="runes@1" unlocked="true">
+						<name>空白符文</name>
+						<desc></desc>
+						<relatedEntries>runebag,keystone</relatedEntries>
+						</subitem>
+						<subitem id="runes@2" unlocked="true">
+						<name>蓝色符文</name>
+						<desc></desc>
+						<relatedEntries>runebag,keystone</relatedEntries>
+						</subitem>
+						<subitem id="runes@3" unlocked="true">
+						<name>棕色符文</name>
+						<desc></desc>
+						<relatedEntries>runebag,keystone</relatedEntries>
+						</subitem>
+						<subitem id="runes@4" unlocked="true">
+						<name>青色符文</name>
+						<desc></desc>
+						<relatedEntries>runebag,keystone</relatedEntries>
+						</subitem>
+						<subitem id="runes@5" unlocked="true">
+						<name>灰色符文</name>
+						<desc></desc>
+						<relatedEntries>runebag,keystone</relatedEntries>
+						</subitem>
+						<subitem id="runes@6" unlocked="true">
+						<name>绿色符文</name>
+						<desc></desc>
+						<relatedEntries>runebag,keystone</relatedEntries>
+						</subitem>
+						<subitem id="runes@7" unlocked="true">
+						<name>浅蓝色符文</name>
+						<desc></desc>
+						<relatedEntries>runebag,keystone</relatedEntries>
+						</subitem>
+						<subitem id="runes@8" unlocked="true">
+						<name>浅灰色符文</name>
+						<desc></desc>
+						<relatedEntries>runebag,keystone</relatedEntries>
+						</subitem>
+						<subitem id="runes@9" unlocked="true">
+						<name>柠檬色符文</name>
+						<desc></desc>
+						<relatedEntries>runebag,keystone</relatedEntries>
+						</subitem>
+						<subitem id="runes@10" unlocked="true">
+						<name>品红色符文</name>
+						<desc></desc>
+						<relatedEntries>runebag,keystone</relatedEntries>
+						</subitem>
+						<subitem id="runes@11" unlocked="true">
+						<name>橙色符文</name>
+						<desc></desc>
+						<relatedEntries>runebag,keystone</relatedEntries>
+						</subitem>
+						<subitem id="runes@12" unlocked="true">
+						<name>粉色</name>
+						<desc></desc>
+						<relatedEntries>runebag,keystone</relatedEntries>
+						</subitem>
+						<subitem id="runes@13" unlocked="true">
+						<name>紫色符文</name>
+						<desc></desc>
+						<relatedEntries>runebag,keystone</relatedEntries>
+						</subitem>
+						<subitem id="runes@14" unlocked="true">
+						<name>红色符文</name>
+						<desc></desc>
+						<relatedEntries>runebag,keystone</relatedEntries>
+						</subitem>
+						<subitem id="runes@15" unlocked="true">
+						<name>白色符文</name>
+						<desc></desc>
+						<relatedEntries>runebag,keystone</relatedEntries>
+						</subitem>
+						<subitem id="runes@16" unlocked="true">
+						<name>黄色符文</name>
+						<desc></desc>
+						<relatedEntries>runebag,keystone</relatedEntries>
+						</subitem>
+						<subitem id="runebag" unlocked="true">
+						<name>符文袋</name>
+						<desc>
+						The Rune Bag can hold a few runes, helping to save inventory space.  If you have runes in a rune bag, Keystones will be able to interact with the runes inside it to switch their currently selected combination.
+						</desc>						
+						<relatedEntries>keystone</relatedEntries>
+						</subitem>
+						<relatedEntries>keystone</relatedEntries>
+				</item>
                 <item id="armorMage">
                         <name>法师套装</name>
                         <desc>
@@ -904,19 +1158,24 @@
                         <subitem id="helmet_mage">
                                 <name>法师头巾</name>
                                 <desc></desc>
+								<relatedEntries>infusion,armor_xp_infusion</relatedEntries>
                         </subitem>
                         <subitem id="chest_mage">
                                 <name>法师长袍</name>
                                 <desc></desc>
+								<relatedEntries>infusion,armor_xp_infusion</relatedEntries>
                         </subitem>
                         <subitem id="legs_mage">
                                 <name>法师护腿</name>
                                 <desc></desc>
+								<relatedEntries>infusion,armor_xp_infusion</relatedEntries>
                         </subitem>
                         <subitem id="boots_mage">
                                 <name>法师靴子</name>
                                 <desc></desc>
+								<relatedEntries>infusion,armor_xp_infusion</relatedEntries>
                         </subitem>
+						<relatedEntries>infusion</relatedEntries>
                 </item>
                 <item id="armorBattlemage">
                         <name>战斗法师套装</name>
@@ -938,6 +1197,7 @@
 								水下呼吸buff.这个魔法效果每90秒之内激活
 								一次.
 								</desc>
+								<relatedEntries>infusion,armor_xp_infusion</relatedEntries>
                         </subitem>
                         <subitem id="chest_battlemage">
                                 <name>战斗法师护甲</name>
@@ -948,14 +1208,16 @@
 								生buff恢复20%的血量.这种效果每4分钟之内
 								激活一次.当46级时最多治愈40%的血量.
 								</desc>
+								<relatedEntries>infusion,armor_xp_infusion</relatedEntries>
                         </subitem>
                         <subitem id="legs_battlemage">
-                                <name>战斗法师护腿Battlemage Leggings</name>
+                                <name>战斗法师护腿</name>
                                 <desc>
 								使用雷霆与火焰之力打造的战斗法师护腿在穿
 								戴的巫师到达20级后能够提升主人的移动速度,
 								这个魔法效果没有冷却限制.
 								</desc>
+								<relatedEntries>infusion,armor_xp_infusion</relatedEntries>
                         </subitem>
                         <subitem id="boots_battlemage">
                                 <name>战斗法师靴子Battlemage Boots</name>
@@ -964,7 +1226,9 @@
 								5级时增加一格高的掉落距离,15级时允许你翻越
 								一格高的障碍,20级时增加两格高的掉落距离.
 								</desc>
+								<relatedEntries>infusion,armor_xp_infusion</relatedEntries>
                         </subitem>
+						<relatedEntries>infusion</relatedEntries>
                 </item>
                 <item id="armorArchmage">
                         <name>大法师套装</name>
@@ -983,6 +1247,7 @@
 								当你的氧气不足时,这个有短时间隔的附魔就会生
 								效. 该效果拥有35秒的内置冷却时间.
 								</desc>
+								<relatedEntries>infusion,armor_xp_infusion</relatedEntries>
                         </subitem>
                         <subitem id="chest_archmage">
                                 <name>大法师袍子</name>
@@ -993,6 +1258,7 @@
 								的恢复效果. 而当等级达到46级的时候则会恢复75%
 								生命. 该效果拥有2分钟内置冷却时间. 
 								</desc>
+								<relatedEntries>infusion,armor_xp_infusion</relatedEntries>
                         </subitem>
                         <subitem id="legs_archmage">
                                 <name>大法师护腿</name>
@@ -1001,6 +1267,7 @@
 								20级, 在冲刺时你会比平时的速度快的多,而且游泳
 								速度也会更快. 这个增加速度的效果没有冷却时间.
 								</desc>
+								<relatedEntries>infusion,armor_xp_infusion</relatedEntries>
                         </subitem>
                         <subitem id="boots_archmage">
                                 <name>大法师靴子</name>
@@ -1013,7 +1280,9 @@
 								下坠速率.不过如果没有适当的保护措施的话,你仍然
 								会在着陆时受到坠落伤害.
 								</desc>
+								<relatedEntries>infusion,armor_xp_infusion</relatedEntries>
                         </subitem>
+						<relatedEntries>infusion</relatedEntries>
                 </item>
                 <item id="affinityTomes">
                         <name>亲和力宝典</name>
@@ -1036,43 +1305,54 @@
                         <subitem id="affinity_tome@1">
                                 <name>亲和力宝典:奥术</name>
                                 <desc></desc>
+								<relatedEntries></relatedEntries>
                         </subitem>
                         <subitem id="affinity_tome@2">
                                 <name>亲和力宝典:水</name>
                                 <desc></desc>
+								<relatedEntries></relatedEntries>
                         </subitem>
                         <subitem id="affinity_tome@3">
                                 <name>亲和力宝典:火</name>
                                 <desc></desc>
+								<relatedEntries></relatedEntries>
                         </subitem>
                         <subitem id="affinity_tome@4">
                                 <name>亲和力宝典:地</name>
                                 <desc></desc>
+								<relatedEntries></relatedEntries>
                         </subitem>
                         <subitem id="affinity_tome@5">
                                 <name>亲和力宝典:风</name>
                                 <desc></desc>
+								<relatedEntries></relatedEntries>
                         </subitem>
                         <subitem id="affinity_tome@6">
                                 <name>亲和力宝典:雷霆</name>
                                 <desc></desc>
+								<relatedEntries></relatedEntries>
                         </subitem>
                         <subitem id="affinity_tome@7">
                                 <name>亲和力宝典:寒冰</name>
                                 <desc></desc>
+								<relatedEntries></relatedEntries>
                         </subitem>
                         <subitem id="affinity_tome@8">
                                 <name>亲和力宝典:自然</name>
                                 <desc></desc>
+								<relatedEntries></relatedEntries>
                         </subitem>
                         <subitem id="affinity_tome@9">
                                 <name>亲和力宝典:生命</name>
                                 <desc></desc>
+								<relatedEntries></relatedEntries>
                         </subitem>
                         <subitem id="affinity_tome@10">
                                 <name>亲和力宝典:末影</name>
                                 <desc></desc>
+								<relatedEntries></relatedEntries>
                         </subitem>
+						<relatedEntries></relatedEntries>
                 </item>
                 <item id="foci">
                         <name>核心</name>
@@ -1087,6 +1367,7 @@
 								在源质中导站中, 充能核心可以降低能量枯竭数值,使其能够传
 								输更多的魔法能量.
                                 </desc>
+								<relatedEntries>summoner,arcanereconstructor,arcane_deconstructor</relatedEntries>
                         </subitem>
                         <subitem id="manafocus">
                                 <name>魔法核心</name>
@@ -1094,6 +1375,7 @@
 								魔法核心是用来降低魔法艺术魔导机器操作消耗的物品. 
 								法力赤额会随着时间的推移自然降低.
                                 </desc>
+								<relatedEntries>summoner,calefactor</relatedEntries>
                         </subitem>
                         <subitem id="lesserfocus">
                                 <name>次级核心</name>
@@ -1101,6 +1383,7 @@
 								次级核心是用在施术台以及施术台符文中的物品.使施术
 								方块使用弱化施术模式.
                                 </desc>
+								<relatedEntries>blockseerstone</relatedEntries>
                         </subitem>
                         <subitem id="standardfocus">
                                 <name>标准核心</name>
@@ -1108,6 +1391,7 @@
 								标准核心是用在施术台以及施术台符文中的物品.使施术
 								方块使用普通施术模式.
                                 </desc>
+								<relatedEntries>blockseerstone</relatedEntries>
                         </subitem>
                         <subitem id="greaterfocus">
                                 <name>卓越核心</name>
@@ -1115,6 +1399,7 @@
 								卓越核心是用在施术台以及施术台符文中的物品. 使施术
 								方块使用增强施术模式.
                                 </desc>
+								<relatedEntries>blockseerstone</relatedEntries>
                         </subitem>
                         <subitem id="item_focus">
                                 <name>物品核心</name>
@@ -1122,12 +1407,14 @@
 								物品核心可用在预言家之眼中, 引导其搜索附近地面上的
 								物品.
                                 </desc>
+								<relatedEntries>blockseerstone</relatedEntries>
                         </subitem>
                         <subitem id="player_focus">
                                 <name>玩家核心</name>
                                 <desc>
 								玩家核心可用在预言家之眼中, 引导其搜索附近的玩家.
                                 </desc>
+								<relatedEntries>blockseerstone</relatedEntries>
                         </subitem>
                         <subitem id="monster_focus">
                                 <name>怪物核心</name>
@@ -1135,6 +1422,7 @@
 								怪物核心可用在预言家之眼中, 引导其搜索附近的怪物
 								(例如僵尸,骷髅等...).
                                 </desc>
+								<relatedEntries>blockseerstone</relatedEntries>
                         </subitem>
                         <subitem id="creature_focus">
                                 <name>生物核心</name>
@@ -1142,47 +1430,9 @@
 								生物核心可用在预言家之眼中, 引导其搜索附近的生物
 								(例如牛,羊等...).
                                 </desc>
+								<relatedEntries>blockseerstone</relatedEntries>
                         </subitem>
-                </item>
-                <item id="chalk">
-                        <name>粉笔</name>
-                        <desc>
-						粉笔是用来创建不同类型的枢纽,符文和召唤阵.
-						</desc>
-                        <subitem id="white_chalk">
-                                <name>白粉笔</name>
-                                <desc>
-								白色的粉笔常被用来绘制枢纽符文,这是因为人们常把白色和
-								纯洁联系起来.当以恰当结构组合时,白粉笔绘制的符文将能够
-								创建出光明枢纽,这种枢纽能够缓慢吸收周围大气中的源质,并
-								将其转换成浓缩的形式.
-								</desc>
-                        </subitem>
-                        <subitem id="blue_chalk">
-                                <name>蓝粉笔</name>
-                                <desc>
-								蓝粉笔常用来绘制枢纽符文, 这是最接近天然源质的颜色.事
-								实上,任何用蓝粉笔画出的枢纽都会输出中性魔力.
-								</desc>
-                        </subitem>
-                        <subitem id="red_chalk">
-                                <name>红粉笔</name>
-                                <desc>
-								虽然天然源质在红粉笔绘制的枢纽的影响下会生成黑暗和邪恶
-								的元素,但红粉笔仍然在绘制符文枢纽时被使用. 当正确的用红
-								粉笔将符文绘制在适当的结构中后, 其产生的黑暗枢纽几乎能
-								将任何生物拖进它的魔力场内并吸取它们的生命能量.
-								</desc>
-                        </subitem>                        
-                        <subitem id="purple_chalk">
-                                <name>紫粉笔</name>
-                                <desc>
-								紫粉笔常与纯粹的魔法联系起来, 它可以在地上绘制出让附近
-								所有魔法失效的符文, 例如增益魔法或飞行咒语. 这些符文常
-								被战斗法师在魔力枯竭时使用. 这样你也不能用魔法来对抗他
-								们了.
-								</desc>
-                        </subitem>
+						<relatedEntries>flicker_lure</relatedEntries>
                 </item>
                 <item id="keystone">
                         <name>楔石</name>
@@ -1190,44 +1440,15 @@
 						楔石是用来互相连接两个星门的东西, 亦或是能限制使用古代
 						魔法的魔导机器(楔石箱子,预言者之眼,星界屏障和楔石插槽.)
 						</desc>
+						<relatedEntries>keystonechest,blockkeystonerecepticle,blockastralbarrier,blockseerstone,keystoneDoors,gateways</relatedEntries>
                 </item>
                 <item id="mana_cake">
                         <name>魔力蛋糕</name>
                         <desc>
 						魔力蛋糕能在恢复饱食度的同时给予你魔力回复增加的效果!
 						</desc>
-                </item>
-                <item id="spell_staff">
-                        <name>魔杖</name>
-                        <desc>
-						魔杖能嵌入魔法卷轴,这样施法者可以使用法杖充能来取代魔
-						力施放法术. 你仍然需要拥有施法材料才能使用魔法.
-						</desc>
-                        <subitem id="spell_staff_novice">
-                                <name>见习魔杖</name>
-                                <desc>
-								见习魔杖只能够用来施放弱化版本的法术咒语, 但相应的,
-								每次施法法杖消耗的源质也会较少. 它并不具有其他法杖
-								那样多的初始能力. 
-								</desc>
-                        </subitem>
-                        <subitem id="spell_staff_journeyman">
-                                <name>学徒魔杖</name>
-                                <desc>
-								使用了升级版核心的学徒魔杖能够用来施放中等威力的法
-								术. 它充能后能施法的次数要比见习魔杖多. 由于制作学
-								徒魔杖时使用了更多的奥术粉末, 因此它的源质储量更大.
-								</desc>
-                        </subitem>
-                        <subitem id="spell_staff_master">
-                                <name>大师魔杖</name>
-                                <desc>
-								大师魔杖能够用来施放真正强大的法术, 这要归功于魔杖
-								顶端镶嵌的卓越核心. 由纯净温特姆粉末制成的大法师魔
-								杖允许其在损坏前引导巨量的魔法源质. 
-								</desc>
-                        </subitem>
-                </item>                
+						<relatedEntries>mana_potion</relatedEntries>
+                </item>           
                 <item id="mana_potion">
                         <name>魔力药水</name>
                         <desc>
@@ -1241,6 +1462,7 @@
 								次级魔力药水拥有与一杯咖啡一样的神奇功效: 短暂提升魔
 								法值且不会让你一整天都兴奋无比. 每瓶将会恢复100魔力.
 								</desc>
+								<relatedEntries>mana_cake</relatedEntries>
                         </subitem>
                         <subitem id="mana_potion_standard">
                                 <name>标准魔力药水</name>
@@ -1248,6 +1470,7 @@
 								只需增加少量的材料成本制成的标准魔力药水能比次级魔法
 								药水提供更多的魔力恢复值. 每瓶将会恢复250魔力.
 								</desc>
+								<relatedEntries>mana_cake</relatedEntries>
                         </subitem>
                         <subitem id="mana_potion_greater">
                                 <name>卓越魔力药水</name>
@@ -1255,6 +1478,7 @@
 								在酿造台中混合了#5温特姆#0与#9粗制的药水#0的力量制成
 								的卓越魔力药水能够恢复不错的魔力. 每瓶将会恢复500魔力.
 								</desc>
+								<relatedEntries>mana_cake</relatedEntries>
                         </subitem>
                         <subitem id="mana_potion_epic">
                                 <name>史诗魔力药水</name>
@@ -1262,6 +1486,7 @@
 								史诗魔力药水是#9粗制的药水#0结合了#5奥术粉末#0在酿造台
 								中制作出来的药水, 每瓶能恢复1000魔力.
 								</desc>
+								<relatedEntries>mana_cake</relatedEntries>
                         </subitem>
                         <subitem id="mana_potion_legendary">
                                 <name>传奇魔力药水</name>
@@ -1269,6 +1494,7 @@
 								传奇魔力药水是#9粗制的药水#0结合了纯净温特姆粉末在酿造
 								台中制作出来的药水. 每瓶药水能恢复巨量的2000魔力!
 								</desc>
+								<relatedEntries>mana_cake</relatedEntries>
                         </subitem>
                         <subitem id="mana_boost_potion">
                                 <name>蕴魔源质药水</name>
@@ -1278,7 +1504,9 @@
 								对材料的利用效率很低, 很多液体源质在制作的过程中流失浪
 								费了.
 								</desc>
+								<relatedEntries></relatedEntries>
                         </subitem>
+						<relatedEntries></relatedEntries>
                 </item>
                 <item id="crystal_wrench">
                         <name>水晶扳手</name>
@@ -1293,6 +1521,7 @@
 						的. 如果你要复制复数个相同发生器的设置, 在每次粘贴后你都要再
 						次复制一次.
 						</desc>
+						<relatedEntries></relatedEntries>
                 </item>
                 <item id="spell_parchment">
                         <name>法术卷轴</name>
@@ -1301,6 +1530,7 @@
 						轴. 这种制作法术卷轴的方式已经流传了千年, 而更让人惊奇的是这
 						几千年来没有发明出来比这更有效的方式.
 						</desc>
+						<relatedEntries>altarOfCreation,inscriptionTable</relatedEntries>
                 </item>
                 <item id="crystal_phylactery">
                         <name>水晶护符</name>
@@ -1310,6 +1540,7 @@
 						的小块生命源质. 一旦水晶充满了源质, 她就可以用这个护符作为
 						召唤咒语的一部分来召唤一个听从她指令的生物.
 						</desc>
+						<relatedEntries>Summon</relatedEntries>
                 </item>
                 <item id="spell_staff_magitech">
                         <name>魔导魔杖</name>
@@ -1317,6 +1548,7 @@
 						魔导魔杖是一种改装版的能够探测环境的魔力的法杖, 可用来感应
 						蕴含魔力的方块内的源质的量.
 						</desc>
+						<relatedEntries>magitechGoggles,magic_broom</relatedEntries>
                 </item>
                 <item id="spell_book">
                         <name>法术书</name>
@@ -1327,6 +1559,7 @@
 						法术书可以使用不同颜料染色.而且还能使用一些有用的能量对它们
 						进行#5附魔#0.
 						</desc>
+						<relatedEntries></relatedEntries>
                 </item>
                 <item id="magicbroom">
                         <name>魔法扫帚</name>
@@ -1337,83 +1570,229 @@
 						的箱子里.当你制作出这种扫帚后,拿着它右击#5任何有物品栏的方块#0
 						就能将其安附于其上,否则不会有效. 现在它就能为你拾取所有的掉落
 						物品了,尽管之后它还能够进一步设定.</desc>
+						<relatedEntries>spell_staff_magitech</relatedEntries>
                 </item>
-        </items>
-        <structures>
-                <structure id="essenceNexus">
-                        <name>源质枢纽</name>
-                        <controller>TileEntityEssenceNexus</controller>
-                        <desc>
-						被改造成介于光明枢纽与黑暗枢纽之
-						间的特性的源质枢纽,拥有比光明枢
-						纽更强大的魔力产量,却不会有黑暗
-						枢纽的副作用.如果想要创建中央的
-						符文,首先合成一支#9蓝粉笔#0,然后
-						右键单击方块顶部,这样就能够在其
-						上绘制符文!要生成天然源质,它下方
-						至少需要一个静态/流动的液态源质
-						作为能量来源.注意源质不能直接放
-						于枢纽下方一格因为枢纽下方方块被
-						破坏的话也会摧毁枢纽.而只要发现位
-						于其下方的源质(最低可以在其下方10
-						格处),枢纽将持续抽取液态源质来生
-						成天然源质.液态源质最终将被消耗掉,
-						而每个液态源质方块能够产生500点的
-						天然源质,不过这个数字有时会随机上
-						下浮动.如果流动的液体源质方块,将不
-						能够生成天然源质也不会被消耗掉,但
-						它会使得枢纽能够定位到与之相连的
-						静态源质方块.AM2添加了#9錾制石砖#0
-						的合成以适应源质枢纽的材料需求.
-						请查看本书的#9方块#0章节来查看这些
-						合成.它需要至少一个液体源质来源方
-						块在其正下方来作为其能量的来源.
-						它会不停的消耗液体源质并产生天然源
-						质.</desc>
-                </structure>
-                <structure id="darkNexus">                        
-                        <name>黑暗枢纽</name>
-                        <controller>TileEntityDarkNexus</controller>
-                        <desc>
-						黑暗枢纽是个危险的装置,它会将活物
-						慢慢地却无法抗拒地拉入枢纽中心.而
-						一旦到达中心, 冤魂将从枢纽法阵中浮
-						现,活物的生命力将会被强制从肉体上
-						撕裂下来.
-						如果想要创建中央的符文,首先合成一支
-						#4红粉笔#0,然后右击方块顶部,这样就能
-						够在其上绘制符文.
-						黑暗枢纽以生命能量为食,并以此来产生
-						大量魔法能量.吸入的生物拥有更多的生
-						命能量,黑暗枢纽就能够生成更多的魔法
-						能量.但这些大量生产的魔力并非毫无代
-						价,黑暗枢纽不仅会迅速污染它所在的区
-						域内,还会带来强大的邪恶力量.它提供
-						的黑暗能量能够使魔导机器运行得更快
-						,但也会使机器长期处于不稳定地滥用状
-						态. 
-						</desc>
-                </structure>
-                <structure id="lightNexus">                        
-                        <name>光明枢纽</name>
-                        <controller>TileEntityLightNexus</controller>
-                        <desc>
-						光明枢纽是三种枢纽中最弱的枢纽,
-						但它却更加易行可靠. 
-						如果想要创建中央的符文,需要先合成
-						一支#9白粉笔#0,然后拿着它右击方块
-						顶部,这样就能够在其上绘制符文.
-						通过从大气中抽离源质,光明枢纽有助
-						于增加一片区域的纯净度.它不需要物
-						品或活物的灵魂作为献祭,就能够持续
-						不断却宛如涓涓细流地产生魔法能量.
-						通过将法阵顶部材料替换成金块能够
-						提升它的性能,而替换成钻石块则会让
-						它变得更加强大.它提供的能量类型让
-						魔导机器运行缓慢,但却常常带来额外
-						的收益.
-						</desc>
-                </structure>
+                <item id="nature_scythe">
+						<name>Nature's Scythe</name>
+						<desc>Taken from the guardian of nature itself, this scythe wields immense power.  It can clear leaves and plants with astounding efficiency.  It can be thrown like a boomerang by right clicking, though it costs 250 mana to do so.  All plant clearing effects apply while thrown, and damage is increased.</desc>
+						<relatedEntries></relatedEntries>
+                </item>
+                <item id="arcane_spellbook">
+						<name>Arcane Spellbook</name>
+						<desc>Imbued with unknowable enchantments by ancient mages, the arcane spell book #9increases the effectiveness of all spells cast from it#0.  Damage is increased, and mana cost is lowered.  Things like duration and radius are not modified.</desc>
+						<relatedEntries></relatedEntries>
+                </item>
+                <item id="winter_arm">
+						<name>Winter's Grasp</name>
+						<desc>Taken from the guardian of winter, this arm can be used as a blunt weapon.  It retains its unearthly chill, and drastically slows and weakens all struck with it.  For 250 mana, it can be thrown, and will pull back an entity to you if it is hit by the arm, applying a more powerful slow and weaken effect.</desc>
+						<relatedEntries></relatedEntries>
+                </item>
+                <item id="air_sled">
+						<name>Air Sled</name>
+						<desc>The air sled allows you to take to the sky with ease.  It is slightly faster than creative mode flight, but does not afford the same level of control.</desc>
+						<relatedEntries></relatedEntries>
+                </item>
+                <item id="earth_armor">
+						<name>Earth Armor</name>
+						<desc>The earth armor is the chest of the guardian of earth.  It offers significant physical damage resistance for a single piece of armor.  It adds a sizeable amount of damage (+4) and knockback to unarmed strikes (no item equipped).</desc>
+						<relatedEntries></relatedEntries>
+                </item>
+                <item id="water_orbs">
+						<name>Water Orbs</name>
+						<desc>The water orbs allow you to control water subconsciously.  While wearing them (they are a leg slot item), you will not be pushed by flowing liquids.  You will also have infinite breath while underwater.</desc>
+						<relatedEntries></relatedEntries>
+                </item>
+                <item id="fire_ears">
+						<name>Fire Antenna</name>
+						<desc>The fire antenna, when worn, grant full immunity to fire and lava.</desc>
+						<relatedEntries></relatedEntries>
+                </item>
+                <item id="workbenchUpgrade">
+						<name>Workbench Grid Upgrade</name>
+						<desc>You've figured out a way to make an upgrade for the Magician's workbench that makes the secondary grid a 3x3 instead of a 2x2.  Simply craft it and right click a placed bench to apply it.  Keep in mind, the modifications are rather fragile, and will break off if the workbench is destroyed and will have to be re-made.</desc>
+						<relatedEntries>magiciansWorkbench</relatedEntries>
+                </item>
+                <item id="bindingcatalysts">
+						<name>Binding Catalyst</name>
+						<desc>Binding Catalysts are used by the #5Binding#0 shape to determine what type of tool or weapon will be bound.</desc>
+                <subitem id="bindingCatalyst@0">
+						<name>Binding Catalyst: Pickaxe</name>
+						<desc></desc>
+						<relatedEntries>Binding</relatedEntries>
+                </subitem>
+                <subitem id="bindingCatalyst@1">
+						<name>Binding Catalyst: Axe</name>
+						<desc></desc>
+						<relatedEntries>Binding</relatedEntries>
+                </subitem>
+                <subitem id="bindingCatalyst@2">
+						<name>Binding Catalyst: Sword</name>
+						<desc></desc>
+						<relatedEntries>Binding</relatedEntries>
+                </subitem>
+                <subitem id="bindingCatalyst@3">
+						<name>Binding Catalyst: Shovel</name>
+						<desc></desc>
+						<relatedEntries>Binding</relatedEntries>
+                </subitem>
+                <subitem id="bindingCatalyst@4">
+						<name>Binding Catalyst: Hoe</name>
+						<desc></desc>
+						<relatedEntries>Binding</relatedEntries>
+                </subitem>
+                <subitem id="bindingCatalyst@5">
+						<name>Binding Catalyst: Bow</name>
+						<desc>This one isn't implemented yet - look for it soon!</desc>
+						<relatedEntries>Binding</relatedEntries>
+                </subitem>
+                <relatedEntries></relatedEntries>
+                </item>
+                <item id="warding_candle">
+						<name>Warding Candle</name>
+						<desc>Warding Candles, when held, are moving sources of light.  They can also be #9attuned#0 to a specific block by #9sneaking and right clicking on the block while holding the candle#0.  This will cause the candle flame to turn blue when within 15 blocks of the specified block, and red when within 5 blocks.  A warding candle will burn for 15 minutes, but is put out when not equipped.
+						!d
+						Warding candles are also used in #5Rituals#0, and are placed down as part of the layout.  A Warding Candle that has been attuned cannot be used in a ritual.</desc>
+						<relatedEntries>rituals_overview</relatedEntries>
+                </item>
+                <item id="flicker_jar">
+						<name>Flicker Jar</name>
+						<desc>Flicker Jars are used to catch flickers.  Simply right click on the flicker and you will trap it inside the jar.  Sounds simple, right?  Have fun...</desc>
+						<relatedEntries>Flicker</relatedEntries>
+                </item>
+                <item id="enderBoots">
+						<name>Ender Boots</name>
+						<desc>The Ender Boots are a rare drop from the #5Ender Guardian#0.  When wearing these boots, #9sneaking and jumping will reverse gravity#0!  This will only apply to you, and you will fall upwards.  Normal falling damage applies.  You cannot reverse gravity while airborne.</desc>
+						<relatedEntries></relatedEntries>
+                </item>
+                <item id="lightningcharm">
+						<name>Lightning Charm</name>
+						<desc>The Lightning Charm is a rare drop from the #5Lightning Guardian#0.  Sneaking and right clicking will toggle the item on and off.  When on, its static electricity draws in nearby items automatically.</desc>
+						<relatedEntries></relatedEntries>
+                </item>
+                <item id="lifeward">
+						<name>Life Ward</name>
+						<desc>The Life Ward is a rare drop from the #5Life Guardian#0.  When in your action bar, you will slowly generate a shield around you that will absorb incoming damage.  It will generate up to 20 additional temporary hit points.  The hit points remain if the Ward is removed from your inventory, but will not replenish themselves without it.</desc>
+						<relatedEntries></relatedEntries>
+                </item>
+                <item id="magitechGoggles">
+						<name>Magitech's Goggles</name>
+						<desc>The Magitech's Goggles are a companion piece to the #9Magitech's Staff#0.  When worn, you can sneak and right click powered blocks with a Magitech's Staff.  You will then be able to see all of the incoming power types to the selected machine, and where they come from.  The goggles will also allow you to see broken power links; where a power path was before, but something went wrong (for example, a conduit was broken).  Broken power link blocks cannot be broken by hand, but they can be replaced by any block.</desc>
+						<relatedEntries>spell_staff_magitech,brokenLink</relatedEntries>
+                </item>
+                <item id="flickerFocus">
+						<name>Flicker Focus</name>
+						<desc>Flicker foci are used to create livable conditions inside a #9Flicker Habitat#0 for Flickers.  It will enable them to perform several tasks, each of which are detailed to the right.</desc>
+						<relatedEntries>flickerHabitat,Flicker,crystalMarker</relatedEntries>
+                <subitem id="flickerFocus@1">
+						<name>Flicker Focus: Item Transport</name>
+						<desc>The air flickers contained within this crystal have been attuned to the movement of items. Placing this within a #9Flicker Habitat#0 will allow you to link it with #9Crystal Markers#0 to interact with inventories containing items. To link the habitat containing this foci with a #9Crystal Marker#0 simply right click on the #9Flicker Habitat#0 then right click on the #9Crystal Marker#0. This foci can be upgraded using additional #9Flicker Habitats#0 with flickers inside them. This foci can operate without access to Etherium however it is very slow. Adding power increases the speed and allows the foci to make use of attached upgrades. !d Arcane: !l Increases the number of items the flickers inside can move at one time. The first arcane flicker will increase the count to 32, each additional arcane flicker will add an additional 32 items to the air flickers carrying capacity !d Lightning: !l Lightning flickers will increase the speed at which the flickers move items. Additional lightning flickers after the first will still increase the speed but suffer from diminishing returns. Most Magitechs belive its a waste to go higher then three lightning flickers.</desc>
+						<relatedEntries>flickerFocus,crystalMarker</relatedEntries>
+                </subitem>
+                <subitem id="flickerFocus@3">
+						<name>Flicker Focus: Interdiction</name>
+						<desc>Arcane and air flickers working together can create a wall around their habitat if they are provided enough Etherium to do so. By placing this focus in a #9Flicker Habitat#0 and providing it with Etherium a nearly invisible wall is created in a 6 block radius from the #9Flicker Habitat#0. !d This operator can be upgraded with an #9Ender Flicker#0 which will cause the #5Containment#0 effect to be applied as well.</desc>
+						<relatedEntries>flickerFocus</relatedEntries>
+                </subitem>
+                <subitem id="flickerFocus@9">
+						<name>Flicker Focus: Containment</name>
+						<desc>Ender and air flickers working in tandem can create a wall surrounding their #9Flicker Habitat#0 provided they have been given the Etherium to do so. Placing this focus in a habitat and providing it with Etherium will create a nearly invisible wall in a 6 block radius from their #9Flicker Habitat#0 that non-player entities can not pass out of. !d This operator can be upgraded with an #9Arcane Flicker#0 which will cause the #5Interdiction#0 effect to be applied as well.</desc>
+						<relatedEntries>flickerFocus</relatedEntries>
+                </subitem>
+                <subitem id="flickerFocus@4">
+						<name>Flicker Focus: Packed Earth</name>
+						<desc>Earth flickers when contained within this focus can flatten terrain in a 6 block radius around their #9Flicker Habitat#0 using materials stored in an inventory below their habitat. While these flickers can operate without access to Etherium they are much faster when they have access to a source of power.</desc>
+						<relatedEntries>flickerFocus</relatedEntries>
+                </subitem>
+                <subitem id="flickerFocus@36">
+						<name>Flicker Focus: Flat Lands</name>
+						<desc>The earth and ice flickers inside this focus will flatten a 6 block radius area surrounding their #9Flicker Habitat#0. They can operate without power but are much more effective when connected to a source of Etherium.</desc>
+						<relatedEntries>flickerFocus</relatedEntries>
+                </subitem>
+                <subitem id="flickerFocus@64">
+						<name>Flicker Focus: Progeny</name>
+						<desc>The life flickers inside this focus can use a source of Etherium to cause animals within 8 blocks to breed.  This focus requires etherium of any kind for each operation.  The default operation time is 2000 ticks (100 seconds), but this can be reduced by placing additional habitats adjacent to the original and placing lightning flicker jars in them.  There isn't much point in adding more than 4, as the minimum is 600 ticks (30 seconds).  Each upgrade multiplies the current duration by 0.75, so the effect is diminishing.</desc>
+        				<relatedEntries>flickerFocus</relatedEntries>
+                </subitem>
+                <subitem id="flickerFocus@80">
+						<name>Flicker Focus: Butchery</name>
+						<desc>The flickers inside this focus are constantly at odds. The fire flicker seeks to consume the life around its self, while the life flicker seeks to defend it. The balance that is struck in this conflict is that all but two of every animal type with a 6 block radius around the #9Flicker Habitat#0 that contains this focus will eventually be killed. Provided that the fire flicker has access to a source of Etherium to do its grisly work.</desc>
+						<relatedEntries>flickerFocus</relatedEntries>
+                </subitem>
+                <subitem id="flickerFocus@134">
+						<name>Flicker Focus: Lunar Tides</name>
+						<desc>The three flickers inside this focus can use their combined power to pull moonstone meteors that would land within 128 blocks of their #9Flicker Habitat#0 to land within 8 blocks. However to accomplish this they need a trickle of Etherium to keep them alert and watching for meteors.</desc>
+						<relatedEntries>flickerFocus</relatedEntries>
+                </subitem>
+      <subitem id="flickerFocus@144">
+						<name>Flicker Focus: Light</name>
+						<desc>The fire and lightning flickers contained within can use the power of the sun stone used in the construction of their focus to light a 16 block radius around their #9Flicker Habitat#0.</desc>
+						<relatedEntries>flickerFocus</relatedEntries>
+                </subitem>
+      <subitem id="flickerFocus@384">
+						<name>Flicker Focus: Felled Oak</name>
+						<desc>The nature flicker contained within this focus will seek out trees within a 6 block radius around their #9Flicker Habitat#0, once they do the lightning flickers will fell the tree one block at a time. These flicker can operate without a source of power but they are much faster when they have a source of Etherium to fuel themselves.</desc>
+						<relatedEntries>flickerFocus</relatedEntries>
+                </subitem>
+      <subitem id="flickerFocus@512">
+						<name>Flicker Focus: Gentle Rains</name>
+						<desc>The water flicker contained within this focus will hydrate the terrain in a 6 block radius around it's #9Flicker Habitat#0.</desc>
+						<relatedEntries>flickerFocus</relatedEntries>
+                </subitem>
+      <subitem id="flickerFocus@832">
+						<name>Flicker Focus: Nature's Bounty</name>
+						<desc>The life, nature and water flickers contained within this focus will work together to help all plants within a 6 block radius grow faster. These hard working flickers will help all nearby plants with or without Etherium but providing them with a source of power will allow them to do their work faster.</desc>
+						<relatedEntries>flickerFocus</relatedEntries>
+                </subitem>
+                </item>
+                <item id="wizardChalk">
+						<name>Wizard's Chalk</name>
+						<desc>Wizard's Chalk is used to create #9Rituals#0 by drawing the correct shapes on the ground.</desc>
+						<relatedEntries>corruption,purification,hourglass,rituals_overview</relatedEntries>
+                </item>
+                <item id="playerjournal">
+						<name>Journal</name>
+						<desc>Journals can be used to #9record your experiences#0 for later use.  These experiences can #9later be recovered by reading the journal#0.</desc>
+						<relatedEntries />
+                </item>
+                <item id="deficit_crystal">
+						<name>Deficit Crystal</name>
+						<desc>Often noted as the antimatter of magic, Deficit represents a void in the fabric of reality.  You've managed to create a refined, crystallized version of it.  Crystals like these are often used in the unmaking of things.</desc>
+						<relatedEntries>essence_refiner,arcane_deconstructor</relatedEntries>
+                </item>
+                </items>
+		<structures>
+				<structure id="obelisk_structure">
+				<name>方尖碑</name>
+				<controller>TileEntityObelisk</controller>
+				<desc>The Obelisk is somewhat of a magical furnace.  It can generate Etherium by burning #5Vinteum Dust#0 or #5Liquid Etherium#0 out of a bucket.  The Obelisk generates #5Neutral Etherium#0.
+				!d
+				The structure depicted here does not have to be built all at once; it can be built in sections.  The #9Wizard's Chalk Circle#0 is a standalone upgrade that when completed, will increase the output of the Obelisk's burn capabilities.  The #9Pillars#0 are another upgrade, and will further increase the output of the Obelisk.  
+				!d
+				If space is a concern however, these upgrades are not required for the Obelisk to function.</desc>
+				<relatedEntries>obelisk,crystal_wrench,spell_staff_magitech,magitechGoggles</relatedEntries>
+				</structure>
+				<structure id="blackaurem_structure">
+				<name>夜黑之耳</name>
+				<controller>TileEntityBlackAurem</controller>
+				<desc>A sinister construction, the Black Aurem slowly but invariably pulls living creatures from around it inward to its center.  Upon reaching the middle, bolts of pure darkness lash out and tear the life force out of the creature. The Black Aurem generates #4Dark Etherium#0.  Mobs killed by the Aurem drop neither XP nor loot.
+				!d
+				The Black Aurem is created by performing the #9Ritual of Corruption#0 on an #9Obelisk#0.  Like the Obelisk, the Black Aurem can be upgraded by adding certain multiblock configurations around it.  The first of these is the #5Wizard's Chalk Circle#0, and will increase the amount of power generated from each mob the Aurem consumes.  The second upgrade is the #5Pillars#0, which will further increase the power generation.  The pillars can also have specific #5cap upgrades#0, which modify the amount of benefit.
+				!d
+				Obsidian and Chimerite are on the same level, with Sunstone giving a large bonus to generation.
+				!d
+				Neither the chalk circle or the pillars are required for the Aurem to function.</desc>
+				<relatedEntries>obelisk,ritual_of_corruption,crystal_wrench,spell_staff_magitech</relatedEntries>
+		</structure>
+				<structure id="celestialprism_structure">
+				<name>仙域棱镜</name>
+				<controller>TileEntityCelestialPrism</controller>
+				<desc>The Celestial Prism is a purified form of the Obelisk that generates #9Light Etherium#0.  It generates this power slowly, but passively.  It requires nothing more than daylight to generate its power.  You will know it is generating when runes of power begin to swirl around the crystal.
+				!d
+				To create the Celestial Prism, perform the #9Ritual of Purification#0 on an #9Obelisk#0.  Like the Obelisk, the Celestial Prism can be upgraded by adding certain multiblock configurations around it.  The first of these is the #5Wizard's Chalk Circle#0, and will increase the amount of power generated by the prism.  The second upgrade is the #5Pillars#0, which will further increase the rate at which power is generated.  The pillars can also have specific #5cap upgrades#0, which modify the amount of benefit.  
+				!d
+				The most noticable effect are the #9Moonstone Caps#0, which increase the power by a significant amount, but also switches the prism to charge at night instead of during the day.</desc>
+				<relatedEntries>obelisk,ritual_of_purification,crystal_wrench,spell_staff_magitech</relatedEntries>
+		</structure>
                 <structure id="gateways">
                         <name>星门</name>
                         <controller>TileEntityKeystoneRecepticle</controller>
@@ -1431,7 +1810,7 @@
 						</desc>
                 </structure>
                 <structure id="altarOfCreation">
-                        <name>创造者祭坛</name>
+                        <name>创造祭坛</name>
                         <controller>TileEntityCraftingAltar</controller>                        
                         <desc>
                         创造者祭坛,掌握着创造之力,能够让法师实现魔法的奇迹.你可以在这里创
@@ -1479,15 +1858,206 @@
 						拥有最大2的效果提升, 而石砖和红石顶则会拥有最大4的效果提升.目前
 						在单个法术上累计最大效果提升为13.
                         </desc>
+						<relatedEntries></relatedEntries>
                 </structure>
-                <structure id="inlays">
+                <structure id="inlays_structure">
                 <name>镶嵌</name>
                 <desc>
 				将镶嵌方块放入3X3大小的环状结构中可创建出镶嵌. 全部方块必须
 				处于相同高度(即Y坐标相同),且都必须属于同类镶嵌方块. 当方块上
 				出现符文就可以确认已经创建成功.
 				</desc>
+				<relatedEntries></relatedEntries>
                 </structure>
+				</structure>
+    <ritual id="rituals_overview">
+      <name>Rituals</name>
+      <desc>Rituals are created using Wizard's Chalk and Warding Candles.  Arranging them in the correct pattern can enable you to do some truly powerful magic.  !d Rituals will usually require additional items to be thrown on the ground in order for the ritual to succeed.  These items can be thrown anywhere on the ground inside the radius of the Wizard's Chalk.  !d Once you have your ritual laid out, and your items thrown in, you will need to cast the proper spell in order to kick everything off.  The reagents will depend on the spell being cast,and order does matter.  For example, when throwing down runes to recall to a gateway using a ritual, the order of the runes will become the keystone combination. !d  The spell must target the exact center block of the ritual, on the same y-level as the chalk and candles.  This is usually a block placed in the center, or an entity standing in the middle.  !d  If it doesn't work, make sure you are in the middle of the chalk, that the layout is correct, and that you have the correct reagents for the correct ritual!</desc>
+      <relatedEntries>wizardChalk,warding_candle</relatedEntries>
+      <subitem id="purification">
+        <name>Ritual of Purification</name>
+        <desc>The ritual of Purification is used to purify an obelisk into a celestial prism.</desc>
+        <relatedEntries>obelisk,wizardChalk,warding_candle</relatedEntries>
+        <ritualName>purification</ritualName>
+        <ritualController>Light</ritualController>
+      </subitem>
+      <subitem id="corruption_prism">
+        <name>Ritual of Corruption (Obelisk)</name>
+        <desc>The Ritual of Corruption is used to corrupt an Obelisk into a Black Aurem.</desc>
+        <relatedEntries>obelisk,wizardChalk,warding_candle</relatedEntries>
+        <ritualName>corruption</ritualName>
+        <ritualController>FireDamage</ritualController>
+      </subitem>
+      <subitem id="corruption_obelisk">
+        <name>Ritual of Corruption (Monster Spawner)</name>
+        <desc>The Ritual of Corruption can be used to pick up a Monster Spawner to be used later.  The ritual removes the spawning capabilities of the spawner, so they will need to be re-added to it somehow.  Rift or Life Tap can be used as well, so each tree specialization can perform this.  The reagents are the same for all three spell options.</desc>
+        <relatedEntries>Rift,LifeTap,wizardChalk,warding_candle</relatedEntries>
+        <ritualName>corruption</ritualName>
+        <ritualController>AstralDistortion</ritualController>
+      </subitem>
+      <subitem id="extend_blind">
+        <name>Hourglass Ritual (Blind)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Blind</ritualController>
+      </subitem>
+      <subitem id="extend_charm">
+        <name>Hourglass Ritual (Charm)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Charm</ritualController>
+      </subitem>
+      <subitem id="extend_entangle">
+        <name>Hourglass Ritual (Entangle)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Entangle</ritualController>
+      </subitem>
+      <subitem id="extend_flight">
+        <name>Hourglass Ritual (Flight)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Flight</ritualController>
+      </subitem>
+      <subitem id="extend_freeze">
+        <name>Hourglass Ritual (Freeze)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Freeze</ritualController>
+      </subitem>
+      <subitem id="extend_fury">
+        <name>Hourglass Ritual (Fury)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Fury</ritualController>
+      </subitem>
+      <subitem id="extend_gravitywell">
+        <name>Hourglass Ritual (Gravity Well)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>GravityWell</ritualController>
+      </subitem>
+      <subitem id="extend_haste">
+        <name>Hourglass Ritual (Haste)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Haste</ritualController>
+      </subitem>
+      <subitem id="extend_invisibility">
+        <name>Hourglass Ritual (Invisibility)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Invisibility</ritualController>
+      </subitem>
+      <subitem id="extend_leap">
+        <name>Hourglass Ritual (Leap)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Leap</ritualController>
+      </subitem>
+      <subitem id="extend_levitation">
+        <name>Hourglass Ritual (Levitation)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Levitate</ritualController>
+      </subitem>
+      <subitem id="extend_manashield">
+        <name>Hourglass Ritual (Mana Shield)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>ManaShield</ritualController>
+      </subitem>
+      <subitem id="extend_nightvision">
+        <name>Hourglass Ritual (Night Vision)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>NightVision</ritualController>
+      </subitem>
+      <subitem id="extend_shield">
+        <name>Hourglass Ritual (Shield)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Shield</ritualController>
+      </subitem>
+      <subitem id="extend_slow">
+        <name>Hourglass Ritual (Slow)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Slow</ritualController>
+      </subitem>
+      <subitem id="extend_slowfall">
+        <name>Hourglass Ritual (Slowfall)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Slowfall</ritualController>
+      </subitem>
+      <subitem id="extend_swiftswim">
+        <name>Hourglass Ritual (Swift Swim)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>SwiftSwim</ritualController>
+      </subitem>
+      <subitem id="extend_truesight">
+        <name>Hourglass Ritual (True Sight)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>TrueSight</ritualController>
+      </subitem>
+      <subitem id="extend_waterbreathing">
+        <name>Hourglass Ritual (Water Breathing)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>WaterBreathing</ritualController>
+      </subitem>
+      <subitem id="extend_waterygrave">
+        <name>Hourglass Ritual (Watery Grave)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>WateryGrave</ritualController>
+      </subitem>
+      <subitem id="extend_shrink">
+        <name>Hourglass Ritual (Shrink)</name>
+        <desc>The hourglass ritual can be used to extend a buff to a significantly longer duration.  It adds 180 seconds plus an additional 180 seconds for each Buff Power modifier included in the same spell stage as the buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Shrink</ritualController>
+      </subitem>
+      <subitem id="recall_to_gateway">
+        <name>Recall to Gateway</name>
+        <desc>The ringed cross ritual can be used to re-target the Recall spell so you travel to a specified gateway instead of your marked location.  The three runes used need to match a gateway combination.  The chalk and runes will be consumed as part of the teleportation.</desc>
+        <relatedEntries>wizardChalk,warding_candle</relatedEntries>
+        <ritualName>ringedCross</ritualName>
+        <ritualController>Recall</ritualController>
+      </subitem>
+      <subitem id="recall_other">
+        <name>Recall Other</name>
+        <desc>The ringed cross ritual can be used to re-target the Recall spell so you pull another player to you.  The combination can be obtained by the player using the True Sight spell, and can vary in length from player to player.  Be careful when giving out your player rune combination, as it can be used to target you specifically.  This recall also works cross-dimensionally.</desc>
+        <relatedEntries>TrueSight,wizardChalk,warding_candle</relatedEntries>
+        <ritualName>ringedCross</ritualName>
+        <ritualController>Recall</ritualController>
+      </subitem>
+      <relatedEntries>wizardChalk</relatedEntries>
+    </ritual>
         </structures>
         <mobs>
                 <mob id="MobHecate">
@@ -1519,15 +2089,6 @@
 						近的一切魔力. 随着漩涡持续的时间增长它会变得越来越大. 不
 						过幸运的是漩涡不会持续几秒钟. 你拥有的魔法越多,魔力漩涡吸
 						收的就越多, 因此即便是最强大的魔法师也会视其为一个威胁.
-						</desc>
-                </mob>
-                <mob id="MobWisp">
-                        <name>精灵</name>
-                        <desc>
-						小精灵是一种顽皮的元素生物,会在四周飘荡飞行. 它们天生拥有
-						很强的好奇心, 会跟随任何它们感兴趣的事物. 不过它们的注意
-						力很短暂, 很快就会分心忘掉感兴趣的事. 如果它被激怒了,会使
-						用毁灭性的的法术攻击,同时使它的目标致盲.
 						</desc>
                 </mob>
                 <mob id="MobLightMage">
@@ -1585,6 +2146,72 @@
 						吸引,并且会周期性地催生附近的植物.
 						</desc>
                 </mob>
+				</mob>
+    <mob id="MobDarkling">
+      <name>Darkling</name>
+      <desc>Darklings are small dog-like creatures that are found in the nether.  Their body becomes less visible during night, fading to near invsibility at midnight.  As dawn approaches, the Darklings will begin to gradually appear again until they become fully visible again for the day.</desc>
+      <relatedEntries></relatedEntries>
+    </mob>
+    <mob id="HellCow">
+      <name>Hell Cow</name>
+      <desc>Moo? Moo moo moo, moo moo moo moo.  Moo.  Moo moo moo moo moo, moo moo moo?  Moo!  Moo moo moo moo moo - moo moo moo. !d 1.) Moo moo moo moo !d 2.) Moo, moo moo moo moo. !d 3.) Moo! !d Moo, moo moo moo, moo moo moo.  Moo moo moo moo moo moo.  Moo, moo!</desc>
+      <relatedEntries></relatedEntries>
+    </mob>
+    <mob id="Flicker">
+      <name>Flickers</name>
+      <desc>Flickers are lesser elementals from the various elemental planes that have crossed over into our world.  Their magical bond is tenuous at best and they are known for "Flicking" back and forth between their plane and ours.  They are the starting point for #5Ars Magica Automation#0. 
+	  !d
+			Flickers are timid by nature and will flick back to their own dimension if attacked, or if they feel threatened.  Giving them a modicum of magic in the form of #5some sort of lasting effect#0 makes them feel more comfortable and less likely to run away.  #5Flickers can be captured inside of a Flicker Jar#0.
+			!d
+			There is one type of flicker for each affinity.  Flickers of each affinity will behave differently.  For example, Air Flickers tend to like to stay higher above the ground, while Earth Flickers will prefer to stay low.
+			!d
+			Flickers of each affinity can be found near regions of the world that remind them of their affinity.			</desc>
+      <subitem id="waterflicker">
+        <name>Water Flicker</name>
+        <desc>#5Water Flickers#0 will be found in areas that are predominantly water, like swmaps, rivers, and oceans.</desc>
+      </subitem>
+      <subitem id="airflicker">
+        <name>Air Flicker</name>
+        <desc>#5Air Flickers#0 can be found anywhere not underground, and will fly around higher in the sky (~25 blocks above the ground).</desc>
+      </subitem>
+      <subitem id="earthflicker">
+        <name>Earth Flicker</name>
+        <desc>#5Earth Flickers#0 can be found anywhere, but they prefer underground locations.  They will stay close to the ground.</desc>
+      </subitem>
+      <subitem id="fireflicker">
+        <name>Fire Flicker</name>
+        <desc>#5Fire Flickers#0 can be found in the nether..</desc>
+      </subitem>
+      <subitem id="lightningflicker">
+        <name>Lightning Flicker</name>
+        <desc>#5Lightning Flickers#0 can be found on beaches and over oceans in the sky, where storms like to form.  They can be found in all areas if it is storming.</desc>
+      </subitem>
+      <subitem id="natureflicker">
+        <name>Nature Flicker</name>
+        <desc>#5Nature Flickers#0 can be found in forests.</desc>
+      </subitem>
+      <subitem id="iceflicker">
+        <name>Ice Flicker</name>
+        <desc>#5Ice Flickers#0 can be found in frozen areas, such as Taiga.</desc>
+      </subitem>
+      <subitem id="arcaneflicker">
+        <name>Arcane Flicker</name>
+        <desc>#5Arcane Flickers#0 can be found in magical areas.  They very much like Witchwood Forests.</desc>
+      </subitem>
+      <subitem id="lifeflicker">
+        <name>Life Flicker</name>
+        <desc>#5Life Flickers#0 can be found anywhere.  Any flicker spawning has a small chance to be a life flicker rather than whatever else it could be.</desc>
+      </subitem>
+      <subitem id="enderflicker">
+        <name>Ender Flicker</name>
+        <desc>#5Ender Flickers#0 are found in the end.  Occasionally, a teleporting Enderman can open a rift large enough for Ender Flickers to slip through.</desc>
+      </subitem>
+      <subitem id="xycraftflicker">
+        <name>XyCraft Flicker</name>
+        <desc>#5XyCraft Flickers#0 are implemented, but don't do anything yet.</desc>
+      </subitem>
+      <relatedEntries>flicker_jar,flickerFocus,flickerHabitat,crystalMarkers</relatedEntries>
+    </mob>
         </mobs>
         <bosses>
                 <boss id="BossNatureGuardian">
@@ -1710,6 +2337,21 @@
 						推荐等级: 90
 						</desc>
                 </boss>
+				<boss id="BossLifeGuardian">
+						<name>Life Guardian</name>
+						<desc>The life guardian generally prefers to let the natural order of things take their course, not intervening unless a true sacriledge against life is performed.  Luckily (or unluckily, depending on how you look at it) for you, you have come up with a way to commit such an act.  Create a 5x5 ring using wizard's chalk, and place a warding candle in the center part of each side, on the outside of the ring (4 candles in total).  The circle will help to contain and focus the deed.  Then, on the night of a full moon, sacrifice a villager child inside the circle.  That should be enough to anger the life guardian to action. !d You monster you. !p The life guardian doesn't attack much on its own, though it may decide to throw you around a little.  It generally prefers to let others do the fighting for it, infusing them with its tremendous power.  In return, the others will often lay down their lives for the guardian's protection.  The life guardian is a different kind of fight than the other guardians.  !d Recommended level: 50</desc>
+						<relatedEntries></relatedEntries>
+				</boss>
+				<boss id="BossLightningGuardian">
+						<name>Lightning Guardian</name>
+						<desc>The lightning guardian is as unpredictable as it is powerful.  It can fire bolts of lightning at extreme range, and has been known to mess with the synapses inside the brains of living creatures.  It has also on occasion been able to replicate an effect similar to telekinesis using massive amounts of concentrated static electricity, which leaves the unfortunate victim open to several other effects. !d To summon the lightning guardian, create a #5Gold Inlay Ring#0 and place a mana battery in the middle.  Then, place 2 iron bars on top, creating a lightning rod.  !d  Finally, wait for a storm. !d This guardian is capable of doing extreme damage in a short amount of time.  Make sure you are well protected.  Recommended Level: 70</desc>
+						<relatedEntries></relatedEntries>
+				</boss>
+				<boss id="BossEnderGuardian">
+						<name>Ender Guardian</name>
+						<desc>Tales are told in hushed whispers of the true guardian of the End.  Of eyes glowing with an abhorrent light, and scaly skin as black as a moonless night.  Alas, the tales of this waking nightmare are vague at best and always shrouded in the veil of speculation.  The truth is, nobody has ever seen the guardian and lived.  The most common tale is that of Magnus Severinus, the Archmage of the Second Era.  At the height of his power, he was rumored to be able to move mountains with a thought, create lush gardens out of the most barren terrain, and create wards that could stop an army cold.  Alas, his most trusted advisor took ill, and her spiteful stepson had taken her place.  Goaded by honeyed words encouraging his power and making him arrogant, he gathered the conclave together and in front of them all, tore open the fabric between worlds, opening a portal to the end that pulsed with a soft purple glow that almost seemed to draw light away from its surroundings.  He stepped in, and summoned the guardian.  He never had time to scream.  A piece of paper, flecked with bits of dark blood, flitted back through the portal and it winked shut.  Upon the paper was the following ritual: !d In the End, around a black aurem, create an inlay of gold.  Light a burning fire on each side of the inlay.  Throw in an Ender Essence and an Eye of Ender to destabilize the aurem and summon the guardian. !d The paper was locked away in magical valuts and forgotten for millenia...until now.</desc>
+						<relatedEntries></relatedEntries>
+				</boss>
         </bosses>
         <blocks>
                 <block id="illusionBlock">
@@ -1718,25 +2360,28 @@
                         幻象方块如此真实,以至于你的大脑出于自我防范机制以及常识,会禁止你
 						去穿过它.只有当你开启了真视之眼,确认幻象确实并非真实后,才能给穿过
 						它们来到彼侧.
-                        !line!
+                        !l
                         "这个就是咯?"
-                        !line!
+                        !l
                         "不,那是面墙."
-                        !line!
+                        !l
                         “它可能只是伪装成一面墙.”
-                        !line!
+                        !l
                         "你不是很擅长找东西,对吧?"
-                        !line!
+                        !l
                         "我很擅长找墙.看,我又找到了另一面."
                         </desc>
-                </block>
-                <block id="archmagepodium">
-                        <name>大法师讲坛</name>
-                        <desc>
-						许多巫师在第一眼看到这个讲坛上放置的书册就会给予高度的重视.神秘
-						大法师的研究允许他达到空前绝后的魔法等级.只需阅读这本书你就能学
-						会最高等级的法术.
-						</desc>
+						<subitem id="illusionBlock@0">
+								<name>幻象方块</name>
+								<desc>Standard illusion blocks will look and function as solid blocks unless the entity attempting to pass through has #9True Sight#0 active.</desc>
+								<relatedEntries>illusionBlock@1,everstone</relatedEntries>
+						</subitem>
+						<subitem id="illusionBlock@1">
+								<name>天域幻象方块</name>
+								<desc>Ethereal illusion blocks will look like solid blocks, but anything can pass through them.  They still will emit particles if you have #9True Sight#0 active.  Ethereal Illusion Blocks will not change their appearance due to True Sight though.</desc>
+								<relatedEntries>illusionBlock@0,everstone</relatedEntries>
+						</subitem>
+						<relatedEntries></relatedEntries>
                 </block>
                 <block id="essence_refiner_front_idle">
                         <name>源质提炼机</name>
@@ -1751,6 +2396,7 @@
 						备出现#4法力赤额#0.ui中的旋转的环在源质提炼开始到完成的过程中会从
 						蓝变紫.而圆环变成红色则说明供能不足,此时提炼过程会被暂停.
 						</desc>
+						<relatedEntries>essence</relatedEntries>
                 </block>
                 <block id="essenceconduit">
                         <name>魔力中导站</name>
@@ -1760,16 +2406,7 @@
 						的微小虚空.如果这种情况未被恰当地应对,这种魔力的虚空将会消耗经过
 						中导站的天然源质,使得魔力运输网络中消耗的源质比正常增多.
 						</desc>
-                </block>
-                <block id="crystalpillar">
-                        <name>水晶柱</name>
-                        <desc>
-						水晶柱最初的设计目的是用以提升魔力中导站,但研究者随后发现它能够
-						引导散失源质的特性.这种材料虽然并不具备传递足够能量的传导性能,但
-						却能够阻止魔力虚空形成.因此稍微改良后这种水晶便能够向魔力虚空中
-						直接注入区域内的残余魔力,使其保持稳定从而防止魔力中导站内的温特
-						姆水晶产生法力赤额.
-						</desc>
+						<relatedEntries></relatedEntries>
                 </block>
                 <block id="blockcaster">
                         <name>施术台</name>
@@ -1781,6 +2418,17 @@
 						此水晶内还需要放置充能核心来汇聚充足的源质.而其他格子里放置的法力
 						核心能够让内部的源质流转得更有效率.
 						</desc>
+						<subitem id="casterRune">
+								<name>施术符文</name>
+								<desc>The Caster Rune functions in the same way as a #5Caster#0, save for one specific difference:  The caster rune does not required a redstone signal to operate, and rather casts when walked upon.  It will cast directly on whatever triggers it.</desc>
+								<relatedEntries>foci</relatedEntries>
+						</subitem>
+						<subitem id="blockcaster">
+								<name>施术台</name>
+								<desc></desc>
+								<relatedEntries>foci</relatedEntries>
+						</subitem>
+						<relatedEntries>foci</relatedEntries>
                 </block>
                 <block id="blockseerstone">
                         <name>预言家之眼</name>
@@ -1792,6 +2440,7 @@
 						强大的防御措施.潜行接近并激活预言家之眼(若操作者拥有正确组合的楔石)
 						会使得它反转探测对象,探测与楔石组合匹配的对象(默认是豁免这些对象).
 						</desc>
+						<relatedEntries>lesserfocus,standardfocus,greaterfocus,item_focus,player_focus,monster_focus,creature_focus,keystone,foci</relatedEntries>
                 </block>
                 <block id="blockastralbarrier">
                         <name>星界屏障</name>
@@ -1802,6 +2451,7 @@
 						预知,此时任何楔石都不能豁免它的阻挡效果.一些黑巫师的失败突袭,以及一
 						些白巫师的意外被捕,都归咎于未能及时发现屏障.
 						</desc>
+						<relatedEntries>lesserfocus,standardfocus,greaterfocus,keystone,foci</relatedEntries>
                 </block>
                 <block id="blockkeystonerecepticle">
                         <name>楔石插槽</name>
@@ -1818,6 +2468,7 @@
 						运用星门网络来返回楔石标记的星门.而这道设计缺陷造成的裂隙在白巫师中被
 						玩笑般地称为了"楔石插槽".
 						</desc>
+						<relatedEntries>keystone,gateways</relatedEntries>
                 </block>
                 <block id="ore_vinteum">
                         <name>温特姆矿石</name>
@@ -1827,6 +2478,7 @@
 						石在午后的日光中隐隐放光.它本身并无魔法特性,但加热后会变成一种具有特
 						异的源质传导能力的细粉.因此,它被广泛用于全世界的魔法装置.
 						</desc>
+						<relatedEntries>itemOre@0,vinteumTorch,warding_candle</relatedEntries>
                 </block>
                 <block id="mana_battery">
                         <name>魔力电池</name>
@@ -1835,6 +2487,7 @@
 						以黄金和铁为框架,能够储存大量源质的设备.铁和黄金的比率使得任何存储进
 						这种电池的能量都被极化,以移除其光明或者黑暗的效果.
 						</desc>
+						<relatedEntries></relatedEntries>
                 </block>
                 <block id="blue_orchid">
                         <name>万代兰</name>
@@ -1844,6 +2497,7 @@
 						料.它发现后不久,便被注意到能够用于温特姆粉末的提纯.坊间传闻,万代兰生长
 						之处,常常离精灵出没之地不远.
 						</desc>
+						<relatedEntries></relatedEntries>
                 </block>
                 <block id="desert_nova">
                         <name>沙漠新星</name>
@@ -1852,6 +2506,7 @@
 						是一种具有非凡魔法特性的沙漠植物,广受好评.它也是用于温特姆粉末提纯的
 						两种魔法植物之一.
 						</desc>
+						<relatedEntries></relatedEntries>
                 </block>
                 <block id="keystonechest">
                         <name>楔石箱子</name>
@@ -1861,10 +2516,12 @@
 						箱子就能开启.如果唯有插入楔石,则箱子可以正常开启.
                         !line!
                         !line!
-                        *只需手持楔石右击即可.</desc>
+                        *只需手持楔石右击即可.
+						</desc>
+						<relatedEntries>keystone</relatedEntries>
                 </block>
                 <block id="magicWall">
-                        <name>魔力屏障Magic Wall</name>
+                        <name>魔力屏障</name>
                         <desc>
 						作为研发幻象方块时的早期尝试之一,魔力屏障并无将自己混淆于周遭环境的
 						能力,甚至无力阻止人们看穿它们.它的价值直到大法师Leonidus苛责我们的努
@@ -1872,6 +2529,7 @@
 						当大法师扔出的火球被弹回来点着了他的胡子后,我们知道了它能够胜任防护
 						建材.
 						</desc>
+						<relatedEntries></relatedEntries>
                 </block>
                 <block id="arcanereconstructor">
                         <name>奥术重构台</name>
@@ -1879,6 +2537,7 @@
 						魔法能够以美好结局来做成任何事情.通过引导天然源质作用于那些平凡物品
 						的脆弱之处,源质能够稳固并修复器内在的损伤,使其焕然一新.
 						</desc>
+						<relatedEntries>chargefocus,arcane_deconstructor</relatedEntries>
                 </block>
                 <block id="lectern">
                         <name>讲坛</name>
@@ -1887,8 +2546,9 @@
 						魔导手册.书被摊开放置,这样不需要把书拿下来就能很方便地阅读它.它同样
 						还是合成祭坛的重要组成部分,因为法术构筑确实需要有组织一些.
 						</desc>
+						<relatedEntries></relatedEntries>
                 </block>
-                <block id="occulus">
+                <block id="occulus" unlocked="true">
                         <name>全知之眼</name>
                         <desc>
 						全知之眼,一扇通往亿万星辰的星门,能够向你展现内心最深处的自我.在它这
@@ -1896,13 +2556,7 @@
 						通过探索地牢等野外建筑以及召唤仪式等获得.学会技能后,相连的可解锁技能
 						会亮起来.蓝色技能点最常见,其次是绿色,最罕见的是红色.
 						</desc>
-                </block>
-                <block id="nullmagicblock">
-                        <name>禁魔符文</name>
-                        <desc>
-						禁魔符文能够使得其有效半径内的所有魔法效果失效.包括buff效果以及投射
-						物法术.
-						</desc>
+						<relatedEntries>inscriptionTable,lectern,unlockingPowers</relatedEntries>
                 </block>
                 <block id="calefactor">
                         <name>魔力炉</name>
@@ -1912,6 +2566,7 @@
 						产率.!d 中立枢纽能量: !l标准性能.!d 黑暗枢纽能量: !l熔炼速度极块,但有
 						5%几率烧坏物品. 
 						</desc>
+						<relatedEntries>foci,manafocus,chargefocus</relatedEntries>
                 </block>
                 <block id="inscriptionTable">
                         <name>符文拓印台</name>
@@ -1923,6 +2578,7 @@
 						).这本书可以放置在合成祭坛的讲坛上,并指导法术构建过程.这本书册本书
 						也有阅读价值,它包含了你创建法术的目录,材料列表以及亲和力类别.
 						</desc>
+						<relatedEntries>altarOfCreation,craftingAltar,magiciansWorkbench,spellComponents101,spell_parchment</relatedEntries>
                 </block>
                 <block id="particleEmitter">
                         <name>粒子效果发生器</name>
@@ -1932,18 +2588,22 @@
 						近拿出水晶扳手就能使其再次显形.拿着水晶扳手右击发生器能够复制它的设
 						置.此后右击其他发生器就能以相同参数设置它们.
 						</desc>
+						<relatedEntries></relatedEntries>
                 </block>
                 <block id="aum">
                         <name>全知草</name>
                         <desc></desc>
+						<relatedEntries></relatedEntries>
                 </block>
                 <block id="tarmaroot">
                         <name>塔尔玛根</name>
                         <desc></desc>
+						<relatedEntries></relatedEntries>
                 </block>
                 <block id="wakebloom">
                         <name>觉苏草</name>
                         <desc></desc>
+						<relatedEntries></relatedEntries>
                 </block>
                 <block id="summoner">
                         <name>召唤站</name>
@@ -2316,7 +2976,7 @@
 						布的人-我的beta版本测试者以及所有帮助过编程,建模,绘制贴图的
 						人-没有你们这一切没有可能!而你们呢,亲爱的玩家们,我希望你们能
 						够充分享受到这款模组的乐趣,就像我制作它时的那种快乐.
-						!line! !line! 请开心地玩吧! !line! ~Mithion
+						!d请开心地玩吧! !line! ~Mithion
 						</desc>
                 </guide>
                 <guide id="theAMUI" order="2">
