@@ -261,7 +261,7 @@ am2.spell.validate.principum=es un aspecto Iniciador y requiere que un aspecto O
 am2.spell.validate.terminus=es un aspecto Finalizador y cualquier otro aspecto añadido tras el no sera aplicado. Mira el Compendio para más información.
 
 am2.spell.unknown=Parte Desconocida
-am2.spell.aoe=Área de Efecto
+am2.spell.aoe=Area de Efecto
 am2.spell.beam=Haz
 am2.spell.binding=Ligar
 am2.spell.chain=Cadena
@@ -489,8 +489,8 @@ am2.gui.back=Atrás
 am2.gui.layer=Capa Actual
 am2.gui.all=Todo
 am2.gui.castCost=Coste de Lanzamiento
-am2.gui.positiveBuffs=Mejoras Positivas
-am2.gui.negativeBuffs=Mejoras Negativas
+am2.gui.positiveBuffs=Potenciadores
+am2.gui.negativeBuffs=Debilitadores
 am2.gui.headwear=Casco
 am2.gui.chestplate=Peto
 am2.gui.leggings=Pantalones
@@ -609,7 +609,7 @@ am2.npc.nopartyskill=Te conozco?
 
 #affinity effect descriptions
 #air
-am2.affinity.agile=Ágil
+am2.affinity.agile=Agil
 am2.affinity.lightasafeather=Ligero como una Pluma
 #arcane
 am2.affinity.clearcaster=Mente Despejada
