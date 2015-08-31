@@ -1,0 +1,440 @@
+package am2.network;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.NetHandler;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet131MapData;
+import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import am2.AMCore;
+import am2.blocks.parts.PartEventHandler;
+import am2.blocks.tileentities.IArsMagicaTileEntity;
+import am2.blocks.tileentities.TileEntityInscriptionTable;
+import am2.blocks.tileentities.TileEntityMagiciansWorkbench;
+import am2.blocks.tileentities.TileEntityParticleEmitter;
+import am2.containers.ContainerMagiciansWorkbench;
+import am2.containers.ContainerSpellCustomization;
+import am2.guis.ArsMagicaGuiIdList;
+import am2.items.ContainerKeystone;
+import am2.items.ItemSpellBook;
+import am2.items.ItemsCommonProxy;
+import am2.playerextensions.ExtendedProperties;
+import am2.playerextensions.SkillData;
+import am2.spell.SpellUtils;
+import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.network.IPacketHandler;
+import cpw.mods.fml.common.network.ITinyPacketHandler;
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
+import cpw.mods.fml.server.FMLServerHandler;
+
+
+public class ServerPacketHandler implements IPacketHandler, ITinyPacketHandler{
+
+	public static final String pkt_channel_server = "AM2_Server";
+	public static final String pkt_channel_client = "AM2_Client";
+
+	@Override
+	public void handle(NetHandler handler, Packet131MapData mapData) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
+		byte packetID = -1;
+		try{
+			if (!packet.channel.equals(pkt_channel_server)){
+				return;
+			}
+			packetID = packet.data[0];
+
+			switch(packetID){
+			case AMPacketIDs.SPELL_SHAPE_GROUP_CHANGE:
+				handleCastingModeChange(packet.data, (EntityPlayerMP) player);
+				break;
+			case AMPacketIDs.MAGIC_LEVEL_UP:
+				handleMagicLevelUp(packet.data, (EntityPlayerMP) player);
+				break;
+			case AMPacketIDs.TILE_ENTITY_DATA:
+				handleTileEntityUpdateRequest(packet.data);
+				break;
+			case AMPacketIDs.AM_POWER_SYNC:
+				handleAMPowerSync(packet.data);
+				break;
+			case AMPacketIDs.SPELLBOOK_GUI_OPEN:
+				handleSpellBookGUIOpen(packet.data, (EntityPlayerMP) player);
+				break;
+			case AMPacketIDs.SYNC_BETA_PARTICLES:
+				handleSyncBetaParticles(packet.data, (EntityPlayerMP) player);
+				break;
+			case AMPacketIDs.KEYSTONE_GUI_OPEN:
+				handleKeystoneGUIOpen(packet.data, (EntityPlayerMP) player);
+				break;
+			case AMPacketIDs.ESSENCE_BAG_GUI_OPEN:
+				handleEssenceBagGUIOpen(packet.data, (EntityPlayerMP) player);
+				break;
+			case AMPacketIDs.POSSIBLE_CLIENT_EXPROP_DESYNC:
+				handlePossibleClientExpropDesync(packet.data);
+				break;
+			case AMPacketIDs.REQUEST_BETA_PARTICLES:
+				handleRequestBetaParticles(packet.data, (EntityPlayerMP) player);
+				break;
+			case AMPacketIDs.SPELL_CUSTOMIZE:
+				handleSpellCustomize(packet.data, (EntityPlayerMP)player);
+				break;
+			case AMPacketIDs.SPELLBOOK_CHANGE_ACTIVE_SLOT:
+				handleSpellBookChangeActiveSlot(packet.data, (EntityPlayerMP) player);
+				break;
+			case AMPacketIDs.SYNC_SPELL_KNOWLEDGE:
+				handleSyncSpellKnowledge(packet.data, (EntityPlayerMP)player);
+				break;
+			case AMPacketIDs.DECO_BLOCK_UPDATE:
+				handleDecoBlockUpdate(packet.data, (EntityPlayerMP)player);
+				break;
+			case AMPacketIDs.INSCRIPTION_TABLE_UPDATE:
+				handleInscriptionTableUpdate(packet.data, (EntityPlayerMP)player);
+				break;
+			case AMPacketIDs.TK_DISTANCE_SYNC:
+				ExtendedProperties.For((EntityPlayerMP)player).TK_Distance = new AMDataReader(packet.data).getFloat();
+				break;
+			case AMPacketIDs.SAVE_KEYSTONE_COMBO:
+				handleSaveKeystoneCombo(packet.data, (EntityPlayerMP)player);
+				break;
+			case AMPacketIDs.SET_KEYSTONE_COMBO:
+				handleSetKeystoneCombo(packet.data, (EntityPlayerMP)player);
+				break;
+			case AMPacketIDs.SET_MAG_WORK_REC:
+				handleSetMagiciansWorkbenchRecipe(packet.data, (EntityPlayerMP)player);
+				break;
+<<<<<<< HEAD
+			case AMPacketIDs.MULTIBLOCK_PLACED:
+				handleMultiblockPlaced(packet.data, (EntityPlayerMP)player);
+=======
+			case AMPacketIDs.RUNE_BAG_GUI_OPEN:
+				handleRuneBagGUIOpen(packet.data, (EntityPlayerMP) player);
+				break;
+			case AMPacketIDs.M_BENCH_LOCK_RECIPE:
+				handleMBenchLockRecipe(packet.data, (EntityPlayerMP) player);
+				break;
+>>>>>>> ac0deb53c7e9b193e2c951fe7694d47dd0669a9e
+			}
+		}catch (Throwable t){
+			FMLLog.severe("Ars Magica >> Server Packet Failed to Handle!");
+			FMLLog.severe("Ars Magica >> Packet Type: " + packetID);
+			t.printStackTrace();
+		}
+
+	}
+
+	private void handleMBenchLockRecipe(byte[] data, EntityPlayerMP player) {
+		AMDataReader rdr = new AMDataReader(data);
+		int x = rdr.getInt();
+		int y = rdr.getInt();
+		int z = rdr.getInt();
+
+		TileEntity te = player.worldObj.getBlockTileEntity(x, y, z);
+		if (te != null && te instanceof TileEntityMagiciansWorkbench){
+			((TileEntityMagiciansWorkbench)te).setRecipeLocked(rdr.getInt(), rdr.getBoolean());
+			AMCore.proxy.packetSender.SendTileEntityUpdateToAllAround((TileEntityMagiciansWorkbench)te);
+		}
+	}
+
+	private void handleRuneBagGUIOpen(byte[] data, EntityPlayerMP player) {
+		AMDataReader rdr = new AMDataReader(data);
+		int entityID = rdr.getInt();
+
+		if (player == null){
+			return;
+		}
+
+		//open the GUI
+		player.openGui(AMCore.instance, ArsMagicaGuiIdList.GUI_RUNE_BAG, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
+	}
+
+	private void handleSetMagiciansWorkbenchRecipe(byte[] data, EntityPlayerMP player) {
+		if (player.openContainer != null && player.openContainer instanceof ContainerMagiciansWorkbench){
+			((ContainerMagiciansWorkbench)player.openContainer).moveRecipeToCraftingGrid(new AMDataReader(data).getInt());
+		}
+	}
+
+	private void handleSetKeystoneCombo(byte[] data, EntityPlayerMP player) {
+		if (player.openContainer instanceof ContainerKeystone){
+			AMDataReader rdr = new AMDataReader(data);
+			((ContainerKeystone)player.openContainer).setInventoryToCombination(rdr.getInt());
+		}
+	}
+
+	private void handleSaveKeystoneCombo(byte[] data, EntityPlayerMP player) {
+		if (player.openContainer instanceof ContainerKeystone){
+			AMDataReader rdr = new AMDataReader(data);
+			boolean add = rdr.getBoolean();
+			String name = rdr.getString();
+			int[] metas = new int[] { rdr.getInt(), rdr.getInt(), rdr.getInt(), rdr.getInt(), rdr.getInt() };
+			if (add)
+				ItemsCommonProxy.keystone.addCombination(((ContainerKeystone)player.openContainer).getKeystoneStack(), name, metas);
+			else
+				ItemsCommonProxy.keystone.removeCombination(((ContainerKeystone)player.openContainer).getKeystoneStack(), name);
+		}
+	}
+
+	private void handleInscriptionTableUpdate(byte[] data, EntityPlayerMP player) {
+		World world = player.worldObj;
+		AMDataReader rdr = new AMDataReader(data);
+		TileEntity te = world.getBlockTileEntity(rdr.getInt(), rdr.getInt(), rdr.getInt());
+		if (te == null || !(te instanceof TileEntityInscriptionTable)) return;
+		((TileEntityInscriptionTable)te).HandleUpdatePacket(rdr.getRemainingBytes());
+		AMCore.proxy.packetSender.SendTileEntityUpdateToAllAround((TileEntityInscriptionTable)te);
+	}
+
+	private void handleDecoBlockUpdate(byte[] data, EntityPlayerMP player) {
+		World world = player.worldObj;
+		AMDataReader rdr = new AMDataReader(data);
+		TileEntity te = world.getBlockTileEntity(rdr.getInt(), rdr.getInt(), rdr.getInt());
+		if (te == null || !(te instanceof TileEntityParticleEmitter)) return;
+		((TileEntityParticleEmitter)te).HandleUpdatePacket(rdr.getRemainingBytes());
+		AMCore.proxy.packetSender.SendTileEntityUpdateToAllAround((TileEntityParticleEmitter)te);
+	}
+
+	private void handleSyncSpellKnowledge(byte[] data, EntityPlayerMP player) {
+		SkillData.For(player).handlePacketData(data);
+	}
+
+	private void handleSpellBookChangeActiveSlot(byte[] data, EntityPlayerMP player) {
+		AMDataReader rdr = new AMDataReader(data);
+		byte subID = rdr.getByte();
+		int entityID = rdr.getInt();
+		int inventorySlot = rdr.getInt();
+
+		ItemStack stack = player.inventory.getStackInSlot(inventorySlot);
+		if (stack == null || !(stack.getItem() instanceof ItemSpellBook)) return;
+
+		int newIndex = 0;
+
+		if (subID == ItemSpellBook.ID_NEXT_SPELL)
+			newIndex = ItemsCommonProxy.spellBook.SetNextSlot(stack);
+		else if (subID == ItemSpellBook.ID_PREV_SPELL)
+			newIndex = ItemsCommonProxy.spellBook.SetPrevSlot(stack);
+		else
+			return;
+	}
+
+	private void handleSpellCustomize(byte[] data, EntityPlayerMP player) {
+		AMDataReader rdr = new AMDataReader(data);
+		int entityID = rdr.getInt();
+
+		EntityLivingBase ent = getEntityByID(entityID);
+
+		if (player == null){
+			return;
+		}
+
+		int iconIndex = rdr.getInt();
+		String name = rdr.getString();
+
+		if(player.openContainer instanceof ContainerSpellCustomization){
+			((ContainerSpellCustomization)player.openContainer).setNameAndIndex(name, iconIndex);
+		}
+	}
+
+	private void handleEssenceBagGUIOpen(byte[] data, EntityPlayerMP player) {
+		AMDataReader rdr = new AMDataReader(data);
+		int entityID = rdr.getInt();
+
+		if (player == null){
+			return;
+		}
+
+		//open the GUI
+		player.openGui(AMCore.instance, ArsMagicaGuiIdList.GUI_ESSENCE_BAG, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
+	}
+
+	private void handleRequestBetaParticles(byte[] data, EntityPlayerMP player) {
+		AMDataReader rdr = new AMDataReader(data);
+		int requesterID = rdr.getInt();
+		int entityID = rdr.getInt();
+		EntityLivingBase entity = getEntityByID(entityID);
+
+		if (player == null || entity == null || !(entity instanceof EntityPlayer)) return;
+
+		if (!AMCore.IsBetaTester((EntityPlayer) entity)) return;
+
+		byte[] expropData = ExtendedProperties.For(entity).getBetaParticleData();
+
+		AMDataWriter writer = new AMDataWriter();
+		writer.add(entity.entityId);
+		writer.add(expropData);
+
+		PacketDispatcher.sendPacketToPlayer(AMCore.proxy.packetSender.createArsMagicaClientPacket(AMPacketIDs.REQUEST_BETA_PARTICLES, writer.generate()), (Player) player);
+	}
+
+	private void handlePossibleClientExpropDesync(byte[] data) {
+		AMDataReader rdr = new AMDataReader(data);
+		int entityID = rdr.getInt();
+
+		EntityLivingBase e = getEntityByID(entityID);
+
+		if (e != null && e instanceof EntityPlayer){
+			ExtendedProperties props = ExtendedProperties.For(e);
+			if (!props.detectPossibleDesync()){
+				props.setFullSync();
+				props.forceSync();
+			}
+		}
+	}
+
+	private void handleAMPowerSync(byte[] data) {
+		//TODO
+		//For Later Use
+	}
+
+	private void handleSyncBetaParticles(byte[] data, EntityPlayerMP player){
+		AMDataReader rdr = new AMDataReader(data);
+
+		rdr.getInt();
+
+		if (player == null || !AMCore.IsBetaTester(player)){
+			return;
+		}
+
+		int index = rdr.getInt();
+		int behaviour = rdr.getInt();
+		float scale = rdr.getFloat();
+		float alpha = rdr.getFloat();
+		boolean randomColor = rdr.getBoolean();
+		boolean defaultColor = rdr.getBoolean();
+		float colorR = rdr.getFloat();
+		float colorG = rdr.getFloat();
+		float colorB = rdr.getFloat();
+
+		ExtendedProperties.For(player).updateBetaParticleData(index, behaviour, scale, alpha, randomColor, defaultColor, colorR, colorG, colorB);
+	}
+
+	private void handleTileEntityUpdateRequest(byte[] data){
+		AMDataReader rdr = new AMDataReader(data);
+		int x = rdr.getInt();
+		int y = rdr.getInt();
+		int z = rdr.getInt();
+		int worldType = rdr.getInt();
+		int entityID = rdr.getInt();
+
+		TileEntity te = null;
+		EntityPlayer player = null;
+		for (World world : AMCore.proxy.getWorldServers()){
+			if (world.provider.dimensionId != worldType){
+				continue;
+			}
+			Entity e = world.getEntityByID(entityID);
+			if (e != null && e instanceof EntityPlayer){
+				player = (EntityPlayer)e;
+			}
+			te = world.getBlockTileEntity(x, y, z);
+			if (te != null && (te instanceof IArsMagicaTileEntity)){
+				break;
+			}
+		}
+		if (te != null && player != null){
+			byte[] responseData = ((IArsMagicaTileEntity)te).GetUpdatePacketForClient();
+			AMDataWriter writer = new AMDataWriter();
+			PacketDispatcher.sendPacketToPlayer(AMCore.proxy.packetSender.createArsMagicaClientPacket(AMPacketIDs.TILE_ENTITY_DATA, writer.add(x).add(y).add(z).add(responseData).generate()), (Player) player);
+		}
+	}
+
+	private void handleCastingModeChange(byte[] data, EntityPlayerMP player){
+		AMDataReader rdr = new AMDataReader(data);
+		int newShapeGroupOrdinal = rdr.getInt();
+
+		ItemStack stack = player.getCurrentEquippedItem();
+		if (stack != null && stack.getItem() == ItemsCommonProxy.spell)
+			SpellUtils.instance.setShapeGroup(stack, newShapeGroupOrdinal);
+
+		/*AMDataWriter writer = new AMDataWriter();
+		writer.add(player.entityId);
+		writer.add(newCastingMode);
+		PacketDispatcher.sendPacketToPlayer(AMCore.proxy.packetSender.createArsMagicaClientPacket(AMPacketIDs.SPELL_SHAPE_GROUP_CHANGE, writer.generate()), (Player)player);*/
+	}
+
+	private void handleMagicLevelUp(byte[] data, EntityPlayerMP player){
+		/*AMDataReader reader = new AMDataReader(data);
+		int entityID = reader.getInt();
+		Entity ent = getEntityByID(entityID);
+
+		if (ent == null || !(ent instanceof EntityLiving)) return;
+
+		if (AMCore.proxy.IncreaseEntityMagicLevel((EntityLiving)ent, ent.worldObj)){
+			if (ent instanceof EntityPlayerMP){
+				EntityPlayerMP player = (EntityPlayerMP)ent;
+				AMDataWriter writer = new AMDataWriter();
+				writer.add(true);
+				writer.add(player.experienceLevel);
+				Packet pkt = createArsMagicaClientPacket(AMPacketIDs.MAGIC_LEVEL_UP, writer.generate());
+				PacketDispatcher.sendPacketToPlayer(pkt, (Player) player);
+			}
+		}*/
+
+		//TODO
+	}
+
+	private void handleSpellBookGUIOpen(byte[] data, EntityPlayerMP player){
+		AMDataReader rdr = new AMDataReader(data);
+
+
+		if (player == null){
+			return;
+		}
+
+		//open the GUI
+		player.openGui(AMCore.instance, ArsMagicaGuiIdList.GUI_SPELL_BOOK, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
+	}
+
+	private void handleKeystoneGUIOpen(byte[] data, EntityPlayerMP player){
+		AMDataReader rdr = new AMDataReader(data);
+		int entityID = rdr.getInt();
+
+		if (player == null){
+			return;
+		}
+
+		//open the GUI
+		(player).openGui(AMCore.instance, ArsMagicaGuiIdList.GUI_KEYSTONE, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
+	}
+	
+	private void handleMultiblockPlaced(byte[]data, EntityPlayerMP player){
+		PartEventHandler.place(player, player.worldObj);
+	}
+
+	public Packet createArsMagicaClientPacket(byte id, byte[] data){
+		Packet250CustomPayload pkt = new Packet250CustomPayload();
+		pkt.channel = pkt_channel_client;
+
+		//first byte is ID, followed by data
+		byte[] pkt_data = new byte[data.length + 1];
+		pkt_data[0] = id;
+
+		//copy the data
+		for (int i = 0; i < data.length; ++i){
+			pkt_data[i  + 1] = data[i];
+		}
+
+		pkt.data = pkt_data;
+		pkt.length = pkt.data.length;
+
+		return pkt;
+	}
+
+
+	public WorldServer[] getWorldServers(){
+		return FMLServerHandler.instance().getServer().worldServers;
+	}
+
+	public EntityLivingBase getEntityByID(int entityID){
+		return AMCore.proxy.getEntityByID(entityID);
+	}
+}

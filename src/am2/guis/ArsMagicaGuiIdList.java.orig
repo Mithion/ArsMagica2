@@ -1,0 +1,28 @@
+package am2.guis;
+
+public class ArsMagicaGuiIdList {
+	public static final int GUI_INSCRIPTION_TABLE = 1;
+	public static final int GUI_ESSENCE_REFINER = 2;
+	public static final int GUI_CASTER = 3;
+	public static final int GUI_SPELL_BOOK = 4;
+	public static final int GUI_ESSENCE_CONDUIT = 5;
+	public static final int GUI_CALEFACTOR = 6;
+	public static final int GUI_BETA_PARTICLES = 7;
+	public static final int GUI_KEYSTONE_RECEPTACLE = 8;
+	public static final int GUI_KEYSTONE = 9;
+	public static final int GUI_ASTRAL_BARRIER = 10;
+	public static final int GUI_SEER_STONE = 11;
+	public static final int GUI_KEYSTONE_CHEST = 12;
+	public static final int GUI_ARCANE_RECONSTRUCTOR = 13;
+	public static final int GUI_ESSENCE_BAG = 14;
+	public static final int GUI_RIFT = 15;
+	public static final int GUI_SPELL_CUSTOMIZATION = 16;
+	public static final int GUI_SUMMONER = 17;
+	public static final int GUI_MAGICIANS_WORKBENCH = 18;
+<<<<<<< HEAD
+	public static final int GUI_CRYSTAL_MARKER = 19;
+=======
+	public static final int GUI_RUNE_BAG = 19;
+	public static final int GUI_OBELISK = 20;
+>>>>>>> ac0deb53c7e9b193e2c951fe7694d47dd0669a9e
+}

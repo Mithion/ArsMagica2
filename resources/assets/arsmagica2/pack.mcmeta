@@ -1,0 +1,18 @@
+{
+  "pack": {
+    "pack_format": 1,
+    "description": "Ars Magica"
+  },
+  "language": {
+    "en_CA": {
+      "name": "Canadian English",
+      "region": "CA",
+      "bidirectional": false
+    },
+    "en_US": {
+      "name": "English",
+      "region": "US",
+      "bidirectional": false
+    }
+  }
+}

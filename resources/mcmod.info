@@ -1,0 +1,16 @@
+[
+{
+  "modid": "arsmagica2",
+  "name": "Ars Magica 2",
+  "description": "A look into what Minecraft could become if you add a splash of magic...",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Mithion", "Zerodaimaru"],
+  "credits": "Ars Magica is a trademark of Atlas Games, used with permission. Any spell names and other material adapted from the Ars Magica fantasy roleplaying game are used with permission. For more information, visit www.atlas-games.com.  Some textures created using brushes from www.obsidiandawn.com.  Icons used include Painterly Spell Packs 1 through 4, courtesy of J. W. Bjerk (eleazzaar) at opengameart.com.  Random Spell names courtesy of Steven Savage from seventhsanctum.com.",
+  "logoFile": "AM2Logo.png",
+  "screenshots": [],
+  "dependencies": ["AnimationAPI"]
+}
+]
