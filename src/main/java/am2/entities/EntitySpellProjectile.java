@@ -88,7 +88,6 @@ public class EntitySpellProjectile extends Entity{
 		motionZ = MathHelper.cos((rotationYaw / 180F) * 3.141593F) * MathHelper.cos((rotationPitch / 180F) * 3.141593F) * f;
 		motionY = -MathHelper.sin((rotationPitch / 180F) * 3.141593F) * f;
 		maxTicksToExist = -1;
-		projectileSpeed = 0.1;
 		setSpellProjectileHeading(motionX, motionY, motionZ, projectileSpeed, projectileSpeed);
 	}
 	//=========================================================================
@@ -261,8 +260,8 @@ public class EntitySpellProjectile extends Entity{
 			}
 		}
 		
-		//handle homing
-		if (this.dataWatcher.getWatchableObjectByte(DW_HOMING) == (byte)0 && this.ticksExisted > 10){
+		//TODO Fix homing
+		if (this.dataWatcher.getWatchableObjectByte(DW_HOMING) != (byte)0 && this.ticksExisted > 10){
 			if (this.dataWatcher.getWatchableObjectInt(DW_HOMING_TARGET) == -1){
 				findHomingTarget();
 				
