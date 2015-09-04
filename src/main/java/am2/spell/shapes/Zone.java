@@ -1,10 +1,5 @@
 package am2.spell.shapes;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import am2.api.spell.ItemSpellBase;
 import am2.api.spell.component.interfaces.ISpellShape;
 import am2.api.spell.enums.Affinity;
@@ -14,16 +9,20 @@ import am2.blocks.BlocksCommonProxy;
 import am2.entities.EntitySpellEffect;
 import am2.items.ItemsCommonProxy;
 import am2.spell.SpellUtils;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class Zone implements ISpellShape{
 
 	@Override
-	public int getID() {
+	public int getID(){
 		return 10;
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount) {
+	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount){
 		if (world.isRemote) return SpellCastResult.SUCCESS;
 		int radius = SpellUtils.instance.getModifiedInt_Add(2, stack, caster, target, world, 0, SpellModifiers.RADIUS);
 		double gravity = SpellUtils.instance.getModifiedDouble_Add(0, stack, caster, target, world, 0, SpellModifiers.GRAVITY);
@@ -39,12 +38,12 @@ public class Zone implements ISpellShape{
 	}
 
 	@Override
-	public boolean isChanneled() {
+	public boolean isChanneled(){
 		return false;
 	}
 
 	@Override
-	public Object[] getRecipeItems() {
+	public Object[] getRecipeItems(){
 		return new Object[]{
 				BlocksCommonProxy.tarmaRoot,
 				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_MOONSTONE),
@@ -54,23 +53,23 @@ public class Zone implements ISpellShape{
 	}
 
 	@Override
-	public float manaCostMultiplier(ItemStack spellStack) {
+	public float manaCostMultiplier(ItemStack spellStack){
 		return 4.5f;
 	}
 
 	@Override
-	public boolean isTerminusShape() {
+	public boolean isTerminusShape(){
 		return false;
 	}
 
 	@Override
-	public boolean isPrincipumShape() {
+	public boolean isPrincipumShape(){
 		return true;
 	}
 
 	@Override
-	public String getSoundForAffinity(Affinity affinity, ItemStack stack, World world) {
-		switch(affinity){
+	public String getSoundForAffinity(Affinity affinity, ItemStack stack, World world){
+		switch (affinity){
 		case AIR:
 			return "arsmagica2:spell.cast.air";
 		case ARCANE:

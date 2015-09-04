@@ -1,5 +1,9 @@
 package am2.entities;
 
+import am2.AMCore;
+import am2.items.ItemsCommonProxy;
+import am2.particles.AMParticle;
+import am2.particles.ParticleFadeOut;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -9,30 +13,26 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import am2.AMCore;
-import am2.items.ItemsCommonProxy;
-import am2.particles.AMParticle;
-import am2.particles.ParticleFadeOut;
 
 public class EntityAirSled extends EntityLiving{
 
 	private float rotation;
 
-	public EntityAirSled(World par1World) {
+	public EntityAirSled(World par1World){
 		super(par1World);
 		this.setSize(0.5f, 1);
 		this.stepHeight = 1.02f;
 	}
 
 	@Override
-	public void onUpdate() {
+	public void onUpdate(){
 		this.stepHeight = 1.02f;
 
 		if (worldObj.isRemote){
 			rotation += 1f;
-			if (this.worldObj.isAirBlock((int)this.posX, (int)(this.posY-1), (int)this.posZ)){
+			if (this.worldObj.isAirBlock((int)this.posX, (int)(this.posY - 1), (int)this.posZ)){
 				for (int i = 0; i < AMCore.config.getGFXLevel(); ++i){
-					AMParticle cloud = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "sparkle2", posX, posY+0.5, posZ);
+					AMParticle cloud = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "sparkle2", posX, posY + 0.5, posZ);
 					if (cloud != null){
 						cloud.addRandomOffset(1, 1, 1);
 						cloud.AddParticleController(new ParticleFadeOut(cloud, 1, false).setFadeSpeed(0.01f));
@@ -48,21 +48,16 @@ public class EntityAirSled extends EntityLiving{
 	}
 
 	@Override
-	public boolean shouldRiderSit() {
+	public boolean shouldRiderSit(){
 		return false;
 	}
 
 	@Override
-	public boolean interact(EntityPlayer par1EntityPlayer)
-	{
-		if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != par1EntityPlayer)
-		{
+	public boolean interact(EntityPlayer par1EntityPlayer){
+		if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != par1EntityPlayer){
 			return true;
-		}
-		else
-		{
-			if (!this.worldObj.isRemote)
-			{
+		}else{
+			if (!this.worldObj.isRemote){
 				if (par1EntityPlayer.isSneaking()){
 					this.setDead();
 					EntityItem item = new EntityItem(worldObj);
@@ -79,10 +74,8 @@ public class EntityAirSled extends EntityLiving{
 	}
 
 	@Override
-	public void updateRiderPosition()
-	{
-		if (this.riddenByEntity != null)
-		{
+	public void updateRiderPosition(){
+		if (this.riddenByEntity != null){
 			double d0 = Math.cos(this.rotationYaw * Math.PI / 180.0D) * 0.4D;
 			double d1 = Math.sin(this.rotationYaw * Math.PI / 180.0D) * 0.4D;
 			this.riddenByEntity.setPosition(this.posX, this.posY + this.getMountedYOffset() + this.riddenByEntity.getYOffset(), this.posZ);
@@ -90,10 +83,8 @@ public class EntityAirSled extends EntityLiving{
 	}
 
 	@Override
-	public void moveEntityWithHeading(float par1, float par2)
-	{
-		if (this.riddenByEntity != null)
-		{
+	public void moveEntityWithHeading(float par1, float par2){
+		if (this.riddenByEntity != null){
 			this.prevRotationYaw = this.rotationYaw = this.riddenByEntity.rotationYaw;
 			this.rotationPitch = this.riddenByEntity.rotationPitch * 0.5F;
 			this.setRotation(this.rotationYaw, this.rotationPitch);
@@ -101,16 +92,14 @@ public class EntityAirSled extends EntityLiving{
 			par1 = ((EntityLivingBase)this.riddenByEntity).moveStrafing * 0.5F;
 			par2 = ((EntityLivingBase)this.riddenByEntity).moveForward;
 
-			if (par2 <= 0.0F)
-			{
+			if (par2 <= 0.0F){
 				par2 *= 0.25F;
 			}
 
 			this.stepHeight = 1.0F;
 			this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
 
-			if (!this.worldObj.isRemote)
-			{
+			if (!this.worldObj.isRemote){
 				par2 *= 0.06f;
 				if (par1 != 0){
 					float f4 = MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F);
@@ -123,9 +112,7 @@ public class EntityAirSled extends EntityLiving{
 				this.motionY += -Math.sin(Math.toRadians(this.rotationPitch)) * par2;
 				this.motionZ += Math.cos(Math.toRadians(this.rotationYaw)) * par2;
 			}
-		}
-		else
-		{
+		}else{
 			if (!this.onGround && !this.isInWater())
 				this.motionY = -0.1f;
 			else
@@ -150,36 +137,35 @@ public class EntityAirSled extends EntityLiving{
 	}
 
 	@Override
-	public double getMountedYOffset()
-	{
+	public double getMountedYOffset(){
 		return 1.6f;
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void entityInit(){
 		super.entityInit();
 	}
-	
+
 	@Override
-	public void playSound(String par1Str, float par2, float par3) {		
+	public void playSound(String par1Str, float par2, float par3){
 	}
 
 	@Override
-	protected void fall(float par1) {
+	protected void fall(float par1){
 	}
 
 	@Override
-	public boolean canBeCollidedWith() {
+	public boolean canBeCollidedWith(){
 		return true;
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBox(Entity par1Entity) {
+	public AxisAlignedBB getCollisionBox(Entity par1Entity){
 		return null;
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
 		if (this.ridingEntity != null)
 			this.ridingEntity.mountEntity(null);
 		return false;

@@ -1,13 +1,5 @@
 package am2.armor;
 
-import java.util.HashMap;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import am2.AMCore;
 import am2.api.items.armor.IArmorImbuement;
 import am2.api.items.armor.ImbuementTiers;
@@ -15,8 +7,16 @@ import am2.armor.infusions.ImbuementRegistry;
 import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
 import am2.utility.EntityUtilities;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
-public class ArmorHelper {
+import java.util.HashMap;
+
+public class ArmorHelper{
 
 	private static final HashMap<String, Integer> armorRenderPrefixes = new HashMap<String, Integer>();
 
@@ -40,7 +40,7 @@ public class ArmorHelper {
 	//======================================================================================================
 	// Infusion
 	//======================================================================================================
-	public static void HandleArmorInfusion(EntityPlayer player) {
+	public static void HandleArmorInfusion(EntityPlayer player){
 		ExtendedProperties extendedProperties = ExtendedProperties.For(player);
 
 		float infusionCost = 0.0f;
@@ -89,7 +89,7 @@ public class ArmorHelper {
 		}
 	}
 
-	private static void RepairEquippedArsMagicaArmorItem(EntityPlayer player, int repairAmount, int slot) {
+	private static void RepairEquippedArsMagicaArmorItem(EntityPlayer player, int repairAmount, int slot){
 		if (!PlayerHasArmorInSlot(player, slot)){
 			return;
 		}
@@ -99,7 +99,7 @@ public class ArmorHelper {
 		}
 	}
 
-	private static float GetArsMagicaArmorRepairAmountFromSlot(EntityPlayer player, int armorSlot) {
+	private static float GetArsMagicaArmorRepairAmountFromSlot(EntityPlayer player, int armorSlot){
 		if (!PlayerHasArsInfusableInSlot(player, armorSlot)){
 			return 0;
 		}
@@ -110,12 +110,12 @@ public class ArmorHelper {
 		return 0;
 	}
 
-	private static boolean PlayerHasArsInfusableInSlot(EntityPlayer player, int armorSlot) {
+	private static boolean PlayerHasArsInfusableInSlot(EntityPlayer player, int armorSlot){
 		ItemStack[] armor = player.inventory.armorInventory;
 		return (armor[armorSlot] != null && (armor[armorSlot].getItem() instanceof AMArmor));
 	}
 
-	private static float GetArsMagicaArmorInfusionCostFromSlot(EntityPlayer player, int armorSlot) {
+	private static float GetArsMagicaArmorInfusionCostFromSlot(EntityPlayer player, int armorSlot){
 		if (!PlayerHasArsInfusableInSlot(player, armorSlot)){
 			return 0;
 		}
@@ -126,7 +126,7 @@ public class ArmorHelper {
 		return 0;
 	}
 
-	public static int getFullArsMagicaArmorSet(EntityPlayer player) {
+	public static int getFullArsMagicaArmorSet(EntityPlayer player){
 		int matlID = -1;
 		for (int i = 0; i < 4; ++i){
 			if (!PlayerHasArsInfusableInSlot(player, i)){
@@ -148,7 +148,7 @@ public class ArmorHelper {
 	//======================================================================================================
 	// Armor Effects
 	//======================================================================================================
-	public static void HandleArmorEffects(EntityPlayer player, World world) {
+	public static void HandleArmorEffects(EntityPlayer player, World world){
 		if (world.isRemote){
 			return;
 		}
@@ -161,7 +161,7 @@ public class ArmorHelper {
 		}
 	}
 
-	private static ItemStack GetAMProtectiveArmorInSlot(EntityPlayer player, int armorSlot) {
+	private static ItemStack GetAMProtectiveArmorInSlot(EntityPlayer player, int armorSlot){
 		ItemStack[] armor = player.inventory.armorInventory;
 		if (armor[armorSlot] != null){
 			for (Item i : ItemsCommonProxy.protectiveArmors){
@@ -181,7 +181,7 @@ public class ArmorHelper {
 	public static IArmorImbuement[] getInfusionsOnArmor(ItemStack stack){
 		if (stack == null || !stack.hasTagCompound() || !(stack.getItem() instanceof ItemArmor))
 			return new IArmorImbuement[0];
-		NBTTagCompound armorProps = (NBTTagCompound) stack.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
+		NBTTagCompound armorProps = (NBTTagCompound)stack.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
 		if (armorProps != null){
 			String infusionList = armorProps.getString(AMArmor.NBT_KEY_EFFECTS);
 			if (infusionList != null && infusionList != ""){
@@ -199,7 +199,7 @@ public class ArmorHelper {
 	public static boolean isInfusionPreset(ItemStack stack, String id){
 		if (stack == null || !stack.hasTagCompound())
 			return false;
-		NBTTagCompound armorProps = (NBTTagCompound) stack.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
+		NBTTagCompound armorProps = (NBTTagCompound)stack.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
 		if (armorProps != null){
 			String infusionList = armorProps.getString(AMArmor.NBT_KEY_EFFECTS);
 			if (infusionList != null){
@@ -209,7 +209,7 @@ public class ArmorHelper {
 		return false;
 	}
 
-	public static void imbueArmor(ItemStack armorStack, String id, boolean ignoreLevelRequirement) {
+	public static void imbueArmor(ItemStack armorStack, String id, boolean ignoreLevelRequirement){
 		IArmorImbuement imbuement = ImbuementRegistry.instance.getImbuementByID(id);
 		if (armorStack != null && imbuement != null && armorStack.getItem() instanceof ItemArmor){
 
@@ -220,7 +220,7 @@ public class ArmorHelper {
 				if (i == ((ItemArmor)armorStack.getItem()).armorType){
 					if (!armorStack.hasTagCompound())
 						armorStack.setTagCompound(new NBTTagCompound());
-					NBTTagCompound armorProps = (NBTTagCompound) armorStack.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
+					NBTTagCompound armorProps = (NBTTagCompound)armorStack.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
 					if (armorProps == null)
 						armorProps = new NBTTagCompound();
 					String infusionList = armorProps.getString(AMArmor.NBT_KEY_EFFECTS);
@@ -241,7 +241,7 @@ public class ArmorHelper {
 	public static int getArmorLevel(ItemStack stack){
 		if (stack == null || !stack.hasTagCompound())
 			return 0;
-		NBTTagCompound armorProps = (NBTTagCompound) stack.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
+		NBTTagCompound armorProps = (NBTTagCompound)stack.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
 		if (armorProps != null){
 			return armorProps.getInteger(AMArmor.NBT_KEY_ARMORLEVEL);
 		}
@@ -267,11 +267,11 @@ public class ArmorHelper {
 		if (armor != null && armor.getItem() instanceof ItemArmor){
 			if (!armor.hasTagCompound())
 				armor.setTagCompound(new NBTTagCompound());
-			NBTTagCompound armorProps = (NBTTagCompound) armor.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
+			NBTTagCompound armorProps = (NBTTagCompound)armor.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
 			if (armorProps == null)
 				armorProps = new NBTTagCompound();
 			armorProps.setDouble(AMArmor.NBT_KEY_TOTALXP, Math.max(armorProps.getDouble(AMArmor.NBT_KEY_TOTALXP) - amt, 0));
-			armorProps.setInteger(AMArmor.NBT_KEY_ARMORLEVEL, EntityUtilities.getLevelFromXP((float) armorProps.getDouble(AMArmor.NBT_KEY_TOTALXP)));
+			armorProps.setInteger(AMArmor.NBT_KEY_ARMORLEVEL, EntityUtilities.getLevelFromXP((float)armorProps.getDouble(AMArmor.NBT_KEY_TOTALXP)));
 			armor.stackTagCompound.setTag(AMArmor.NBT_KEY_AMPROPS, armorProps);
 		}
 	}
@@ -280,11 +280,11 @@ public class ArmorHelper {
 		if (armor != null && armor.getItem() instanceof ItemArmor){
 			if (!armor.hasTagCompound())
 				armor.setTagCompound(new NBTTagCompound());
-			NBTTagCompound armorProps = (NBTTagCompound) armor.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
+			NBTTagCompound armorProps = (NBTTagCompound)armor.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
 			if (armorProps == null)
 				armorProps = new NBTTagCompound();
 			armorProps.setDouble(AMArmor.NBT_KEY_TOTALXP, armorProps.getDouble(AMArmor.NBT_KEY_TOTALXP) + amt);
-			armorProps.setInteger(AMArmor.NBT_KEY_ARMORLEVEL, EntityUtilities.getLevelFromXP((float) armorProps.getDouble(AMArmor.NBT_KEY_TOTALXP)));
+			armorProps.setInteger(AMArmor.NBT_KEY_ARMORLEVEL, EntityUtilities.getLevelFromXP((float)armorProps.getDouble(AMArmor.NBT_KEY_TOTALXP)));
 			armor.stackTagCompound.setTag(AMArmor.NBT_KEY_AMPROPS, armorProps);
 		}
 	}

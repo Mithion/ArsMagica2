@@ -1,19 +1,17 @@
 package am2.guis;
 
-import java.util.HashMap;
-
+import am2.AMCore;
+import am2.api.math.AMVector2;
+import am2.guis.controls.GuiButtonVariableDims;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.StatCollector;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import am2.AMCore;
-import am2.api.math.AMVector2;
-import am2.guis.controls.GuiButtonVariableDims;
+import java.util.HashMap;
 
 public class GuiHudCustomization extends GuiScreen{
 	private GuiButtonVariableDims manaButton;
@@ -32,7 +30,7 @@ public class GuiHudCustomization extends GuiScreen{
 	private GuiButtonVariableDims manaNumeric;
 	private GuiButtonVariableDims burnoutNumeric;
 	private GuiButtonVariableDims XPNumeric;
-	
+
 	private GuiButtonVariableDims spellBook;
 
 	private GuiButtonVariableDims options;
@@ -42,7 +40,7 @@ public class GuiHudCustomization extends GuiScreen{
 	private GuiButtonVariableDims showArmorUI;
 	private GuiButtonVariableDims showXPAlways;
 	private GuiButtonVariableDims showHudBars;
-	
+
 	private boolean doShowBuffs;
 	private boolean doShowNumerics;
 	private boolean doShowHudMinimally;
@@ -59,7 +57,7 @@ public class GuiHudCustomization extends GuiScreen{
 	int screenWidth = 1;
 	int screenHeight = 1;
 
-	public GuiHudCustomization() {
+	public GuiHudCustomization(){
 		snapData = new HashMap<Integer, Integer>();
 		ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
 		screenWidth = scaledresolution.getScaledWidth();
@@ -67,7 +65,7 @@ public class GuiHudCustomization extends GuiScreen{
 	}
 
 	@Override
-	public void initGui() {
+	public void initGui(){
 		super.initGui();
 
 		doShowBuffs = AMCore.config.getShowBuffs();
@@ -80,37 +78,37 @@ public class GuiHudCustomization extends GuiScreen{
 		int barWidth = (width / 8) + 16;
 
 		manaButton = new GuiButtonVariableDims(0, 0, 0, "").setDimensions(barWidth, 14).setBorderOnly(true);
-		burnoutButton = new GuiButtonVariableDims(1, 0,0, "").setDimensions(barWidth, 14).setBorderOnly(true);
-		levelButton = new GuiButtonVariableDims(2, 0,0, "").setDimensions(10, 10).setBorderOnly(true);
-		affinityButton = new GuiButtonVariableDims(3, 0,0, "").setDimensions(10, 20).setBorderOnly(true).setPopupText(StatCollector.translateToLocal("am2.gui.affinity"));
-		positiveBuffs = new GuiButtonVariableDims(4, 0,0, "").setPopupText(StatCollector.translateToLocal("am2.gui.positiveBuffs")).setDimensions(10, 10).setBorderOnly(true);
-		negativeBuffs = new GuiButtonVariableDims(5, 0,0, "").setPopupText(StatCollector.translateToLocal("am2.gui.negativeBuffs")).setDimensions(10, 10).setBorderOnly(true);
-		armorHead = new GuiButtonVariableDims(6, 0,0, "").setDimensions(10, 10).setPopupText(StatCollector.translateToLocal("am2.gui.headwear")).setBorderOnly(true);
-		armorChest = new GuiButtonVariableDims(7, 0,0, "").setDimensions(10, 10).setPopupText(StatCollector.translateToLocal("am2.gui.chestplate")).setBorderOnly(true);
-		armorLegs = new GuiButtonVariableDims(8, 0,0, "").setDimensions(10, 10).setPopupText(StatCollector.translateToLocal("am2.gui.leggings")).setBorderOnly(true);
-		armorBoots = new GuiButtonVariableDims(9, 0,0, "").setDimensions(10, 10).setPopupText(StatCollector.translateToLocal("am2.gui.boots")).setBorderOnly(true);
-		xpBar = new GuiButtonVariableDims(10,0,0, "").setDimensions(182, 5).setPopupText(StatCollector.translateToLocal("am2.gui.xpBar")).setBorderOnly(true);
-		contingency = new GuiButtonVariableDims(10, 0,0, "").setDimensions(16, 16).setPopupText(StatCollector.translateToLocal("am2.gui.contingency")).setBorderOnly(true);
-		showBuffs = new GuiButtonVariableDims(11, width/2 - 90, height - 88, StatCollector.translateToLocal("am2.gui.buffTimers")).setDimensions(180, 20);
-		showNumerics = new GuiButtonVariableDims(12, width/2 - 90, height - 66, StatCollector.translateToLocal("am2.gui.numericValues")).setDimensions(180, 20);
-		options = new GuiButtonVariableDims(13, width/2 - 90, height - 22, StatCollector.translateToLocal("am2.gui.options")).setDimensions(180, 20);
+		burnoutButton = new GuiButtonVariableDims(1, 0, 0, "").setDimensions(barWidth, 14).setBorderOnly(true);
+		levelButton = new GuiButtonVariableDims(2, 0, 0, "").setDimensions(10, 10).setBorderOnly(true);
+		affinityButton = new GuiButtonVariableDims(3, 0, 0, "").setDimensions(10, 20).setBorderOnly(true).setPopupText(StatCollector.translateToLocal("am2.gui.affinity"));
+		positiveBuffs = new GuiButtonVariableDims(4, 0, 0, "").setPopupText(StatCollector.translateToLocal("am2.gui.positiveBuffs")).setDimensions(10, 10).setBorderOnly(true);
+		negativeBuffs = new GuiButtonVariableDims(5, 0, 0, "").setPopupText(StatCollector.translateToLocal("am2.gui.negativeBuffs")).setDimensions(10, 10).setBorderOnly(true);
+		armorHead = new GuiButtonVariableDims(6, 0, 0, "").setDimensions(10, 10).setPopupText(StatCollector.translateToLocal("am2.gui.headwear")).setBorderOnly(true);
+		armorChest = new GuiButtonVariableDims(7, 0, 0, "").setDimensions(10, 10).setPopupText(StatCollector.translateToLocal("am2.gui.chestplate")).setBorderOnly(true);
+		armorLegs = new GuiButtonVariableDims(8, 0, 0, "").setDimensions(10, 10).setPopupText(StatCollector.translateToLocal("am2.gui.leggings")).setBorderOnly(true);
+		armorBoots = new GuiButtonVariableDims(9, 0, 0, "").setDimensions(10, 10).setPopupText(StatCollector.translateToLocal("am2.gui.boots")).setBorderOnly(true);
+		xpBar = new GuiButtonVariableDims(10, 0, 0, "").setDimensions(182, 5).setPopupText(StatCollector.translateToLocal("am2.gui.xpBar")).setBorderOnly(true);
+		contingency = new GuiButtonVariableDims(10, 0, 0, "").setDimensions(16, 16).setPopupText(StatCollector.translateToLocal("am2.gui.contingency")).setBorderOnly(true);
+		showBuffs = new GuiButtonVariableDims(11, width / 2 - 90, height - 88, StatCollector.translateToLocal("am2.gui.buffTimers")).setDimensions(180, 20);
+		showNumerics = new GuiButtonVariableDims(12, width / 2 - 90, height - 66, StatCollector.translateToLocal("am2.gui.numericValues")).setDimensions(180, 20);
+		options = new GuiButtonVariableDims(13, width / 2 - 90, height - 22, StatCollector.translateToLocal("am2.gui.options")).setDimensions(180, 20);
 		showHudMinimally = new GuiButtonVariableDims(14, width / 2 - 90, height - 110, StatCollector.translateToLocal("am2.gui.minimalHud")).setDimensions(180, 20).setPopupText(StatCollector.translateToLocal("am2.gui.minimalHudDesc"));
 		showArmorUI = new GuiButtonVariableDims(15, width / 2 - 90, height - 132, StatCollector.translateToLocal("am2.gui.armorUI")).setDimensions(180, 20);
 		showXPAlways = new GuiButtonVariableDims(16, width / 2 - 90, height - 154, StatCollector.translateToLocal("am2.gui.xpAlways")).setDimensions(180, 20);
-		showHudBars = new GuiButtonVariableDims(17, width / 2 - 90, height - 176, StatCollector.translateToLocal("am2.gui.hudBars")).setDimensions(180, 20);		
+		showHudBars = new GuiButtonVariableDims(17, width / 2 - 90, height - 176, StatCollector.translateToLocal("am2.gui.hudBars")).setDimensions(180, 20);
 
-		manaNumeric = new GuiButtonVariableDims(18, 0,0, "").setDimensions(25, 10).setPopupText(StatCollector.translateToLocal("am2.gui.manaNumeric")).setBorderOnly(true);
-		burnoutNumeric = new GuiButtonVariableDims(19, 0,0, "").setDimensions(25, 10).setPopupText(StatCollector.translateToLocal("am2.gui.burnoutNumeric")).setBorderOnly(true);
-		XPNumeric = new GuiButtonVariableDims(20, 0,0, "").setDimensions(25, 10).setPopupText(StatCollector.translateToLocal("am2.gui.XPNumeric")).setBorderOnly(true);
-		
+		manaNumeric = new GuiButtonVariableDims(18, 0, 0, "").setDimensions(25, 10).setPopupText(StatCollector.translateToLocal("am2.gui.manaNumeric")).setBorderOnly(true);
+		burnoutNumeric = new GuiButtonVariableDims(19, 0, 0, "").setDimensions(25, 10).setPopupText(StatCollector.translateToLocal("am2.gui.burnoutNumeric")).setBorderOnly(true);
+		XPNumeric = new GuiButtonVariableDims(20, 0, 0, "").setDimensions(25, 10).setPopupText(StatCollector.translateToLocal("am2.gui.XPNumeric")).setBorderOnly(true);
+
 		spellBook = new GuiButtonVariableDims(21, 0, 0, StatCollector.translateToLocal("item.arsmagica2:spellBook.name")).setBorderOnly(true).setDimensions(106, 15);
 
 		showBuffs.displayString = StatCollector.translateToLocal("am2.gui.buffTimers") + ": " + ((doShowBuffs) ? StatCollector.translateToLocal("am2.gui.yes") : StatCollector.translateToLocal("am2.gui.no"));
 		showNumerics.displayString = StatCollector.translateToLocal("am2.gui.numericValues") + ": " + ((doShowNumerics) ? StatCollector.translateToLocal("am2.gui.yes") : StatCollector.translateToLocal("am2.gui.no"));
 		showHudMinimally.displayString = StatCollector.translateToLocal("am2.gui.minimalHud") + ": " + ((doShowHudMinimally) ? StatCollector.translateToLocal("am2.gui.yes") : StatCollector.translateToLocal("am2.gui.no"));
-		showArmorUI.displayString =StatCollector.translateToLocal("am2.gui.armorUI") + ": " + ((doShowArmor) ? StatCollector.translateToLocal("am2.gui.yes") : StatCollector.translateToLocal("am2.gui.no"));
-		showXPAlways.displayString =StatCollector.translateToLocal("am2.gui.xpAlways") + ": " + ((doShowXPAlways) ? StatCollector.translateToLocal("am2.gui.yes") : StatCollector.translateToLocal("am2.gui.no"));
-		showHudBars.displayString =StatCollector.translateToLocal("am2.gui.hudBars") + ": " + ((doShowBars) ? StatCollector.translateToLocal("am2.gui.yes") : StatCollector.translateToLocal("am2.gui.no"));
+		showArmorUI.displayString = StatCollector.translateToLocal("am2.gui.armorUI") + ": " + ((doShowArmor) ? StatCollector.translateToLocal("am2.gui.yes") : StatCollector.translateToLocal("am2.gui.no"));
+		showXPAlways.displayString = StatCollector.translateToLocal("am2.gui.xpAlways") + ": " + ((doShowXPAlways) ? StatCollector.translateToLocal("am2.gui.yes") : StatCollector.translateToLocal("am2.gui.no"));
+		showHudBars.displayString = StatCollector.translateToLocal("am2.gui.hudBars") + ": " + ((doShowBars) ? StatCollector.translateToLocal("am2.gui.yes") : StatCollector.translateToLocal("am2.gui.no"));
 
 
 		positiveBuffs.enabled = doShowBuffs;
@@ -165,8 +163,8 @@ public class GuiHudCustomization extends GuiScreen{
 	}
 
 	private void initButtonAndSnapData(GuiButtonVariableDims button, AMVector2 position){
-		int xPos = (int) (position.x * screenWidth);
-		int yPos = (int) (screenHeight * position.y);
+		int xPos = (int)(position.x * screenWidth);
+		int yPos = (int)(screenHeight * position.y);
 		int snap = 0;
 
 		if (xPos < width / 2)
@@ -188,8 +186,8 @@ public class GuiHudCustomization extends GuiScreen{
 	private AMVector2 getSnapVector(GuiButtonVariableDims button){
 		Integer snap = snapData.get(button.id);
 		if (snap == null) snap = 0;
-		float xPos = (float) ((button.getPosition().x) / width);
-		float yPos = (float) ((button.getPosition().y) / height);
+		float xPos = (float)((button.getPosition().x) / width);
+		float yPos = (float)((button.getPosition().y) / height);
 
 		return new AMVector2(xPos, yPos);
 	}
@@ -214,14 +212,14 @@ public class GuiHudCustomization extends GuiScreen{
 	}
 
 	@Override
-	protected void mouseMovedOrUp(int par1, int par2, int par3) {
+	protected void mouseMovedOrUp(int par1, int par2, int par3){
 		super.mouseMovedOrUp(par1, par2, par3);
 		if (par3 == 1 || par3 == 0)
 			dragTarget = null;
 	}
 
 	@Override
-	protected void mouseClickMove(int par1, int par2, int par3, long par4) {
+	protected void mouseClickMove(int par1, int par2, int par3, long par4){
 		super.mouseClickMove(par1, par2, par3, par4);
 
 		if (dragTarget != null){
@@ -267,7 +265,7 @@ public class GuiHudCustomization extends GuiScreen{
 	}
 
 	@Override
-	protected void mouseClicked(int par1, int par2, int par3) {
+	protected void mouseClicked(int par1, int par2, int par3){
 		super.mouseClicked(par1, par2, par3);
 
 		for (Object button : this.buttonList){
@@ -295,11 +293,11 @@ public class GuiHudCustomization extends GuiScreen{
 						setOptionsVisibility(showOptions);
 					}else if (button == showXPAlways){
 						doShowXPAlways = !doShowXPAlways;
-						showXPAlways.displayString =StatCollector.translateToLocal("am2.gui.xpAlways") + ": " + ((doShowXPAlways) ? StatCollector.translateToLocal("am2.gui.yes") : StatCollector.translateToLocal("am2.gui.no"));
+						showXPAlways.displayString = StatCollector.translateToLocal("am2.gui.xpAlways") + ": " + ((doShowXPAlways) ? StatCollector.translateToLocal("am2.gui.yes") : StatCollector.translateToLocal("am2.gui.no"));
 						storeGuiPositions();
 					}else if (button == showHudBars){
 						doShowBars = !doShowBars;
-						showHudBars.displayString =StatCollector.translateToLocal("am2.gui.hudBars") + ": " + ((doShowBars) ? StatCollector.translateToLocal("am2.gui.yes") : StatCollector.translateToLocal("am2.gui.no"));
+						showHudBars.displayString = StatCollector.translateToLocal("am2.gui.hudBars") + ": " + ((doShowBars) ? StatCollector.translateToLocal("am2.gui.yes") : StatCollector.translateToLocal("am2.gui.no"));
 						manaButton.enabled = doShowBars;
 						burnoutButton.enabled = doShowBars;
 						storeGuiPositions();
@@ -311,8 +309,8 @@ public class GuiHudCustomization extends GuiScreen{
 						armorLegs.enabled = doShowArmor;
 						armorBoots.enabled = doShowArmor;
 						storeGuiPositions();
-					}else if(!showOptions){
-						dragTarget = (GuiButtonVariableDims) button;
+					}else if (!showOptions){
+						dragTarget = (GuiButtonVariableDims)button;
 						AMVector2 buttonPos = ((GuiButtonVariableDims)button).getPosition();
 						AMVector2 mousePos = new AMVector2(par1, par2);
 						dragOffset = mousePos.subtract(buttonPos);
@@ -323,7 +321,7 @@ public class GuiHudCustomization extends GuiScreen{
 	}
 
 	@Override
-	protected void keyTyped(char par1, int par2) {
+	protected void keyTyped(char par1, int par2){
 		if (par2 == Keyboard.KEY_ESCAPE){
 			AMCore.config.saveGuiPositions();
 			if (showOptions){
@@ -336,12 +334,12 @@ public class GuiHudCustomization extends GuiScreen{
 	}
 
 	@Override
-	public boolean doesGuiPauseGame() {
+	public boolean doesGuiPauseGame(){
 		return true;
 	}
 
 	@Override
-	public void drawScreen(int par1, int par2, float par3) {
+	public void drawScreen(int par1, int par2, float par3){
 		super.drawScreen(par1, par2, par3);
 		if (dragTarget != null){
 			int snap = getSnapData(dragTarget);
@@ -431,18 +429,18 @@ public class GuiHudCustomization extends GuiScreen{
 		GL11.glEnd();
 
 		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX/2, button.yPosition, this.zLevel);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX/2, 0, this.zLevel);
+		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2, button.yPosition, this.zLevel);
+		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2, 0, this.zLevel);
 		GL11.glEnd();
 
 		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX/2, 0, this.zLevel);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX/2 + 5, 5, this.zLevel);
+		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2, 0, this.zLevel);
+		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2 + 5, 5, this.zLevel);
 		GL11.glEnd();
 
 		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX/2, 0, this.zLevel);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX/2 - 5, 5, this.zLevel);
+		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2, 0, this.zLevel);
+		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2 - 5, 5, this.zLevel);
 		GL11.glEnd();
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -460,30 +458,30 @@ public class GuiHudCustomization extends GuiScreen{
 		GL11.glEnd();
 
 		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX/2, button.yPosition + button.getDimensions().iY, this.zLevel);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX/2, screenHeight, this.zLevel);
+		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2, button.yPosition + button.getDimensions().iY, this.zLevel);
+		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2, screenHeight, this.zLevel);
 		GL11.glEnd();
 
 		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX/2, screenHeight, this.zLevel);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX/2 + 5, screenHeight - 5, this.zLevel);
+		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2, screenHeight, this.zLevel);
+		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2 + 5, screenHeight - 5, this.zLevel);
 		GL11.glEnd();
 
 		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX/2, screenHeight, this.zLevel);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX/2 - 5, screenHeight - 5, this.zLevel);
+		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2, screenHeight, this.zLevel);
+		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2 - 5, screenHeight - 5, this.zLevel);
 		GL11.glEnd();
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton par1GuiButton) {
+	protected void actionPerformed(GuiButton par1GuiButton){
 		super.actionPerformed(par1GuiButton);
 	}
 
 	@Override
-	public void onGuiClosed() {
+	public void onGuiClosed(){
 		AMCore.config.saveGuiPositions();
 		super.onGuiClosed();
 	}

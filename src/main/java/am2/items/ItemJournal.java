@@ -1,46 +1,45 @@
 package am2.items;
 
-import java.util.List;
-
+import am2.utility.EntityUtilities;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import am2.utility.EntityUtilities;
-import cpw.mods.fml.relauncher.ReflectionHelper;
+
+import java.util.List;
 
 public class ItemJournal extends ArsMagicaItem{
 
 	private static final String KEY_NBT_XP = "Stored_XP";
 	private static final String KEY_NBT_OWNER = "Owner";
 
-	public ItemJournal() {
+	public ItemJournal(){
 		super();
 	}
 
 	@Override
-	public IIcon getIconFromDamage(int par1) {
+	public IIcon getIconFromDamage(int par1){
 		return Items.book.getIconFromDamage(par1);
 	}
 
 	@Override
-	public boolean hasEffect(ItemStack par1ItemStack, int pass) {
+	public boolean hasEffect(ItemStack par1ItemStack, int pass){
 		return true;
 	}
 
 	@Override
-	public boolean getShareTag() {
+	public boolean getShareTag(){
 		return true;
 	}
 
 	@Override
-	public void addInformation(ItemStack journal, EntityPlayer player, List list, boolean par4) {
+	public void addInformation(ItemStack journal, EntityPlayer player, List list, boolean par4){
 		String owner = getOwner(journal);
 		if (owner == null){
 			list.add(StatCollector.translateToLocal("am2.tooltip.unowned"));
@@ -59,7 +58,7 @@ public class ItemJournal extends ArsMagicaItem{
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack journal, World world, EntityPlayer player) {
+	public ItemStack onItemRightClick(ItemStack journal, World world, EntityPlayer player){
 
 		if (!player.worldObj.isRemote){
 			if (getOwner(journal) == null){
@@ -71,12 +70,12 @@ public class ItemJournal extends ArsMagicaItem{
 
 			if (player.isSneaking()){
 				try{
-					int amt = Math.min((Integer) ReflectionHelper.getPrivateValue(EntityPlayer.class, player, "field_71067_cb", "experienceTotal"), 10);
+					int amt = Math.min((Integer)ReflectionHelper.getPrivateValue(EntityPlayer.class, player, "field_71067_cb", "experienceTotal"), 10);
 					if (amt > 0){
 						EntityUtilities.deductXP(amt, player);
 						addXPToJournal(journal, amt);
 					}
-				}catch(Throwable t){
+				}catch (Throwable t){
 					t.printStackTrace();
 				}
 			}else{
@@ -118,9 +117,9 @@ public class ItemJournal extends ArsMagicaItem{
 			journal.stackTagCompound = new NBTTagCompound();
 		journal.stackTagCompound.setString(KEY_NBT_OWNER, player.getCommandSenderName());
 	}
-	
+
 	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {		
+	public void registerIcons(IIconRegister par1IconRegister){
 	}
 
 }

@@ -1,34 +1,16 @@
 package am2.blocks.renderers;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.client.IItemRenderer;
-import am2.blocks.BlockArcaneReconstructor;
-import am2.blocks.BlockAstralBarrier;
-import am2.blocks.BlockCalefactor;
-import am2.blocks.BlockCandle;
-import am2.blocks.BlockCrystalMarker;
-import am2.blocks.BlockFlickerHabitat;
 import am2.blocks.BlockEssenceConduit;
-import am2.blocks.BlockEssenceGenerator;
-import am2.blocks.BlockInscriptionTable;
-import am2.blocks.BlockKeystoneChest;
-import am2.blocks.BlockKeystoneReceptacle;
-import am2.blocks.BlockLectern;
-import am2.blocks.BlockMagiciansWorkbench;
-import am2.blocks.BlockOcculus;
-import am2.blocks.BlockSeerStone;
-import am2.blocks.BlockSummoner;
 import am2.blocks.BlocksClientProxy;
 import am2.blocks.BlocksCommonProxy;
 import am2.guis.GuiBlockAccess;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
 public class TechneBlockRenderHandler implements ISimpleBlockRenderingHandler{
 
@@ -36,7 +18,7 @@ public class TechneBlockRenderHandler implements ISimpleBlockRenderingHandler{
 	private final RenderBlocks renderBlocks = new RenderBlocks();
 
 	@Override
-	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
+	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer){
 		if (block instanceof BlockEssenceConduit){
 			TileEntityRendererDispatcher.instance.renderTileEntityAt(BlocksClientProxy.essenceConduitInventoryRender, 0.0D, 0.0D, 0.0D, 0.0F);
 		}else if (block == BlocksCommonProxy.occulus){
@@ -69,7 +51,7 @@ public class TechneBlockRenderHandler implements ISimpleBlockRenderingHandler{
 			TileEntityRendererDispatcher.instance.renderTileEntityAt(BlocksClientProxy.magiciansWorkbenchInventoryRenderer, 0, 0, 0, 0);
 		}else if (block == BlocksCommonProxy.crystalMarker){
 			TileEntityRendererDispatcher.instance.renderTileEntityAt(BlocksClientProxy.crystalMarkerInventoryRenderer, 0, 0, 0, metadata);
-		} else if (block == BlocksCommonProxy.elementalAttuner){
+		}else if (block == BlocksCommonProxy.elementalAttuner){
 			TileEntityRendererDispatcher.instance.renderTileEntityAt(BlocksClientProxy.elementalAttunerInventoryRenderer, 0, 0, 0, 0);
 		}else if (block == BlocksCommonProxy.candle){
 			TileEntityRendererDispatcher.instance.renderTileEntityAt(BlocksClientProxy.candleInventoryRenderer, 0, 0, 0, 0);
@@ -79,7 +61,7 @@ public class TechneBlockRenderHandler implements ISimpleBlockRenderingHandler{
 	}
 
 	@Override
-	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer){
 
 		if (!(world instanceof World) && !(world instanceof GuiBlockAccess)){
 			return false;
@@ -93,12 +75,12 @@ public class TechneBlockRenderHandler implements ISimpleBlockRenderingHandler{
 	}
 
 	@Override
-	public int getRenderId() {
+	public int getRenderId(){
 		return BlocksClientProxy.blockRenderID;
 	}
 
 	@Override
-	public boolean shouldRender3DInInventory(int modelId) {
+	public boolean shouldRender3DInInventory(int modelId){
 		return true;
 	}
 }

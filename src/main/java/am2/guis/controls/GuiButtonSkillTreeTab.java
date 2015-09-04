@@ -1,20 +1,18 @@
 package am2.guis.controls;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
+import am2.api.spell.enums.SkillTrees;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import am2.api.spell.enums.SkillTrees;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class GuiButtonSkillTreeTab extends GuiButton{
 
@@ -32,7 +30,7 @@ public class GuiButtonSkillTreeTab extends GuiButton{
 	private static final int u = 0;
 	private static final int v = 210;
 
-	public GuiButtonSkillTreeTab(int id, int x, int y, SkillTrees skillTree) {
+	public GuiButtonSkillTreeTab(int id, int x, int y, SkillTrees skillTree){
 		super(id, x, y, "");
 		this.skillTree = skillTree;
 		this.isActive = false;
@@ -53,10 +51,8 @@ public class GuiButtonSkillTreeTab extends GuiButton{
 	 * Draws this button to the screen.
 	 */
 	@Override
-	public void drawButton(Minecraft par1Minecraft, int par2, int par3)
-	{
-		if (this.visible)
-		{
+	public void drawButton(Minecraft par1Minecraft, int par2, int par3){
+		if (this.visible){
 			boolean isMousedOver = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
 			par1Minecraft.renderEngine.bindTexture(buttonImage);
 
@@ -103,9 +99,7 @@ public class GuiButtonSkillTreeTab extends GuiButton{
 	}
 
 
-
-	public void drawTexturedModalRect_Classic(double dst_x, double dst_y, int src_x, int src_y, int dst_width, int dst_height, int src_width, int src_height)
-	{
+	public void drawTexturedModalRect_Classic(double dst_x, double dst_y, int src_x, int src_y, int dst_width, int dst_height, int src_width, int src_height){
 		float var7 = 0.00390625F;
 		float var8 = 0.00390625F;
 
@@ -118,23 +112,19 @@ public class GuiButtonSkillTreeTab extends GuiButton{
 		var9.draw();
 	}
 
-	protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font)
-	{
-		if (!par1List.isEmpty())
-		{
+	protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font){
+		if (!par1List.isEmpty()){
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 			GL11.glDisable(GL11.GL_LIGHTING);
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			int k = 0;
 			Iterator iterator = par1List.iterator();
 
-			while (iterator.hasNext())
-			{
+			while (iterator.hasNext()){
 				String s = (String)iterator.next();
 				int l = font.getStringWidth(s);
 
-				if (l > k)
-				{
+				if (l > k){
 					k = l;
 				}
 			}
@@ -143,13 +133,11 @@ public class GuiButtonSkillTreeTab extends GuiButton{
 			int j1 = par3 - 12;
 			int k1 = 8;
 
-			if (par1List.size() > 1)
-			{
+			if (par1List.size() > 1){
 				k1 += 2 + (par1List.size() - 1) * 10;
 			}
 
-			if (i1 + k > this.width)
-			{
+			if (i1 + k > this.width){
 				i1 -= 28 + k;
 			}
 
@@ -167,13 +155,11 @@ public class GuiButtonSkillTreeTab extends GuiButton{
 			this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
 			this.drawGradientRect(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
 
-			for (int k2 = 0; k2 < par1List.size(); ++k2)
-			{
+			for (int k2 = 0; k2 < par1List.size(); ++k2){
 				String s1 = (String)par1List.get(k2);
 				font.drawStringWithShadow(s1, i1, j1, -1);
 
-				if (k2 == 0)
-				{
+				if (k2 == 0){
 					j1 += 2;
 				}
 

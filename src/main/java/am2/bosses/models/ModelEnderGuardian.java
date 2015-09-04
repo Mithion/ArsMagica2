@@ -1,19 +1,19 @@
 package am2.bosses.models;
 
-import thehippomaster.AnimationAPI.IAnimatedEntity;
-import thehippomaster.AnimationAPI.client.Animator;
+import am2.bosses.BossActions;
+import am2.bosses.EntityEnderGuardian;
+import am2.entities.renderers.AM2ModelRenderer;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
+import thehippomaster.AnimationAPI.IAnimatedEntity;
+import thehippomaster.AnimationAPI.client.Animator;
+
 //
 //import thehippomaster.AnimationAPI.client.Animator;
-import am2.bosses.BossActions;
-import am2.bosses.EntityEnderGuardian;
-import am2.entities.renderers.AM2ModelRenderer;
 
-public class ModelEnderGuardian extends ModelBase
-{
+public class ModelEnderGuardian extends ModelBase{
 	//fields
 	AM2ModelRenderer Collar;
 	AM2ModelRenderer RibsTop;
@@ -39,8 +39,7 @@ public class ModelEnderGuardian extends ModelBase
 
 	private Animator animator;
 
-	public ModelEnderGuardian()
-	{
+	public ModelEnderGuardian(){
 		textureWidth = 128;
 		textureHeight = 128;
 
@@ -271,14 +270,13 @@ public class ModelEnderGuardian extends ModelBase
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		super.render(entity, f, f1, f2, f3, f4, f5);
 
-		animate((IAnimatedEntity) entity, f, f1, f2, f3, f4, f5);
+		animate((IAnimatedEntity)entity, f, f1, f2, f3, f4, f5);
 
 		if (((EntityEnderGuardian)entity).shouldFlapWings())
-			flapWings((EntityEnderGuardian) entity, f, f1, f2, f3, f4, f5);
+			flapWings((EntityEnderGuardian)entity, f, f1, f2, f3, f4, f5);
 
 		Body.render(f5);
 	}
@@ -316,7 +314,7 @@ public class ModelEnderGuardian extends ModelBase
 		Tail.resetToRestRotations();
 	}
 
-	public void animate(IAnimatedEntity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+	public void animate(IAnimatedEntity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		animator.update(entity);
 		setAngles();
 
@@ -368,7 +366,7 @@ public class ModelEnderGuardian extends ModelBase
 		{
 			animator.rotate(LeftArmUpper, -Angles.RADS_90, 0, 0);
 			animator.rotate(LeftArmLower, 0, 0, 0);
-			animator.rotate(Collar, 0,  Angles.RADS_15, 0);
+			animator.rotate(Collar, 0, Angles.RADS_15, 0);
 			animator.rotate(Body, 0, Angles.RADS_15, 0);
 			animator.rotate(Tail, Angles.RADS_15, 0, 0);
 		}
@@ -424,7 +422,7 @@ public class ModelEnderGuardian extends ModelBase
 			animator.rotate(Body, Angles.RADS_30, 0, 0);
 			animator.rotate(Head, Angles.RADS_30, 0, 0);
 			animator.rotate(Tail, -Angles.RADS_45, 0, 0);
-			animator.rotate(LeftArmUpper, -Angles.RADS_15,  Angles.RADS_15, 0);
+			animator.rotate(LeftArmUpper, -Angles.RADS_15, Angles.RADS_15, 0);
 			animator.rotate(LeftArmLower, -Angles.RADS_45, 0, 0);
 			animator.rotate(RightArmUpper, -Angles.RADS_15, Angles.RADS_15, 0);
 			animator.rotate(RightArmLower, -Angles.RADS_45, 0, 0);
@@ -439,7 +437,7 @@ public class ModelEnderGuardian extends ModelBase
 			animator.rotate(Body, -Angles.RADS_15, 0, 0);
 			animator.rotate(Head, -Angles.RADS_15, 0, 0);
 			animator.rotate(Tail, Angles.RADS_15, 0, 0);
-			animator.rotate(LeftArmUpper, -Angles.RADS_15,  -Angles.RADS_30, 0);
+			animator.rotate(LeftArmUpper, -Angles.RADS_15, -Angles.RADS_30, 0);
 			animator.rotate(LeftArmLower, -Angles.RADS_45, 0, 0);
 			animator.rotate(RightArmUpper, -Angles.RADS_15, Angles.RADS_30, 0);
 			animator.rotate(RightArmLower, -Angles.RADS_45, 0, 0);
@@ -458,9 +456,9 @@ public class ModelEnderGuardian extends ModelBase
 			animator.rotate(Body, Angles.RADS_30, 0, 0);
 			animator.rotate(Head, Angles.RADS_30, 0, 0);
 			animator.rotate(Tail, -Angles.RADS_45, 0, 0);
-			animator.rotate(LeftArmUpper, -Angles.RADS_15,  Angles.RADS_30, 0);
+			animator.rotate(LeftArmUpper, -Angles.RADS_15, Angles.RADS_30, 0);
 			animator.rotate(LeftArmLower, -Angles.RADS_45, 0, 0);
-			animator.rotate(RightArmUpper, -Angles.RADS_15, - Angles.RADS_30, 0);
+			animator.rotate(RightArmUpper, -Angles.RADS_15, -Angles.RADS_30, 0);
 			animator.rotate(RightArmLower, -Angles.RADS_45, 0, 0);
 			animator.rotate(LeftWingLower, 0, Angles.RADS_90, 0);
 			animator.rotate(LeftWingUpper, 0, Angles.RADS_75, 0);
@@ -485,7 +483,7 @@ public class ModelEnderGuardian extends ModelBase
 		{
 			animator.rotate(LeftArmUpper, -Angles.RADS_90, 0, 0);
 			animator.rotate(LeftArmLower, 0, 0, 0);
-			animator.rotate(Collar, 0,  Angles.RADS_15, 0);
+			animator.rotate(Collar, 0, Angles.RADS_15, 0);
 			animator.rotate(Body, 0, Angles.RADS_15, 0);
 			animator.rotate(Tail, Angles.RADS_15, 0, 0);
 		}
@@ -499,9 +497,9 @@ public class ModelEnderGuardian extends ModelBase
 			animator.rotate(Body, Angles.RADS_30, 0, 0);
 			animator.rotate(Head, Angles.RADS_30, 0, 0);
 			animator.rotate(Tail, -Angles.RADS_45, 0, 0);
-			animator.rotate(LeftArmUpper, -Angles.RADS_15,  Angles.RADS_30, 0);
+			animator.rotate(LeftArmUpper, -Angles.RADS_15, Angles.RADS_30, 0);
 			animator.rotate(LeftArmLower, -Angles.RADS_45, 0, 0);
-			animator.rotate(RightArmUpper, -Angles.RADS_15, - Angles.RADS_30, 0);
+			animator.rotate(RightArmUpper, -Angles.RADS_15, -Angles.RADS_30, 0);
 			animator.rotate(RightArmLower, -Angles.RADS_45, 0, 0);
 		}
 		animator.endPhase();
@@ -530,15 +528,13 @@ public class ModelEnderGuardian extends ModelBase
 		animator.resetPhase(5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z){
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
 	}
 
-	private void setOffsetRotation(AM2ModelRenderer model, float x, float y, float z)
-	{
+	private void setOffsetRotation(AM2ModelRenderer model, float x, float y, float z){
 		model.rotateAngleX = model.getRestRotationX() + x;
 		model.rotateAngleY = model.getRestRotationY() + y;
 		model.rotateAngleZ = model.getRestRotationZ() + z;

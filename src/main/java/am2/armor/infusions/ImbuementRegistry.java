@@ -1,16 +1,16 @@
 package am2.armor.infusions;
 
-import java.util.ArrayList;
-import java.util.TreeMap;
-
-import net.minecraft.item.ItemStack;
 import am2.api.items.armor.IArmorImbuement;
 import am2.api.items.armor.IImbuementRegistry;
 import am2.api.items.armor.ImbuementTiers;
 import am2.armor.ArmorHelper;
 import cpw.mods.fml.common.FMLLog;
+import net.minecraft.item.ItemStack;
 
-public class ImbuementRegistry implements IImbuementRegistry {
+import java.util.ArrayList;
+import java.util.TreeMap;
+
+public class ImbuementRegistry implements IImbuementRegistry{
 	private TreeMap<String, IArmorImbuement> registeredImbuements;
 
 	public static final ImbuementRegistry instance = new ImbuementRegistry();

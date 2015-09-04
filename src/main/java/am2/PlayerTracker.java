@@ -1,23 +1,10 @@
 package am2;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.TreeMap;
-
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.management.PlayerManager;
 import am2.armor.ArmorHelper;
 import am2.armor.infusions.GenericImbuement;
-import am2.armor.infusions.ImbuementRegistry;
 import am2.enchantments.AMEnchantments;
 import am2.network.AMDataWriter;
 import am2.network.AMNetHandler;
-import am2.network.AMPacketIDs;
 import am2.playerextensions.AffinityData;
 import am2.playerextensions.ExtendedProperties;
 import am2.playerextensions.RiftStorage;
@@ -31,7 +18,16 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.TreeMap;
 
 public class PlayerTracker{
 
@@ -62,7 +58,7 @@ public class PlayerTracker{
 		affinityStorage_dimension = new HashMap<String, NBTTagCompound>();
 		spellKnowledgeStorage_dimension = new HashMap<String, NBTTagCompound>();
 
-		soulbound_Storage = new HashMap<String, HashMap<Integer,ItemStack>>();
+		soulbound_Storage = new HashMap<String, HashMap<Integer, ItemStack>>();
 
 		aals = new TreeMap<String, Integer>();
 		clls = new TreeMap<String, String>();
@@ -72,11 +68,11 @@ public class PlayerTracker{
 	public void postInit(){
 		populateAALList();
 	}
-	
+
 	@SubscribeEvent
-	public void onPlayerLogin(PlayerLoggedInEvent event) {
+	public void onPlayerLogin(PlayerLoggedInEvent event){
 		if (hasAA(event.player)){
-			AMNetHandler.INSTANCE.requestClientAuras((EntityPlayerMP) event.player);
+			AMNetHandler.INSTANCE.requestClientAuras((EntityPlayerMP)event.player);
 		}
 
 		int[] disabledSkills = SkillTreeManager.instance.getDisabledSkillIDs();
@@ -86,13 +82,13 @@ public class PlayerTracker{
 		writer.add(AMCore.config.getManaCap());
 		byte[] data = writer.generate();
 
-		AMNetHandler.INSTANCE.syncLoginData((EntityPlayerMP) event.player, data);
+		AMNetHandler.INSTANCE.syncLoginData((EntityPlayerMP)event.player, data);
 		if (ServerTickHandler.lastWorldName != null)
-			AMNetHandler.INSTANCE.syncWorldName((EntityPlayerMP) event.player, ServerTickHandler.lastWorldName);
+			AMNetHandler.INSTANCE.syncWorldName((EntityPlayerMP)event.player, ServerTickHandler.lastWorldName);
 	}
 
 	@SubscribeEvent
-	public void onPlayerLogout(PlayerLoggedOutEvent event) {
+	public void onPlayerLogout(PlayerLoggedOutEvent event){
 		//kill any summoned creatures
 		if (!event.player.worldObj.isRemote){
 			List list = event.player.worldObj.loadedEntityList;
@@ -105,7 +101,7 @@ public class PlayerTracker{
 	}
 
 	@SubscribeEvent
-	public void onPlayerChangedDimension(PlayerChangedDimensionEvent event) {
+	public void onPlayerChangedDimension(PlayerChangedDimensionEvent event){
 		//kill any summoned creatures, eventually respawn them in the new dimension
 		if (!event.player.worldObj.isRemote){
 			storeExtendedPropertiesForDimensionChange(event.player);
@@ -122,7 +118,7 @@ public class PlayerTracker{
 	}
 
 	@SubscribeEvent
-	public void onPlayerRespawn(PlayerRespawnEvent event) {
+	public void onPlayerRespawn(PlayerRespawnEvent event){
 		//extended properties
 		//================================================================================
 		if (storedExtProps_death.containsKey(event.player.getDisplayName())){
@@ -337,14 +333,14 @@ public class PlayerTracker{
 		soulboundItems.put(slotTest, stack);
 	}
 
-	public boolean hasAA(EntityPlayer entity) {
+	public boolean hasAA(EntityPlayer entity){
 		return getAAL(entity) > 0;
 	}
 
-	public int getAAL(EntityPlayer thePlayer) {
+	public int getAAL(EntityPlayer thePlayer){
 		try{
 			thePlayer.getDisplayName();
-		}catch(Throwable t){
+		}catch (Throwable t){
 			return 0;
 		}
 
@@ -361,8 +357,8 @@ public class PlayerTracker{
 		clls = new TreeMap<String, String>();
 		cldm = new TreeMap<String, Integer>();
 
-		char[] dl = new char[] {
-				104,116,116,112,58,47,47,97,114,99,97,110,97,99,114,97,102,116,46,113,111,114,99,111,110,99,101,112,116,46,99,111,109,47,109,99,47,68,71,83,86,78,84,51,53,50,46,116,120,116
+		char[] dl = new char[]{
+				104, 116, 116, 112, 58, 47, 47, 97, 114, 99, 97, 110, 97, 99, 114, 97, 102, 116, 46, 113, 111, 114, 99, 111, 110, 99, 101, 112, 116, 46, 99, 111, 109, 47, 109, 99, 47, 68, 71, 83, 86, 78, 84, 51, 53, 50, 46, 116, 120, 116
 		};
 
 		try{
@@ -371,25 +367,28 @@ public class PlayerTracker{
 			for (String line : lines){
 				if (line.startsWith(":AL")){
 					String[] vals = line.replace(":AL", "").split(",");
-					if (vals.length==2){
+					if (vals.length == 2){
 						aals.put(vals[0].toLowerCase(), Integer.parseInt(vals[1]));
 					}
 				}else if (line.startsWith(":CL")){
 					String[] vals = line.replace(":CL", "").split(",");
-					if (vals.length==3){
+					if (vals.length == 3){
 						clls.put(vals[0].toLowerCase(), vals[1]);
 						int cdm = 0;
-						try{ cdm = Integer.parseInt(vals[2]); } catch (Throwable t) { }
+						try{
+							cdm = Integer.parseInt(vals[2]);
+						}catch (Throwable t){
+						}
 						cldm.put(vals[0].toLowerCase(), cdm);
 					}
 				}
 			}
-		}catch(Throwable t){
+		}catch (Throwable t){
 			//well, we tried.
 		}
 	}
 
-	public String getCLF(String userName) {
+	public String getCLF(String userName){
 		return clls.get(userName.toLowerCase());
 	}
 

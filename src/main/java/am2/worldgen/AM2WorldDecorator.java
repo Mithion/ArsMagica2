@@ -1,11 +1,9 @@
 package am2.worldgen;
 
-import static net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.LAKE;
-
-import java.util.ArrayList;
-import java.util.Random;
-
-import net.minecraft.block.Block;
+import am2.AMCore;
+import am2.blocks.BlocksCommonProxy;
+import am2.entities.SpawnBlacklists;
+import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
@@ -16,10 +14,11 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.terraingen.TerrainGen;
-import am2.AMCore;
-import am2.blocks.BlocksCommonProxy;
-import am2.entities.SpawnBlacklists;
-import cpw.mods.fml.common.IWorldGenerator;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+import static net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.LAKE;
 
 public class AM2WorldDecorator implements IWorldGenerator{
 
@@ -72,7 +71,7 @@ public class AM2WorldDecorator implements IWorldGenerator{
 	}
 
 	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider){
 
 		if (!SpawnBlacklists.worldgenCanHappenInDimension(world.provider.dimensionId))
 			return;
@@ -139,7 +138,7 @@ public class AM2WorldDecorator implements IWorldGenerator{
 	private void generateFlowers(AM2FlowerGen flowers, World world, Random random, int chunkX, int chunkZ){
 		int x = (chunkX << 4) + random.nextInt(16) + 8;
 		int y = random.nextInt(128);
-		int z= (chunkZ << 4) + random.nextInt(16) + 8;
+		int z = (chunkZ << 4) + random.nextInt(16) + 8;
 
 		flowers.generate(world, random, x, y, z);
 	}

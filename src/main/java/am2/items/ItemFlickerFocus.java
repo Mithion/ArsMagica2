@@ -1,19 +1,19 @@
 package am2.items;
 
-import java.util.HashMap;
-import java.util.List;
-
+import am2.api.flickers.IFlickerFunctionality;
+import am2.blocks.tileentities.flickers.FlickerOperatorRegistry;
+import am2.texture.ResourceManager;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
-import am2.api.flickers.IFlickerFunctionality;
-import am2.blocks.tileentities.flickers.FlickerOperatorRegistry;
-import am2.texture.ResourceManager;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class ItemFlickerFocus extends ArsMagicaItem{
 
@@ -26,21 +26,21 @@ public class ItemFlickerFocus extends ArsMagicaItem{
 	}
 
 	@Override
-	public String getItemStackDisplayName(ItemStack stack) {
+	public String getItemStackDisplayName(ItemStack stack){
 		int meta = stack.getItemDamage();
 		IFlickerFunctionality operator = FlickerOperatorRegistry.instance.getOperatorForMask(meta);
 		return String.format(StatCollector.translateToLocal("item.arsmagica2:FlickerFocusPrefix"), StatCollector.translateToLocal("item.arsmagica2:" + operator.getClass().getSimpleName() + ".name"));
 	}
 
 	@Override
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
+	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List){
 		for (int i : FlickerOperatorRegistry.instance.getMasks()){
 			par3List.add(new ItemStack(this, 1, i));
 		}
 	}
 
 	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {
+	public void registerIcons(IIconRegister par1IconRegister){
 		flickerIcons = new HashMap<Integer, IIcon>();
 		for (int i : FlickerOperatorRegistry.instance.getMasks()){
 			IFlickerFunctionality operator = FlickerOperatorRegistry.instance.getOperatorForMask(i);
@@ -51,17 +51,17 @@ public class ItemFlickerFocus extends ArsMagicaItem{
 	}
 
 	@Override
-	public boolean requiresMultipleRenderPasses() {
+	public boolean requiresMultipleRenderPasses(){
 		return true;
 	}
 
 	@Override
-	public int getRenderPasses(int metadata) {
+	public int getRenderPasses(int metadata){
 		return 2;
 	}
 
 	@Override
-	public IIcon getIconFromDamageForRenderPass(int par1, int par2) {
+	public IIcon getIconFromDamageForRenderPass(int par1, int par2){
 		if (par2 == 0)
 			return getIconFromDamage(par1);
 		else
@@ -69,7 +69,7 @@ public class ItemFlickerFocus extends ArsMagicaItem{
 	}
 
 	@Override
-	public IIcon getIconFromDamage(int par1) {
+	public IIcon getIconFromDamage(int par1){
 		IIcon icon = flickerIcons.get(par1);
 		if (icon != null)
 			return icon;

@@ -1,57 +1,22 @@
 package am2.network;
 
-import io.netty.buffer.ByteBufInputStream;
-
-import java.io.File;
-import java.io.IOException;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetHandler;
-import net.minecraft.network.NetHandlerPlayServer;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import am2.AMCore;
-import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
 import am2.api.spell.component.interfaces.ISpellModifier;
 import am2.api.spell.enums.SpellModifiers;
-import am2.blocks.tileentities.TileEntityArmorImbuer;
 import am2.blocks.tileentities.TileEntityCalefactor;
-import am2.blocks.tileentities.TileEntityLectern;
 import am2.blocks.tileentities.TileEntityCraftingAltar;
-import am2.blocks.tileentities.TileEntityInscriptionTable;
-import am2.blocks.tileentities.TileEntityMagiciansWorkbench;
+import am2.blocks.tileentities.TileEntityLectern;
 import am2.blocks.tileentities.TileEntityObelisk;
-import am2.blocks.tileentities.TileEntityParticleEmitter;
 import am2.bosses.BossActions;
 import am2.bosses.IArsMagicaBoss;
 import am2.buffs.BuffList;
 import am2.containers.ContainerMagiciansWorkbench;
-import am2.containers.ContainerSpellCustomization;
 import am2.guis.AMGuiHelper;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.guis.GuiHudCustomization;
-import am2.items.ContainerKeystone;
-import am2.items.ItemSpellBook;
-import am2.items.ItemsCommonProxy;
 import am2.lore.ArcaneCompendium;
-import am2.particles.AMParticle;
-import am2.particles.ParticleChangeSize;
-import am2.particles.ParticleFadeOut;
-import am2.particles.ParticleLeaveParticleTrail;
-import am2.particles.ParticleMoveOnHeading;
+import am2.particles.*;
 import am2.playerextensions.AffinityData;
 import am2.playerextensions.ExtendedProperties;
 import am2.playerextensions.SkillData;
@@ -66,11 +31,26 @@ import am2.utility.MathUtilities;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.server.FMLServerHandler;
+import io.netty.buffer.ByteBufInputStream;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+
+import java.io.File;
+import java.io.IOException;
 
 public class AMPacketProcessorClient extends AMPacketProcessorServer{
 
@@ -82,14 +62,14 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 			if (event.packet.getTarget() != Side.CLIENT){
 				return;
 			}
-			
+
 			//constant details all packets share:  ID, player, and remaining data
 			packetID = bbis.readByte();
 			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-			byte[] remaining = new byte[bbis.available()];			
+			byte[] remaining = new byte[bbis.available()];
 			bbis.readFully(remaining);
 
-			switch(packetID){
+			switch (packetID){
 			case AMPacketIDs.SPELL_CAST:
 				handleSpellCast(remaining);
 				break;
@@ -186,27 +166,27 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 			try{
 				if (bbis != null)
 					bbis.close();
-			}catch(Throwable t){
+			}catch (Throwable t){
 				t.printStackTrace();
 			}
 		}
 	}
-	
-	private void handleObeliskData(byte[] remaining) {
+
+	private void handleObeliskData(byte[] remaining){
 		AMDataReader rdr = new AMDataReader(remaining, false);
 		TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(rdr.getInt(), rdr.getInt(), rdr.getInt());
 		if (te == null || !(te instanceof TileEntityObelisk)) return;
 		((TileEntityObelisk)te).handlePacket(rdr.getRemainingBytes());
 	}
 
-	private void handleCalefactorData(byte[] remaining) {
+	private void handleCalefactorData(byte[] remaining){
 		AMDataReader rdr = new AMDataReader(remaining, false);
 		TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(rdr.getInt(), rdr.getInt(), rdr.getInt());
 		if (te == null || !(te instanceof TileEntityCalefactor)) return;
 		((TileEntityCalefactor)te).handlePacket(rdr.getRemainingBytes());
 	}
 
-	private void handleLecternData(byte[] data) {
+	private void handleLecternData(byte[] data){
 		AMDataReader rdr = new AMDataReader(data, false);
 		TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(rdr.getInt(), rdr.getInt(), rdr.getInt());
 		if (te == null || !(te instanceof TileEntityLectern)) return;
@@ -215,8 +195,8 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		else
 			((TileEntityLectern)te).setStack(null);
 	}
-	
-	private void handleCraftingAltarData(byte[] data) {
+
+	private void handleCraftingAltarData(byte[] data){
 		AMDataReader rdr = new AMDataReader(data, false);
 		TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(rdr.getInt(), rdr.getInt(), rdr.getInt());
 		if (te == null || !(te instanceof TileEntityCraftingAltar)) return;
@@ -238,7 +218,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		}
 	}
 
-	private void handleRcvPowerPaths(byte[] data) {
+	private void handleRcvPowerPaths(byte[] data){
 		AMDataReader rdr = new AMDataReader(data, false);
 		byte bite = rdr.getByte();
 		NBTTagCompound compound = rdr.getNBTTagCompound();
@@ -249,14 +229,14 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 			int x = rdr.getInt();
 			int y = rdr.getInt();
 			int z = rdr.getInt();
-			AMCore.proxy.setTrackedPowerCompound((NBTTagCompound) compound.copy());
+			AMCore.proxy.setTrackedPowerCompound((NBTTagCompound)compound.copy());
 			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(x, y, z);
 			if (te != null && te instanceof IPowerNode)
-				PowerNodeRegistry.For(Minecraft.getMinecraft().theWorld).setDataCompoundForNode((IPowerNode) te, compound);
+				PowerNodeRegistry.For(Minecraft.getMinecraft().theWorld).setDataCompoundForNode((IPowerNode)te, compound);
 		}
 	}
 
-	private void handleHecateDeath(byte[] data) {
+	private void handleHecateDeath(byte[] data){
 		AMDataReader rdr = new AMDataReader(data, false);
 		double x = rdr.getDouble();
 		double y = rdr.getDouble();
@@ -269,7 +249,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		}
 	}
 
-	private void handleSpellApplyEffect(byte[] data) {
+	private void handleSpellApplyEffect(byte[] data){
 		AMDataReader rdr = new AMDataReader(data, false);
 		double x = rdr.getDouble();
 		double y = rdr.getDouble();
@@ -287,10 +267,10 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		if (caster == null || target == null || !(caster instanceof EntityLivingBase) || !(target instanceof EntityLivingBase))
 			return;
 
-		SpellHelper.instance.applyStackStage(spellStack, (EntityLivingBase)caster, (EntityLivingBase) target, x, y, z, 0, Minecraft.getMinecraft().theWorld, false, false, 0);
+		SpellHelper.instance.applyStackStage(spellStack, (EntityLivingBase)caster, (EntityLivingBase)target, x, y, z, 0, Minecraft.getMinecraft().theWorld, false, false, 0);
 	}
 
-	private void handleStarFall(byte[] data) {
+	private void handleStarFall(byte[] data){
 		AMDataReader rdr = new AMDataReader(data, false);
 		double x = rdr.getDouble();
 		double y = rdr.getDouble();
@@ -308,14 +288,14 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 				for (ISpellModifier mod : mods){
 					if (mod instanceof Colour){
 						byte[] meta = SpellUtils.instance.getModifierMetadataFromStack(spellStack, mod, 0, ordinalCount++);
-						color = (int) mod.getModifier(SpellModifiers.COLOR, null, null, null, meta);
+						color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, meta);
 					}
 				}
 			}
 		}
 
 		for (int i = 0; i < 360; i += AMCore.config.FullGFX() ? 5 : AMCore.config.LowGFX() ? 10 : 20){
-			AMParticle effect = (AMParticle) AMCore.instance.proxy.particleManager.spawn(Minecraft.getMinecraft().theWorld, "sparkle2", x, y + 1.5, z);
+			AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(Minecraft.getMinecraft().theWorld, "sparkle2", x, y + 1.5, z);
 			if (effect != null){
 				effect.setIgnoreMaxAge(true);
 				effect.AddParticleController(new ParticleMoveOnHeading(effect, i, 0, 0.7f, 1, false));
@@ -335,24 +315,24 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 				effect.AddParticleController(new ParticleFadeOut(effect, 1, false).setFadeSpeed(0.05f).setKillParticleOnFinish(true));
 				effect.AddParticleController(
 						new ParticleLeaveParticleTrail(effect, "sparkle2", false, 15, 1, false)
-						.addControllerToParticleList(new ParticleChangeSize(effect, 1.2f, 0.01f, 15, 1, false))
-						.setParticleRGB_I(finalColor)
-						.setChildAffectedByGravity()
-						.addRandomOffset(0.2f, 0.2f, 0.2f)
-						);
+								.addControllerToParticleList(new ParticleChangeSize(effect, 1.2f, 0.01f, 15, 1, false))
+								.setParticleRGB_I(finalColor)
+								.setChildAffectedByGravity()
+								.addRandomOffset(0.2f, 0.2f, 0.2f)
+				);
 			}
 		}
 
 		Minecraft.getMinecraft().theWorld.playSound(x, y, z, "arsmagica2:spell.special.starfall", 2.0f, 1.0f, false);
 	}
 
-	private void handleSyncWorldName(byte[] data) {
+	private void handleSyncWorldName(byte[] data){
 		AMDataReader rdr = new AMDataReader(data, false);
 		String worldName = rdr.getString();
 		ClientTickHandler.worldName = worldName;
 	}
 
-	private void handleCompendiumUnlock(byte[] data) {
+	private void handleCompendiumUnlock(byte[] data){
 		AMDataReader rdr = new AMDataReader(data, false);
 		String s = rdr.getString();
 		boolean category = rdr.getBoolean();
@@ -362,14 +342,14 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 			ArcaneCompendium.instance.unlockEntry(s);
 	}
 
-	private void handleSetMagicicansWorkbenchRecipe(EntityPlayer player) {
+	private void handleSetMagicicansWorkbenchRecipe(EntityPlayer player){
 		if (player.openContainer != null && player.openContainer instanceof ContainerMagiciansWorkbench){
 			((ContainerMagiciansWorkbench)player.openContainer).updateCraftingMatrices();
 			((ContainerMagiciansWorkbench)player.openContainer).onCraftMatrixChanged(((ContainerMagiciansWorkbench)player.openContainer).getWorkbench());
 		}
 	}
 
-	private void handleNBTDump(EntityPlayer player) {
+	private void handleNBTDump(EntityPlayer player){
 		ItemStack stack = player.getCurrentEquippedItem();
 		if (stack == null || !stack.hasTagCompound()) return;
 		NBTTagCompound compound = stack.writeToNBT(new NBTTagCompound());
@@ -377,10 +357,10 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		String fileName = "NBTDump_" + System.currentTimeMillis() + ".dat";
 
 		File file = new File(fileName);
-		
-		try {
+
+		try{
 			CompressedStreamTools.write(compound, file);
-		} catch (IOException e) {
+		}catch (IOException e){
 			e.printStackTrace();
 			player.addChatMessage(new ChatComponentText("An error occurred while attempting to write the NBT, check the console for more information."));
 			return;
@@ -389,24 +369,24 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		player.addChatMessage(new ChatComponentText("NBT Saved to " + file.getAbsolutePath()));
 	}
 
-	private void handlePlayerLoginData(byte[] data, EntityPlayer player) {
+	private void handlePlayerLoginData(byte[] data, EntityPlayer player){
 		AMDataReader rdr = new AMDataReader(data, false);
 		int skillTreeLock = rdr.getInt();
 		AMCore.config.setSkillTreeSecondaryTierCap(skillTreeLock);
 		int[] disabledSkills = rdr.getIntArray();
 		double manaCap = rdr.getDouble();
-		
+
 		AMCore.config.setManaCap(manaCap);
-		
+
 		FMLLog.info("Ars Magica 2 >> Received player login packet.");
 		FMLLog.info("Secondary tree cap: %d", skillTreeLock);
 		FMLLog.info("Disabled skills: %d", disabledSkills.length);
 		FMLLog.info("Mana cap: %.2f", manaCap);
-		
+
 		SkillTreeManager.instance.disableAllSkillsIn(disabledSkills);
 	}
 
-	private void handleEntityActionUpdate(byte[] data, EntityPlayer player) {
+	private void handleEntityActionUpdate(byte[] data, EntityPlayer player){
 		AMDataReader rdr = new AMDataReader(data, false);
 		int entityID = rdr.getInt();
 		int actionOrdinal = rdr.getInt();
@@ -416,11 +396,11 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		((IArsMagicaBoss)ent).setCurrentAction(BossActions.values()[actionOrdinal]);
 	}
 
-	private void openUICustomization() {
+	private void openUICustomization(){
 		Minecraft.getMinecraft().displayGuiScreen(new GuiHudCustomization());
 	}
 
-	private void handleSyncSpellKnowledge(byte[] data) {
+	private void handleSyncSpellKnowledge(byte[] data){
 		AMDataReader rdr = new AMDataReader(data, false);
 		byte sub = rdr.getByte();
 		int entityID = rdr.getInt();
@@ -428,12 +408,12 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		EntityLivingBase ent = AMCore.proxy.getEntityByID(entityID);
 		if (ent == null || !(ent instanceof EntityPlayer)) return;
 
-		if (!SkillData.For((EntityPlayer) ent).handlePacketData(data)){
+		if (!SkillData.For((EntityPlayer)ent).handlePacketData(data)){
 			FMLLog.severe("Ars Magica >> Critical Error Handling Spell Knowledge Sync Packet!");
 		}
 	}
 
-	private void handleSyncAffinity(byte[] data) {
+	private void handleSyncAffinity(byte[] data){
 		AMDataReader rdr = new AMDataReader(data, false);
 		int entityID = rdr.getInt();
 
@@ -445,7 +425,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		}
 	}
 
-	private void handleSyncAir(byte[] data) {
+	private void handleSyncAir(byte[] data){
 		AMDataReader rdr = new AMDataReader(data, false);
 
 		int entityID = rdr.getInt();
@@ -457,7 +437,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		ent.setAir(air);
 	}
 
-	private void handleRequestBetaParticles(byte[] data) {
+	private void handleRequestBetaParticles(byte[] data){
 		AMDataReader rdr = new AMDataReader(data, false);
 
 		int entityID = rdr.getInt();
@@ -469,7 +449,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		ExtendedProperties.For(ent).readAuraData(expropData);
 	}
 
-	private void handleKeystoneGuiOpen(byte[] data) {
+	private void handleKeystoneGuiOpen(byte[] data){
 		AMDataReader rdr = new AMDataReader(data, false);
 		int x = rdr.getInt();
 		int y = rdr.getInt();
@@ -607,7 +587,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 				return;
 		}
 
-		SpellHelper.instance.applyStackStage(stack, (EntityLivingBase)caster, (EntityLivingBase) target, x, y, z, side, world, false, false, ticksUsed);
+		SpellHelper.instance.applyStackStage(stack, (EntityLivingBase)caster, (EntityLivingBase)target, x, y, z, side, world, false, false, ticksUsed);
 	}
 
 	public WorldServer[] getWorldServers(){

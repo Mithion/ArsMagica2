@@ -1,10 +1,19 @@
 package am2.affinity;
 
-import java.util.List;
-import java.util.Random;
-
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.eventhandler.EventPriority;
+import am2.AMCore;
+import am2.api.events.ManaCostEvent;
+import am2.api.events.SpellCastingEvent;
+import am2.api.math.AMVector3;
+import am2.api.spell.enums.Affinity;
+import am2.api.spell.enums.SpellCastResult;
+import am2.buffs.*;
+import am2.items.ItemsCommonProxy;
+import am2.network.AMDataWriter;
+import am2.network.AMNetHandler;
+import am2.network.AMPacketIDs;
+import am2.playerextensions.AffinityData;
+import am2.playerextensions.ExtendedProperties;
+import am2.utility.MathUtilities;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
@@ -29,26 +38,11 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import am2.AMCore;
-import am2.api.events.ManaCostEvent;
-import am2.api.events.SpellCastingEvent;
-import am2.api.math.AMVector3;
-import am2.api.spell.enums.Affinity;
-import am2.api.spell.enums.SpellCastResult;
-import am2.buffs.BuffEffectClarity;
-import am2.buffs.BuffEffectFrostSlowed;
-import am2.buffs.BuffEffectSwiftSwim;
-import am2.buffs.BuffEffectWaterBreathing;
-import am2.buffs.BuffList;
-import am2.items.ItemsCommonProxy;
-import am2.network.AMDataWriter;
-import am2.network.AMNetHandler;
-import am2.network.AMPacketIDs;
-import am2.playerextensions.AffinityData;
-import am2.playerextensions.ExtendedProperties;
-import am2.utility.MathUtilities;
 
-public class AffinityHelper {
+import java.util.List;
+import java.util.Random;
+
+public class AffinityHelper{
 
 	private final Random rand = new Random();
 
@@ -80,9 +74,9 @@ public class AffinityHelper {
 		float enderDepth = affinityData.getAffinityDepth(Affinity.ENDER);
 		float lightningDepth = affinityData.getAffinityDepth(Affinity.LIGHTNING);
 
-		AffinityModifiers.instance.applySpeedModifiersBasedOnDepth((EntityPlayer) ent, natureDepth, iceDepth, lightningDepth);
-		AffinityModifiers.instance.applyHealthModifiers((EntityPlayer) ent, enderDepth, waterDepth, fireDepth, lightningDepth);
-		applyFulmintion((EntityPlayer) ent, lightningDepth);
+		AffinityModifiers.instance.applySpeedModifiersBasedOnDepth((EntityPlayer)ent, natureDepth, iceDepth, lightningDepth);
+		AffinityModifiers.instance.applyHealthModifiers((EntityPlayer)ent, enderDepth, waterDepth, fireDepth, lightningDepth);
+		applyFulmintion((EntityPlayer)ent, lightningDepth);
 
 		if (lightningDepth >= 0.5f){
 			ent.stepHeight = 1.014f;
@@ -106,7 +100,7 @@ public class AffinityHelper {
 			}else{
 				((EntityPlayer)ent).addExhaustion(0.025f);
 			}
-			
+
 			if (ent.isCollidedHorizontally){
 				if (!ent.isSneaking()){
 					float movement = ExtendedProperties.For(ent).getIsFlipped() ? -0.25f : 0.25f;
@@ -118,18 +112,18 @@ public class AffinityHelper {
 				ent.fallDistance = 0;
 			}
 		}
-		
+
 		//Ender Affinity
 		if (enderDepth >= 0.75f && affinityData.hasActivatedNightVision()){
 			if (!ent.worldObj.isRemote && (!ent.isPotionActive(Potion.nightVision.id) || ent.getActivePotionEffect(Potion.nightVision).getDuration() <= 220)){
 				ent.addPotionEffect(new PotionEffect(Potion.nightVision.id, 300, 1));
 			}
 		}
-		
+
 		if (ent.onGround)
 			affinityData.setLastGroundPosition(new AMVector3(ent));
 		affinityData.tickCooldown();
-		
+
 		//End Ender Affinity
 
 		if (ent.isInWater()){
@@ -150,7 +144,7 @@ public class AffinityHelper {
 			if (!ent.worldObj.isRemote && rand.nextInt(100) < 5){
 				ent.setAir(ent.getAir() + 1);
 				byte[] data = new AMDataWriter().add(ent.getEntityId()).add(ent.getAir()).generate();
-				AMNetHandler.INSTANCE.sendPacketToClientPlayer((EntityPlayerMP) ent, AMPacketIDs.SYNC_AIR_CHANGE, data);
+				AMNetHandler.INSTANCE.sendPacketToClientPlayer((EntityPlayerMP)ent, AMPacketIDs.SYNC_AIR_CHANGE, data);
 			}
 
 			boolean waterMovementFlag = false;
@@ -183,19 +177,19 @@ public class AffinityHelper {
 
 		if (ent.isSneaking()){
 			if (iceDepth >= 0.5f){
-				makeIceBridge((EntityPlayer) ent, iceDepth);
+				makeIceBridge((EntityPlayer)ent, iceDepth);
 			}
 		}
 	}
-	
+
 	private Block getBlockInFrontOf(EntityLivingBase ent){
 		double dx = Math.cos(ent.rotationYaw);
 		double dz = Math.sin(ent.rotationYaw);
-		
+
 		int posX = (int)Math.floor(ent.posX + dx);
 		int posZ = (int)Math.floor(ent.posZ + dz);
 		int posY = (int)Math.floor(ent.posY);
-		
+
 		return ent.worldObj.getBlock(posX, posY, posZ);
 	}
 
@@ -235,7 +229,7 @@ public class AffinityHelper {
 	}
 
 	private void makeIceBridge(EntityPlayer ent, float iceDepth){
-		AMVector3[] blocks = MathUtilities.GetHorizontalBlocksInFrontOfCharacter(ent, 1, (int)Math.round(ent.posX), (int)Math.floor(ent.posY)-1, (int)Math.round(ent.posZ));
+		AMVector3[] blocks = MathUtilities.GetHorizontalBlocksInFrontOfCharacter(ent, 1, (int)Math.round(ent.posX), (int)Math.floor(ent.posY) - 1, (int)Math.round(ent.posZ));
 		for (int i = 0; i < blocks.length; ++i){
 			AMVector3 current = blocks[i];
 			for (int n = -1; n <= 1; ++n){
@@ -250,9 +244,9 @@ public class AffinityHelper {
 						ent.worldObj.setBlock((int)current.x + n, (int)current.y, (int)current.z + p, Blocks.ice);
 					else if (block == Blocks.flowing_water)
 						ent.worldObj.setBlock((int)current.x + n, (int)current.y, (int)current.z + p, Blocks.ice);
-					block = ent.worldObj.getBlock((int)current.x + n, (int)current.y+1, (int)current.z + p);
+					block = ent.worldObj.getBlock((int)current.x + n, (int)current.y + 1, (int)current.z + p);
 					if (block == Blocks.fire){
-						ent.worldObj.setBlock((int)current.x + n, (int)current.y+1, (int)current.z + p, Blocks.air);
+						ent.worldObj.setBlock((int)current.x + n, (int)current.y + 1, (int)current.z + p, Blocks.air);
 					}
 				}
 			}
@@ -270,29 +264,21 @@ public class AffinityHelper {
 		int i1 = MathHelper.floor_double(par1AxisAlignedBB.minZ);
 		int j1 = MathHelper.floor_double(par1AxisAlignedBB.maxZ + 1.0D);
 
-		if (!entity.worldObj.checkChunksExist(i, k, i1, j, l, j1))
-		{
+		if (!entity.worldObj.checkChunksExist(i, k, i1, j, l, j1)){
 			return;
-		}
-		else
-		{
+		}else{
 			boolean flag = false;
 			Vec3 vec3 = Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
 
-			for (int k1 = i; k1 < j; ++k1)
-			{
-				for (int l1 = k; l1 < l; ++l1)
-				{
-					for (int i2 = i1; i2 < j1; ++i2)
-					{
+			for (int k1 = i; k1 < j; ++k1){
+				for (int l1 = k; l1 < l; ++l1){
+					for (int i2 = i1; i2 < j1; ++i2){
 						Block block = entity.worldObj.getBlock(k1, l1, i2);
 
-						if (block != null && block.getMaterial() == Material.water)
-						{
+						if (block != null && block.getMaterial() == Material.water){
 							double d0 = l1 + 1 - BlockLiquid.getLiquidHeightPercent(entity.worldObj.getBlockMetadata(k1, l1, i2));
 
-							if (l >= d0)
-							{
+							if (l >= d0){
 								flag = true;
 								block.velocityToAddToEntity(entity.worldObj, k1, l1, i2, entity, vec3);
 							}
@@ -301,8 +287,7 @@ public class AffinityHelper {
 				}
 			}
 
-			if (vec3.lengthVector() > 0.0D && entity.isInWater())
-			{
+			if (vec3.lengthVector() > 0.0D && entity.isInWater()){
 				vec3 = vec3.normalize();
 				double d1 = -0.014D;
 				entity.motionX += vec3.xCoord * d1;
@@ -354,13 +339,13 @@ public class AffinityHelper {
 		AffinityData affinityData = AffinityData.For(ent);
 
 		if (event.source.getSourceOfDamage() instanceof EntityPlayer){
-			float attackerFireDepth = AffinityData.For((EntityLivingBase) event.source.getSourceOfDamage()).getAffinityDepth(Affinity.FIRE);
-			if (attackerFireDepth > 0.8f && ((EntityPlayer) event.source.getSourceOfDamage()).getCurrentEquippedItem() == null){
+			float attackerFireDepth = AffinityData.For((EntityLivingBase)event.source.getSourceOfDamage()).getAffinityDepth(Affinity.FIRE);
+			if (attackerFireDepth > 0.8f && ((EntityPlayer)event.source.getSourceOfDamage()).getCurrentEquippedItem() == null){
 				ent.setFire(4);
 				event.ammount += 3;
 			}
-			float attackerLightningDepth = AffinityData.For((EntityLivingBase) event.source.getSourceOfDamage()).getAffinityDepth(Affinity.LIGHTNING);
-			if (attackerLightningDepth > 0.75f && !ent.worldObj.isRemote && ((EntityPlayer) event.source.getSourceOfDamage()).getCurrentEquippedItem() == null){
+			float attackerLightningDepth = AffinityData.For((EntityLivingBase)event.source.getSourceOfDamage()).getAffinityDepth(Affinity.LIGHTNING);
+			if (attackerLightningDepth > 0.75f && !ent.worldObj.isRemote && ((EntityPlayer)event.source.getSourceOfDamage()).getCurrentEquippedItem() == null){
 				EntityLightningBolt elb = new EntityLightningBolt(ent.worldObj, ent.posX, ent.posY, ent.posZ);
 				elb.setPosition(ent.posX, ent.posY, ent.posZ);
 				ent.worldObj.addWeatherEffect(elb);
@@ -427,7 +412,7 @@ public class AffinityHelper {
 	@SubscribeEvent
 	public void onEntityDeath(LivingDeathEvent event){
 		if (event.entityLiving.getCreatureAttribute() != EnumCreatureAttribute.UNDEAD && event.source.getSourceOfDamage() instanceof EntityPlayer){
-			EntityPlayer source = (EntityPlayer) event.source.getSourceOfDamage();
+			EntityPlayer source = (EntityPlayer)event.source.getSourceOfDamage();
 			float lifeDepth = AffinityData.For(source).getAffinityDepth(Affinity.LIFE);
 			if (lifeDepth >= 0.6f){
 				source.addPotionEffect(new PotionEffect(Potion.confusion.id, 100, 1));
@@ -446,9 +431,9 @@ public class AffinityHelper {
 			}
 		}
 	}
-	
+
 	@SubscribeEvent
-	public void onSpellCast(SpellCastingEvent.Post event){	
+	public void onSpellCast(SpellCastingEvent.Post event){
 		if (event.caster instanceof EntityPlayer && event.castResult == SpellCastResult.SUCCESS){
 			float affinityDepth = AffinityData.For(event.caster).getAffinityDepth(Affinity.ARCANE);
 			if (affinityDepth > 0.4f){
@@ -470,5 +455,5 @@ public class AffinityHelper {
 				event.burnout = 0f;
 			}
 		}
-	}	
+	}
 }

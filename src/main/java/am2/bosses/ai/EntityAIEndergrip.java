@@ -1,10 +1,5 @@
 package am2.bosses.ai;
 
-import net.minecraft.entity.EntityLiving;
-
-
-import am2.bosses.BossActions;
-
 public class EntityAIEndergrip{ /*extends AIAnimation{
 
 	private int cooldownTicks = 0;

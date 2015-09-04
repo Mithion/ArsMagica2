@@ -1,16 +1,13 @@
 package am2.bosses.models;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.bosses.BossActions;
 import am2.bosses.EntityNatureGuardian;
 import am2.entities.renderers.AM2ModelRenderer;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.MathHelper;
+import org.lwjgl.opengl.GL11;
 
-public class ModelPlantGuardian extends ModelBase
-{
+public class ModelPlantGuardian extends ModelBase{
 	//fields
 	AM2ModelRenderer Head;
 	AM2ModelRenderer Tendril1;
@@ -50,8 +47,7 @@ public class ModelPlantGuardian extends ModelBase
 
 	int z_interp_ticks = 20;
 
-	public ModelPlantGuardian()
-	{
+	public ModelPlantGuardian(){
 		textureWidth = 128;
 		textureHeight = 128;
 		setTextureOffset("Head.Shape34", 7, 51);
@@ -285,10 +281,9 @@ public class ModelPlantGuardian extends ModelBase
 		setRotation(Shield, -0.0872665F, 0.6806784F, 0.0872665F, true);
 	}
 
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		if (!(entity instanceof EntityNatureGuardian)) return;
-		updateRotations((EntityNatureGuardian) entity);
+		updateRotations((EntityNatureGuardian)entity);
 
 		GL11.glPushMatrix();
 
@@ -325,7 +320,7 @@ public class ModelPlantGuardian extends ModelBase
 		Tendril13.render(f5);
 		Tendril14.render(f5);
 		Tendril15.render(f5);
-		Tendril16.render(f5);    
+		Tendril16.render(f5);
 
 		if (((EntityNatureGuardian)entity).hasSickle){
 			Shape39.render(f5);
@@ -346,14 +341,14 @@ public class ModelPlantGuardian extends ModelBase
 
 		float main_arm_rotation_z = 0;
 		float shield_arm_rotation_z = 0;
-		
+
 		float main_arm_rotation_x = 0;
 		float shield_arm_rotation_x = 0;
-		
+
 		float main_arm_rotation_y = 0;
 		float shield_arm_rotation_y = 0;
 
-		switch(guardian.getCurrentAction()){
+		switch (guardian.getCurrentAction()){
 		case IDLE:
 			if (guardian.getTicksInCurrentAction() < 20){
 				if (guardian.last_rotation_z_main != 0){
@@ -366,8 +361,8 @@ public class ModelPlantGuardian extends ModelBase
 			break;
 		case SPINNING:
 			float degrees = guardian.getTicksInCurrentAction() < 20 ? 60f * ((float)guardian.getTicksInCurrentAction() / 20f) : 60;
-			main_arm_rotation_z = (float) -Math.toRadians(degrees);
-			shield_arm_rotation_z = (float) Math.toRadians(degrees);
+			main_arm_rotation_z = (float)-Math.toRadians(degrees);
+			shield_arm_rotation_z = (float)Math.toRadians(degrees);
 			break;
 		case STRIKE:
 			float max_degrees_x = 120;
@@ -375,14 +370,14 @@ public class ModelPlantGuardian extends ModelBase
 			float action_ticks = 10;
 			float fast_action_ticks = 3;
 			if (guardian.getTicksInCurrentAction() < action_ticks){
-				main_arm_rotation_x = (float) Math.toRadians(-max_degrees_x * ((float)guardian.getTicksInCurrentAction() / action_ticks));
-				main_arm_rotation_y = (float) Math.toRadians(max_degrees_y * ((float)guardian.getTicksInCurrentAction() / action_ticks));
+				main_arm_rotation_x = (float)Math.toRadians(-max_degrees_x * ((float)guardian.getTicksInCurrentAction() / action_ticks));
+				main_arm_rotation_y = (float)Math.toRadians(max_degrees_y * ((float)guardian.getTicksInCurrentAction() / action_ticks));
 			}else if (guardian.getTicksInCurrentAction() < (action_ticks + fast_action_ticks)){
-				main_arm_rotation_x = (float) Math.toRadians(-max_degrees_x + (max_degrees_x * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
-				main_arm_rotation_y = (float) Math.toRadians(max_degrees_y - (max_degrees_y * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
+				main_arm_rotation_x = (float)Math.toRadians(-max_degrees_x + (max_degrees_x * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
+				main_arm_rotation_y = (float)Math.toRadians(max_degrees_y - (max_degrees_y * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
 			}
 			shield_arm_rotation_y = main_arm_rotation_y;
-			GL11.glRotatef((float) Math.toDegrees(shield_arm_rotation_y), 0, 1, 0);
+			GL11.glRotatef((float)Math.toDegrees(shield_arm_rotation_y), 0, 1, 0);
 			break;
 		case SHIELD_BASH:
 			max_degrees_x = 120;
@@ -391,13 +386,13 @@ public class ModelPlantGuardian extends ModelBase
 			fast_action_ticks = 3;
 			if (guardian.getTicksInCurrentAction() < action_ticks){
 				//main_arm_rotation_x = (float) Math.toRadians(-max_degrees_x * ((float)guardian.getTicksInCurrentAction() / action_ticks));
-				shield_arm_rotation_y = (float) Math.toRadians(-max_degrees_y * ((float)guardian.getTicksInCurrentAction() / action_ticks));
+				shield_arm_rotation_y = (float)Math.toRadians(-max_degrees_y * ((float)guardian.getTicksInCurrentAction() / action_ticks));
 			}else if (guardian.getTicksInCurrentAction() < (action_ticks + fast_action_ticks)){
 				//main_arm_rotation_x = (float) Math.toRadians(-max_degrees_x + (max_degrees_x * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
-				shield_arm_rotation_y = (float) Math.toRadians(-max_degrees_y + (max_degrees_y * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
+				shield_arm_rotation_y = (float)Math.toRadians(-max_degrees_y + (max_degrees_y * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
 			}
 			main_arm_rotation_y = shield_arm_rotation_y / 2;
-			GL11.glRotatef((float) Math.toDegrees(shield_arm_rotation_y), 0, 1, 0);
+			GL11.glRotatef((float)Math.toDegrees(shield_arm_rotation_y), 0, 1, 0);
 			break;
 		case THROWING_SICKLE:
 			degrees = 0;
@@ -415,16 +410,16 @@ public class ModelPlantGuardian extends ModelBase
 			}else if (guardian.getTicksInCurrentAction() < (action_ticks + fast_action_ticks)){
 				degrees = -max_degrees + (max_degrees * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks));
 			}
-			main_arm_rotation_x = (float) Math.toRadians(degrees);
+			main_arm_rotation_x = (float)Math.toRadians(degrees);
 			break;
 		}
 
 		guardian.last_rotation_z_main = main_arm_rotation_z;
 		guardian.last_rotation_z_shield = shield_arm_rotation_z;
-		
+
 		guardian.last_rotation_x_main = main_arm_rotation_x;
 		guardian.last_rotation_x_shield = shield_arm_rotation_x;
-		
+
 		guardian.last_rotation_y_main = main_arm_rotation_y;
 		guardian.last_rotation_y_shield = shield_arm_rotation_y;
 
@@ -435,7 +430,7 @@ public class ModelPlantGuardian extends ModelBase
 		Sickle3.rotateAngleZ = Sickle3.getRestRotationZ() + main_arm_rotation_z;
 		Sickle4.rotateAngleZ = Sickle4.getRestRotationZ() + main_arm_rotation_z;
 		Sickle5.rotateAngleZ = Sickle5.getRestRotationZ() + main_arm_rotation_z;
-	
+
 		SickleArm1.rotateAngleX = SickleArm1.getRestRotationX() + main_arm_rotation_x;
 		SickleArm2.rotateAngleX = SickleArm2.getRestRotationX() + main_arm_rotation_x;
 		Shape39.rotateAngleX = Shape39.getRestRotationX() + main_arm_rotation_x;
@@ -443,7 +438,7 @@ public class ModelPlantGuardian extends ModelBase
 		Sickle3.rotateAngleX = Sickle3.getRestRotationX() + main_arm_rotation_x;
 		Sickle4.rotateAngleX = Sickle4.getRestRotationX() + main_arm_rotation_x;
 		Sickle5.rotateAngleX = Sickle5.getRestRotationX() + main_arm_rotation_x;
-		
+
 		SickleArm1.rotateAngleY = SickleArm1.getRestRotationY() + main_arm_rotation_y;
 		SickleArm2.rotateAngleY = SickleArm2.getRestRotationY() + main_arm_rotation_y;
 		Shape39.rotateAngleY = Shape39.getRestRotationY() + main_arm_rotation_y;
@@ -455,11 +450,11 @@ public class ModelPlantGuardian extends ModelBase
 		SheildArm1.rotateAngleZ = SheildArm1.getRestRotationZ() + shield_arm_rotation_z;
 		ShieldArm2.rotateAngleZ = ShieldArm2.getRestRotationZ() + shield_arm_rotation_z;
 		Shield.rotateAngleZ = Shield.getRestRotationZ() + shield_arm_rotation_z;
-		
+
 		SheildArm1.rotateAngleX = SheildArm1.getRestRotationX() + shield_arm_rotation_x;
 		ShieldArm2.rotateAngleX = ShieldArm2.getRestRotationX() + shield_arm_rotation_x;
 		Shield.rotateAngleX = Shield.getRestRotationX() + shield_arm_rotation_x;
-		
+
 		SheildArm1.rotateAngleY = SheildArm1.getRestRotationY() + shield_arm_rotation_y;
 		ShieldArm2.rotateAngleY = ShieldArm2.getRestRotationY() + shield_arm_rotation_y;
 		Shield.rotateAngleY = Shield.getRestRotationY() + shield_arm_rotation_y;
@@ -491,16 +486,15 @@ public class ModelPlantGuardian extends ModelBase
 	}
 
 	private void setHeadRotation(float y, float p){
-		Head.rotateAngleY = (float) Math.toRadians(y);
-		Head.rotateAngleX = (float) Math.toRadians(p);
+		Head.rotateAngleY = (float)Math.toRadians(y);
+		Head.rotateAngleX = (float)Math.toRadians(p);
 	}
 
-	private void setRotation(AM2ModelRenderer model, float x, float y, float z, boolean storeRest)
-	{
+	private void setRotation(AM2ModelRenderer model, float x, float y, float z, boolean storeRest){
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
-		
+
 		if (storeRest){
 			model.storeRestRotations();
 		}

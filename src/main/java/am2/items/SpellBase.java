@@ -1,9 +1,21 @@
 package am2.items;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
+import am2.AMCore;
+import am2.api.events.ManaCostEvent;
+import am2.api.math.AMVector3;
+import am2.api.spell.ItemSpellBase;
+import am2.api.spell.component.interfaces.ISpellShape;
+import am2.api.spell.enums.Affinity;
+import am2.guis.ArsMagicaGuiIdList;
+import am2.playerextensions.SkillData;
+import am2.spell.*;
+import am2.spell.SpellUtils.SpellRequirements;
+import am2.spell.shapes.MissingShape;
+import am2.texture.ResourceManager;
+import am2.utility.MathUtilities;
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,72 +26,48 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.StatCollector;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
-
 import org.lwjgl.input.Keyboard;
 
-import am2.AMCore;
-import am2.api.events.ManaCostEvent;
-import am2.api.math.AMVector3;
-import am2.api.spell.ItemSpellBase;
-import am2.api.spell.component.interfaces.ISpellShape;
-import am2.api.spell.enums.Affinity;
-import am2.guis.ArsMagicaGuiIdList;
-import am2.playerextensions.SkillData;
-import am2.spell.SkillManager;
-import am2.spell.SkillTreeManager;
-import am2.spell.SpellHelper;
-import am2.spell.SpellTextureHelper;
-import am2.spell.SpellUtils;
-import am2.spell.SpellUtils.SpellRequirements;
-import am2.spell.shapes.MissingShape;
-import am2.texture.ResourceManager;
-import am2.utility.MathUtilities;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class SpellBase extends ItemSpellBase{
 
-	public SpellBase() {
+	public SpellBase(){
 		super();
 		this.setMaxDamage(0);
 	}
 
 	@Override
-	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
+	public EnumAction getItemUseAction(ItemStack par1ItemStack){
 		return EnumAction.block;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister) {
+	public void registerIcons(IIconRegister par1IconRegister){
 		this.itemIcon = ResourceManager.RegisterTexture("spellFrame", par1IconRegister);
 	}
 
 	@Override
-	public boolean getShareTag() {
+	public boolean getShareTag(){
 		return true;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean requiresMultipleRenderPasses() {
+	public boolean requiresMultipleRenderPasses(){
 		return true;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int par1) {
+	public IIcon getIconFromDamage(int par1){
 		if (par1 == -1){
 			return this.itemIcon;
 		}
@@ -87,7 +75,7 @@ public class SpellBase extends ItemSpellBase{
 	}
 
 	@Override
-	public IIcon getIcon(ItemStack stack, int pass) {
+	public IIcon getIcon(ItemStack stack, int pass){
 		if (pass == 0){
 			return getIconFromDamage(stack.getItemDamage());
 		}else{
@@ -96,19 +84,19 @@ public class SpellBase extends ItemSpellBase{
 	}
 
 	@Override
-	public String getItemStackDisplayName(ItemStack par1ItemStack) {
+	public String getItemStackDisplayName(ItemStack par1ItemStack){
 		if (par1ItemStack.stackTagCompound == null) return "\247bMalformed Spell";
 		ISpellShape shape = SpellUtils.instance.getShapeForStage(par1ItemStack, 0);
 		if (shape instanceof MissingShape){
 			return "Unnamed Spell";
 		}
 		String clsName = shape.getClass().getName();
-		return clsName.substring(clsName.lastIndexOf('.')+1) + " Spell";
+		return clsName.substring(clsName.lastIndexOf('.') + 1) + " Spell";
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4){
 
 		if (!stack.hasTagCompound()) return;
 
@@ -134,30 +122,27 @@ public class SpellBase extends ItemSpellBase{
 				list.add(String.format("%s (%.2f%%)", aff.toString(), affinityData.get(aff) * 100));
 			}
 
-			if (stack.stackTagCompound.hasKey("Lore"))
-            {
-                NBTTagList nbttaglist1 = stack.stackTagCompound.getTagList("Lore", Constants.NBT.TAG_COMPOUND);
+			if (stack.stackTagCompound.hasKey("Lore")){
+				NBTTagList nbttaglist1 = stack.stackTagCompound.getTagList("Lore", Constants.NBT.TAG_COMPOUND);
 
-                if (nbttaglist1.tagCount() > 0)
-                {
-                    for (int j = 0; j < nbttaglist1.tagCount(); ++j)
-                    {
-                    	list.add(EnumChatFormatting.DARK_PURPLE + "" + EnumChatFormatting.ITALIC + nbttaglist1.getStringTagAt(j));
-                    }
-                }
-            }
+				if (nbttaglist1.tagCount() > 0){
+					for (int j = 0; j < nbttaglist1.tagCount(); ++j){
+						list.add(EnumChatFormatting.DARK_PURPLE + "" + EnumChatFormatting.ITALIC + nbttaglist1.getStringTagAt(j));
+					}
+				}
+			}
 		}else{
 			list.add(StatCollector.translateToLocal("am2.tooltip.shiftForAffinity"));
 		}
 	}
 
 	@Override
-	public int getMaxItemUseDuration(ItemStack par1ItemStack) {
+	public int getMaxItemUseDuration(ItemStack par1ItemStack){
 		return 72000;
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer caster) {
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer caster){
 		if (!stack.hasDisplayName()){
 			if (!world.isRemote)
 				FMLNetworkHandler.openGui(caster, AMCore.instance, ArsMagicaGuiIdList.GUI_SPELL_CUSTOMIZATION, world, (int)caster.posX, (int)caster.posY, (int)caster.posZ);
@@ -168,12 +153,12 @@ public class SpellBase extends ItemSpellBase{
 	}
 
 	@Override
-	public boolean hasEffect(ItemStack par1ItemStack, int pass) {
+	public boolean hasEffect(ItemStack par1ItemStack, int pass){
 		return false;
 	}
 
 	@Override
-	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int ticksUsed) {
+	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int ticksUsed){
 		ItemStack classicStack = SpellUtils.instance.constructSpellStack(stack);
 		ISpellShape shape = SpellUtils.instance.getShapeForStage(classicStack, 0);
 		if (shape != null){
@@ -186,8 +171,8 @@ public class SpellBase extends ItemSpellBase{
 	}
 
 	@Override
-	public void onUsingTick(ItemStack stack, EntityPlayer caster, int count) {
-		SpellHelper.instance.applyStackStageOnUsing(stack, caster, caster, caster.posX, caster.posY, caster.posZ, caster.worldObj, true, true, count-1);
+	public void onUsingTick(ItemStack stack, EntityPlayer caster, int count){
+		SpellHelper.instance.applyStackStageOnUsing(stack, caster, caster, caster.posX, caster.posY, caster.posZ, caster.worldObj, true, true, count - 1);
 		super.onUsingTick(stack, caster, count);
 	}
 
@@ -230,20 +215,17 @@ public class SpellBase extends ItemSpellBase{
 	}
 
 	@Override
-	public void getSubItems(Item item, CreativeTabs tabs, List list) {
+	public void getSubItems(Item item, CreativeTabs tabs, List list){
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void onUpdate (ItemStack stack, World world, Entity entity, int par4, boolean par5)
-	{
+	public void onUpdate(ItemStack stack, World world, Entity entity, int par4, boolean par5){
 		super.onUpdate(stack, world, entity, par4, par5);
-		if (entity instanceof EntityPlayerSP)
-		{
-			EntityPlayerSP player = (EntityPlayerSP) entity;
+		if (entity instanceof EntityPlayerSP){
+			EntityPlayerSP player = (EntityPlayerSP)entity;
 			ItemStack usingItem = player.getItemInUse();
-			if (usingItem != null && usingItem.getItem() == this)
-			{
+			if (usingItem != null && usingItem.getItem() == this){
 				if (SkillData.For(player).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("SpellMotion")))){
 					player.movementInput.moveForward *= 2.5F;
 					player.movementInput.moveStrafe *= 2.5F;

@@ -1,6 +1,6 @@
 package am2.network;
 
-public class AMPacketIDs {
+public class AMPacketIDs{
 	public static final byte SPELL_SHAPE_GROUP_CHANGE = 1;
 	public static final byte SPELL_CAST = 2;
 	public static final byte MAGIC_LEVEL_UP = 3;

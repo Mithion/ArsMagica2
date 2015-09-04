@@ -1,18 +1,18 @@
 package am2.bosses.ai;
 
-import java.lang.reflect.Constructor;
-
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.world.World;
 import am2.bosses.BossActions;
 import am2.bosses.EntityLifeGuardian;
 import am2.bosses.IArsMagicaBoss;
 import am2.buffs.BuffEffectMagicShield;
 import am2.buffs.BuffEffectShrink;
 import am2.utility.EntityUtilities;
+import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.World;
+
+import java.lang.reflect.Constructor;
 
 public class EntityAISummonAllies extends EntityAIBase{
 	private final EntityLifeGuardian host;
@@ -21,14 +21,14 @@ public class EntityAISummonAllies extends EntityAIBase{
 	private int actionTicks = 0;
 	private Class[] mobs;
 
-	public EntityAISummonAllies(EntityLifeGuardian host, Class<? extends EntityCreature>...summons){
+	public EntityAISummonAllies(EntityLifeGuardian host, Class<? extends EntityCreature>... summons){
 		this.host = host;
 		this.setMutexBits(1);
 		mobs = summons;
 	}
 
 	@Override
-	public boolean shouldExecute() {
+	public boolean shouldExecute(){
 		cooldownTicks--;
 		boolean execute = ((IArsMagicaBoss)host).getCurrentAction() != BossActions.CASTING && cooldownTicks <= 0;
 		if (execute) hasCasted = false;
@@ -36,12 +36,12 @@ public class EntityAISummonAllies extends EntityAIBase{
 	}
 
 	@Override
-	public boolean continueExecuting() {
+	public boolean continueExecuting(){
 		return !hasCasted;
 	}
 
 	@Override
-	public void resetTask() {
+	public void resetTask(){
 		((IArsMagicaBoss)host).setCurrentAction(BossActions.IDLE);
 		cooldownTicks = 200;
 		hasCasted = true;
@@ -49,7 +49,7 @@ public class EntityAISummonAllies extends EntityAIBase{
 	}
 
 	@Override
-	public void updateTask() {
+	public void updateTask(){
 		if (((IArsMagicaBoss)host).getCurrentAction() != BossActions.CASTING)
 			((IArsMagicaBoss)host).setCurrentAction(BossActions.CASTING);
 
@@ -60,10 +60,10 @@ public class EntityAISummonAllies extends EntityAIBase{
 			int numAllies = 3;
 			for (int i = 0; i < numAllies; ++i){
 				Class summon = mobs[host.worldObj.rand.nextInt(mobs.length)];
-				try {
+				try{
 					Constructor ctor = summon.getConstructor(World.class);
 					EntityCreature mob = (EntityCreature)ctor.newInstance(host.worldObj);
-					mob.setPosition(host.posX + host.worldObj.rand.nextDouble()*2-1, host.posY, host.posZ + host.worldObj.rand.nextDouble()*2-1);
+					mob.setPosition(host.posX + host.worldObj.rand.nextDouble() * 2 - 1, host.posY, host.posZ + host.worldObj.rand.nextDouble() * 2 - 1);
 					mob.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 99999, 1));
 					mob.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 99999, 1));
 					mob.addPotionEffect(new PotionEffect(Potion.regeneration.id, 99999, 1));
@@ -77,7 +77,7 @@ public class EntityAISummonAllies extends EntityAIBase{
 					host.worldObj.spawnEntityInWorld(mob);
 
 					host.queued_minions.add(mob);
-				} catch (Throwable e) {
+				}catch (Throwable e){
 					e.printStackTrace();
 					return;
 				}

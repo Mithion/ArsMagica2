@@ -1,35 +1,27 @@
 package am2.entities;
 
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILeapAtTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class EntityDarkling extends EntityMob {
-	
-	public EntityDarkling(World par1World) {
+public class EntityDarkling extends EntityMob{
+
+	public EntityDarkling(World par1World){
 		super(par1World);
 		initAI();
 		this.setSize(0.5f, 0.5f);
-	}		
-	
+	}
+
 	@Override
-	protected void applyEntityAttributes()
-    {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(7D);
-    }
-	
+	protected void applyEntityAttributes(){
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(7D);
+	}
+
 	@Override
-	protected void entityInit() {
+	protected void entityInit(){
 		super.entityInit();
 		this.dataWatcher.addObject(22, (byte)0);
 	}
@@ -39,15 +31,15 @@ public class EntityDarkling extends EntityMob {
 	}
 
 	@Override
-	protected boolean isAIEnabled() {
+	protected boolean isAIEnabled(){
 		return true;
 	}
-	
+
 	@Override
-	public float getShadowSize() {
+	public float getShadowSize(){
 		return 0;
 	}
-	
+
 	private void initAI(){
 		this.targetTasks.taskEntries.clear();
 		this.tasks.taskEntries.clear();
@@ -65,7 +57,7 @@ public class EntityDarkling extends EntityMob {
 	}
 
 	@Override
-	public void onUpdate() {
+	public void onUpdate(){
 		if (this.getAttackTarget() != null){
 			this.dataWatcher.updateObject(22, (byte)1);
 		}else{
@@ -75,7 +67,7 @@ public class EntityDarkling extends EntityMob {
 	}
 
 	@Override
-	public boolean interact(EntityPlayer par1EntityPlayer) {
+	public boolean interact(EntityPlayer par1EntityPlayer){
 		return false;
 	}
 }

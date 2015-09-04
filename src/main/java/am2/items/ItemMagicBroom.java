@@ -1,5 +1,7 @@
 package am2.items;
 
+import am2.api.math.AMVector3;
+import am2.entities.EntityBroom;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -8,17 +10,15 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
-import am2.api.math.AMVector3;
-import am2.entities.EntityBroom;
 
 public class ItemMagicBroom extends ArsMagicaItem{
 
-	public ItemMagicBroom() {
+	public ItemMagicBroom(){
 		super();
 	}
 
 	@Override
-	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		if (!world.isRemote){
 			MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, true);
 			if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK){
@@ -42,6 +42,6 @@ public class ItemMagicBroom extends ArsMagicaItem{
 	}
 
 	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {
+	public void registerIcons(IIconRegister par1IconRegister){
 	}
 }

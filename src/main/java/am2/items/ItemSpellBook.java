@@ -1,8 +1,18 @@
 package am2.items;
 
-import java.util.List;
-import java.util.Map;
-
+import am2.AMCore;
+import am2.api.spell.ItemSpellBase;
+import am2.containers.InventorySpellBook;
+import am2.enchantments.AMEnchantmentHelper;
+import am2.enchantments.AMEnchantments;
+import am2.guis.ArsMagicaGuiIdList;
+import am2.playerextensions.SkillData;
+import am2.spell.SkillManager;
+import am2.spell.SkillTreeManager;
+import am2.texture.ResourceManager;
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -16,24 +26,12 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
-import am2.AMCore;
-import am2.api.spell.ItemSpellBase;
-import am2.containers.InventorySpellBook;
-import am2.enchantments.AMEnchantmentHelper;
-import am2.enchantments.AMEnchantments;
-import am2.guis.ArsMagicaGuiIdList;
-import am2.network.AMDataWriter;
-import am2.network.AMPacketIDs;
-import am2.playerextensions.SkillData;
-import am2.spell.SkillManager;
-import am2.spell.SkillTreeManager;
-import am2.texture.ResourceManager;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.List;
+import java.util.Map;
 
 
-public class ItemSpellBook extends ArsMagicaItem {
+public class ItemSpellBook extends ArsMagicaItem{
 
 	public static final byte ID_NEXT_SPELL = 0;
 	public static final byte ID_PREV_SPELL = 1;
@@ -46,7 +44,7 @@ public class ItemSpellBook extends ArsMagicaItem {
 	private IIcon[] player_icons;
 	private final String[] player_textureFiles = {"spell_book_cover", "spell_book_decoration"};
 
-	public ItemSpellBook() {
+	public ItemSpellBook(){
 		super();
 		this.setMaxDamage(0);
 		this.setMaxStackSize(1);
@@ -54,13 +52,13 @@ public class ItemSpellBook extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean requiresMultipleRenderPasses() {
+	public boolean requiresMultipleRenderPasses(){
 		return true;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister) {
+	public void registerIcons(IIconRegister par1IconRegister){
 		npc_icons = new IIcon[npc_textureFiles.length];
 
 		for (int i = 0; i < npc_textureFiles.length; ++i){
@@ -79,8 +77,8 @@ public class ItemSpellBook extends ArsMagicaItem {
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int par1) {
-		switch(par1){
+	public IIcon getIconFromDamage(int par1){
+		switch (par1){
 		case 6: //orange
 			return npc_icons[3];
 		case 11: //red
@@ -98,7 +96,7 @@ public class ItemSpellBook extends ArsMagicaItem {
 	}
 
 	@Override
-	public String getItemStackDisplayName(ItemStack par1ItemStack) {
+	public String getItemStackDisplayName(ItemStack par1ItemStack){
 		ItemStack activeSpell = GetActiveItemStack(par1ItemStack);
 		if (activeSpell != null){
 			return String.format("\2477%s (" + activeSpell.getDisplayName() + "\2477)", StatCollector.translateToLocal("item.arsmagica2:spellBook.name"));
@@ -108,7 +106,7 @@ public class ItemSpellBook extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamageForRenderPass(int damage, int renderPass) {
+	public IIcon getIconFromDamageForRenderPass(int damage, int renderPass){
 		if (renderPass == 0){
 			return player_icons[0];
 		}else{
@@ -117,16 +115,16 @@ public class ItemSpellBook extends ArsMagicaItem {
 	}
 
 	@Override
-	public int getRenderPasses(int metadata) {
+	public int getRenderPasses(int metadata){
 		return 2;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getColorFromItemStack(ItemStack par1ItemStack, int renderPass) {
+	public int getColorFromItemStack(ItemStack par1ItemStack, int renderPass){
 		int meta = par1ItemStack.getItemDamage();
 		if (renderPass == 0){
-			switch(meta){
+			switch (meta){
 			case 0: //brown
 				return 0x744c14;
 			case 1: //cyan
@@ -168,8 +166,7 @@ public class ItemSpellBook extends ArsMagicaItem {
 	}
 
 	@Override
-	public EnumAction getItemUseAction(ItemStack itemstack)
-	{
+	public EnumAction getItemUseAction(ItemStack itemstack){
 		if (getMaxItemUseDuration(itemstack) == 0){
 			return EnumAction.none;
 		}
@@ -177,8 +174,7 @@ public class ItemSpellBook extends ArsMagicaItem {
 	}
 
 	@Override
-	public final int getMaxItemUseDuration(ItemStack itemstack)
-	{
+	public final int getMaxItemUseDuration(ItemStack itemstack){
 		ItemSpellBase scroll = GetActiveScroll(itemstack);
 		if (scroll != null){
 			return scroll.getMaxItemUseDuration(itemstack);
@@ -187,8 +183,7 @@ public class ItemSpellBook extends ArsMagicaItem {
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack bookstack, World world, EntityPlayer entityplayer)
-	{
+	public ItemStack onItemRightClick(ItemStack bookstack, World world, EntityPlayer entityplayer){
 		if (entityplayer.isSneaking()){
 			FMLNetworkHandler.openGui(entityplayer, AMCore.instance, ArsMagicaGuiIdList.GUI_SPELL_BOOK, world, (int)entityplayer.posX, (int)entityplayer.posY, (int)entityplayer.posZ);
 			return bookstack;
@@ -236,8 +231,7 @@ public class ItemSpellBook extends ArsMagicaItem {
 	}
 
 	@Override
-	public void onPlayerStoppedUsing(ItemStack itemstack, World world, EntityPlayer entityplayer, int i)
-	{
+	public void onPlayerStoppedUsing(ItemStack itemstack, World world, EntityPlayer entityplayer, int i){
 		if (entityplayer.isSneaking()){
 			FMLNetworkHandler.openGui(entityplayer, AMCore.instance, ArsMagicaGuiIdList.GUI_SPELL_BOOK, world, (int)entityplayer.posX, (int)entityplayer.posY, (int)entityplayer.posZ);
 		}else{
@@ -249,13 +243,12 @@ public class ItemSpellBook extends ArsMagicaItem {
 	}
 
 	@Override
-	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		return false;
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int X, int Y, int Z, int side, float par8, float par9, float par10)
-	{
+	public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int X, int Y, int Z, int side, float par8, float par9, float par10){
 		return false;
 	}
 
@@ -362,7 +355,7 @@ public class ItemSpellBook extends ArsMagicaItem {
 
 		NBTTagList list = itemStack.stackTagCompound.getTagList("spell_book_inventory", Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < list.tagCount(); ++i){
-			NBTTagCompound spell = (NBTTagCompound) list.getCompoundTagAt(i);
+			NBTTagCompound spell = (NBTTagCompound)list.getCompoundTagAt(i);
 			int meta = spell.getInteger("meta");
 			NBTTagCompound tag = spell.getCompoundTag("data");
 			int index = spell.getInteger("index");
@@ -380,7 +373,7 @@ public class ItemSpellBook extends ArsMagicaItem {
 	}
 
 	@Override
-	public boolean getShareTag() {
+	public boolean getShareTag(){
 		return true;
 	}
 
@@ -393,8 +386,7 @@ public class ItemSpellBook extends ArsMagicaItem {
 	}
 
 	@Override
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
-	{
+	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4){
 		ItemSpellBase activeScroll = GetActiveScroll(par1ItemStack);
 		ItemStack stack = GetActiveItemStack(par1ItemStack);
 
@@ -404,13 +396,13 @@ public class ItemSpellBook extends ArsMagicaItem {
 		if (activeScroll != null){
 			activeScroll.addInformation(stack, par2EntityPlayer, par3List, par4);
 		}
-		
+
 		par3List.add("\247c" + StatCollector.translateToLocal("am2.tooltip.spellbookWarning1") + "\247f");
 		par3List.add("\247c" + StatCollector.translateToLocal("am2.tooltip.spellbookWarning2") + "\247f");
 	}
 
 	@Override
-	public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
+	public void onUsingTick(ItemStack stack, EntityPlayer player, int count){
 		ItemStack scrollStack = GetActiveItemStack(stack);
 		if (scrollStack != null){
 			ItemsCommonProxy.spell.onUsingTick(scrollStack, player, count);
@@ -418,7 +410,7 @@ public class ItemSpellBook extends ArsMagicaItem {
 	}
 
 	@Override
-	public boolean isBookEnchantable(ItemStack bookStack, ItemStack enchantBook) {
+	public boolean isBookEnchantable(ItemStack bookStack, ItemStack enchantBook){
 		Map enchantMap = EnchantmentHelper.getEnchantments(enchantBook);
 		for (Object o : enchantMap.keySet()){
 			if (o instanceof Integer){
@@ -431,27 +423,23 @@ public class ItemSpellBook extends ArsMagicaItem {
 	}
 
 	@Override
-	public int getItemEnchantability() {
+	public int getItemEnchantability(){
 		return 1;
 	}
-	
+
 	@Override
-	public boolean isItemTool(ItemStack par1ItemStack)
-	{
+	public boolean isItemTool(ItemStack par1ItemStack){
 		return true;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void onUpdate (ItemStack stack, World world, Entity entity, int par4, boolean par5)
-	{
+	public void onUpdate(ItemStack stack, World world, Entity entity, int par4, boolean par5){
 		super.onUpdate(stack, world, entity, par4, par5);
-		if (entity instanceof EntityPlayerSP)
-		{
-			EntityPlayerSP player = (EntityPlayerSP) entity;
+		if (entity instanceof EntityPlayerSP){
+			EntityPlayerSP player = (EntityPlayerSP)entity;
 			ItemStack usingItem = player.getItemInUse();
-			if (usingItem != null && usingItem.getItem() == this)
-			{
+			if (usingItem != null && usingItem.getItem() == this){
 				if (SkillData.For(player).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("SpellMotion")))){
 					player.movementInput.moveForward *= 2.5F;
 					player.movementInput.moveStrafe *= 2.5F;

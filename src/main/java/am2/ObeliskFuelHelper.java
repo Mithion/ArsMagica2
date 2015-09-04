@@ -1,11 +1,11 @@
 package am2;
 
+import am2.api.power.IObeliskFuelHelper;
+import net.minecraft.item.ItemStack;
+
 import java.util.HashMap;
 
-import net.minecraft.item.ItemStack;
-import am2.api.power.IObeliskFuelHelper;
-
-public class ObeliskFuelHelper implements IObeliskFuelHelper {
+public class ObeliskFuelHelper implements IObeliskFuelHelper{
 	private HashMap<ItemStack, Integer> validFuels;
 
 	public static final ObeliskFuelHelper instance = new ObeliskFuelHelper();
@@ -24,7 +24,7 @@ public class ObeliskFuelHelper implements IObeliskFuelHelper {
 	public int getFuelBurnTime(ItemStack stack){
 		if (stack == null)
 			return 0;
-		
+
 		for (ItemStack possibleFuel : validFuels.keySet()){
 			if (stack.getItem() == possibleFuel.getItem() && (possibleFuel.getItemDamage() == Short.MAX_VALUE || possibleFuel.getItemDamage() == stack.getItemDamage()))
 				return validFuels.get(possibleFuel);

@@ -1,9 +1,9 @@
 package am2.items;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-
+import am2.texture.ResourceManager;
+import am2.utility.EntityUtilities;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityCreature;
@@ -18,12 +18,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import am2.texture.ResourceManager;
-import am2.utility.EntityUtilities;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemCrystalPhylactery extends ArsMagicaItem {
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+
+public class ItemCrystalPhylactery extends ArsMagicaItem{
 
 	@SideOnly(Side.CLIENT)
 	private IIcon[] icons;
@@ -36,7 +36,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem {
 	public static final int META_FULL = 3;
 
 
-	public ItemCrystalPhylactery() {
+	public ItemCrystalPhylactery(){
 		super();
 		spawnableEntities = new HashMap<String, Integer>();
 		setMaxDamage(0);
@@ -45,7 +45,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4){
 		if (par1ItemStack.hasTagCompound()){
 			String className = par1ItemStack.stackTagCompound.getString("SpawnClassName");
 			if (className != null){
@@ -63,7 +63,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister) {
+	public void registerIcons(IIconRegister par1IconRegister){
 		icons = new IIcon[4];
 		icons[0] = ResourceManager.RegisterTexture("crystal_phylactery", par1IconRegister);
 		icons[1] = ResourceManager.RegisterTexture("crystal_phylactery_liquidquarter", par1IconRegister);
@@ -117,7 +117,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack par1ItemStack, int pass) {
+	public boolean hasEffect(ItemStack par1ItemStack, int pass){
 		if (pass == 1) return false;
 		return par1ItemStack.getItemDamage() == META_FULL;
 	}
@@ -127,7 +127,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem {
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 
-		String s = (String) EntityList.classToStringMapping.get(clazz);
+		String s = (String)EntityList.classToStringMapping.get(clazz);
 		if (s != null)
 			stack.stackTagCompound.setString("SpawnClassName", s);
 	}
@@ -140,7 +140,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem {
 			return true;
 
 		String e = stack.stackTagCompound.getString("SpawnClassName");
-		String s = (String) EntityList.classToStringMapping.get(entity.getClass());
+		String s = (String)EntityList.classToStringMapping.get(entity.getClass());
 
 		return (e != null && s != null) && e.equals(s);
 	}
@@ -150,7 +150,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem {
 	}
 
 	@Override
-	public boolean requiresMultipleRenderPasses() {
+	public boolean requiresMultipleRenderPasses(){
 		return true;
 	}
 
@@ -162,7 +162,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamageForRenderPass(int meta, int pass) {
+	public IIcon getIconFromDamageForRenderPass(int meta, int pass){
 		if (pass == 0){
 			if (meta < 4) return icons[meta];
 		}
@@ -171,7 +171,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getColorFromItemStack(ItemStack stack, int pass) {
+	public int getColorFromItemStack(ItemStack stack, int pass){
 		if (pass == 0){
 			int color = 0x0000FF;
 			if (stack.hasTagCompound()){
@@ -192,8 +192,8 @@ public class ItemCrystalPhylactery extends ArsMagicaItem {
 		Random random = new Random();
 		for (Object clazz : EntityList.classToStringMapping.keySet()){
 			if (EntityCreature.class.isAssignableFrom((Class)clazz)){
-				try {
-					EntityCreature temp = (EntityCreature) ((Class)clazz).getConstructor(World.class).newInstance(world);
+				try{
+					EntityCreature temp = (EntityCreature)((Class)clazz).getConstructor(World.class).newInstance(world);
 					if (EntityUtilities.isAIEnabled(temp) && !(temp instanceof IBossDisplayData)){
 						int color = 0;
 						boolean found = false;
@@ -211,9 +211,9 @@ public class ItemCrystalPhylactery extends ArsMagicaItem {
 							//no spawn egg...pick random color?
 							color = random.nextInt();
 						}
-						spawnableEntities.put((String) EntityList.classToStringMapping.get(clazz), color);
+						spawnableEntities.put((String)EntityList.classToStringMapping.get(clazz), color);
 					}
-				} catch (Throwable e) {
+				}catch (Throwable e){
 					//e.printStackTrace();
 				}
 			}
@@ -222,7 +222,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
+	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List){
 		par3List.add(new ItemStack(this));
 		for (String s : spawnableEntities.keySet()){
 			ItemStack stack = new ItemStack(this, 1, META_FULL);

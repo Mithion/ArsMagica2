@@ -1,42 +1,5 @@
 package am2.lore;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.MissingResourceException;
-import java.util.TreeMap;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.FallbackResourceManager;
-import net.minecraft.client.resources.IResource;
-import net.minecraft.client.resources.Language;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.stats.Achievement;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-
-import org.apache.commons.io.FileUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import am2.AMCore;
 import am2.api.ILoreHelper;
 import am2.api.spell.component.interfaces.ISpellComponent;
@@ -50,9 +13,30 @@ import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.IResource;
+import net.minecraft.client.resources.Language;
+import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.stats.Achievement;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
+import org.apache.commons.io.FileUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.*;
+import java.util.*;
 
 @SideOnly(Side.CLIENT)
-public class ArcaneCompendium implements ILoreHelper {
+public class ArcaneCompendium implements ILoreHelper{
 
 	public static final ArcaneCompendium instance = new ArcaneCompendium();
 
@@ -99,7 +83,7 @@ public class ArcaneCompendium implements ILoreHelper {
 			file = new File(updatesFolderLocation);
 			if (!file.exists())
 				file.mkdirs();
-		}catch(Throwable t){
+		}catch (Throwable t){
 			FMLLog.severe("Ars Magica 2 >> Could not create save location!");
 			t.printStackTrace();
 		}
@@ -116,7 +100,7 @@ public class ArcaneCompendium implements ILoreHelper {
 			return;
 
 		if (saveFileLocation != null && getWorldName() != null){
-			try {
+			try{
 				File file = new File(saveFileLocation + File.separatorChar + getWorldName() + ".txt");
 				if (!file.exists())
 					file.createNewFile();
@@ -132,7 +116,7 @@ public class ArcaneCompendium implements ILoreHelper {
 				}
 
 				writer.close();
-			} catch (IOException e) {
+			}catch (IOException e){
 				FMLLog.severe("Ars Magica 2 >> Compendium unlock state failed to save!");
 				e.printStackTrace();
 			}
@@ -151,7 +135,7 @@ public class ArcaneCompendium implements ILoreHelper {
 		}
 
 		if (saveFileLocation != null && getWorldName() != null){
-			try {
+			try{
 				hasLoaded = true;
 
 				File file = new File(saveFileLocation + File.separatorChar + getWorldName() + ".txt");
@@ -163,11 +147,11 @@ public class ArcaneCompendium implements ILoreHelper {
 
 				String s;
 				while ((s = reader.readLine()) != null){
-					String[] split = s.trim().replace("\n",  "").replace("\r", "").split("\\|");
+					String[] split = s.trim().replace("\n", "").replace("\r", "").split("\\|");
 					if (split.length != 2)
 						continue;
 					CompendiumEntry entry = this.getEntryAbsolute(split[0]);
-					if (entry == null)	continue;
+					if (entry == null) continue;
 
 					entry.isLocked = split[1].contains("L");
 					entry.isNew = split[1].contains("N");
@@ -222,9 +206,9 @@ public class ArcaneCompendium implements ILoreHelper {
 		//load the entire document
 		loadDocument(stream);
 		//cleanup
-		try {
+		try{
 			stream.close();
-		} catch (IOException e) {
+		}catch (IOException e){
 			e.printStackTrace();
 		}
 	}
@@ -257,7 +241,7 @@ public class ArcaneCompendium implements ILoreHelper {
 					}
 				}
 			}
-		}catch(Throwable t){
+		}catch (Throwable t){
 			FMLLog.warning("Ars Magica 2 >> Unable to update the compendium!");
 			t.printStackTrace();
 		}
@@ -283,7 +267,7 @@ public class ArcaneCompendium implements ILoreHelper {
 					this.latestPatchNotesLink = sections.length >= 4 ? sections[3] : "";
 					modUpdateAvailable = true;
 				}else{
-					FMLLog.info("Ars Magica 2 >> You are running the latest version of AM2.  Latest Released Version: %s.  Your Version: %s.",this.latestModVersion, this.modVersion);
+					FMLLog.info("Ars Magica 2 >> You are running the latest version of AM2.  Latest Released Version: %s.  Your Version: %s.", this.latestModVersion, this.modVersion);
 				}
 			}
 
@@ -336,7 +320,7 @@ public class ArcaneCompendium implements ILoreHelper {
 
 	private void loadDocument(InputStream stream){
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		try {
+		try{
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document document = db.parse(stream);
 
@@ -363,21 +347,21 @@ public class ArcaneCompendium implements ILoreHelper {
 				for (int j = 0; j < entries.getLength(); ++j){
 					Node entry = entries.item(j);
 					CompendiumEntryType type = CompendiumEntryTypes.getForSection(category.getNodeName(), entry.getNodeName());
-					if (type == null)continue;
+					if (type == null) continue;
 					CompendiumEntry ce = type.createCompendiumEntry(entry);
 					if (ce == null) continue;
 					this.compendium.put(ce.getID(), ce);
 				}
 			}
 
-		} catch (Throwable t) {
+		}catch (Throwable t){
 			t.printStackTrace();
 		}
 	}
 
 	private void loadDocumentVersion(Language lang){
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		try {
+		try{
 			//get the packaged compendium version
 			InputStream stream = getPackagedCompendium(lang);
 			//standard XML parsing stuff
@@ -432,26 +416,22 @@ public class ArcaneCompendium implements ILoreHelper {
 		}
 	}
 
-	public Integer versionCompare(String str1, String str2)
-	{
+	public Integer versionCompare(String str1, String str2){
 		String[] vals1 = str1.split("\\.");
 		String[] vals2 = str2.split("\\.");
 		int i = 0;
 		// set index to first non-equal ordinal or length of shortest version string
-		while (i < vals1.length && i < vals2.length && vals1[i].equals(vals2[i]))
-		{
+		while (i < vals1.length && i < vals2.length && vals1[i].equals(vals2[i])){
 			i++;
 		}
 		// compare first non-equal ordinal number
-		if (i < vals1.length && i < vals2.length)
-		{
+		if (i < vals1.length && i < vals2.length){
 			int diff = Integer.valueOf(vals1[i]).compareTo(Integer.valueOf(vals2[i]));
 			return Integer.signum(diff);
 		}
 		// the strings are equal or one string is a substring of the other
 		// e.g. "1.2.3" = "1.2.3" or "1.2.3" < "1.2.3.4"
-		else
-		{
+		else{
 			return Integer.signum(vals1.length - vals2.length);
 		}
 	}
@@ -470,7 +450,7 @@ public class ArcaneCompendium implements ILoreHelper {
 				File f = new File(path);
 				if (f.exists())
 					return new FileInputStream(f);
-			}catch(Throwable t){
+			}catch (Throwable t){
 				FMLLog.finer("Ars Magica 2 >> An error occurred when trying to create an inputstream from the updated compendium.  Reverting to default.");
 			}
 			FMLLog.info("Ars Magica 2 >> No updated compendium found.  Using packaged compendium.");
@@ -481,27 +461,27 @@ public class ArcaneCompendium implements ILoreHelper {
 	private InputStream getPackagedCompendium(Language lang){
 		ResourceLocation rLoc = new ResourceLocation("arsmagica2", String.format("docs/ArcaneCompendium_%s.xml", lang.getLanguageCode()));
 		IResource resource = null;
-		try {
+		try{
 			resource = Minecraft.getMinecraft().getResourceManager().getResource(rLoc);
-		} catch (IOException e) {
+		}catch (IOException e){
 		}finally{
 			if (resource == null){
 				FMLLog.info("Ars Magica 2 >> Unable to find localized compendium.  Defaulting to en_US");
 				rLoc = new ResourceLocation("arsmagica2", "docs/ArcaneCompendium_en_US.xml");
-				try {
+				try{
 					resource = Minecraft.getMinecraft().getResourceManager().getResource(rLoc);
-				} catch (IOException e) {
+				}catch (IOException e){
 				}
 			}
 		}
-		
+
 		if (resource != null)
 			return resource.getInputStream();
-		
+
 		throw new MissingResourceException("No packaged version of the compendium was found.  You may have a corrupted download.", "compendium", "Arcane Compendium");
 	}
 
-	public LinkedHashSet<CompendiumEntryType> getCategories() {
+	public LinkedHashSet<CompendiumEntryType> getCategories(){
 		LinkedHashSet<CompendiumEntryType> toReturn = new LinkedHashSet();
 		for (CompendiumEntryType type : CompendiumEntryTypes.categoryList()){
 			toReturn.add(type);
@@ -509,7 +489,7 @@ public class ArcaneCompendium implements ILoreHelper {
 		return toReturn;
 	}
 
-	public ArrayList<CompendiumEntry> getEntriesForCategory(String category) {
+	public ArrayList<CompendiumEntry> getEntriesForCategory(String category){
 		ArrayList<CompendiumEntry> toReturn = new ArrayList<CompendiumEntry>();
 
 		for (CompendiumEntry entry : compendium.values()){
@@ -544,12 +524,13 @@ public class ArcaneCompendium implements ILoreHelper {
 
 	/**
 	 * Unlocks a Compendium Entry and all of it's related entries
+	 *
 	 * @param key The key used to identify the entry to unlock
 	 */
 	public void unlockEntry(String key){
 		boolean verbose = key.startsWith("cmd::");
 		key = key.replace("cmd::", "");
-		
+
 		if (verbose && key.equals("all")){
 			for (CompendiumEntry entry : compendium.values()){
 				entry.setIsLocked(false);
@@ -557,7 +538,7 @@ public class ArcaneCompendium implements ILoreHelper {
 			Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.unlockSuccess")));
 			return;
 		}
-		
+
 		CompendiumEntry entry = getEntry(key);
 		if (entry == null){
 			if (key.contains("@")){
@@ -625,12 +606,12 @@ public class ArcaneCompendium implements ILoreHelper {
 		}
 	}
 
-	public void setLockedState(boolean b) {
+	public void setLockedState(boolean b){
 		for (CompendiumEntry entry : this.compendium.values())
 			entry.setIsLocked(b);
 	}
 
-	public boolean isCategory(String id) {
+	public boolean isCategory(String id){
 		for (CompendiumEntryType type : this.getCategories())
 			if (type.getCategoryName().equals(id))
 				return true;
@@ -649,27 +630,27 @@ public class ArcaneCompendium implements ILoreHelper {
 		return this.latestPatchNotesLink;
 	}
 
-	
+
 	@Override
-	public void AddCompenidumEntry(Object entryItem, String entryKey, String entryName, String entryDesc, String parent, boolean allowReplace, String... relatedKeys) {
+	public void AddCompenidumEntry(Object entryItem, String entryKey, String entryName, String entryDesc, String parent, boolean allowReplace, String... relatedKeys){
 		if (entryItem == null){
 			FMLLog.warning("Ars Magica 2 >> Null entry item passed.  Cannot add Compendium Entry with key %s.", entryKey);
 			return;
 		}
-		
+
 		CompendiumEntry existingEntry = getEntry(entryKey);
 		if (existingEntry != null && !allowReplace){
 			FMLLog.warning("Ars Magica 2 >> Compendium entry with key %s exists, and allowReplace is false.  The entry was not added.", entryKey);
 			return;
 		}
-		
+
 		CompendiumEntry parentEntry = parent == null ? null : getEntry(parent);
 		if (parent != null && parentEntry == null){
 			FMLLog.warning("Ars Magica 2 >> The parent ID %s was not found.  Entry %s will be added with no parent.", parent, entryKey);
 		}
-		
+
 		CompendiumEntry newEntry = null;
-		
+
 		if (entryItem instanceof Item){
 			newEntry = new CompendiumEntryItem();
 		}else if (entryItem instanceof Block){
@@ -682,8 +663,8 @@ public class ArcaneCompendium implements ILoreHelper {
 			newEntry = new CompendiumEntrySpellModifier();
 		}else if (entryItem instanceof Entity){
 			newEntry = new CompendiumEntryMob();
-		}		
-		
+		}
+
 		newEntry.id = entryKey;
 		newEntry.name = entryName;
 		newEntry.description = entryDesc;
@@ -692,12 +673,12 @@ public class ArcaneCompendium implements ILoreHelper {
 		newEntry.parent = parentEntry;
 		for (String s : relatedKeys)
 			newEntry.relatedItems.add(s);
-		
+
 		if (parentEntry != null){
 			parentEntry.subItems.add(newEntry);
 			addAlias(newEntry.getID(), parentEntry.getID());
 		}
-		
+
 		this.compendium.put(entryKey, newEntry);
 		FMLLog.fine("Ars Magica 2 >> Successfully added compendium entry %s", entryKey);
 	}

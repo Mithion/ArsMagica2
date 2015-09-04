@@ -1,16 +1,14 @@
 package am2.blocks.renderers;
 
+import am2.blocks.BlocksCommonProxy;
+import am2.blocks.tileentities.TileEntityEverstone;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
-import am2.blocks.BlocksCommonProxy;
-import am2.blocks.tileentities.TileEntityEverstone;
 
 public class RenderEverstone extends TileEntitySpecialRenderer{
 
@@ -22,9 +20,9 @@ public class RenderEverstone extends TileEntitySpecialRenderer{
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double d0, double d1, double d2, float f) {
+	public void renderTileEntityAt(TileEntity tileentity, double d0, double d1, double d2, float f){
 		if (tileentity instanceof TileEntityEverstone){
-			renderEverstoneAt((TileEntityEverstone) tileentity, d0, d1, d2, f);
+			renderEverstoneAt((TileEntityEverstone)tileentity, d0, d1, d2, f);
 		}
 	}
 
@@ -39,9 +37,9 @@ public class RenderEverstone extends TileEntitySpecialRenderer{
 			Block block = entity.getFacade();
 			itemRenderBlocks.blockAccess = entity.getWorldObj();
 
-			
+
 			if (block == null) block = BlocksCommonProxy.everstone;
-			
+
 			renderBlock(BlocksCommonProxy.everstone, entity.xCoord + d0, entity.yCoord + d1, entity.zCoord + d2, block, entity);
 		}
 		GL11.glPopMatrix();

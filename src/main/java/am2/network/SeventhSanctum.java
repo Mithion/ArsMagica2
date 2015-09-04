@@ -1,12 +1,12 @@
 package am2.network;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-
 import am2.AMCore;
 import am2.utility.WebRequestUtils;
 
-public class SeventhSanctum {
+import java.util.HashMap;
+import java.util.LinkedList;
+
+public class SeventhSanctum{
 	private static final String webURL = "http://www.seventhsanctum.com/generate.php?Genname=spell";
 	private static final String formName = "frmControls";
 
@@ -46,7 +46,7 @@ public class SeventhSanctum {
 	}
 
 	private void getSuggestions(){
-		try {
+		try{
 			String s = WebRequestUtils.sendPost(webURL, postOptions);
 			//System.out.println(s);
 			int startIndex = s.lastIndexOf("SubSubContentTitle");
@@ -60,7 +60,7 @@ public class SeventhSanctum {
 			String[] suggestions = s.split("<div class=\"GeneratorResult");
 			for (String suggestion : suggestions)
 				parseAndAddSuggestion(suggestion);
-		} catch (Throwable t) {
+		}catch (Throwable t){
 			t.printStackTrace();
 			failed = true;
 		}

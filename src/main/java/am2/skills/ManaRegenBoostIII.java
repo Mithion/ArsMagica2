@@ -5,7 +5,7 @@ import am2.api.spell.component.interfaces.ISkillTreeEntry;
 public class ManaRegenBoostIII implements ISkillTreeEntry{
 
 	@Override
-	public int getID() {
+	public int getID(){
 		return 3;
 	}
 

@@ -1,9 +1,10 @@
 package am2.guis;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
+import am2.blocks.tileentities.TileEntityMagiciansWorkbench;
+import am2.blocks.tileentities.TileEntityMagiciansWorkbench.RememberedRecipe;
+import am2.containers.ContainerMagiciansWorkbench;
+import am2.guis.controls.GuiButtonVariableDims;
+import am2.texture.ResourceManager;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -13,16 +14,13 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import am2.blocks.tileentities.TileEntityMagiciansWorkbench;
-import am2.blocks.tileentities.TileEntityMagiciansWorkbench.RememberedRecipe;
-import am2.containers.ContainerMagiciansWorkbench;
-import am2.guis.controls.GuiButtonVariableDims;
-import am2.texture.ResourceManager;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class GuiMagiciansWorkbench extends GuiContainer{
 
@@ -37,7 +35,7 @@ public class GuiMagiciansWorkbench extends GuiContainer{
 	private int recipeIndex = -1;
 	private int hoverRecipeIndex = -1;
 
-	public GuiMagiciansWorkbench(InventoryPlayer playerInventory, TileEntityMagiciansWorkbench tileEntity) {
+	public GuiMagiciansWorkbench(InventoryPlayer playerInventory, TileEntityMagiciansWorkbench tileEntity){
 		super(new ContainerMagiciansWorkbench(playerInventory, tileEntity));
 		this.workbenchInventory = tileEntity;
 		xSize = 220;
@@ -46,14 +44,14 @@ public class GuiMagiciansWorkbench extends GuiContainer{
 	}
 
 	@Override
-	public void initGui() {
+	public void initGui(){
 		super.initGui();
 
 		int l = (width - xSize) / 2;
 		int i1 = (height - ySize) / 2;
 
-		clearGridOne = new GuiButtonVariableDims(0, l+40, i1+15, "X");
-		clearGridTwo = new GuiButtonVariableDims(0, l+114, i1+15, "X");
+		clearGridOne = new GuiButtonVariableDims(0, l + 40, i1 + 15, "X");
+		clearGridTwo = new GuiButtonVariableDims(0, l + 114, i1 + 15, "X");
 
 		int s = 10;
 		clearGridOne.setDimensions(s, s);
@@ -64,7 +62,7 @@ public class GuiMagiciansWorkbench extends GuiContainer{
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton par1GuiButton) {
+	protected void actionPerformed(GuiButton par1GuiButton){
 		super.actionPerformed(par1GuiButton);
 		if (par1GuiButton == clearGridOne){
 			for (int i = 0; i < 9; ++i){
@@ -81,7 +79,7 @@ public class GuiMagiciansWorkbench extends GuiContainer{
 	}
 
 	@Override
-	protected void mouseClicked(int par1, int par2, int par3) {
+	protected void mouseClicked(int par1, int par2, int par3){
 		super.mouseClicked(par1, par2, par3);
 		if (hoverRecipeIndex > -1 && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
 			((ContainerMagiciansWorkbench)this.inventorySlots).getWorkbench().toggleRecipeLocked(hoverRecipeIndex);
@@ -92,14 +90,14 @@ public class GuiMagiciansWorkbench extends GuiContainer{
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY) {
+	protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY){
 		mc.renderEngine.bindTexture(background);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		int l = (width - xSize) / 2;
 		int i1 = (height - ySize) / 2;
 
 		drawTexturedModalRect(l, i1, 0, 0, 166, 136); //background
-		drawTexturedModalRect(l+166, i1, 202, 0, 54, 162); //internal inventory
+		drawTexturedModalRect(l + 166, i1, 202, 0, 54, 162); //internal inventory
 		drawTexturedModalRect(l + 12, i1 + 162, 0, 137, 176, 89); //player inventory
 		drawTexturedModalRect(l + 191, i1 + 172, 178, 0, 24, 72); //keystone lockable slots
 
@@ -123,7 +121,7 @@ public class GuiMagiciansWorkbench extends GuiContainer{
 		recipeIndex = -1;
 		hoverRecipeIndex = -1;
 		for (n = 0; n < this.workbenchInventory.getRememberedRecipeItems().size(); ++n){
-			int x = l + n*20;
+			int x = l + n * 20;
 			int y = i1 + 136;
 			drawTexturedModalRect(x, y, 0, 229, 19, 24);
 
@@ -140,10 +138,10 @@ public class GuiMagiciansWorkbench extends GuiContainer{
 		}
 		n = 0;
 		ttList.clear();
-		while(it.hasNext()){
-			RememberedRecipe stack = (RememberedRecipe) it.next();
+		while (it.hasNext()){
+			RememberedRecipe stack = (RememberedRecipe)it.next();
 
-			renderItemStack(stack.output, l + 1 + n*20, i1 + 140);
+			renderItemStack(stack.output, l + 1 + n * 20, i1 + 140);
 			if (n == recipeIndex){
 				if (((ContainerMagiciansWorkbench)this.inventorySlots).isRecipeAlreadyInGrid(recipeIndex)){
 					ttList.add(stack.output.getDisplayName());
@@ -176,7 +174,7 @@ public class GuiMagiciansWorkbench extends GuiContainer{
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
 		int l = (width - xSize) / 2;
@@ -197,10 +195,8 @@ public class GuiMagiciansWorkbench extends GuiContainer{
 		}
 	}
 
-	protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font, int color)
-	{
-		if (!par1List.isEmpty())
-		{
+	protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font, int color){
+		if (!par1List.isEmpty()){
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 			RenderHelper.disableStandardItemLighting();
 			GL11.glDisable(GL11.GL_LIGHTING);
@@ -208,13 +204,11 @@ public class GuiMagiciansWorkbench extends GuiContainer{
 			int k = 0;
 			Iterator iterator = par1List.iterator();
 
-			while (iterator.hasNext())
-			{
+			while (iterator.hasNext()){
 				String s = (String)iterator.next();
 				int l = font.getStringWidth(s);
 
-				if (l > k)
-				{
+				if (l > k){
 					k = l;
 				}
 			}
@@ -223,18 +217,15 @@ public class GuiMagiciansWorkbench extends GuiContainer{
 			int j1 = par3 - 12;
 			int k1 = 8;
 
-			if (par1List.size() > 1)
-			{
+			if (par1List.size() > 1){
 				k1 += 2 + (par1List.size() - 1) * 10;
 			}
 
-			if (i1 + k > this.width)
-			{
+			if (i1 + k > this.width){
 				i1 -= 28 + k;
 			}
 
-			if (j1 + k1 + 6 > this.height)
-			{
+			if (j1 + k1 + 6 > this.height){
 				j1 = this.height - k1 - 6;
 			}
 
@@ -253,13 +244,11 @@ public class GuiMagiciansWorkbench extends GuiContainer{
 			this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
 			this.drawGradientRect(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
 
-			for (int k2 = 0; k2 < par1List.size(); ++k2)
-			{
+			for (int k2 = 0; k2 < par1List.size(); ++k2){
 				String s1 = (String)par1List.get(k2);
 				font.drawStringWithShadow(s1, i1, j1, color);
 
-				if (k2 == 0)
-				{
+				if (k2 == 0){
 					j1 += 2;
 				}
 

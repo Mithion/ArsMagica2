@@ -1,19 +1,5 @@
 package am2.proxy.tick;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.tileentity.TileEntity;
 import am2.AMCore;
 import am2.EntityItemWatcher;
 import am2.MeteorSpawnHelper;
@@ -47,6 +33,19 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.tileentity.TileEntity;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 @SideOnly(Side.CLIENT)
 public class ClientTickHandler{
@@ -144,8 +143,8 @@ public class ClientTickHandler{
 	private void spawnPowerPathVisuals(){
 		if (Minecraft.getMinecraft().thePlayer.getCurrentArmor(3) != null &&
 				(Minecraft.getMinecraft().thePlayer.getCurrentArmor(3).getItem() == ItemsCommonProxy.magitechGoggles ||
-				ArmorHelper.isInfusionPreset(Minecraft.getMinecraft().thePlayer.getCurrentArmor(3), GenericImbuement.magitechGoggleIntegration))
-			){
+						ArmorHelper.isInfusionPreset(Minecraft.getMinecraft().thePlayer.getCurrentArmor(3), GenericImbuement.magitechGoggleIntegration))
+				){
 
 			if (arcSpawnCounter++ >= arcSpawnFrequency){
 				arcSpawnCounter = 0;
@@ -158,14 +157,14 @@ public class ClientTickHandler{
 
 						String texture =
 								type == PowerTypes.LIGHT ? "textures/blocks/oreblockbluetopaz.png" :
-									type == PowerTypes.NEUTRAL ? "textures/blocks/oreblockvinteum.png" :
-										type == PowerTypes.DARK ? "textures/blocks/oreblocksunstone.png" :
-											"textures/blocks/oreblocksunstone.png";
+										type == PowerTypes.NEUTRAL ? "textures/blocks/oreblockvinteum.png" :
+												type == PowerTypes.DARK ? "textures/blocks/oreblocksunstone.png" :
+														"textures/blocks/oreblocksunstone.png";
 
 						ArrayList<LinkedList<AMVector3>> pathList = paths.get(type);
 						for (LinkedList<AMVector3> individualPath : pathList){
-							for (int i = 0; i < individualPath.size()-1; ++i){
-								AMVector3 start = individualPath.get(i+1);
+							for (int i = 0; i < individualPath.size() - 1; ++i){
+								AMVector3 start = individualPath.get(i + 1);
 								AMVector3 end = individualPath.get(i);
 
 								if (start.distanceSqTo(playerPos) > 2500 || end.distanceSqTo(playerPos) > 2500){
@@ -173,8 +172,8 @@ public class ClientTickHandler{
 								}
 
 
-								TileEntity teStart = Minecraft.getMinecraft().theWorld.getTileEntity((int)start.x,(int)start.y, (int)start.z);
-								TileEntity teEnd = Minecraft.getMinecraft().theWorld.getTileEntity((int)end.x,(int)end.y, (int)end.z);
+								TileEntity teStart = Minecraft.getMinecraft().theWorld.getTileEntity((int)start.x, (int)start.y, (int)start.z);
+								TileEntity teEnd = Minecraft.getMinecraft().theWorld.getTileEntity((int)end.x, (int)end.y, (int)end.z);
 
 								if (teEnd == null || !(teEnd instanceof IPowerNode))
 									break;
@@ -187,7 +186,7 @@ public class ClientTickHandler{
 								double endY = end.y + ((IPowerNode)teEnd).particleOffset(1);
 								double endZ = end.z + ((IPowerNode)teEnd).particleOffset(2);
 
-								AMLineArc arc = (AMLineArc) AMCore.proxy.particleManager.spawn(
+								AMLineArc arc = (AMLineArc)AMCore.proxy.particleManager.spawn(
 										Minecraft.getMinecraft().theWorld,
 										texture,
 										startX,
@@ -246,13 +245,13 @@ public class ClientTickHandler{
 					}
 					//send packet to server
 					AMNetHandler.INSTANCE.sendPacketToServer(
-									AMPacketIDs.SPELLBOOK_CHANGE_ACTIVE_SLOT,
-									new AMDataWriter()
+							AMPacketIDs.SPELLBOOK_CHANGE_ACTIVE_SLOT,
+							new AMDataWriter()
 									.add(subID)
 									.add(Minecraft.getMinecraft().thePlayer.getEntityId())
 									.add(Minecraft.getMinecraft().thePlayer.inventory.currentItem)
 									.generate()
-									);
+					);
 				}
 			}
 			this.currentSlot = -1;
@@ -295,7 +294,7 @@ public class ClientTickHandler{
 	private void localServerTick_End(){
 		BossSpawnHelper.instance.tick();
 	}
-	
+
 	@SubscribeEvent
 	public void onClientTick(TickEvent.ClientTickEvent event){
 		if (event.phase == TickEvent.Phase.START){
@@ -307,7 +306,7 @@ public class ClientTickHandler{
 		}else if (event.phase == TickEvent.Phase.END){
 			GuiScreen guiscreen = Minecraft.getMinecraft().currentScreen;
 			if (guiscreen != null){
-			} else {
+			}else{
 				gameTick_End();
 			}
 
@@ -315,7 +314,7 @@ public class ClientTickHandler{
 				spawnPowerPathVisuals();
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onRenderTick(TickEvent.RenderTickEvent event){
 		if (event.phase == TickEvent.Phase.START){
@@ -324,7 +323,7 @@ public class ClientTickHandler{
 			renderTick_End();
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onWorldTick(TickEvent.WorldTickEvent event){
 		if (Minecraft.getMinecraft().isIntegratedServerRunning()){
@@ -332,7 +331,7 @@ public class ClientTickHandler{
 				RetroactiveWorldgenerator.instance.continueRetrogen(event.world);
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onServerTick(TickEvent.ServerTickEvent event){
 		if (event.phase == TickEvent.Phase.END){

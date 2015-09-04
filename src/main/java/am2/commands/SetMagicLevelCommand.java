@@ -1,48 +1,47 @@
 package am2.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import am2.playerextensions.ExtendedProperties;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.PlayerSelector;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import am2.playerextensions.ExtendedProperties;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SetMagicLevelCommand extends CommandBase{
 
 	@Override
-	public int compareTo(Object arg0) {
+	public int compareTo(Object arg0){
 		return 0;
 	}
 
 	@Override
-	public int getRequiredPermissionLevel()
-	{
+	public int getRequiredPermissionLevel(){
 		return 2;
 	}
 
 	@Override
-	public String getCommandName() {
+	public String getCommandName(){
 		return "setmagiclevel";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender var1) {
+	public String getCommandUsage(ICommandSender var1){
 		return "/setmagiclevel [<player>] <level>";
 	}
 
 	@Override
-	public List getCommandAliases() {
+	public List getCommandAliases(){
 		ArrayList<String> aliases = new ArrayList<String>();
 		aliases.add("setmagelevel");
 		return aliases;
 	}
 
 	@Override
-	public void processCommand(ICommandSender var1, String[] var2) {
+	public void processCommand(ICommandSender var1, String[] var2){
 		if (var2.length != 2 && var2.length != 1){
 			throw new WrongUsageException(this.getCommandUsage(var1), new Object[0]);
 		}
@@ -60,10 +59,10 @@ public class SetMagicLevelCommand extends CommandBase{
 			}else{
 				player = getPlayer(var1, var2[0]);
 			}
-			targetLevel=parseIntBounded(var1, var2[1], 0, ExtendedProperties.maxMagicLevel);
+			targetLevel = parseIntBounded(var1, var2[1], 0, ExtendedProperties.maxMagicLevel);
 		}else{
 			player = getCommandSenderAsPlayer(var1);
-			targetLevel=parseIntBounded(var1, var2[0], 0, ExtendedProperties.maxMagicLevel);
+			targetLevel = parseIntBounded(var1, var2[0], 0, ExtendedProperties.maxMagicLevel);
 		}
 		doMagicLevelSet(var1, player, targetLevel);
 	}
@@ -78,7 +77,7 @@ public class SetMagicLevelCommand extends CommandBase{
 	}
 
 	@Override
-	public List addTabCompletionOptions(ICommandSender var1, String[] var2) {
+	public List addTabCompletionOptions(ICommandSender var1, String[] var2){
 		if (var2.length == 1){
 			ArrayList<String> completions = new ArrayList<String>();
 			EntityPlayer player = getCommandSenderAsPlayer(var1);

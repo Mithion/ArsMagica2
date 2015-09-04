@@ -1,12 +1,12 @@
 package am2.configuration;
 
+import net.minecraftforge.common.config.Configuration;
+
 import java.io.File;
 import java.util.HashMap;
 
-import net.minecraftforge.common.config.Configuration;
 
-
-public class SkillConfiguration extends Configuration {
+public class SkillConfiguration extends Configuration{
 	private final HashMap<String, Boolean> cache;
 
 	public SkillConfiguration(File file){
@@ -24,7 +24,7 @@ public class SkillConfiguration extends Configuration {
 		return value;
 	}
 
-	public void init() {
+	public void init(){
 
 	}
 }

@@ -30,19 +30,19 @@ public class EntityAISpellmaking extends EntityAIBase{
 	}
 
 	@Override
-	public boolean shouldExecute() {
+	public boolean shouldExecute(){
 		return host.hasSearchLocation();
 	}
 
 	@Override
-	public void resetTask() {
+	public void resetTask(){
 		action_state = 0;
 		wait_counter = 0;
 		host.setSearchLocationAndItem(AMVector3.zero(), new ItemStack(Items.paper));
 	}
 
 	@Override
-	public void updateTask() {
+	public void updateTask(){
 		AMVector3 targetLocation = host.getSearchLocation();
 		AMVector3 dropLocation = host.getDropLocation();
 		AMVector3 hostLocation = new AMVector3(host);
@@ -94,12 +94,12 @@ public class EntityAISpellmaking extends EntityAIBase{
 				host.getNavigator().clearPathEntity();
 				if (!host.worldObj.isRemote){
 					EntityItem droppedItem = host.entityDropItem(host.getSearchItem(), 0f);
-					host.setHeldItem(new ItemStack(Items.paper));								
+					host.setHeldItem(new ItemStack(Items.paper));
 				}
 				action_state = 2;
 			}else if (action_state == 2 && wait_counter < WAIT_TIME){
 				wait_counter++;
-			}else if (action_state == 2 && wait_counter >= WAIT_TIME){				
+			}else if (action_state == 2 && wait_counter >= WAIT_TIME){
 				resetTask();
 			}
 		}

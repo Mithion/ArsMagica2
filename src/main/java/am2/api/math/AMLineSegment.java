@@ -1,15 +1,14 @@
 package am2.api.math;
 
-public class AMLineSegment {
-	private AMVector3 a,b;
+public class AMLineSegment{
+	private AMVector3 a, b;
 
 	public AMLineSegment(AMVector3 a, AMVector3 b){
 		this.a = a;
 		this.b = b;
 	}
 
-	public AMVector3 closestPointOnLine(AMVector3 vPoint)
-	{
+	public AMVector3 closestPointOnLine(AMVector3 vPoint){
 
 		// Create the vector from end point vA to our point vPoint.
 		AMVector3 vVector1 = vPoint.copy().sub(a);
@@ -18,7 +17,7 @@ public class AMLineSegment {
 		AMVector3 vVector2 = b.copy().sub(a).normalize();
 
 		// Use the distance formula to find the distance of the line segment (or magnitude)
-		float d = (float) a.distanceTo(b);
+		float d = (float)a.distanceTo(b);
 
 		// Using the dot product, we project the vVector1 onto the vector vVector2.
 		// This essentially gives us the distance from our projected vector from vA.

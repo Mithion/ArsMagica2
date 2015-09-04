@@ -1,21 +1,5 @@
 package am2.items;
 
-import java.util.List;
-
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
-import am2.AMCore;
 import am2.api.power.IPowerNode;
 import am2.api.power.PowerTypes;
 import am2.api.spell.component.interfaces.ISpellShape;
@@ -30,8 +14,23 @@ import am2.spell.SpellUtils;
 import am2.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
 
-public class ItemSpellStaff extends ArsMagicaItem {
+import java.util.List;
+
+public class ItemSpellStaff extends ArsMagicaItem{
 
 	private final int castingMode;
 	private int staffHeadIndex;
@@ -46,7 +45,7 @@ public class ItemSpellStaff extends ArsMagicaItem {
 	@SideOnly(Side.CLIENT)
 	private String[] textureFiles;
 
-	public ItemSpellStaff(int charge, int castingMode) {
+	public ItemSpellStaff(int charge, int castingMode){
 		super();
 		this.setMaxDamage(charge);
 		this.maxCharge = charge;
@@ -56,7 +55,7 @@ public class ItemSpellStaff extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister) {
+	public void registerIcons(IIconRegister par1IconRegister){
 		textureFiles = new String[]{"staff_lesser", "staff_standard", "staff_greater", "staff_magitech"};
 		icons = new IIcon[textureFiles.length];
 
@@ -67,7 +66,8 @@ public class ItemSpellStaff extends ArsMagicaItem {
 
 	/**
 	 * Sets the displayed head of the staff.
-	 * @param index  The index.  Valid values: 1 (lesser), 2 (standard), 3 (greater)
+	 *
+	 * @param index The index.  Valid values: 1 (lesser), 2 (standard), 3 (greater)
 	 * @return
 	 */
 	public ItemSpellStaff setStaffHeadIndex(int index){
@@ -79,20 +79,20 @@ public class ItemSpellStaff extends ArsMagicaItem {
 	}
 
 	@Override
-	public boolean hasEffect(ItemStack par1ItemStack, int pass) {
+	public boolean hasEffect(ItemStack par1ItemStack, int pass){
 		if (pass == 0) return false;
 		else return isMagiTechStaff() || getSpellStack(par1ItemStack) != null;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean requiresMultipleRenderPasses() {
+	public boolean requiresMultipleRenderPasses(){
 		return true;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamageForRenderPass(int dmg, int pass) {
+	public IIcon getIconFromDamageForRenderPass(int dmg, int pass){
 		return icons[staffHeadIndex];
 	}
 
@@ -102,7 +102,7 @@ public class ItemSpellStaff extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getColorFromItemStack(ItemStack stack, int pass) {
+	public int getColorFromItemStack(ItemStack stack, int pass){
 		return 0xFFFFFF;
 		/*}else{
 			if (this.isMagiTechStaff())
@@ -147,7 +147,7 @@ public class ItemSpellStaff extends ArsMagicaItem {
 	}
 
 	@Override
-	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
+	public EnumAction getItemUseAction(ItemStack par1ItemStack){
 		if (isMagiTechStaff())
 			return EnumAction.none;
 		return EnumAction.block;
@@ -155,13 +155,13 @@ public class ItemSpellStaff extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean shouldRotateAroundWhenRendering() {
+	public boolean shouldRotateAroundWhenRendering(){
 		return false;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean isFull3D() {
+	public boolean isFull3D(){
 		return true;
 	}
 
@@ -190,14 +190,13 @@ public class ItemSpellStaff extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+	public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List par3List, boolean par4){
 		if (stack.stackTagCompound == null || isMagiTechStaff()) return;
 		float chargeCost = 1;
 
 		ItemStack spell = getSpellStack(stack);
 
-		if (spell != null)
-		{
+		if (spell != null){
 			chargeCost = SpellUtils.instance.getSpellRequirements(spell, par2EntityPlayer).manaCost;
 		}
 		if (chargeCost == 0)
@@ -211,7 +210,7 @@ public class ItemSpellStaff extends ArsMagicaItem {
 	}
 
 	@Override
-	public String getItemStackDisplayName(ItemStack par1ItemStack) {
+	public String getItemStackDisplayName(ItemStack par1ItemStack){
 		if (isMagiTechStaff()){
 			return StatCollector.translateToLocal("item.arsmagica2:spell_staff_magitech.name");
 		}
@@ -222,13 +221,12 @@ public class ItemSpellStaff extends ArsMagicaItem {
 	}
 
 	@Override
-	public boolean getShareTag() {
+	public boolean getShareTag(){
 		return true;
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int X, int Y, int Z, int side, float par8, float par9, float par10)
-	{
+	public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int X, int Y, int Z, int side, float par8, float par9, float par10){
 		if (isMagiTechStaff()){
 			return true;
 		}
@@ -237,13 +235,13 @@ public class ItemSpellStaff extends ArsMagicaItem {
 	}
 
 	@Override
-	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		if (isMagiTechStaff()){
 			if (!world.isRemote){
 				TileEntity te = world.getTileEntity(x, y, z);
 				if (te != null && te instanceof IPowerNode){
 					if (player.isSneaking()){
-						AMNetHandler.INSTANCE.syncPowerPaths((IPowerNode) te, (EntityPlayerMP) player);
+						AMNetHandler.INSTANCE.syncPowerPaths((IPowerNode)te, (EntityPlayerMP)player);
 					}else{
 						PowerTypes[] types = ((IPowerNode)te).getValidPowerTypes();
 						for (PowerTypes type : types){
@@ -251,7 +249,7 @@ public class ItemSpellStaff extends ArsMagicaItem {
 							player.addChatMessage(
 									new ChatComponentText(
 											String.format(
-													StatCollector.translateToLocal("am2.tooltip.det_eth"), 
+													StatCollector.translateToLocal("am2.tooltip.det_eth"),
 													type.chatColor(), type.name(), String.format("%.2f", power))));
 						}
 					}
@@ -264,8 +262,7 @@ public class ItemSpellStaff extends ArsMagicaItem {
 	}
 
 	@Override
-	public void onPlayerStoppedUsing(ItemStack itemstack, World world, EntityPlayer entityplayer, int i)
-	{
+	public void onPlayerStoppedUsing(ItemStack itemstack, World world, EntityPlayer entityplayer, int i){
 		if (isMagiTechStaff()) return;
 
 		ItemStack spell = getSpellStack(itemstack);
@@ -285,15 +282,12 @@ public class ItemSpellStaff extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void onUpdate (ItemStack stack, World world, Entity entity, int par4, boolean par5)
-	{
+	public void onUpdate(ItemStack stack, World world, Entity entity, int par4, boolean par5){
 		super.onUpdate(stack, world, entity, par4, par5);
-		if (entity instanceof EntityPlayerSP)
-		{
-			EntityPlayerSP player = (EntityPlayerSP) entity;
+		if (entity instanceof EntityPlayerSP){
+			EntityPlayerSP player = (EntityPlayerSP)entity;
 			ItemStack usingItem = player.getItemInUse();
-			if (usingItem != null && usingItem.getItem() == this)
-			{
+			if (usingItem != null && usingItem.getItem() == this){
 				if (SkillData.For(player).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("SpellMotion")))){
 					player.movementInput.moveForward *= 2.5F;
 					player.movementInput.moveStrafe *= 2.5F;
@@ -303,7 +297,7 @@ public class ItemSpellStaff extends ArsMagicaItem {
 	}
 
 	@Override
-	public int getMaxItemUseDuration(ItemStack itemStack) {
+	public int getMaxItemUseDuration(ItemStack itemStack){
 		return 2000;
 	}
 
@@ -316,8 +310,7 @@ public class ItemSpellStaff extends ArsMagicaItem {
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer)
-	{
+	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer){
 		if (isMagiTechStaff())
 			return itemstack;
 
@@ -328,18 +321,18 @@ public class ItemSpellStaff extends ArsMagicaItem {
 	}
 
 	@Override
-	public void onUsingTick(ItemStack itemstack, EntityPlayer player, int count) {
+	public void onUsingTick(ItemStack itemstack, EntityPlayer player, int count){
 		if (isMagiTechStaff()) return;
 		ItemStack spell = getSpellStack(itemstack);
 		if (spell != null){
 
-			if (SpellHelper.instance.applyStackStageOnUsing(spell, player, player, player.posX, player.posY, player.posZ, player.worldObj, false, true, count-1) == SpellCastResult.SUCCESS)
+			if (SpellHelper.instance.applyStackStageOnUsing(spell, player, player, player.posX, player.posY, player.posZ, player.worldObj, false, true, count - 1) == SpellCastResult.SUCCESS)
 				consumeStaffCharge(itemstack, player);
 		}
 	}
 
 	@Override
-	public int getDamage(ItemStack stack) {
+	public int getDamage(ItemStack stack){
 		if (!stack.hasTagCompound())
 			return super.getDamage(stack);
 		float chargeRemaining = stack.stackTagCompound.getFloat(NBT_CHARGE);
@@ -351,8 +344,7 @@ public class ItemSpellStaff extends ArsMagicaItem {
 
 		ItemStack spell = getSpellStack(staffStack);
 
-		if (spell != null)
-		{
+		if (spell != null){
 			chargeCost = SpellUtils.instance.getSpellRequirements(spell, caster).manaCost;
 		}
 		if (chargeCost == 0)
@@ -362,8 +354,7 @@ public class ItemSpellStaff extends ArsMagicaItem {
 		chargeRemaining -= chargeCost;
 		staffStack.stackTagCompound.setFloat(NBT_CHARGE, chargeRemaining);
 
-		if (chargeRemaining <= 0)
-		{
+		if (chargeRemaining <= 0){
 			if (!caster.worldObj.isRemote){
 				caster.destroyCurrentEquippedItem();
 			}

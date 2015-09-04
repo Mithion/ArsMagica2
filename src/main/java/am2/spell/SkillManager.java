@@ -1,143 +1,17 @@
 package am2.spell;
 
+import am2.api.spell.ISpellPartManager;
+import am2.api.spell.component.interfaces.*;
+import am2.skills.*;
+import am2.spell.components.*;
+import am2.spell.modifiers.*;
+import am2.spell.shapes.*;
+import cpw.mods.fml.common.FMLLog;
+import net.minecraft.util.StatCollector;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
-
-import net.minecraft.util.StatCollector;
-import am2.api.spell.ISpellPartManager;
-import am2.api.spell.component.interfaces.ISkillTreeEntry;
-import am2.api.spell.component.interfaces.ISpellComponent;
-import am2.api.spell.component.interfaces.ISpellModifier;
-import am2.api.spell.component.interfaces.ISpellPart;
-import am2.api.spell.component.interfaces.ISpellShape;
-import am2.skills.AffinityGainsBoost;
-import am2.skills.AugmentedCasting;
-import am2.skills.ExtraSummon;
-import am2.skills.MagePosseI;
-import am2.skills.MagePosseII;
-import am2.skills.ManaRegenBoostI;
-import am2.skills.ManaRegenBoostII;
-import am2.skills.ManaRegenBoostIII;
-import am2.skills.SpellMovement;
-import am2.spell.components.Accelerate;
-import am2.spell.components.Appropriation;
-import am2.spell.components.AstralDistortion;
-import am2.spell.components.Attract;
-import am2.spell.components.BanishRain;
-import am2.spell.components.Blind;
-import am2.spell.components.Blink;
-import am2.spell.components.Blizzard;
-import am2.spell.components.Charm;
-import am2.spell.components.ChronoAnchor;
-import am2.spell.components.CreateWater;
-import am2.spell.components.Daylight;
-import am2.spell.components.Dig;
-import am2.spell.components.Disarm;
-import am2.spell.components.Dispel;
-import am2.spell.components.DivineIntervention;
-import am2.spell.components.Drought;
-import am2.spell.components.Drown;
-import am2.spell.components.EnderIntervention;
-import am2.spell.components.Entangle;
-import am2.spell.components.FallingStar;
-import am2.spell.components.FireDamage;
-import am2.spell.components.FireRain;
-import am2.spell.components.Flight;
-import am2.spell.components.Fling;
-import am2.spell.components.Forge;
-import am2.spell.components.Freeze;
-import am2.spell.components.FrostDamage;
-import am2.spell.components.Fury;
-import am2.spell.components.GravityWell;
-import am2.spell.components.Grow;
-import am2.spell.components.HarvestPlants;
-import am2.spell.components.Haste;
-import am2.spell.components.Heal;
-import am2.spell.components.Ignition;
-import am2.spell.components.Invisiblity;
-import am2.spell.components.Knockback;
-import am2.spell.components.Leap;
-import am2.spell.components.Levitation;
-import am2.spell.components.LifeDrain;
-import am2.spell.components.LifeTap;
-import am2.spell.components.Light;
-import am2.spell.components.LightningDamage;
-import am2.spell.components.MagicDamage;
-import am2.spell.components.ManaDrain;
-import am2.spell.components.ManaLink;
-import am2.spell.components.ManaShield;
-import am2.spell.components.Mark;
-import am2.spell.components.MeltArmor;
-import am2.spell.components.MissingComponent;
-import am2.spell.components.Moonrise;
-import am2.spell.components.Nauseate;
-import am2.spell.components.NightVision;
-import am2.spell.components.PhysicalDamage;
-import am2.spell.components.PlaceBlock;
-import am2.spell.components.Plant;
-import am2.spell.components.Plow;
-import am2.spell.components.RandomTeleport;
-import am2.spell.components.Recall;
-import am2.spell.components.Reflect;
-import am2.spell.components.Regeneration;
-import am2.spell.components.Repel;
-import am2.spell.components.Rift;
-import am2.spell.components.ScrambleSynapses;
-import am2.spell.components.Shield;
-import am2.spell.components.Shrink;
-import am2.spell.components.Silence;
-import am2.spell.components.Slow;
-import am2.spell.components.Slowfall;
-import am2.spell.components.Storm;
-import am2.spell.components.Summon;
-import am2.spell.components.SwiftSwim;
-import am2.spell.components.Telekinesis;
-import am2.spell.components.Transplace;
-import am2.spell.components.TrueSight;
-import am2.spell.components.WaterBreathing;
-import am2.spell.components.WateryGrave;
-import am2.spell.components.WizardsAutumn;
-import am2.spell.modifiers.Bounce;
-import am2.spell.modifiers.BuffPower;
-import am2.spell.modifiers.Colour;
-import am2.spell.modifiers.Damage;
-import am2.spell.modifiers.Dismembering;
-import am2.spell.modifiers.Duration;
-import am2.spell.modifiers.FeatherTouch;
-import am2.spell.modifiers.Gravity;
-import am2.spell.modifiers.Healing;
-import am2.spell.modifiers.Lunar;
-import am2.spell.modifiers.MiningPower;
-import am2.spell.modifiers.MissingModifier;
-import am2.spell.modifiers.Piercing;
-import am2.spell.modifiers.Prosperity;
-import am2.spell.modifiers.Radius;
-import am2.spell.modifiers.Range;
-import am2.spell.modifiers.RuneProcs;
-import am2.spell.modifiers.Solar;
-import am2.spell.modifiers.Speed;
-import am2.spell.modifiers.TargetNonSolidBlocks;
-import am2.spell.modifiers.VelocityAdded;
-import am2.spell.shapes.AoE;
-import am2.spell.shapes.Beam;
-import am2.spell.shapes.Binding;
-import am2.spell.shapes.Chain;
-import am2.spell.shapes.Channel;
-import am2.spell.shapes.Contingency_Death;
-import am2.spell.shapes.Contingency_Fall;
-import am2.spell.shapes.Contingency_Fire;
-import am2.spell.shapes.Contingency_Health;
-import am2.spell.shapes.Contingency_Hit;
-import am2.spell.shapes.MissingShape;
-import am2.spell.shapes.Projectile;
-import am2.spell.shapes.Rune;
-import am2.spell.shapes.Self;
-import am2.spell.shapes.Touch;
-import am2.spell.shapes.Wall;
-import am2.spell.shapes.Wave;
-import am2.spell.shapes.Zone;
-import cpw.mods.fml.common.FMLLog;
 
 public class SkillManager implements ISpellPartManager{
 
@@ -205,7 +79,7 @@ public class SkillManager implements ISpellPartManager{
 		return modifiers;
 	}
 
-	public Set<String> getAllSkillNames() {
+	public Set<String> getAllSkillNames(){
 		return registeredPartNames.keySet();
 	}
 
@@ -248,23 +122,23 @@ public class SkillManager implements ISpellPartManager{
 	public ISpellModifier getModifier(int id){
 		ISkillTreeEntry mod = registeredParts.get(id);
 		if (mod == null || !(mod instanceof ISpellModifier)) return missingModifier;
-		return (ISpellModifier) mod;
+		return (ISpellModifier)mod;
 	}
 
 	public ISpellShape getShape(int id){
 		ISkillTreeEntry mod = registeredParts.get(id);
 		if (mod == null || !(mod instanceof ISpellShape)) return missingShape;
-		return (ISpellShape) mod;
+		return (ISpellShape)mod;
 	}
 
 	public ISpellComponent getComponent(int id){
 		ISkillTreeEntry mod = registeredParts.get(id);
 		if (mod == null || !(mod instanceof ISpellComponent)) return missingComponent;
-		return (ISpellComponent) mod;
+		return (ISpellComponent)mod;
 	}
 
 	@Override
-	public ISkillTreeEntry getSkill(String name) {
+	public ISkillTreeEntry getSkill(String name){
 		Integer ID = registeredPartNames.get(name);
 		if (ID == null) return null;
 		return registeredParts.get(ID);
@@ -298,7 +172,7 @@ public class SkillManager implements ISpellPartManager{
 		return part.getID() + TALENT_OFFSET;
 	}
 
-	public void init() {
+	public void init(){
 		//Shapes		
 		registerSkillTreeEntry(new AoE(), "AoE");
 		registerSkillTreeEntry(new Beam(), "Beam");
@@ -431,23 +305,23 @@ public class SkillManager implements ISpellPartManager{
 		registerSkillTreeEntry(new SpellMovement(), "SpellMotion");
 	}
 
-	public String getDisplayName(ISkillTreeEntry part) {
+	public String getDisplayName(ISkillTreeEntry part){
 		return StatCollector.translateToLocal(String.format("am2.spell.%s", getSkillName(part).toLowerCase()));
 	}
 
-	public String getDisplayName(String unlocalizedName) {
+	public String getDisplayName(String unlocalizedName){
 		return StatCollector.translateToLocal(String.format("am2.spell.%s", unlocalizedName.toLowerCase()));
 	}
 
-	public class CaseInsensitiveMap<K extends String, V> extends HashMap<K, V> {
+	public class CaseInsensitiveMap<K extends String, V> extends HashMap<K, V>{
 
 		@Override
-		public V put(K key, V value) {
-			return super.put((K) key.toLowerCase(), value);
+		public V put(K key, V value){
+			return super.put((K)key.toLowerCase(), value);
 		}
 
 		// not @Override because that would require the key parameter to be of type Object
-		public V get(String key) {
+		public V get(String key){
 			return super.get(key.toLowerCase());
 		}
 	}

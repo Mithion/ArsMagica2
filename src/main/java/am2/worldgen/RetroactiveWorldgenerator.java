@@ -1,15 +1,14 @@
 package am2.worldgen;
 
+import am2.AMCore;
+import cpw.mods.fml.common.FMLLog;
+import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraft.world.World;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.minecraft.world.ChunkCoordIntPair;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import am2.AMCore;
-import cpw.mods.fml.common.FMLLog;
-
-public class RetroactiveWorldgenerator {
+public class RetroactiveWorldgenerator{
 	public static final HashMap<Integer, ArrayList<ChunkCoordIntPair>> deferredChunkGeneration = new HashMap<Integer, ArrayList<ChunkCoordIntPair>>();
 	public static final RetroactiveWorldgenerator instance = new RetroactiveWorldgenerator();
 

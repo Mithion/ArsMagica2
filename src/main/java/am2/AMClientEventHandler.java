@@ -1,31 +1,5 @@
 package am2;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StatCollector;
-import net.minecraftforge.client.event.DrawBlockHighlightEvent;
-import net.minecraftforge.client.event.MouseEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.client.event.sound.SoundLoadEvent;
-import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
 import am2.api.power.PowerTypes;
@@ -48,14 +22,36 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.StatCollector;
+import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+import net.minecraftforge.client.event.MouseEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
 
-public class AMClientEventHandler {
+public class AMClientEventHandler{
 	@SubscribeEvent
 	public void onBlockHighlight(DrawBlockHighlightEvent event){
 
 		if (AMCore.proxy.getLocalPlayer().getCurrentArmor(3) != null &&
 				(AMCore.proxy.getLocalPlayer().getCurrentArmor(3).getItem() == ItemsCommonProxy.magitechGoggles ||
-				ArmorHelper.isInfusionPreset(AMCore.proxy.getLocalPlayer().getCurrentArmor(3), GenericImbuement.magitechGoggleIntegration))
+						ArmorHelper.isInfusionPreset(AMCore.proxy.getLocalPlayer().getCurrentArmor(3), GenericImbuement.magitechGoggleIntegration))
 				){
 
 			TileEntity te = event.player.worldObj.getTileEntity(event.target.blockX, event.target.blockY, event.target.blockZ);
@@ -68,13 +64,13 @@ public class AMClientEventHandler {
 			if (AMCore.proxy.hasTrackedLocationSynced()){
 				renderPowerFloatingText(event, te);
 			}
-			
+
 			if (te instanceof TileEntityCrystalMarker){
-				renderPriorityText(event, (TileEntityCrystalMarker) te);
+				renderPriorityText(event, (TileEntityCrystalMarker)te);
 			}
 		}
 	}
-	
+
 	private void renderPowerFloatingText(DrawBlockHighlightEvent event, TileEntity te){
 		PowerNodeEntry data = AMCore.proxy.getTrackedData();
 		Block block = event.player.worldObj.getBlock(event.target.blockX, event.target.blockY, event.target.blockZ);
@@ -85,19 +81,19 @@ public class AMClientEventHandler {
 				float pwr = data.getPower(type);
 				float pct = pwr / ((IPowerNode)te).getCapacity() * 100;
 				AMVector3 offset = new AMVector3(event.target.blockX + 0.5, event.target.blockY + 0.5, event.target.blockZ + 0.5).sub(
-						new AMVector3((event.player.prevPosX - (event.player.prevPosX - event.player.posX) * event.partialTicks), 
-								(event.player.prevPosY - (event.player.prevPosY - event.player.posY) * event.partialTicks) + event.player.getEyeHeight(), 
+						new AMVector3((event.player.prevPosX - (event.player.prevPosX - event.player.posX) * event.partialTicks),
+								(event.player.prevPosY - (event.player.prevPosY - event.player.posY) * event.partialTicks) + event.player.getEyeHeight(),
 								(event.player.prevPosZ - (event.player.prevPosZ - event.player.posZ) * event.partialTicks)));
 				offset = offset.normalize();
 				if (event.target.blockY <= event.player.posY - 0.5){
-					RenderUtilities.drawTextInWorldAtOffset(String.format("%s%.2f (%.2f%%)",type.chatColor(), pwr, pct),
+					RenderUtilities.drawTextInWorldAtOffset(String.format("%s%.2f (%.2f%%)", type.chatColor(), pwr, pct),
 							event.target.blockX - (event.player.prevPosX - (event.player.prevPosX - event.player.posX) * event.partialTicks) + 0.5f - offset.x,
 							event.target.blockY + yOff - (event.player.prevPosY - (event.player.prevPosY - event.player.posY) * event.partialTicks) + block.getBlockBoundsMaxY() * 0.8f,
 							event.target.blockZ - (event.player.prevPosZ - (event.player.prevPosZ - event.player.posZ) * event.partialTicks) + 0.5f - offset.z,
 							0xFFFFFF);
 					yOff += 0.12f;
 				}else{
-					RenderUtilities.drawTextInWorldAtOffset(String.format("%s%.2f (%.2f%%)",type.chatColor(), pwr, pct),
+					RenderUtilities.drawTextInWorldAtOffset(String.format("%s%.2f (%.2f%%)", type.chatColor(), pwr, pct),
 							event.target.blockX - (event.player.prevPosX - (event.player.prevPosX - event.player.posX) * event.partialTicks) + 0.5f - offset.x,
 							event.target.blockY - yOff - (event.player.prevPosY - (event.player.prevPosY - event.player.posY) * event.partialTicks) - block.getBlockBoundsMaxY() * 0.2f,
 							event.target.blockZ - (event.player.prevPosZ - (event.player.prevPosZ - event.player.posZ) * event.partialTicks) + 0.5f - offset.z,
@@ -108,32 +104,32 @@ public class AMClientEventHandler {
 			GL11.glPopAttrib();
 		}
 	}
-	
+
 	private void renderPriorityText(DrawBlockHighlightEvent event, TileEntityCrystalMarker te){
 		int meta = event.player.worldObj.getBlockMetadata(event.target.blockX, event.target.blockY, event.target.blockZ);
 		if (meta == BlockCrystalMarker.META_IN) //no priority for these blocks
 			return;
-		
+
 		Block block = event.player.worldObj.getBlock(event.target.blockX, event.target.blockY, event.target.blockZ);
 		float yOff = 0.5f;
 		String priString = String.format(StatCollector.translateToLocal("am2.tooltip.priority"), String.format("%d", te.getPriority()));
-		
+
 		AMVector3 boundsOffset = new AMVector3(
 				block.getBlockBoundsMinX() + (block.getBlockBoundsMaxX() - block.getBlockBoundsMinX()) / 2,
 				block.getBlockBoundsMinY() + (block.getBlockBoundsMaxY() - block.getBlockBoundsMinY()) / 2,
 				block.getBlockBoundsMinZ() + (block.getBlockBoundsMaxZ() - block.getBlockBoundsMinZ()) / 2);
-		
+
 		AMVector3 offset = new AMVector3(
-				event.target.blockX + boundsOffset.x, 
-				event.target.blockY + boundsOffset.y, 
-				event.target.blockZ + boundsOffset.z 
-			).sub(new AMVector3(
-								(event.player.prevPosX - (event.player.prevPosX - event.player.posX) * event.partialTicks), 
-								(event.player.prevPosY - (event.player.prevPosY - event.player.posY) * event.partialTicks) + event.player.getEyeHeight(), 
-								(event.player.prevPosZ - (event.player.prevPosZ - event.player.posZ) * event.partialTicks)
-						)
-				);
-		
+				event.target.blockX + boundsOffset.x,
+				event.target.blockY + boundsOffset.y,
+				event.target.blockZ + boundsOffset.z
+		).sub(new AMVector3(
+						(event.player.prevPosX - (event.player.prevPosX - event.player.posX) * event.partialTicks),
+						(event.player.prevPosY - (event.player.prevPosY - event.player.posY) * event.partialTicks) + event.player.getEyeHeight(),
+						(event.player.prevPosZ - (event.player.prevPosZ - event.player.posZ) * event.partialTicks)
+				)
+		);
+
 		offset = offset.normalize();
 		AMVector3 drawPos = new AMVector3(
 				event.target.blockX + block.getBlockBoundsMaxX() - offset.x - (event.player.prevPosX - (event.player.prevPosX - event.player.posX) * event.partialTicks),
@@ -141,9 +137,9 @@ public class AMClientEventHandler {
 				event.target.blockZ + block.getBlockBoundsMaxZ() - offset.z - (event.player.prevPosZ - (event.player.prevPosZ - event.player.posZ) * event.partialTicks)
 		);
 		if (event.target.blockY > event.player.posY - 0.5){
-			drawPos.y = (float) (event.target.blockY - yOff - (event.player.prevPosY - (event.player.prevPosY - event.player.posY) * event.partialTicks) - block.getBlockBoundsMaxY() * 0.2f); 
+			drawPos.y = (float)(event.target.blockY - yOff - (event.player.prevPosY - (event.player.prevPosY - event.player.posY) * event.partialTicks) - block.getBlockBoundsMaxY() * 0.2f);
 		}
-		
+
 		GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_LIGHTING_BIT);
 		RenderUtilities.drawTextInWorldAtOffset(priString, drawPos.x, drawPos.y, drawPos.z, 0xFFFFFF);
 		GL11.glPopAttrib();
@@ -158,7 +154,7 @@ public class AMClientEventHandler {
 			String[] effects = new String[0];
 
 			if (stack.hasTagCompound()){
-				NBTTagCompound armorCompound = (NBTTagCompound) stack.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
+				NBTTagCompound armorCompound = (NBTTagCompound)stack.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
 				if (armorCompound != null){
 					xp = armorCompound.getDouble(AMArmor.NBT_KEY_TOTALXP);
 					armorLevel = armorCompound.getInteger(AMArmor.NBT_KEY_ARMORLEVEL);
@@ -169,8 +165,8 @@ public class AMClientEventHandler {
 				}
 			}
 
-			if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){				
-				event.toolTip.add(StatCollector.translateToLocalFormatted("am2.tooltip.armorxp", String.format("%.2f",xp)));
+			if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+				event.toolTip.add(StatCollector.translateToLocalFormatted("am2.tooltip.armorxp", String.format("%.2f", xp)));
 				event.toolTip.add(String.format(StatCollector.translateToLocal("am2.tooltip.armorlevel"), armorLevel));
 				for (String s : effects){
 					event.toolTip.add(StatCollector.translateToLocal("am2.tooltip." + s));
@@ -208,7 +204,7 @@ public class AMClientEventHandler {
 		if (event.type == ElementType.CROSSHAIRS || event.type == ElementType.TEXT)
 			AMCore.proxy.renderGameOverlay();
 	}
-	
+
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onPlayerRender(RenderPlayerEvent.Pre event){
@@ -233,7 +229,7 @@ public class AMClientEventHandler {
 				}
 			}
 		}
-		
+
 		double dX = AMCore.proxy.getLocalPlayer().posX - event.entityPlayer.posX;
 		double dY = AMCore.proxy.getLocalPlayer().posY - event.entityPlayer.posY;
 		double dZ = AMCore.proxy.getLocalPlayer().posZ - event.entityPlayer.posZ;
@@ -247,7 +243,7 @@ public class AMClientEventHandler {
 		double transZ = dpZ + (dZ - dpZ) * event.partialRenderTick;
 
 		if (ExtendedProperties.For(event.entityPlayer).getFlipRotation() > 0){
-			GL11.glPushMatrix();			
+			GL11.glPushMatrix();
 
 			GL11.glTranslated(-transX, -transY, -transZ);
 			GL11.glRotatef(ExtendedProperties.For(event.entityPlayer).getFlipRotation(), 0, 0, 1.0f);
@@ -256,12 +252,12 @@ public class AMClientEventHandler {
 			float offset = event.entityPlayer.height * (ExtendedProperties.For(event.entityPlayer).getFlipRotation() / 180.0f);
 			GL11.glTranslatef(0, -offset, 0);
 		}
-		
+
 		float shrink = ExtendedProperties.For(event.entityPlayer).getShrinkPct();
 		if (shrink > 0){
 			GL11.glPushMatrix();
 			GL11.glTranslatef(0, -0.5f, 0);
-			GL11.glScalef(1 - 0.5f * shrink, 1 - 0.5f * shrink, 1 - 0.5f * shrink);					
+			GL11.glScalef(1 - 0.5f * shrink, 1 - 0.5f * shrink, 1 - 0.5f * shrink);
 		}
 
 	}
@@ -270,7 +266,7 @@ public class AMClientEventHandler {
 	public void onSetArmorModel(RenderPlayerEvent.SetArmorModel event){
 		if (AMCore.proxy.playerTracker.hasCLS(event.entityPlayer.getCommandSenderName())){
 			int dm = AMCore.proxy.playerTracker.getCLDM(event.entityPlayer.getCommandSenderName());
-			if(event.slot == 1 || event.slot == 2 || ((dm & 0x1) == 0x1 && event.slot == 3)){
+			if (event.slot == 1 || event.slot == 2 || ((dm & 0x1) == 0x1 && event.slot == 3)){
 				event.result = -2;
 			}
 		}
@@ -297,10 +293,10 @@ public class AMClientEventHandler {
 		if (event.entityPlayer == AMCore.proxy.getLocalPlayer()){
 			if (AMCore.proxy.getLocalPlayer().isPotionActive(BuffList.trueSight.id)){
 				if (AMGuiHelper.instance.playerRunesAlpha < 1)
-					AMGuiHelper.instance.playerRunesAlpha+= 0.01f;
+					AMGuiHelper.instance.playerRunesAlpha += 0.01f;
 			}else{
 				if (AMGuiHelper.instance.playerRunesAlpha > 0)
-					AMGuiHelper.instance.playerRunesAlpha-=0.01f;
+					AMGuiHelper.instance.playerRunesAlpha -= 0.01f;
 			}
 
 
@@ -314,7 +310,7 @@ public class AMClientEventHandler {
 					}
 				}
 				double step = 0.25f;
-				double xOffset = -(numRunes / 2.0f) * step + ((numRunes % 2 == 0) ? step/2f : 0);
+				double xOffset = -(numRunes / 2.0f) * step + ((numRunes % 2 == 0) ? step / 2f : 0);
 				for (int i = 0; i <= 16; ++i){
 					int bit = 1 << i;
 					if ((runeCombo & bit) == bit){

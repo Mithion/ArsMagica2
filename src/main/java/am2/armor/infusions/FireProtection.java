@@ -1,42 +1,42 @@
 package am2.armor.infusions;
 
-import java.util.EnumSet;
-
+import am2.api.items.armor.IArmorImbuement;
+import am2.api.items.armor.ImbuementApplicationTypes;
+import am2.api.items.armor.ImbuementTiers;
+import am2.playerextensions.ExtendedProperties;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import am2.api.items.armor.IArmorImbuement;
-import am2.api.items.armor.ImbuementApplicationTypes;
-import am2.api.items.armor.ImbuementTiers;
-import am2.playerextensions.ExtendedProperties;
+
+import java.util.EnumSet;
 
 public class FireProtection implements IArmorImbuement{
 
 	@Override
-	public String getID() {
+	public String getID(){
 		return "fireprot";
 	}
 
 	@Override
-	public int getIconIndex() {
+	public int getIconIndex(){
 		return 22;
 	}
 
 	@Override
-	public ImbuementTiers getTier() {
+	public ImbuementTiers getTier(){
 		return ImbuementTiers.FOURTH;
 	}
 
 	@Override
-	public EnumSet<ImbuementApplicationTypes> getApplicationTypes() {
+	public EnumSet<ImbuementApplicationTypes> getApplicationTypes(){
 		return EnumSet.of(ImbuementApplicationTypes.ON_TICK);
 	}
 
 	@Override
-	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params) {
+	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 
 		if (world.isRemote)
 			return false;
@@ -83,22 +83,22 @@ public class FireProtection implements IArmorImbuement{
 	}
 
 	@Override
-	public int[] getValidSlots() {
-		return new int[] { ImbuementRegistry.SLOT_LEGS };
+	public int[] getValidSlots(){
+		return new int[]{ImbuementRegistry.SLOT_LEGS};
 	}
 
 	@Override
-	public boolean canApplyOnCooldown() {
+	public boolean canApplyOnCooldown(){
 		return true;
 	}
 
 	@Override
-	public int getCooldown() {
+	public int getCooldown(){
 		return 900;
 	}
 
 	@Override
-	public int getArmorDamage() {
+	public int getArmorDamage(){
 		return 40;
 	}
 }

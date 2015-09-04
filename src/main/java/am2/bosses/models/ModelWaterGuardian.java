@@ -1,14 +1,12 @@
 package am2.bosses.models;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.bosses.EntityWaterGuardian;
 import am2.entities.renderers.AM2ModelRenderer;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
+import org.lwjgl.opengl.GL11;
 
-public class ModelWaterGuardian extends ModelBase
-{
+public class ModelWaterGuardian extends ModelBase{
 	//fields
 	AM2ModelRenderer Shape1;
 	AM2ModelRenderer Shape2;
@@ -43,8 +41,7 @@ public class ModelWaterGuardian extends ModelBase
 	AM2ModelRenderer ornament5;
 	AM2ModelRenderer ornament3;
 
-	public ModelWaterGuardian()
-	{
+	public ModelWaterGuardian(){
 		textureWidth = 64;
 		textureHeight = 64;
 
@@ -276,14 +273,13 @@ public class ModelWaterGuardian extends ModelBase
 		ornament3.storeRestRotations();
 	}
 
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		if (!(entity instanceof EntityWaterGuardian)) return;
 
 		EntityWaterGuardian guardian = ((EntityWaterGuardian)entity);
 
-		float offset1 = (((float) Math.sin((float)guardian.ticksExisted / 40f)) / 4f) - 0.19f;
-		float rot1 = (float) Math.toRadians(guardian.getOrbitRotation());
+		float offset1 = (((float)Math.sin((float)guardian.ticksExisted / 40f)) / 4f) - 0.19f;
+		float rot1 = (float)Math.toRadians(guardian.getOrbitRotation());
 
 		GL11.glPushMatrix();
 
@@ -331,7 +327,7 @@ public class ModelWaterGuardian extends ModelBase
 		bar2.render(f5);
 		bar4.render(f5);
 
-		float offset = (((float) Math.sin((float)guardian.ticksExisted / 20f)) / 4f) - 0.19f;
+		float offset = (((float)Math.sin((float)guardian.ticksExisted / 20f)) / 4f) - 0.19f;
 
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0, offset, 0);
@@ -340,10 +336,10 @@ public class ModelWaterGuardian extends ModelBase
 		ornament1.render(f5);
 		ornament5.render(f5);
 		ornament3.render(f5);
-		ornament4.render(f5);		
+		ornament4.render(f5);
 		ornament2.render(f5);
 		ornament6.render(f5);
-		ornament7.render(f5);		
+		ornament7.render(f5);
 
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
@@ -353,13 +349,13 @@ public class ModelWaterGuardian extends ModelBase
 	private void updateRotations(EntityWaterGuardian guardian){
 		switch (guardian.getCurrentAction()){
 		case IDLE:
-			float rot2 = ((float) Math.sin((float)guardian.ticksExisted / 10f) / 6);
+			float rot2 = ((float)Math.sin((float)guardian.ticksExisted / 10f) / 6);
 
 			tentacleleft.rotateAngleZ = tentacleleft.getRestRotationZ() - rot2;
 			tentacleright.rotateAngleZ = tentacleright.getRestRotationZ() + rot2;
 
-			tentaclefront.rotateAngleX = tentaclefront.getRestRotationX() + rot2;		
-			tentacleback.rotateAngleX =  tentacleback.getRestRotationX() - rot2;
+			tentaclefront.rotateAngleX = tentaclefront.getRestRotationX() + rot2;
+			tentacleback.rotateAngleX = tentacleback.getRestRotationX() - rot2;
 
 			tentaclefrontright.rotateAngleX = -tentaclefront.rotateAngleX;
 			tentaclefrontright.rotateAngleZ = -tentacleright.rotateAngleZ;
@@ -376,15 +372,15 @@ public class ModelWaterGuardian extends ModelBase
 		case SPINNING:
 		case CASTING:
 			float maxAngle = 45;
-			float angle = (float) Math.toRadians(guardian.getTicksInCurrentAction() < 11 ? maxAngle * ((float)guardian.getTicksInCurrentAction() / 10f) : maxAngle); 
-			
+			float angle = (float)Math.toRadians(guardian.getTicksInCurrentAction() < 11 ? maxAngle * ((float)guardian.getTicksInCurrentAction() / 10f) : maxAngle);
+
 			//float halfAngle = angle / 2;
-			
+
 			tentacleleft.rotateAngleZ = tentacleleft.getRestRotationZ() - angle;
 			tentacleright.rotateAngleZ = tentacleright.getRestRotationZ() + angle;
 
-			tentaclefront.rotateAngleX = tentaclefront.getRestRotationX() - angle;		
-			tentacleback.rotateAngleX =  tentacleback.getRestRotationX() + angle;
+			tentaclefront.rotateAngleX = tentaclefront.getRestRotationX() - angle;
+			tentacleback.rotateAngleX = tentacleback.getRestRotationX() + angle;
 
 			tentaclefrontright.rotateAngleX = -angle;
 			tentaclefrontright.rotateAngleZ = angle;
@@ -397,7 +393,7 @@ public class ModelWaterGuardian extends ModelBase
 
 			tentaclefrontleft.rotateAngleX = -angle;
 			tentaclefrontleft.rotateAngleZ = -angle;
-			
+
 			GL11.glRotatef(guardian.spinRotation, 0, 1, 0);
 			break;
 		case CLONE:
@@ -405,8 +401,7 @@ public class ModelWaterGuardian extends ModelBase
 		}
 	}
 
-	private void setRotation(AM2ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(AM2ModelRenderer model, float x, float y, float z){
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

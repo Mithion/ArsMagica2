@@ -1,40 +1,26 @@
 package am2.illeffect;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
 import am2.api.illeffect.BadThingTypes;
 import am2.api.illeffect.IIllEffect;
 import am2.api.illeffect.IllEffectSeverity;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.MinecraftForge;
 
-import cpw.mods.fml.common.FMLLog;
+import java.util.*;
 
-public class IllEffectsManager {
+public class IllEffectsManager{
 	private TreeMap<IIllEffect, Integer> DarkNexusBadThings;
 	private Random rand;
 	public static IllEffectsManager instance = new IllEffectsManager();
-	
+
 	private IllEffectsManager(){
 		DarkNexusBadThings = new TreeMap<IIllEffect, Integer>();
 		rand = new Random();
 	}
-	
+
 	public void ApplyRandomBadThing(TileEntity te, IllEffectSeverity maxSev, BadThingTypes type){
 		HashMap<IIllEffect, Integer> possibleBadThings = new HashMap<IIllEffect, Integer>();
-		
+
 		switch (type){
 		case ALL:
 			for (IIllEffect badThing : DarkNexusBadThings.keySet()){
@@ -52,41 +38,41 @@ public class IllEffectsManager {
 			break;
 		default:
 			break;
-		}		
-		//nothing found...lucky you!
-		if (possibleBadThings.size() == 0){ 
-			return;		
 		}
-		
+		//nothing found...lucky you!
+		if (possibleBadThings.size() == 0){
+			return;
+		}
+
 		IIllEffect chosenBadThing = getWeightedBadthing(possibleBadThings);
 		Map<EntityPlayer, Object> affected = chosenBadThing.ApplyIllEffect(te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord);
 	}
-	
+
 	private IIllEffect getWeightedBadthing(HashMap<IIllEffect, Integer> possibilities){
-		
+
 		int totalWeight = 0;
-		
+
 		for (IIllEffect effect : possibilities.keySet()){
 			totalWeight += possibilities.get(effect);
 		}
-		
+
 		int tWeight = rand.nextInt(totalWeight);
-		
+
 		for (IIllEffect effect : possibilities.keySet()){
 			tWeight -= possibilities.get(effect);
 			if (tWeight <= 0){
 				return effect;
 			}
 		}
-		
+
 		return possibilities.keySet().iterator().next();
 	}
-	
+
 	@Deprecated
 	public static void RegisterIllEffect(IIllEffect effect, BadThingTypes type){
 		RegisterIllEffect(effect, 10, type);
 	}
-	
+
 	public static void RegisterIllEffect(IIllEffect effect, int weight, BadThingTypes type){
 		switch (type){
 		case ALL:
@@ -94,26 +80,27 @@ public class IllEffectsManager {
 			instance.DarkNexusBadThings = entriesSortedByValues(instance.DarkNexusBadThings);
 			break;
 		case DARKNEXUS:
-			default:
+		default:
 			instance.DarkNexusBadThings.put(effect, weight);
 			instance.DarkNexusBadThings = entriesSortedByValues(instance.DarkNexusBadThings);
 			break;
-		}		
+		}
 	}
-	
-	static <K,V extends Comparable<? super V>> TreeMap<K,V> entriesSortedByValues(Map<K,V> map) {
-	    SortedSet<Map.Entry<K,V>> sortedEntries = new TreeSet<Map.Entry<K,V>>(
-	        new Comparator<Map.Entry<K,V>>() {
-	            @Override public int compare(Map.Entry<K,V> e1, Map.Entry<K,V> e2) {
-	                return e1.getValue().compareTo(e2.getValue());
-	            }
-	        }
-	    );
-	    TreeMap<K,V> tm = new TreeMap<K, V>();
-	    for (Map.Entry<K, V> entry : map.entrySet()){
-	    	tm.put(entry.getKey(), entry.getValue());
-	    }
-	    //sortedEntries.addAll(map.entrySet());
-	    return tm;
+
+	static <K, V extends Comparable<? super V>> TreeMap<K, V> entriesSortedByValues(Map<K, V> map){
+		SortedSet<Map.Entry<K, V>> sortedEntries = new TreeSet<Map.Entry<K, V>>(
+				new Comparator<Map.Entry<K, V>>(){
+					@Override
+					public int compare(Map.Entry<K, V> e1, Map.Entry<K, V> e2){
+						return e1.getValue().compareTo(e2.getValue());
+					}
+				}
+		);
+		TreeMap<K, V> tm = new TreeMap<K, V>();
+		for (Map.Entry<K, V> entry : map.entrySet()){
+			tm.put(entry.getKey(), entry.getValue());
+		}
+		//sortedEntries.addAll(map.entrySet());
+		return tm;
 	}
 }

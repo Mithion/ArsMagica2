@@ -1,6 +1,6 @@
 package am2.api.spell.enums;
 
-public enum SpellCastResult {
+public enum SpellCastResult{
 	SUCCESS,
 	NOT_ENOUGH_MANA,
 	REAGENTS_MISSING,

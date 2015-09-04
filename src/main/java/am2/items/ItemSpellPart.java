@@ -1,9 +1,5 @@
 package am2.items;
 
-import java.util.ArrayList;
-
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
 import am2.api.spell.component.interfaces.ISkillTreeEntry;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.component.interfaces.ISpellModifier;
@@ -13,17 +9,21 @@ import am2.texture.ResourceManager;
 import am2.texture.SpellIconManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.util.IIcon;
+
+import java.util.ArrayList;
 
 public class ItemSpellPart extends ArsMagicaItem{
 
-	public ItemSpellPart() {
+	public ItemSpellPart(){
 		super();
 		this.setMaxDamage(0);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister IIconRegister) {
+	public void registerIcons(IIconRegister IIconRegister){
 		ArrayList<Integer> parts = SkillManager.instance.getAllShapes();
 		parts.addAll(SkillManager.instance.getAllComponents());
 		parts.addAll(SkillManager.instance.getAllModifiers());
@@ -35,11 +35,11 @@ public class ItemSpellPart extends ArsMagicaItem{
 			ISkillTreeEntry entry = SkillManager.instance.getSkill(i);
 			String subfolder = "";
 			if (entry instanceof ISpellShape)
-				subfolder="shapes";
+				subfolder = "shapes";
 			else if (entry instanceof ISpellComponent)
-				subfolder="components";
+				subfolder = "components";
 			else if (entry instanceof ISpellModifier)
-				subfolder="modifiers";
+				subfolder = "modifiers";
 			else
 				subfolder = "skills";
 
@@ -51,7 +51,7 @@ public class ItemSpellPart extends ArsMagicaItem{
 	}
 
 	@Override
-	public IIcon getIconFromDamage(int par1) {
+	public IIcon getIconFromDamage(int par1){
 		return SpellIconManager.instance.getIcon(SkillManager.instance.getSkillName(SkillManager.instance.getSkill(par1)));
 	}
 }

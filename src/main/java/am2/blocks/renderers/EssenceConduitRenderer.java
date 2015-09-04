@@ -1,34 +1,31 @@
 package am2.blocks.renderers;
 
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import am2.blocks.tileentities.TileEntityEssenceConduit;
 import am2.models.ModelEssenceConduit;
 import am2.texture.ResourceManager;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 
-public class EssenceConduitRenderer extends TileEntitySpecialRenderer {
+public class EssenceConduitRenderer extends TileEntitySpecialRenderer{
 
 	private ResourceLocation powered;
 	private ResourceLocation unPowered;
 
-	public EssenceConduitRenderer() {
+	public EssenceConduitRenderer(){
 		model = new ModelEssenceConduit();
 
 		powered = new ResourceLocation("arsmagica2", ResourceManager.getCustomBlockTexturePath("essenceConduit.png"));
 		unPowered = new ResourceLocation("arsmagica2", ResourceManager.getCustomBlockTexturePath("essenceConduitUnpowered.png"));
 	}
 
-	public void renderAModelAt(TileEntityEssenceConduit tile, double d, double d1, double d2, float f) {
+	public void renderAModelAt(TileEntityEssenceConduit tile, double d, double d1, double d2, float f){
 
 		int i = 0;
 
-		if (tile.getWorldObj() != null)
-		{
+		if (tile.getWorldObj() != null){
 			i = tile.getBlockMetadata();
 		}
 
@@ -73,13 +70,13 @@ public class EssenceConduitRenderer extends TileEntitySpecialRenderer {
 		//}
 
 		tile.incrementRotations();
-		model.renderModel(tile.getRotationX(), tile.getRotationY(), tile.getRotationZ(), 0 , 0.0625F); //renders and yes 0.0625 is a random number
+		model.renderModel(tile.getRotationX(), tile.getRotationY(), tile.getRotationZ(), 0, 0.0625F); //renders and yes 0.0625 is a random number
 		GL11.glPopMatrix(); //end
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f) {
-		renderAModelAt((TileEntityEssenceConduit) tileentity, d, d1, d2, f); //where to render
+	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f){
+		renderAModelAt((TileEntityEssenceConduit)tileentity, d, d1, d2, f); //where to render
 	}
 
 	private ModelEssenceConduit model;

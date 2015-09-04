@@ -1,19 +1,5 @@
 package am2.spell.components;
 
-import java.util.EnumSet;
-import java.util.Random;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.World;
 import am2.AMCore;
 import am2.RitualShapeHelper;
 import am2.api.blocks.MultiblockStructureDefinition;
@@ -29,16 +15,29 @@ import am2.particles.ParticleFloatUpward;
 import am2.playerextensions.ExtendedProperties;
 import am2.spell.SpellUtils;
 import am2.utility.EntityUtilities;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.World;
+
+import java.util.EnumSet;
+import java.util.Random;
 
 public class Charm implements ISpellComponent, IRitualInteraction{
 
 	@Override
-	public int getID() {
+	public int getID(){
 		return 59;
 	}
 
 	@Override
-	public Object[] getRecipeItems() {
+	public Object[] getRecipeItems(){
 		return new Object[]{
 				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_RED),
 				new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_LIFE),
@@ -47,12 +46,12 @@ public class Charm implements ISpellComponent, IRitualInteraction{
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		return false;
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target) {
+	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
 		if (!(target instanceof EntityCreature) || ((EntityCreature)target).isPotionActive(BuffList.charmed) || EntityUtilities.isSummon((EntityCreature)target)){
 			return false;
 		}
@@ -78,14 +77,14 @@ public class Charm implements ISpellComponent, IRitualInteraction{
 				if (target instanceof EntityCreature){
 					BuffEffectCharmed charmBuff = new BuffEffectCharmed(duration, BuffEffectCharmed.CHARM_TO_PLAYER);
 					charmBuff.setCharmer(caster);
-					((EntityCreature) target).addPotionEffect(charmBuff);
+					((EntityCreature)target).addPotionEffect(charmBuff);
 				}
 				return true;
 			}else if (caster instanceof EntityLiving){
 				if (target instanceof EntityCreature){
 					BuffEffectCharmed charmBuff = new BuffEffectCharmed(duration, BuffEffectCharmed.CHARM_TO_MONSTER);
 					charmBuff.setCharmer(caster);
-					((EntityCreature) target).addPotionEffect(charmBuff);
+					((EntityCreature)target).addPotionEffect(charmBuff);
 				}
 				return true;
 			}
@@ -99,52 +98,52 @@ public class Charm implements ISpellComponent, IRitualInteraction{
 	}
 
 	@Override
-	public float manaCost(EntityLivingBase caster) {
+	public float manaCost(EntityLivingBase caster){
 		return 300;
 	}
 
 	@Override
-	public float burnout(EntityLivingBase caster) {
+	public float burnout(EntityLivingBase caster){
 		return 300;
 	}
 
 	@Override
-	public ItemStack[] reagents(EntityLivingBase caster) {
+	public ItemStack[] reagents(EntityLivingBase caster){
 		return null;
 	}
 
 	@Override
-	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier) {
+	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
 		for (int i = 0; i < 10; ++i){
-			AMParticle particle = (AMParticle) AMCore.proxy.particleManager.spawn(world, "heart", x, y, z);
+			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, "heart", x, y, z);
 			if (particle != null){
 				particle.addRandomOffset(1, 2, 1);
 				particle.AddParticleController(new ParticleFloatUpward(particle, 0, 0.05f + rand.nextFloat() * 0.1f, 1, false));
 				particle.setMaxAge(20);
 				if (colorModifier > -1){
-					particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier& 0xFF) / 255.0f);
+					particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
 				}
 			}
 		}
 	}
 
 	@Override
-	public EnumSet<Affinity> getAffinity() {
+	public EnumSet<Affinity> getAffinity(){
 		return EnumSet.of(Affinity.LIFE);
 	}
 
 	@Override
-	public float getAffinityShift(Affinity affinity) {
+	public float getAffinityShift(Affinity affinity){
 		return 0.1f;
 	}
 
 	@Override
-	public MultiblockStructureDefinition getRitualShape() {
+	public MultiblockStructureDefinition getRitualShape(){
 		return RitualShapeHelper.instance.hourglass;
 	}
 
 	@Override
-	public ItemStack[] getReagents() {
+	public ItemStack[] getReagents(){
 		return new ItemStack[]{
 				new ItemStack(Items.wheat),
 				new ItemStack(Items.wheat_seeds),
@@ -153,7 +152,7 @@ public class Charm implements ISpellComponent, IRitualInteraction{
 	}
 
 	@Override
-	public int getReagentSearchRadius() {
+	public int getReagentSearchRadius(){
 		return 3;
 	}
 }

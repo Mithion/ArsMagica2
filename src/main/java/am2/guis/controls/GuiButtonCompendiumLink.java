@@ -1,13 +1,11 @@
 package am2.guis.controls;
 
+import am2.guis.AMGuiHelper;
+import am2.guis.AMGuiIcons;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
-
 import org.lwjgl.opengl.GL11;
-
-import am2.guis.AMGuiHelper;
-import am2.guis.AMGuiIcons;
 
 public class GuiButtonCompendiumLink extends GuiButton{
 	private final FontRenderer fontRenderer;
@@ -18,8 +16,7 @@ public class GuiButtonCompendiumLink extends GuiButton{
 	private boolean isNewItem = false;
 	private boolean displayOnAllPages = false;
 
-	public GuiButtonCompendiumLink(int id, int xPos, int yPos, FontRenderer fontRenderer, String text, String entryID, String category, boolean hasSubItems, int pageNum)
-	{
+	public GuiButtonCompendiumLink(int id, int xPos, int yPos, FontRenderer fontRenderer, String text, String entryID, String category, boolean hasSubItems, int pageNum){
 		super(id, xPos, yPos, fontRenderer.getStringWidth(text), 10, text);
 		this.fontRenderer = fontRenderer;
 		this.entryID = entryID;
@@ -65,10 +62,8 @@ public class GuiButtonCompendiumLink extends GuiButton{
 	 * Draws this button to the screen.
 	 */
 	@Override
-	public void drawButton(Minecraft par1Minecraft, int par2, int par3)
-	{
-		if (this.visible)
-		{
+	public void drawButton(Minecraft par1Minecraft, int par2, int par3){
+		if (this.visible){
 			boolean isMousedOver = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
 
 			int textColor = 0x000000;
@@ -80,7 +75,7 @@ public class GuiButtonCompendiumLink extends GuiButton{
 			fontRenderer.drawString(this.displayString, xPosition, yPosition, textColor);
 			if (isNewItem){
 				GL11.glColor4f(1, 1, 1, 1);
-				AMGuiHelper.instance.DrawIconAtXY(AMGuiIcons.newEntry, xPosition-6, yPosition + 2, this.zLevel, 5, 5, true);
+				AMGuiHelper.instance.DrawIconAtXY(AMGuiIcons.newEntry, xPosition - 6, yPosition + 2, this.zLevel, 5, 5, true);
 			}
 			GL11.glEnable(GL11.GL_LIGHTING);
 		}

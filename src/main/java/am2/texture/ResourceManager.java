@@ -5,7 +5,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 
-public class ResourceManager {
+public class ResourceManager{
 
 	public static String getOverrideItemTexturePath(){
 		return "textures/items/";
@@ -18,32 +18,32 @@ public class ResourceManager {
 	public static String getOverrideTexturesPath(){
 		return "textures";
 	}
-	
-	public static String GetGuiTexturePath(String textureFileName) {
+
+	public static String GetGuiTexturePath(String textureFileName){
 		return String.format("%s/guis/%s", getOverrideTexturesPath(), textureFileName);
 	}
-	
-	public static String getCustomBlockTexturePath(String textureFileName) {
+
+	public static String getCustomBlockTexturePath(String textureFileName){
 		return String.format("%s/custom/%s", getOverrideBlockTexturePath(), textureFileName);
 	}
-	
-	public static ResourceLocation getOBJFilePath(String objFileName) {
+
+	public static ResourceLocation getOBJFilePath(String objFileName){
 		return new ResourceLocation("arsmagica2", String.format("obj/%s", objFileName));
 	}
-	
-	public static String GetFXTexturePath(String textureFileName) {
+
+	public static String GetFXTexturePath(String textureFileName){
 		return String.format("%s/items/particles/%s", getOverrideTexturesPath(), textureFileName);
 	}
-	
-	public static String GetSpellIconTexturePath(String textureFileName) {
+
+	public static String GetSpellIconTexturePath(String textureFileName){
 		return String.format("%s/spell_icons/%s", getOverrideTexturesPath(), textureFileName);
 	}
 
-	public static String getMobTexturePath(String textureFileName) {
+	public static String getMobTexturePath(String textureFileName){
 		return String.format("%s/mobs/%s", getOverrideTexturesPath(), textureFileName);
 	}
 
-	public static IIcon RegisterTexture(String textureFile, IIconRegister IIconRegister) {
+	public static IIcon RegisterTexture(String textureFile, IIconRegister IIconRegister){
 		if (!textureFile.contains(":")){
 			textureFile = "arsmagica2:" + textureFile;
 		}
@@ -51,5 +51,5 @@ public class ResourceManager {
 			textureFile = textureFile.substring(0, textureFile.lastIndexOf(".png"));
 		}
 		return IIconRegister.registerIcon(textureFile);
-	}	
+	}
 }

@@ -1,16 +1,14 @@
 package am2.entities;
 
-import java.util.ArrayList;
-
+import com.google.common.collect.ArrayListMultimap;
+import cpw.mods.fml.common.FMLLog;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
-import com.google.common.collect.ArrayListMultimap;
+import java.util.ArrayList;
 
-import cpw.mods.fml.common.FMLLog;
-
-public class SpawnBlacklists {
+public class SpawnBlacklists{
 	private static ArrayListMultimap<Integer, Class> blacklistedDimensionSpawns = ArrayListMultimap.create();
 	private static ArrayListMultimap<Integer, Class> blacklistedBiomeSpawns = ArrayListMultimap.create();
 	private static ArrayList<Integer> blacklistedWorldgenDimensions = new ArrayList<Integer>();
@@ -19,22 +17,22 @@ public class SpawnBlacklists {
 
 	public static void addBlacklistedDimensionSpawn(String entityClass, Integer dimensionID){
 		Class clazz;
-		try {
+		try{
 			clazz = Class.forName(entityClass);
 			blacklistedDimensionSpawns.put(dimensionID, clazz);
 			FMLLog.info("Ars Magica 2 >> Blacklisted %s from spawning in dimension %d.", entityClass, dimensionID);
-		} catch (ClassNotFoundException e) {
+		}catch (ClassNotFoundException e){
 			FMLLog.info("Ars Magica 2 >> Unable to parse class name %s from IMC!  This needs to be corrected by the other mod author!", entityClass);
 		}
 	}
 
 	public static void addBlacklistedBiomeSpawn(String entityClass, Integer biomeID){
 		Class clazz;
-		try {
+		try{
 			clazz = Class.forName(entityClass);
 			blacklistedBiomeSpawns.put(biomeID, clazz);
 			FMLLog.info("Ars Magica 2 >> Blacklisted %s from spawning in biome %d.", entityClass, biomeID);
-		} catch (ClassNotFoundException e) {
+		}catch (ClassNotFoundException e){
 			FMLLog.info("Ars Magica 2 >> Unable to parse class name %s from IMC!  This needs to be corrected by the other mod author!", entityClass);
 		}
 	}
@@ -59,21 +57,21 @@ public class SpawnBlacklists {
 		return !blacklistedWorldgenDimensions.contains(dimensionID);
 	}
 
-	public static void addButcheryBlacklist(Class clazz) {
+	public static void addButcheryBlacklist(Class clazz){
 		if (!butcheryBlacklist.contains(clazz))
 			butcheryBlacklist.add(clazz);
 	}
 
-	public static void addProgenyBlacklist(Class clazz) {
+	public static void addProgenyBlacklist(Class clazz){
 		if (!progenyBlacklist.contains(clazz))
 			progenyBlacklist.add(clazz);
 	}
 
-	public static boolean canButcheryAffect(Class clazz) {
+	public static boolean canButcheryAffect(Class clazz){
 		return !butcheryBlacklist.contains(clazz);
 	}
 
-	public static boolean canProgenyAffect(Class clazz) {
+	public static boolean canProgenyAffect(Class clazz){
 		return !progenyBlacklist.contains(clazz);
 	}
 }

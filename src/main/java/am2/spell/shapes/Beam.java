@@ -1,15 +1,5 @@
 package am2.spell.shapes;
 
-import java.util.HashMap;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.EntityDragonPart;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
 import am2.AMCore;
 import am2.api.power.PowerTypes;
 import am2.api.spell.ItemSpellBase;
@@ -28,9 +18,18 @@ import am2.spell.SpellHelper;
 import am2.spell.SpellUtils;
 import am2.spell.modifiers.Colour;
 import am2.utility.MathUtilities;
-import cpw.mods.fml.common.FMLLog;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityDragonPart;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 
-public class Beam implements ISpellShape {
+import java.util.HashMap;
+
+public class Beam implements ISpellShape{
 
 	private final HashMap beams;
 
@@ -39,12 +38,12 @@ public class Beam implements ISpellShape {
 	}
 
 	@Override
-	public int getID() {
+	public int getID(){
 		return 1;
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount) {
+	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount){
 
 		boolean shouldApplyEffect = useCount % 10 == 0;
 
@@ -69,7 +68,7 @@ public class Beam implements ISpellShape {
 					return result;
 				}
 			}
-			float rng = (float) mop.hitVec.distanceTo(Vec3.createVectorHelper(caster.posX, caster.posY, caster.posZ));
+			float rng = (float)mop.hitVec.distanceTo(Vec3.createVectorHelper(caster.posX, caster.posY, caster.posZ));
 			beamHitVec = MathUtilities.extrapolateEntityLook(world, caster, rng);
 			spellVec = beamHitVec;
 		}else{
@@ -97,7 +96,7 @@ public class Beam implements ISpellShape {
 				for (ISpellModifier mod : mods){
 					if (mod instanceof Colour){
 						byte[] meta = SpellUtils.instance.getModifierMetadataFromStack(stack, mod, 0, ordinalCount++);
-						color = (int) mod.getModifier(SpellModifiers.COLOR, null, null, null, meta);
+						color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, meta);
 					}
 				}
 			}
@@ -112,7 +111,7 @@ public class Beam implements ISpellShape {
 				if (affinity == Affinity.LIGHTNING){
 					AMCore.instance.proxy.particleManager.BoltFromEntityToPoint(world, caster, beamHitVec.xCoord, beamHitVec.yCoord, beamHitVec.zCoord, 1, color == -1 ? affinity.color : color);
 				}else{
-					beam = (AMBeam) AMCore.instance.proxy.particleManager.BeamFromEntityToPoint(world, caster, beamHitVec.xCoord, beamHitVec.yCoord, beamHitVec.zCoord, color == -1 ? affinity.color : color);
+					beam = (AMBeam)AMCore.instance.proxy.particleManager.BeamFromEntityToPoint(world, caster, beamHitVec.xCoord, beamHitVec.yCoord, beamHitVec.zCoord, color == -1 ? affinity.color : color);
 					if (beam != null){
 						if (AMCore.instance.proxy.getProxyUtils().isLocalPlayerInFirstPerson())
 							beam.setFirstPersonPlayerCast();
@@ -120,8 +119,8 @@ public class Beam implements ISpellShape {
 					}
 				}
 			}
-			for (int i = 0; i < AMCore.config.getGFXLevel()+1; ++i){
-				AMParticle particle = (AMParticle) AMCore.proxy.particleManager.spawn(world, AMParticleIcons.instance.getParticleForAffinity(affinity), beamHitVec.xCoord, beamHitVec.yCoord, beamHitVec.zCoord);
+			for (int i = 0; i < AMCore.config.getGFXLevel() + 1; ++i){
+				AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, AMParticleIcons.instance.getParticleForAffinity(affinity), beamHitVec.xCoord, beamHitVec.yCoord, beamHitVec.zCoord);
 				if (particle != null){
 					particle.setMaxAge(2);
 					particle.setParticleScale(0.1f);
@@ -142,12 +141,12 @@ public class Beam implements ISpellShape {
 	}
 
 	@Override
-	public boolean isChanneled() {
+	public boolean isChanneled(){
 		return true;
 	}
 
 	@Override
-	public Object[] getRecipeItems() {
+	public Object[] getRecipeItems(){
 		return new Object[]{
 				ItemsCommonProxy.standardFocus,
 				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_BLUETOPAZ),
@@ -159,23 +158,23 @@ public class Beam implements ISpellShape {
 	}
 
 	@Override
-	public float manaCostMultiplier(ItemStack spellStack) {
+	public float manaCostMultiplier(ItemStack spellStack){
 		return 0.1f;
 	}
 
 	@Override
-	public boolean isTerminusShape() {
+	public boolean isTerminusShape(){
 		return false;
 	}
 
 	@Override
-	public boolean isPrincipumShape() {
+	public boolean isPrincipumShape(){
 		return false;
 	}
 
 	@Override
-	public String getSoundForAffinity(Affinity affinity, ItemStack stack, World world) {
-		switch(affinity){
+	public String getSoundForAffinity(Affinity affinity, ItemStack stack, World world){
+		switch (affinity){
 		case AIR:
 			return "arsmagica2:spell.loop.air";
 		case ARCANE:

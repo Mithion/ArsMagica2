@@ -1,22 +1,5 @@
 package am2.entities;
 
-import java.util.List;
-
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
 import am2.entities.ai.EntityAIRangedAttackSpell;
 import am2.entities.ai.selectors.DarkMageEntitySelector;
 import am2.items.ItemsCommonProxy;
@@ -25,6 +8,17 @@ import am2.texture.ResourceManager;
 import am2.utility.NPCSpells;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.*;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
+
+import java.util.List;
 
 public class EntityDarkMage extends EntityMob{
 
@@ -37,7 +31,7 @@ public class EntityDarkMage extends EntityMob{
 	public static final int DW_MAGE_SKIN = 20;
 	public static final int DW_MAGE_BOOK = 21;
 
-	public EntityDarkMage(World world) {
+	public EntityDarkMage(World world){
 		super(world);
 		setSize(1F, 2F);
 		ExtendedProperties.For(this).setMagicLevelWithMana(10 + rand.nextInt(20));
@@ -45,21 +39,20 @@ public class EntityDarkMage extends EntityMob{
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20D);
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void entityInit(){
 		super.entityInit();
 		this.dataWatcher.addObject(DW_MAGE_BOOK, 0);
 		this.dataWatcher.addObject(DW_MAGE_SKIN, rand.nextInt(10) + 1);
 	}
 
 	@Override
-	public ItemStack getHeldItem() {
+	public ItemStack getHeldItem(){
 		int cm = this.dataWatcher.getWatchableObjectInt(DW_MAGE_BOOK);
 		if (cm == 0)
 			return diminishedHeldItem;
@@ -86,8 +79,7 @@ public class EntityDarkMage extends EntityMob{
 	}
 
 	@Override
-	public int getTotalArmorValue()
-	{
+	public int getTotalArmorValue(){
 		return 5;
 	}
 
@@ -105,7 +97,7 @@ public class EntityDarkMage extends EntityMob{
 	}
 
 	@Override
-	protected void dropFewItems(boolean par1, int par2) {
+	protected void dropFewItems(boolean par1, int par2){
 		if (par1 && getRNG().nextDouble() < 0.2)
 			for (int j = 0; j < getRNG().nextInt(3); ++j)
 				this.entityDropItem(new ItemStack(ItemsCommonProxy.rune, 1, getRNG().nextInt(16)), 0.0f);
@@ -118,7 +110,7 @@ public class EntityDarkMage extends EntityMob{
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound par1nbtTagCompound) {
+	public void readEntityFromNBT(NBTTagCompound par1nbtTagCompound){
 		super.readEntityFromNBT(par1nbtTagCompound);
 		hasUpdated = true;
 		ExtendedProperties.For(this).forceSync();
@@ -127,7 +119,7 @@ public class EntityDarkMage extends EntityMob{
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound) {
+	public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound){
 		super.writeEntityToNBT(par1nbtTagCompound);
 
 		par1nbtTagCompound.setInteger("am2_dm_skin", this.dataWatcher.getWatchableObjectInt(DW_MAGE_SKIN));
@@ -142,11 +134,11 @@ public class EntityDarkMage extends EntityMob{
 		for (EntityPlayer player : players){
 			avgLvl += ExtendedProperties.For(player).getMagicLevel();
 		}
-		return (int)Math.ceil(avgLvl/players.size());
+		return (int)Math.ceil(avgLvl / players.size());
 	}
 
 	@Override
-	public boolean getCanSpawnHere() {
+	public boolean getCanSpawnHere(){
 		if (!SpawnBlacklists.entityCanSpawnHere(this.posX, this.posZ, worldObj, this))
 			return false;
 		if (getAverageNearbyPlayerMagicLevel() < 8){
@@ -156,7 +148,7 @@ public class EntityDarkMage extends EntityMob{
 		ExtendedProperties.For(this).setMagicLevelWithMana(5);
 		int avgLevel = getAverageNearbyPlayerMagicLevel();
 		if (avgLevel == 0){
-			if (rand.nextInt(100)<10){
+			if (rand.nextInt(100) < 10){
 				this.tasks.addTask(3, new EntityAIRangedAttackSpell(this, MovementSpeed(), 80, NPCSpells.instance.darkMage_NormalAttack));
 				this.dataWatcher.updateObject(DW_MAGE_BOOK, 1);
 			}
@@ -165,7 +157,7 @@ public class EntityDarkMage extends EntityMob{
 			if (levelRand > 60){
 				this.tasks.addTask(2, new EntityAIRangedAttackSpell(this, MovementSpeed(), 160, NPCSpells.instance.darkMage_AugmentedAttack));
 				this.dataWatcher.updateObject(DW_MAGE_BOOK, 2);
-			}else if (levelRand > 30) {
+			}else if (levelRand > 30){
 				this.tasks.addTask(3, new EntityAIRangedAttackSpell(this, MovementSpeed(), 80, NPCSpells.instance.darkMage_NormalAttack));
 				this.dataWatcher.updateObject(DW_MAGE_BOOK, 1);
 			}
@@ -177,7 +169,7 @@ public class EntityDarkMage extends EntityMob{
 	}
 
 	@Override
-	protected void dropRareDrop(int par1) {
+	protected void dropRareDrop(int par1){
 	}
 
 	@SideOnly(Side.CLIENT)

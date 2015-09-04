@@ -1,10 +1,5 @@
 package am2.guis;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.StatCollector;
 import am2.AMCore;
 import am2.guis.controls.GuiButtonVariableDims;
 import am2.guis.controls.GuiSlideControl;
@@ -15,14 +10,21 @@ import am2.particles.AMParticle;
 import am2.particles.ParticleController;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.StatCollector;
 
 @SideOnly(Side.CLIENT)
-public class AuraCustomizationMenu extends GuiScreen {
+public class AuraCustomizationMenu extends GuiScreen{
 
-    /** The title string that is displayed in the top-center of the screen. */
-    protected String screenTitle = "Beta Particle Customization";
+	/**
+	 * The title string that is displayed in the top-center of the screen.
+	 */
+	protected String screenTitle = "Beta Particle Customization";
 
-    private GuiButtonVariableDims btnParticleType;
+	private GuiButtonVariableDims btnParticleType;
 	private GuiButtonVariableDims btnParticleBehaviour;
 	private GuiButtonVariableDims btnParticleColorMode;
 	private GuiSlideControl sliParticleRed;
@@ -34,12 +36,11 @@ public class AuraCustomizationMenu extends GuiScreen {
 	private GuiSlideControl sliParticleDelay;
 	private GuiSlideControl sliParticleSpeed;
 
-    private GuiButton activeButton;
+	private GuiButton activeButton;
 
-    private GuiScreen parent;
+	private GuiScreen parent;
 
-	public AuraCustomizationMenu()
-	{
+	public AuraCustomizationMenu(){
 		this.mc = Minecraft.getMinecraft();
 		this.parent = this.mc.currentScreen;
 		this.fontRendererObj = Minecraft.getMinecraft().fontRenderer;
@@ -49,13 +50,12 @@ public class AuraCustomizationMenu extends GuiScreen {
 	}
 
 	@Override
-	public boolean doesGuiPauseGame() {
+	public boolean doesGuiPauseGame(){
 		return false;
 	}
 
 	@Override
-	public void initGui()
-	{
+	public void initGui(){
 		btnParticleType = new GuiButtonVariableDims(10, 50, 40, AMParticle.particleTypes[AMCore.config.getAuraIndex()]);
 		btnParticleBehaviour = new GuiButtonVariableDims(11, 50, 60, ParticleController.AuraControllerOptions[AMCore.config.getAuraBehaviour()]);
 		btnParticleColorMode = new GuiButtonVariableDims(12, 50, 80, AMCore.config.getAuraColorDefault() ? StatCollector.translateToLocal("am2.gui.default") : AMCore.config.getAuraColorRandom() ? StatCollector.translateToLocal("am2.gui.random") : StatCollector.translateToLocal("am2.gui.custom"));
@@ -108,19 +108,18 @@ public class AuraCustomizationMenu extends GuiScreen {
 	}
 
 	@Override
-	public void drawScreen(int par1, int par2, float par3)
-    {
-        this.drawDefaultBackground();
-        drawCenteredString(fontRendererObj, screenTitle, width / 2, 4, 0xffffff);
+	public void drawScreen(int par1, int par2, float par3){
+		this.drawDefaultBackground();
+		drawCenteredString(fontRendererObj, screenTitle, width / 2, 4, 0xffffff);
 		drawString(fontRendererObj, StatCollector.translateToLocal("am2.gui.type"), 10, 45, 0xffffff);
 		drawString(fontRendererObj, StatCollector.translateToLocal("am2.gui.action"), 10, 65, 0xffffff);
 		drawString(fontRendererObj, StatCollector.translateToLocal("am2.gui.color"), 10, 85, 0xffffff);
 		drawString(fontRendererObj, StatCollector.translateToLocal("am2.gui.border"), 10, 105, 0xffffff);
-        super.drawScreen(par1, par2, par3);
-    }
+		super.drawScreen(par1, par2, par3);
+	}
 
 	@Override
-	protected void actionPerformed(GuiButton par1GuiButton) {
+	protected void actionPerformed(GuiButton par1GuiButton){
 
 		int index = 0;
 		boolean flag = false;
@@ -194,7 +193,7 @@ public class AuraCustomizationMenu extends GuiScreen {
 	}
 
 	@Override
-	public void onGuiClosed() {
+	public void onGuiClosed(){
 
 		AMDataWriter writer = new AMDataWriter();
 
@@ -219,31 +218,30 @@ public class AuraCustomizationMenu extends GuiScreen {
 	}
 
 	@Override
-	protected void mouseMovedOrUp(int par1, int par2, int par3)
-    {
+	protected void mouseMovedOrUp(int par1, int par2, int par3){
 		if (activeButton != null && activeButton instanceof GuiSlideControl){
 			actionPerformed(activeButton);
 		}
 
 		super.mouseMovedOrUp(par1, par2, par3);
-    }
+	}
 
 	@Override
-	protected void mouseClicked(int x, int y, int button) {
+	protected void mouseClicked(int x, int y, int button){
 		GuiButton clickedBtn = getControlByXY(x, y);
 		if (clickedBtn != null && button == 1){
 			if (clickedBtn.id == 10){
-			int index = AMCore.config.getAuraIndex();
-			index--;
-			if (index < 0) index = AMParticle.particleTypes.length-1;
-
-			while (AMParticle.particleTypes[index].startsWith("lightning_bolt") && AMCore.proxy.playerTracker.getAAL(Minecraft.getMinecraft().thePlayer) < 3){
+				int index = AMCore.config.getAuraIndex();
 				index--;
-				if (index < 0) index = AMParticle.particleTypes.length-1;
-			}
+				if (index < 0) index = AMParticle.particleTypes.length - 1;
 
-			AMCore.config.setAuraIndex(index);
-			btnParticleType.displayString = AMParticle.particleTypes[index];
+				while (AMParticle.particleTypes[index].startsWith("lightning_bolt") && AMCore.proxy.playerTracker.getAAL(Minecraft.getMinecraft().thePlayer) < 3){
+					index--;
+					if (index < 0) index = AMParticle.particleTypes.length - 1;
+				}
+
+				AMCore.config.setAuraIndex(index);
+				btnParticleType.displayString = AMParticle.particleTypes[index];
 			}else if (clickedBtn.id == 11){
 				int index = AMCore.config.getAuraBehaviour();
 				index--;

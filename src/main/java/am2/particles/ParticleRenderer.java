@@ -1,9 +1,7 @@
 package am2.particles;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.Iterator;
-
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.ActiveRenderInfo;
@@ -13,12 +11,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
-
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.relauncher.Side;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ParticleRenderer{
 
@@ -48,9 +44,9 @@ public class ParticleRenderer{
 
 	public void addEffect(EntityFX effect){
 		if (effect instanceof AMParticle){
-			addAMParticle((AMParticle) effect);
+			addAMParticle((AMParticle)effect);
 		}else if (effect instanceof AMLineArc){
-			addArcEffect((AMLineArc) effect);
+			addArcEffect((AMLineArc)effect);
 		}else{
 			deferredParticles.add(effect);
 		}
@@ -65,17 +61,17 @@ public class ParticleRenderer{
 			deferredParticles.add(particle);
 	}
 
-	public void addArcEffect(AMLineArc arc) {
+	public void addArcEffect(AMLineArc arc){
 		deferredArcs.add(arc);
 	}
 
 	@SubscribeEvent
-	public void onRenderWorldLast(RenderWorldLastEvent event) {
+	public void onRenderWorldLast(RenderWorldLastEvent event){
 		render(event.partialTicks);
 	}
 
 	@SubscribeEvent
-	public void onWorldUnload(WorldEvent.Unload event) {
+	public void onWorldUnload(WorldEvent.Unload event){
 		particles.clear();
 		radiants.clear();
 		arcs.clear();
@@ -85,7 +81,7 @@ public class ParticleRenderer{
 		deferredArcs.clear();
 		deferredBlocks.clear();
 	}
-	
+
 	@SubscribeEvent
 	public void onTickEnd(TickEvent.ClientTickEvent event){
 		if (event.phase == TickEvent.Phase.END){
@@ -94,7 +90,7 @@ public class ParticleRenderer{
 	}
 
 	private void updateParticles(){
-		Minecraft.getMinecraft().mcProfiler.startSection(name+"-update");
+		Minecraft.getMinecraft().mcProfiler.startSection(name + "-update");
 
 		particles.addAll(deferredParticles);
 		deferredParticles.clear();
@@ -108,42 +104,42 @@ public class ParticleRenderer{
 		blocks.addAll(deferredBlocks);
 		deferredBlocks.clear();
 
-		for (Iterator<EntityFX> it = particles.iterator(); it.hasNext(); ) {
+		for (Iterator<EntityFX> it = particles.iterator(); it.hasNext(); ){
 			EntityFX particle = it.next();
 
 			particle.onUpdate();
 
-			if (particle.isDead) {
+			if (particle.isDead){
 				it.remove();
 			}
 		}
 
-		for (Iterator<EntityFX> it = radiants.iterator(); it.hasNext(); ) {
+		for (Iterator<EntityFX> it = radiants.iterator(); it.hasNext(); ){
 			EntityFX particle = it.next();
 
 			particle.onUpdate();
 
-			if (particle.isDead) {
+			if (particle.isDead){
 				it.remove();
 			}
 		}
 
-		for (Iterator<AMLineArc> it = arcs.iterator(); it.hasNext(); ) {
+		for (Iterator<AMLineArc> it = arcs.iterator(); it.hasNext(); ){
 			AMLineArc particle = it.next();
 
 			particle.onUpdate();
 
-			if (particle.isDead) {
+			if (particle.isDead){
 				it.remove();
 			}
 		}
 
-		for (Iterator<EntityFX> it = blocks.iterator(); it.hasNext(); ) {
+		for (Iterator<EntityFX> it = blocks.iterator(); it.hasNext(); ){
 			EntityFX particle = it.next();
 
 			particle.onUpdate();
 
-			if (particle.isDead) {
+			if (particle.isDead){
 				it.remove();
 			}
 		}
@@ -151,8 +147,8 @@ public class ParticleRenderer{
 		Minecraft.getMinecraft().mcProfiler.endSection();
 	}
 
-	private void render(float partialTicks) {
-		Minecraft.getMinecraft().mcProfiler.startSection(name+"-render");
+	private void render(float partialTicks){
+		Minecraft.getMinecraft().mcProfiler.startSection(name + "-render");
 
 		EntityLivingBase player = Minecraft.getMinecraft().renderViewEntity;
 		EntityFX.interpPosX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
@@ -213,7 +209,7 @@ public class ParticleRenderer{
 		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
 
-		for (EntityFX particle : particles) {
+		for (EntityFX particle : particles){
 			tessellator.setBrightness(particle.getBrightnessForRender(partialTicks));
 
 			particle.renderParticle(tessellator, partialTicks, rotationX, rotationXZ, rotationZ, rotationYZ, rotationXY);
@@ -249,7 +245,7 @@ public class ParticleRenderer{
 		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
 
-		for (EntityFX particle : blocks) {
+		for (EntityFX particle : blocks){
 			tessellator.setBrightness(particle.getBrightnessForRender(partialTicks));
 
 			particle.renderParticle(tessellator, partialTicks, rotationX, rotationXZ, rotationZ, rotationYZ, rotationXY);
@@ -281,7 +277,7 @@ public class ParticleRenderer{
 		GL11.glDepthMask(false);
 		Tessellator tessellator = Tessellator.instance;
 
-		for (EntityFX particle : radiants) {
+		for (EntityFX particle : radiants){
 			tessellator.setBrightness(particle.getBrightnessForRender(partialTicks));
 
 			particle.renderParticle(tessellator, partialTicks, rotationX, rotationXZ, rotationZ, rotationYZ, rotationXY);
@@ -313,7 +309,7 @@ public class ParticleRenderer{
 		GL11.glBlendFunc(770, 1);
 		GL11.glDisable(2884);//2884
 
-		for (EntityFX particle : arcs) {
+		for (EntityFX particle : arcs){
 			tessellator.setBrightness(15728864);
 
 			particle.renderParticle(tessellator, partialTicks, rotationX, rotationXZ, rotationZ, rotationYZ, rotationXY);

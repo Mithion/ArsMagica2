@@ -1,15 +1,5 @@
 package am2.spell.shapes;
 
-import java.util.List;
-
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.EntityDragonPart;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
 import am2.AMCore;
 import am2.api.power.PowerTypes;
 import am2.api.spell.ItemSpellBase;
@@ -20,26 +10,32 @@ import am2.api.spell.enums.SpellCastResult;
 import am2.api.spell.enums.SpellModifiers;
 import am2.entities.EntitySpellProjectile;
 import am2.items.ItemsCommonProxy;
-import am2.particles.AMParticle;
-import am2.particles.AMParticleIcons;
-import am2.particles.ParticleFadeOut;
-import am2.particles.ParticleLeaveParticleTrail;
-import am2.particles.ParticleMoveOnHeading;
+import am2.particles.*;
 import am2.spell.SpellHelper;
 import am2.spell.SpellUtils;
 import am2.spell.modifiers.Colour;
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityDragonPart;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
+
+import java.util.List;
 
 public class AoE implements ISpellShape{
 
 	@Override
-	public int getID() {
+	public int getID(){
 		return 0;
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount) {
+	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount){
 		double radius = SpellUtils.instance.getModifiedDouble_Add(1, stack, caster, target, world, 0, SpellModifiers.RADIUS);
-		List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(x-radius, y-radius, z-radius, x+radius, y+radius, z+radius));
+		List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(x - radius, y - radius, z - radius, x + radius, y + radius, z + radius));
 
 		boolean appliedToAtLeastOneEntity = false;
 
@@ -77,8 +73,7 @@ public class AoE implements ISpellShape{
 		return SpellCastResult.EFFECT_FAILED;
 	}
 
-	private void spawnAoEParticles(ItemStack stack, EntityLivingBase caster, World world, double x, double y, double z, int radius)
-	{
+	private void spawnAoEParticles(ItemStack stack, EntityLivingBase caster, World world, double x, double y, double z, int radius){
 		String pfxName = AMParticleIcons.instance.getParticleForAffinity(SpellUtils.instance.mainAffinityFor(stack));
 		float speed = 0.08f * radius;
 
@@ -89,13 +84,13 @@ public class AoE implements ISpellShape{
 			for (ISpellModifier mod : mods){
 				if (mod instanceof Colour){
 					byte[] meta = SpellUtils.instance.getModifierMetadataFromStack(stack, mod, 0, ordinalCount++);
-					color = (int) mod.getModifier(SpellModifiers.COLOR, null, null, null, meta);
+					color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, meta);
 				}
 			}
 		}
 
-		for (int i = 0; i < 360; i += AMCore.config.FullGFX() ? 20 : AMCore.config.LowGFX() ? 40: 60){
-			AMParticle effect = (AMParticle) AMCore.instance.proxy.particleManager.spawn(world, pfxName, x, y + 1.5f, z);
+		for (int i = 0; i < 360; i += AMCore.config.FullGFX() ? 20 : AMCore.config.LowGFX() ? 40 : 60){
+			AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(world, pfxName, x, y + 1.5f, z);
 			if (effect != null){
 				effect.setIgnoreMaxAge(true);
 				effect.AddParticleController(new ParticleMoveOnHeading(effect, i, 0, speed, 1, false));
@@ -104,10 +99,10 @@ public class AoE implements ISpellShape{
 				effect.AddParticleController(new ParticleFadeOut(effect, 1, false).setFadeSpeed(0.05f).setKillParticleOnFinish(true));
 				effect.AddParticleController(
 						new ParticleLeaveParticleTrail(effect, pfxName, false, 5, 1, false)
-						.addControllerToParticleList(new ParticleFadeOut(effect, 1, false).setFadeSpeed(0.1f).setKillParticleOnFinish(true))
-						.setParticleRGB_I(color)
-						.addRandomOffset(0.2f, 0.2f, 0.2f)
-						);
+								.addControllerToParticleList(new ParticleFadeOut(effect, 1, false).setFadeSpeed(0.1f).setKillParticleOnFinish(true))
+								.setParticleRGB_I(color)
+								.addRandomOffset(0.2f, 0.2f, 0.2f)
+				);
 			}
 		}
 	}
@@ -164,12 +159,12 @@ public class AoE implements ISpellShape{
 	}
 
 	@Override
-	public boolean isChanneled() {
+	public boolean isChanneled(){
 		return false;
 	}
 
 	@Override
-	public Object[] getRecipeItems() {
+	public Object[] getRecipeItems(){
 		return new Object[]{
 				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_MOONSTONE),
 				new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_AIR),
@@ -179,7 +174,7 @@ public class AoE implements ISpellShape{
 	}
 
 	@Override
-	public float manaCostMultiplier(ItemStack spellStack) {
+	public float manaCostMultiplier(ItemStack spellStack){
 		int multiplier = 2;
 		int radiusMods = 0;
 		int stages = SpellUtils.instance.numStages(spellStack);
@@ -197,18 +192,18 @@ public class AoE implements ISpellShape{
 	}
 
 	@Override
-	public boolean isTerminusShape() {
+	public boolean isTerminusShape(){
 		return true;
 	}
 
 	@Override
-	public boolean isPrincipumShape() {
+	public boolean isPrincipumShape(){
 		return false;
 	}
 
 	@Override
-	public String getSoundForAffinity(Affinity affinity, ItemStack stack, World world) {
-		switch(affinity){
+	public String getSoundForAffinity(Affinity affinity, ItemStack stack, World world){
+		switch (affinity){
 		case AIR:
 			return "arsmagica2:spell.cast.air";
 		case ARCANE:

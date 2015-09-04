@@ -1,15 +1,15 @@
 package am2.particles;
 
-import java.util.HashMap;
-import java.util.Random;
-
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
 import am2.AMCore;
 import am2.api.spell.enums.Affinity;
 import am2.texture.ResourceManager;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.util.IIcon;
 
-public class AMParticleIcons {
+import java.util.HashMap;
+import java.util.Random;
+
+public class AMParticleIcons{
 
 	public static final AMParticleIcons instance = new AMParticleIcons();
 
@@ -76,7 +76,7 @@ public class AMParticleIcons {
 		icons.put("snowflakes", null);
 
 		AMParticle.particleTypes = icons.keySet().toArray(new String[icons.size() + 1]);
-		AMParticle.particleTypes[AMParticle.particleTypes.length-1] = "radiant";
+		AMParticle.particleTypes[AMParticle.particleTypes.length - 1] = "radiant";
 
 		AMCore.config.clientInit();
 	}
@@ -122,7 +122,7 @@ public class AMParticleIcons {
 	}
 
 	public String getParticleForAffinity(Affinity aff){
-		switch(aff){
+		switch (aff){
 		case AIR:
 			return "wind";
 		case ARCANE:
@@ -149,9 +149,9 @@ public class AMParticleIcons {
 
 		}
 	}
-	
+
 	public String getSecondaryParticleForAffinity(Affinity aff){
-		switch(aff){
+		switch (aff){
 		case AIR:
 			return "air_hand";
 		case ARCANE:

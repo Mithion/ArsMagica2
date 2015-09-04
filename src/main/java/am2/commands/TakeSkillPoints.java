@@ -1,41 +1,40 @@
 package am2.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import am2.api.spell.enums.SkillPointTypes;
+import am2.playerextensions.SkillData;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.PlayerSelector;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import am2.api.spell.enums.SkillPointTypes;
-import am2.playerextensions.SkillData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TakeSkillPoints extends CommandBase{
 	@Override
-	public int compareTo(Object arg0) {
+	public int compareTo(Object arg0){
 		return 0;
 	}
 
 	@Override
-	public int getRequiredPermissionLevel()
-	{
+	public int getRequiredPermissionLevel(){
 		return 2;
 	}
 
 	@Override
-	public String getCommandName() {
+	public String getCommandName(){
 		return "takeskillpoints";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender var1) {
+	public String getCommandUsage(ICommandSender var1){
 		return "/takeskillpoints <amount_blue> <amount_green> <amount_red> [<player>]";
 	}
 
 	@Override
-	public void processCommand(ICommandSender var1, String[] var2) {
+	public void processCommand(ICommandSender var1, String[] var2){
 		if (var2.length != 4 && var2.length != 3){
 			throw new WrongUsageException(this.getCommandUsage(var1), new Object[0]);
 		}
@@ -71,7 +70,7 @@ public class TakeSkillPoints extends CommandBase{
 	}
 
 	@Override
-	public List addTabCompletionOptions(ICommandSender var1, String[] var2) {
+	public List addTabCompletionOptions(ICommandSender var1, String[] var2){
 		if (var2.length == 1){
 			ArrayList<String> completions = new ArrayList<String>();
 			EntityPlayer player = getCommandSenderAsPlayer(var1);

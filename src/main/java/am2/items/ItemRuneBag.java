@@ -1,5 +1,8 @@
 package am2.items;
 
+import am2.AMCore;
+import am2.guis.ArsMagicaGuiIdList;
+import am2.texture.ResourceManager;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,20 +10,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import am2.AMCore;
-import am2.guis.ArsMagicaGuiIdList;
-import am2.network.AMDataWriter;
-import am2.network.AMPacketIDs;
-import am2.texture.ResourceManager;
 
 public class ItemRuneBag extends Item{
 
-	public ItemRuneBag() {
+	public ItemRuneBag(){
 		super();
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer entityplayer) {
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer entityplayer){
 		if (entityplayer.isSneaking()){
 			FMLNetworkHandler.openGui(entityplayer, AMCore.instance, ArsMagicaGuiIdList.GUI_RUNE_BAG, world, (int)entityplayer.posX, (int)entityplayer.posY, (int)entityplayer.posZ);
 		}
@@ -38,16 +36,16 @@ public class ItemRuneBag extends Item{
 		for (int i = 0; i < values.length; ++i){
 			ItemStack stack = values[i];
 			if (stack == null){
-				itemStack.stackTagCompound.removeTag("runebagmeta"+i);
+				itemStack.stackTagCompound.removeTag("runebagmeta" + i);
 				continue;
 			}else{
-				itemStack.stackTagCompound.setInteger("runebagmeta"+i, stack.getItemDamage());
+				itemStack.stackTagCompound.setInteger("runebagmeta" + i, stack.getItemDamage());
 			}
 		}
 	}
-	
+
 	@Override
-	public boolean getShareTag() {
+	public boolean getShareTag(){
 		return true;
 	}
 
@@ -60,7 +58,7 @@ public class ItemRuneBag extends Item{
 			if (stack == null){
 				continue;
 			}else{
-				itemStack.stackTagCompound.setInteger("runebagmeta"+i, stack.getItemDamage());
+				itemStack.stackTagCompound.setInteger("runebagmeta" + i, stack.getItemDamage());
 			}
 		}
 	}
@@ -89,7 +87,7 @@ public class ItemRuneBag extends Item{
 	}
 
 	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {
+	public void registerIcons(IIconRegister par1IconRegister){
 		this.itemIcon = ResourceManager.RegisterTexture("rune_bag", par1IconRegister);
 	}
 

@@ -1,28 +1,27 @@
 package am2.illeffect;
 
+import am2.api.illeffect.IllEffectBase;
+import am2.api.illeffect.IllEffectSeverity;
+import am2.playerextensions.ExtendedProperties;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import am2.api.illeffect.IllEffectBase;
-import am2.api.illeffect.IllEffectSeverity;
-import am2.playerextensions.ExtendedProperties;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
-
 public class IllEffectDrainMana extends IllEffectBase{
 
 	@Override
-	public IllEffectSeverity GetSeverity() {
+	public IllEffectSeverity GetSeverity(){
 		return IllEffectSeverity.MINOR;
 	}
 
 	@Override
-	public Map<EntityPlayer, Object> ApplyIllEffect(World world, int x, int y, int z) {
-		HashMap<EntityPlayer, Object> toReturn  = new HashMap<EntityPlayer, Object>();
+	public Map<EntityPlayer, Object> ApplyIllEffect(World world, int x, int y, int z){
+		HashMap<EntityPlayer, Object> toReturn = new HashMap<EntityPlayer, Object>();
 		if (world.isRemote) return toReturn;
 
 		Random rand = new Random();
@@ -39,12 +38,12 @@ public class IllEffectDrainMana extends IllEffectBase{
 			props.forceSync();
 			toReturn.put(player, null);
 		}
-		
+
 		return toReturn;
 	}
 
 	@Override
-	public String getDescription(EntityPlayer player, Object metadata) {
+	public String getDescription(EntityPlayer player, Object metadata){
 		return String.format("%s had their mana drained.", player.getCommandSenderName());
 	}
 }

@@ -1,32 +1,21 @@
 package am2;
 
-import java.util.EnumSet;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.Packet;
-
-import org.lwjgl.input.Keyboard;
-
-import am2.api.spell.enums.Affinity;
 import am2.guis.AuraCustomizationMenu;
 import am2.items.ItemSpellBook;
 import am2.items.ItemsCommonProxy;
-import am2.network.AMDataWriter;
 import am2.network.AMNetHandler;
-import am2.network.AMPacketIDs;
 import am2.playerextensions.AffinityData;
 import am2.spell.SpellUtils;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import org.lwjgl.input.Keyboard;
 
 public class AMKeyBindings{
 
@@ -37,7 +26,7 @@ public class AMKeyBindings{
 	private static KeyBinding ManaToggleKey = new KeyBinding("key.ToggleManaDisplay", Keyboard.KEY_O, "key.am2.category");
 	private static KeyBinding AffinityActivationKey = new KeyBinding("key.ActivateAffinityAbility", Keyboard.KEY_X, "key.am2.category");
 
-	public AMKeyBindings() {
+	public AMKeyBindings(){
 		ClientRegistry.registerKeyBinding(ShapeGroupKey);
 		ClientRegistry.registerKeyBinding(SpellBookNextSpellKey);
 		ClientRegistry.registerKeyBinding(SpellBookPrevSpellKey);

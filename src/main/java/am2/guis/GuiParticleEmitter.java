@@ -1,10 +1,5 @@
 package am2.guis;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.StatCollector;
 import am2.blocks.tileentities.TileEntityParticleEmitter;
 import am2.guis.controls.GuiButtonVariableDims;
 import am2.guis.controls.GuiSlideControl;
@@ -12,11 +7,18 @@ import am2.particles.AMParticle;
 import am2.particles.ParticleController;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.StatCollector;
 
 @SideOnly(Side.CLIENT)
-public class GuiParticleEmitter extends GuiScreen {
+public class GuiParticleEmitter extends GuiScreen{
 
-	/** The title string that is displayed in the top-center of the screen. */
+	/**
+	 * The title string that is displayed in the top-center of the screen.
+	 */
 	protected String screenTitle = StatCollector.translateToLocal("am2.gui.particleEmitter");
 
 	private GuiButtonVariableDims btnParticleType;
@@ -39,8 +41,7 @@ public class GuiParticleEmitter extends GuiScreen {
 
 	private final GuiScreen parent;
 
-	public GuiParticleEmitter(TileEntityParticleEmitter target)
-	{
+	public GuiParticleEmitter(TileEntityParticleEmitter target){
 		this.mc = Minecraft.getMinecraft();
 		this.parent = this.mc.currentScreen;
 		this.fontRendererObj = Minecraft.getMinecraft().fontRenderer;
@@ -51,13 +52,12 @@ public class GuiParticleEmitter extends GuiScreen {
 	}
 
 	@Override
-	public boolean doesGuiPauseGame() {
+	public boolean doesGuiPauseGame(){
 		return false;
 	}
 
 	@Override
-	public void initGui()
-	{
+	public void initGui(){
 
 		btnParticleType = new GuiButtonVariableDims(10, 50, 40, AMParticle.particleTypes[tile.getParticleType()]);
 		btnParticleBehaviour = new GuiButtonVariableDims(11, 50, 60, ParticleController.AuraControllerOptions[tile.getParticleBehaviour()]);
@@ -114,8 +114,7 @@ public class GuiParticleEmitter extends GuiScreen {
 	}
 
 	@Override
-	public void drawScreen(int par1, int par2, float par3)
-	{
+	public void drawScreen(int par1, int par2, float par3){
 		this.drawDefaultBackground();
 		drawCenteredString(fontRendererObj, screenTitle, width / 2, 4, 0xffffff);
 		drawString(fontRendererObj, StatCollector.translateToLocal("am2.gui.type"), 10, 45, 0xffffff);
@@ -131,7 +130,7 @@ public class GuiParticleEmitter extends GuiScreen {
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton par1GuiButton) {
+	protected void actionPerformed(GuiButton par1GuiButton){
 
 		int index = 0;
 		boolean flag = false;
@@ -211,14 +210,13 @@ public class GuiParticleEmitter extends GuiScreen {
 	}
 
 	@Override
-	public void onGuiClosed() {
+	public void onGuiClosed(){
 		tile.syncWithServer();
 		super.onGuiClosed();
 	}
 
 	@Override
-	protected void mouseMovedOrUp(int par1, int par2, int par3)
-	{
+	protected void mouseMovedOrUp(int par1, int par2, int par3){
 		if (activeButton != null && activeButton instanceof GuiSlideControl && par3 != 0){
 			actionPerformed(activeButton);
 		}else{

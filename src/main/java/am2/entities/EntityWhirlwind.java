@@ -1,18 +1,17 @@
 package am2.entities;
 
-import java.util.HashMap;
-
+import am2.api.math.AMVector3;
+import am2.damage.DamageSources;
+import am2.navigation.PathNavigator;
+import am2.network.AMNetHandler;
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import am2.AMCore;
-import am2.api.math.AMVector3;
-import am2.damage.DamageSources;
-import am2.navigation.PathNavigator;
-import am2.network.AMNetHandler;
+
+import java.util.HashMap;
 
 public class EntityWhirlwind extends EntityFlying{
 
@@ -20,14 +19,14 @@ public class EntityWhirlwind extends EntityFlying{
 	private AMVector3 currentTarget;
 	private final PathNavigator nav;
 
-	public EntityWhirlwind(World par1World) {
+	public EntityWhirlwind(World par1World){
 		super(par1World);
 		cooldownList = new HashMap<EntityPlayer, Integer>();
 		nav = new PathNavigator(this);
 	}
 
 	@Override
-	public void onCollideWithPlayer(EntityPlayer player) {
+	public void onCollideWithPlayer(EntityPlayer player){
 		if (!worldObj.isRemote){
 			Integer cd = cooldownList.get(player);
 			if (cd == null || cd <= 0){
@@ -50,18 +49,18 @@ public class EntityWhirlwind extends EntityFlying{
 				player.addVelocity(velX, 0.8, veZ);
 				AMNetHandler.INSTANCE.sendVelocityAddPacket(worldObj, player, velX, 0.8, veZ);
 				player.fallDistance = 0;
-				setCooldownFor(player);				
+				setCooldownFor(player);
 			}
 		}
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
 		return false;
 	}
 
 	@Override
-	public void onUpdate() {
+	public void onUpdate(){
 		if (currentTarget == null || new AMVector3(this).distanceSqTo(currentTarget) < 2)
 			generateNewTarget();
 
@@ -79,14 +78,14 @@ public class EntityWhirlwind extends EntityFlying{
 	private void generateNewTarget(){
 		EntityPlayer closest = null;
 		for (Object player : this.worldObj.playerEntities){
-			if (closest == null || ((EntityPlayer)player).getDistanceSqToEntity(this) < this.getDistanceSqToEntity(closest)){				
+			if (closest == null || ((EntityPlayer)player).getDistanceSqToEntity(this) < this.getDistanceSqToEntity(closest)){
 				closest = (EntityPlayer)player;
 			}
 		}
 		if (closest != null && this.getDistanceSqToEntity(closest) < 64D)
 			currentTarget = new AMVector3(closest);
 		else
-			currentTarget = new AMVector3(this).add(new AMVector3(worldObj.rand.nextInt(10)-5, 0, worldObj.rand.nextInt(10)-5));
+			currentTarget = new AMVector3(this).add(new AMVector3(worldObj.rand.nextInt(10) - 5, 0, worldObj.rand.nextInt(10) - 5));
 
 		nav.SetWaypoint(worldObj, (int)currentTarget.x, (int)currentTarget.y, (int)currentTarget.z, this);
 	}
@@ -104,21 +103,21 @@ public class EntityWhirlwind extends EntityFlying{
 	}
 
 	@Override
-	public ItemStack getHeldItem() {
+	public ItemStack getHeldItem(){
 		return null;
 	}
 
 	@Override
-	public void setCurrentItemOrArmor(int i, ItemStack itemstack) {
+	public void setCurrentItemOrArmor(int i, ItemStack itemstack){
 	}
 
 	@Override
-	public boolean canBePushed() {
+	public boolean canBePushed(){
 		return false;
 	}
 
 	@Override
-	public ItemStack[] getLastActiveItems() {
+	public ItemStack[] getLastActiveItems(){
 		return new ItemStack[0];
 	}
 

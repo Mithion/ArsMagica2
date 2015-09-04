@@ -1,11 +1,11 @@
 package am2.blocks.tileentities;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import am2.api.power.IPowerNode;
 import am2.api.power.PowerTypes;
 import am2.power.PowerNodeRegistry;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 public abstract class TileEntityAMPower extends TileEntity implements IPowerNode{
 	protected int capacity;
@@ -39,8 +39,7 @@ public abstract class TileEntityAMPower extends TileEntity implements IPowerNode
 	}
 
 	@Override
-	public void updateEntity()
-	{
+	public void updateEntity(){
 		if (!worldObj.isRemote && this.canRequestPower() && tickCounter++ >= getRequestInterval()){
 			tickCounter = 0;
 			PowerTypes[] powerTypes = this.getValidPowerTypes();
@@ -62,20 +61,18 @@ public abstract class TileEntityAMPower extends TileEntity implements IPowerNode
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbttagcompound)
-	{
+	public void readFromNBT(NBTTagCompound nbttagcompound){
 		super.readFromNBT(nbttagcompound);
 	}
 
 	@Override
-	public void setWorldObj(World par1World) {
+	public void setWorldObj(World par1World){
 		super.setWorldObj(par1World);
 		PowerNodeRegistry.For(this.worldObj).registerPowerNode(this);
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbttagcompound)
-	{
+	public void writeToNBT(NBTTagCompound nbttagcompound){
 		super.writeToNBT(nbttagcompound);
 	}
 
@@ -84,22 +81,22 @@ public abstract class TileEntityAMPower extends TileEntity implements IPowerNode
 		return this.capacity;
 	}
 
-	public void setPower(PowerTypes type, float amount) {
+	public void setPower(PowerTypes type, float amount){
 		PowerNodeRegistry.For(this.worldObj).setPower(this, type, amount);
 	}
 
 	@Override
-	public PowerTypes[] getValidPowerTypes() {
+	public PowerTypes[] getValidPowerTypes(){
 		return PowerTypes.all();
 	}
 
 	@Override
-	public boolean canRequestPower() {
+	public boolean canRequestPower(){
 		return true;
 	}
 
 	@Override
-	public boolean isSource() {
+	public boolean isSource(){
 		return false;
 	}
 }

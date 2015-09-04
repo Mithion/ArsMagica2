@@ -1,17 +1,15 @@
 package am2.items.renderers;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.IItemRenderer;
-
-import org.lwjgl.opengl.GL11;
-
 import am2.api.spell.enums.Affinity;
 import am2.bosses.models.ModelPlantGuardianSickle;
 import am2.items.ItemsCommonProxy;
 import am2.proxy.gui.ModelLibrary;
 import am2.texture.ResourceManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.IItemRenderer;
+import org.lwjgl.opengl.GL11;
 
 public class CustomItemRenderer implements IItemRenderer{
 
@@ -38,17 +36,17 @@ public class CustomItemRenderer implements IItemRenderer{
 	}
 
 	@Override
-	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
+	public boolean handleRenderType(ItemStack item, ItemRenderType type){
 		return type == ItemRenderType.ENTITY || type == ItemRenderType.EQUIPPED || type == ItemRenderType.EQUIPPED_FIRST_PERSON || type == ItemRenderType.INVENTORY;
 	}
 
 	@Override
-	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
+	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper){
 		return true;
 	}
 
 	@Override
-	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+	public void renderItem(ItemRenderType type, ItemStack item, Object... data){
 		bindTextureByItem(item);
 
 		GL11.glPushMatrix();
@@ -64,7 +62,7 @@ public class CustomItemRenderer implements IItemRenderer{
 		}
 	}
 
-	private void renderCandleFlame(ItemRenderType type, ItemStack item, Object...data){
+	private void renderCandleFlame(ItemRenderType type, ItemStack item, Object... data){
 
 		if (item.hasTagCompound()){
 			GL11.glColor3f(item.stackTagCompound.getFloat("flame_red"),
@@ -85,7 +83,7 @@ public class CustomItemRenderer implements IItemRenderer{
 
 	private void setupItemRender(ItemRenderType type, ItemStack stack){
 		float scale = 1.0F;
-		switch (type) {
+		switch (type){
 		case ENTITY:
 			if (stack.getItem() == ItemsCommonProxy.magicBroom){
 				GL11.glRotatef(90F, 1, 0, 0);
@@ -114,7 +112,7 @@ public class CustomItemRenderer implements IItemRenderer{
 			if (stack.getItem() == ItemsCommonProxy.magicBroom){
 				GL11.glRotatef(135F, 0, 1, 0);
 				GL11.glRotatef(-90F, 1, 0, 0);
-				GL11.glTranslatef(-0.5f, 1f,0f);
+				GL11.glTranslatef(-0.5f, 1f, 0f);
 			}else if (stack.getItem() == ItemsCommonProxy.arcaneSpellbook){
 				GL11.glRotatef(270F, 0.0F, 1.0F, 0.0F);
 				GL11.glTranslatef(0.5f, 1f, -0.5f);
@@ -140,7 +138,7 @@ public class CustomItemRenderer implements IItemRenderer{
 				GL11.glTranslatef(-1f, 0.75f, -3.5f);
 			}else{
 				GL11.glRotatef(135F, 0, 1, 0);
-				GL11.glTranslatef(-0.55f, -0.35f,-1f);
+				GL11.glTranslatef(-0.55f, -0.35f, -1f);
 			}
 			break;
 		case EQUIPPED:
@@ -148,7 +146,7 @@ public class CustomItemRenderer implements IItemRenderer{
 			GL11.glRotatef(-135F, 0, 1, 0);
 			if (stack.getItem() == ItemsCommonProxy.magicBroom){
 				GL11.glRotatef(20F, 1, 0, 0);
-				GL11.glTranslatef(-0.3f, 0f,-1.5f);
+				GL11.glTranslatef(-0.3f, 0f, -1.5f);
 			}else if (stack.getItem() == ItemsCommonProxy.arcaneSpellbook){
 				GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
 				GL11.glRotatef(120F, 1.0F, 0.0F, 0f);
@@ -158,7 +156,7 @@ public class CustomItemRenderer implements IItemRenderer{
 				GL11.glTranslatef(0, 0, -1);
 			}else if (stack.getItem() == ItemsCommonProxy.earthGuardianArmor){
 				GL11.glRotatef(60F, 1, 0, 0);
-				GL11.glTranslatef(-1f, -1f,-1.2f);
+				GL11.glTranslatef(-1f, -1f, -1.2f);
 			}else if (stack.getItem() == ItemsCommonProxy.fireEars){
 				GL11.glTranslatef(0, 0.15f, -2f);
 			}else if (stack.getItem() == ItemsCommonProxy.waterGuardianOrbs){
@@ -171,7 +169,7 @@ public class CustomItemRenderer implements IItemRenderer{
 				GL11.glTranslatef(-0.3f, -0.75f, -3.5f);
 			}else{
 				GL11.glRotatef(60F, 1, 0, 0);
-				GL11.glTranslatef(-0.55f, -0.75f,-1f);
+				GL11.glTranslatef(-0.55f, -0.75f, -1f);
 			}
 			break;
 		case INVENTORY:
@@ -190,18 +188,18 @@ public class CustomItemRenderer implements IItemRenderer{
 				GL11.glTranslatef(0.2f, 0.1f, 0);
 			}else if (stack.getItem() == ItemsCommonProxy.earthGuardianArmor){
 				GL11.glRotatef(90, 1, 0, 0);
-				scale=1.0f;
+				scale = 1.0f;
 				GL11.glTranslatef(0.2f, 0.8f, -1.6f);
 			}else if (stack.getItem() == ItemsCommonProxy.fireEars){
 				GL11.glRotatef(90, 1, 0, 0.7f);
-				scale=1.7f;
+				scale = 1.7f;
 				GL11.glTranslatef(0.2f, 0.2f, -0.8f);
 			}else if (stack.getItem() == ItemsCommonProxy.waterGuardianOrbs){
 				GL11.glRotatef(90, 0, 1, 1);
-				scale=1.2f;
+				scale = 1.2f;
 				GL11.glTranslatef(-0.4f, 0.3f, -0.4f);
 			}else if (stack.getItem() == ItemsCommonProxy.airGuardianLower){
-				scale=2.4f;
+				scale = 2.4f;
 				GL11.glTranslatef(0f, 0.45f, -1.75f);
 			}else if (stack.getItem() == ItemsCommonProxy.wardingCandle){
 				scale = 2.4f;

@@ -1,17 +1,11 @@
 package am2.entities;
 
-import java.util.List;
-
-import net.minecraft.block.Block;
+import am2.AMCore;
+import am2.entities.ai.EntityAIFireballAttack;
+import am2.particles.AMParticle;
+import am2.particles.ParticleApproachPoint;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIBreakDoor;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,12 +13,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import am2.AMCore;
-import am2.entities.ai.EntityAIFireballAttack;
-import am2.particles.AMParticle;
-import am2.particles.ParticleApproachPoint;
 
-public class EntityFireElemental extends EntityMob {
+import java.util.List;
+
+public class EntityFireElemental extends EntityMob{
 
 	private static final ItemStack defaultHeldItem;
 	private static final int cookRadius = 10;
@@ -32,7 +24,7 @@ public class EntityFireElemental extends EntityMob {
 
 	private byte burning;
 
-	public EntityFireElemental(World world) {
+	public EntityFireElemental(World world){
 		super(world);
 		setSize(1F, 2F);
 		isImmuneToFire = true;
@@ -54,68 +46,58 @@ public class EntityFireElemental extends EntityMob {
 	}
 
 	@Override
-	protected boolean isAIEnabled() {
+	protected boolean isAIEnabled(){
 		return true;
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(15D);
 	}
 
 	@Override
-	protected void entityInit()
-	{
+	protected void entityInit(){
 		super.entityInit();
 		dataWatcher.addObject(18, 0);
 		dataWatcher.addObject(19, 0);
 	}
 
 	@Override
-	public int getTotalArmorValue()
-	{
+	public int getTotalArmorValue(){
 		return 5;
 	}
 
 	@Override
-	public boolean isBurning()
-	{
+	public boolean isBurning(){
 		return this.getAttackTarget() != null;
 	}
 
 	@Override
-	protected boolean isValidLightLevel()
-	{
+	protected boolean isValidLightLevel(){
 		return true;
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
+	protected String getLivingSound(){
 		return "fire_elem_living";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
+	protected String getHurtSound(){
 		return "fire_elem_hurt";
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
+	protected String getDeathSound(){
 		return "fire_elem_death";
 	}
 
-	public int getEntityBrightnessForRender(float f)
-	{
+	public int getEntityBrightnessForRender(float f){
 		return 0xf000f0;
 	}
 
-	public float getEntityBrightness(float f)
-	{
+	public float getEntityBrightness(float f){
 		return 1.0F;
 	}
 
@@ -142,7 +124,7 @@ public class EntityFireElemental extends EntityMob {
 	}
 
 	@Override
-	public void onUpdate() {
+	public void onUpdate(){
 		int cookTargetID = dataWatcher.getWatchableObjectInt(19);
 		if (cookTargetID != 0){
 			List<EntityItem> items = worldObj.getEntitiesWithinAABB(EntityItem.class, this.boundingBox.expand(cookRadius, cookRadius, cookRadius));
@@ -154,10 +136,10 @@ public class EntityFireElemental extends EntityMob {
 			}
 
 			if (inanimate != null && worldObj.isRemote){
-				AMParticle effect = (AMParticle) AMCore.instance.proxy.particleManager.spawn(worldObj, "fire", posX, posY + getEyeHeight(), posZ);
+				AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "fire", posX, posY + getEyeHeight(), posZ);
 				if (effect != null){
 					effect.setIgnoreMaxAge(true);
-					effect.AddParticleController(new ParticleApproachPoint(effect, inanimate.posX + (rand.nextFloat() - 0.5), inanimate.posY+ (rand.nextFloat() - 0.5), inanimate.posZ+ (rand.nextFloat() - 0.5), 0.1f, 0.1f, 1, false).setKillParticleOnFinish(true));
+					effect.AddParticleController(new ParticleApproachPoint(effect, inanimate.posX + (rand.nextFloat() - 0.5), inanimate.posY + (rand.nextFloat() - 0.5), inanimate.posZ + (rand.nextFloat() - 0.5), 0.1f, 0.1f, 1, false).setKillParticleOnFinish(true));
 				}
 			}
 		}
@@ -169,18 +151,16 @@ public class EntityFireElemental extends EntityMob {
 	}
 
 	@Override
-	public ItemStack getHeldItem()
-	{
+	public ItemStack getHeldItem(){
 		return defaultHeldItem;
 	}
 
-	static
-	{
+	static{
 		defaultHeldItem = new ItemStack(Blocks.fire, 1);
 	}
 
 	@Override
-	public boolean getCanSpawnHere() {
+	public boolean getCanSpawnHere(){
 		if (!SpawnBlacklists.entityCanSpawnHere(this.posX, this.posZ, worldObj, this))
 			return false;
 		return super.getCanSpawnHere();

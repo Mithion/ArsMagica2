@@ -1,17 +1,15 @@
 package am2.lore;
 
-import java.util.ArrayList;
-
-import net.minecraft.item.ItemStack;
-
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import am2.guis.GuiArcaneCompendium;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.item.ItemStack;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-public abstract class CompendiumEntry implements Comparable<CompendiumEntry> {
+import java.util.ArrayList;
+
+public abstract class CompendiumEntry implements Comparable<CompendiumEntry>{
 	protected CompendiumEntryType type;
 	protected String name;
 	protected String description;
@@ -62,7 +60,7 @@ public abstract class CompendiumEntry implements Comparable<CompendiumEntry> {
 	}
 
 	public final String getName(String subItemID){
-		for (CompendiumEntry entry: subItems){
+		for (CompendiumEntry entry : subItems){
 			if (entry.getID().equals(subItemID)){
 				return entry.getName();
 			}
@@ -71,7 +69,7 @@ public abstract class CompendiumEntry implements Comparable<CompendiumEntry> {
 	}
 
 	public final String getDescription(){
-		if(this.description == null || this.description.equals("")){
+		if (this.description == null || this.description.equals("")){
 			if (this.parent != null){
 				return this.parent.getDescription();
 			}
@@ -80,7 +78,7 @@ public abstract class CompendiumEntry implements Comparable<CompendiumEntry> {
 	}
 
 	public final String getDescription(String subItemID){
-		for (CompendiumEntry entry: subItems){
+		for (CompendiumEntry entry : subItems){
 			if (entry.getID().equals(subItemID)){
 				return description + " " + ArcaneCompendium.KEYWORD_NEWLINE + " " + ArcaneCompendium.KEYWORD_NEWLINE + " " + entry.getDescription();
 			}
@@ -131,7 +129,7 @@ public abstract class CompendiumEntry implements Comparable<CompendiumEntry> {
 				CompendiumEntry subItem = null;
 				try{
 					subItem = this.getClass().getConstructor().newInstance();
-				}catch(Throwable t){
+				}catch (Throwable t){
 					t.printStackTrace();
 					continue;
 				}
@@ -158,7 +156,7 @@ public abstract class CompendiumEntry implements Comparable<CompendiumEntry> {
 		ArrayList<CompendiumEntry> relations = new ArrayList<CompendiumEntry>();
 		for (String s : this.relatedItems){
 			CompendiumEntry e = ArcaneCompendium.instance.getEntry(s);
-			if (e != null && e!= this)
+			if (e != null && e != this)
 				relations.add(e);
 		}
 
@@ -172,7 +170,7 @@ public abstract class CompendiumEntry implements Comparable<CompendiumEntry> {
 			searchID = split[0];
 			try{
 				meta = Integer.parseInt(split[1]);
-			}catch(Throwable t){
+			}catch (Throwable t){
 				t.printStackTrace();
 			}
 		}
@@ -187,7 +185,7 @@ public abstract class CompendiumEntry implements Comparable<CompendiumEntry> {
 	public abstract ItemStack getRepresentItemStack(String searchID, int meta);
 
 	@Override
-	public int compareTo(CompendiumEntry arg0) {
+	public int compareTo(CompendiumEntry arg0){
 
 		if (arg0 == null) return 1;
 

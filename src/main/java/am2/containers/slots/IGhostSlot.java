@@ -1,5 +1,5 @@
 package am2.containers.slots;
 
-public interface IGhostSlot {
+public interface IGhostSlot{
 	boolean canAdjust();
 }

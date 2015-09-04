@@ -1,40 +1,40 @@
 package am2.armor.infusions;
 
-import java.util.EnumSet;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
 import am2.api.items.armor.IArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import am2.playerextensions.ExtendedProperties;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
+
+import java.util.EnumSet;
 
 public class JumpBoost implements IArmorImbuement{
 
 	@Override
-	public String getID() {
+	public String getID(){
 		return "highjump";
 	}
 
 	@Override
-	public int getIconIndex() {
+	public int getIconIndex(){
 		return 24;
 	}
 
 	@Override
-	public ImbuementTiers getTier() {
+	public ImbuementTiers getTier(){
 		return ImbuementTiers.FOURTH;
 	}
 
 	@Override
-	public EnumSet<ImbuementApplicationTypes> getApplicationTypes() {
+	public EnumSet<ImbuementApplicationTypes> getApplicationTypes(){
 		return EnumSet.of(ImbuementApplicationTypes.ON_JUMP, ImbuementApplicationTypes.ON_TICK);
 	}
 
 	@Override
-	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params) {
+	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 		if (matchedType == ImbuementApplicationTypes.ON_JUMP){
 			Vec3 vec = player.getLookVec().normalize();
 			double yVelocity = 1;
@@ -54,22 +54,22 @@ public class JumpBoost implements IArmorImbuement{
 	}
 
 	@Override
-	public int[] getValidSlots() {
-		return new int[] {ImbuementRegistry.SLOT_LEGS};
+	public int[] getValidSlots(){
+		return new int[]{ImbuementRegistry.SLOT_LEGS};
 	}
 
 	@Override
-	public boolean canApplyOnCooldown() {
+	public boolean canApplyOnCooldown(){
 		return true;
 	}
 
 	@Override
-	public int getCooldown() {
+	public int getCooldown(){
 		return 0;
 	}
 
 	@Override
-	public int getArmorDamage() {
+	public int getArmorDamage(){
 		return 0;
 	}
 }

@@ -1,19 +1,16 @@
 package am2.models;
 
+import am2.buffs.BuffList;
+import am2.entities.EntityDarkling;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
-
 import org.lwjgl.opengl.GL11;
 
-import am2.buffs.BuffList;
-import am2.entities.EntityDarkling;
-
-public class ModelDarkling extends ModelBase
-{
+public class ModelDarkling extends ModelBase{
 	ModelRenderer headMain;
 	ModelRenderer body;
 	ModelRenderer mane;
@@ -52,8 +49,7 @@ public class ModelDarkling extends ModelBase
 	ModelRenderer Spike6;
 	ModelRenderer Spike8;
 
-	public ModelDarkling()
-	{
+	public ModelDarkling(){
 		textureWidth = 64;
 		textureHeight = 64;
 
@@ -282,16 +278,15 @@ public class ModelDarkling extends ModelBase
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 		GL11.glPushMatrix();
 		GL11.glScalef(0.5f, 0.5f, 0.5f);
 		GL11.glTranslatef(0, 1.5f, 0);
 		long boundedTime = Minecraft.getMinecraft().theWorld.provider.getWorldTime() % 24000;
-		float transparencyFromTime = boundedTime > 12500 && boundedTime < 23500 
-				? (float)Math.abs(Math.cos(Math.toRadians(( (boundedTime-12500f) / 11000f) * 180f))) - 0.2f
-						: 1.0f;
+		float transparencyFromTime = boundedTime > 12500 && boundedTime < 23500
+				? (float)Math.abs(Math.cos(Math.toRadians(((boundedTime - 12500f) / 11000f) * 180f))) - 0.2f
+				: 1.0f;
 
 
 		if (entity.hurtResistantTime > 0 || entity.isDead){
@@ -357,70 +352,67 @@ public class ModelDarkling extends ModelBase
 	 * and third as in the setRotationAngles method.
 	 */
 	@Override
-	public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
-	{
-		 EntityDarkling darkling = (EntityDarkling)par1EntityLivingBase;
+	public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4){
+		EntityDarkling darkling = (EntityDarkling)par1EntityLivingBase;
 
-		 this.tail.rotateAngleY = MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
-		 this.body.rotateAngleX = ((float)Math.PI / 2F);
-		 this.mane.rotateAngleX = this.body.rotateAngleX;
-		 this.leg1.rotateAngleX = MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
-		 this.leg2.rotateAngleX = MathHelper.cos(par2 * 0.6662F + (float)Math.PI) * 1.4F * par3;
-		 this.leg3.rotateAngleX = MathHelper.cos(par2 * 0.6662F + (float)Math.PI) * 1.4F * par3;
-		 this.leg4.rotateAngleX = MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
+		this.tail.rotateAngleY = MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
+		this.body.rotateAngleX = ((float)Math.PI / 2F);
+		this.mane.rotateAngleX = this.body.rotateAngleX;
+		this.leg1.rotateAngleX = MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
+		this.leg2.rotateAngleX = MathHelper.cos(par2 * 0.6662F + (float)Math.PI) * 1.4F * par3;
+		this.leg3.rotateAngleX = MathHelper.cos(par2 * 0.6662F + (float)Math.PI) * 1.4F * par3;
+		this.leg4.rotateAngleX = MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
 
-		 this.Tail2.rotateAngleY = this.tail.rotateAngleY;
+		this.Tail2.rotateAngleY = this.tail.rotateAngleY;
 	}
 
-	 /**
-	  * Sets the model's various rotation angles. For bipeds, par1 and par2 are used for animating the movement of arms
-	  * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
-	  * "far" arms and legs can swing at most.
-	  */
-	 @Override
-	public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
-	 {
-		 super.setRotationAngles(par1, par2, par3, par4, par5, par6, par7Entity);
-		 this.headMain.rotateAngleX = par5 / (180F / (float)Math.PI);
-		 this.headMain.rotateAngleY = par4 / (180F / (float)Math.PI);
+	/**
+	 * Sets the model's various rotation angles. For bipeds, par1 and par2 are used for animating the movement of arms
+	 * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
+	 * "far" arms and legs can swing at most.
+	 */
+	@Override
+	public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity){
+		super.setRotationAngles(par1, par2, par3, par4, par5, par6, par7Entity);
+		this.headMain.rotateAngleX = par5 / (180F / (float)Math.PI);
+		this.headMain.rotateAngleY = par4 / (180F / (float)Math.PI);
 
-		 this.Nose1.rotateAngleX = par5 / (180F / (float)Math.PI);
-		 this.Nose1.rotateAngleY = par4 / (180F / (float)Math.PI);
-		 this.Nose2.rotateAngleX = par5 / (180F / (float)Math.PI);
-		 this.Nose2.rotateAngleY = par4 / (180F / (float)Math.PI);
-		 this.Nose3.rotateAngleX = par5 / (180F / (float)Math.PI);
-		 this.Nose3.rotateAngleY = par4 / (180F / (float)Math.PI);
-		 this.Nose4.rotateAngleX = par5 / (180F / (float)Math.PI);
-		 this.Nose4.rotateAngleY = par4 / (180F / (float)Math.PI);
-		 this.Nose5.rotateAngleX = par5 / (180F / (float)Math.PI);
-		 this.Nose5.rotateAngleY = par4 / (180F / (float)Math.PI);
-		 this.Nose6.rotateAngleX = par5 / (180F / (float)Math.PI);
-		 this.Nose6.rotateAngleY = par4 / (180F / (float)Math.PI);
-		 this.Nose7.rotateAngleX = par5 / (180F / (float)Math.PI);
-		 this.Nose7.rotateAngleY = par4 / (180F / (float)Math.PI);
-		 this.Nose8.rotateAngleX = par5 / (180F / (float)Math.PI);
-		 this.Nose8.rotateAngleY = par4 / (180F / (float)Math.PI);
-		 this.Nose9.rotateAngleX = par5 / (180F / (float)Math.PI);
-		 this.Nose9.rotateAngleY = par4 / (180F / (float)Math.PI);
-		 this.Nose10.rotateAngleX = par5 / (180F / (float)Math.PI);
-		 this.Nose10.rotateAngleY = par4 / (180F / (float)Math.PI);
+		this.Nose1.rotateAngleX = par5 / (180F / (float)Math.PI);
+		this.Nose1.rotateAngleY = par4 / (180F / (float)Math.PI);
+		this.Nose2.rotateAngleX = par5 / (180F / (float)Math.PI);
+		this.Nose2.rotateAngleY = par4 / (180F / (float)Math.PI);
+		this.Nose3.rotateAngleX = par5 / (180F / (float)Math.PI);
+		this.Nose3.rotateAngleY = par4 / (180F / (float)Math.PI);
+		this.Nose4.rotateAngleX = par5 / (180F / (float)Math.PI);
+		this.Nose4.rotateAngleY = par4 / (180F / (float)Math.PI);
+		this.Nose5.rotateAngleX = par5 / (180F / (float)Math.PI);
+		this.Nose5.rotateAngleY = par4 / (180F / (float)Math.PI);
+		this.Nose6.rotateAngleX = par5 / (180F / (float)Math.PI);
+		this.Nose6.rotateAngleY = par4 / (180F / (float)Math.PI);
+		this.Nose7.rotateAngleX = par5 / (180F / (float)Math.PI);
+		this.Nose7.rotateAngleY = par4 / (180F / (float)Math.PI);
+		this.Nose8.rotateAngleX = par5 / (180F / (float)Math.PI);
+		this.Nose8.rotateAngleY = par4 / (180F / (float)Math.PI);
+		this.Nose9.rotateAngleX = par5 / (180F / (float)Math.PI);
+		this.Nose9.rotateAngleY = par4 / (180F / (float)Math.PI);
+		this.Nose10.rotateAngleX = par5 / (180F / (float)Math.PI);
+		this.Nose10.rotateAngleY = par4 / (180F / (float)Math.PI);
 
-		 if(((EntityDarkling)par7Entity).isAngry()){
-			 this.Nose5.rotateAngleX += 15f;
-			 this.Nose6.rotateAngleX += 15f;
-			 this.Nose7.rotateAngleX += 15f;
-			 this.Nose8.rotateAngleX += 15f;
-			 this.Nose9.rotateAngleX += 15f;
-			 this.Nose10.rotateAngleX += 15f;
-		 }
-		 // this.tail.rotateAngleX = par3;
-	 }
+		if (((EntityDarkling)par7Entity).isAngry()){
+			this.Nose5.rotateAngleX += 15f;
+			this.Nose6.rotateAngleX += 15f;
+			this.Nose7.rotateAngleX += 15f;
+			this.Nose8.rotateAngleX += 15f;
+			this.Nose9.rotateAngleX += 15f;
+			this.Nose10.rotateAngleX += 15f;
+		}
+		// this.tail.rotateAngleX = par3;
+	}
 
-	 private void setRotation(ModelRenderer model, float x, float y, float z)
-	 {
-		 model.rotateAngleX = x;
-		 model.rotateAngleY = y;
-		 model.rotateAngleZ = z;
-	 }
+	private void setRotation(ModelRenderer model, float x, float y, float z){
+		model.rotateAngleX = x;
+		model.rotateAngleY = y;
+		model.rotateAngleZ = z;
+	}
 
 }

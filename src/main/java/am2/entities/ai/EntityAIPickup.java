@@ -1,13 +1,13 @@
 package am2.entities.ai;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.item.EntityItem;
 import am2.api.math.AMVector3;
 import am2.entities.EntityBroom;
 import am2.playerextensions.ExtendedProperties;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.item.EntityItem;
 
-public class EntityAIPickup extends EntityAIBase {
+public class EntityAIPickup extends EntityAIBase{
 
 	private EntityBroom host;
 	private AMVector3 lastLocation;
@@ -19,7 +19,7 @@ public class EntityAIPickup extends EntityAIBase {
 	}
 
 	@Override
-	public boolean shouldExecute() {
+	public boolean shouldExecute(){
 		Entity target = ExtendedProperties.For(host).getInanimateTarget();
 		if (!(target instanceof EntityItem))
 			return false;
@@ -31,19 +31,19 @@ public class EntityAIPickup extends EntityAIBase {
 	}
 
 	@Override
-	public void resetTask() {
+	public void resetTask(){
 		super.resetTask();
 		lastLocation = null;
 		stuckTicks = 0;
 	}
 
 	@Override
-	public boolean continueExecuting() {
+	public boolean continueExecuting(){
 		return shouldExecute();
 	}
 
 	@Override
-	public void updateTask() {
+	public void updateTask(){
 		Entity target = ExtendedProperties.For(host).getInanimateTarget();
 		if (target == null) return;
 
@@ -77,8 +77,7 @@ public class EntityAIPickup extends EntityAIBase {
 
 	private boolean checkStuck(){
 		AMVector3 loc = new AMVector3(host);
-		if (lastLocation == null)
-		{
+		if (lastLocation == null){
 			lastLocation = loc;
 			return false;
 		}

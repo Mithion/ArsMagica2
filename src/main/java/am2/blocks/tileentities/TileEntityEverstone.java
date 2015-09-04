@@ -1,12 +1,11 @@
 package am2.blocks.tileentities;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import am2.AMCore;
+import am2.blocks.BlocksCommonProxy;
+import am2.particles.AMParticle;
 import cpw.mods.fml.common.FMLLog;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -14,14 +13,9 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.ChunkPosition;
-import am2.AMCore;
-import am2.blocks.BlocksCommonProxy;
-import am2.network.AMDataReader;
-import am2.network.AMDataWriter;
-import am2.particles.AMParticle;
-import am2.particles.ParticleApproachPoint;
-import am2.particles.ParticleFadeOut;
-import am2.particles.ParticleHoldPosition;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TileEntityEverstone extends TileEntity{
 
@@ -35,9 +29,9 @@ public class TileEntityEverstone extends TileEntity{
 
 	public void setFacade(Block block, int meta){
 		this.facade = block;
-		this.facadeMeta = meta;		
-		
-		if (!worldObj.isRemote){			
+		this.facadeMeta = meta;
+
+		if (!worldObj.isRemote){
 			List<EntityPlayerMP> players = worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(64, 64, 64));
 			for (EntityPlayerMP player : players){
 				player.playerNetServerHandler.sendPacket(getDescriptionPacket());
@@ -55,9 +49,9 @@ public class TileEntityEverstone extends TileEntity{
 		completedUpdates.add(myPosition);
 		poweredFromEverstone = powered;
 		onBreak();
-		
+
 		if (worldObj.isRemote){
-			AMParticle particle = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "radiant", xCoord + 0.5f, yCoord + 0.5f, zCoord + 0.5f);
+			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "radiant", xCoord + 0.5f, yCoord + 0.5f, zCoord + 0.5f);
 			if (particle != null){
 				particle.setMaxAge(20);
 				particle.setDontRequireControllers();
@@ -65,10 +59,10 @@ public class TileEntityEverstone extends TileEntity{
 			}
 		}
 
-		for (int i = -1; i <= 1; i ++){
-			for (int j = -1; j <= 1; j ++){
-				for (int k = -1; k <= 1; k ++){
-					ChunkPosition targetPosition = new ChunkPosition(xCoord+i, yCoord+j, zCoord+k);
+		for (int i = -1; i <= 1; i++){
+			for (int j = -1; j <= 1; j++){
+				for (int k = -1; k <= 1; k++){
+					ChunkPosition targetPosition = new ChunkPosition(xCoord + i, yCoord + j, zCoord + k);
 					Block blockID = worldObj.getBlock(targetPosition.chunkPosX, targetPosition.chunkPosY, targetPosition.chunkPosZ);
 					if (blockID == BlocksCommonProxy.everstone && !completedUpdates.contains(targetPosition)){
 						TileEntityEverstone everstone = ((TileEntityEverstone)worldObj.getTileEntity(targetPosition.chunkPosX, targetPosition.chunkPosY, targetPosition.chunkPosZ));
@@ -81,10 +75,9 @@ public class TileEntityEverstone extends TileEntity{
 	}
 
 	@Override
-	public void updateEntity() {
+	public void updateEntity(){
 
-		if (reconstructTimer <= 0 && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
-		{
+		if (reconstructTimer <= 0 && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)){
 			propagatePoweredByEverstone(true, new ArrayList<ChunkPosition>());
 			poweredFromRedstone = true;
 		}else if (poweredFromRedstone && !worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)){
@@ -108,7 +101,7 @@ public class TileEntityEverstone extends TileEntity{
 	}
 
 	public int getFadeStrength(){
-		if (reconstructTimer > reconstructMax/2)
+		if (reconstructTimer > reconstructMax / 2)
 			return 0;
 		return (int)(128 * ((float)(reconstructMax - reconstructTimer) / reconstructMax));
 	}
@@ -136,7 +129,7 @@ public class TileEntityEverstone extends TileEntity{
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		this.writeToNBT(compound);
 		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
@@ -144,12 +137,12 @@ public class TileEntityEverstone extends TileEntity{
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
 		this.readFromNBT(pkt.func_148857_g());
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound par1nbtTagCompound) {
+	public void readFromNBT(NBTTagCompound par1nbtTagCompound){
 		super.readFromNBT(par1nbtTagCompound);
 		if (par1nbtTagCompound.hasKey("facade")){
 			this.facade = Block.getBlockFromName(par1nbtTagCompound.getString("facade"));
@@ -162,7 +155,7 @@ public class TileEntityEverstone extends TileEntity{
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound par1nbtTagCompound) {
+	public void writeToNBT(NBTTagCompound par1nbtTagCompound){
 		super.writeToNBT(par1nbtTagCompound);
 		if (facade != null){
 			par1nbtTagCompound.setString("facade", facade.getUnlocalizedName().replace("tile.", ""));

@@ -13,9 +13,9 @@ public class DamageSourceFire extends EntityDamageSource{
 		this.setFireDamage();
 		this.setDamageBypassesArmor();
 	}
-	
+
 	@Override
-	public IChatComponent func_151519_b(EntityLivingBase par1EntityLivingBase) {
+	public IChatComponent func_151519_b(EntityLivingBase par1EntityLivingBase){
 		if (par1EntityLivingBase instanceof EntityPlayer){
 			return new ChatComponentText(String.format(StatCollector.translateToLocal("am2.death.fire"), ((EntityPlayer)par1EntityLivingBase).getCommandSenderName()));
 		}
@@ -23,7 +23,7 @@ public class DamageSourceFire extends EntityDamageSource{
 	}
 
 	@Override
-	public boolean canHarmInCreative() {
+	public boolean canHarmInCreative(){
 		return false;
 	}
 }

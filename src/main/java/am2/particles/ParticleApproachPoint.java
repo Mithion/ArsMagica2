@@ -2,14 +2,14 @@ package am2.particles;
 
 import net.minecraft.util.MathHelper;
 
-public class ParticleApproachPoint extends ParticleController {
+public class ParticleApproachPoint extends ParticleController{
 
 	private final double targetX, targetY, targetZ;
 	private final double approachSpeed;
 	private final double targetDistance;
 	private boolean ignoreYCoord;
 
-	public ParticleApproachPoint(AMParticle particleEffect, double targetX, double targetY, double targetZ, double approachSpeed, double targetDistance, int priority, boolean exclusive) {
+	public ParticleApproachPoint(AMParticle particleEffect, double targetX, double targetY, double targetZ, double approachSpeed, double targetDistance, int priority, boolean exclusive){
 		super(particleEffect, priority, exclusive);
 		this.targetX = targetX;
 		this.targetY = targetY;
@@ -18,8 +18,7 @@ public class ParticleApproachPoint extends ParticleController {
 		this.targetDistance = targetDistance;
 	}
 
-	private double getDistanceSqToPoint(double x, double y, double z)
-	{
+	private double getDistanceSqToPoint(double x, double y, double z){
 		double var2 = particle.posX - x;
 		double var4 = particle.posY - y;
 		double var6 = particle.posZ - z;
@@ -32,7 +31,7 @@ public class ParticleApproachPoint extends ParticleController {
 	}
 
 	@Override
-	public void doUpdate() {
+	public void doUpdate(){
 
 		double posX = particle.posX;
 		double posZ = particle.posZ;
@@ -52,7 +51,7 @@ public class ParticleApproachPoint extends ParticleController {
 
 		}
 
-		if(!ignoreYCoord){
+		if (!ignoreYCoord){
 			double deltaY = posY - targetY;
 
 			double horizontalDistance = MathHelper.sqrt_double(deltaX * deltaX + deltaZ * deltaZ);
@@ -70,7 +69,7 @@ public class ParticleApproachPoint extends ParticleController {
 	}
 
 	@Override
-	public ParticleController clone() {
+	public ParticleController clone(){
 		return new ParticleApproachPoint(particle, targetX, targetY, targetZ, approachSpeed, targetDistance, priority, exclusive).setIgnoreYCoordinate(ignoreYCoord);
 	}
 

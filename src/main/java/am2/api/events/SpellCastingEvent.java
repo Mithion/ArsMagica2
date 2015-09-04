@@ -1,11 +1,11 @@
 package am2.api.events;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.eventhandler.Cancelable;
-import cpw.mods.fml.common.eventhandler.Event;
 import am2.api.spell.ItemSpellBase;
 import am2.api.spell.enums.SpellCastResult;
+import cpw.mods.fml.common.eventhandler.Cancelable;
+import cpw.mods.fml.common.eventhandler.Event;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 
 public class SpellCastingEvent{
 	@Cancelable
@@ -48,7 +48,7 @@ public class SpellCastingEvent{
 			this.isChanneled = isChanneled;
 		}
 	}
-	
+
 	@Cancelable
 	public class Post extends Event{
 		/**

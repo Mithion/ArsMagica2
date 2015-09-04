@@ -1,10 +1,10 @@
 package am2.guis.controls;
 
-import java.util.HashMap;
-
+import am2.api.math.AMVector2;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import am2.api.math.AMVector2;
+
+import java.util.HashMap;
 
 public class GuiStatedImageButton extends GuiButtonVariableDims{
 
@@ -22,7 +22,7 @@ public class GuiStatedImageButton extends GuiButtonVariableDims{
 	private boolean isActive = false;
 	private boolean currentlyClicked = false;
 
-	public GuiStatedImageButton(int id, int x, int y, ResourceLocation textureLoc, int idleU, int idleV) {
+	public GuiStatedImageButton(int id, int x, int y, ResourceLocation textureLoc, int idleU, int idleV){
 		super(id, x, y, "");
 		stateImages = new HashMap<GuiStatedImageButton.States, AMVector2>();
 		addStateCoords(States.IDLE, idleU, idleV);
@@ -45,7 +45,7 @@ public class GuiStatedImageButton extends GuiButtonVariableDims{
 	}
 
 	@Override
-	public void drawButton(Minecraft par1Minecraft, int par2, int par3) {
+	public void drawButton(Minecraft par1Minecraft, int par2, int par3){
 		boolean isMousedOver = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
 		if (!renderBorderOnly){
 			if (currentlyClicked){
@@ -79,7 +79,7 @@ public class GuiStatedImageButton extends GuiButtonVariableDims{
 	}
 
 	@Override
-	public boolean mousePressed(Minecraft par1Minecraft, int par2, int par3) {
+	public boolean mousePressed(Minecraft par1Minecraft, int par2, int par3){
 		boolean isMousedOver = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
 		if (isMousedOver)
 			currentlyClicked = true;
@@ -87,7 +87,7 @@ public class GuiStatedImageButton extends GuiButtonVariableDims{
 	}
 
 	@Override
-	public void mouseReleased(int par1, int par2) {
+	public void mouseReleased(int par1, int par2){
 		currentlyClicked = false;
 		super.mouseReleased(par1, par2);
 	}

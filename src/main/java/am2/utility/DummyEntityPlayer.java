@@ -1,20 +1,19 @@
 package am2.utility;
 
-import java.util.UUID;
-
 import com.mojang.authlib.GameProfile;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 
+import java.util.UUID;
+
 public class DummyEntityPlayer extends EntityPlayer{
 
 	private EntityLivingBase trackEntity = null;
 
-	public DummyEntityPlayer(World world) {
+	public DummyEntityPlayer(World world){
 		super(world, new GameProfile(UUID.randomUUID(), "dummyplayer"));
 	}
 
@@ -37,7 +36,7 @@ public class DummyEntityPlayer extends EntityPlayer{
 	}
 
 	@Override
-	public void onUpdate() {
+	public void onUpdate(){
 		if (trackEntity != null){
 			this.setPosition(trackEntity.posX, trackEntity.posY, trackEntity.posZ);
 			this.setRotation(trackEntity.rotationYaw, trackEntity.rotationPitch);
@@ -49,17 +48,17 @@ public class DummyEntityPlayer extends EntityPlayer{
 	}
 
 	@Override
-	public boolean canCommandSenderUseCommand(int i, String s) {
+	public boolean canCommandSenderUseCommand(int i, String s){
 		return false;
 	}
 
 	@Override
-	public ChunkCoordinates getPlayerCoordinates() {
+	public ChunkCoordinates getPlayerCoordinates(){
 		return null;
 	}
 
 	@Override
-	public void addChatMessage(IChatComponent arg0) {
+	public void addChatMessage(IChatComponent arg0){
 
 	}
 

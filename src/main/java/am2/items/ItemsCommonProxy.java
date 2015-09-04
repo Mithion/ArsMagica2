@@ -1,8 +1,15 @@
 package am2.items;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import am2.AMCore;
+import am2.AMCreativeTab;
+import am2.api.flickers.IFlickerFunctionality;
+import am2.api.spell.enums.Affinity;
+import am2.armor.*;
+import am2.blocks.BlocksCommonProxy;
+import am2.blocks.tileentities.flickers.FlickerOperatorRegistry;
+import am2.enchantments.AMEnchantmentHelper;
+import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -11,31 +18,15 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import am2.AMCore;
-import am2.AMCreativeTab;
-import am2.api.flickers.IFlickerFunctionality;
-import am2.api.spell.enums.Affinity;
-import am2.armor.AMArmor;
-import am2.armor.ArmorHelper;
-import am2.armor.ArsMagicaArmorMaterial;
-import am2.armor.ItemEarthGuardianArmor;
-import am2.armor.ItemEnderBoots;
-import am2.armor.ItemFireGuardianEars;
-import am2.armor.ItemMageHood;
-import am2.armor.ItemMagitechGoggles;
-import am2.armor.ItemWaterGuardianOrbs;
-import am2.blocks.BlocksCommonProxy;
-import am2.blocks.tileentities.flickers.FlickerOperatorRegistry;
-import am2.enchantments.AMEnchantmentHelper;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ItemsCommonProxy {
-	
+import java.util.ArrayList;
+import java.util.List;
+
+public class ItemsCommonProxy{
+
 	//Core Crafting Components
 	public static ItemOre itemOre;
 
@@ -191,11 +182,11 @@ public class ItemsCommonProxy {
 
 		FMLLog.finer("Ars Magica >> Instantiating Items");
 
-		itemOre = (ItemOre) new ItemOre().setUnlocalizedAndTextureName("arsmagica2:itemOre").setCreativeTab(itemTab);
-		essence = (ItemEssence) new ItemEssence().setUnlocalizedAndTextureName("arsmagica2:essence").setCreativeTab(itemTab);
-		spellBook = (ItemSpellBook) new ItemSpellBook().setUnlocalizedAndTextureName("arsmagica2:spell_book").setCreativeTab(itemTab);
+		itemOre = (ItemOre)new ItemOre().setUnlocalizedAndTextureName("arsmagica2:itemOre").setCreativeTab(itemTab);
+		essence = (ItemEssence)new ItemEssence().setUnlocalizedAndTextureName("arsmagica2:essence").setCreativeTab(itemTab);
+		spellBook = (ItemSpellBook)new ItemSpellBook().setUnlocalizedAndTextureName("arsmagica2:spell_book").setCreativeTab(itemTab);
 		spellParchment = (ArsMagicaItem)new ArsMagicaItem().setUnlocalizedAndTextureName("arsmagica2:spell_parchment").setCreativeTab(itemTab);
-		spell = (SpellBase) new SpellBase().setUnlocalizedName("arsmagica2:spell_base");
+		spell = (SpellBase)new SpellBase().setUnlocalizedName("arsmagica2:spell_base");
 		rune = (ItemRune)new ItemRune(0).setUnlocalizedAndTextureName("runes").setCreativeTab(itemTab);
 		mageHood = (new ItemMageHood(ArmorMaterial.GOLD, ArsMagicaArmorMaterial.MAGE, ArmorHelper.getArmorRenderIndex("mage"), 0)).setUnlocalizedAndTextureName("arsmagica2:helmet_mage").setCreativeTab(itemTab);
 		mageArmor = (new AMArmor(ArmorMaterial.GOLD, ArsMagicaArmorMaterial.MAGE, ArmorHelper.getArmorRenderIndex("mage"), 1)).setUnlocalizedAndTextureName("arsmagica2:chest_mage").setCreativeTab(itemTab);
@@ -210,67 +201,67 @@ public class ItemsCommonProxy {
 		//archmageLeggings = (new ArsMagicaItemArmor(AMCore.config.getConfigurableItemID("archmage_leggings", 20039), ArmorMaterial.DIAMOND, ArsMagicaArmorMaterial.ARCHMAGE, ArmorHelper.getArmorRenderIndex("archmage"), 2)).setUnlocalizedAndTextureName("arsmagica2:legs_archmage").setCreativeTab(itemTab);
 		//archmageBoots = (new ArsMagicaItemArmor(AMCore.config.getConfigurableItemID("archmage_boots", 20040), ArmorMaterial.DIAMOND, ArsMagicaArmorMaterial.ARCHMAGE, ArmorHelper.getArmorRenderIndex("archmage"), 3)).setUnlocalizedAndTextureName("arsmagica2:boots_archmage").setCreativeTab(itemTab);
 		wizardChalk = new ItemChalk().setUnlocalizedAndTextureName("arsmagica2:wizardChalk").setCreativeTab(itemTab);
-		lesserFocus = (ItemFocusLesser) new ItemFocusLesser().setUnlocalizedAndTextureName("arsmagica2:lesserfocus").setCreativeTab(itemTab);
-		standardFocus = (ItemFocusStandard) new ItemFocusStandard().setUnlocalizedAndTextureName("arsmagica2:standardfocus").setCreativeTab(itemTab);
-		greaterFocus = (ItemFocusGreater) new ItemFocusGreater().setUnlocalizedAndTextureName("arsmagica2:greaterfocus").setCreativeTab(itemTab);
-		manaFocus = (ItemFocusMana) new ItemFocusMana().setUnlocalizedAndTextureName("arsmagica2:manafocus").setCreativeTab(itemTab);
-		chargeFocus = (ItemFocusCharge) new ItemFocusCharge().setUnlocalizedAndTextureName("arsmagica2:chargefocus").setCreativeTab(itemTab);
+		lesserFocus = (ItemFocusLesser)new ItemFocusLesser().setUnlocalizedAndTextureName("arsmagica2:lesserfocus").setCreativeTab(itemTab);
+		standardFocus = (ItemFocusStandard)new ItemFocusStandard().setUnlocalizedAndTextureName("arsmagica2:standardfocus").setCreativeTab(itemTab);
+		greaterFocus = (ItemFocusGreater)new ItemFocusGreater().setUnlocalizedAndTextureName("arsmagica2:greaterfocus").setCreativeTab(itemTab);
+		manaFocus = (ItemFocusMana)new ItemFocusMana().setUnlocalizedAndTextureName("arsmagica2:manafocus").setCreativeTab(itemTab);
+		chargeFocus = (ItemFocusCharge)new ItemFocusCharge().setUnlocalizedAndTextureName("arsmagica2:chargefocus").setCreativeTab(itemTab);
 		bookAffinity = (ItemAffinityBook)new ItemAffinityBook().setUnlocalizedAndTextureName("arsmagica2:affinity_tome").setCreativeTab(itemTab);
-		keystone = (ItemKeystone) new ItemKeystone().setUnlocalizedAndTextureName("arsmagica2:keystone").setCreativeTab(itemTab);
-		playerFocus = (ItemPlayerFocus) new ItemPlayerFocus().setUnlocalizedAndTextureName("arsmagica2:player_focus").setCreativeTab(itemTab);
-		mobFocus = (ItemMobFocus) new ItemMobFocus().setUnlocalizedAndTextureName("arsmagica2:monster_focus").setCreativeTab(itemTab);
-		itemFocus = (ItemItemFocus) new ItemItemFocus().setUnlocalizedAndTextureName("arsmagica2:item_focus").setCreativeTab(itemTab);
-		creatureFocus = (ItemCreatureFocus) new ItemCreatureFocus().setUnlocalizedAndTextureName("arsmagica2:creature_focus").setCreativeTab(itemTab);
+		keystone = (ItemKeystone)new ItemKeystone().setUnlocalizedAndTextureName("arsmagica2:keystone").setCreativeTab(itemTab);
+		playerFocus = (ItemPlayerFocus)new ItemPlayerFocus().setUnlocalizedAndTextureName("arsmagica2:player_focus").setCreativeTab(itemTab);
+		mobFocus = (ItemMobFocus)new ItemMobFocus().setUnlocalizedAndTextureName("arsmagica2:monster_focus").setCreativeTab(itemTab);
+		itemFocus = (ItemItemFocus)new ItemItemFocus().setUnlocalizedAndTextureName("arsmagica2:item_focus").setCreativeTab(itemTab);
+		creatureFocus = (ItemCreatureFocus)new ItemCreatureFocus().setUnlocalizedAndTextureName("arsmagica2:creature_focus").setCreativeTab(itemTab);
 		BoundHoe = new ItemBoundHoe(ToolMaterial.IRON).setUnlocalizedAndTextureName("arsmagica2:bound_hoe");
 		BoundAxe = new ItemBoundAxe(ToolMaterial.IRON).setUnlocalizedAndTextureName("arsmagica2:bound_axe");
 		BoundPickaxe = new ItemBoundPickaxe(ToolMaterial.IRON).setUnlocalizedAndTextureName("arsmagica2:bound_pickaxe");
 		BoundShovel = new ItemBoundShovel(ToolMaterial.IRON).setUnlocalizedAndTextureName("arsmagica2:bound_shovel");
 		BoundSword = new ItemBoundSword(ToolMaterial.IRON).setUnlocalizedAndTextureName("arsmagica2:bound_sword");
-		manaCake = (ItemManaCake) new ItemManaCake().setUnlocalizedAndTextureName("arsmagica2:mana_cake").setAlwaysEdible().setCreativeTab(itemTab);
-		lesserManaPotion = (ItemManaPotion) new ItemManaPotion().setUnlocalizedAndTextureName("arsmagica2:mana_potion_lesser").setCreativeTab(itemTab);
-		standardManaPotion = (ItemManaPotion) new ItemManaPotion().setUnlocalizedAndTextureName("arsmagica2:mana_potion_standard").setCreativeTab(itemTab);
-		greaterManaPotion = (ItemManaPotion) new ItemManaPotion().setUnlocalizedAndTextureName("arsmagica2:mana_potion_greater").setCreativeTab(itemTab);
-		epicManaPotion = (ItemManaPotion) new ItemManaPotion().setUnlocalizedAndTextureName("arsmagica2:mana_potion_epic").setCreativeTab(itemTab);
-		legendaryManaPotion = (ItemManaPotion) new ItemManaPotion().setUnlocalizedAndTextureName("arsmagica2:mana_potion_legendary").setCreativeTab(itemTab);
-		deficitCrystal = (ArsMagicaItem) new ArsMagicaItem().setUnlocalizedAndTextureName("arsmagica2:deficit_crystal").setCreativeTab(itemTab);
-		essenceBag = (ItemEssenceBag) new ItemEssenceBag().setUnlocalizedAndTextureName("arsmagica2:essence_bag").setCreativeTab(itemTab);
-		manaPotionBundle = (ItemManaPotionBundle) new ItemManaPotionBundle().setUnlocalizedAndTextureName("arsmagica2:mana_potion_bundle").setCreativeTab(itemTab);
-		crystalWrench = (ItemCrystalWrench) new ItemCrystalWrench().setUnlocalizedAndTextureName("arsmagica2:crystal_wrench").setCreativeTab(itemTab);
-		spawnEgg = (AMSpawnEgg) new AMSpawnEgg().setUnlocalizedAndTextureName("am_spawnegg").setCreativeTab(itemTab);
-		arcaneCompendium = (ItemArcaneCompendium) new ItemArcaneCompendium().setUnlocalizedAndTextureName("arsmagica2:ArcaneCompendium").setCreativeTab(itemTab);
+		manaCake = (ItemManaCake)new ItemManaCake().setUnlocalizedAndTextureName("arsmagica2:mana_cake").setAlwaysEdible().setCreativeTab(itemTab);
+		lesserManaPotion = (ItemManaPotion)new ItemManaPotion().setUnlocalizedAndTextureName("arsmagica2:mana_potion_lesser").setCreativeTab(itemTab);
+		standardManaPotion = (ItemManaPotion)new ItemManaPotion().setUnlocalizedAndTextureName("arsmagica2:mana_potion_standard").setCreativeTab(itemTab);
+		greaterManaPotion = (ItemManaPotion)new ItemManaPotion().setUnlocalizedAndTextureName("arsmagica2:mana_potion_greater").setCreativeTab(itemTab);
+		epicManaPotion = (ItemManaPotion)new ItemManaPotion().setUnlocalizedAndTextureName("arsmagica2:mana_potion_epic").setCreativeTab(itemTab);
+		legendaryManaPotion = (ItemManaPotion)new ItemManaPotion().setUnlocalizedAndTextureName("arsmagica2:mana_potion_legendary").setCreativeTab(itemTab);
+		deficitCrystal = (ArsMagicaItem)new ArsMagicaItem().setUnlocalizedAndTextureName("arsmagica2:deficit_crystal").setCreativeTab(itemTab);
+		essenceBag = (ItemEssenceBag)new ItemEssenceBag().setUnlocalizedAndTextureName("arsmagica2:essence_bag").setCreativeTab(itemTab);
+		manaPotionBundle = (ItemManaPotionBundle)new ItemManaPotionBundle().setUnlocalizedAndTextureName("arsmagica2:mana_potion_bundle").setCreativeTab(itemTab);
+		crystalWrench = (ItemCrystalWrench)new ItemCrystalWrench().setUnlocalizedAndTextureName("arsmagica2:crystal_wrench").setCreativeTab(itemTab);
+		spawnEgg = (AMSpawnEgg)new AMSpawnEgg().setUnlocalizedAndTextureName("am_spawnegg").setCreativeTab(itemTab);
+		arcaneCompendium = (ItemArcaneCompendium)new ItemArcaneCompendium().setUnlocalizedAndTextureName("arsmagica2:ArcaneCompendium").setCreativeTab(itemTab);
 		spell_component = new ItemSpellPart();
 		//TODO: Item.itemsList[BlocksCommonProxy.wakebloom.blockID] = new ItemWakebloom(BlocksCommonProxy.wakebloom.blockID - 256).setUnlocalizedName("arsmagica2:wakebloom").setCreativeTab(BlocksCommonProxy.blockTab);
-		crystalPhylactery = (ItemCrystalPhylactery) new ItemCrystalPhylactery().setUnlocalizedAndTextureName("arsmagica2:crystal_phylactery").setCreativeTab(itemTab);
-		itemAMBucket = (ItemAMBucket) new ItemAMBucket().setUnlocalizedAndTextureName("arsmagica2:liquidEssenceBucket").setCreativeTab(itemTab);
-		scythe = (ItemNatureGuardianSickle) new ItemNatureGuardianSickle().setUnlocalizedName("arsmagica2:nature_scythe").setCreativeTab(itemTab);
-		spellStaffMagitech = (ItemSpellStaff) new ItemSpellStaff(0, -1).setStaffHeadIndex(3).setUnlocalizedAndTextureName("arsmagica2:spell_staff_magitech").setCreativeTab(itemTab);
-		liquidEssenceBottle = (ItemLiquidEssenceBottle) new ItemLiquidEssenceBottle().setUnlocalizedAndTextureName("arsmagica2:mana_boost_potion").setCreativeTab(itemTab);
+		crystalPhylactery = (ItemCrystalPhylactery)new ItemCrystalPhylactery().setUnlocalizedAndTextureName("arsmagica2:crystal_phylactery").setCreativeTab(itemTab);
+		itemAMBucket = (ItemAMBucket)new ItemAMBucket().setUnlocalizedAndTextureName("arsmagica2:liquidEssenceBucket").setCreativeTab(itemTab);
+		scythe = (ItemNatureGuardianSickle)new ItemNatureGuardianSickle().setUnlocalizedName("arsmagica2:nature_scythe").setCreativeTab(itemTab);
+		spellStaffMagitech = (ItemSpellStaff)new ItemSpellStaff(0, -1).setStaffHeadIndex(3).setUnlocalizedAndTextureName("arsmagica2:spell_staff_magitech").setCreativeTab(itemTab);
+		liquidEssenceBottle = (ItemLiquidEssenceBottle)new ItemLiquidEssenceBottle().setUnlocalizedAndTextureName("arsmagica2:mana_boost_potion").setCreativeTab(itemTab);
 		evilBook = new Item().setUnlocalizedName("arsmagica2:evilBook").setTextureName("arsmagica2:evilBook").setCreativeTab(itemTab);
 		woodenLeg = new Item().setUnlocalizedName("arsmagica2:woodenLeg").setTextureName("arsmagica2:woodenLeg").setCreativeTab(itemTab);
-		cowHorn = (ItemHellCowHorn) new ItemHellCowHorn().setUnlocalizedName("arsmagica2:cowhorn").setCreativeTab(itemTab);
-		magicBroom = (ItemMagicBroom) new ItemMagicBroom().setUnlocalizedAndTextureName("arsmagica2:magic_broom").setCreativeTab(itemTab);
+		cowHorn = (ItemHellCowHorn)new ItemHellCowHorn().setUnlocalizedName("arsmagica2:cowhorn").setCreativeTab(itemTab);
+		magicBroom = (ItemMagicBroom)new ItemMagicBroom().setUnlocalizedAndTextureName("arsmagica2:magic_broom").setCreativeTab(itemTab);
 		//witchwoodSlab = new ItemSlab(AMCore.config.getConfigurableItemID("witchwood__doubleslab_placer", 20119), BlocksCommonProxy.witchwoodSingleSlab, BlocksCommonProxy.witchwoodDoubleSlab, true);
-		arcaneSpellbook = (ItemArcaneGuardianSpellbook) new ItemArcaneGuardianSpellbook().setUnlocalizedName("arsmagica2:arcane_spellbook").setCreativeTab(itemTab);
-		winterGuardianArm = (ItemWinterGuardianArm) new ItemWinterGuardianArm().setUnlocalizedName("arsmagica2:winter_arm").setCreativeTab(itemTab);
-		airGuardianLower = (ItemAirSled) new ItemAirSled().setUnlocalizedName("arsmagica2:air_sled").setCreativeTab(itemTab);
-		earthGuardianArmor = (ItemEarthGuardianArmor) new ItemEarthGuardianArmor(ArmorMaterial.GOLD, ArsMagicaArmorMaterial.UNIQUE, 0, 1).setUnlocalizedName("arsmagica2:earth_armor").setCreativeTab(itemTab);
-		waterGuardianOrbs = (ItemWaterGuardianOrbs) new ItemWaterGuardianOrbs(ArmorMaterial.GOLD, ArsMagicaArmorMaterial.UNIQUE, 0, 2).setUnlocalizedName("arsmagica2:water_orbs").setCreativeTab(itemTab);
-		fireEars = (ItemFireGuardianEars) new ItemFireGuardianEars(ArmorMaterial.GOLD, ArsMagicaArmorMaterial.UNIQUE, 0, 0).setUnlocalizedName("arsmagica2:fire_ears").setCreativeTab(itemTab);
-		workbenchUpgrade = (ArsMagicaItem) new ArsMagicaItem().setUnlocalizedAndTextureName("arsmagica2:workbenchUpgrade").setCreativeTab(itemTab);
-		bindingCatalyst = (ItemBindingCatalyst) new ItemBindingCatalyst().setUnlocalizedName("arsmagica2:bindingCatalyst").setCreativeTab(itemTab);
+		arcaneSpellbook = (ItemArcaneGuardianSpellbook)new ItemArcaneGuardianSpellbook().setUnlocalizedName("arsmagica2:arcane_spellbook").setCreativeTab(itemTab);
+		winterGuardianArm = (ItemWinterGuardianArm)new ItemWinterGuardianArm().setUnlocalizedName("arsmagica2:winter_arm").setCreativeTab(itemTab);
+		airGuardianLower = (ItemAirSled)new ItemAirSled().setUnlocalizedName("arsmagica2:air_sled").setCreativeTab(itemTab);
+		earthGuardianArmor = (ItemEarthGuardianArmor)new ItemEarthGuardianArmor(ArmorMaterial.GOLD, ArsMagicaArmorMaterial.UNIQUE, 0, 1).setUnlocalizedName("arsmagica2:earth_armor").setCreativeTab(itemTab);
+		waterGuardianOrbs = (ItemWaterGuardianOrbs)new ItemWaterGuardianOrbs(ArmorMaterial.GOLD, ArsMagicaArmorMaterial.UNIQUE, 0, 2).setUnlocalizedName("arsmagica2:water_orbs").setCreativeTab(itemTab);
+		fireEars = (ItemFireGuardianEars)new ItemFireGuardianEars(ArmorMaterial.GOLD, ArsMagicaArmorMaterial.UNIQUE, 0, 0).setUnlocalizedName("arsmagica2:fire_ears").setCreativeTab(itemTab);
+		workbenchUpgrade = (ArsMagicaItem)new ArsMagicaItem().setUnlocalizedAndTextureName("arsmagica2:workbenchUpgrade").setCreativeTab(itemTab);
+		bindingCatalyst = (ItemBindingCatalyst)new ItemBindingCatalyst().setUnlocalizedName("arsmagica2:bindingCatalyst").setCreativeTab(itemTab);
 		//boundBow = new ItemBoundBow().setUnlocalizedName("arsmagica2:bound_bow").setCreativeTab(itemTab);
-		itemKeystoneDoor = (ItemKeystoneDoor) new ItemKeystoneDoor().setUnlocalizedName("arsmagica2:keystoneDoor").setCreativeTab(BlocksCommonProxy.blockTab);
-		enderBoots = (ItemEnderBoots) new ItemEnderBoots(ArmorMaterial.GOLD, ArsMagicaArmorMaterial.UNIQUE, ArmorHelper.getArmorRenderIndex("ender"), 3).setUnlocalizedName("arsmagica2:enderBoots").setCreativeTab(itemTab);
-		wardingCandle = (ItemCandle) new ItemCandle().setUnlocalizedAndTextureName("arsmagica2:warding_candle").setCreativeTab(itemTab);
-		magitechGoggles = (ItemMagitechGoggles) new ItemMagitechGoggles(ArmorHelper.getArmorRenderIndex("magitech")).setUnlocalizedAndTextureName("arsmagica2:magitechGoggles").setCreativeTab(itemTab);
-		flickerJar = (ItemFlickerJar) new ItemFlickerJar().setUnlocalizedAndTextureName("arsmagica2:flicker_jar").setCreativeTab(itemTab);
-		runeBag = (ItemRuneBag) new ItemRuneBag().setUnlocalizedName("arsmagica2:runebag").setCreativeTab(itemTab);
-		lightningCharm = (ItemLightningCharm) new ItemLightningCharm().setUnlocalizedAndTextureName("arsmagica2:lightningcharm").setCreativeTab(itemTab);
-		lifeWard = (ItemLifeWard) new ItemLifeWard().setUnlocalizedAndTextureName("arsmagica2:lifeward").setCreativeTab(itemTab);
-		flickerFocus = (ItemFlickerFocus) new ItemFlickerFocus().setUnlocalizedAndTextureName("arsmagica2:flickerFocus").setCreativeTab(itemTab);
-		playerjournal = (ItemJournal) new ItemJournal().setUnlocalizedName("arsmagica2:playerjournal").setCreativeTab(itemTab);
-		manaMartini = (ItemManaMartini) new ItemManaMartini().setUnlocalizedAndTextureName("arsmagica2:mana_martini").setCreativeTab(itemTab);
-		inscriptionUpgrade = (InscriptionTableUpgrade) new InscriptionTableUpgrade().setUnlocalizedName("arsmagica2:inscription_upgrade").setCreativeTab(itemTab);
+		itemKeystoneDoor = (ItemKeystoneDoor)new ItemKeystoneDoor().setUnlocalizedName("arsmagica2:keystoneDoor").setCreativeTab(BlocksCommonProxy.blockTab);
+		enderBoots = (ItemEnderBoots)new ItemEnderBoots(ArmorMaterial.GOLD, ArsMagicaArmorMaterial.UNIQUE, ArmorHelper.getArmorRenderIndex("ender"), 3).setUnlocalizedName("arsmagica2:enderBoots").setCreativeTab(itemTab);
+		wardingCandle = (ItemCandle)new ItemCandle().setUnlocalizedAndTextureName("arsmagica2:warding_candle").setCreativeTab(itemTab);
+		magitechGoggles = (ItemMagitechGoggles)new ItemMagitechGoggles(ArmorHelper.getArmorRenderIndex("magitech")).setUnlocalizedAndTextureName("arsmagica2:magitechGoggles").setCreativeTab(itemTab);
+		flickerJar = (ItemFlickerJar)new ItemFlickerJar().setUnlocalizedAndTextureName("arsmagica2:flicker_jar").setCreativeTab(itemTab);
+		runeBag = (ItemRuneBag)new ItemRuneBag().setUnlocalizedName("arsmagica2:runebag").setCreativeTab(itemTab);
+		lightningCharm = (ItemLightningCharm)new ItemLightningCharm().setUnlocalizedAndTextureName("arsmagica2:lightningcharm").setCreativeTab(itemTab);
+		lifeWard = (ItemLifeWard)new ItemLifeWard().setUnlocalizedAndTextureName("arsmagica2:lifeward").setCreativeTab(itemTab);
+		flickerFocus = (ItemFlickerFocus)new ItemFlickerFocus().setUnlocalizedAndTextureName("arsmagica2:flickerFocus").setCreativeTab(itemTab);
+		playerjournal = (ItemJournal)new ItemJournal().setUnlocalizedName("arsmagica2:playerjournal").setCreativeTab(itemTab);
+		manaMartini = (ItemManaMartini)new ItemManaMartini().setUnlocalizedAndTextureName("arsmagica2:mana_martini").setCreativeTab(itemTab);
+		inscriptionUpgrade = (InscriptionTableUpgrade)new InscriptionTableUpgrade().setUnlocalizedName("arsmagica2:inscription_upgrade").setCreativeTab(itemTab);
 
 		addItemStackToChestGen(new ItemStack(rune, 1, rune.META_INF_ORB_BLUE), 1, 1, 3, ChestGenHooks.DUNGEON_CHEST, ChestGenHooks.MINESHAFT_CORRIDOR, ChestGenHooks.PYRAMID_DESERT_CHEST, ChestGenHooks.PYRAMID_JUNGLE_CHEST, ChestGenHooks.STRONGHOLD_CORRIDOR, ChestGenHooks.STRONGHOLD_CROSSING);
 		addItemStackToChestGen(new ItemStack(rune, 1, rune.META_INF_ORB_BLUE), 1, 1, 5, ChestGenHooks.STRONGHOLD_LIBRARY);
@@ -280,7 +271,7 @@ public class ItemsCommonProxy {
 
 		addItemStackToChestGen(new ItemStack(rune, 1, rune.META_INF_ORB_RED), 1, 1, 6, ChestGenHooks.STRONGHOLD_LIBRARY);
 
-		protectiveArmors  = new Item[]{
+		protectiveArmors = new Item[]{
 				mageHood, mageArmor, mageLeggings, mageBoots,
 				battlemageHood, battlemageArmor, battlemageLeggings, battlemageBoots,
 				//archmageHood, archmageArmor, archmageLeggings, archmageBoots
@@ -314,7 +305,7 @@ public class ItemsCommonProxy {
 		lifeWardEnchanted = AMEnchantmentHelper.soulbindStack(new ItemStack(lifeWard));
 	}
 
-	private void addItemStackToChestGen(ItemStack stack, int min, int max, int weight, String ... categories){
+	private void addItemStackToChestGen(ItemStack stack, int min, int max, int weight, String... categories){
 		for (String s : categories){
 			ChestGenHooks.addItem(s, new WeightedRandomChestContent(stack, min, max, weight));
 		}
@@ -451,70 +442,70 @@ public class ItemsCommonProxy {
 				new ItemStack(itemOre, 1, itemOre.META_ARCANECOMPOUND),
 				new Object[]
 						{
-					"BRN", "G G", "NRB",
-					Character.valueOf('B'), Blocks.stone,
-					Character.valueOf('R'), Items.redstone,
-					Character.valueOf('N'), Blocks.netherrack,
-					Character.valueOf('G'), Items.glowstone_dust
+								"BRN", "G G", "NRB",
+								Character.valueOf('B'), Blocks.stone,
+								Character.valueOf('R'), Items.redstone,
+								Character.valueOf('N'), Blocks.netherrack,
+								Character.valueOf('G'), Items.glowstone_dust
 						});
 
 		//spell crafting
 		GameRegistry.addRecipe(new ShapedOreRecipe(
 				new ItemStack(spellParchment, 1),
 				new Object[]{
-					"S",
-					"P",
-					"S",
-					Character.valueOf('S'), "stickWood",
-					Character.valueOf('P'), Items.paper
+						"S",
+						"P",
+						"S",
+						Character.valueOf('S'), "stickWood",
+						Character.valueOf('P'), Items.paper
 				}));
 
 		//spell book
 		GameRegistry.addRecipe(
 				new ItemStack(spellBook, 1),
 				new Object[]{
-					"SLL",
-					"SPP",
-					"SLL",
-					Character.valueOf('S'), Items.string,
-					Character.valueOf('L'), Items.leather,
-					Character.valueOf('P'), Items.paper
+						"SLL",
+						"SPP",
+						"SLL",
+						Character.valueOf('S'), Items.string,
+						Character.valueOf('L'), Items.leather,
+						Character.valueOf('P'), Items.paper
 				});
 
 		//crystal wrench
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(crystalWrench),
 				new Object[]{
-			"I I",
-			"AVD",
-			" I ",
-			Character.valueOf('I'), Items.iron_ingot,
-			Character.valueOf('A'), BlocksCommonProxy.cerublossom,
-			Character.valueOf('D'), BlocksCommonProxy.desertNova,
-			Character.valueOf('V'), "dustVinteum",
-		}));
+						"I I",
+						"AVD",
+						" I ",
+						Character.valueOf('I'), Items.iron_ingot,
+						Character.valueOf('A'), BlocksCommonProxy.cerublossom,
+						Character.valueOf('D'), BlocksCommonProxy.desertNova,
+						Character.valueOf('V'), "dustVinteum",
+				}));
 
 		//spell book colors
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 0), new Object[] { "dyeBrown", new ItemStack(spellBook, 1, AMCore.ANY_META) }));  //brown
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 1), new Object[] { "dyeCyan", new ItemStack(spellBook, 1, AMCore.ANY_META) }));  //cyan
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 2), new Object[] { "dyeGray", new ItemStack(spellBook, 1, AMCore.ANY_META) }));  //gray
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 3), new Object[] { "dyeLightBlue", new ItemStack(spellBook, 1, AMCore.ANY_META) }));  //light blue
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 4), new Object[] { "dyeWhite", new ItemStack(spellBook, 1, AMCore.ANY_META) }));  //white
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 5), new Object[] { "dyeBlack", new ItemStack(spellBook, 1, AMCore.ANY_META) }));  //black
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 6), new Object[] { "dyeOrange", new ItemStack(spellBook, 1, AMCore.ANY_META) }));  //orange
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 7), new Object[] { "dyePurple", new ItemStack(spellBook, 1, AMCore.ANY_META) }));  //purple
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 8), new Object[] { "dyeBlue", new ItemStack(spellBook, 1, AMCore.ANY_META) }));  //blue
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 9), new Object[] { "dyeGreen", new ItemStack(spellBook, 1, AMCore.ANY_META) }));  //green
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 10), new Object[] { "dyeYellow", new ItemStack(spellBook, 1, AMCore.ANY_META) }));  //yellow
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 11), new Object[] { "dyeRed", new ItemStack(spellBook, 1, AMCore.ANY_META) }));  //red
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 12), new Object[] { "dyeLime", new ItemStack(spellBook, 1, AMCore.ANY_META) }));  //lime
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 13), new Object[] { "dyePink", new ItemStack(spellBook, 1, AMCore.ANY_META) }));  //pink
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 14), new Object[] { "dyeMagenta", new ItemStack(spellBook, 1, AMCore.ANY_META) }));  //magenta
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 15), new Object[] { "dyeLightGray", new ItemStack(spellBook, 1, AMCore.ANY_META) }));  //light gray
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 0), new Object[]{"dyeBrown", new ItemStack(spellBook, 1, AMCore.ANY_META)}));  //brown
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 1), new Object[]{"dyeCyan", new ItemStack(spellBook, 1, AMCore.ANY_META)}));  //cyan
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 2), new Object[]{"dyeGray", new ItemStack(spellBook, 1, AMCore.ANY_META)}));  //gray
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 3), new Object[]{"dyeLightBlue", new ItemStack(spellBook, 1, AMCore.ANY_META)}));  //light blue
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 4), new Object[]{"dyeWhite", new ItemStack(spellBook, 1, AMCore.ANY_META)}));  //white
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 5), new Object[]{"dyeBlack", new ItemStack(spellBook, 1, AMCore.ANY_META)}));  //black
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 6), new Object[]{"dyeOrange", new ItemStack(spellBook, 1, AMCore.ANY_META)}));  //orange
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 7), new Object[]{"dyePurple", new ItemStack(spellBook, 1, AMCore.ANY_META)}));  //purple
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 8), new Object[]{"dyeBlue", new ItemStack(spellBook, 1, AMCore.ANY_META)}));  //blue
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 9), new Object[]{"dyeGreen", new ItemStack(spellBook, 1, AMCore.ANY_META)}));  //green
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 10), new Object[]{"dyeYellow", new ItemStack(spellBook, 1, AMCore.ANY_META)}));  //yellow
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 11), new Object[]{"dyeRed", new ItemStack(spellBook, 1, AMCore.ANY_META)}));  //red
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 12), new Object[]{"dyeLime", new ItemStack(spellBook, 1, AMCore.ANY_META)}));  //lime
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 13), new Object[]{"dyePink", new ItemStack(spellBook, 1, AMCore.ANY_META)}));  //pink
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 14), new Object[]{"dyeMagenta", new ItemStack(spellBook, 1, AMCore.ANY_META)}));  //magenta
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(spellBook, 1, 15), new Object[]{"dyeLightGray", new ItemStack(spellBook, 1, AMCore.ANY_META)}));  //light gray
 
 		GameRegistry.addRecipe(new ItemStack(runeBag), new Object[]{
-			"LLL", "W W", "LLL",
-			Character.valueOf('L'), Items.leather,
-			Character.valueOf('W'), new ItemStack(Blocks.wool, 1, AMCore.ANY_META),
+				"LLL", "W W", "LLL",
+				Character.valueOf('L'), Items.leather,
+				Character.valueOf('W'), new ItemStack(Blocks.wool, 1, AMCore.ANY_META),
 		});
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(magicBroom, new Object[]{
@@ -537,294 +528,294 @@ public class ItemsCommonProxy {
 
 		GameRegistry.addShapelessRecipe(
 				new ItemStack(evilBook), new Object[]{
-					new ItemStack(woodenLeg),
-					new ItemStack(arcaneCompendium)
+						new ItemStack(woodenLeg),
+						new ItemStack(arcaneCompendium)
 				});
 
 		GameRegistry.addShapelessRecipe(new ItemStack(playerjournal), new Object[]{
-			new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_ARCANE),
-			new ItemStack(Items.writable_book)
+				new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_ARCANE),
+				new ItemStack(Items.writable_book)
 		});
 
 		GameRegistry.addShapelessRecipe(
 				new ItemStack(manaPotionBundle, 1, (0 << 8) + 3), new Object[]{
-					new ItemStack(lesserManaPotion, 1, AMCore.ANY_META),
-					new ItemStack(lesserManaPotion, 1, AMCore.ANY_META),
-					new ItemStack(lesserManaPotion, 1, AMCore.ANY_META),
-					new ItemStack(Items.string)
+						new ItemStack(lesserManaPotion, 1, AMCore.ANY_META),
+						new ItemStack(lesserManaPotion, 1, AMCore.ANY_META),
+						new ItemStack(lesserManaPotion, 1, AMCore.ANY_META),
+						new ItemStack(Items.string)
 				});
 
 		GameRegistry.addShapelessRecipe(
 				new ItemStack(manaPotionBundle, 1, (1 << 8) + 3), new Object[]{
-					new ItemStack(standardManaPotion, 1, AMCore.ANY_META),
-					new ItemStack(standardManaPotion, 1, AMCore.ANY_META),
-					new ItemStack(standardManaPotion, 1, AMCore.ANY_META),
-					new ItemStack(Items.string)
+						new ItemStack(standardManaPotion, 1, AMCore.ANY_META),
+						new ItemStack(standardManaPotion, 1, AMCore.ANY_META),
+						new ItemStack(standardManaPotion, 1, AMCore.ANY_META),
+						new ItemStack(Items.string)
 				});
 
 		GameRegistry.addShapelessRecipe(
 				new ItemStack(manaPotionBundle, 1, (2 << 8) + 3), new Object[]{
-					new ItemStack(greaterManaPotion, 1, AMCore.ANY_META),
-					new ItemStack(greaterManaPotion, 1, AMCore.ANY_META),
-					new ItemStack(greaterManaPotion, 1, AMCore.ANY_META),
-					new ItemStack(Items.string)
+						new ItemStack(greaterManaPotion, 1, AMCore.ANY_META),
+						new ItemStack(greaterManaPotion, 1, AMCore.ANY_META),
+						new ItemStack(greaterManaPotion, 1, AMCore.ANY_META),
+						new ItemStack(Items.string)
 				});
 
 		GameRegistry.addShapelessRecipe(
 				new ItemStack(manaPotionBundle, 1, (3 << 8) + 3), new Object[]{
-					new ItemStack(epicManaPotion, 1, AMCore.ANY_META),
-					new ItemStack(epicManaPotion, 1, AMCore.ANY_META),
-					new ItemStack(epicManaPotion, 1, AMCore.ANY_META),
-					new ItemStack(Items.string)
+						new ItemStack(epicManaPotion, 1, AMCore.ANY_META),
+						new ItemStack(epicManaPotion, 1, AMCore.ANY_META),
+						new ItemStack(epicManaPotion, 1, AMCore.ANY_META),
+						new ItemStack(Items.string)
 				});
 
 		GameRegistry.addShapelessRecipe(
 				new ItemStack(manaPotionBundle, 1, (4 << 8) + 3), new Object[]{
-					new ItemStack(legendaryManaPotion, 1, AMCore.ANY_META),
-					new ItemStack(legendaryManaPotion, 1, AMCore.ANY_META),
-					new ItemStack(legendaryManaPotion, 1, AMCore.ANY_META),
-					new ItemStack(Items.string)
+						new ItemStack(legendaryManaPotion, 1, AMCore.ANY_META),
+						new ItemStack(legendaryManaPotion, 1, AMCore.ANY_META),
+						new ItemStack(legendaryManaPotion, 1, AMCore.ANY_META),
+						new ItemStack(Items.string)
 				});
 
 		//blank rune
 		GameRegistry.addRecipe(
 				new ItemStack(rune, 2, rune.META_BLANK),
 				new Object[]{
-					" S ","SSS","SS ",
-					Character.valueOf('S'), Blocks.cobblestone
+						" S ", "SSS", "SS ",
+						Character.valueOf('S'), Blocks.cobblestone
 				});
 		//blue rune
 		GameRegistry.addRecipe(new ShapelessOreRecipe(
 				new ItemStack(rune, 1, rune.META_BLUE),
 				new Object[]{
-					"dyeBlue",
-					new ItemStack(rune, 1, rune.META_BLANK)
+						"dyeBlue",
+						new ItemStack(rune, 1, rune.META_BLANK)
 				}));
 		//red rune
 		GameRegistry.addRecipe(new ShapelessOreRecipe(
 				new ItemStack(rune, 1, rune.META_RED),
 				new Object[]{
-					"dyeRed",
-					new ItemStack(rune, 1, rune.META_BLANK)
+						"dyeRed",
+						new ItemStack(rune, 1, rune.META_BLANK)
 				}));
 		//yellow rune
 		GameRegistry.addRecipe(new ShapelessOreRecipe(
 				new ItemStack(rune, 1, rune.META_YELLOW),
 				new Object[]{
-					"dyeYellow",
-					new ItemStack(rune, 1, rune.META_BLANK)
+						"dyeYellow",
+						new ItemStack(rune, 1, rune.META_BLANK)
 				}));
 		//orange rune
 		GameRegistry.addRecipe(new ShapelessOreRecipe(
 				new ItemStack(rune, 1, rune.META_ORANGE),
 				new Object[]{
-					"dyeOrange",
-					new ItemStack(rune, 1, rune.META_BLANK)
+						"dyeOrange",
+						new ItemStack(rune, 1, rune.META_BLANK)
 				}));
 		//green rune
 		GameRegistry.addRecipe(new ShapelessOreRecipe(
 				new ItemStack(rune, 1, rune.META_GREEN),
 				new Object[]{
-					"dyeGreen",
-					new ItemStack(rune, 1, rune.META_BLANK)
+						"dyeGreen",
+						new ItemStack(rune, 1, rune.META_BLANK)
 				}));
 		//purple rune
 		GameRegistry.addRecipe(new ShapelessOreRecipe(
 				new ItemStack(rune, 1, rune.META_PURPLE),
 				new Object[]{
-					"dyePurple",
-					new ItemStack(rune, 1, rune.META_BLANK)
+						"dyePurple",
+						new ItemStack(rune, 1, rune.META_BLANK)
 				}));
 		//white rune
 		GameRegistry.addRecipe(new ShapelessOreRecipe(
 				new ItemStack(rune, 1, rune.META_WHITE),
 				new Object[]{
-					"dyeWhite",
-					new ItemStack(rune, 1, rune.META_BLANK)
+						"dyeWhite",
+						new ItemStack(rune, 1, rune.META_BLANK)
 				}));
 		//black rune
 		GameRegistry.addRecipe(new ShapelessOreRecipe(
 				new ItemStack(rune, 1, rune.META_BLACK),
 				new Object[]{
-					"dyeBlack",
-					new ItemStack(rune, 1, rune.META_BLANK)
+						"dyeBlack",
+						new ItemStack(rune, 1, rune.META_BLANK)
 				}));
 		//brown rune
 		GameRegistry.addRecipe(new ShapelessOreRecipe(
 				new ItemStack(rune, 1, rune.META_BROWN),
 				new Object[]{
-					"dyeBrown",
-					new ItemStack(rune, 1, rune.META_BLANK)
+						"dyeBrown",
+						new ItemStack(rune, 1, rune.META_BLANK)
 				}));
 		//cyan rune
 		GameRegistry.addRecipe(new ShapelessOreRecipe(
 				new ItemStack(rune, 1, rune.META_CYAN),
 				new Object[]{
-					"dyeCyan",
-					new ItemStack(rune, 1, rune.META_BLANK)
+						"dyeCyan",
+						new ItemStack(rune, 1, rune.META_BLANK)
 				}));
 		//gray rune
 		GameRegistry.addRecipe(new ShapelessOreRecipe(
 				new ItemStack(rune, 1, rune.META_GRAY),
 				new Object[]{
-					"dyeGray",
-					new ItemStack(rune, 1, rune.META_BLANK)
+						"dyeGray",
+						new ItemStack(rune, 1, rune.META_BLANK)
 				}));
 		//light blue rune
 		GameRegistry.addRecipe(new ShapelessOreRecipe(
 				new ItemStack(rune, 1, rune.META_LIGHTBLUE),
 				new Object[]{
-					"dyeLightBlue",
-					new ItemStack(rune, 1, rune.META_BLANK)
+						"dyeLightBlue",
+						new ItemStack(rune, 1, rune.META_BLANK)
 				}));
 		//light gray rune
 		GameRegistry.addRecipe(new ShapelessOreRecipe(
 				new ItemStack(rune, 1, rune.META_LIGHTGRAY),
 				new Object[]{
-					"dyeLightGray",
-					new ItemStack(rune, 1, rune.META_BLANK)
+						"dyeLightGray",
+						new ItemStack(rune, 1, rune.META_BLANK)
 				}));
 		//magenta rune
 		GameRegistry.addRecipe(new ShapelessOreRecipe(
 				new ItemStack(rune, 1, rune.META_MAGENTA),
 				new Object[]{
-					"dyeMagenta",
-					new ItemStack(rune, 1, rune.META_BLANK)
+						"dyeMagenta",
+						new ItemStack(rune, 1, rune.META_BLANK)
 				}));
 		//pink rune
 		GameRegistry.addRecipe(new ShapelessOreRecipe(
 				new ItemStack(rune, 1, rune.META_PINK),
 				new Object[]{
-					"dyePink",
-					new ItemStack(rune, 1, rune.META_BLANK)
+						"dyePink",
+						new ItemStack(rune, 1, rune.META_BLANK)
 				}));
 		//pink rune
 		GameRegistry.addRecipe(new ShapelessOreRecipe(
 				new ItemStack(rune, 1, rune.META_LIME),
 				new Object[]{
-					"dyeLime",
-					new ItemStack(rune, 1, rune.META_BLANK)
+						"dyeLime",
+						new ItemStack(rune, 1, rune.META_BLANK)
 				}));
 
 		//wizard chalk
 		GameRegistry.addRecipe(new ShapelessOreRecipe(
 				new ItemStack(wizardChalk, 1),
 				new Object[]{
-					"dyeWhite",
-					new ItemStack(Items.clay_ball),
-					"dustVinteum",
-					new ItemStack(Items.flint),
-					new ItemStack(Items.paper)
+						"dyeWhite",
+						new ItemStack(Items.clay_ball),
+						"dustVinteum",
+						new ItemStack(Items.flint),
+						new ItemStack(Items.paper)
 				}));
 
 		//empty flicker jar
 		GameRegistry.addRecipe(new ItemStack(flickerJar, 1),
 				new Object[]{
-			"NWN",
-			"G G",
-			" G ",
-			Character.valueOf('W'), BlocksCommonProxy.magicWall,
-			Character.valueOf('N'), Items.gold_nugget,
-			Character.valueOf('G'), Blocks.glass_pane
-		});
+						"NWN",
+						"G G",
+						" G ",
+						Character.valueOf('W'), BlocksCommonProxy.magicWall,
+						Character.valueOf('N'), Items.gold_nugget,
+						Character.valueOf('G'), Blocks.glass_pane
+				});
 
 		//warding candle
 		GameRegistry.addRecipe(new ItemStack(wardingCandle), new Object[]{
-			"S",
-			"F",
-			"P",
-			Character.valueOf('S'), Items.string,
-			Character.valueOf('F'), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_ANIMALFAT),
-			Character.valueOf('P'), BlocksCommonProxy.witchwoodSingleSlab
+				"S",
+				"F",
+				"P",
+				Character.valueOf('S'), Items.string,
+				Character.valueOf('F'), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_ANIMALFAT),
+				Character.valueOf('P'), BlocksCommonProxy.witchwoodSingleSlab
 		});
 
 		//magitech goggles
-		GameRegistry.addRecipe(new ShapedOreRecipe( new ItemStack(magitechGoggles), new Object[]{
-			"LLL",
-			"CGC",
-			"TLT",
-			Character.valueOf('C'), "gemChimerite",
-			Character.valueOf('T'), "gemBlueTopaz",
-			Character.valueOf('L'), Items.leather,
-			Character.valueOf('G'), Items.gold_nugget,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(magitechGoggles), new Object[]{
+				"LLL",
+				"CGC",
+				"TLT",
+				Character.valueOf('C'), "gemChimerite",
+				Character.valueOf('T'), "gemBlueTopaz",
+				Character.valueOf('L'), Items.leather,
+				Character.valueOf('G'), Items.gold_nugget,
 		}));
 
 		//magitech staff
-				GameRegistry.addRecipe(new ShapedOreRecipe( new ItemStack(spellStaffMagitech), new Object[]{
-					" GT",
-					"G G",
-					"GG ",
-					Character.valueOf('T'), "gemBlueTopaz",
-					Character.valueOf('G'), Items.gold_nugget,
-				}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spellStaffMagitech), new Object[]{
+				" GT",
+				"G G",
+				"GG ",
+				Character.valueOf('T'), "gemBlueTopaz",
+				Character.valueOf('G'), Items.gold_nugget,
+		}));
 
 		//armor recipes
 		//MAGE
 		GameRegistry.addRecipe(new ItemStack(mageHood, 1),
 				new Object[]{
-			"WLW", "WRW", " B ",
-			Character.valueOf('W'), new ItemStack(Blocks.wool, 1, 12),
-			Character.valueOf('L'), Items.leather,
-			Character.valueOf('R'), new ItemStack(rune, 1, rune.META_PURPLE),
-			Character.valueOf('B'), new ItemStack(Items.potionitem, 1, 0),
-		});
+						"WLW", "WRW", " B ",
+						Character.valueOf('W'), new ItemStack(Blocks.wool, 1, 12),
+						Character.valueOf('L'), Items.leather,
+						Character.valueOf('R'), new ItemStack(rune, 1, rune.META_PURPLE),
+						Character.valueOf('B'), new ItemStack(Items.potionitem, 1, 0),
+				});
 		GameRegistry.addRecipe(new ItemStack(mageArmor, 1),
 				new Object[]{
-			"RCR", "WLW", "WWW",
-			Character.valueOf('W'), new ItemStack(Blocks.wool, 1, 12),
-			Character.valueOf('L'), Items.leather,
-			Character.valueOf('R'), new ItemStack(rune, 1, rune.META_WHITE),
-			Character.valueOf('C'), Items.coal
-		});
+						"RCR", "WLW", "WWW",
+						Character.valueOf('W'), new ItemStack(Blocks.wool, 1, 12),
+						Character.valueOf('L'), Items.leather,
+						Character.valueOf('R'), new ItemStack(rune, 1, rune.META_WHITE),
+						Character.valueOf('C'), Items.coal
+				});
 		GameRegistry.addRecipe(new ItemStack(mageLeggings, 1),
 				new Object[]{
-			"WRW", "WGW", "L L",
-			Character.valueOf('W'), new ItemStack(Blocks.wool, 1, 12),
-			Character.valueOf('L'), Items.leather,
-			Character.valueOf('R'), new ItemStack(rune, 1, rune.META_YELLOW),
-			Character.valueOf('G'), Items.gunpowder
-		});
+						"WRW", "WGW", "L L",
+						Character.valueOf('W'), new ItemStack(Blocks.wool, 1, 12),
+						Character.valueOf('L'), Items.leather,
+						Character.valueOf('R'), new ItemStack(rune, 1, rune.META_YELLOW),
+						Character.valueOf('G'), Items.gunpowder
+				});
 		GameRegistry.addRecipe(new ItemStack(mageBoots, 1),
 				new Object[]{
-			"R R", "L L", "WFW",
-			Character.valueOf('W'), new ItemStack(Blocks.wool, 1, 12),
-			Character.valueOf('L'), Items.leather,
-			Character.valueOf('R'), new ItemStack(rune, 1, rune.META_BLACK),
-			Character.valueOf('F'), Items.feather
-		});
+						"R R", "L L", "WFW",
+						Character.valueOf('W'), new ItemStack(Blocks.wool, 1, 12),
+						Character.valueOf('L'), Items.leather,
+						Character.valueOf('R'), new ItemStack(rune, 1, rune.META_BLACK),
+						Character.valueOf('F'), Items.feather
+				});
 		//BATTLEMAGE
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(battlemageHood, 1),
 				new Object[]{
-			"WLW", "WRW", " E ",
-			Character.valueOf('W'), new ItemStack(Blocks.obsidian),
-			Character.valueOf('L'), BlocksCommonProxy.goldInlay,
-			Character.valueOf('R'), new ItemStack(rune, 1, 1),
-			Character.valueOf('E'), new ItemStack(essence, 1, 4)
-		}));
+						"WLW", "WRW", " E ",
+						Character.valueOf('W'), new ItemStack(Blocks.obsidian),
+						Character.valueOf('L'), BlocksCommonProxy.goldInlay,
+						Character.valueOf('R'), new ItemStack(rune, 1, 1),
+						Character.valueOf('E'), new ItemStack(essence, 1, 4)
+				}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(battlemageArmor, 1),
 				new Object[]{
-			"RER", "WLW", "WWW",
-			Character.valueOf('W'), new ItemStack(Blocks.obsidian),
-			Character.valueOf('E'), new ItemStack(essence, 1, 1),
-			Character.valueOf('R'), new ItemStack(rune, 1, 1),
-			Character.valueOf('L'), BlocksCommonProxy.goldInlay
-		}));
+						"RER", "WLW", "WWW",
+						Character.valueOf('W'), new ItemStack(Blocks.obsidian),
+						Character.valueOf('E'), new ItemStack(essence, 1, 1),
+						Character.valueOf('R'), new ItemStack(rune, 1, 1),
+						Character.valueOf('L'), BlocksCommonProxy.goldInlay
+				}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(battlemageLeggings, 1),
 				new Object[]{
-			"WRW", "LEL", "W W",
-			Character.valueOf('W'), new ItemStack(Blocks.obsidian),
-			Character.valueOf('L'), BlocksCommonProxy.goldInlay,
-			Character.valueOf('R'), new ItemStack(rune, 1, 1),
-			Character.valueOf('E'), new ItemStack(essence, 1, 3)
-		}));
+						"WRW", "LEL", "W W",
+						Character.valueOf('W'), new ItemStack(Blocks.obsidian),
+						Character.valueOf('L'), BlocksCommonProxy.goldInlay,
+						Character.valueOf('R'), new ItemStack(rune, 1, 1),
+						Character.valueOf('E'), new ItemStack(essence, 1, 3)
+				}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(battlemageBoots, 1),
 				new Object[]{
-			"R R", "WEW", "WLW",
-			Character.valueOf('W'), new ItemStack(Blocks.obsidian),
-			Character.valueOf('L'), BlocksCommonProxy.goldInlay,
-			Character.valueOf('R'), new ItemStack(rune, 1, 1),
-			Character.valueOf('E'), new ItemStack(essence, 1, 2)
-		}));
+						"R R", "WEW", "WLW",
+						Character.valueOf('W'), new ItemStack(Blocks.obsidian),
+						Character.valueOf('L'), BlocksCommonProxy.goldInlay,
+						Character.valueOf('R'), new ItemStack(rune, 1, 1),
+						Character.valueOf('E'), new ItemStack(essence, 1, 2)
+				}));
 		//ARCHMAGE
 		/*GameRegistry.addRecipe(new ItemStack(archmageHood, 1),
 				new Object[]{
@@ -857,76 +848,76 @@ public class ItemsCommonProxy {
 		});*/
 
 		GameRegistry.addRecipe(new ItemStack(essenceBag), new Object[]{
-			"LLL", "WNW", "LLL",
-			Character.valueOf('L'), Items.leather,
-			Character.valueOf('W'), new ItemStack(Blocks.wool, 1, AMCore.ANY_META),
-			Character.valueOf('N'), Items.gold_nugget
+				"LLL", "WNW", "LLL",
+				Character.valueOf('L'), Items.leather,
+				Character.valueOf('W'), new ItemStack(Blocks.wool, 1, AMCore.ANY_META),
+				Character.valueOf('N'), Items.gold_nugget
 		});
 
-		GameRegistry.addRecipe(new ShapedOreRecipe( new ItemStack(crystalPhylactery), new Object[]{
-			" B ", "GPG", " W ",
-			Character.valueOf('B'), "gemMoonstone",
-			Character.valueOf('W'), BlocksCommonProxy.magicWall,
-			Character.valueOf('G'), Blocks.glass,
-			Character.valueOf('P'), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_PURIFIEDVINTEUM)
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(crystalPhylactery), new Object[]{
+				" B ", "GPG", " W ",
+				Character.valueOf('B'), "gemMoonstone",
+				Character.valueOf('W'), BlocksCommonProxy.magicWall,
+				Character.valueOf('G'), Blocks.glass,
+				Character.valueOf('P'), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_PURIFIEDVINTEUM)
 		}));
 
 		//lesser mana potion
 		//GameRegistry.addRecipe(new ItemStack(Item.potion, 1, ))
 
-		GameRegistry.addRecipe(new ShapedOreRecipe( new ItemStack(keystone, 1), new Object[]{
-			"GIG",
-			"IVI",
-			"GIG",
-			Character.valueOf('G'), Items.gold_ingot,
-			Character.valueOf('I'), Items.iron_ingot,
-			Character.valueOf('V'), "dustVinteum"
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(keystone, 1), new Object[]{
+				"GIG",
+				"IVI",
+				"GIG",
+				Character.valueOf('G'), Items.gold_ingot,
+				Character.valueOf('I'), Items.iron_ingot,
+				Character.valueOf('V'), "dustVinteum"
 		}));
 
-		GameRegistry.addRecipe(new ShapelessOreRecipe (new ItemStack(itemOre, 1, itemOre.META_PURIFIEDVINTEUM), new Object[]{
-			new ItemStack(BlocksCommonProxy.cerublossom),
-			new ItemStack(BlocksCommonProxy.desertNova),
-			"dustVinteum",
-			"arcaneAsh"
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemOre, 1, itemOre.META_PURIFIEDVINTEUM), new Object[]{
+				new ItemStack(BlocksCommonProxy.cerublossom),
+				new ItemStack(BlocksCommonProxy.desertNova),
+				"dustVinteum",
+				"arcaneAsh"
 		}));
 
 		GameRegistry.addShapelessRecipe(new ItemStack(manaCake, 3, 0), new Object[]{
-			new ItemStack(BlocksCommonProxy.cerublossom),
-			new ItemStack(BlocksCommonProxy.desertNova),
-			new ItemStack(Items.sugar),
-			new ItemStack(Items.wheat)
+				new ItemStack(BlocksCommonProxy.cerublossom),
+				new ItemStack(BlocksCommonProxy.desertNova),
+				new ItemStack(Items.sugar),
+				new ItemStack(Items.wheat)
 		});
 
 		GameRegistry.addShapelessRecipe(new ItemStack(lesserManaPotion), new Object[]{
-			new ItemStack(Items.wheat_seeds),
-			new ItemStack(Items.sugar),
-			new ItemStack(Items.potionitem, 1, Short.MAX_VALUE)
+				new ItemStack(Items.wheat_seeds),
+				new ItemStack(Items.sugar),
+				new ItemStack(Items.potionitem, 1, Short.MAX_VALUE)
 		});
 
 		GameRegistry.addShapelessRecipe(new ItemStack(standardManaPotion), new Object[]{
-			new ItemStack(Items.gunpowder),
-			new ItemStack(lesserManaPotion, 1, Short.MAX_VALUE)
+				new ItemStack(Items.gunpowder),
+				new ItemStack(lesserManaPotion, 1, Short.MAX_VALUE)
 		});
 
-		GameRegistry.addRecipe(new ShapelessOreRecipe( new ItemStack(greaterManaPotion), new Object[]{
-			"dustVinteum",
-			new ItemStack(standardManaPotion, 1, Short.MAX_VALUE)
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(greaterManaPotion), new Object[]{
+				"dustVinteum",
+				new ItemStack(standardManaPotion, 1, Short.MAX_VALUE)
 		}));
 
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(epicManaPotion), new Object[]{
-			"arcaneAsh",
-			new ItemStack(greaterManaPotion, 1, Short.MAX_VALUE)
+				"arcaneAsh",
+				new ItemStack(greaterManaPotion, 1, Short.MAX_VALUE)
 		}));
 
 		GameRegistry.addShapelessRecipe(new ItemStack(legendaryManaPotion), new Object[]{
-			new ItemStack(itemOre, 1, itemOre.META_PURIFIEDVINTEUM),
-			new ItemStack(epicManaPotion, 1, Short.MAX_VALUE)
+				new ItemStack(itemOre, 1, itemOre.META_PURIFIEDVINTEUM),
+				new ItemStack(epicManaPotion, 1, Short.MAX_VALUE)
 		});
 
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(liquidEssenceBottle), new Object[]{
-			"gemChimerite",
-			new ItemStack(BlocksCommonProxy.tarmaRoot),
-			new ItemStack(ItemsCommonProxy.itemAMBucket)
+				"gemChimerite",
+				new ItemStack(BlocksCommonProxy.tarmaRoot),
+				new ItemStack(ItemsCommonProxy.itemAMBucket)
 		}));
 
 		GameRegistry.addRecipe(new ItemStack(lesserFocus), ((ItemFocus)lesserFocus).getRecipeItems());
@@ -941,87 +932,87 @@ public class ItemsCommonProxy {
 		GameRegistry.addRecipe(new ItemStack(creatureFocus), ((ItemFocus)creatureFocus).getRecipeItems());
 
 		//binding catalysts
-		GameRegistry.addRecipe(new ShapedOreRecipe( new ItemStack(bindingCatalyst, 1, bindingCatalyst.META_AXE), new Object[]{
-			"SVS",
-			"SAS",
-			"SVS",
-			Character.valueOf('V'), "dustVinteum",
-			Character.valueOf('S'), Items.slime_ball,
-			Character.valueOf('A'), Items.golden_axe
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bindingCatalyst, 1, bindingCatalyst.META_AXE), new Object[]{
+				"SVS",
+				"SAS",
+				"SVS",
+				Character.valueOf('V'), "dustVinteum",
+				Character.valueOf('S'), Items.slime_ball,
+				Character.valueOf('A'), Items.golden_axe
 		}));
-		GameRegistry.addRecipe(new ShapedOreRecipe( new ItemStack(bindingCatalyst, 1, bindingCatalyst.META_PICK), new Object[]{
-			"SVS",
-			"SAS",
-			"SVS",
-			Character.valueOf('V'), "dustVinteum",
-			Character.valueOf('S'), Items.slime_ball,
-			Character.valueOf('A'), Items.golden_pickaxe
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bindingCatalyst, 1, bindingCatalyst.META_PICK), new Object[]{
+				"SVS",
+				"SAS",
+				"SVS",
+				Character.valueOf('V'), "dustVinteum",
+				Character.valueOf('S'), Items.slime_ball,
+				Character.valueOf('A'), Items.golden_pickaxe
 		}));
-		GameRegistry.addRecipe(new ShapedOreRecipe( new ItemStack(bindingCatalyst, 1, bindingCatalyst.META_SHOVEL), new Object[]{
-			"SVS",
-			"SAS",
-			"SVS",
-			Character.valueOf('V'), "dustVinteum",
-			Character.valueOf('S'), Items.slime_ball,
-			Character.valueOf('A'), Items.golden_shovel
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bindingCatalyst, 1, bindingCatalyst.META_SHOVEL), new Object[]{
+				"SVS",
+				"SAS",
+				"SVS",
+				Character.valueOf('V'), "dustVinteum",
+				Character.valueOf('S'), Items.slime_ball,
+				Character.valueOf('A'), Items.golden_shovel
 		}));
 		GameRegistry.addRecipe(new ItemStack(bindingCatalyst, 1, bindingCatalyst.META_SWORD), new Object[]{
-			"SVS",
-			"SAS",
-			"SVS",
-			Character.valueOf('V'), new ItemStack(itemOre, 1, itemOre.META_PURIFIEDVINTEUM),
-			Character.valueOf('S'), Items.slime_ball,
-			Character.valueOf('A'), Items.golden_sword
+				"SVS",
+				"SAS",
+				"SVS",
+				Character.valueOf('V'), new ItemStack(itemOre, 1, itemOre.META_PURIFIEDVINTEUM),
+				Character.valueOf('S'), Items.slime_ball,
+				Character.valueOf('A'), Items.golden_sword
 		});
-		GameRegistry.addRecipe(new ShapedOreRecipe( new ItemStack(bindingCatalyst, 1, bindingCatalyst.META_HOE), new Object[]{
-			"SVS",
-			"SAS",
-			"SVS",
-			Character.valueOf('V'), "dustVinteum",
-			Character.valueOf('S'), Items.slime_ball,
-			Character.valueOf('A'), Items.golden_hoe
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bindingCatalyst, 1, bindingCatalyst.META_HOE), new Object[]{
+				"SVS",
+				"SAS",
+				"SVS",
+				Character.valueOf('V'), "dustVinteum",
+				Character.valueOf('S'), Items.slime_ball,
+				Character.valueOf('A'), Items.golden_hoe
 		}));
 
 		GameRegistry.addRecipe(new ItemStack(itemKeystoneDoor, 1, itemKeystoneDoor.KEYSTONE_DOOR), new Object[]{
-			"PWP",
-			"RRR",
-			"PWP",
-			Character.valueOf('P'), BlocksCommonProxy.witchwoodPlanks,
-			Character.valueOf('R'), new ItemStack(rune, 1, rune.META_BLANK),
-			Character.valueOf('W'), BlocksCommonProxy.magicWall
+				"PWP",
+				"RRR",
+				"PWP",
+				Character.valueOf('P'), BlocksCommonProxy.witchwoodPlanks,
+				Character.valueOf('R'), new ItemStack(rune, 1, rune.META_BLANK),
+				Character.valueOf('W'), BlocksCommonProxy.magicWall
 		});
-		
+
 		GameRegistry.addRecipe(new ItemStack(itemKeystoneDoor, 1, itemKeystoneDoor.SPELL_SEALED_DOOR), new Object[]{
-			" G ",
-			"SKS",
-			" L ",
-			Character.valueOf('G'), ItemsCommonProxy.greaterFocus,
-			Character.valueOf('S'), ItemsCommonProxy.standardFocus,
-			Character.valueOf('L'), ItemsCommonProxy.lesserFocus,
-			Character.valueOf('K'), new ItemStack(ItemsCommonProxy.itemKeystoneDoor, 1, itemKeystoneDoor.KEYSTONE_DOOR)			
+				" G ",
+				"SKS",
+				" L ",
+				Character.valueOf('G'), ItemsCommonProxy.greaterFocus,
+				Character.valueOf('S'), ItemsCommonProxy.standardFocus,
+				Character.valueOf('L'), ItemsCommonProxy.lesserFocus,
+				Character.valueOf('K'), new ItemStack(ItemsCommonProxy.itemKeystoneDoor, 1, itemKeystoneDoor.KEYSTONE_DOOR)
 		});
-		
+
 		GameRegistry.addShapelessRecipe(new ItemStack(manaMartini), new Object[]{
-			new ItemStack(Blocks.ice),
-			new ItemStack(Items.potato),
-			new ItemStack(Items.sugar),
-			new ItemStack(Items.stick),
-			new ItemStack(standardManaPotion)
+				new ItemStack(Blocks.ice),
+				new ItemStack(Items.potato),
+				new ItemStack(Items.sugar),
+				new ItemStack(Items.stick),
+				new ItemStack(standardManaPotion)
 		});
-		
+
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(inscriptionUpgrade, 1, 0),
 				new ItemStack(Items.book),
 				new ItemStack(Items.string),
 				new ItemStack(Items.feather),
 				"dyeBlack"
 		));
-		
+
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(inscriptionUpgrade, 1, 1),
 				new ItemStack(Blocks.carpet, 1, Short.MAX_VALUE),
 				new ItemStack(Items.book),
 				new ItemStack(wizardChalk)
 		));
-		
+
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(inscriptionUpgrade, 1, 2),
 				new ItemStack(wardingCandle),
 				new ItemStack(Items.flint_and_steel),

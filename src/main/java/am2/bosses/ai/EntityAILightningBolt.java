@@ -1,59 +1,58 @@
 package am2.bosses.ai;
 
-import thehippomaster.AnimationAPI.AIAnimation;
-import thehippomaster.AnimationAPI.IAnimatedEntity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
-
-
 import am2.AMCore;
 import am2.bosses.BossActions;
 import am2.bosses.EntityLightningGuardian;
 import am2.damage.DamageSources;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
+import thehippomaster.AnimationAPI.AIAnimation;
+import thehippomaster.AnimationAPI.IAnimatedEntity;
 
-public class EntityAILightningBolt extends AIAnimation {
+public class EntityAILightningBolt extends AIAnimation{
 
 	private int cooldownTicks = 0;
 
-	public EntityAILightningBolt(IAnimatedEntity entity) {
+	public EntityAILightningBolt(IAnimatedEntity entity){
 		super(entity);
 		this.setMutexBits(3);
 	}
 
 	@Override
-	public boolean shouldAnimate() {
+	public boolean shouldAnimate(){
 		//accessor method in AIAnimation that gives access to the entity
 		EntityLiving living = getEntity();
 
 		//must have an attack target
-		if(living.getAttackTarget() == null || !living.getEntitySenses().canSee(living.getAttackTarget())) return false;
+		if (living.getAttackTarget() == null || !living.getEntitySenses().canSee(living.getAttackTarget()))
+			return false;
 
 		return cooldownTicks-- <= 0;
 	}
 
 	@Override
-	public int getAnimID() {
+	public int getAnimID(){
 		return BossActions.STRIKE.ordinal();
 	}
 
 	@Override
-	public boolean isAutomatic() {
+	public boolean isAutomatic(){
 		return false;
 	}
 
 	@Override
-	public int getDuration() {
+	public int getDuration(){
 		return 15;
 	}
 
 	@Override
-	public void resetTask() {
+	public void resetTask(){
 		cooldownTicks = 3;
 		super.resetTask();
 	}
 
 	@Override
-	public void updateTask() {
+	public void updateTask(){
 		EntityLightningGuardian guardian = getEntity();
 		if (guardian.getAttackTarget() != null){
 			guardian.getLookHelper().setLookPositionWithEntity(guardian.getAttackTarget(), 30, 30);

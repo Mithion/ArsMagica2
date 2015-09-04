@@ -5,11 +5,11 @@ import net.minecraftforge.fluids.FluidRegistry;
 
 public class FluidEssence extends Fluid{
 
-	public FluidEssence() {
+	public FluidEssence(){
 		super("liquidEssence");
 		setDensity(8);
 		setViscosity(3000);
-		
+
 		FluidRegistry.registerFluid(this);
 	}
 

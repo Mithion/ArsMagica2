@@ -1,23 +1,23 @@
 package am2.particles;
 
-import java.util.ArrayList;
-
 import am2.AMCore;
 
+import java.util.ArrayList;
 
-public class ParticleLeaveParticleTrail extends ParticleController {
+
+public class ParticleLeaveParticleTrail extends ParticleController{
 
 	private int ticksBetweenSpawns;
 	private int updateTicks;
 	private final String particleName;
 	private final boolean ignoreMaxAge;
 	private final int maxAge;
-	private float r,g,b;
+	private float r, g, b;
 	private final ArrayList<ParticleController> controllers;
 	private float offsetX, offsetY, offsetZ;
 	private boolean childAffectedByGravity = false;
 
-	public ParticleLeaveParticleTrail(AMParticle particleEffect, String particleName, boolean ignoreMaxAge, int maxAge, int priority, boolean exclusive) {
+	public ParticleLeaveParticleTrail(AMParticle particleEffect, String particleName, boolean ignoreMaxAge, int maxAge, int priority, boolean exclusive){
 		super(particleEffect, priority, exclusive);
 		controllers = new ArrayList<ParticleController>();
 		ticksBetweenSpawns = 2;
@@ -66,11 +66,11 @@ public class ParticleLeaveParticleTrail extends ParticleController {
 	}
 
 	@Override
-	public void doUpdate() {
+	public void doUpdate(){
 		updateTicks++;
 		if (updateTicks == ticksBetweenSpawns){
 			updateTicks = 0;
-			AMParticle effect = (AMParticle) AMCore.instance.proxy.particleManager.spawn(particle.worldObj, particleName, particle.posX, particle.posY, particle.posZ);
+			AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(particle.worldObj, particleName, particle.posX, particle.posY, particle.posZ);
 			if (effect != null){
 				effect.setMaxAge(this.maxAge);
 				effect.setIgnoreMaxAge(this.ignoreMaxAge);
@@ -86,9 +86,9 @@ public class ParticleLeaveParticleTrail extends ParticleController {
 	}
 
 	@Override
-	public ParticleController clone() {
+	public ParticleController clone(){
 		ParticleLeaveParticleTrail clone = new ParticleLeaveParticleTrail(particle, particleName, ignoreMaxAge, maxAge, priority, exclusive)
-		.setParticleRGB_F(r, g, b).setTicksBetweenSpawns(this.ticksBetweenSpawns).addRandomOffset(offsetX, offsetY, offsetZ);
+				.setParticleRGB_F(r, g, b).setTicksBetweenSpawns(this.ticksBetweenSpawns).addRandomOffset(offsetX, offsetY, offsetZ);
 
 		for (ParticleController pmc : this.controllers){
 			clone.addControllerToParticleList(pmc);

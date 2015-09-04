@@ -2,10 +2,10 @@ package am2.api.illeffect;
 
 /**
  * Varying severities for ill effects during spell creation.
- * @author Mithion
  *
+ * @author Mithion
  */
-public enum IllEffectSeverity {
+public enum IllEffectSeverity{
 	MINOR,
 	MODERATE,
 	MAJOR,

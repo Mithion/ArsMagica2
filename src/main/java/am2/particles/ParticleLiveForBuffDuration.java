@@ -2,14 +2,14 @@ package am2.particles;
 
 import net.minecraft.entity.EntityLiving;
 
-public class ParticleLiveForBuffDuration extends ParticleController {
+public class ParticleLiveForBuffDuration extends ParticleController{
 
 	private int updateTicks;
 	private int buffID;
 	private EntityLiving entity;
 	private int ticksWithoutBuff;
-	
-	public ParticleLiveForBuffDuration(AMParticle particleEffect, EntityLiving entity, int buffID, int priority, boolean exclusive) {
+
+	public ParticleLiveForBuffDuration(AMParticle particleEffect, EntityLiving entity, int buffID, int priority, boolean exclusive){
 		super(particleEffect, priority, exclusive);
 		this.entity = entity;
 		this.buffID = buffID;
@@ -17,7 +17,7 @@ public class ParticleLiveForBuffDuration extends ParticleController {
 	}
 
 	@Override
-	public void doUpdate() {
+	public void doUpdate(){
 		updateTicks++;
 		if (updateTicks % 10 == 0){
 			if (!entity.isPotionActive(buffID)){
@@ -32,7 +32,7 @@ public class ParticleLiveForBuffDuration extends ParticleController {
 	}
 
 	@Override
-	public ParticleController clone() {
+	public ParticleController clone(){
 		return new ParticleLiveForBuffDuration(particle, entity, buffID, priority, exclusive);
 	}
 

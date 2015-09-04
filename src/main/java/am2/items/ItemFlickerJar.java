@@ -1,48 +1,48 @@
 package am2.items;
 
-import java.util.List;
-
+import am2.api.spell.enums.Affinity;
+import am2.entities.EntityFlicker;
+import am2.texture.ResourceManager;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
-import am2.api.spell.enums.Affinity;
-import am2.entities.EntityFlicker;
-import am2.texture.ResourceManager;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 public class ItemFlickerJar extends ArsMagicaItem{
 
 	@SideOnly(Side.CLIENT)
 	private IIcon flickerIcon;
 
-	public ItemFlickerJar() {
+	public ItemFlickerJar(){
 		super();
 		this.setMaxDamage(0);
 		setHasSubtypes(true);
 	}
 
 	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {
+	public void registerIcons(IIconRegister par1IconRegister){
 		itemIcon = ResourceManager.RegisterTexture("flickerjar_bottle", par1IconRegister);
 		flickerIcon = ResourceManager.RegisterTexture("flickerjar_flicker", par1IconRegister);
 	}
 
 	@Override
-	public int getRenderPasses(int metadata) {
+	public int getRenderPasses(int metadata){
 		return metadata == 0 ? 1 : 2;
 	}
 
 	@Override
-	public boolean requiresMultipleRenderPasses() {
+	public boolean requiresMultipleRenderPasses(){
 		return true;
 	}
 
 	@Override
-	public IIcon getIcon(ItemStack stack, int pass) {
+	public IIcon getIcon(ItemStack stack, int pass){
 		if (stack.getItemDamage() == 0)
 			return itemIcon;
 
@@ -53,7 +53,7 @@ public class ItemFlickerJar extends ArsMagicaItem{
 	}
 
 	@Override
-	public String getItemStackDisplayName(ItemStack stack) {
+	public String getItemStackDisplayName(ItemStack stack){
 		int meta = stack.getItemDamage();
 		String baseName = StatCollector.translateToLocal("am2.item.flickerJar");
 		if (meta == 0)
@@ -65,12 +65,12 @@ public class ItemFlickerJar extends ArsMagicaItem{
 		return baseName;
 	}
 
-	private String toProperCase(String name) {
-	    return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+	private String toProperCase(String name){
+		return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
 	}
 
 	@Override
-	public int getColorFromItemStack(ItemStack stack, int pass) {
+	public int getColorFromItemStack(ItemStack stack, int pass){
 		if (stack.getItemDamage() > 0 && pass == 0){
 			int meta = stack.getItemDamage();
 			Affinity aff = Affinity.values()[meta];
@@ -85,7 +85,7 @@ public class ItemFlickerJar extends ArsMagicaItem{
 	}
 
 	@Override
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
+	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List){
 		for (Affinity aff : Affinity.values()){
 			par3List.add(new ItemStack(this, 1, aff.ID));
 		}

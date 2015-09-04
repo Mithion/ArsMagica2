@@ -1,22 +1,5 @@
 package am2.blocks.tileentities;
 
-import java.util.Random;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.management.PlayerManager;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.util.Constants;
 import am2.AMCore;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.power.PowerTypes;
@@ -29,6 +12,21 @@ import am2.network.AMNetHandler;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
 import am2.power.PowerNodeRegistry;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraftforge.common.util.Constants;
+
+import java.util.Random;
 
 public class TileEntityCalefactor extends TileEntityAMPower implements IInventory, ISidedInventory, IKeystoneLockable{
 
@@ -43,7 +41,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 
 	private static final byte PKT_PRG_UPDATE = 1;
 
-	public TileEntityCalefactor() {
+	public TileEntityCalefactor(){
 		super(100);
 
 		Random rand = new Random();
@@ -57,11 +55,11 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	}
 
 	@Override
-	public float particleOffset(int axis) {
+	public float particleOffset(int axis){
 		int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 
 		if (axis == 0){
-			switch(meta){
+			switch (meta){
 			case 6:
 				return 0.25f;
 			case 5:
@@ -70,7 +68,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 				return 0.5f;
 			}
 		}else if (axis == 1){
-			switch(meta){
+			switch (meta){
 			case 1:
 				return 0.75f;
 			case 2:
@@ -79,7 +77,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 				return 0.5f;
 			}
 		}else if (axis == 2){
-			switch(meta){
+			switch (meta){
 			case 4:
 				return 0.25f;
 			case 3:
@@ -125,14 +123,10 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 		return null;
 	}
 
-	private boolean canSmelt()
-	{
-		if (this.calefactorItemStacks[0] == null)
-		{
+	private boolean canSmelt(){
+		if (this.calefactorItemStacks[0] == null){
 			return false;
-		}
-		else
-		{
+		}else{
 			ItemStack var1 = FurnaceRecipes.smelting().getSmeltingResult(this.calefactorItemStacks[0]);
 			if (var1 == null) return false;
 			if (this.calefactorItemStacks[1] == null) return true;
@@ -142,10 +136,8 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 		}
 	}
 
-	public void smeltItem()
-	{
-		if (this.canSmelt())
-		{
+	public void smeltItem(){
+		if (this.canSmelt()){
 			ItemStack var1 = FurnaceRecipes.smelting().getSmeltingResult(this.calefactorItemStacks[0]);
 
 			ItemStack smeltStack = var1.copy();
@@ -167,12 +159,9 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 
 			if (doSmelt){
 
-				if (this.calefactorItemStacks[1] == null)
-				{
+				if (this.calefactorItemStacks[1] == null){
 					this.calefactorItemStacks[1] = smeltStack.copy();
-				}
-				else if (this.calefactorItemStacks[1].isItemEqual(smeltStack))
-				{
+				}else if (this.calefactorItemStacks[1].isItemEqual(smeltStack)){
 					calefactorItemStacks[1].stackSize += smeltStack.stackSize;
 					if (calefactorItemStacks[1].stackSize > calefactorItemStacks[1].getMaxStackSize()){
 						calefactorItemStacks[1].stackSize = calefactorItemStacks[1].getMaxStackSize();
@@ -193,14 +182,13 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 
 			--this.calefactorItemStacks[0].stackSize;
 
-			if (this.calefactorItemStacks[0].stackSize <= 0)
-			{
+			if (this.calefactorItemStacks[0].stackSize <= 0){
 				this.calefactorItemStacks[0] = null;
 			}
 		}
 	}
 
-	public void handlePacket(byte[] data) {
+	public void handlePacket(byte[] data){
 		if (worldObj.isRemote){
 			AMDataReader rdr = new AMDataReader(data);
 			switch (rdr.ID){
@@ -217,18 +205,18 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 		}
 	}
 
-	protected void sendCookStatusUpdate(boolean isCooking) {
+	protected void sendCookStatusUpdate(boolean isCooking){
 		if (this.worldObj.isRemote)
 			return;
-		
+
 		AMDataWriter writer = new AMDataWriter();
 		writer.add(PKT_PRG_UPDATE);
-		writer.add(isCooking ? (byte) 1 : (byte) 0);
-		writer.add(this.calefactorItemStacks[0] != null ? (byte) 1 : (byte) 0);
+		writer.add(isCooking ? (byte)1 : (byte)0);
+		writer.add(this.calefactorItemStacks[0] != null ? (byte)1 : (byte)0);
 		if (this.calefactorItemStacks[0] != null)
 			writer.add(this.calefactorItemStacks[0]);
-		
-		AMNetHandler.INSTANCE.sendCalefactorCookUpdate(this, writer.generate());	
+
+		AMNetHandler.INSTANCE.sendCalefactorCookUpdate(this, writer.generate());
 	}
 
 	private short getModifiedCookTime(){
@@ -242,7 +230,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 		int fociMana = this.numFociOfType(ItemFocusMana.class);
 		int fociCharge = this.numFociOfType(ItemFocusCharge.class);
 		float base = basePowerConsumedPerTickCooking;
-		return (float) (base * Math.pow(2.25, fociCharge) * Math.pow(0.5, fociMana));
+		return (float)(base * Math.pow(2.25, fociCharge) * Math.pow(0.5, fociMana));
 	}
 
 	private boolean isSmelting(){
@@ -250,8 +238,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	}
 
 	@Override
-	public void updateEntity()
-	{
+	public void updateEntity(){
 		super.updateEntity();
 		boolean didSmeltItem = false;
 
@@ -260,7 +247,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 			if (this.isCooking){
 				particleCount--;
 				if (particleCount <= 0){
-					particleCount = (int) (Math.random() * 20);
+					particleCount = (int)(Math.random() * 20);
 					double rStartX = Math.random() > 0.5 ? this.xCoord + 0.01 : this.xCoord + 1.01;
 					double rStartY = this.yCoord + 1.1;
 					double rStartZ = Math.random() > 0.5 ? this.zCoord + 0.01 : this.zCoord + 1.01;
@@ -271,14 +258,14 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 
 					AMCore.proxy.particleManager.BeamFromPointToPoint(worldObj, rStartX, rStartY, rStartZ, endX, endY, endZ, 0xFF8811);
 					if (worldObj.rand.nextBoolean()){
-						AMParticle effect = (AMParticle) AMCore.instance.proxy.particleManager.spawn(worldObj, "smoke", endX, endY, endZ);
+						AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "smoke", endX, endY, endZ);
 						if (effect != null){
 							effect.setIgnoreMaxAge(false);
 							effect.setMaxAge(60);
 							effect.AddParticleController(new ParticleFloatUpward(effect, 0.02f, 0.01f, 1, false));
 						}
 					}else{
-						AMParticle effect = (AMParticle) AMCore.instance.proxy.particleManager.spawn(worldObj, "explosion_2", endX, endY, endZ);
+						AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "explosion_2", endX, endY, endZ);
 						if (effect != null){
 							effect.setIgnoreMaxAge(false);
 							effect.setMaxAge(10);
@@ -295,14 +282,11 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 		}
 
 		boolean powerCheck = PowerNodeRegistry.For(this.worldObj).checkPower(this, getCookTickPowerCost());
-		if (this.canSmelt() && this.isSmelting() && powerCheck)
-		{
+		if (this.canSmelt() && this.isSmelting() && powerCheck){
 			++this.timeSpentCooking;
 
-			if (this.timeSpentCooking >= getModifiedCookTime())
-			{
-				if (!this.worldObj.isRemote)
-				{
+			if (this.timeSpentCooking >= getModifiedCookTime()){
+				if (!this.worldObj.isRemote){
 					this.smeltItem();
 					didSmeltItem = true;
 				}else{
@@ -315,8 +299,8 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 			}
 			if (!worldObj.isRemote){
 				if (PowerNodeRegistry.For(worldObj).checkPower(this, PowerTypes.DARK, getCookTickPowerCost()) &&
-					PowerNodeRegistry.For(worldObj).checkPower(this, PowerTypes.NEUTRAL, getCookTickPowerCost()) &&
-					PowerNodeRegistry.For(worldObj).checkPower(this, PowerTypes.LIGHT, getCookTickPowerCost())){
+						PowerNodeRegistry.For(worldObj).checkPower(this, PowerTypes.NEUTRAL, getCookTickPowerCost()) &&
+						PowerNodeRegistry.For(worldObj).checkPower(this, PowerTypes.LIGHT, getCookTickPowerCost())){
 
 					PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerTypes.DARK, getCookTickPowerCost());
 					PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerTypes.NEUTRAL, getCookTickPowerCost());
@@ -326,28 +310,23 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 					PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerNodeRegistry.For(this.worldObj).getHighestPowerType(this), getCookTickPowerCost());
 				}
 			}
-		}
-		else if (!this.isSmelting() && this.canSmelt() && powerCheck){
+		}else if (!this.isSmelting() && this.canSmelt() && powerCheck){
 			this.timeSpentCooking = 1;
 			if (!worldObj.isRemote){
 				sendCookStatusUpdate(true);
 			}
-		}
-		else if (!this.canSmelt())
-		{
+		}else if (!this.canSmelt()){
 			this.timeSpentCooking = 0;
 		}
 	}
 
-	public int getCookProgressScaled(int par1)
-	{
+	public int getCookProgressScaled(int par1){
 		return this.timeSpentCooking * par1 / getModifiedCookTime();
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
-		{
+	public boolean isUseableByPlayer(EntityPlayer entityplayer){
+		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
 			return false;
 		}
 		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
@@ -369,12 +348,12 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	}
 
 	@Override
-	public int getSizeInventory() {
+	public int getSizeInventory(){
 		return 9;
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int var1) {
+	public ItemStack getStackInSlot(int var1){
 		if (var1 >= calefactorItemStacks.length){
 			return null;
 		}
@@ -382,94 +361,81 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	}
 
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if(calefactorItemStacks[i] != null)
-		{
-			if(calefactorItemStacks[i].stackSize <= j)
-			{
+	public ItemStack decrStackSize(int i, int j){
+		if (calefactorItemStacks[i] != null){
+			if (calefactorItemStacks[i].stackSize <= j){
 				ItemStack itemstack = calefactorItemStacks[i];
 				calefactorItemStacks[i] = null;
 				return itemstack;
 			}
 			ItemStack itemstack1 = calefactorItemStacks[i].splitStack(j);
-			if(calefactorItemStacks[i].stackSize == 0)
-			{
+			if (calefactorItemStacks[i].stackSize == 0){
 				calefactorItemStacks[i] = null;
 			}
 			return itemstack1;
-		} else {
+		}else{
 			return null;
 		}
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if (calefactorItemStacks[i] != null)
-		{
+	public ItemStack getStackInSlotOnClosing(int i){
+		if (calefactorItemStacks[i] != null){
 			ItemStack itemstack = calefactorItemStacks[i];
 			calefactorItemStacks[i] = null;
 			return itemstack;
-		}
-		else
-		{
+		}else{
 			return null;
 		}
 	}
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
+	public void setInventorySlotContents(int i, ItemStack itemstack){
 		calefactorItemStacks[i] = itemstack;
-		if(itemstack != null && itemstack.stackSize > getInventoryStackLimit())
-		{
+		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
 			itemstack.stackSize = getInventoryStackLimit();
 		}
 	}
 
 	@Override
-	public String getInventoryName() {
+	public String getInventoryName(){
 		return "Calefactor";
 	}
 
 	@Override
-	public int getInventoryStackLimit() {
+	public int getInventoryStackLimit(){
 		return 64;
 	}
 
 	@Override
-	public void openInventory() {
+	public void openInventory(){
 	}
 
 	@Override
-	public void closeInventory() {
+	public void closeInventory(){
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbttagcompound)
-	{
+	public void readFromNBT(NBTTagCompound nbttagcompound){
 		super.readFromNBT(nbttagcompound);
 		NBTTagList nbttaglist = nbttagcompound.getTagList("CasterInventory", Constants.NBT.TAG_COMPOUND);
 		calefactorItemStacks = new ItemStack[getSizeInventory()];
-		for(int i = 0; i < nbttaglist.tagCount(); i++)
-		{
+		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
 			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
 			byte byte0 = nbttagcompound1.getByte(tag);
-			if(byte0 >= 0 && byte0 < calefactorItemStacks.length)
-			{
+			if (byte0 >= 0 && byte0 < calefactorItemStacks.length){
 				calefactorItemStacks[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
 			}
 		}
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbttagcompound)
-	{
+	public void writeToNBT(NBTTagCompound nbttagcompound){
 		super.writeToNBT(nbttagcompound);
 		NBTTagList nbttaglist = new NBTTagList();
-		for(int i = 0; i < calefactorItemStacks.length; i++)
-		{
-			if(calefactorItemStacks[i] != null)
-			{
+		for (int i = 0; i < calefactorItemStacks.length; i++){
+			if (calefactorItemStacks[i] != null){
 				String tag = String.format("ArrayIndex", i);
 				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 				nbttagcompound1.setByte(tag, (byte)i);
@@ -480,33 +446,34 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 
 		nbttagcompound.setTag("CasterInventory", nbttaglist);
 	}
+
 	@Override
-	public boolean hasCustomInventoryName() {
+	public boolean hasCustomInventoryName(){
 		return false;
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+	public boolean isItemValidForSlot(int i, ItemStack itemstack){
 		return i == 0;
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int var1) {
-		return new int[] {0, 1, 5};
+	public int[] getAccessibleSlotsFromSide(int var1){
+		return new int[]{0, 1, 5};
 	}
 
 	@Override
-	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
+	public boolean canInsertItem(int i, ItemStack itemstack, int j){
 		return i == 0;
 	}
 
 	@Override
-	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
+	public boolean canExtractItem(int i, ItemStack itemstack, int j){
 		return i == 1 || i == 5;
 	}
 
 	@Override
-	public int getChargeRate() {
+	public int getChargeRate(){
 		int numFoci = numFociOfType(ItemFocusCharge.class);
 		int base = 20;
 		if (numFoci > 0){
@@ -517,12 +484,12 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	}
 
 	@Override
-	public boolean canRelayPower(PowerTypes type) {
+	public boolean canRelayPower(PowerTypes type){
 		return false;
 	}
 
 	@Override
-	public ItemStack[] getRunesInKey() {
+	public ItemStack[] getRunesInKey(){
 		ItemStack[] runes = new ItemStack[3];
 		runes[0] = calefactorItemStacks[6];
 		runes[1] = calefactorItemStacks[7];
@@ -531,25 +498,25 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	}
 
 	@Override
-	public boolean keystoneMustBeHeld() {
+	public boolean keystoneMustBeHeld(){
 		return false;
 	}
 
 	@Override
-	public boolean keystoneMustBeInActionBar() {
+	public boolean keystoneMustBeInActionBar(){
 		return false;
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		this.writeToNBT(compound);
 		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
 		return packet;
 	}
-	
+
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
 		this.readFromNBT(pkt.func_148857_g());
 	}
 }

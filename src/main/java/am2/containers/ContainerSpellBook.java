@@ -1,24 +1,22 @@
 package am2.containers;
 
+import am2.api.spell.ItemSpellBase;
+import am2.containers.slots.SlotOneItemClassOnly;
+import am2.items.ItemSpellBook;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import am2.api.spell.ItemSpellBase;
-import am2.containers.slots.SlotOneItemClassOnly;
-import am2.items.ItemSpellBook;
 
-public class ContainerSpellBook extends Container
-{
+public class ContainerSpellBook extends Container{
 	private ItemStack bookStack;
 	private InventorySpellBook spellBookStack;
 	private int bookSlot;
 	public int specialSlotIndex;
 
-	public ContainerSpellBook(InventoryPlayer inventoryplayer, ItemStack bookStack, InventorySpellBook inventoryspellbook)
-	{
+	public ContainerSpellBook(InventoryPlayer inventoryplayer, ItemStack bookStack, InventorySpellBook inventoryspellbook){
 		//addSlot(new Slot(spellBook,0, 21, 36)); //inventory, index, x, y
 		this.spellBookStack = inventoryspellbook;
 		this.bookStack = bookStack;
@@ -27,30 +25,26 @@ public class ContainerSpellBook extends Container
 		int slotIndex = 0;
 		//Spell Book Pages - active spells
 		for (int i = 0; i < 8; ++i){
-			addSlotToContainer(new SlotOneItemClassOnly(spellBookStack, slotIndex++, 18, 5+(i*18), ItemSpellBase.class, 1));
+			addSlotToContainer(new SlotOneItemClassOnly(spellBookStack, slotIndex++, 18, 5 + (i * 18), ItemSpellBase.class, 1));
 		}
 
 		//Spell Book Pages - reserve spells
 		for (int i = 0; i < 4; ++i){
-			for (int k = 0; k < 8; k++)
-			{
-				addSlotToContainer(new SlotOneItemClassOnly(spellBookStack, slotIndex++,  138 + (i * 26), 5+(k*18), ItemSpellBase.class, 1));
+			for (int k = 0; k < 8; k++){
+				addSlotToContainer(new SlotOneItemClassOnly(spellBookStack, slotIndex++, 138 + (i * 26), 5 + (k * 18), ItemSpellBase.class, 1));
 			}
 		}
 
 		//display player inventory
-		for (int i = 0; i < 3; i++)
-		{
-			for (int k = 0; k < 9; k++)
-			{
+		for (int i = 0; i < 3; i++){
+			for (int k = 0; k < 9; k++){
 				addSlotToContainer(new Slot(inventoryplayer, k + i * 9 + 9, 48 + k * 18, 171 + i * 18));
 			}
 		}
 
 		//display player action bar
-		for (int j1 = 0; j1 < 9; j1++)
-		{
-			if (inventoryplayer.getStackInSlot(j1) == bookStack) {
+		for (int j1 = 0; j1 < 9; j1++){
+			if (inventoryplayer.getStackInSlot(j1) == bookStack){
 				specialSlotIndex = j1 + 67;
 				continue;
 			}
@@ -76,8 +70,7 @@ public class ContainerSpellBook extends Container
 	}
 
 	@Override
-	public void onContainerClosed(EntityPlayer entityplayer)
-	{
+	public void onContainerClosed(EntityPlayer entityplayer){
 		World world = entityplayer.worldObj;
 
 		if (!world.isRemote){
@@ -92,28 +85,22 @@ public class ContainerSpellBook extends Container
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer entityplayer)
-	{
+	public boolean canInteractWith(EntityPlayer entityplayer){
 		return spellBookStack.isUseableByPlayer(entityplayer);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int i)
-	{
+	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int i){
 		ItemStack itemstack = null;
 		Slot slot = (Slot)inventorySlots.get(i);
-		if (slot != null && slot.getHasStack())
-		{
+		if (slot != null && slot.getHasStack()){
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-			if (i < 40)
-			{
-				if (!mergeItemStack(itemstack1, 40, 75, true))
-				{
+			if (i < 40){
+				if (!mergeItemStack(itemstack1, 40, 75, true)){
 					return null;
 				}
-			}
-			else if (i >= 40 && i < 67) //range 27 - player inventory
+			}else if (i >= 40 && i < 67) //range 27 - player inventory
 			{
 				if (itemstack.getItem() instanceof ItemSpellBase){
 					for (int n = 0; n < 40; n++){
@@ -133,12 +120,10 @@ public class ContainerSpellBook extends Container
 						return null;
 					}
 				}
-				if (!mergeItemStack(itemstack1, 67, 75, false))
-				{
+				if (!mergeItemStack(itemstack1, 67, 75, false)){
 					return null;
 				}
-			}
-			else if (i >= 67 && i < 76) //range 9 - player action bar
+			}else if (i >= 67 && i < 76) //range 9 - player action bar
 			{
 				if (itemstack.getItem() instanceof ItemSpellBase){
 					for (int n = 0; n < 40; n++){
@@ -158,29 +143,20 @@ public class ContainerSpellBook extends Container
 						return null;
 					}
 				}
-				if (!mergeItemStack(itemstack1, 40, 67, false))
-				{
+				if (!mergeItemStack(itemstack1, 40, 67, false)){
 					return null;
 				}
-			}
-			else if (!mergeItemStack(itemstack1, 40, 75, false))
-			{
+			}else if (!mergeItemStack(itemstack1, 40, 75, false)){
 				return null;
 			}
-			if (itemstack1.stackSize == 0)
-			{
+			if (itemstack1.stackSize == 0){
 				slot.putStack(null);
-			}
-			else
-			{
+			}else{
 				slot.onSlotChanged();
 			}
-			if (itemstack1.stackSize != itemstack.stackSize)
-			{
+			if (itemstack1.stackSize != itemstack.stackSize){
 				slot.onSlotChange(itemstack1, itemstack);
-			}
-			else
-			{
+			}else{
 				return null;
 			}
 		}

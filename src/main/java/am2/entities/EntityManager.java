@@ -1,71 +1,29 @@
 package am2.entities;
 
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.entity.RenderBiped;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
 import am2.AMCore;
 import am2.api.entities.IEntityManager;
-import am2.bosses.EntityAirGuardian;
-import am2.bosses.EntityArcaneGuardian;
-import am2.bosses.EntityEarthGuardian;
-import am2.bosses.EntityEnderGuardian;
-import am2.bosses.EntityFireGuardian;
-import am2.bosses.EntityLifeGuardian;
-import am2.bosses.EntityLightningGuardian;
-import am2.bosses.EntityNatureGuardian;
-import am2.bosses.EntityWaterGuardian;
-import am2.bosses.EntityWinterGuardian;
-import am2.bosses.renderers.RenderAirGuardian;
-import am2.bosses.renderers.RenderArcaneGuardian;
-import am2.bosses.renderers.RenderEarthGuardian;
-import am2.bosses.renderers.RenderEnderGuardian;
-import am2.bosses.renderers.RenderFireGuardian;
-import am2.bosses.renderers.RenderIceGuardian;
-import am2.bosses.renderers.RenderLifeGuardian;
-import am2.bosses.renderers.RenderLightningGuardian;
-import am2.bosses.renderers.RenderPlantGuardian;
-import am2.bosses.renderers.RenderThrownRock;
-import am2.bosses.renderers.RenderThrownSickle;
-import am2.bosses.renderers.RenderWaterGuardian;
-import am2.bosses.renderers.RenderWinterGuardianArm;
+import am2.bosses.*;
+import am2.bosses.renderers.*;
 import am2.entities.models.ModelBattleChicken;
 import am2.entities.models.ModelHecate;
-import am2.entities.renderers.RenderAirSled;
-import am2.entities.renderers.RenderBattleChicken;
-import am2.entities.renderers.RenderBroom;
-import am2.entities.renderers.RenderDarkling;
-import am2.entities.renderers.RenderDryad;
-import am2.entities.renderers.RenderEarthElemental;
-import am2.entities.renderers.RenderFireElemental;
-import am2.entities.renderers.RenderFlicker;
-import am2.entities.renderers.RenderHecate;
-import am2.entities.renderers.RenderHellCow;
-import am2.entities.renderers.RenderHidden;
-import am2.entities.renderers.RenderMage;
-import am2.entities.renderers.RenderMageWizard;
-import am2.entities.renderers.RenderManaCreeper;
-import am2.entities.renderers.RenderManaElemental;
-import am2.entities.renderers.RenderManaVortex;
-import am2.entities.renderers.RenderRiftStorage;
-import am2.entities.renderers.RenderShadowHelper;
-import am2.entities.renderers.RenderSpellProjectile;
-import am2.entities.renderers.RenderWaterElemental;
-import am2.entities.renderers.RenderWhirlwind;
+import am2.entities.renderers.*;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
 
-public class EntityManager implements IEntityManager {
+public class EntityManager implements IEntityManager{
 
 	public static final EntityManager instance = new EntityManager();
 
-	private EntityManager(){}
+	private EntityManager(){
+	}
 
 	public String WispMobID = "MobWisp";
 	public String ManaElemMobID = "MobManaElemental";
@@ -96,7 +54,7 @@ public class EntityManager implements IEntityManager {
 	public String AirSledID = "AirSled";
 	public String FlickerID = "Flicker";
 	public String ShadowHelperID = "ShadowHelper";
-	
+
 	public String NatureGuardianMobID = "BossNatureGuardian";
 	public String ArcaneGuardianMobID = "BossArcaneGuardian";
 	public String EarthGuardianMobID = "BossEarthGuardian";
@@ -159,8 +117,7 @@ public class EntityManager implements IEntityManager {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void registerRenderInformation()
-	{
+	public void registerRenderInformation(){
 		RenderingRegistry.registerEntityRenderingHandler(EntityEarthElemental.class, new RenderEarthElemental());
 		RenderingRegistry.registerEntityRenderingHandler(EntityFireElemental.class, new RenderFireElemental());
 		//RenderingRegistry.registerEntityRenderingHandler(EntityWisp.class, new RenderWisp(new ModelWisp(), 0.5F));
@@ -203,7 +160,7 @@ public class EntityManager implements IEntityManager {
 		RenderingRegistry.registerEntityRenderingHandler(EntityLifeGuardian.class, new RenderLifeGuardian());
 		RenderingRegistry.registerEntityRenderingHandler(EntityFlicker.class, new RenderFlicker());
 		RenderingRegistry.registerEntityRenderingHandler(EntityEnderGuardian.class, new RenderEnderGuardian());
-		
+
 		RenderingRegistry.registerEntityRenderingHandler(EntityShadowHelper.class, new RenderShadowHelper());
 	}
 
@@ -223,27 +180,27 @@ public class EntityManager implements IEntityManager {
 		SpawnListEntry earthElementals = new SpawnListEntry(EntityEarthElemental.class, AMCore.config.GetEarthElementalSpawnRate(), 1, 2);
 		SpawnListEntry fireElementals = new SpawnListEntry(EntityFireElemental.class, AMCore.config.GetFireElementalSpawnRate(), 1, 1);
 
-		initSpawnsForBiomeTypes(manaElementals, EnumCreatureType.monster, new Type[] { Type.BEACH, Type.DESERT, Type.FOREST, Type.FROZEN, Type.HILLS, Type.JUNGLE, Type.MAGICAL, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND }, new Type[]{ Type.END, Type.NETHER, Type.MUSHROOM });
+		initSpawnsForBiomeTypes(manaElementals, EnumCreatureType.monster, new Type[]{Type.BEACH, Type.DESERT, Type.FOREST, Type.FROZEN, Type.HILLS, Type.JUNGLE, Type.MAGICAL, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND}, new Type[]{Type.END, Type.NETHER, Type.MUSHROOM});
 
-		initSpawnsForBiomeTypes(dryads, EnumCreatureType.creature, new Type[] { Type.BEACH, Type.FOREST, Type.MAGICAL, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS }, new Type[]{ Type.END, Type.FROZEN, Type.MUSHROOM, Type.NETHER, Type.WASTELAND, Type.SWAMP, Type.DESERT });
+		initSpawnsForBiomeTypes(dryads, EnumCreatureType.creature, new Type[]{Type.BEACH, Type.FOREST, Type.MAGICAL, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS}, new Type[]{Type.END, Type.FROZEN, Type.MUSHROOM, Type.NETHER, Type.WASTELAND, Type.SWAMP, Type.DESERT});
 
-		initSpawnsForBiomeTypes(hecates_nonHell, EnumCreatureType.monster, new Type[] { Type.BEACH, Type.DESERT, Type.FOREST, Type.FROZEN, Type.HILLS, Type.JUNGLE, Type.MAGICAL, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND }, new Type[]{ Type.END, Type.NETHER, Type.MUSHROOM });
+		initSpawnsForBiomeTypes(hecates_nonHell, EnumCreatureType.monster, new Type[]{Type.BEACH, Type.DESERT, Type.FOREST, Type.FROZEN, Type.HILLS, Type.JUNGLE, Type.MAGICAL, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND}, new Type[]{Type.END, Type.NETHER, Type.MUSHROOM});
 
-		initSpawnsForBiomeTypes(hecates_hell, EnumCreatureType.monster, new Type[] { Type.NETHER }, new Type[]{ Type.MUSHROOM });
+		initSpawnsForBiomeTypes(hecates_hell, EnumCreatureType.monster, new Type[]{Type.NETHER}, new Type[]{Type.MUSHROOM});
 
-		initSpawnsForBiomeTypes(darklings, EnumCreatureType.monster, new Type[] { Type.NETHER }, new Type[]{ Type.MUSHROOM });
+		initSpawnsForBiomeTypes(darklings, EnumCreatureType.monster, new Type[]{Type.NETHER}, new Type[]{Type.MUSHROOM});
 
-		initSpawnsForBiomeTypes(manaCreepers, EnumCreatureType.monster, new Type[] { Type.BEACH, Type.DESERT, Type.FOREST, Type.FROZEN, Type.HILLS, Type.JUNGLE, Type.MAGICAL, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND }, new Type[]{ Type.END, Type.NETHER, Type.MUSHROOM });
+		initSpawnsForBiomeTypes(manaCreepers, EnumCreatureType.monster, new Type[]{Type.BEACH, Type.DESERT, Type.FOREST, Type.FROZEN, Type.HILLS, Type.JUNGLE, Type.MAGICAL, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND}, new Type[]{Type.END, Type.NETHER, Type.MUSHROOM});
 
-		initSpawnsForBiomeTypes(lightMages, EnumCreatureType.monster, new Type[] { Type.BEACH, Type.DESERT, Type.FOREST, Type.FROZEN, Type.HILLS, Type.JUNGLE, Type.MAGICAL, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND }, new Type[]{ Type.END, Type.NETHER, Type.MUSHROOM });
+		initSpawnsForBiomeTypes(lightMages, EnumCreatureType.monster, new Type[]{Type.BEACH, Type.DESERT, Type.FOREST, Type.FROZEN, Type.HILLS, Type.JUNGLE, Type.MAGICAL, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND}, new Type[]{Type.END, Type.NETHER, Type.MUSHROOM});
 
-		initSpawnsForBiomeTypes(darkMages, EnumCreatureType.monster, new Type[] { Type.BEACH, Type.DESERT, Type.FOREST, Type.FROZEN, Type.HILLS, Type.JUNGLE, Type.MAGICAL, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND }, new Type[]{ Type.END, Type.NETHER, Type.MUSHROOM });
+		initSpawnsForBiomeTypes(darkMages, EnumCreatureType.monster, new Type[]{Type.BEACH, Type.DESERT, Type.FOREST, Type.FROZEN, Type.HILLS, Type.JUNGLE, Type.MAGICAL, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND}, new Type[]{Type.END, Type.NETHER, Type.MUSHROOM});
 
-		initSpawnsForBiomeTypes(waterElementals, EnumCreatureType.monster, new Type[] { Type.WATER }, new Type[]{ Type.END, Type.NETHER, Type.MUSHROOM });
-		initSpawnsForBiomeTypes(waterElementals, EnumCreatureType.waterCreature, new Type[] { Type.WATER }, new Type[]{ Type.END, Type.NETHER, Type.MUSHROOM });
+		initSpawnsForBiomeTypes(waterElementals, EnumCreatureType.monster, new Type[]{Type.WATER}, new Type[]{Type.END, Type.NETHER, Type.MUSHROOM});
+		initSpawnsForBiomeTypes(waterElementals, EnumCreatureType.waterCreature, new Type[]{Type.WATER}, new Type[]{Type.END, Type.NETHER, Type.MUSHROOM});
 
-		initSpawnsForBiomeTypes(earthElementals, EnumCreatureType.monster, new Type[] { Type.HILLS, Type.MOUNTAIN }, new Type[] { Type.MUSHROOM });
-		initSpawnsForBiomeTypes(fireElementals, EnumCreatureType.monster, new Type[] { Type.NETHER }, new Type[] { Type.MUSHROOM });
+		initSpawnsForBiomeTypes(earthElementals, EnumCreatureType.monster, new Type[]{Type.HILLS, Type.MOUNTAIN}, new Type[]{Type.MUSHROOM});
+		initSpawnsForBiomeTypes(fireElementals, EnumCreatureType.monster, new Type[]{Type.NETHER}, new Type[]{Type.MUSHROOM});
 
 	}
 
@@ -279,13 +236,13 @@ public class EntityManager implements IEntityManager {
 	}
 
 	@Override
-	public void addButcheryBlacklist(Class... clazz) {
+	public void addButcheryBlacklist(Class... clazz){
 		for (Class l_clazz : clazz)
 			SpawnBlacklists.addButcheryBlacklist(l_clazz);
 	}
 
 	@Override
-	public void addProgenyBlacklist(Class... clazz) {
+	public void addProgenyBlacklist(Class... clazz){
 		for (Class l_clazz : clazz)
 			SpawnBlacklists.addProgenyBlacklist(l_clazz);
 	}

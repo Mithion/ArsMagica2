@@ -1,10 +1,5 @@
 package am2.entities.ai;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
 import am2.playerextensions.SkillData;
@@ -13,6 +8,11 @@ import am2.spell.SkillTreeManager;
 import am2.spell.SpellHelper;
 import am2.spell.SpellUtils;
 import am2.utility.EntityUtilities;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 
 public class EntityAIAllyManaLink extends EntityAIBase{
 
@@ -21,11 +21,11 @@ public class EntityAIAllyManaLink extends EntityAIBase{
 
 	public EntityAIAllyManaLink(EntityCreature host){
 		this.host = host;
-		SpellUtils.instance.addSpellStageToScroll(spellStack, "Touch", new String[] { "ManaLink" }, new String[0]);
+		SpellUtils.instance.addSpellStageToScroll(spellStack, "Touch", new String[]{"ManaLink"}, new String[0]);
 	}
 
 	@Override
-	public boolean shouldExecute() {
+	public boolean shouldExecute(){
 		boolean isSummon = EntityUtilities.isSummon(host);
 		if (!isSummon)
 			return false;
@@ -44,7 +44,7 @@ public class EntityAIAllyManaLink extends EntityAIBase{
 	}
 
 	@Override
-	public void updateTask() {
+	public void updateTask(){
 		EntityPlayer owner = getHostOwner();
 		if (owner == null)
 			return;

@@ -1,17 +1,15 @@
 package am2;
 
 import am2.api.math.AMVector2;
-import am2.buffs.BuffList;
 import am2.playerextensions.ExtendedProperties;
 import am2.utility.EntityUtilities;
-import scala.collection.mutable.HashMap;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import scala.collection.mutable.HashMap;
 
-public class ShrinkHandler {
+public class ShrinkHandler{
 
 	private HashMap<Integer, Float> currentSizes = new HashMap<Integer, Float>();
 	private HashMap<Integer, Float> sizeModifiers = new HashMap<Integer, Float>();
@@ -19,13 +17,13 @@ public class ShrinkHandler {
 	@SubscribeEvent
 	public void onEntityLiving(LivingEvent event){
 		ExtendedProperties exProps = null;
-		
+
 		if (!(event.entityLiving instanceof EntityPlayer)) return;
 		EntityLivingBase ent = event.entityLiving;
 
 		try{
 			exProps = ExtendedProperties.For(event.entityLiving);
-		}catch(Throwable t){
+		}catch (Throwable t){
 			return;
 		}
 
@@ -34,12 +32,12 @@ public class ShrinkHandler {
 		}
 
 		float shrinkPct = 1 - (0.5f * exProps.getShrinkPct());
-		
-		float calculatedSizeW = (float) (exProps.originalSize.x * shrinkPct);
-		float calculatedSizeH = (float) (exProps.originalSize.y * shrinkPct);
+
+		float calculatedSizeW = (float)(exProps.originalSize.x * shrinkPct);
+		float calculatedSizeH = (float)(exProps.originalSize.y * shrinkPct);
 
 		exProps.shrinkTick();
-		
+
 		if (exProps.getShrinkPct() > 0f){
 			if (exProps.shrinkAmount == 0f || //shrink hasn't yet been applied
 					exProps.getOriginalSize().x * 0.5 != ent.width || //width has changed through other means
@@ -51,7 +49,7 @@ public class ShrinkHandler {
 		}else{
 			if (exProps.shrinkAmount != 0f){
 				AMVector2 size = ExtendedProperties.For(ent).getOriginalSize();
-				EntityUtilities.setSize(ent, (float)(size.x), (float) (size.y));
+				EntityUtilities.setSize(ent, (float)(size.x), (float)(size.y));
 				exProps.shrinkAmount = 0f;
 				if (exProps.getIsFlipped()){
 					ent.moveEntity(0, -1, 0);

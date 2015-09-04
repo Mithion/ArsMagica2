@@ -1,15 +1,5 @@
 package am2.entities;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.audio.SoundList;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
 import am2.AMCore;
 import am2.api.math.AMVector3;
 import am2.entities.ai.EntityAIChestDeposit;
@@ -20,15 +10,23 @@ import am2.particles.AMParticle;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleFloatUpward;
 import am2.utility.InventoryUtilities;
+import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 
-public class EntityBroom extends EntityCreature {
+public class EntityBroom extends EntityCreature{
 
 	private EntityBroomInventory inventory;
 	private AMVector3 chestLocation;
 	private float moveCounter = 0;
 	private float moveRotation = 0;
 
-	public EntityBroom(World par1World) {
+	public EntityBroom(World par1World){
 		super(par1World);
 		inventory = new EntityBroomInventory();
 		initAI();
@@ -37,32 +35,27 @@ public class EntityBroom extends EntityCreature {
 	}
 
 	@Override
-	public boolean doesEntityNotTriggerPressurePlate() {
+	public boolean doesEntityNotTriggerPressurePlate(){
 		return true;
 	}
 
 	@Override
-	protected boolean canTriggerWalking() {
+	protected boolean canTriggerWalking(){
 		return false;
 	}
 
 	@Override
-	protected void updateFallState(double par1, boolean par3) {
-		if (par3)
-		{
-			if (this.fallDistance > 0.0F)
-			{
+	protected void updateFallState(double par1, boolean par3){
+		if (par3){
+			if (this.fallDistance > 0.0F){
 				this.fall(this.fallDistance);
 				this.fallDistance = 0.0F;
 			}
-		}
-		else if (par1 < 0.0D)
-		{
+		}else if (par1 < 0.0D){
 			this.fallDistance = (float)(this.fallDistance - par1);
 		}
 
-		if (!this.isInWater())
-		{
+		if (!this.isInWater()){
 			this.handleWaterMovement();
 		}
 	}
@@ -80,13 +73,12 @@ public class EntityBroom extends EntityCreature {
 	}
 
 	@Override
-	public void onUpdate() {
+	public void onUpdate(){
 		if (worldObj.isRemote){
 			updateRotations();
 			if (isMoving()){
-				AMParticle particle = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "smoke", posX, posY, posZ);
-				if (particle != null)
-				{
+				AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "smoke", posX, posY, posZ);
+				if (particle != null){
 					particle.addRandomOffset(0.5, 0.5, 0.5);
 					particle.setRGBColorF(0.8f, 0.6f, 0.4f);
 					particle.AddParticleController(new ParticleFadeOut(particle, 1, false).setFadeSpeed(0.03f).setKillParticleOnFinish(true));
@@ -98,8 +90,8 @@ public class EntityBroom extends EntityCreature {
 
 	private void updateRotations(){
 		if (isMoving()){
-			moveCounter+= 0.3f;
-			moveRotation = (float) Math.sin(moveCounter) - (float) Math.sin((moveCounter-1));
+			moveCounter += 0.3f;
+			moveRotation = (float)Math.sin(moveCounter) - (float)Math.sin((moveCounter - 1));
 			if (((int)(moveCounter)) % 6 == 0){
 				//TODO: worldObj.playSoundAtEntity(this, .soundGrassFootstep.stepSoundName, 10.6f, worldObj.rand.nextFloat());
 			}
@@ -118,7 +110,7 @@ public class EntityBroom extends EntityCreature {
 	}
 
 	@Override
-	protected boolean canDespawn() {
+	protected boolean canDespawn(){
 		return false;
 	}
 
@@ -127,7 +119,7 @@ public class EntityBroom extends EntityCreature {
 	}
 
 	@Override
-	protected boolean isAIEnabled() {
+	protected boolean isAIEnabled(){
 		return true;
 	}
 
@@ -152,16 +144,16 @@ public class EntityBroom extends EntityCreature {
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void entityInit(){
 		super.entityInit();
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbttagcompound) {
+	public void writeToNBT(NBTTagCompound nbttagcompound){
 		super.writeToNBT(nbttagcompound);
 		inventory.saveBroomInventory(nbttagcompound);
 		if (chestLocation != null)
-			nbttagcompound.setIntArray("chestLoc", new int[] { (int)chestLocation.x, (int)chestLocation.y, (int)chestLocation.z });
+			nbttagcompound.setIntArray("chestLoc", new int[]{(int)chestLocation.x, (int)chestLocation.y, (int)chestLocation.z});
 	}
 
 	public boolean isMoving(){
@@ -169,7 +161,7 @@ public class EntityBroom extends EntityCreature {
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbttagcompound) {
+	public void readFromNBT(NBTTagCompound nbttagcompound){
 		super.readFromNBT(nbttagcompound);
 		inventory.loadBroomInventory(nbttagcompound);
 		int[] chestLoc = nbttagcompound.getIntArray("chestLoc");
@@ -180,11 +172,11 @@ public class EntityBroom extends EntityCreature {
 	}
 
 	@Override
-	protected boolean interact(EntityPlayer par1EntityPlayer) {
+	protected boolean interact(EntityPlayer par1EntityPlayer){
 		if (par1EntityPlayer.getCurrentEquippedItem() != null && par1EntityPlayer.getCurrentEquippedItem().getItem() == ItemsCommonProxy.spellStaffMagitech){
 			if (this.worldObj.isRemote){
 				for (int i = 0; i < AMCore.config.getGFXLevel() * 2; ++i){
-					AMParticle particle = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "smoke", posX, posY, posZ);
+					AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "smoke", posX, posY, posZ);
 					if (particle != null){
 						particle.AddParticleController(new ParticleFloatUpward(particle, 0.1f, 0.3f, 1, false));
 						particle.addRandomOffset(0.3, 1, 0.3);
@@ -202,7 +194,7 @@ public class EntityBroom extends EntityCreature {
 	}
 
 	@Override
-	public void onDeath(DamageSource par1DamageSource) {
+	public void onDeath(DamageSource par1DamageSource){
 		dropInventoryItems();
 		super.onDeath(par1DamageSource);
 	}
@@ -216,11 +208,11 @@ public class EntityBroom extends EntityCreature {
 		}
 	}
 
-	public AMVector3 getChestLocation() {
+	public AMVector3 getChestLocation(){
 		return chestLocation;
 	}
 
-	public EntityBroomInventory getInventory() {
+	public EntityBroomInventory getInventory(){
 		return inventory;
 	}
 

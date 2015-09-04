@@ -1,13 +1,5 @@
 package am2.blocks.tileentities.flickers;
 
-import java.util.HashMap;
-
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.common.util.ForgeDirection;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.api.power.PowerTypes;
@@ -16,6 +8,14 @@ import am2.blocks.tileentities.TileEntityAMPower;
 import am2.blocks.tileentities.TileEntityFlickerHabitat;
 import am2.items.ItemsCommonProxy;
 import am2.power.PowerNodeRegistry;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.HashMap;
 
 public class TileEntityFlickerControllerBase extends TileEntityAMPower implements IFlickerController{
 	private HashMap<Integer, byte[]> sigilMetadata;
@@ -80,7 +80,7 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 	}
 
 	@Override
-	public void updateEntity() {
+	public void updateEntity(){
 		//handle any power update ticks
 		super.updateEntity();
 
@@ -90,11 +90,11 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 			tickCounter++;
 			return;
 		}
-		
+
 		//tick operator, if it exists
 		if (operator != null){
 			boolean powered = PowerNodeRegistry.For(worldObj).checkPower(this, operator.PowerPerOperation());
-			
+
 			//check which neighbors are not receiving power
 			//this allows individual upgrades to be turned off by providing them with a redstone signal.
 			Affinity unpoweredNeighbors[] = getUnpoweredNeighbors();
@@ -102,7 +102,7 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 			if (tickCounter++ >= operator.TimeBetweenOperation(powered, unpoweredNeighbors)){
 				tickCounter = 0;
 				if ((powered && operator.RequiresPower()) || !operator.RequiresPower()){
-					if(firstOp){
+					if (firstOp){
 						scanForNearbyUpgrades();
 						firstOp = false;
 					}
@@ -130,7 +130,7 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 		}
 		return aff;
 	}
-	
+
 	private Integer getFlagForOperator(IFlickerFunctionality operator){
 		return FlickerOperatorRegistry.instance.getMaskForOperator(operator);
 	}
@@ -149,7 +149,7 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound par1nbtTagCompound) {
+	public void writeToNBT(NBTTagCompound par1nbtTagCompound){
 		super.writeToNBT(par1nbtTagCompound);
 
 		NBTTagList sigilMetaStore = new NBTTagList();
@@ -164,14 +164,14 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound par1nbtTagCompound) {
+	public void readFromNBT(NBTTagCompound par1nbtTagCompound){
 		super.readFromNBT(par1nbtTagCompound);
 
 		sigilMetadata = new HashMap<Integer, byte[]>();
 
 		NBTTagList sigilMetaStore = par1nbtTagCompound.getTagList("sigil_metadata_collection", Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < sigilMetaStore.tagCount(); ++i){
-			NBTTagCompound sigilMetaEntry = (NBTTagCompound) sigilMetaStore.getCompoundTagAt(i);
+			NBTTagCompound sigilMetaEntry = (NBTTagCompound)sigilMetaStore.getCompoundTagAt(i);
 			Integer mask = sigilMetaEntry.getInteger("sigil_mask");
 			byte[] meta = sigilMetaEntry.getByteArray("sigil_meta");
 			sigilMetadata.put(mask, meta);
@@ -179,40 +179,40 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 	}
 
 	@Override
-	public boolean canProvidePower(PowerTypes type) {
+	public boolean canProvidePower(PowerTypes type){
 		return false;
 	}
 
 	@Override
-	public boolean canRelayPower(PowerTypes type) {
+	public boolean canRelayPower(PowerTypes type){
 		return false;
 	}
 
 	@Override
-	public boolean canRequestPower() {
+	public boolean canRequestPower(){
 		return true;
 	}
 
 	@Override
-	public boolean isSource() {
+	public boolean isSource(){
 		return false;
 	}
 
 	@Override
-	public int getChargeRate() {
+	public int getChargeRate(){
 		return 100;
 	}
 
 	@Override
-	public PowerTypes[] getValidPowerTypes() {
+	public PowerTypes[] getValidPowerTypes(){
 		return PowerTypes.all();
 	}
 
 	@Override
-	public float particleOffset(int axis) {
+	public float particleOffset(int axis){
 		return 0.5f;
 	}
-	
+
 	public Affinity[] getNearbyUpgrades(){
 		return this.getUnpoweredNeighbors();
 	}

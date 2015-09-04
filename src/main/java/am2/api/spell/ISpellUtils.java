@@ -1,12 +1,12 @@
 package am2.api.spell;
 
+import am2.api.spell.enums.SpellModifiers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import am2.api.spell.enums.SpellModifiers;
 
-public interface ISpellUtils {
+public interface ISpellUtils{
 
 	public double getModifiedDouble_Mul(double defaultValue, ItemStack stack, EntityLivingBase caster, Entity target, World world, SpellModifiers check);
 
@@ -27,5 +27,5 @@ public interface ISpellUtils {
 	public boolean modifierIsPresent(SpellModifiers check, ItemStack stack);
 
 	public int countModifiers(SpellModifiers check, ItemStack stack);
-	
+
 }

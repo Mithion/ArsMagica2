@@ -3,7 +3,7 @@ package am2.api;
 import am2.api.spell.component.interfaces.ISkillTreeEntry;
 import am2.api.spell.enums.SkillTrees;
 
-public class SkillTreeEntry {
+public class SkillTreeEntry{
 	public final int x;
 	public final int y;
 	public final SkillTrees tree;

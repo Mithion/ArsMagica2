@@ -1,14 +1,5 @@
 package am2.containers;
 
-import java.util.EnumSet;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemWritableBook;
 import am2.api.spell.component.interfaces.ISkillTreeEntry;
 import am2.api.spell.component.interfaces.ISpellModifier;
 import am2.api.spell.component.interfaces.ISpellPart;
@@ -16,6 +7,15 @@ import am2.api.spell.enums.SpellModifiers;
 import am2.blocks.tileentities.TileEntityInscriptionTable;
 import am2.containers.slots.SlotInscriptionTable;
 import am2.spell.SpellValidator;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemWritableBook;
+
+import java.util.EnumSet;
 
 public class ContainerInscriptionTable extends Container{
 
@@ -32,78 +32,62 @@ public class ContainerInscriptionTable extends Container{
 		addSlotToContainer(new SlotInscriptionTable(table, 0, 102, 74));
 
 		//display player inventory
-		for (int i = 0; i < 3; i++)
-		{
-			for (int k = 0; k < 9; k++)
-			{
+		for (int i = 0; i < 3; i++){
+			for (int k = 0; k < 9; k++){
 				addSlotToContainer(new Slot(inventoryplayer, k + i * 9 + 9, 30 + k * 18, 170 + i * 18));
 			}
 		}
 
 		//display player action bar
-		for (int j1 = 0; j1 < 9; j1++)
-		{
+		for (int j1 = 0; j1 < 9; j1++){
 			addSlotToContainer(new Slot(inventoryplayer, j1, 30 + j1 * 18, 228));
 		}
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer entityplayer) {
+	public boolean canInteractWith(EntityPlayer entityplayer){
 		return table.isUseableByPlayer(entityplayer);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int i)
-	{
+	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int i){
 		ItemStack itemstack = null;
 		Slot slot = (Slot)inventorySlots.get(i);
-		if (slot != null && slot.getHasStack())
-		{
+		if (slot != null && slot.getHasStack()){
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-			if (i < PLAYER_INVENTORY_START)
-			{
-				if (!mergeItemStack(itemstack1, PLAYER_INVENTORY_START, PLAYER_ACTION_BAR_END, true))
-				{
+			if (i < PLAYER_INVENTORY_START){
+				if (!mergeItemStack(itemstack1, PLAYER_INVENTORY_START, PLAYER_ACTION_BAR_END, true)){
 					return null;
 				}
-			}
-			else if (i >= PLAYER_INVENTORY_START && i < PLAYER_ACTION_BAR_START) //from player inventory
+			}else if (i >= PLAYER_INVENTORY_START && i < PLAYER_ACTION_BAR_START) //from player inventory
 			{
 				if (!mergeSpecialItems(itemstack1, slot)){
-					if (!mergeItemStack(itemstack1, PLAYER_ACTION_BAR_START, PLAYER_ACTION_BAR_END, false))
-					{
+					if (!mergeItemStack(itemstack1, PLAYER_ACTION_BAR_START, PLAYER_ACTION_BAR_END, false)){
 						return null;
 					}
 				}else{
 					return null;
 				}
-			}
-			else if (i >= PLAYER_ACTION_BAR_START && i < PLAYER_ACTION_BAR_END)
-			{
+			}else if (i >= PLAYER_ACTION_BAR_START && i < PLAYER_ACTION_BAR_END){
 				if (!mergeSpecialItems(itemstack1, slot)){
-					if (!mergeItemStack(itemstack1, PLAYER_INVENTORY_START, PLAYER_ACTION_BAR_START-1, false))
-					{
+					if (!mergeItemStack(itemstack1, PLAYER_INVENTORY_START, PLAYER_ACTION_BAR_START - 1, false)){
 						return null;
 					}
 				}else{
 					return null;
 				}
-			}
-			else if (!mergeItemStack(itemstack1, PLAYER_INVENTORY_START, PLAYER_ACTION_BAR_END, false))
-			{
+			}else if (!mergeItemStack(itemstack1, PLAYER_INVENTORY_START, PLAYER_ACTION_BAR_END, false)){
 				return null;
 			}
 
-			if (itemstack1.stackSize == 0)
-			{
+			if (itemstack1.stackSize == 0){
 				slot.putStack(null);
 			}else{
 				slot.onSlotChanged();
 			}
 
-			if (itemstack1.stackSize != itemstack.stackSize)
-			{
+			if (itemstack1.stackSize != itemstack.stackSize){
 				slot.onSlotChange(itemstack1, itemstack);
 			}else{
 				return null;
@@ -118,7 +102,7 @@ public class ContainerInscriptionTable extends Container{
 			if (bookSlot.getHasStack()) return false;
 
 			ItemStack newStack = stack.copy();
-			newStack.stackSize= 1;
+			newStack.stackSize = 1;
 			bookSlot.putStack(newStack);
 			bookSlot.onSlotChanged();
 
@@ -197,9 +181,9 @@ public class ContainerInscriptionTable extends Container{
 	}
 
 	public boolean slotIsBook(int slot){
-		return slotHasStack(slot) && 
-				((Slot)this.inventorySlots.get(slot)).getStack().getItem() == Items.written_book && 
-				((Slot)this.inventorySlots.get(slot)).getStack().getTagCompound() != null && 
+		return slotHasStack(slot) &&
+				((Slot)this.inventorySlots.get(slot)).getStack().getItem() == Items.written_book &&
+				((Slot)this.inventorySlots.get(slot)).getStack().getTagCompound() != null &&
 				!((Slot)this.inventorySlots.get(slot)).getStack().getTagCompound().getBoolean("spellFinalized");
 	}
 
@@ -216,11 +200,11 @@ public class ContainerInscriptionTable extends Container{
 		return true;
 	}
 
-	public boolean currentSpellDefIsReadOnly() {
+	public boolean currentSpellDefIsReadOnly(){
 		return table.currentSpellDefIsReadOnly();
 	}
 
-	public void resetSpellNameAndIcon() {
+	public void resetSpellNameAndIcon(){
 		ItemStack stack = ((Slot)this.inventorySlots.get(0)).getStack();
 		if (stack != null)
 			table.resetSpellNameAndIcon(stack, inventoryPlayer.player);

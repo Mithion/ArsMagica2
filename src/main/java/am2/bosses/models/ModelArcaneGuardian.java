@@ -1,12 +1,11 @@
 package am2.bosses.models;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.entity.Entity;
 import am2.bosses.EntityArcaneGuardian;
 import am2.entities.renderers.AM2ModelRenderer;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.entity.Entity;
 
-public class ModelArcaneGuardian extends ModelBase
-{
+public class ModelArcaneGuardian extends ModelBase{
 	//fields
 	AM2ModelRenderer FootLeft;
 	AM2ModelRenderer FootRight;
@@ -38,8 +37,7 @@ public class ModelArcaneGuardian extends ModelBase
 	AM2ModelRenderer Sigil;
 	AM2ModelRenderer PantsRight;
 
-	public ModelArcaneGuardian()
-	{
+	public ModelArcaneGuardian(){
 		textureWidth = 128;
 		textureHeight = 128;
 
@@ -77,7 +75,7 @@ public class ModelArcaneGuardian extends ModelBase
 		Cube1.addBox(-2F, -2F, -0.5F, 4, 4, 1);
 		Cube1.setRotationPoint(0F, -6F, -1F);
 		Cube1.setTextureSize(128, 128);
-		Cube1.mirror = true;		
+		Cube1.mirror = true;
 		setRotation(Cube1, 0F, 0F, -0.7853982F);
 		Cube2 = new AM2ModelRenderer(this, 101, 0);
 		Cube2.addBox(-0.5F, -2F, -2F, 1, 4, 4);
@@ -245,8 +243,8 @@ public class ModelArcaneGuardian extends ModelBase
 
 		if (entity instanceof EntityArcaneGuardian){
 			setHeadRotations(f3, f4);
-			
-			updateRotations((EntityArcaneGuardian) entity);
+
+			updateRotations((EntityArcaneGuardian)entity);
 
 			FootLeft.render(f5);
 			FootRight.render(f5);
@@ -281,10 +279,10 @@ public class ModelArcaneGuardian extends ModelBase
 	}
 
 	private void setHeadRotations(float yaw, float pitch){
-		
-		yaw = (float) Math.toRadians(yaw);
-		pitch = (float) Math.toRadians(pitch);
-		
+
+		yaw = (float)Math.toRadians(yaw);
+		pitch = (float)Math.toRadians(pitch);
+
 		Head.rotateAngleX = pitch;
 		Head.rotateAngleY = yaw;
 
@@ -300,62 +298,60 @@ public class ModelArcaneGuardian extends ModelBase
 		HoodBack.rotateAngleX = pitch;
 		HoodBack.rotateAngleY = yaw;
 	}
-	
+
 	@SuppressWarnings("incomplete-switch")
 	private void updateRotations(EntityArcaneGuardian guardian){
 
 		Sigil.rotateAngleZ = guardian.getRuneRotationZ();
 		Sigil.rotateAngleY = guardian.getRuneRotationY();
-		
+
 		float main_arm_rotation_x = 0;
 		float pants_rotation = 0;
-		
+
 		switch (guardian.getCurrentAction()){
 		case CASTING:
 			float max_degrees_x = 160;
 			float final_degrees_x = 80;
-			
+
 			float max_pants_degrees = 45;
-			
+
 			float action_ticks = 10;
 			float fast_action_ticks = 3;
 			float final_action_ticks = 6;
-			
+
 			if (guardian.getTicksInCurrentAction() < action_ticks){
-				main_arm_rotation_x = (float) Math.toRadians(-max_degrees_x * (guardian.getTicksInCurrentAction() / action_ticks));
+				main_arm_rotation_x = (float)Math.toRadians(-max_degrees_x * (guardian.getTicksInCurrentAction() / action_ticks));
 			}else if (guardian.getTicksInCurrentAction() < action_ticks + fast_action_ticks){
-				main_arm_rotation_x = (float) Math.toRadians(-max_degrees_x + (final_degrees_x * ((guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
-				pants_rotation = (float) Math.toRadians(-max_pants_degrees * ((guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks));
+				main_arm_rotation_x = (float)Math.toRadians(-max_degrees_x + (final_degrees_x * ((guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
+				pants_rotation = (float)Math.toRadians(-max_pants_degrees * ((guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks));
 			}else{
 				main_arm_rotation_x = final_degrees_x;
 				if (guardian.getTicksInCurrentAction() < action_ticks + fast_action_ticks + final_action_ticks)
-					pants_rotation = (float) Math.toRadians(-max_pants_degrees + (max_pants_degrees * ((guardian.getTicksInCurrentAction() - action_ticks - fast_action_ticks) / final_action_ticks)));
+					pants_rotation = (float)Math.toRadians(-max_pants_degrees + (max_pants_degrees * ((guardian.getTicksInCurrentAction() - action_ticks - fast_action_ticks) / final_action_ticks)));
 			}
 			break;
 		}
-		
+
 		RightUpperArm.rotateAngleX = RightUpperArm.getRestRotationX() + main_arm_rotation_x;
 		RightForearm.rotateAngleX = RightForearm.getRestRotationX() + main_arm_rotation_x;
 		RightHand.rotateAngleX = RightHand.getRestRotationX() + main_arm_rotation_x;
 		Wand.rotateAngleX = Wand.getRestRotationX() + main_arm_rotation_x;
-		
+
 		PantsLeft.rotateAngleZ = PantsLeft.getRestRotationZ() + pants_rotation;
 		PantsRight.rotateAngleZ = PantsRight.getRestRotationZ() - pants_rotation;
-		
+
 		PantsFront.rotateAngleX = PantsFront.getRestRotationZ() + pants_rotation;
 		PantsBackLeft.rotateAngleX = PantsBackLeft.getRestRotationZ() - pants_rotation;
 		PantsBackRight.rotateAngleX = PantsBackRight.getRestRotationZ() - pants_rotation;
 	}
 
-	private void setRotation(AM2ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(AM2ModelRenderer model, float x, float y, float z){
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
 	}
 
-	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5){
 	}
 
 }

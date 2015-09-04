@@ -1,25 +1,24 @@
 package am2.entities.ai;
 
-import java.util.HashMap;
-import java.util.Random;
-
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.village.MerchantRecipe;
-import net.minecraft.village.MerchantRecipeList;
 import am2.blocks.BlocksCommonProxy;
 import am2.items.ItemsCommonProxy;
 import cpw.mods.fml.common.registry.VillagerRegistry.IVillageTradeHandler;
+import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.village.MerchantRecipe;
+import net.minecraft.village.MerchantRecipeList;
 
-public class MageVillagerTrade implements IVillageTradeHandler {
+import java.util.HashMap;
+import java.util.Random;
+
+public class MageVillagerTrade implements IVillageTradeHandler{
 
 	private static int min = 1;
 	private static int max = 2;
 
 	@Override
-	public void manipulateTradesForVillager(EntityVillager villager, MerchantRecipeList recipeList, Random random) {
+	public void manipulateTradesForVillager(EntityVillager villager, MerchantRecipeList recipeList, Random random){
 
 		recipeList.clear();
 		int numChoices = random.nextInt(4) + 1;
@@ -28,7 +27,7 @@ public class MageVillagerTrade implements IVillageTradeHandler {
 			ItemStack choice = getRandomChoiceForTrade(random);
 			if (choice != null){
 				MerchantRecipe itemToSell = new MerchantRecipe(new ItemStack(Items.emerald, random.nextInt(max - min) + min), choice);
-				recipeList.add(itemToSell);				
+				recipeList.add(itemToSell);
 			}
 		}
 	}
@@ -45,7 +44,7 @@ public class MageVillagerTrade implements IVillageTradeHandler {
 		//10% chance for magic armor
 		//20% chance for spell recipe
 
-		if (itemSeed < 150){	
+		if (itemSeed < 150){
 			//essence
 			weightedRandomChoices.put(new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_ARCANEASH), 1000);
 			for (int i = 0; i < 13; ++i)
@@ -54,7 +53,7 @@ public class MageVillagerTrade implements IVillageTradeHandler {
 				else
 					weightedRandomChoices.put(new ItemStack(ItemsCommonProxy.essence, 1, i), 120);
 
-			choice = pickRandomWeightedItem(random, weightedRandomChoices);			
+			choice = pickRandomWeightedItem(random, weightedRandomChoices);
 
 			if (choice.getItemDamage() == 11){ //pure essence
 				min = 11;
@@ -66,7 +65,7 @@ public class MageVillagerTrade implements IVillageTradeHandler {
 				min = 4;
 				max = 7;
 			}
-		}else if (itemSeed >= 150 && itemSeed < 300){			
+		}else if (itemSeed >= 150 && itemSeed < 300){
 			//spell book
 			min = 2;
 			max = 4;
@@ -83,7 +82,7 @@ public class MageVillagerTrade implements IVillageTradeHandler {
 			weightedRandomChoices.put(new ItemStack(ItemsCommonProxy.creatureFocus), 250);
 			weightedRandomChoices.put(new ItemStack(ItemsCommonProxy.mobFocus), 250);
 
-			choice = pickRandomWeightedItem(random, weightedRandomChoices);			
+			choice = pickRandomWeightedItem(random, weightedRandomChoices);
 
 			if (choice.getItem() == ItemsCommonProxy.greaterFocus){
 				min = 4;
@@ -114,10 +113,11 @@ public class MageVillagerTrade implements IVillageTradeHandler {
 			/*if (choice.getItem() == ItemsCommonProxy.archmageHood || choice.getItem() == ItemsCommonProxy.archmageArmor || choice.getItem() == ItemsCommonProxy.archmageBoots || choice.getItem() == ItemsCommonProxy.archmageLeggings){
 				min = 13;
 				max = 21;				
-			}else*/ if (choice.getItem() == ItemsCommonProxy.battlemageHood || choice.getItem() == ItemsCommonProxy.battlemageArmor || choice.getItem() == ItemsCommonProxy.battlemageBoots || choice.getItem() == ItemsCommonProxy.battlemageLeggings){
+			}else*/
+			if (choice.getItem() == ItemsCommonProxy.battlemageHood || choice.getItem() == ItemsCommonProxy.battlemageArmor || choice.getItem() == ItemsCommonProxy.battlemageBoots || choice.getItem() == ItemsCommonProxy.battlemageLeggings){
 				min = 8;
-				max = 17;	
-			}else if (choice.getItem() == ItemsCommonProxy.mageHood || choice.getItem() == ItemsCommonProxy.mageArmor || choice.getItem() == ItemsCommonProxy.mageBoots || choice.getItem() == ItemsCommonProxy.mageLeggings){			
+				max = 17;
+			}else if (choice.getItem() == ItemsCommonProxy.mageHood || choice.getItem() == ItemsCommonProxy.mageArmor || choice.getItem() == ItemsCommonProxy.mageBoots || choice.getItem() == ItemsCommonProxy.mageLeggings){
 				min = 4;
 				max = 9;
 			}else{

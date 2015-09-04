@@ -1,7 +1,17 @@
 package am2.items;
 
-import java.util.List;
-
+import am2.AMCore;
+import am2.MeteorSpawnHelper;
+import am2.api.math.AMVector3;
+import am2.api.spell.enums.SkillPointTypes;
+import am2.entities.*;
+import am2.particles.AMLineArc;
+import am2.playerextensions.ExtendedProperties;
+import am2.playerextensions.SkillData;
+import am2.spell.SpellUtils;
+import am2.texture.ResourceManager;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -10,35 +20,13 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.StatCollector;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
-import am2.AMCore;
-import am2.MeteorSpawnHelper;
-import am2.api.math.AMVector3;
-import am2.api.spell.enums.SkillPointTypes;
-import am2.entities.EntityAirSled;
-import am2.entities.EntityBroom;
-import am2.entities.EntityShockwave;
-import am2.entities.EntitySpellEffect;
-import am2.entities.EntityThrownRock;
-import am2.entities.EntityThrownSickle;
-import am2.entities.EntityWhirlwind;
-import am2.entities.EntityWinterGuardianArm;
-import am2.particles.AMLineArc;
-import am2.playerextensions.ExtendedProperties;
-import am2.playerextensions.SkillData;
-import am2.spell.SpellUtils;
-import am2.texture.ResourceManager;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemRune extends ArsMagicaItem {
+import java.util.List;
+
+public class ItemRune extends ArsMagicaItem{
 
 	@SideOnly(Side.CLIENT)
 	private String[] textures;
@@ -70,7 +58,8 @@ public class ItemRune extends ArsMagicaItem {
 
 
 	private final int keyIndex;
-	public ItemRune(int i) {
+
+	public ItemRune(int i){
 		super();
 		this.keyIndex = i;
 		this.setHasSubtypes(true);
@@ -78,7 +67,7 @@ public class ItemRune extends ArsMagicaItem {
 	}
 
 	@Override
-	public String getItemStackDisplayName(ItemStack stack) {
+	public String getItemStackDisplayName(ItemStack stack){
 		int meta = stack.getItemDamage();
 		switch (meta){
 		case META_BROWN:
@@ -130,7 +119,7 @@ public class ItemRune extends ArsMagicaItem {
 	}
 
 	public int getKeyIndex(int meta){
-		switch(meta){
+		switch (meta){
 		case META_BLACK:
 			return 0x1;
 		case META_BLANK:
@@ -173,8 +162,8 @@ public class ItemRune extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister IIconRegister) {
-		textures = new String[]{ "rune_black", "rune_blank", "rune_blue", "rune_brown", "rune_cyan", "rune_gray", "rune_green", "rune_light_blue", "rune_light_gray", "rune_lime", "rune_magenta", "rune_orange", "rune_pink", "rune_purple", "rune_red", "rune_white", "rune_yellow", "infinityorb_blue", "infinityorb_green", "infinityorb_red", "debug_placeholder"};
+	public void registerIcons(IIconRegister IIconRegister){
+		textures = new String[]{"rune_black", "rune_blank", "rune_blue", "rune_brown", "rune_cyan", "rune_gray", "rune_green", "rune_light_blue", "rune_light_gray", "rune_lime", "rune_magenta", "rune_orange", "rune_pink", "rune_purple", "rune_red", "rune_white", "rune_yellow", "infinityorb_blue", "infinityorb_green", "infinityorb_red", "debug_placeholder"};
 		this.icons = new IIcon[this.textures.length];
 
 		for (int i = 0; i < this.textures.length; ++i){
@@ -188,13 +177,13 @@ public class ItemRune extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack par1ItemStack) {
+	public boolean hasEffect(ItemStack par1ItemStack){
 		return par1ItemStack.getItemDamage() > 16;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int damage) {
+	public IIcon getIconFromDamage(int damage){
 		if (damage < 0 || damage >= this.icons.length)
 			return this.icons[0];
 		return this.icons[damage];
@@ -202,20 +191,20 @@ public class ItemRune extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean requiresMultipleRenderPasses() {
+	public boolean requiresMultipleRenderPasses(){
 		return false;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
+	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List){
 		for (int i = 0; i < this.icons.length; ++i){
 			par3List.add(new ItemStack(par1, 1, i));
 		}
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player){
 		int meta = stack.getItemDamage();
 
 
@@ -240,7 +229,7 @@ public class ItemRune extends ArsMagicaItem {
 		if (ExtendedProperties.For(player).getMagicLevel() > 0){
 			SkillData.For(player).incrementSpellPoints(type);
 			if (player.worldObj.isRemote){
-				switch(type){
+				switch (type){
 				case BLUE:
 					player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.infOrbBlue")));
 					break;
@@ -284,7 +273,7 @@ public class ItemRune extends ArsMagicaItem {
 				player.addChatMessage(
 						new ChatComponentText(
 								String.format("%s, Meta: %d", block.getLocalizedName(), meta)
-				));
+						));
 			}
 		}
 	}
@@ -298,10 +287,10 @@ public class ItemRune extends ArsMagicaItem {
 		if (world.isRemote){
 			Vec3 look = player.getLookVec();
 			double dist = 20;
-			AMLineArc arc = (AMLineArc) AMCore.proxy.particleManager.spawn(world, "wipblock2", player.posX, player.posY, player.posZ, player.posX + (look.xCoord * dist), player.posY + (look.yCoord * dist), player.posZ + (look.zCoord * dist));
+			AMLineArc arc = (AMLineArc)AMCore.proxy.particleManager.spawn(world, "wipblock2", player.posX, player.posY, player.posZ, player.posX + (look.xCoord * dist), player.posY + (look.yCoord * dist), player.posZ + (look.zCoord * dist));
 			if (arc != null){
 				arc.setExtendToTarget();
-				arc.setRBGColorF(0,0,0);
+				arc.setRBGColorF(0, 0, 0);
 			}
 		}
 	}
@@ -434,7 +423,7 @@ public class ItemRune extends ArsMagicaItem {
 			wall.setRadius(10);
 
 			ItemStack spellStack = new ItemStack(ItemsCommonProxy.spell);
-			SpellUtils.instance.addSpellStageToScroll(spellStack, "touch", new String[] { "FireDamage" }, new String[0]);
+			SpellUtils.instance.addSpellStageToScroll(spellStack, "touch", new String[]{"FireDamage"}, new String[0]);
 
 			wall.SetCasterAndStack(player, spellStack);
 			world.spawnEntityInWorld(wall);

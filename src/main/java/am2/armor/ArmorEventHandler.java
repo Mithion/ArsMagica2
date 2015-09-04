@@ -1,29 +1,28 @@
 package am2.armor;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.eventhandler.Event;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import am2.AMCore;
 import am2.api.items.armor.ArmorTextureEvent;
 import am2.api.items.armor.IArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.playerextensions.ExtendedProperties;
+import cpw.mods.fml.common.eventhandler.Event;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 
-public class ArmorEventHandler {
+public class ArmorEventHandler{
 
 	@SubscribeEvent
 	public void onEntityLiving(LivingUpdateEvent event){
 		if (!(event.entityLiving instanceof EntityPlayer))
 			return;
 
-		doInfusions(ImbuementApplicationTypes.ON_TICK, event, (EntityPlayer) event.entityLiving);
+		doInfusions(ImbuementApplicationTypes.ON_TICK, event, (EntityPlayer)event.entityLiving);
 	}
 
 	@SubscribeEvent
@@ -31,7 +30,7 @@ public class ArmorEventHandler {
 		if (!(event.entityLiving instanceof EntityPlayer))
 			return;
 
-		doInfusions(ImbuementApplicationTypes.ON_HIT, event, (EntityPlayer) event.entityLiving);
+		doInfusions(ImbuementApplicationTypes.ON_HIT, event, (EntityPlayer)event.entityLiving);
 
 		if (event.entityLiving instanceof EntityPlayer)
 			doXPInfusion((EntityPlayer)event.entityLiving, 0.01f, Math.max(0.05f, Math.min(event.ammount, 5)));
@@ -42,23 +41,23 @@ public class ArmorEventHandler {
 		if (!(event.entityLiving instanceof EntityPlayer))
 			return;
 
-		doInfusions(ImbuementApplicationTypes.ON_JUMP, event, (EntityPlayer) event.entityLiving);
+		doInfusions(ImbuementApplicationTypes.ON_JUMP, event, (EntityPlayer)event.entityLiving);
 	}
 
 	@SubscribeEvent
 	public void onMiningSpeed(BreakSpeed event){
-		doInfusions(ImbuementApplicationTypes.ON_MINING_SPEED, event, (EntityPlayer) event.entityPlayer);
+		doInfusions(ImbuementApplicationTypes.ON_MINING_SPEED, event, (EntityPlayer)event.entityPlayer);
 	}
 
 	@SubscribeEvent
 	public void onEntityDeath(LivingDeathEvent event){
 		if (event.source.getSourceOfDamage() instanceof EntityPlayer)
 			doXPInfusion((EntityPlayer)event.source.getSourceOfDamage(), 1, Math.min(20, event.entityLiving.getMaxHealth()));
-		
+
 		if (!(event.entityLiving instanceof EntityPlayer))
 			return;
 
-		doInfusions(ImbuementApplicationTypes.ON_DEATH, event, (EntityPlayer) event.entityLiving);		
+		doInfusions(ImbuementApplicationTypes.ON_DEATH, event, (EntityPlayer)event.entityLiving);
 	}
 
 	private void doInfusions(ImbuementApplicationTypes type, Event event, EntityPlayer player){
@@ -88,7 +87,7 @@ public class ArmorEventHandler {
 	}
 
 	private void doXPInfusion(EntityPlayer player, float xpMin, float xpMax){
-		float amt = (float) ((player.worldObj.rand.nextFloat() * xpMin + (xpMax - xpMin)) * AMCore.config.getArmorXPInfusionFactor());
+		float amt = (float)((player.worldObj.rand.nextFloat() * xpMin + (xpMax - xpMin)) * AMCore.config.getArmorXPInfusionFactor());
 		ArmorHelper.addXPToArmor(amt, player);
 	}
 

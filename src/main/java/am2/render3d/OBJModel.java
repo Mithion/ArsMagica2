@@ -1,24 +1,17 @@
 package am2.render3d;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
-import java.util.ArrayList;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import am2.AMCore;
 import cpw.mods.fml.common.FMLLog;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
-public class OBJModel {
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+public class OBJModel{
 	private OBJTexCoord[] textureCoords;
 	private OBJNormal[] normals;
 	private OBJVertex[] vertices;
@@ -27,13 +20,13 @@ public class OBJModel {
 	private boolean loaded;
 	private boolean flatShading;
 	private int cullMode;
-	
+
 	private int glCallList;
 
 	public OBJModel(ResourceLocation objFile, boolean flatShading){
 		loaded = LoadOBJModel(objFile);
 		if (!loaded){
-			
+
 		}
 		this.flatShading = flatShading;
 		this.cullMode = GL11.GL_FRONT;
@@ -41,31 +34,31 @@ public class OBJModel {
 
 	private void createMissingModel(){
 		this.vertices = new OBJVertex[8];
-		
-		this.vertices[0] = new OBJVertex(0,0,0);
-		this.vertices[1] = new OBJVertex(1,0,0);
-		this.vertices[2] = new OBJVertex(0,0,1);
-		this.vertices[3] = new OBJVertex(1,0,1);
-		this.vertices[4] = new OBJVertex(0,1,0);
-		this.vertices[5] = new OBJVertex(1,1,0);
-		this.vertices[6] = new OBJVertex(0,1,1);
-		this.vertices[7] = new OBJVertex(1,1,1);
-		
+
+		this.vertices[0] = new OBJVertex(0, 0, 0);
+		this.vertices[1] = new OBJVertex(1, 0, 0);
+		this.vertices[2] = new OBJVertex(0, 0, 1);
+		this.vertices[3] = new OBJVertex(1, 0, 1);
+		this.vertices[4] = new OBJVertex(0, 1, 0);
+		this.vertices[5] = new OBJVertex(1, 1, 0);
+		this.vertices[6] = new OBJVertex(0, 1, 1);
+		this.vertices[7] = new OBJVertex(1, 1, 1);
+
 		this.textureCoords = new OBJTexCoord[1];
 		this.textureCoords[0] = new OBJTexCoord(0, 0);
-		
-		
+
+
 		this.faces = new OBJFace[6];
-		
-		this.faces[0] = new OBJFace(new int[] { }, new int[]{0}, new int[4]);
-		
+
+		this.faces[0] = new OBJFace(new int[]{}, new int[]{0}, new int[4]);
+
 		this.calculateNormals();
 	}
-	
+
 	public OBJModel(ResourceLocation objFile){
 		this(objFile, false);
 	}
-	
+
 	public OBJModel SetBackCulling(){
 		this.cullMode = GL11.GL_BACK;
 		return this;
@@ -74,20 +67,20 @@ public class OBJModel {
 	public boolean IsLoaded(){
 		return loaded;
 	}
-	
+
 	private InputStream getResourceAsStream(String resourceName){
 		return AMCore.class.getResourceAsStream(resourceName);
 	}
 
 	private boolean LoadOBJModel(ResourceLocation path){
-		
+
 		InputStream stream = getResourceAsStream(path.getResourcePath());
-		
+
 		if (stream == null) return false;
 
 		ArrayList<String> lines = new ArrayList<String>();
 
-		try{		
+		try{
 			BufferedReader br = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
 			String line;
 			while ((line = br.readLine()) != null){
@@ -95,7 +88,7 @@ public class OBJModel {
 			}
 			br.close();
 			stream.close();
-		}catch(Throwable t){
+		}catch (Throwable t){
 			FMLLog.severe("Error reading OBJ File Data!");
 			return false;
 		}
@@ -106,7 +99,7 @@ public class OBJModel {
 			FMLLog.info("Texture Coords: " + textureCoords.length);
 			FMLLog.info("Normals: " + normals.length);
 			FMLLog.info("Faces: " + faces.length);*/
-			
+
 			return true;
 		}else{
 			return false;
@@ -137,7 +130,7 @@ public class OBJModel {
 
 				for (String s : sections){
 					if (s.equals("f")) continue;
-					String[] vtn = s.split("/");					
+					String[] vtn = s.split("/");
 					v.add(Integer.parseInt(vtn[0]));
 					if (vtn.length > 1){
 						if (vtn[1].equals("")) t.add(0);
@@ -170,8 +163,8 @@ public class OBJModel {
 		this.vertices = vertices.toArray(this.vertices);
 		this.faces = faces.toArray(this.faces);
 
-		calculateNormals();	
-		
+		calculateNormals();
+
 		PrepareGLCallList();
 
 		return true;
@@ -198,8 +191,8 @@ public class OBJModel {
 		OBJNormal normal = new OBJNormal(0, 0, 0);
 
 		for (int i = 0; i < face.v.length; ++i){
-			OBJVertex v = this.vertices[face.v[i]-1];
-			OBJVertex vn = this.vertices[face.v[(i + 1) % face.v.length]-1];
+			OBJVertex v = this.vertices[face.v[i] - 1];
+			OBJVertex vn = this.vertices[face.v[(i + 1) % face.v.length] - 1];
 
 			normal.i = normal.i + ((v.y - vn.y) * (v.z - vn.z));
 			normal.j = normal.j + ((v.z - vn.z) * (v.x - vn.x));
@@ -213,7 +206,7 @@ public class OBJModel {
 	}
 
 	private OBJNormal calculateVertexNormal(int index){
-		int [] adjoiningFaces = new int[this.faces.length];
+		int[] adjoiningFaces = new int[this.faces.length];
 
 		int numAdjoiningFaces = 0;
 		for (int i = 0; i < this.faces.length; ++i){
@@ -226,7 +219,7 @@ public class OBJModel {
 			}
 		}
 
-		OBJNormal normal = new OBJNormal(0,0,0);
+		OBJNormal normal = new OBJNormal(0, 0, 0);
 
 		for (int i = 0; i < numAdjoiningFaces; ++i){
 			OBJFace face = this.faces[i];
@@ -255,11 +248,11 @@ public class OBJModel {
 		}
 		return arr;
 	}
-	
+
 	public void PrepareGLCallList(){
 		glCallList = GL11.glGenLists(1);
 		GL11.glNewList(glCallList, GL11.GL_COMPILE);
-		
+
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		//GL11.glEnable(32826 /*GL_RESCALE_NORMAL_EXT*/);
@@ -270,8 +263,8 @@ public class OBJModel {
 			OBJFace face = faces[i];
 			RenderFace(face);
 		}
-		
-		
+
+
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glCullFace(GL11.GL_BACK);
 		GL11.glDisable(GL11.GL_BLEND);
@@ -307,17 +300,17 @@ public class OBJModel {
 		}
 
 		for (int i = 0; i < v.length; ++i){
-			OBJVertex vertex = this.vertices[v[i]-1];
+			OBJVertex vertex = this.vertices[v[i] - 1];
 			OBJNormal normal = null;
-			OBJTexCoord texCoord = null;			
+			OBJTexCoord texCoord = null;
 
 			if (tc[i] != 0){
-				texCoord = this.textureCoords[tc[i]-1];				
+				texCoord = this.textureCoords[tc[i] - 1];
 				GL11.glTexCoord2f(texCoord.u, texCoord.v);
 			}
 			if (vertexNormals){
 				if (n[i] != 0){
-					normal = this.normals[n[i]-1];
+					normal = this.normals[n[i] - 1];
 					GL11.glNormal3f(normal.i, normal.j, normal.k);
 				}
 			}

@@ -1,16 +1,16 @@
 package am2.buffs;
 
-import java.util.UUID;
-
+import am2.utility.KeyValuePair;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.potion.Potion;
-import am2.utility.KeyValuePair;
 
-public class BuffStatModifiers {
+import java.util.UUID;
+
+public class BuffStatModifiers{
 	public static final BuffStatModifiers instance = new BuffStatModifiers();
 
 	public void applyStatModifiersBasedOnBuffs(EntityLivingBase entity){
@@ -28,7 +28,7 @@ public class BuffStatModifiers {
 		applyOrRemoveModifiersForBuff(entity, BuffList.haste.id, 2, new KeyValuePair(SharedMonsterAttributes.movementSpeed, hasteSpeedBoost_Augmented));
 	}
 
-	private void applyOrRemoveModifiersForBuff(EntityLivingBase entity, int buffID, KeyValuePair<IAttribute, AttributeModifier>...modifiers){
+	private void applyOrRemoveModifiersForBuff(EntityLivingBase entity, int buffID, KeyValuePair<IAttribute, AttributeModifier>... modifiers){
 		if (entity.isPotionActive(buffID)){
 			applyAllModifiers(entity, modifiers);
 		}else{
@@ -36,7 +36,7 @@ public class BuffStatModifiers {
 		}
 	}
 
-	private void applyOrRemoveModifiersForBuff(EntityLivingBase entity, int buffID, int magnitude, KeyValuePair<IAttribute, AttributeModifier>...modifiers){
+	private void applyOrRemoveModifiersForBuff(EntityLivingBase entity, int buffID, int magnitude, KeyValuePair<IAttribute, AttributeModifier>... modifiers){
 		if (entity.isPotionActive(buffID)){
 			if (entity.getActivePotionEffect(Potion.potionTypes[buffID]).getAmplifier() == magnitude)
 				applyAllModifiers(entity, modifiers);
@@ -45,7 +45,7 @@ public class BuffStatModifiers {
 		}
 	}
 
-	private void applyAllModifiers(EntityLivingBase entity, KeyValuePair<IAttribute, AttributeModifier>...modifiers){
+	private void applyAllModifiers(EntityLivingBase entity, KeyValuePair<IAttribute, AttributeModifier>... modifiers){
 		for (KeyValuePair<IAttribute, AttributeModifier> entry : modifiers){
 			IAttributeInstance inst = entity.getEntityAttribute(entry.getKey());
 			if (inst == null)
@@ -55,7 +55,7 @@ public class BuffStatModifiers {
 		}
 	}
 
-	private void clearAllModifiers(EntityLivingBase entity, KeyValuePair<IAttribute, AttributeModifier>...modifiers){
+	private void clearAllModifiers(EntityLivingBase entity, KeyValuePair<IAttribute, AttributeModifier>... modifiers){
 		for (KeyValuePair<IAttribute, AttributeModifier> entry : modifiers){
 			IAttributeInstance inst = entity.getEntityAttribute(entry.getKey());
 			if (inst == null)

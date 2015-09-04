@@ -1,19 +1,5 @@
 package am2.spell.shapes;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.EntityDragonPart;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraft.world.World;
 import am2.AMCore;
 import am2.api.spell.ItemSpellBase;
 import am2.api.spell.component.interfaces.ISpellModifier;
@@ -25,16 +11,28 @@ import am2.items.ItemsCommonProxy;
 import am2.spell.SpellHelper;
 import am2.spell.SpellUtils;
 import am2.spell.modifiers.Colour;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityDragonPart;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Chain implements ISpellShape{
 
 	@Override
-	public int getID() {
+	public int getID(){
 		return 3;
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount) {
+	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount){
 
 		MovingObjectPosition mop = item.getMovingObjectPosition(caster, world, 8.0f, true, false);
 		double range = SpellUtils.instance.getModifiedDouble_Mul(4, stack, caster, target, world, 0, SpellModifiers.RANGE);
@@ -52,7 +50,7 @@ public class Chain implements ISpellShape{
 				e = (EntityLivingBase)((EntityDragonPart)e).entityDragonObj;
 			if (e instanceof EntityLivingBase){
 				do{
-					targets.add((EntityLivingBase) e);
+					targets.add((EntityLivingBase)e);
 
 					List<EntityLivingBase> nearby = world.getEntitiesWithinAABB(EntityLivingBase.class, e.boundingBox.expand(range, range, range));
 					EntityLivingBase closest = null;
@@ -86,7 +84,7 @@ public class Chain implements ISpellShape{
 				if (prevEntity == null)
 					spawnChainParticles(world, x, y, z, e.posX, e.posY + e.getEyeHeight(), e.posZ, stack);
 				else
-					spawnChainParticles(world, prevEntity.posX, prevEntity.posY+ e.getEyeHeight(), prevEntity.posZ, e.posX, e.posY+ e.getEyeHeight(), e.posZ, stack);
+					spawnChainParticles(world, prevEntity.posX, prevEntity.posY + e.getEyeHeight(), prevEntity.posZ, e.posX, e.posY + e.getEyeHeight(), e.posZ, stack);
 			}
 			prevEntity = e;
 
@@ -123,7 +121,7 @@ public class Chain implements ISpellShape{
 			for (ISpellModifier mod : mods){
 				if (mod instanceof Colour){
 					byte[] meta = SpellUtils.instance.getModifierMetadataFromStack(stack, mod, 0, ordinalCount++);
-					color = (int) mod.getModifier(SpellModifiers.COLOR, null, null, null, meta);
+					color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, meta);
 				}
 			}
 		}
@@ -131,12 +129,12 @@ public class Chain implements ISpellShape{
 	}
 
 	@Override
-	public boolean isChanneled() {
+	public boolean isChanneled(){
 		return false;
 	}
 
 	@Override
-	public Object[] getRecipeItems() {
+	public Object[] getRecipeItems(){
 		return new Object[]{
 				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_SUNSTONE),
 				Items.lead,
@@ -147,23 +145,23 @@ public class Chain implements ISpellShape{
 	}
 
 	@Override
-	public float manaCostMultiplier(ItemStack spellStack) {
+	public float manaCostMultiplier(ItemStack spellStack){
 		return 1.5f;
 	}
 
 	@Override
-	public boolean isTerminusShape() {
+	public boolean isTerminusShape(){
 		return false;
 	}
 
 	@Override
-	public boolean isPrincipumShape() {
+	public boolean isPrincipumShape(){
 		return false;
 	}
 
 	@Override
-	public String getSoundForAffinity(Affinity affinity, ItemStack stack, World world) {
-		switch(affinity){
+	public String getSoundForAffinity(Affinity affinity, ItemStack stack, World world){
+		switch (affinity){
 		case AIR:
 			return "arsmagica2:spell.cast.air";
 		case ARCANE:

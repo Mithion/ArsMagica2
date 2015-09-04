@@ -1,31 +1,21 @@
 package am2.preloader;
 
-import java.lang.reflect.Field;
-import java.util.Iterator;
-
-import net.minecraft.client.entity.EntityPlayerSP;
+import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.relauncher.FMLRelaunchLog;
 import net.minecraft.launchwrapper.IClassTransformer;
-
 import org.apache.logging.log4j.Level;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldInsnNode;
-import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.LdcInsnNode;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.MethodNode;
-import org.objectweb.asm.tree.VarInsnNode;
+import org.objectweb.asm.tree.*;
 
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.relauncher.FMLRelaunchLog;
+import java.lang.reflect.Field;
+import java.util.Iterator;
 
-public class BytecodeTransformers implements IClassTransformer {
+public class BytecodeTransformers implements IClassTransformer{
 
 	@Override
-	public byte[] transform(String name, String transformedName, byte[] bytes) {
+	public byte[] transform(String name, String transformedName, byte[] bytes){
 		if (transformedName.equals("am2.armor.ItemMageHood") && AM2PreloaderContainer.foundThaumcraft){
 			FMLRelaunchLog.info("AMCore >> Altering definition of " + transformedName + " to be thaumcraft compatible.");
 			ClassReader cr = new ClassReader(bytes);
@@ -177,7 +167,7 @@ public class BytecodeTransformers implements IClassTransformer {
 
 				if (target != null){
 					int iRegister = AM2PreloaderContainer.foundOptifine ? 3 : 2;
-					
+
 					VarInsnNode aLoad = new VarInsnNode(Opcodes.ALOAD, 0);
 					VarInsnNode fLoad = new VarInsnNode(Opcodes.FLOAD, 1);
 					VarInsnNode iLoad = new VarInsnNode(Opcodes.ILOAD, iRegister);
@@ -266,7 +256,7 @@ public class BytecodeTransformers implements IClassTransformer {
 								((FieldInsnNode)node).getOpcode() == Opcodes.GETFIELD &&
 								((FieldInsnNode)node).name.equals("name") &&
 								((FieldInsnNode)node).desc.equals("Ljava/lang/String;") &&
-								((FieldInsnNode)node).owner.equals("net/minecraftforge/event/entity/PlaySoundAtEntityEvent") ){
+								((FieldInsnNode)node).owner.equals("net/minecraftforge/event/entity/PlaySoundAtEntityEvent")){
 							FMLRelaunchLog.fine("AMCore >> Located target method insn node: " + ((FieldInsnNode)node).name + ((FieldInsnNode)node).desc);
 							target = potentialMatch;
 							break;
@@ -364,11 +354,11 @@ public class BytecodeTransformers implements IClassTransformer {
 					AbstractInsnNode node = instructions.next();
 					if (node instanceof VarInsnNode && ((VarInsnNode)node).var == 1 && ((VarInsnNode)node).getOpcode() == Opcodes.ALOAD){ //ALOAD 1
 						node = instructions.next();
-						if (node instanceof FieldInsnNode && matchFieldNode((FieldInsnNode) node, Opcodes.GETFIELD, "eu", "d", "D")){ //GETFIELD net/minecraft/network/packet/Packet10Flying.stance
+						if (node instanceof FieldInsnNode && matchFieldNode((FieldInsnNode)node, Opcodes.GETFIELD, "eu", "d", "D")){ //GETFIELD net/minecraft/network/packet/Packet10Flying.stance
 							node = instructions.next();
 							if (node instanceof VarInsnNode && ((VarInsnNode)node).var == 1 && ((VarInsnNode)node).getOpcode() == Opcodes.ALOAD){ //ALOAD 1
 								node = instructions.next();
-								if (node instanceof FieldInsnNode && matchFieldNode((FieldInsnNode) node, Opcodes.GETFIELD, "eu", "b", "D")){ //GETFIELD net/minecraft/network/packet/Packet10Flying.yPosition
+								if (node instanceof FieldInsnNode && matchFieldNode((FieldInsnNode)node, Opcodes.GETFIELD, "eu", "b", "D")){ //GETFIELD net/minecraft/network/packet/Packet10Flying.yPosition
 									node = instructions.next();
 									if (node instanceof InsnNode && ((InsnNode)node).getOpcode() == Opcodes.DSUB){ //DSUB
 										node = instructions.next();
@@ -441,7 +431,7 @@ public class BytecodeTransformers implements IClassTransformer {
 					if (f.getInt(null) == opcode){
 						return f.getName();
 					}
-				}catch (Throwable t) { /* Don't care */ }
+				}catch (Throwable t){ /* Don't care */ }
 			}
 		}
 		return "OPCODE_UNKNOWN";

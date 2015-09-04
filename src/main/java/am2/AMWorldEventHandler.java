@@ -1,16 +1,16 @@
 package am2;
 
-import java.util.List;
-
+import am2.entities.EntityFlicker;
+import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraftforge.event.world.ChunkDataEvent;
 import net.minecraftforge.event.world.ChunkEvent;
-import am2.entities.EntityFlicker;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class AMWorldEventHandler {
+import java.util.List;
+
+public class AMWorldEventHandler{
 
 	private static final String genKey = "HasGenerated";
 
@@ -29,7 +29,7 @@ public class AMWorldEventHandler {
 		int dimensionID = event.world.provider.dimensionId;
 		ChunkCoordIntPair chunkLocation = event.getChunk().getChunkCoordIntPair();
 
-		NBTTagCompound compound = (NBTTagCompound) event.getData().getTag("ArsMagica2");
+		NBTTagCompound compound = (NBTTagCompound)event.getData().getTag("ArsMagica2");
 
 		if (AMCore.config.retroactiveWorldgen() && (compound == null || !compound.hasKey(genKey))){
 			FMLLog.warning("Ars Magica 2 has detected a chunk that requires retrogen.  Adding to retrogen list.");

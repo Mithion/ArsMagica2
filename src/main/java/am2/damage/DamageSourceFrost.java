@@ -12,9 +12,9 @@ public class DamageSourceFrost extends EntityDamageSource{
 		super("DamageAMFrost", source);
 		this.setDamageBypassesArmor();
 	}
-	
+
 	@Override
-	public IChatComponent func_151519_b(EntityLivingBase par1EntityLivingBase) {
+	public IChatComponent func_151519_b(EntityLivingBase par1EntityLivingBase){
 		if (par1EntityLivingBase instanceof EntityPlayer){
 			return new ChatComponentText(String.format(StatCollector.translateToLocal("am2.death.frost"), ((EntityPlayer)par1EntityLivingBase).getCommandSenderName()));
 		}
@@ -22,7 +22,7 @@ public class DamageSourceFrost extends EntityDamageSource{
 	}
 
 	@Override
-	public boolean canHarmInCreative() {
+	public boolean canHarmInCreative(){
 		return false;
 	}
 }

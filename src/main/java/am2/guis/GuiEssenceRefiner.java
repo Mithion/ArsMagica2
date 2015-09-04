@@ -1,21 +1,19 @@
 package am2.guis;
 
+import am2.blocks.tileentities.TileEntityEssenceRefiner;
+import am2.containers.ContainerEssenceRefiner;
+import am2.power.PowerNodeRegistry;
+import am2.texture.ResourceManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import am2.blocks.tileentities.TileEntityEssenceRefiner;
-import am2.containers.ContainerEssenceRefiner;
-import am2.power.PowerNodeRegistry;
-import am2.texture.ResourceManager;
 
-
-public class GuiEssenceRefiner extends GuiContainer {
+public class GuiEssenceRefiner extends GuiContainer{
 
 	private float rotation = 0;
 
@@ -31,7 +29,7 @@ public class GuiEssenceRefiner extends GuiContainer {
 	private static final ResourceLocation extras = new ResourceLocation("arsmagica2", ResourceManager.GetGuiTexturePath("essenceExtractorGui_2.png"));
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
+	protected void drawGuiContainerBackgroundLayer(float f, int i, int j){
 		mc.renderEngine.bindTexture(background);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		int l = (width - xSize) / 2;
@@ -63,9 +61,9 @@ public class GuiEssenceRefiner extends GuiContainer {
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
 
-		GL11.glTranslatef(0.5f,0.5f,0.0f);
-		GL11.glRotatef(this.rotation,0.0f,0.0f,1.0f);
-		GL11.glTranslatef(-0.5f,-0.5f,0.0f);
+		GL11.glTranslatef(0.5f, 0.5f, 0.0f);
+		GL11.glRotatef(this.rotation, 0.0f, 0.0f, 1.0f);
+		GL11.glTranslatef(-0.5f, -0.5f, 0.0f);
 		drawTexturedModalRect_Classic(l + 34, i1 + 28, 0, 0, 108, 108, 108, 108);
 
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
@@ -76,16 +74,14 @@ public class GuiEssenceRefiner extends GuiContainer {
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
 
-	public GuiEssenceRefiner(InventoryPlayer inventoryplayer, TileEntityEssenceRefiner tileEntityEssenceExtractor)
-	{
+	public GuiEssenceRefiner(InventoryPlayer inventoryplayer, TileEntityEssenceRefiner tileEntityEssenceExtractor){
 		super(new ContainerEssenceRefiner(inventoryplayer, tileEntityEssenceExtractor));
 		essenceExtractorInventory = tileEntityEssenceExtractor;
 		xSize = 176;
 		ySize = 232;
 	}
 
-	public void drawTexturedModalRect_Classic(int dst_x, int dst_y, int src_x, int src_y, int dst_width, int dst_height, int src_width, int src_height)
-	{
+	public void drawTexturedModalRect_Classic(int dst_x, int dst_y, int src_x, int src_y, int dst_width, int dst_height, int src_width, int src_height){
 
 		Tessellator var9 = Tessellator.instance;
 		var9.startDrawingQuads();
@@ -97,8 +93,7 @@ public class GuiEssenceRefiner extends GuiContainer {
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int par1, int par2)
-	{
+	protected void drawGuiContainerForegroundLayer(int par1, int par2){
 	}
 
 	private final TileEntityEssenceRefiner essenceExtractorInventory;
