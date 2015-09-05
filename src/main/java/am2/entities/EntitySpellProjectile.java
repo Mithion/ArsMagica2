@@ -240,7 +240,7 @@ public class EntitySpellProjectile extends Entity{
 				return;
 			}
 		}
-		
+
 		//TODO Fix homing
 		if (this.dataWatcher.getWatchableObjectByte(DW_HOMING) != (byte)0 && this.ticksExisted > 10){
 			if (this.dataWatcher.getWatchableObjectInt(DW_HOMING_TARGET) == -1){
