@@ -1,5 +1,6 @@
 package am2.bosses.models;
 
+import am2.bosses.BossActions;
 import am2.bosses.EntityWaterGuardian;
 import am2.entities.renderers.AM2ModelRenderer;
 import net.minecraft.client.model.ModelBase;
@@ -185,7 +186,7 @@ public class ModelWaterGuardian extends ModelBase{
 		ornament4.mirror = true;
 		setRotation(ornament4, 1.570796F, -2.356194F, 0F);
 		ornament2 = new AM2ModelRenderer(this, 0, 15);
-		ornament2.addBox(0F, 9.5F, -2.2F, 2, 1, 2);
+		ornament2.addBox(0F, 9.5F, -2F, 2, 1, 2);
 		ornament2.setRotationPoint(0F, 7.5F, 0F);
 		ornament2.setTextureSize(64, 64);
 		ornament2.mirror = true;
@@ -278,8 +279,8 @@ public class ModelWaterGuardian extends ModelBase{
 
 		EntityWaterGuardian guardian = ((EntityWaterGuardian)entity);
 
-		float offset1 = (((float)Math.sin((float)guardian.ticksExisted / 40f)) / 4f) - 0.19f;
-		float rot1 = (float)Math.toRadians(guardian.getOrbitRotation());
+		float offset1 = (((float) Math.sin(f2 / 10f)) / 8f) - 0.19f;
+		float rot1 = (float) Math.toRadians(guardian.getOrbitRotation() + (f2 % 1f * 2 * (guardian.isClone() ? -1 : 1)));
 
 		GL11.glPushMatrix();
 
@@ -300,10 +301,10 @@ public class ModelWaterGuardian extends ModelBase{
 		bar3.rotateAngleY = bar3.getRestRotationY() + rot1;
 		bar4.rotateAngleY = bar4.getRestRotationY() + rot1;
 
-		updateRotations(guardian);
+		updateRotations(guardian, f, f1, f2, f3, f4, f5);
 
 		Shape1.render(f5);
-		Shape2.render(f5);
+//		Shape2.render(f5);
 		Shape4.render(f5);
 		Shape5.render(f5);
 		Shape6.render(f5);
@@ -327,7 +328,7 @@ public class ModelWaterGuardian extends ModelBase{
 		bar2.render(f5);
 		bar4.render(f5);
 
-		float offset = (((float)Math.sin((float)guardian.ticksExisted / 20f)) / 4f) - 0.19f;
+		float offset = (((float) Math.sin(f2 / 20f)) / 4f) - 0.19f;
 
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0, offset, 0);
@@ -346,10 +347,10 @@ public class ModelWaterGuardian extends ModelBase{
 	}
 
 	@SuppressWarnings("incomplete-switch")
-	private void updateRotations(EntityWaterGuardian guardian){
+	private void updateRotations(EntityWaterGuardian guardian, float f, float f1, float f2, float f3, float f4, float f5){
 		switch (guardian.getCurrentAction()){
 		case IDLE:
-			float rot2 = ((float)Math.sin((float)guardian.ticksExisted / 10f) / 6);
+			float rot2 = ((float) Math.sin(f2 / 10f) / 6);
 
 			tentacleleft.rotateAngleZ = tentacleleft.getRestRotationZ() - rot2;
 			tentacleright.rotateAngleZ = tentacleright.getRestRotationZ() + rot2;
@@ -372,7 +373,19 @@ public class ModelWaterGuardian extends ModelBase{
 		case SPINNING:
 		case CASTING:
 			float maxAngle = 45;
-			float angle = (float)Math.toRadians(guardian.getTicksInCurrentAction() < 11 ? maxAngle * ((float)guardian.getTicksInCurrentAction() / 10f) : maxAngle);
+			float degrees;
+			float ticks = guardian.getTicksInCurrentAction() + f2 - guardian.ticksExisted;
+			if (ticks < 11)
+				degrees = maxAngle * (ticks / 10f);
+			else if (ticks < 18)
+				degrees = maxAngle;
+			else if (guardian.getCurrentAction() == BossActions.CASTING)
+				degrees = maxAngle * ((23 - ticks)/ 5f);
+			else if (ticks < 150)
+				degrees = maxAngle;
+			else
+				degrees = maxAngle * ((160 - ticks)/ 10f);
+			float angle = (float) Math.toRadians(degrees);
 
 			//float halfAngle = angle / 2;
 
@@ -394,7 +407,7 @@ public class ModelWaterGuardian extends ModelBase{
 			tentaclefrontleft.rotateAngleX = -angle;
 			tentaclefrontleft.rotateAngleZ = -angle;
 
-			GL11.glRotatef(guardian.spinRotation, 0, 1, 0);
+			GL11.glRotatef(guardian.spinRotation + ((f2 - guardian.ticksExisted) * -30f), 0, 1, 0);
 			break;
 		case CLONE:
 			break;
