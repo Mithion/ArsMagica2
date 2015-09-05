@@ -385,7 +385,7 @@ public class ModelWaterGuardian extends ModelBase{
 				degrees = maxAngle;
 			else
 				degrees = maxAngle * ((160 - ticks)/ 10f);
-			float angle = (float) Math.toRadians(degrees);
+			float angle = degrees > 0 ? (float) Math.toRadians(degrees) : 0;
 
 			//float halfAngle = angle / 2;
 
