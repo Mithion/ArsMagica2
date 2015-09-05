@@ -1,7 +1,21 @@
 package am2.blocks.tileentities;
 
-import java.util.ArrayList;
-
+import am2.AMCore;
+import am2.api.blocks.IKeystoneLockable;
+import am2.api.power.PowerTypes;
+import am2.api.spell.component.interfaces.*;
+import am2.items.ItemsCommonProxy;
+import am2.particles.AMParticle;
+import am2.particles.ParticleHoldPosition;
+import am2.power.PowerNodeRegistry;
+import am2.spell.SkillManager;
+import am2.spell.SpellUtils;
+import am2.spell.components.Summon;
+import am2.spell.shapes.Binding;
+import am2.utility.InventoryUtilities;
+import am2.utility.RecipeUtilities;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,28 +28,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
-import am2.AMCore;
-import am2.api.blocks.IKeystoneLockable;
-import am2.api.power.PowerTypes;
-import am2.api.spell.component.interfaces.ISkillTreeEntry;
-import am2.api.spell.component.interfaces.ISpellComponent;
-import am2.api.spell.component.interfaces.ISpellModifier;
-import am2.api.spell.component.interfaces.ISpellPart;
-import am2.api.spell.component.interfaces.ISpellShape;
-import am2.items.ItemsCommonProxy;
-import am2.network.AMDataReader;
-import am2.network.AMDataWriter;
-import am2.particles.AMParticle;
-import am2.particles.ParticleHoldPosition;
-import am2.power.PowerNodeRegistry;
-import am2.spell.SkillManager;
-import am2.spell.SpellUtils;
-import am2.spell.components.Summon;
-import am2.spell.shapes.Binding;
-import am2.utility.InventoryUtilities;
-import am2.utility.RecipeUtilities;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
 
 public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements IInventory, ISidedInventory, IKeystoneLockable{
 
@@ -44,7 +38,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 	private static final int DECONSTRUCTION_TIME = 200; //how long does it take to deconstruct something?
 	private int current_deconstruction_time = 0; //how long have we been deconstructing something?
 
-	private static final PowerTypes[] validPowerTypes = new PowerTypes[] { PowerTypes.DARK };
+	private static final PowerTypes[] validPowerTypes = new PowerTypes[]{PowerTypes.DARK};
 
 	@SideOnly(Side.CLIENT)
 	AMParticle radiant;
@@ -53,29 +47,29 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 
 	private ItemStack[] deconstructionRecipe;
 
-	public TileEntityArcaneDeconstructor() {
+	public TileEntityArcaneDeconstructor(){
 		super(500);
 		inventory = new ItemStack[getSizeInventory()];
 	}
 
 	@Override
-	public boolean canRelayPower(PowerTypes type) {
+	public boolean canRelayPower(PowerTypes type){
 		return false;
 	}
 
 	@Override
-	public int getChargeRate() {
+	public int getChargeRate(){
 		return 250;
 	}
 
 	@Override
-	public void updateEntity() {
+	public void updateEntity(){
 		super.updateEntity();
 
 		if (worldObj.isRemote){
 			if (particleCounter == 0 || particleCounter++ > 1000){
 				particleCounter = 1;
-				radiant = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "radiant", xCoord + 0.5f, yCoord + 0.5f, zCoord + 0.5f);
+				radiant = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "radiant", xCoord + 0.5f, yCoord + 0.5f, zCoord + 0.5f);
 				if (radiant != null){
 					radiant.setMaxAge(1000);
 					radiant.setRGBColorF(0.1f, 0.1f, 0.1f);
@@ -269,12 +263,12 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 	}
 
 	@Override
-	public int getSizeInventory() {
+	public int getSizeInventory(){
 		return 16;
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int var1) {
+	public ItemStack getStackInSlot(int var1){
 		if (var1 >= inventory.length){
 			return null;
 		}
@@ -282,103 +276,95 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 	}
 
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if(inventory[i] != null)
-		{
-			if(inventory[i].stackSize <= j)
-			{
+	public ItemStack decrStackSize(int i, int j){
+		if (inventory[i] != null){
+			if (inventory[i].stackSize <= j){
 				ItemStack itemstack = inventory[i];
 				inventory[i] = null;
 				return itemstack;
 			}
 			ItemStack itemstack1 = inventory[i].splitStack(j);
-			if(inventory[i].stackSize == 0)
-			{
+			if (inventory[i].stackSize == 0){
 				inventory[i] = null;
 			}
 			return itemstack1;
-		} else {
+		}else{
 			return null;
 		}
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if (inventory[i] != null)
-		{
+	public ItemStack getStackInSlotOnClosing(int i){
+		if (inventory[i] != null){
 			ItemStack itemstack = inventory[i];
 			inventory[i] = null;
 			return itemstack;
-		}
-		else
-		{
+		}else{
 			return null;
 		}
 	}
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
+	public void setInventorySlotContents(int i, ItemStack itemstack){
 		inventory[i] = itemstack;
-		if(itemstack != null && itemstack.stackSize > getInventoryStackLimit())
-		{
+		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
 			itemstack.stackSize = getInventoryStackLimit();
 		}
 	}
 
 	@Override
-	public String getInventoryName() {
+	public String getInventoryName(){
 		return "ArcaneDeconstructor";
 	}
 
 	@Override
-	public boolean hasCustomInventoryName() {
+	public boolean hasCustomInventoryName(){
 		return false;
 	}
 
 	@Override
-	public int getInventoryStackLimit() {
+	public int getInventoryStackLimit(){
 		return 64;
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
-		{
+	public boolean isUseableByPlayer(EntityPlayer entityplayer){
+		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
 			return false;
 		}
 		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
 	}
 
 	@Override
-	public void openInventory() {
+	public void openInventory(){
 	}
 
 	@Override
-	public void closeInventory() {
+	public void closeInventory(){
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+	public boolean isItemValidForSlot(int i, ItemStack itemstack){
 		return i <= 10;
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int var1) {
-		return new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+	public int[] getAccessibleSlotsFromSide(int var1){
+		return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 	}
 
 	@Override
-	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
+	public boolean canInsertItem(int i, ItemStack itemstack, int j){
 		return i == 0;
 	}
 
 	@Override
-	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
+	public boolean canExtractItem(int i, ItemStack itemstack, int j){
 		return i >= 1 && i <= 9;
 	}
 
 	@Override
-	public ItemStack[] getRunesInKey() {
+	public ItemStack[] getRunesInKey(){
 		return new ItemStack[]{
 				inventory[10],
 				inventory[11],
@@ -387,33 +373,30 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 	}
 
 	@Override
-	public boolean keystoneMustBeHeld() {
+	public boolean keystoneMustBeHeld(){
 		return false;
 	}
 
 	@Override
-	public boolean keystoneMustBeInActionBar() {
+	public boolean keystoneMustBeInActionBar(){
 		return false;
 	}
 
 	@Override
-	public PowerTypes[] getValidPowerTypes() {
+	public PowerTypes[] getValidPowerTypes(){
 		return validPowerTypes;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbttagcompound)
-	{
+	public void readFromNBT(NBTTagCompound nbttagcompound){
 		super.readFromNBT(nbttagcompound);
 		NBTTagList nbttaglist = nbttagcompound.getTagList("DeconstructorInventory", Constants.NBT.TAG_COMPOUND);
 		inventory = new ItemStack[getSizeInventory()];
-		for(int i = 0; i < nbttaglist.tagCount(); i++)
-		{
+		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
 			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
 			byte byte0 = nbttagcompound1.getByte(tag);
-			if(byte0 >= 0 && byte0 < inventory.length)
-			{
+			if (byte0 >= 0 && byte0 < inventory.length){
 				inventory[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
 			}
 		}
@@ -425,14 +408,11 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbttagcompound)
-	{
+	public void writeToNBT(NBTTagCompound nbttagcompound){
 		super.writeToNBT(nbttagcompound);
 		NBTTagList nbttaglist = new NBTTagList();
-		for(int i = 0; i < inventory.length; i++)
-		{
-			if(inventory[i] != null)
-			{
+		for (int i = 0; i < inventory.length; i++){
+			if (inventory[i] != null){
 				String tag = String.format("ArrayIndex", i);
 				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 				nbttagcompound1.setByte(tag, (byte)i);
@@ -446,7 +426,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 		nbttagcompound.setInteger("DeconstructionTime", current_deconstruction_time);
 	}
 
-	public int getProgressScaled(int i) {
+	public int getProgressScaled(int i){
 		return current_deconstruction_time * i / DECONSTRUCTION_TIME;
 	}
 }

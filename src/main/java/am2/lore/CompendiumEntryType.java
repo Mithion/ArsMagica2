@@ -1,19 +1,18 @@
 package am2.lore;
 
 import net.minecraft.util.IIcon;
-
 import org.w3c.dom.Node;
 
-public class CompendiumEntryType {
+public class CompendiumEntryType{
 
 	private String categoryName;
 	private String nodeName;
 	private String categoryLabel;
 	private int order;
 	private IIcon representItem;
-	private Class <? extends CompendiumEntry> compendiumClass;
+	private Class<? extends CompendiumEntry> compendiumClass;
 
-	public CompendiumEntryType(String categoryName, String nodeName, String categoryLabel, int order, Class <? extends CompendiumEntry> compendiumClass){
+	public CompendiumEntryType(String categoryName, String nodeName, String categoryLabel, int order, Class<? extends CompendiumEntry> compendiumClass){
 		this.categoryName = categoryName;
 		this.nodeName = nodeName;
 		this.compendiumClass = compendiumClass;
@@ -38,19 +37,18 @@ public class CompendiumEntryType {
 			CompendiumEntry ce = this.compendiumClass.newInstance();
 			ce.parse(node);
 			return ce;
-		}catch(Throwable t){
+		}catch (Throwable t){
 			t.printStackTrace();
 		}
 		return null;
 	}
 
 
-
-	public String getCategoryLabel() {
+	public String getCategoryLabel(){
 		return this.categoryLabel;
 	}
 
-	public IIcon getRepresentItem() {
+	public IIcon getRepresentItem(){
 		return representItem;
 	}
 

@@ -1,12 +1,12 @@
 package am2.guis;
 
+import am2.texture.ResourceManager;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
-import am2.texture.ResourceManager;
 
 
-public class AMGuiIcons {
+public class AMGuiIcons{
 	public static boolean initialized = false;
 	public static IIcon manaBar;
 	public static IIcon manaLevel;
@@ -47,7 +47,7 @@ public class AMGuiIcons {
 
 		newEntry = ResourceManager.RegisterTexture("arsmagica2:gui_icons/new", IIconRegister);
 
-		evilBook= ResourceManager.RegisterTexture("arsmagica2:evilBook", IIconRegister);
+		evilBook = ResourceManager.RegisterTexture("arsmagica2:evilBook", IIconRegister);
 
 		gatewayPortal = ResourceManager.RegisterTexture("arsmagica2:gui_icons/gateway.png", IIconRegister);
 

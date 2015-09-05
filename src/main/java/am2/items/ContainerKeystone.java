@@ -1,8 +1,11 @@
 package am2.items;
 
-import java.util.HashMap;
-
-import cpw.mods.fml.common.FMLLog;
+import am2.containers.slots.SlotRuneOnly;
+import am2.items.ItemKeystone.KeystoneCombination;
+import am2.network.AMDataWriter;
+import am2.network.AMNetHandler;
+import am2.network.AMPacketIDs;
+import am2.utility.InventoryUtilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -10,16 +13,10 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import am2.AMCore;
-import am2.containers.slots.SlotRuneOnly;
-import am2.items.ItemKeystone.KeystoneCombination;
-import am2.network.AMDataWriter;
-import am2.network.AMNetHandler;
-import am2.network.AMPacketIDs;
-import am2.utility.InventoryUtilities;
 
-public class ContainerKeystone extends Container
-{
+import java.util.HashMap;
+
+public class ContainerKeystone extends Container{
 	private final ItemStack keystoneStack;
 	private final ItemStack runeBagStack;
 
@@ -34,8 +31,7 @@ public class ContainerKeystone extends Container
 	private int PLAYER_ACTION_BAR_START = 30;
 	private int PLAYER_ACTION_BAR_END = 38;
 
-	public ContainerKeystone(InventoryPlayer inventoryplayer, ItemStack bookStack, ItemStack runeBagStack, InventoryKeyStone inventoryKeystone, InventoryRuneBag runeBag, int runeBagSlot)
-	{
+	public ContainerKeystone(InventoryPlayer inventoryplayer, ItemStack bookStack, ItemStack runeBagStack, InventoryKeyStone inventoryKeystone, InventoryRuneBag runeBag, int runeBagSlot){
 		//addSlot(new Slot(spellBook,0, 21, 36)); //inventory, index, x, y
 		this.keyStoneInventory = inventoryKeystone;
 		this.keystoneStack = bookStack;
@@ -72,11 +68,10 @@ public class ContainerKeystone extends Container
 		int y = runebagSlot > -1 ? 216 : 179;
 
 		//display player action bar
-		for (int j1 = 0; j1 < 9; j1++)
-		{
+		for (int j1 = 0; j1 < 9; j1++){
 			if (playerInventoryCounter++ == runeBagSlot)
 				continue;
-			if (inventoryplayer.getStackInSlot(j1) == bookStack) {
+			if (inventoryplayer.getStackInSlot(j1) == bookStack){
 				specialSlotIndex = j1 + 32;
 				continue;
 			}
@@ -86,16 +81,13 @@ public class ContainerKeystone extends Container
 		y = runebagSlot > -1 ? 158 : 121;
 
 		//display player inventory
-		for (int i = 0; i < 3; i++)
-		{
-			for (int k = 0; k < 9; k++)
-			{
+		for (int i = 0; i < 3; i++){
+			for (int k = 0; k < 9; k++){
 				if (playerInventoryCounter++ == runeBagSlot)
 					continue;
 				addSlotToContainer(new Slot(inventoryplayer, k + i * 9 + 9, 8 + k * 18, y + i * 18));
 			}
 		}
-
 
 
 	}
@@ -118,13 +110,13 @@ public class ContainerKeystone extends Container
 
 
 	@Override
-	public void onContainerClosed(EntityPlayer entityplayer) {
+	public void onContainerClosed(EntityPlayer entityplayer){
 
 		World world = entityplayer.worldObj;
 
-		if (!world.isRemote){			
+		if (!world.isRemote){
 			ItemStack keyStoneItemStack = keystoneStack;
-			ItemStack[] items = GetFullKeystoneInventory();			
+			ItemStack[] items = GetFullKeystoneInventory();
 			ItemsCommonProxy.keystone.UpdateStackTagCompound(keyStoneItemStack, items);
 			entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, keyStoneItemStack);
 
@@ -140,23 +132,19 @@ public class ContainerKeystone extends Container
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer entityplayer)
-	{
+	public boolean canInteractWith(EntityPlayer entityplayer){
 		return keyStoneInventory.isUseableByPlayer(entityplayer);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int i)
-	{
+	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int i){
 		ItemStack itemstack = null;
 		Slot slot = (Slot)inventorySlots.get(i);
 
-		if (slot != null && slot.getHasStack())
-		{
+		if (slot != null && slot.getHasStack()){
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-			if (i < PLAYER_INVENTORY_START)
-			{
+			if (i < PLAYER_INVENTORY_START){
 				if (PLAYER_INVENTORY_START > InventoryKeyStone.inventorySize){
 					if (i > InventoryKeyStone.inventorySize){
 						for (int n = 0; n < InventoryKeyStone.inventorySize; n++){
@@ -188,12 +176,10 @@ public class ContainerKeystone extends Container
 						}
 					}
 				}
-				if (!mergeItemStack(itemstack1, PLAYER_INVENTORY_START, PLAYER_ACTION_BAR_END-1, true))
-				{
+				if (!mergeItemStack(itemstack1, PLAYER_INVENTORY_START, PLAYER_ACTION_BAR_END - 1, true)){
 					return null;
 				}
-			}
-			else if (i >= PLAYER_INVENTORY_START && i < PLAYER_ACTION_BAR_START) //range 27 - player inventory
+			}else if (i >= PLAYER_INVENTORY_START && i < PLAYER_ACTION_BAR_START) //range 27 - player inventory
 			{
 				if (itemstack.getItem() instanceof ItemRune){
 					for (int n = 0; n < PLAYER_INVENTORY_START; n++){
@@ -210,12 +196,10 @@ public class ContainerKeystone extends Container
 						return null;
 					}
 				}
-				if (!mergeItemStack(itemstack1, PLAYER_ACTION_BAR_START, PLAYER_ACTION_BAR_END-1, false))
-				{
+				if (!mergeItemStack(itemstack1, PLAYER_ACTION_BAR_START, PLAYER_ACTION_BAR_END - 1, false)){
 					return null;
 				}
-			}
-			else if (i >= PLAYER_ACTION_BAR_START && i < PLAYER_ACTION_BAR_END) //range 9 - player action bar
+			}else if (i >= PLAYER_ACTION_BAR_START && i < PLAYER_ACTION_BAR_END) //range 9 - player action bar
 			{
 				if (itemstack.getItem() instanceof ItemRune){
 					for (int n = 0; n < PLAYER_INVENTORY_START; n++){
@@ -232,29 +216,20 @@ public class ContainerKeystone extends Container
 						return null;
 					}
 				}
-				if (!mergeItemStack(itemstack1, PLAYER_INVENTORY_START, PLAYER_ACTION_BAR_START, false))
-				{
+				if (!mergeItemStack(itemstack1, PLAYER_INVENTORY_START, PLAYER_ACTION_BAR_START, false)){
 					return null;
 				}
-			}
-			else if (!mergeItemStack(itemstack1, PLAYER_INVENTORY_START, PLAYER_ACTION_BAR_END, false))
-			{
+			}else if (!mergeItemStack(itemstack1, PLAYER_INVENTORY_START, PLAYER_ACTION_BAR_END, false)){
 				return null;
 			}
-			if (itemstack1.stackSize == 0)
-			{
+			if (itemstack1.stackSize == 0){
 				slot.putStack(null);
-			}
-			else
-			{
+			}else{
 				slot.onSlotChanged();
 			}
-			if (itemstack1.stackSize != itemstack.stackSize)
-			{
+			if (itemstack1.stackSize != itemstack.stackSize){
 				slot.onSlotChange(itemstack1, itemstack);
-			}
-			else
-			{
+			}else{
 				return null;
 			}
 		}

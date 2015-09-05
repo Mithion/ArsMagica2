@@ -1,62 +1,20 @@
 package am2.proxy.gui;
 
+import am2.api.blocks.IKeystoneLockable;
+import am2.blocks.tileentities.*;
+import am2.guis.*;
+import am2.items.*;
+import am2.playerextensions.RiftStorage;
+import am2.utility.InventoryUtilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import am2.api.blocks.IKeystoneLockable;
-import am2.blocks.tileentities.TileEntityArcaneDeconstructor;
-import am2.blocks.tileentities.TileEntityArcaneReconstructor;
-import am2.blocks.tileentities.TileEntityArmorImbuer;
-import am2.blocks.tileentities.TileEntityAstralBarrier;
-import am2.blocks.tileentities.TileEntityCalefactor;
-import am2.blocks.tileentities.TileEntityCrystalMarker;
-import am2.blocks.tileentities.TileEntityFlickerHabitat;
-import am2.blocks.tileentities.TileEntityEssenceRefiner;
-import am2.blocks.tileentities.TileEntityInertSpawner;
-import am2.blocks.tileentities.TileEntityInscriptionTable;
-import am2.blocks.tileentities.TileEntityKeystoneChest;
-import am2.blocks.tileentities.TileEntityMagiciansWorkbench;
-import am2.blocks.tileentities.TileEntityObelisk;
-import am2.blocks.tileentities.TileEntitySeerStone;
-import am2.blocks.tileentities.TileEntitySpellSealedDoor;
-import am2.blocks.tileentities.TileEntitySummoner;
-import am2.guis.ArsMagicaGuiIdList;
-import am2.guis.GuiArcaneDeconstructor;
-import am2.guis.GuiArcaneReconstructor;
-import am2.guis.GuiArmorImbuer;
-import am2.guis.GuiAstralBarrier;
-import am2.guis.GuiCalefactor;
-import am2.guis.GuiCrystalMarker;
-import am2.guis.GuiEssenceBag;
-import am2.guis.GuiEssenceRefiner;
-import am2.guis.GuiFlickerHabitat;
-import am2.guis.GuiInertSpawner;
-import am2.guis.GuiInscriptionTable;
-import am2.guis.GuiKeystone;
-import am2.guis.GuiKeystoneChest;
-import am2.guis.GuiKeystoneLockable;
-import am2.guis.GuiMagiciansWorkbench;
-import am2.guis.GuiObelisk;
-import am2.guis.GuiRiftStorage;
-import am2.guis.GuiRuneBag;
-import am2.guis.GuiSeerStone;
-import am2.guis.GuiSpellBook;
-import am2.guis.GuiSpellCustomization;
-import am2.guis.GuiSpellSealedDoor;
-import am2.guis.GuiSummoner;
-import am2.items.ItemEssenceBag;
-import am2.items.ItemKeystone;
-import am2.items.ItemRuneBag;
-import am2.items.ItemSpellBook;
-import am2.items.ItemsCommonProxy;
-import am2.playerextensions.RiftStorage;
-import am2.utility.InventoryUtilities;
 
-public class ClientGuiManager extends ServerGuiManager {
+public class ClientGuiManager extends ServerGuiManager{
 
 	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z){
 		TileEntity te = world.getTileEntity(x, y, z);
 		if (te == null && ID != ArsMagicaGuiIdList.GUI_SPELL_BOOK && ID != ArsMagicaGuiIdList.GUI_KEYSTONE && ID != ArsMagicaGuiIdList.GUI_ESSENCE_BAG && ID != ArsMagicaGuiIdList.GUI_RUNE_BAG && ID != ArsMagicaGuiIdList.GUI_RIFT && ID != ArsMagicaGuiIdList.GUI_SPELL_CUSTOMIZATION){
 			return null;
@@ -72,7 +30,7 @@ public class ClientGuiManager extends ServerGuiManager {
 			if (bookStack == null || bookStack.getItem() == null || !(bookStack.getItem() instanceof ItemSpellBook)){
 				return null;
 			}
-			ItemSpellBook item = (ItemSpellBook) bookStack.getItem();
+			ItemSpellBook item = (ItemSpellBook)bookStack.getItem();
 			return new GuiSpellBook(player.inventory, player.getCurrentEquippedItem(), item.ConvertToInventory(bookStack));
 		case ArsMagicaGuiIdList.GUI_CALEFACTOR:
 			if (!(te instanceof TileEntityCalefactor)){
@@ -104,7 +62,7 @@ public class ClientGuiManager extends ServerGuiManager {
 			if (keystoneStack == null || keystoneStack.getItem() == null || !(keystoneStack.getItem() instanceof ItemKeystone)){
 				return null;
 			}
-			ItemKeystone keystone = (ItemKeystone) keystoneStack.getItem();
+			ItemKeystone keystone = (ItemKeystone)keystoneStack.getItem();
 
 			int runeBagSlot = InventoryUtilities.getInventorySlotIndexFor(player.inventory, ItemsCommonProxy.runeBag);
 			ItemStack runeBag = null;
@@ -117,14 +75,14 @@ public class ClientGuiManager extends ServerGuiManager {
 			if (bagStack.getItem() == null || !(bagStack.getItem() instanceof ItemEssenceBag)){
 				return null;
 			}
-			ItemEssenceBag bag = (ItemEssenceBag) bagStack.getItem();
+			ItemEssenceBag bag = (ItemEssenceBag)bagStack.getItem();
 			return new GuiEssenceBag(player.inventory, player.getCurrentEquippedItem(), bag.ConvertToInventory(bagStack));
 		case ArsMagicaGuiIdList.GUI_RUNE_BAG:
 			bagStack = player.getCurrentEquippedItem();
 			if (bagStack.getItem() == null || !(bagStack.getItem() instanceof ItemRuneBag)){
 				return null;
 			}
-			ItemRuneBag runebag = (ItemRuneBag) bagStack.getItem();
+			ItemRuneBag runebag = (ItemRuneBag)bagStack.getItem();
 			return new GuiRuneBag(player.inventory, player.getCurrentEquippedItem(), runebag.ConvertToInventory(bagStack));
 		case ArsMagicaGuiIdList.GUI_ARCANE_RECONSTRUCTOR:
 			if (!(te instanceof TileEntityArcaneReconstructor)){
@@ -151,7 +109,7 @@ public class ClientGuiManager extends ServerGuiManager {
 		case ArsMagicaGuiIdList.GUI_SPELL_CUSTOMIZATION:
 			return new GuiSpellCustomization(player);
 		case ArsMagicaGuiIdList.GUI_CRYSTAL_MARKER:
-			if(!(te instanceof TileEntityCrystalMarker)){
+			if (!(te instanceof TileEntityCrystalMarker)){
 				return null;
 			}
 			return new GuiCrystalMarker(player, (TileEntityCrystalMarker)te);
@@ -160,30 +118,30 @@ public class ClientGuiManager extends ServerGuiManager {
 			if (!(te instanceof TileEntityObelisk)){
 				return null;
 			}
-			return new GuiObelisk((TileEntityObelisk) te, player);
+			return new GuiObelisk((TileEntityObelisk)te, player);
 
 		case ArsMagicaGuiIdList.GUI_FLICKER_HABITAT:
-			if(!(te instanceof TileEntityFlickerHabitat)){
+			if (!(te instanceof TileEntityFlickerHabitat)){
 				return null;
 			}
 			return new GuiFlickerHabitat(player, (TileEntityFlickerHabitat)te);
 		case ArsMagicaGuiIdList.GUI_ARMOR_INFUSION:
-			if(!(te instanceof TileEntityArmorImbuer)){
+			if (!(te instanceof TileEntityArmorImbuer)){
 				return null;
 			}
 			return new GuiArmorImbuer(player, (TileEntityArmorImbuer)te);
 		case ArsMagicaGuiIdList.GUI_ARCANE_DECONSTRUCTOR:
-			if(!(te instanceof TileEntityArcaneDeconstructor)){
+			if (!(te instanceof TileEntityArcaneDeconstructor)){
 				return null;
 			}
 			return new GuiArcaneDeconstructor(player.inventory, (TileEntityArcaneDeconstructor)te);
 		case ArsMagicaGuiIdList.GUI_INERT_SPAWNER:
-			if(!(te instanceof TileEntityInertSpawner)){
+			if (!(te instanceof TileEntityInertSpawner)){
 				return null;
 			}
 			return new GuiInertSpawner(player, (TileEntityInertSpawner)te);
 		case ArsMagicaGuiIdList.GUI_SPELL_SEALED_DOOR:
-			if(!(te instanceof TileEntitySpellSealedDoor)){
+			if (!(te instanceof TileEntitySpellSealedDoor)){
 				return null;
 			}
 			return new GuiSpellSealedDoor(player.inventory, (TileEntitySpellSealedDoor)te);

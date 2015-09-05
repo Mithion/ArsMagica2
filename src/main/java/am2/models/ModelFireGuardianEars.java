@@ -3,19 +3,16 @@ package am2.models;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-
 import org.lwjgl.opengl.GL11;
 
-public class ModelFireGuardianEars extends ModelBiped
-{
+public class ModelFireGuardianEars extends ModelBiped{
 	//fields
 	ModelRenderer Head6;
 	ModelRenderer Head4;
 	ModelRenderer Head5;
 	ModelRenderer Head7;
 
-	public ModelFireGuardianEars()
-	{
+	public ModelFireGuardianEars(){
 		textureWidth = 128;
 		textureHeight = 128;
 
@@ -46,8 +43,7 @@ public class ModelFireGuardianEars extends ModelBiped
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		GL11.glPushMatrix();
 
 		if (entity != null){
@@ -67,8 +63,7 @@ public class ModelFireGuardianEars extends ModelBiped
 		GL11.glPopMatrix();
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z){
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

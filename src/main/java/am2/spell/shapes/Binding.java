@@ -1,11 +1,5 @@
 package am2.spell.shapes;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import am2.api.spell.ItemSpellBase;
 import am2.api.spell.component.interfaces.ISpellShape;
 import am2.api.spell.enums.Affinity;
@@ -14,16 +8,21 @@ import am2.items.ItemBindingCatalyst;
 import am2.items.ItemsCommonProxy;
 import am2.spell.SpellUtils;
 import am2.utility.InventoryUtilities;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class Binding implements ISpellShape{
 
 	@Override
-	public int getID() {
+	public int getID(){
 		return 2;
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount) {
+	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount){
 		if (!(caster instanceof EntityPlayer)){
 			return SpellCastResult.EFFECT_FAILED;
 		}
@@ -52,7 +51,7 @@ public class Binding implements ISpellShape{
 			heldStack = InventoryUtilities.replaceItem(heldStack, ItemsCommonProxy.BoundHoe);
 			break;
 		case ItemBindingCatalyst.META_BOW:
-			heldStack = InventoryUtilities.replaceItem(heldStack,  Items.bow);
+			heldStack = InventoryUtilities.replaceItem(heldStack, Items.bow);
 			break;
 		}
 		player.inventory.setInventorySlotContents(player.inventory.currentItem, heldStack);
@@ -60,12 +59,12 @@ public class Binding implements ISpellShape{
 	}
 
 	@Override
-	public boolean isChanneled() {
+	public boolean isChanneled(){
 		return false;
 	}
 
 	@Override
-	public Object[] getRecipeItems() {
+	public Object[] getRecipeItems(){
 		return new Object[]{
 				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_CHIMERITE),
 				Items.wooden_sword,
@@ -78,26 +77,26 @@ public class Binding implements ISpellShape{
 	}
 
 	@Override
-	public float manaCostMultiplier(ItemStack spellStack) {
+	public float manaCostMultiplier(ItemStack spellStack){
 		return 1;
 	}
 
 	@Override
-	public boolean isTerminusShape() {
+	public boolean isTerminusShape(){
 		return false;
 	}
 
 	@Override
-	public boolean isPrincipumShape() {
+	public boolean isPrincipumShape(){
 		return true;
 	}
 
 	@Override
-	public String getSoundForAffinity(Affinity affinity, ItemStack stack, World world) {
+	public String getSoundForAffinity(Affinity affinity, ItemStack stack, World world){
 		return "arsmagica2:spell.binding.cast";
 	}
 
-	public void setBindingType(ItemStack craftStack, ItemStack addedBindingCatalyst) {
+	public void setBindingType(ItemStack craftStack, ItemStack addedBindingCatalyst){
 		SpellUtils.instance.setSpellMetadata(craftStack, "binding_type", "" + addedBindingCatalyst.getItemDamage());
 	}
 
@@ -105,7 +104,7 @@ public class Binding implements ISpellShape{
 		int type = 0;
 		try{
 			type = Integer.parseInt(SpellUtils.instance.getSpellMetadata(spellStack, "binding_type"));
-		}catch(Throwable t){
+		}catch (Throwable t){
 
 		}
 		return type;

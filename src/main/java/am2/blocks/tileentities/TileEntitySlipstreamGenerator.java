@@ -1,11 +1,5 @@
 package am2.blocks.tileentities;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Vec3;
 import am2.AMCore;
 import am2.api.math.AMVector3;
 import am2.api.power.PowerTypes;
@@ -13,6 +7,12 @@ import am2.network.AMNetHandler;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
 import am2.power.PowerNodeRegistry;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class TileEntitySlipstreamGenerator extends TileEntityAMPower{
 
@@ -21,18 +21,18 @@ public class TileEntitySlipstreamGenerator extends TileEntityAMPower{
 
 	private static final int EFFECT_HEIGHT = 50;
 
-	public TileEntitySlipstreamGenerator() {
+	public TileEntitySlipstreamGenerator(){
 		super(100);
 		levitatingEntities = new ArrayList<EntityPlayer>();
 	}
 
 	@Override
-	public boolean canProvidePower(PowerTypes type) {
+	public boolean canProvidePower(PowerTypes type){
 		return false;
 	}
 
 	@Override
-	public void updateEntity() {
+	public void updateEntity(){
 		super.updateEntity();
 
 		if (updateTicks++ > 10){
@@ -43,7 +43,7 @@ public class TileEntitySlipstreamGenerator extends TileEntityAMPower{
 		}
 
 		Iterator<EntityPlayer> it = levitatingEntities.iterator();
-		while(it.hasNext()){
+		while (it.hasNext()){
 			EntityPlayer player = it.next();
 			if (!playerIsValid(player)){
 				it.remove();
@@ -77,7 +77,7 @@ public class TileEntitySlipstreamGenerator extends TileEntityAMPower{
 	}
 
 	private void spawnParticles(EntityPlayer player){
-		AMParticle wind = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "wind", player.posX, player.posY - player.height, player.posZ);
+		AMParticle wind = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "wind", player.posX, player.posY - player.height, player.posZ);
 		float pitch = player.rotationPitch;
 		float factor = (pitch > 0 ? (pitch - 10) : (pitch + 10)) / -180.0f;
 		if (player.isSneaking())
@@ -94,7 +94,7 @@ public class TileEntitySlipstreamGenerator extends TileEntityAMPower{
 		if (player == null || player.isDead)
 			return false;
 		float tolerance = 0.2f;
-		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(xCoord-tolerance, yCoord+1, zCoord-tolerance, xCoord + 1 + tolerance, yCoord +1+this.EFFECT_HEIGHT, zCoord + 1 + tolerance);
+		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(xCoord - tolerance, yCoord + 1, zCoord - tolerance, xCoord + 1 + tolerance, yCoord + 1 + this.EFFECT_HEIGHT, zCoord + 1 + tolerance);
 		Vec3 myLoc = Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1, zCoord + 0.5);
 		Vec3 playerLoc = Vec3.createVectorHelper(player.posX, player.posY, player.posZ);
 		return bb.intersectsWith(player.boundingBox) && worldObj.rayTraceBlocks(myLoc, playerLoc, true) == null;
@@ -104,24 +104,24 @@ public class TileEntitySlipstreamGenerator extends TileEntityAMPower{
 		levitatingEntities.clear();
 
 		for (int i = 0; i < worldObj.playerEntities.size(); ++i){
-			EntityPlayer player = (EntityPlayer) worldObj.playerEntities.get(i);
+			EntityPlayer player = (EntityPlayer)worldObj.playerEntities.get(i);
 			if (playerIsValid(player) && !levitatingEntities.contains(player))
 				levitatingEntities.add(player);
 		}
 	}
 
 	@Override
-	public boolean canRequestPower() {
+	public boolean canRequestPower(){
 		return true;
 	}
 
 	@Override
-	public int getChargeRate() {
+	public int getChargeRate(){
 		return 12;
 	}
 
 	@Override
-	public boolean canRelayPower(PowerTypes type) {
+	public boolean canRelayPower(PowerTypes type){
 		return false;
 	}
 }

@@ -1,6 +1,6 @@
 package am2.api.items.armor;
 
-public enum ImbuementApplicationTypes {
+public enum ImbuementApplicationTypes{
 	NONE,
 	ON_TICK,
 	ON_HIT,

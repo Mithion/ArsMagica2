@@ -1,16 +1,34 @@
 package am2;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
+import am2.api.ArsMagicaApi;
+import am2.api.events.ManaCostEvent;
+import am2.api.spell.enums.Affinity;
+import am2.api.spell.enums.BuffPowerLevel;
+import am2.api.spell.enums.ContingencyTypes;
+import am2.armor.ArmorHelper;
+import am2.armor.infusions.GenericImbuement;
+import am2.blocks.BlocksCommonProxy;
+import am2.blocks.tileentities.TileEntityAstralBarrier;
+import am2.bosses.BossSpawnHelper;
+import am2.buffs.BuffEffectTemporalAnchor;
+import am2.buffs.BuffList;
+import am2.buffs.BuffStatModifiers;
+import am2.damage.DamageSources;
+import am2.enchantments.EnchantmentSoulbound;
+import am2.entities.EntityFlicker;
+import am2.items.ItemsCommonProxy;
+import am2.network.AMNetHandler;
+import am2.playerextensions.AffinityData;
+import am2.playerextensions.ExtendedProperties;
+import am2.playerextensions.RiftStorage;
+import am2.playerextensions.SkillData;
+import am2.utility.*;
+import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityItem;
@@ -35,54 +53,20 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.brewing.PotionBrewedEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
-import net.minecraftforge.event.entity.living.EnderTeleportEvent;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
-import am2.api.ArsMagicaApi;
-import am2.api.events.ManaCostEvent;
-import am2.api.math.AMVector2;
-import am2.api.spell.enums.Affinity;
-import am2.api.spell.enums.BuffPowerLevel;
-import am2.api.spell.enums.ContingencyTypes;
-import am2.armor.ArmorHelper;
-import am2.armor.infusions.GenericImbuement;
-import am2.blocks.BlocksCommonProxy;
-import am2.blocks.tileentities.TileEntityAstralBarrier;
-import am2.bosses.BossSpawnHelper;
-import am2.buffs.BuffEffectTemporalAnchor;
-import am2.buffs.BuffList;
-import am2.buffs.BuffStatModifiers;
-import am2.damage.DamageSources;
-import am2.enchantments.EnchantmentSoulbound;
-import am2.entities.EntityFlicker;
-import am2.items.ItemsCommonProxy;
-import am2.lore.ArcaneCompendium;
-import am2.network.AMNetHandler;
-import am2.network.AMPacketProcessorClient;
-import am2.playerextensions.AffinityData;
-import am2.playerextensions.ExtendedProperties;
-import am2.playerextensions.RiftStorage;
-import am2.playerextensions.SkillData;
-import am2.utility.DimensionUtilities;
-import am2.utility.EntityUtilities;
-import am2.utility.InventoryUtilities;
-import am2.utility.KeystoneUtilities;
-import am2.utility.MathUtilities;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.ReflectionHelper;
 
-public class AMEventHandler {
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class AMEventHandler{
 
 	private final Random rand = new Random();
 
@@ -147,10 +131,10 @@ public class AMEventHandler {
 			if (event.entity instanceof EntityPlayer){
 				event.entity.registerExtendedProperties(RiftStorage.identifier, new RiftStorage());
 				event.entity.registerExtendedProperties(AffinityData.identifier, new AffinityData());
-				event.entity.registerExtendedProperties(SkillData.identifier, new SkillData((EntityPlayer) event.entity));
+				event.entity.registerExtendedProperties(SkillData.identifier, new SkillData((EntityPlayer)event.entity));
 			}
 		}else if (event.entity instanceof EntityItemFrame){
-			AMCore.proxy.itemFrameWatcher.startWatchingFrame((EntityItemFrame) event.entity);
+			AMCore.proxy.itemFrameWatcher.startWatchingFrame((EntityItemFrame)event.entity);
 		}
 	}
 
@@ -162,7 +146,7 @@ public class AMEventHandler {
 			event.setCanceled(true);
 			PotionEffect pe = soonToBeDead.getActivePotionEffect(BuffList.temporalAnchor);
 			if (pe instanceof BuffEffectTemporalAnchor){
-				BuffEffectTemporalAnchor buff = (BuffEffectTemporalAnchor) pe;
+				BuffEffectTemporalAnchor buff = (BuffEffectTemporalAnchor)pe;
 				buff.stopEffect(soonToBeDead);
 			}
 			soonToBeDead.removePotionEffect(BuffList.temporalAnchor.id);
@@ -174,10 +158,10 @@ public class AMEventHandler {
 		}
 
 		if (soonToBeDead instanceof EntityPlayer){
-			AMCore.proxy.playerTracker.onPlayerDeath((EntityPlayer) soonToBeDead);
+			AMCore.proxy.playerTracker.onPlayerDeath((EntityPlayer)soonToBeDead);
 		}else if (soonToBeDead instanceof EntityCreature){
-			if (!EntityUtilities.isSummon(soonToBeDead) && EntityUtilities.isAIEnabled((EntityCreature) soonToBeDead) && event.source.getSourceOfDamage() instanceof EntityPlayer){
-				EntityUtilities.handleCrystalPhialAdd((EntityCreature) soonToBeDead, (EntityPlayer)event.source.getSourceOfDamage());
+			if (!EntityUtilities.isSummon(soonToBeDead) && EntityUtilities.isAIEnabled((EntityCreature)soonToBeDead) && event.source.getSourceOfDamage() instanceof EntityPlayer){
+				EntityUtilities.handleCrystalPhialAdd((EntityCreature)soonToBeDead, (EntityPlayer)event.source.getSourceOfDamage());
 			}
 		}
 
@@ -191,7 +175,7 @@ public class AMEventHandler {
 		}
 
 		if (soonToBeDead instanceof EntityVillager && ((EntityVillager)soonToBeDead).isChild()){
-			BossSpawnHelper.instance.onVillagerChildKilled((EntityVillager) soonToBeDead);
+			BossSpawnHelper.instance.onVillagerChildKilled((EntityVillager)soonToBeDead);
 		}
 	}
 
@@ -235,8 +219,7 @@ public class AMEventHandler {
 			Random rand = new Random();
 
 			Vec3 vec = event.entityLiving.getLookVec().normalize();
-			switch(event.entityLiving.getActivePotionEffect(BuffList.leap).getAmplifier() + 1)
-			{
+			switch (event.entityLiving.getActivePotionEffect(BuffList.leap).getAmplifier() + 1){
 			case BuffPowerLevel.Low:
 				yVelocity = 0.4;
 				xVelocity = velocityTarget.motionX * 1.08 * Math.abs(vec.xCoord);
@@ -264,15 +247,13 @@ public class AMEventHandler {
 
 			if (xVelocity > maxHorizontalVelocity){
 				xVelocity = maxHorizontalVelocity;
-			}
-			else if (xVelocity < -maxHorizontalVelocity){
+			}else if (xVelocity < -maxHorizontalVelocity){
 				xVelocity = -maxHorizontalVelocity;
 			}
 
 			if (zVelocity > maxHorizontalVelocity){
 				zVelocity = maxHorizontalVelocity;
-			}
-			else if (zVelocity < -maxHorizontalVelocity){
+			}else if (zVelocity < -maxHorizontalVelocity){
 				zVelocity = -maxHorizontalVelocity;
 			}
 
@@ -303,7 +284,7 @@ public class AMEventHandler {
 		EntityLivingBase ent = event.entityLiving;
 		float f = event.distance;
 		ent.isAirBorne = false;
-		
+
 		//slowfall buff
 		if (ent.isPotionActive(BuffList.slowfall.id) || ent.isPotionActive(BuffList.shrink.id) || (ent instanceof EntityPlayer && AffinityData.For(ent).getAffinityDepth(Affinity.NATURE) == 1.0f)){
 			event.setCanceled(true);
@@ -324,7 +305,7 @@ public class AMEventHandler {
 			event.setCanceled(true);
 			return;
 		}
-		
+
 		if (ent instanceof EntityPlayer){
 			FMLLog.info("%.2f", ent.fallDistance);
 		}
@@ -337,7 +318,7 @@ public class AMEventHandler {
 
 		if (ent.isDead){
 			if (ent instanceof EntityPlayer && ent.dimension == 1){
-				AMCore.instance.proxy.playerTracker.storeExtendedPropertiesForRespawn((EntityPlayer) ent);
+				AMCore.instance.proxy.playerTracker.storeExtendedPropertiesForRespawn((EntityPlayer)ent);
 				AMCore.instance.proxy.playerTracker.storeSoulboundItemsForRespawn((EntityPlayer)ent);
 			}
 			return;
@@ -381,11 +362,11 @@ public class AMEventHandler {
 				if (world.rayTraceBlocks(Vec3.createVectorHelper(ent.posX, posY, ent.posZ), Vec3.createVectorHelper(ent.posX, posY + 1, ent.posZ), true) != null){
 					if (!ent.onGround){
 						if (ent.fallDistance > 0){
-							try {
-								Method m = ReflectionHelper.findMethod(Entity.class, ent, new String[] { "func_70069_a", "fall" }, float.class);
+							try{
+								Method m = ReflectionHelper.findMethod(Entity.class, ent, new String[]{"func_70069_a", "fall"}, float.class);
 								m.setAccessible(true);
 								m.invoke(ent, ent.fallDistance);
-							} catch (Throwable e) {
+							}catch (Throwable e){
 								e.printStackTrace();
 							}
 							ent.fallDistance = 0;
@@ -397,20 +378,20 @@ public class AMEventHandler {
 						if (world.isRemote)
 							ent.fallDistance += ent.posY - ent.prevPosY;
 						else
-							ent.fallDistance += (((EntityPlayer) ent).field_71095_bQ - ((EntityPlayer) ent).field_71096_bN) * 2;
+							ent.fallDistance += (((EntityPlayer)ent).field_71095_bQ - ((EntityPlayer)ent).field_71096_bN) * 2;
 					}
 					ent.onGround = false;
 				}
 			}
 
-			if (ArmorHelper.isInfusionPreset(((EntityPlayer) ent).getCurrentArmor(1), GenericImbuement.stepAssist)){
+			if (ArmorHelper.isInfusionPreset(((EntityPlayer)ent).getCurrentArmor(1), GenericImbuement.stepAssist)){
 				ent.stepHeight = 1.0111f;
 			}else if (ent.stepHeight == 1.0111f){
 				ent.stepHeight = 0.5f;
 			}
 
 			IAttributeInstance attr = ent.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-			if (ArmorHelper.isInfusionPreset(((EntityPlayer) ent).getCurrentArmor(0), GenericImbuement.runSpeed)){
+			if (ArmorHelper.isInfusionPreset(((EntityPlayer)ent).getCurrentArmor(0), GenericImbuement.runSpeed)){
 				if (attr.getModifier(GenericImbuement.imbuedHasteID) == null){
 					attr.applyModifier(GenericImbuement.imbuedHaste);
 				}
@@ -423,7 +404,7 @@ public class AMEventHandler {
 
 		if (extendedProperties.getContingencyType() == ContingencyTypes.FALL && !ent.onGround && extendedProperties.getContingencyEffect() != null && ent.fallDistance >= 4f){
 			int distanceToGround = MathUtilities.getDistanceToGround(ent, world);
-			if (distanceToGround < -8*ent.motionY){
+			if (distanceToGround < -8 * ent.motionY){
 				extendedProperties.procContingency();
 			}
 		}
@@ -444,7 +425,7 @@ public class AMEventHandler {
 
 		if (ent instanceof EntityPlayer){
 			AffinityData.For(ent).handleExtendedPropertySync();
-			SkillData.For((EntityPlayer) ent).handleExtendedPropertySync();
+			SkillData.For((EntityPlayer)ent).handleExtendedPropertySync();
 
 			if (ent.isPotionActive(BuffList.flight.id) || ent.isPotionActive(BuffList.levitation.id) || ((EntityPlayer)ent).capabilities.isCreativeMode){
 				extendedProperties.hadFlight = true;
@@ -479,7 +460,7 @@ public class AMEventHandler {
 				if (ent instanceof EntityLiving && !((EntityLiving)ent).getCustomNameTag().equals("")){
 					EntityUtilities.setOwner(ent, null);
 					EntityUtilities.setSummonDuration(ent, -1);
-					EntityUtilities.revertAI((EntityCreature) ent);
+					EntityUtilities.revertAI((EntityCreature)ent);
 				}else{
 					ent.attackEntityFrom(DamageSources.unsummon, 5000);
 				}
@@ -490,7 +471,7 @@ public class AMEventHandler {
 		if (event.entityLiving.isPotionActive(BuffList.leap)){
 			int amplifier = event.entityLiving.getActivePotionEffect(BuffList.leap).getAmplifier() + 1;
 
-			switch(amplifier){
+			switch (amplifier){
 			case BuffPowerLevel.Low:
 				extendedProperties.setFallProtection(8);
 				break;
@@ -512,8 +493,7 @@ public class AMEventHandler {
 
 		//slowfall/shrink buff
 		if (event.entityLiving.isPotionActive(BuffList.slowfall) || event.entityLiving.isPotionActive(BuffList.shrink) || (!ent.isSneaking() && ent instanceof EntityPlayer && AffinityData.For(ent).getAffinityDepth(Affinity.NATURE) == 1.0f)){
-			if (!event.entityLiving.onGround && event.entityLiving.motionY < 0.0D)
-			{
+			if (!event.entityLiving.onGround && event.entityLiving.motionY < 0.0D){
 				event.entityLiving.motionY *= 0.79999999999999998D;
 			}
 		}
@@ -522,7 +502,7 @@ public class AMEventHandler {
 		if (event.entityLiving.isPotionActive(BuffList.wateryGrave)){
 			if (event.entityLiving.isInWater()){
 				double pullVel = -0.5f;
-				pullVel *= (event.entityLiving.getActivePotionEffect(BuffList.wateryGrave).getAmplifier()+1);
+				pullVel *= (event.entityLiving.getActivePotionEffect(BuffList.wateryGrave).getAmplifier() + 1);
 				if (event.entityLiving.motionY > pullVel)
 					event.entityLiving.motionY -= 0.1;
 			}
@@ -541,28 +521,24 @@ public class AMEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onBucketFill( FillBucketEvent event )
-	{
-		ItemStack result = attemptFill( event.world, event.target );
+	public void onBucketFill(FillBucketEvent event){
+		ItemStack result = attemptFill(event.world, event.target);
 
-		if ( result != null )
-		{
+		if (result != null){
 			event.result = result;
-			event.setResult( Result.ALLOW );
+			event.setResult(Result.ALLOW);
 		}
 	}
 
-	private ItemStack attemptFill( World world, MovingObjectPosition p )
-	{
-		Block block = world.getBlock( p.blockX, p.blockY, p.blockZ );
+	private ItemStack attemptFill(World world, MovingObjectPosition p){
+		Block block = world.getBlock(p.blockX, p.blockY, p.blockZ);
 
-		if ( block == BlocksCommonProxy.liquidEssence )
-		{
-			if ( world.getBlockMetadata( p.blockX, p.blockY, p.blockZ ) == 0 ) // Check that it is a source block
+		if (block == BlocksCommonProxy.liquidEssence){
+			if (world.getBlockMetadata(p.blockX, p.blockY, p.blockZ) == 0) // Check that it is a source block
 			{
-				world.setBlock( p.blockX, p.blockY, p.blockZ, Blocks.air ); // Remove the fluid block
+				world.setBlock(p.blockX, p.blockY, p.blockZ, Blocks.air); // Remove the fluid block
 
-				return new ItemStack( ItemsCommonProxy.itemAMBucket );
+				return new ItemStack(ItemsCommonProxy.itemAMBucket);
 			}
 		}
 
@@ -572,7 +548,7 @@ public class AMEventHandler {
 	@SubscribeEvent
 	public void onEntityInteract(EntityInteractEvent event){
 		if (event.target instanceof EntityItemFrame){
-			AMCore.proxy.itemFrameWatcher.startWatchingFrame((EntityItemFrame) event.target);
+			AMCore.proxy.itemFrameWatcher.startWatchingFrame((EntityItemFrame)event.target);
 		}
 	}
 
@@ -584,15 +560,13 @@ public class AMEventHandler {
 
 	@SubscribeEvent
 	public void onEntityAttacked(LivingAttackEvent event){
-		if (event.source.isFireDamage() && event.entityLiving instanceof EntityPlayer && ((EntityPlayer)event.entityLiving).inventory.armorInventory[3] != null && ((EntityPlayer)event.entityLiving).inventory.armorInventory[3].getItem() == ItemsCommonProxy.fireEars)
-		{
+		if (event.source.isFireDamage() && event.entityLiving instanceof EntityPlayer && ((EntityPlayer)event.entityLiving).inventory.armorInventory[3] != null && ((EntityPlayer)event.entityLiving).inventory.armorInventory[3].getItem() == ItemsCommonProxy.fireEars){
 			event.setCanceled(true);
 			return;
 		}
 
 		if (event.entityLiving.isPotionActive(BuffList.manaShield)){
-			if (ExtendedProperties.For(event.entityLiving).getCurrentMana() >= event.ammount * 250f)
-			{
+			if (ExtendedProperties.For(event.entityLiving).getCurrentMana() >= event.ammount * 250f){
 				ExtendedProperties.For(event.entityLiving).deductMana(event.ammount * 100f);
 				ExtendedProperties.For(event.entityLiving).forceSync();
 				for (int i = 0; i < Math.min(event.ammount, 5 * AMCore.config.getGFXLevel()); ++i)
@@ -607,8 +581,7 @@ public class AMEventHandler {
 	@SubscribeEvent
 	public void onEntityHurt(LivingHurtEvent event){
 
-		if (event.source.isFireDamage() && event.entityLiving instanceof EntityPlayer && ((EntityPlayer)event.entityLiving).inventory.armorInventory[3] != null && ((EntityPlayer)event.entityLiving).inventory.armorInventory[3].getItem() == ItemsCommonProxy.fireEars)
-		{
+		if (event.source.isFireDamage() && event.entityLiving instanceof EntityPlayer && ((EntityPlayer)event.entityLiving).inventory.armorInventory[3] != null && ((EntityPlayer)event.entityLiving).inventory.armorInventory[3].getItem() == ItemsCommonProxy.fireEars){
 			event.setCanceled(true);
 			return;
 		}
@@ -624,8 +597,7 @@ public class AMEventHandler {
 			for (int i = 0; i < Math.min(event.ammount, 5 * AMCore.config.getGFXLevel()); ++i)
 				AMCore.proxy.particleManager.BoltFromPointToPoint(event.entityLiving.worldObj, event.entityLiving.posX, event.entityLiving.posY + rand.nextFloat() * event.entityLiving.getEyeHeight(), event.entityLiving.posZ, event.entityLiving.posX - 1 + rand.nextFloat() * 2, event.entityLiving.posY + event.entityLiving.getEyeHeight() - 1 + rand.nextFloat() * 2, event.entityLiving.posZ - 1 + rand.nextFloat() * 2, 6, -1);
 			event.entityLiving.worldObj.playSoundAtEntity(event.entityLiving, "arsmagica2:misc.event.mana_shield_block", 1.0f, rand.nextFloat() + 0.5f);
-			if (event.ammount <= 0)
-			{
+			if (event.ammount <= 0){
 				event.setCanceled(true);
 				return;
 			}
@@ -690,17 +662,17 @@ public class AMEventHandler {
 
 		if (!event.entityPlayer.worldObj.isRemote && ExtendedProperties.For(event.entityPlayer).getMagicLevel() <= 0 && event.item.getEntityItem().getItem() == ItemsCommonProxy.arcaneCompendium){
 			event.entityPlayer.addChatMessage(new ChatComponentText("You have unlocked the secrets of the arcane!"));
-			AMNetHandler.INSTANCE.sendCompendiumUnlockPacket((EntityPlayerMP) event.entityPlayer, "shapes", true);
-			AMNetHandler.INSTANCE.sendCompendiumUnlockPacket((EntityPlayerMP) event.entityPlayer, "components", true);
-			AMNetHandler.INSTANCE.sendCompendiumUnlockPacket((EntityPlayerMP) event.entityPlayer, "modifiers", true);
+			AMNetHandler.INSTANCE.sendCompendiumUnlockPacket((EntityPlayerMP)event.entityPlayer, "shapes", true);
+			AMNetHandler.INSTANCE.sendCompendiumUnlockPacket((EntityPlayerMP)event.entityPlayer, "components", true);
+			AMNetHandler.INSTANCE.sendCompendiumUnlockPacket((EntityPlayerMP)event.entityPlayer, "modifiers", true);
 			ExtendedProperties.For(event.entityPlayer).setMagicLevelWithMana(1);
 			ExtendedProperties.For(event.entityPlayer).forceSync();
 			return;
 		}
 
-		if (event.item.getEntityItem().getItem()== ItemsCommonProxy.spell){
+		if (event.item.getEntityItem().getItem() == ItemsCommonProxy.spell){
 			if (event.entityPlayer.worldObj.isRemote){
-				AMNetHandler.INSTANCE.sendCompendiumUnlockPacket((EntityPlayerMP) event.entityPlayer, "spell_book", false);
+				AMNetHandler.INSTANCE.sendCompendiumUnlockPacket((EntityPlayerMP)event.entityPlayer, "spell_book", false);
 			}
 		}else{
 			Item item = event.item.getEntityItem().getItem();
@@ -708,9 +680,9 @@ public class AMEventHandler {
 
 			if (event.entityPlayer.worldObj.isRemote &&
 					item.getUnlocalizedName() != null && (
-							AMCore.proxy.items.getArsMagicaItems().contains(item)) ||
-							( item instanceof ItemBlock && AMCore.proxy.blocks.getArsMagicaBlocks().contains(((ItemBlock)item).field_150939_a))){
-				AMNetHandler.INSTANCE.sendCompendiumUnlockPacket((EntityPlayerMP) event.entityPlayer, item.getUnlocalizedName().replace("item.", "").replace("arsmagica2:", "").replace("tile.", "") + ((meta > -1) ? "@" + meta : ""), false);
+					AMCore.proxy.items.getArsMagicaItems().contains(item)) ||
+					(item instanceof ItemBlock && AMCore.proxy.blocks.getArsMagicaBlocks().contains(((ItemBlock)item).field_150939_a))){
+				AMNetHandler.INSTANCE.sendCompendiumUnlockPacket((EntityPlayerMP)event.entityPlayer, item.getUnlocalizedName().replace("item.", "").replace("arsmagica2:", "").replace("tile.", "") + ((meta > -1) ? "@" + meta : ""), false);
 			}
 		}
 	}

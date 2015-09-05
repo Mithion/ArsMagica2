@@ -1,11 +1,5 @@
 package am2.bosses;
 
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
-import am2.AMCore;
 import am2.bosses.ai.EntityAIDispel;
 import am2.bosses.ai.EntityAISmash;
 import am2.bosses.ai.EntityAIStrikeAttack;
@@ -15,20 +9,24 @@ import am2.damage.DamageSourceLightning;
 import am2.damage.DamageSources;
 import am2.items.ItemsCommonProxy;
 import am2.network.AMNetHandler;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 
 public class EntityEarthGuardian extends AM2Boss{
 
 	private float rodRotation = 0;
 	public boolean leftArm = false;
 
-	public EntityEarthGuardian(World par1World) {
+	public EntityEarthGuardian(World par1World){
 		super(par1World);
 		this.setSize(1.0f, 2.0f);
 		this.stepHeight = 1.02f;
 	}
 
 	@Override
-	protected void initSpecificAI() {
+	protected void initSpecificAI(){
 		this.tasks.addTask(1, new EntityAIDispel(this));
 		this.tasks.addTask(1, new EntityAIThrowRock(this, 0.5f));
 		this.tasks.addTask(2, new EntityAISmash(this, 0.5f, DamageSources.DamageSourceTypes.PHYSICAL));
@@ -36,8 +34,7 @@ public class EntityEarthGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(140D);
 	}
@@ -47,7 +44,7 @@ public class EntityEarthGuardian extends AM2Boss{
 	}
 
 	@Override
-	public void setCurrentAction(BossActions action) {
+	public void setCurrentAction(BossActions action){
 		super.setCurrentAction(action);
 
 		if (currentAction != action && action == BossActions.STRIKE && worldObj.isRemote)
@@ -63,7 +60,7 @@ public class EntityEarthGuardian extends AM2Boss{
 	}
 
 	@Override
-	public void onUpdate() {
+	public void onUpdate(){
 		if (ticksInCurrentAction > 40 && !worldObj.isRemote){
 			setCurrentAction(BossActions.IDLE);
 		}
@@ -81,20 +78,18 @@ public class EntityEarthGuardian extends AM2Boss{
 	}
 
 	@Override
-	public int getTotalArmorValue() {
+	public int getTotalArmorValue(){
 		return 23;
 	}
 
 	@Override
-	protected void dropFewItems(boolean par1, int par2)
-	{
+	protected void dropFewItems(boolean par1, int par2){
 		if (par1)
 			this.entityDropItem(new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_INF_ORB_BLUE), 0.0f);
 
 		int i = rand.nextInt(4);
 
-		for (int j = 0; j < i; j++)
-		{
+		for (int j = 0; j < i; j++){
 			this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_EARTH), 0.0f);
 		}
 
@@ -104,9 +99,9 @@ public class EntityEarthGuardian extends AM2Boss{
 			this.entityDropItem(ItemsCommonProxy.earthArmorEnchanted.copy(), 0.0f);
 		}
 	}
-	
+
 	@Override
-	protected float modifyDamageAmount(DamageSource source, float damageAmt) {
+	protected float modifyDamageAmount(DamageSource source, float damageAmt){
 		if (source instanceof DamageSourceFrost){
 			return damageAmt * 2;
 		}else if (source instanceof DamageSourceLightning){
@@ -116,22 +111,22 @@ public class EntityEarthGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected String getHurtSound() {
+	protected String getHurtSound(){
 		return "arsmagica2:mob.earthguardian.hit";
 	}
 
 	@Override
-	protected String getDeathSound() {
+	protected String getDeathSound(){
 		return "arsmagica2:mob.earthguardian.death";
 	}
 
 	@Override
-	protected String getLivingSound() {
+	protected String getLivingSound(){
 		return "arsmagica2:mob.earthguardian.idle";
 	}
 
 	@Override
-	public String getAttackSound() {
+	public String getAttackSound(){
 		return "arsmagica2:mob.earthguardian.attack";
 	}
 }

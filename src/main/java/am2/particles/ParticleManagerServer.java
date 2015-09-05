@@ -1,18 +1,18 @@
 package am2.particles;
 
-import java.util.Random;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
 import am2.AMCore;
 import am2.api.math.AMVector3;
 import am2.network.AMDataWriter;
 import am2.network.AMNetHandler;
 import am2.network.AMPacketIDs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 
-public class ParticleManagerServer {
+import java.util.Random;
+
+public class ParticleManagerServer{
 	public static final byte PKT_BOLT_ENT_ENT = 64;
 	public static final byte PKT_BOLT_PT_PT = 63;
 	public static final byte PKT_BEAM_ENT_ENT = 62;
@@ -221,10 +221,10 @@ public class ParticleManagerServer {
 
 	}
 
-	public void spawnAuraParticles(EntityLivingBase ent) {
+	public void spawnAuraParticles(EntityLivingBase ent){
 	}
 
-	public void spawnBuffParticles(EntityLivingBase entityliving) {
+	public void spawnBuffParticles(EntityLivingBase entityliving){
 	}
 
 	public ParticleController createDefaultParticleController(int type, Object effect, EntityLivingBase ent){

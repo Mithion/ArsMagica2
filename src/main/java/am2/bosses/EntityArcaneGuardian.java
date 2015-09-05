@@ -1,5 +1,11 @@
 package am2.bosses;
 
+import am2.bosses.ai.EntityAICastSpell;
+import am2.bosses.ai.EntityAIDispel;
+import am2.bosses.ai.ISpellCastCallback;
+import am2.items.ItemsCommonProxy;
+import am2.network.AMNetHandler;
+import am2.utility.NPCSpells;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -7,15 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import am2.AMCore;
-import am2.bosses.ai.EntityAICastSpell;
-import am2.bosses.ai.EntityAIDispel;
-import am2.bosses.ai.ISpellCastCallback;
-import am2.items.ItemsCommonProxy;
-import am2.network.AMNetHandler;
-import am2.utility.NPCSpells;
 
 public class EntityArcaneGuardian extends AM2Boss{
 
@@ -24,26 +22,25 @@ public class EntityArcaneGuardian extends AM2Boss{
 
 	private static final int DW_TARGET_ID = 20;
 
-	public EntityArcaneGuardian(World par1World) {
+	public EntityArcaneGuardian(World par1World){
 		super(par1World);
 		this.setSize(1.0f, 2.0f);
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void entityInit(){
 		super.entityInit();
 		this.dataWatcher.addObject(DW_TARGET_ID, -1);
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(115D);
 	}
 
 	@Override
-	public void onUpdate() {
+	public void onUpdate(){
 
 		if (this.motionY < 0){
 			this.motionY *= 0.7999999f;
@@ -78,7 +75,7 @@ public class EntityArcaneGuardian extends AM2Boss{
 
 			angle -= Math.toRadians(MathHelper.wrapAngleTo180_float(this.rotationYaw + 90) + 180);
 
-			targetRuneRotationY = (float) angle;
+			targetRuneRotationY = (float)angle;
 			runeRotationSpeed = 0.085f;
 		}
 
@@ -94,7 +91,7 @@ public class EntityArcaneGuardian extends AM2Boss{
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
 		if (par1DamageSource.getSourceOfDamage() == null){
 			return super.attackEntityFrom(par1DamageSource, par2);
 		}
@@ -114,7 +111,7 @@ public class EntityArcaneGuardian extends AM2Boss{
 
 		angle -= Math.toRadians(MathHelper.wrapAngleTo180_float(this.rotationYaw + 90) + 180);
 
-		float targetRuneRotationY = (float) angle;
+		float targetRuneRotationY = (float)angle;
 
 		if (isWithin(runeRotationY, targetRuneRotationY, 0.5f)){
 			if (this.getDistanceSqToEntity(source) < 9){
@@ -128,7 +125,7 @@ public class EntityArcaneGuardian extends AM2Boss{
 				double radians = angle;
 
 				if (source instanceof EntityPlayer){
-					AMNetHandler.INSTANCE.sendVelocityAddPacket(source.worldObj, (EntityLivingBase) source, speed * Math.cos(radians), vertSpeed, speed * Math.sin(radians));
+					AMNetHandler.INSTANCE.sendVelocityAddPacket(source.worldObj, (EntityLivingBase)source, speed * Math.cos(radians), vertSpeed, speed * Math.sin(radians));
 				}
 				source.motionX = (speed * Math.cos(radians));
 				source.motionZ = (speed * Math.sin(radians));
@@ -141,7 +138,7 @@ public class EntityArcaneGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected float modifyDamageAmount(DamageSource source, float damageAmt) {
+	protected float modifyDamageAmount(DamageSource source, float damageAmt){
 		return damageAmt;
 	}
 
@@ -164,11 +161,11 @@ public class EntityArcaneGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected void initSpecificAI() {
+	protected void initSpecificAI(){
 		this.tasks.addTask(1, new EntityAIDispel(this));
-		this.tasks.addTask(1, new EntityAICastSpell(this, NPCSpells.instance.healSelf, 16, 23, 60, BossActions.CASTING, new ISpellCastCallback<EntityArcaneGuardian>() {
+		this.tasks.addTask(1, new EntityAICastSpell(this, NPCSpells.instance.healSelf, 16, 23, 60, BossActions.CASTING, new ISpellCastCallback<EntityArcaneGuardian>(){
 			@Override
-			public boolean shouldCast(EntityArcaneGuardian host, ItemStack spell) {
+			public boolean shouldCast(EntityArcaneGuardian host, ItemStack spell){
 				return host.getHealth() < host.getMaxHealth();
 			}
 		}));
@@ -177,7 +174,7 @@ public class EntityArcaneGuardian extends AM2Boss{
 	}
 
 	@Override
-	public void setCurrentAction(BossActions action) {
+	public void setCurrentAction(BossActions action){
 		super.setCurrentAction(action);
 		if (!worldObj.isRemote){
 			AMNetHandler.INSTANCE.sendActionUpdateToAllAround(this);
@@ -185,20 +182,18 @@ public class EntityArcaneGuardian extends AM2Boss{
 	}
 
 	@Override
-	public int getTotalArmorValue() {
+	public int getTotalArmorValue(){
 		return 9;
 	}
 
 	@Override
-	protected void dropFewItems(boolean par1, int par2)
-	{
+	protected void dropFewItems(boolean par1, int par2){
 		if (par1)
 			this.entityDropItem(new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_INF_ORB_GREEN), 0.0f);
 
 		int i = rand.nextInt(4);
 
-		for (int j = 0; j < i; j++)
-		{
+		for (int j = 0; j < i; j++){
 			this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_ARCANE), 0.0f);
 		}
 
@@ -210,27 +205,27 @@ public class EntityArcaneGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected void fall(float par1) {
+	protected void fall(float par1){
 
 	}
 
 	@Override
-	protected String getHurtSound() {
+	protected String getHurtSound(){
 		return "arsmagica2:mob.arcaneguardian.hit";
 	}
 
 	@Override
-	protected String getDeathSound() {
+	protected String getDeathSound(){
 		return "arsmagica2:mob.arcaneguardian.death";
 	}
 
 	@Override
-	protected String getLivingSound() {
+	protected String getLivingSound(){
 		return "arsmagica2:mob.arcaneguardian.idle";
 	}
 
 	@Override
-	public String getAttackSound() {
+	public String getAttackSound(){
 		return "arsmagica2:mob.arcaneguardian.spell";
 	}
 }

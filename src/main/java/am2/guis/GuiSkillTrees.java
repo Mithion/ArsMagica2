@@ -1,24 +1,5 @@
 package am2.guis;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.Iterator;
-import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import am2.AMCore;
 import am2.api.SkillTreeEntry;
 import am2.api.spell.component.interfaces.ISpellComponent;
@@ -35,11 +16,27 @@ import am2.playerextensions.SkillData;
 import am2.spell.SkillManager;
 import am2.spell.SkillTreeManager;
 import am2.texture.SpellIconManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.List;
 
 public class GuiSkillTrees extends GuiScreen{
 	int xSize = 210;
 	int ySize = 246;
-
 
 
 	private GuiButtonSkillTreeTab offense;
@@ -74,7 +71,6 @@ public class GuiSkillTrees extends GuiScreen{
 	private static final ResourceLocation rl_items = new ResourceLocation("textures/atlas/items.png");
 
 
-
 	public GuiSkillTrees(EntityPlayer player){
 		CompendiumEntryTypes.instance.initTextures();
 
@@ -84,7 +80,7 @@ public class GuiSkillTrees extends GuiScreen{
 	}
 
 	@Override
-	public void initGui() {
+	public void initGui(){
 		super.initGui();
 
 		int l = (width - xSize) / 2 + 8;
@@ -92,9 +88,9 @@ public class GuiSkillTrees extends GuiScreen{
 
 		offense = new GuiButtonSkillTreeTab(0, l, i1, SkillTrees.Offense);
 		defense = new GuiButtonSkillTreeTab(0, l + GuiButtonSkillTreeTab.buttonWidth + buttonPadding, i1, SkillTrees.Defense);
-		utility = new GuiButtonSkillTreeTab(0, l + GuiButtonSkillTreeTab.buttonWidth*2 + buttonPadding*2, i1, SkillTrees.Utility);
-		talents = new GuiButtonSkillTreeTab(0, l + GuiButtonSkillTreeTab.buttonWidth*3 + buttonPadding*3, i1, SkillTrees.Talents);
-		affinity = new GuiButtonSkillTreeTab(0, l + GuiButtonSkillTreeTab.buttonWidth*4 + buttonPadding*4, i1, SkillTrees.Affinity);
+		utility = new GuiButtonSkillTreeTab(0, l + GuiButtonSkillTreeTab.buttonWidth * 2 + buttonPadding * 2, i1, SkillTrees.Utility);
+		talents = new GuiButtonSkillTreeTab(0, l + GuiButtonSkillTreeTab.buttonWidth * 3 + buttonPadding * 3, i1, SkillTrees.Talents);
+		affinity = new GuiButtonSkillTreeTab(0, l + GuiButtonSkillTreeTab.buttonWidth * 4 + buttonPadding * 4, i1, SkillTrees.Affinity);
 
 		offense.setActive(true);
 
@@ -109,12 +105,12 @@ public class GuiSkillTrees extends GuiScreen{
 
 	@SuppressWarnings("incomplete-switch")
 	@Override
-	protected void actionPerformed(GuiButton par1GuiButton) {
+	protected void actionPerformed(GuiButton par1GuiButton){
 		if (par1GuiButton instanceof GuiButtonSkillTreeTab){
 			this.activeTree = ((GuiButtonSkillTreeTab)par1GuiButton).getTree();
 			skillTree = SkillTreeManager.instance.getTree(activeTree);
 
-			switch(activeTree){
+			switch (activeTree){
 			case Defense:
 				offsetX = 91;
 				offsetY = 0;
@@ -139,7 +135,7 @@ public class GuiSkillTrees extends GuiScreen{
 	}
 
 	@Override
-	public void drawScreen(int par1, int par2, float par3) {
+	public void drawScreen(int par1, int par2, float par3){
 
 		SkillData sk = SkillData.For(Minecraft.getMinecraft().thePlayer);
 
@@ -213,7 +209,8 @@ public class GuiSkillTrees extends GuiScreen{
 			String s = SkillManager.instance.getDisplayName(hoveredItem.registeredItem);
 			LearnStates state = sk.getLearnState(hoveredItem, Minecraft.getMinecraft().thePlayer);
 			if (state == LearnStates.LEARNED) s += " (" + StatCollector.translateToLocal("am2.gui.known") + ")";
-			else if (state == LearnStates.CAN_LEARN) s += " (" + StatCollector.translateToLocal("am2.gui.notLearned") + ")";
+			else if (state == LearnStates.CAN_LEARN)
+				s += " (" + StatCollector.translateToLocal("am2.gui.notLearned") + ")";
 			else if (state == LearnStates.DISABLED) s = StatCollector.translateToLocal("am2.gui.cfgDisabled");
 			//else fr = Minecraft.getMinecraft().standardGalacticFontRenderer;
 			text.add(s);
@@ -224,7 +221,7 @@ public class GuiSkillTrees extends GuiScreen{
 
 				int affX = lastMouseX + 14;
 				int affY = lastMouseY - 34;
-				drawGradientAround(affX-2, affY-2, 18*aff.size() + 2, 18);
+				drawGradientAround(affX - 2, affY - 2, 18 * aff.size() + 2, 18);
 				for (Affinity a : aff){
 					if (a == Affinity.NONE)
 						continue;
@@ -263,8 +260,8 @@ public class GuiSkillTrees extends GuiScreen{
 				}else{
 					continue;
 				}
-				line2d(l + entry.x - offsetX*2 + 16, i1 + entry.y - offsetY*2 + 16, l + entry.x - offsetX*2 + 16, i1 + prerequisite.y - offsetY*2 + 16, color);
-				line2d(l + entry.x - offsetX*2 + 16, i1 + prerequisite.y - offsetY*2 + 16, l + prerequisite.x - offsetX*2 + 16, i1 + prerequisite.y - offsetY*2 + 16, color);
+				line2d(l + entry.x - offsetX * 2 + 16, i1 + entry.y - offsetY * 2 + 16, l + entry.x - offsetX * 2 + 16, i1 + prerequisite.y - offsetY * 2 + 16, color);
+				line2d(l + entry.x - offsetX * 2 + 16, i1 + prerequisite.y - offsetY * 2 + 16, l + prerequisite.x - offsetX * 2 + 16, i1 + prerequisite.y - offsetY * 2 + 16, color);
 			}
 		}
 
@@ -278,8 +275,8 @@ public class GuiSkillTrees extends GuiScreen{
 				}else{
 					color = 0x220000;
 				}
-				line2d(l + entry.x - offsetX*2 + 16, i1 + entry.y - offsetY*2 + 16, l + entry.x - offsetX*2 + 16, i1 + prerequisite.y - offsetY*2 + 16, color);
-				line2d(l + entry.x - offsetX*2 + 16, i1 + prerequisite.y - offsetY*2 + 16, l + prerequisite.x - offsetX*2 + 16, i1 + prerequisite.y - offsetY*2 + 16, color);
+				line2d(l + entry.x - offsetX * 2 + 16, i1 + entry.y - offsetY * 2 + 16, l + entry.x - offsetX * 2 + 16, i1 + prerequisite.y - offsetY * 2 + 16, color);
+				line2d(l + entry.x - offsetX * 2 + 16, i1 + prerequisite.y - offsetY * 2 + 16, l + prerequisite.x - offsetX * 2 + 16, i1 + prerequisite.y - offsetY * 2 + 16, color);
 			}
 		}
 
@@ -316,21 +313,21 @@ public class GuiSkillTrees extends GuiScreen{
 				GL11.glColor3f(0.1f, 0.1f, 0.1f);
 			}
 
-			DrawConstrainedIconAtXY(IIcon, l + entry.x - offsetX*2, i1 + entry.y - offsetY*2, IIcondims, IIcondims, false);
+			DrawConstrainedIconAtXY(IIcon, l + entry.x - offsetX * 2, i1 + entry.y - offsetY * 2, IIcondims, IIcondims, false);
 
 			if (state == LearnStates.LOCKED){
 				GL11.glColor4f(0.3f, 0.3f, 0.3f, 0.8f);
-				DrawConstrainedIconAtXY(AMGuiIcons.padlock, l + entry.x - offsetX*2 + 8.5f, i1 + entry.y - offsetY*2 + 8, 15, 15, true);
+				DrawConstrainedIconAtXY(AMGuiIcons.padlock, l + entry.x - offsetX * 2 + 8.5f, i1 + entry.y - offsetY * 2 + 8, 15, 15, true);
 			}else if (state == LearnStates.DISABLED){
 				GL11.glColor4f(1.0f, 0.3f, 0.3f, 0.8f);
-				DrawConstrainedIconAtXY(AMGuiIcons.padlock, l + entry.x - offsetX*2 + 8.5f, i1 + entry.y - offsetY*2 + 8, 15, 15, true);
+				DrawConstrainedIconAtXY(AMGuiIcons.padlock, l + entry.x - offsetX * 2 + 8.5f, i1 + entry.y - offsetY * 2 + 8, 15, 15, true);
 			}
 
 			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 			if (lastMouseX > l && lastMouseX < l + xSize && lastMouseY > i1 && lastMouseY < i1 + ySize){
-				if (lastMouseX > l + entry.x - offsetX*2 && lastMouseX < l + entry.x - offsetX*2 + IIcondims){
-					if (lastMouseY > i1 + entry.y - offsetY*2 && lastMouseY < i1 + entry.y - offsetY*2 + IIcondims){
+				if (lastMouseX > l + entry.x - offsetX * 2 && lastMouseX < l + entry.x - offsetX * 2 + IIcondims){
+					if (lastMouseY > i1 + entry.y - offsetY * 2 && lastMouseY < i1 + entry.y - offsetY * 2 + IIcondims){
 						hovered = entry;
 					}
 				}
@@ -347,10 +344,10 @@ public class GuiSkillTrees extends GuiScreen{
 		int l = (width - xSize) / 2;
 		int i1 = (height - ySize) / 2;
 		int IIconsize = 16;
-		int halfIconSize = IIconsize/2;
+		int halfIconSize = IIconsize / 2;
 
-		int cx = l + xSize/2 - halfIconSize;
-		int cy = i1 + ySize/2 - halfIconSize;
+		int cx = l + xSize / 2 - halfIconSize;
+		int cy = i1 + ySize / 2 - halfIconSize;
 
 		int angle = -90;
 		int distance = 85;
@@ -361,8 +358,8 @@ public class GuiSkillTrees extends GuiScreen{
 
 		for (Affinity aff : Affinity.getOrderedAffinities()){
 			IIcon IIcon = aff.representItem.getIconFromDamage(aff.representMeta);
-			int newX = (int)(cx + Math.cos(Math.toRadians(angle))* distance);
-			int newY = (int)(cy + Math.sin(Math.toRadians(angle))* distance);
+			int newX = (int)(cx + Math.cos(Math.toRadians(angle)) * distance);
+			int newY = (int)(cy + Math.sin(Math.toRadians(angle)) * distance);
 
 			int cx1 = (int)(cx + Math.cos(Math.toRadians(angle + angleOffset)) * smallDist);
 			int cx2 = (int)(cx + Math.cos(Math.toRadians(angle - angleOffset)) * smallDist);
@@ -389,7 +386,7 @@ public class GuiSkillTrees extends GuiScreen{
 
 			DrawIconAtXY(IIcon, "items", newX, newY, IIconsize, IIconsize, false);
 			String depthString = String.format("%.2f", ad.getAffinityDepth(aff) * 100);
-			fontRendererObj.drawString(depthString, newX + halfIconSize - fontRendererObj.getStringWidth(depthString)/2, newY + IIconsize, aff.color, false);
+			fontRendererObj.drawString(depthString, newX + halfIconSize - fontRendererObj.getStringWidth(depthString) / 2, newY + IIconsize, aff.color, false);
 			angle += 36;
 
 			//if (lastMouseX > l && lastMouseX < l + xSize && lastMouseY > i1 && lastMouseY < i1 + ySize){
@@ -403,7 +400,7 @@ public class GuiSkillTrees extends GuiScreen{
 	}
 
 	@Override
-	protected void mouseClicked(int par1, int par2, int par3) {
+	protected void mouseClicked(int par1, int par2, int par3){
 		super.mouseClicked(par1, par2, par3);
 		if (par3 == 0){
 			if (hoveredItem != null){
@@ -424,7 +421,7 @@ public class GuiSkillTrees extends GuiScreen{
 	}
 
 	@Override
-	protected void mouseMovedOrUp(int par1, int par2, int par3) {
+	protected void mouseMovedOrUp(int par1, int par2, int par3){
 		super.mouseMovedOrUp(par1, par2, par3);
 		if (par3 != -1){
 			this.isDragging = false;
@@ -432,12 +429,11 @@ public class GuiSkillTrees extends GuiScreen{
 	}
 
 	@Override
-	public boolean doesGuiPauseGame() {
+	public boolean doesGuiPauseGame(){
 		return false;
 	}
 
-	public void drawTexturedModalRect_Classic(int dst_x, int dst_y, int src_x, int src_y, int dst_width, int dst_height, int src_width, int src_height)
-	{
+	public void drawTexturedModalRect_Classic(int dst_x, int dst_y, int src_x, int src_y, int dst_width, int dst_height, int src_width, int src_height){
 		float var7 = 0.00390625F;
 		float var8 = 0.00390625F;
 
@@ -619,10 +615,8 @@ public class GuiSkillTrees extends GuiScreen{
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 	}
 
-	protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font, int color)
-	{
-		if (!par1List.isEmpty())
-		{
+	protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font, int color){
+		if (!par1List.isEmpty()){
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 			RenderHelper.disableStandardItemLighting();
 			GL11.glDisable(GL11.GL_LIGHTING);
@@ -630,13 +624,11 @@ public class GuiSkillTrees extends GuiScreen{
 			int k = 0;
 			Iterator iterator = par1List.iterator();
 
-			while (iterator.hasNext())
-			{
+			while (iterator.hasNext()){
 				String s = (String)iterator.next();
 				int l = font.getStringWidth(s);
 
-				if (l > k)
-				{
+				if (l > k){
 					k = l;
 				}
 			}
@@ -645,18 +637,15 @@ public class GuiSkillTrees extends GuiScreen{
 			int j1 = par3 - 12;
 			int k1 = 8;
 
-			if (par1List.size() > 1)
-			{
+			if (par1List.size() > 1){
 				k1 += 2 + (par1List.size() - 1) * 10;
 			}
 
-			if (i1 + k > this.width)
-			{
+			if (i1 + k > this.width){
 				i1 -= 28 + k;
 			}
 
-			if (j1 + k1 + 6 > this.height)
-			{
+			if (j1 + k1 + 6 > this.height){
 				j1 = this.height - k1 - 6;
 			}
 
@@ -674,13 +663,11 @@ public class GuiSkillTrees extends GuiScreen{
 			this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
 			this.drawGradientRect(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
 
-			for (int k2 = 0; k2 < par1List.size(); ++k2)
-			{
+			for (int k2 = 0; k2 < par1List.size(); ++k2){
 				String s1 = (String)par1List.get(k2);
 				font.drawStringWithShadow(s1, i1, j1, color);
 
-				if (k2 == 0)
-				{
+				if (k2 == 0){
 					j1 += 2;
 				}
 

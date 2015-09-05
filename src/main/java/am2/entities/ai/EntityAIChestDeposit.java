@@ -1,15 +1,14 @@
 package am2.entities.ai;
 
+import am2.api.math.AMVector3;
+import am2.entities.EntityBroom;
+import am2.playerextensions.ExtendedProperties;
+import am2.utility.InventoryUtilities;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import am2.api.math.AMVector3;
-import am2.entities.EntityBroom;
-import am2.entities.EntityBroomInventory;
-import am2.playerextensions.ExtendedProperties;
-import am2.utility.InventoryUtilities;
 
 public class EntityAIChestDeposit extends EntityAIBase{
 
@@ -23,7 +22,7 @@ public class EntityAIChestDeposit extends EntityAIBase{
 	}
 
 	@Override
-	public boolean shouldExecute() {
+	public boolean shouldExecute(){
 		AMVector3 iLoc = host.getChestLocation();
 		if (iLoc == null)
 			return false;
@@ -34,18 +33,18 @@ public class EntityAIChestDeposit extends EntityAIBase{
 	}
 
 	@Override
-	public boolean continueExecuting() {
+	public boolean continueExecuting(){
 		return isDepositing || super.continueExecuting();
 	}
 
 	@Override
-	public void resetTask() {
+	public void resetTask(){
 		isDepositing = false;
 		depositCounter = 0;
 	}
 
 	@Override
-	public void updateTask() {
+	public void updateTask(){
 		AMVector3 iLoc = host.getChestLocation();
 
 		if (iLoc == null)

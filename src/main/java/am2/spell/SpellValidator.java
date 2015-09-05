@@ -1,15 +1,15 @@
 package am2.spell;
 
-import java.util.ArrayList;
-
-import net.minecraft.util.StatCollector;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.component.interfaces.ISpellModifier;
 import am2.api.spell.component.interfaces.ISpellPart;
 import am2.api.spell.component.interfaces.ISpellShape;
 import am2.spell.components.Summon;
+import net.minecraft.util.StatCollector;
 
-public class SpellValidator {
+import java.util.ArrayList;
+
+public class SpellValidator{
 	public static final SpellValidator instance = new SpellValidator();
 
 	private enum StageValidations{
@@ -43,7 +43,7 @@ public class SpellValidator {
 				}
 				ArrayList<ISpellPart> concatenated = new ArrayList<ISpellPart>();
 				concatenated.addAll(shapeGroups.get(x));
-				for (int i = 0; i < segmented.size(); ++i){					
+				for (int i = 0; i < segmented.size(); ++i){
 					concatenated.addAll(segmented.get(i));
 				}
 				ValidationResult result = internalValidation(splitToStages(concatenated));
@@ -65,13 +65,13 @@ public class SpellValidator {
 
 	private ValidationResult internalValidation(ArrayList<ArrayList<ISpellPart>> segmented){
 		for (int i = 0; i < segmented.size(); ++i){
-			StageValidations result = validateStage(segmented.get(i), i == segmented.size()-1);
+			StageValidations result = validateStage(segmented.get(i), i == segmented.size() - 1);
 
 			if (result == StageValidations.NOT_VALID){
 				return new ValidationResult(segmented.get(i).get(0), StatCollector.translateToLocal("am2.spell.validate.compMiss"));
 			}else if (result == StageValidations.PRINCIPUM && i == segmented.size() - 1){
 				return new ValidationResult(segmented.get(i).get(0), String.format("%s %s", SkillManager.instance.getDisplayName(segmented.get(i).get(0)), StatCollector.translateToLocal("am2.spell.validate.principum")));
-			}else if (result == StageValidations.TERMINUS && i < segmented.size()-1){
+			}else if (result == StageValidations.TERMINUS && i < segmented.size() - 1){
 				return new ValidationResult(segmented.get(i).get(0), String.format("%s %s", SkillManager.instance.getDisplayName(segmented.get(i).get(0)), StatCollector.translateToLocal("am2.spell.validate.terminus")));
 			}
 		}
@@ -111,7 +111,7 @@ public class SpellValidator {
 
 	public static ArrayList<ArrayList<ISpellPart>> splitToStages(ArrayList<ISpellPart> currentRecipe){
 		ArrayList<ArrayList<ISpellPart>> segmented = new ArrayList<ArrayList<ISpellPart>>();
-		int idx = (currentRecipe.size() > 0 &&currentRecipe.get(0) instanceof ISpellShape) ? -1 : 0;
+		int idx = (currentRecipe.size() > 0 && currentRecipe.get(0) instanceof ISpellShape) ? -1 : 0;
 		for (int i = 0; i < currentRecipe.size(); ++i){
 			ISpellPart part = currentRecipe.get(i);
 			if (part instanceof ISpellShape)

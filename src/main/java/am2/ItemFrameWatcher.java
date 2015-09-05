@@ -1,13 +1,5 @@
 package am2;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBook;
-import net.minecraft.item.ItemStack;
 import am2.blocks.BlocksCommonProxy;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
@@ -16,8 +8,15 @@ import am2.particles.ParticleColorShift;
 import am2.particles.ParticleHoldPosition;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.item.EntityItemFrame;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemBook;
+import net.minecraft.item.ItemStack;
 
-public class ItemFrameWatcher {
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class ItemFrameWatcher{
 
 	private final HashMap<EntityItemFrameComparator, Integer> watchedFrames;
 	private final ArrayList<EntityItemFrameComparator> queuedAddFrames;
@@ -39,7 +38,7 @@ public class ItemFrameWatcher {
 		for (EntityItemFrameComparator frameComp : watchedFrames.keySet()){
 
 			Integer time = watchedFrames.get(frameComp);
-			if (time ==null) time = 0;
+			if (time == null) time = 0;
 
 			if (frameComp == null || frameComp.frame == null || frameComp.frame.worldObj == null)
 				continue;
@@ -71,7 +70,7 @@ public class ItemFrameWatcher {
 		EntityItemFrame frame = frameComp.frame;
 
 		for (int i = -radius; i <= radius; ++i){
-			for (int j= -radius; j <= radius; ++j){
+			for (int j = -radius; j <= radius; ++j){
 				for (int k = -radius; k <= radius; ++k){
 
 					if (frame.worldObj.getBlock((int)frame.posX + i, (int)frame.posY + j, (int)frame.posZ + k) == BlocksCommonProxy.liquidEssence){
@@ -128,7 +127,7 @@ public class ItemFrameWatcher {
 			if (time != null && time >= processTime &&
 					comp.frame != null && !comp.frame.isDead && comp.frame.worldObj.isRemote &&
 					(comp.frame.getDisplayedItem() != null &&
-					(comp.frame.getDisplayedItem().getItem() == Items.book || comp.frame.getDisplayedItem().getItem() == ItemsCommonProxy.arcaneCompendium))){
+							(comp.frame.getDisplayedItem().getItem() == Items.book || comp.frame.getDisplayedItem().getItem() == ItemsCommonProxy.arcaneCompendium))){
 				spawnCompendiumCompleteParticles(comp.frame);
 			}
 			watchedFrames.remove(comp);
@@ -145,7 +144,7 @@ public class ItemFrameWatcher {
 
 	@SideOnly(Side.CLIENT)
 	public void spawnCompendiumProgressParticles(EntityItemFrame frame, int x, int y, int z){
-		AMParticle particle = (AMParticle) AMCore.proxy.particleManager.spawn(frame.worldObj, "symbols", x + 0.5, y + 0.5, z + 0.5);
+		AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(frame.worldObj, "symbols", x + 0.5, y + 0.5, z + 0.5);
 		if (particle != null){
 			particle.setIgnoreMaxAge(true);
 			//particle.AddParticleController(new ParticleApproachEntity(particle, frame, 0.02f, 0.04f, 1, false).setKillParticleOnFinish(true));
@@ -156,7 +155,7 @@ public class ItemFrameWatcher {
 
 	@SideOnly(Side.CLIENT)
 	public void spawnCompendiumCompleteParticles(EntityItemFrame frame){
-		AMParticle particle = (AMParticle) AMCore.proxy.particleManager.spawn(frame.worldObj, "radiant", frame.posX, frame.posY, frame.posZ);
+		AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(frame.worldObj, "radiant", frame.posX, frame.posY, frame.posZ);
 		if (particle != null){
 			particle.setIgnoreMaxAge(false);
 			particle.setMaxAge(40);
@@ -175,7 +174,7 @@ public class ItemFrameWatcher {
 		}
 
 		@Override
-		public boolean equals(Object obj) {
+		public boolean equals(Object obj){
 			if (frame == null) return false;
 			if (obj instanceof EntityItemFrame){
 				return ((EntityItemFrame)obj).getEntityId() == frame.getEntityId() && ((EntityItemFrame)obj).worldObj.isRemote == frame.worldObj.isRemote;
@@ -187,7 +186,7 @@ public class ItemFrameWatcher {
 		}
 
 		@Override
-		public int hashCode() {
+		public int hashCode(){
 			if (frame == null || frame.worldObj == null) return 0;
 			return frame.getEntityId() + (frame.worldObj.isRemote ? 1 : 2);
 		}

@@ -1,15 +1,15 @@
 package am2.entities;
 
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
 import am2.AMCore;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.playerextensions.RiftStorage;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 
-public class EntityRiftStorage extends EntityLiving {
+public class EntityRiftStorage extends EntityLiving{
 
 	private static final int STORAGE_LEVEL_ID = 25;
 	private static final int LIVE_TICKS_ID = 26;
@@ -19,22 +19,21 @@ public class EntityRiftStorage extends EntityLiving {
 	private float scale = 0.0f;
 	private float scale2 = 1.0f;
 
-	public EntityRiftStorage(World par1World) {
+	public EntityRiftStorage(World par1World){
 		super(par1World);
 		this.setSize(1.5f, 1.5f);
 	}
 
 	@Override
-	public void onUpdate() {
+	public void onUpdate(){
 		if (this.ticksExisted++ >= getTicksToLive()) this.setDead();
-		this.rotation+=(Math.sin((float)this.ticksExisted / 100) + 0.5f);
+		this.rotation += (Math.sin((float)this.ticksExisted / 100) + 0.5f);
 
 		if (getTicksToLive() - this.ticksExisted <= 20){
 			this.scale -= 1f / 20f;
 		}else if (this.scale < 0.99f){
-			this.scale = (float) (Math.sin((float)this.ticksExisted / 50));
+			this.scale = (float)(Math.sin((float)this.ticksExisted / 50));
 		}
-
 
 
 		this.motionX = 0;
@@ -44,7 +43,7 @@ public class EntityRiftStorage extends EntityLiving {
 	}
 
 	@Override
-	public boolean isEntityInvulnerable() {
+	public boolean isEntityInvulnerable(){
 		return true;
 	}
 
@@ -71,7 +70,7 @@ public class EntityRiftStorage extends EntityLiving {
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void entityInit(){
 		super.entityInit();
 		this.dataWatcher.addObject(STORAGE_LEVEL_ID, 0);
 		this.dataWatcher.addObject(LIVE_TICKS_ID, 1200);
@@ -86,7 +85,7 @@ public class EntityRiftStorage extends EntityLiving {
 	}
 
 	@Override
-	public boolean interact(EntityPlayer par1EntityPlayer) {
+	public boolean interact(EntityPlayer par1EntityPlayer){
 		if (par1EntityPlayer.isSneaking()){
 			this.setTicksToLive(this.ticksExisted + 20);
 			return true;
@@ -97,7 +96,7 @@ public class EntityRiftStorage extends EntityLiving {
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
 		return false;
 	}
 

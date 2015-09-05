@@ -1,22 +1,21 @@
 package am2.items;
 
-import net.minecraft.block.Block;
+import am2.texture.ResourceManager;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
-import am2.texture.ResourceManager;
 
-public class ItemFocusCharge extends ItemFocus {
+public class ItemFocusCharge extends ItemFocus{
 
-	public ItemFocusCharge() {
+	public ItemFocusCharge(){
 		super();
 	}
 
 	@Override
-	public Object[] getRecipeItems() {
+	public Object[] getRecipeItems(){
 		return new Object[]{
-			"CFC",
-			'F', ItemsCommonProxy.standardFocus,
-			'C', Blocks.glass
+				"CFC",
+				'F', ItemsCommonProxy.standardFocus,
+				'C', Blocks.glass
 		};
 	}
 
@@ -26,7 +25,7 @@ public class ItemFocusCharge extends ItemFocus {
 	}
 
 	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {
+	public void registerIcons(IIconRegister par1IconRegister){
 		this.itemIcon = ResourceManager.RegisterTexture("focus_machinery_charge", par1IconRegister);
 	}
 

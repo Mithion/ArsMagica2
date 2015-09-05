@@ -1,27 +1,25 @@
 package am2.bosses;
 
-import java.util.HashMap;
-import java.util.List;
-
+import am2.blocks.BlocksCommonProxy;
+import am2.blocks.tileentities.TileEntityLectern;
+import am2.entities.EntityDryad;
+import am2.items.ItemsCommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
-import am2.blocks.BlocksCommonProxy;
-import am2.blocks.tileentities.TileEntityLectern;
-import am2.entities.EntityDryad;
-import am2.items.ItemsCommonProxy;
 
-public class BossSpawnHelper {
+import java.util.HashMap;
+import java.util.List;
+
+public class BossSpawnHelper{
 	public int dryadsKilled;
 	public int ticksSinceLastDryadDeath;
 
@@ -29,8 +27,7 @@ public class BossSpawnHelper {
 
 	private final HashMap<EntityLivingBase, World> queuedBosses;
 
-	private BossSpawnHelper()
-	{
+	private BossSpawnHelper(){
 		queuedBosses = new HashMap<EntityLivingBase, World>();
 	}
 
@@ -63,16 +60,16 @@ public class BossSpawnHelper {
 			return;
 
 		//shift to center of circle
-		if (world.getBlock(x-1, y, z) == BlocksCommonProxy.wizardChalk){
+		if (world.getBlock(x - 1, y, z) == BlocksCommonProxy.wizardChalk){
 			x++;
 		}
-		if (world.getBlock(x+1, y, z) == BlocksCommonProxy.wizardChalk){
+		if (world.getBlock(x + 1, y, z) == BlocksCommonProxy.wizardChalk){
 			x--;
 		}
-		if (world.getBlock(x, y, z+1) == BlocksCommonProxy.wizardChalk){
+		if (world.getBlock(x, y, z + 1) == BlocksCommonProxy.wizardChalk){
 			z--;
 		}
-		if (world.getBlock(x, y, z-1) == BlocksCommonProxy.wizardChalk){
+		if (world.getBlock(x, y, z - 1) == BlocksCommonProxy.wizardChalk){
 			z++;
 		}
 
@@ -92,13 +89,13 @@ public class BossSpawnHelper {
 
 	private boolean chalkCircleIsValid(World world, int x, int y, int z){
 		//check for candles
-		if (world.getBlock(x-3, y, z) != BlocksCommonProxy.candle)
+		if (world.getBlock(x - 3, y, z) != BlocksCommonProxy.candle)
 			return false;
-		if (world.getBlock(x+3, y, z) != BlocksCommonProxy.candle)
+		if (world.getBlock(x + 3, y, z) != BlocksCommonProxy.candle)
 			return false;
-		if (world.getBlock(x, y, z-3) != BlocksCommonProxy.candle)
+		if (world.getBlock(x, y, z - 3) != BlocksCommonProxy.candle)
 			return false;
-		if (world.getBlock(x, y, z+3) != BlocksCommonProxy.candle)
+		if (world.getBlock(x, y, z + 3) != BlocksCommonProxy.candle)
 			return false;
 
 		//check for chalk circle
@@ -148,7 +145,7 @@ public class BossSpawnHelper {
 		queuedBosses.clear();
 	}
 
-	public void onItemInRing(EntityItem item, Block ringID) {
+	public void onItemInRing(EntityItem item, Block ringID){
 		if (ringID == BlocksCommonProxy.redstoneInlay){
 			checkForWaterGuardianSpawn(item.worldObj, (int)Math.floor(item.posX), (int)Math.floor(item.posY), (int)Math.floor(item.posZ));
 		}else if (ringID == BlocksCommonProxy.ironInlay){
@@ -181,10 +178,10 @@ public class BossSpawnHelper {
 
 		for (int i = -1; i <= 1; ++i)
 			for (int j = -1; j <= 1; ++j)
-				if (!world.canBlockSeeTheSky(x+i, y + 1, z+j))
+				if (!world.canBlockSeeTheSky(x + i, y + 1, z + j))
 					return;
 
-		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x-1, y-1, z-1, x+1, y+1, z+1));
+		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1));
 		if (itemsInRange.size() != 2) return;
 		boolean hasBucket = false;
 		boolean hasBoat = false;
@@ -202,26 +199,26 @@ public class BossSpawnHelper {
 				item.setDead();
 			}
 			EntityWaterGuardian guardian = new EntityWaterGuardian(world);
-			guardian.setPosition(x + 0.5, y+1, z + 0.5);
+			guardian.setPosition(x + 0.5, y + 1, z + 0.5);
 			queuedBosses.put(guardian, world);
 		}
 	}
 
 	private void checkForAirGuardianSpawn(World world, int x, int y, int z){
 		if (y < 150) return;
-		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x-1, y-1, z-1, x+1, y+1, z+1));
+		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1));
 		if (itemsInRange.size() != 1) return;
 		if (itemsInRange.get(0).getEntityItem().getItem() != ItemsCommonProxy.essence || itemsInRange.get(0).getEntityItem().getItemDamage() != ItemsCommonProxy.essence.META_AIR)
 			return;
 
 		itemsInRange.get(0).setDead();
 		EntityAirGuardian guardian = new EntityAirGuardian(world);
-		guardian.setPosition(x + 0.5, y+1, z + 0.5);
+		guardian.setPosition(x + 0.5, y + 1, z + 0.5);
 		queuedBosses.put(guardian, world);
 	}
 
 	private void checkForArcaneGuardianSpawn(World world, int x, int y, int z){
-		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x-1, y-1, z-1, x+1, y+1, z+1));
+		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1));
 		if (itemsInRange.size() != 1) return;
 		if (itemsInRange.get(0).getEntityItem().getItem() != ItemsCommonProxy.essence || itemsInRange.get(0).getEntityItem().getItemDamage() != ItemsCommonProxy.essence.META_ARCANE)
 			return;
@@ -229,29 +226,29 @@ public class BossSpawnHelper {
 		TileEntityLectern lectern = null;
 		//+z check
 		if (world.getBlock(x - 1, y, z + 2) == Blocks.bookshelf && world.getBlock(x - 1, y + 1, z + 2) == Blocks.bookshelf && world.getBlock(x - 1, y + 2, z + 2) == Blocks.bookshelf && world.getBlock(x + 1, y, z + 2) == Blocks.bookshelf && world.getBlock(x + 1, y + 1, z + 2) == Blocks.bookshelf && world.getBlock(x + 1, y + 2, z + 2) == Blocks.bookshelf){
-			if (world.getBlock(x, y, z+2) == BlocksCommonProxy.blockLectern){
-				lectern = (TileEntityLectern) world.getTileEntity(x, y, z+2);
+			if (world.getBlock(x, y, z + 2) == BlocksCommonProxy.blockLectern){
+				lectern = (TileEntityLectern)world.getTileEntity(x, y, z + 2);
 				hasStructure = true;
 			}
 		}
 		//-z check
 		if (world.getBlock(x - 1, y, z - 2) == Blocks.bookshelf && world.getBlock(x - 1, y + 1, z - 2) == Blocks.bookshelf && world.getBlock(x - 1, y + 2, z - 2) == Blocks.bookshelf && world.getBlock(x + 1, y, z - 2) == Blocks.bookshelf && world.getBlock(x + 1, y + 1, z - 2) == Blocks.bookshelf && world.getBlock(x + 1, y + 2, z - 2) == Blocks.bookshelf){
-			if (world.getBlock(x, y, z-2) == BlocksCommonProxy.blockLectern){
-				lectern = (TileEntityLectern) world.getTileEntity(x, y, z-2);
+			if (world.getBlock(x, y, z - 2) == BlocksCommonProxy.blockLectern){
+				lectern = (TileEntityLectern)world.getTileEntity(x, y, z - 2);
 				hasStructure = true;
 			}
 		}
 		//+x check
 		if (world.getBlock(x + 2, y, z - 1) == Blocks.bookshelf && world.getBlock(x + 2, y + 1, z - 1) == Blocks.bookshelf && world.getBlock(x + 2, y + 2, z - 1) == Blocks.bookshelf && world.getBlock(x + 2, y, z + 1) == Blocks.bookshelf && world.getBlock(x + 2, y + 1, z + 1) == Blocks.bookshelf && world.getBlock(x + 2, y + 2, z + 1) == Blocks.bookshelf){
 			if (world.getBlock(x + 2, y, z) == BlocksCommonProxy.blockLectern){
-				lectern = (TileEntityLectern) world.getTileEntity(x + 2, y, z);
+				lectern = (TileEntityLectern)world.getTileEntity(x + 2, y, z);
 				hasStructure = true;
 			}
 		}
 		//-x check
 		if (world.getBlock(x - 2, y, z - 1) == Blocks.bookshelf && world.getBlock(x - 2, y + 1, z - 1) == Blocks.bookshelf && world.getBlock(x - 2, y + 2, z - 1) == Blocks.bookshelf && world.getBlock(x - 2, y, z + 1) == Blocks.bookshelf && world.getBlock(x - 2, y + 1, z + 1) == Blocks.bookshelf && world.getBlock(x - 2, y + 2, z + 1) == Blocks.bookshelf){
 			if (world.getBlock(x - 2, y, z) == BlocksCommonProxy.blockLectern){
-				lectern = (TileEntityLectern) world.getTileEntity(x - 2, y, z);
+				lectern = (TileEntityLectern)world.getTileEntity(x - 2, y, z);
 				hasStructure = true;
 			}
 		}
@@ -259,13 +256,13 @@ public class BossSpawnHelper {
 		if (hasStructure && lectern != null && lectern.hasStack() && lectern.getStack().getItem() == ItemsCommonProxy.arcaneCompendium){
 			itemsInRange.get(0).setDead();
 			EntityArcaneGuardian guardian = new EntityArcaneGuardian(world);
-			guardian.setPosition(x + 0.5, y+1, z + 0.5);
+			guardian.setPosition(x + 0.5, y + 1, z + 0.5);
 			queuedBosses.put(guardian, world);
 		}
 	}
 
 	private void checkForEarthGuardianSpawn(World world, int x, int y, int z){
-		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x-1, y-1, z-1, x+1, y+1, z+1));
+		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1));
 		if (itemsInRange.size() != 3) return;
 		boolean hasEmerald = false;
 		boolean hasTopaz = false;
@@ -282,21 +279,21 @@ public class BossSpawnHelper {
 				hasChimerite = true;
 		}
 
-		hasStructure = world.getBlock(x, y-1, z) == Blocks.stonebrick && world.getBlockMetadata(x, y-1, z) == 3;
+		hasStructure = world.getBlock(x, y - 1, z) == Blocks.stonebrick && world.getBlockMetadata(x, y - 1, z) == 3;
 
 		if (!hasStructure) return;
 
 		for (int i = -1; i <= 1; ++i){
 			for (int j = -1; j <= 1; ++j){
 				if (i == 0 && j == 0) continue;
-				hasStructure &= world.getBlock(x+i, y-1, z+j) == Blocks.obsidian;
+				hasStructure &= world.getBlock(x + i, y - 1, z + j) == Blocks.obsidian;
 			}
 		}
 
-		hasStructure &= world.getBlock(x-2, y, z) == BlocksCommonProxy.vinteumTorch;
-		hasStructure &= world.getBlock(x+2, y, z) == BlocksCommonProxy.vinteumTorch;
-		hasStructure &= world.getBlock(x, y, z-2) == BlocksCommonProxy.vinteumTorch;
-		hasStructure &= world.getBlock(x, y, z+2) == BlocksCommonProxy.vinteumTorch;
+		hasStructure &= world.getBlock(x - 2, y, z) == BlocksCommonProxy.vinteumTorch;
+		hasStructure &= world.getBlock(x + 2, y, z) == BlocksCommonProxy.vinteumTorch;
+		hasStructure &= world.getBlock(x, y, z - 2) == BlocksCommonProxy.vinteumTorch;
+		hasStructure &= world.getBlock(x, y, z + 2) == BlocksCommonProxy.vinteumTorch;
 
 		if (!world.isRemote && hasEmerald && hasTopaz && hasChimerite && hasStructure){
 			for (EntityItem item : itemsInRange){
@@ -304,24 +301,25 @@ public class BossSpawnHelper {
 			}
 
 			EntityEarthGuardian guardian = new EntityEarthGuardian(world);
-			guardian.setPosition(x + 0.5, y+1, z + 0.5);
+			guardian.setPosition(x + 0.5, y + 1, z + 0.5);
 			queuedBosses.put(guardian, world);
 		}
 	}
 
 	private void checkForFireGuardianSpawn(EntityItem item, World world, int x, int y, int z){
-		if (item.getEntityItem().getItem() != ItemsCommonProxy.essence || item.getEntityItem().getItemDamage() != ItemsCommonProxy.essence.META_WATER) return;
+		if (item.getEntityItem().getItem() != ItemsCommonProxy.essence || item.getEntityItem().getItemDamage() != ItemsCommonProxy.essence.META_WATER)
+			return;
 		boolean hasStructure = false;
 		boolean hasDimension = world.provider.dimensionId == -1;
 
-		hasStructure = world.getBlock(x, y-1, z) == Blocks.coal_block;
+		hasStructure = world.getBlock(x, y - 1, z) == Blocks.coal_block;
 
 		if (!hasStructure) return;
 
 		for (int i = -1; i <= 1; ++i){
 			for (int j = -1; j <= 1; ++j){
 				if (i == 0 && j == 0) continue;
-				hasStructure &= world.getBlock(x+i, y-1, z+j) == Blocks.obsidian;
+				hasStructure &= world.getBlock(x + i, y - 1, z + j) == Blocks.obsidian;
 			}
 		}
 
@@ -329,7 +327,7 @@ public class BossSpawnHelper {
 			item.setDead();
 
 			EntityFireGuardian guardian = new EntityFireGuardian(world);
-			guardian.setPosition(x + 0.5, y+1, z + 0.5);
+			guardian.setPosition(x + 0.5, y + 1, z + 0.5);
 			queuedBosses.put(guardian, world);
 		}
 	}
@@ -340,8 +338,8 @@ public class BossSpawnHelper {
 				for (int i = -10; i <= 10; ++i){
 					for (int j = 0; j <= 4; ++j){
 						for (int k = -10; k <= 10; ++k){
-							if (world.getBlock(x+i, y+j, z+k) != Blocks.bedrock)
-								world.func_147478_e(x+i, y+j, z+k, true);
+							if (world.getBlock(x + i, y + j, z + k) != Blocks.bedrock)
+								world.func_147478_e(x + i, y + j, z + k, true);
 						}
 					}
 				}
@@ -349,15 +347,15 @@ public class BossSpawnHelper {
 		}else if (boss instanceof EntityFireGuardian){
 			for (int i = -20; i <= 20; ++i){
 				for (int k = -20; k <= 20; ++k){
-					Block block = world.getBlock(x+i, y-1, z+k);
-					if(block == Blocks.lava || block == Blocks.flowing_lava)
-						world.setBlock(x+i, y-1, z+k, Blocks.netherrack, 0, 2);
+					Block block = world.getBlock(x + i, y - 1, z + k);
+					if (block == Blocks.lava || block == Blocks.flowing_lava)
+						world.setBlock(x + i, y - 1, z + k, Blocks.netherrack, 0, 2);
 				}
 			}
 		}
 	}
 
-	public void onIceEffigyBuilt(World world, int x, int y, int z) {
+	public void onIceEffigyBuilt(World world, int x, int y, int z){
 		BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
 		Type[] types = BiomeDictionary.getTypesForBiome(biome);
 
@@ -375,46 +373,46 @@ public class BossSpawnHelper {
 		for (int i = -1; i <= 1; ++i)
 			for (int j = -1; j <= 1; ++j)
 				if (i == 0 && j == 0) continue;
-				else if (!world.canBlockSeeTheSky(x+i, y + 1, z+j))
+				else if (!world.canBlockSeeTheSky(x + i, y + 1, z + j))
 					return;
 
 		world.setBlockToAir(x, y, z);
-		world.setBlockToAir(x, y+1, z);
-		world.setBlockToAir(x, y+2, z);
+		world.setBlockToAir(x, y + 1, z);
+		world.setBlockToAir(x, y + 2, z);
 
 		EntityWinterGuardian guardian = new EntityWinterGuardian(world);
-		guardian.setPosition(x + 0.5, y+1, z + 0.5);
+		guardian.setPosition(x + 0.5, y + 1, z + 0.5);
 		world.spawnEntityInWorld(guardian);
 	}
 
-	public void onLightningEffigyBuilt(World world, int x, int y, int z) {
+	public void onLightningEffigyBuilt(World world, int x, int y, int z){
 		for (int i = -1; i <= 1; ++i)
 			for (int j = -1; j <= 1; ++j)
 				if (i == 0 && j == 0) continue;
-				else if (!world.canBlockSeeTheSky(x+i, y + 1, z+j))
+				else if (!world.canBlockSeeTheSky(x + i, y + 1, z + j))
 					return;
 
 		world.setBlockToAir(x, y, z);
-		world.setBlockToAir(x, y+1, z);
-		world.setBlockToAir(x, y+2, z);
+		world.setBlockToAir(x, y + 1, z);
+		world.setBlockToAir(x, y + 2, z);
 
 		EntityLightningGuardian guardian = new EntityLightningGuardian(world);
-		guardian.setPosition(x + 0.5, y+1, z + 0.5);
+		guardian.setPosition(x + 0.5, y + 1, z + 0.5);
 		world.spawnEntityInWorld(guardian);
 
 		world.thunderingStrength = 1.0f;
 	}
 
-	public void checkForEnderGuardianSpawn(World world, int x, int y, int z) {
+	public void checkForEnderGuardianSpawn(World world, int x, int y, int z){
 		if (world.provider.dimensionId != 1) return;
 
 		for (int i = -1; i <= 1; ++i)
 			for (int j = -1; j <= 1; ++j)
 				if (i == 0 && j == 0) continue;
-				else if (!world.canBlockSeeTheSky(x+i, y + 1, z+j))
+				else if (!world.canBlockSeeTheSky(x + i, y + 1, z + j))
 					return;
 
-		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x-1, y-1, z-1, x+1, y+1, z+1));
+		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1));
 		if (itemsInRange.size() != 2) return;
 
 		boolean hasEnderEssence = false;
@@ -433,22 +431,22 @@ public class BossSpawnHelper {
 
 		for (int i = -1; i <= 1; ++i){
 			for (int j = -1; j <= 1; ++j){
-				hasStructure &= world.getBlock(x+i, y-1, z+j) == Blocks.coal_block;
+				hasStructure &= world.getBlock(x + i, y - 1, z + j) == Blocks.coal_block;
 			}
 		}
 
-		hasStructure &= world.getBlock(x-2, y, z) == Blocks.fire;
-		hasStructure &= world.getBlock(x+2, y, z) == Blocks.fire;
-		hasStructure &= world.getBlock(x, y, z-2) == Blocks.fire;
-		hasStructure &= world.getBlock(x, y, z+2) == Blocks.fire;
+		hasStructure &= world.getBlock(x - 2, y, z) == Blocks.fire;
+		hasStructure &= world.getBlock(x + 2, y, z) == Blocks.fire;
+		hasStructure &= world.getBlock(x, y, z - 2) == Blocks.fire;
+		hasStructure &= world.getBlock(x, y, z + 2) == Blocks.fire;
 		hasStructure &= world.getBlock(x, y, z) == BlocksCommonProxy.blackAurem;
 
 		if (!hasStructure || !hasEnderEssence || !hasEyeofEnder)
 			return;
 
 		if (!world.isRemote){
-			world.setBlockToAir(x-2, y, z);
-			world.setBlockToAir(x+2, y, z);
+			world.setBlockToAir(x - 2, y, z);
+			world.setBlockToAir(x + 2, y, z);
 			world.setBlockToAir(x, y, z - 2);
 			world.setBlockToAir(x, y, z + 2);
 			world.setBlockToAir(x, y, z);
@@ -458,7 +456,7 @@ public class BossSpawnHelper {
 			}
 
 			EntityEnderGuardian guardian = new EntityEnderGuardian(world);
-			guardian.setPosition(x + 0.5, y+1, z + 0.5);
+			guardian.setPosition(x + 0.5, y + 1, z + 0.5);
 			world.spawnEntityInWorld(guardian);
 		}
 	}

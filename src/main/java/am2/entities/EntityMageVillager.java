@@ -1,29 +1,17 @@
 package am2.entities;
 
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.ai.EntityAIFollowGolem;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookAtTradePlayer;
-import net.minecraft.entity.ai.EntityAIMoveIndoors;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIOpenDoor;
-import net.minecraft.entity.ai.EntityAIRestrictOpenDoor;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITradePlayer;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.ai.EntityAIWatchClosest2;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import am2.AMCore;
 import am2.entities.ai.EntityAIRangedAttackSpell;
 import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
 import am2.utility.NPCSpells;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.ai.*;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class EntityMageVillager extends EntityVillager{
 
@@ -31,20 +19,19 @@ public class EntityMageVillager extends EntityVillager{
 
 	private static final ItemStack heldItem = new ItemStack(ItemsCommonProxy.spellBook);
 
-	public EntityMageVillager(World par1World) {
+	public EntityMageVillager(World par1World){
 		super(par1World);
 		ExtendedProperties.For(this).setMagicLevelWithMana(37);
 
 		initAI();
 	}
 
-	public String getTexture()
-    {
+	public String getTexture(){
 		return "/assets/ArsMagica/textures/mobs/light_mages/wizard_villager3.png";
-    }
+	}
 
 	@Override
-	public int getProfession() {
+	public int getProfession(){
 		return AMCore.config.getVillagerProfessionID();
 	}
 
@@ -81,7 +68,7 @@ public class EntityMageVillager extends EntityVillager{
 	}
 
 	@Override
-	public ItemStack getHeldItem() {
+	public ItemStack getHeldItem(){
 		return null;
 	}
 }

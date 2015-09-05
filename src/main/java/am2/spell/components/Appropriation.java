@@ -1,22 +1,5 @@
 package am2.spell.components;
 
-import java.util.EnumSet;
-import java.util.Random;
-
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.IBossDisplayData;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
 import am2.AMCore;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
@@ -25,6 +8,22 @@ import am2.items.ItemSpellBook;
 import am2.particles.AMParticle;
 import am2.particles.ParticleOrbitPoint;
 import am2.spell.SpellUtils;
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.IBossDisplayData;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
+
+import java.util.EnumSet;
+import java.util.Random;
 
 public class Appropriation implements ISpellComponent{
 
@@ -32,26 +31,26 @@ public class Appropriation implements ISpellComponent{
 	private static final String storageType = "storage_type";
 
 	@Override
-	public Object[] getRecipeItems() {
+	public Object[] getRecipeItems(){
 		return new Object[]{
-			Items.ender_pearl,
-			new ItemStack(BlocksCommonProxy.AMOres, 1, BlocksCommonProxy.AMOres.META_CHIMERITE_BLOCK),
-			Blocks.chest
+				Items.ender_pearl,
+				new ItemStack(BlocksCommonProxy.AMOres, 1, BlocksCommonProxy.AMOres.META_CHIMERITE_BLOCK),
+				Blocks.chest
 		};
 	}
 
 	@Override
-	public int getID() {
+	public int getID(){
 		return 71;
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 
 		if (!(caster instanceof EntityPlayer))
 			return false;
 
-		ItemStack originalSpellStack = getOriginalSpellStack((EntityPlayer) caster);
+		ItemStack originalSpellStack = getOriginalSpellStack((EntityPlayer)caster);
 		if (originalSpellStack == null)
 			return false;
 
@@ -92,7 +91,7 @@ public class Appropriation implements ISpellComponent{
 				}
 
 				if (world.isAirBlock(blockx, blocky, blockz) || !world.getBlock(blockx, blocky, blockz).getMaterial().isSolid())
-					restore((EntityPlayer) caster, world, originalSpellStack, blockx, blocky, blockz, impactX, impactY, impactZ);
+					restore((EntityPlayer)caster, world, originalSpellStack, blockx, blocky, blockz, impactX, impactY, impactZ);
 			}else{
 
 				if (block == null || block.getBlockHardness(world, blockx, blocky, blockz) == -1.0f)
@@ -112,16 +111,16 @@ public class Appropriation implements ISpellComponent{
 
 					//essentially reset the tile entity before destroying the block - this corrects several issues such as inventory items dropping
 					//we don't want this as the inventory items are already saved in the NBT!
-					try {
+					try{
 						world.setTileEntity(blockx, blocky, blockz, te.getClass().newInstance());
-					} catch (Throwable e) {
+					}catch (Throwable e){
 						e.printStackTrace();
 					}
 				}
 
 				originalSpellStack.stackTagCompound.setTag(storageKey, data);
 
-				setOriginalSpellStackData((EntityPlayer) caster, originalSpellStack);
+				setOriginalSpellStackData((EntityPlayer)caster, originalSpellStack);
 
 				world.setBlockToAir(blockx, blocky, blockz);
 			}
@@ -131,7 +130,7 @@ public class Appropriation implements ISpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target) {
+	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
 		if (target instanceof EntityPlayer || target instanceof IBossDisplayData)
 			return false;
 
@@ -145,13 +144,13 @@ public class Appropriation implements ISpellComponent{
 		if (!(caster instanceof EntityPlayer))
 			return false;
 
-		ItemStack originalSpellStack = getOriginalSpellStack((EntityPlayer) caster);
+		ItemStack originalSpellStack = getOriginalSpellStack((EntityPlayer)caster);
 		if (originalSpellStack == null)
 			return false;
 
 		if (!world.isRemote){
 			if (originalSpellStack.stackTagCompound.hasKey(storageKey)){
-				restore((EntityPlayer) caster, world, originalSpellStack, (int)target.posX, (int)target.posY, (int)target.posZ, target.posX, target.posY + target.getEyeHeight(), target.posZ);
+				restore((EntityPlayer)caster, world, originalSpellStack, (int)target.posX, (int)target.posY, (int)target.posZ, target.posX, target.posY + target.getEyeHeight(), target.posZ);
 			}else{
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("class", target.getClass().getName());
@@ -164,7 +163,7 @@ public class Appropriation implements ISpellComponent{
 
 				originalSpellStack.stackTagCompound.setTag(storageKey, data);
 
-				setOriginalSpellStackData((EntityPlayer) caster, originalSpellStack);
+				setOriginalSpellStackData((EntityPlayer)caster, originalSpellStack);
 
 				target.setDead();
 			}
@@ -214,18 +213,18 @@ public class Appropriation implements ISpellComponent{
 					String clazz = storageCompound.getString("class");
 					NBTTagCompound entData = storageCompound.getCompoundTag("targetNBT");
 					try{
-						Entity ent = (Entity) Class.forName(clazz).getConstructor(World.class).newInstance(world);
+						Entity ent = (Entity)Class.forName(clazz).getConstructor(World.class).newInstance(world);
 						ent.readFromNBT(entData);
 						ent.setPosition(hitX, hitY, hitZ);
 						world.spawnEntityInWorld(ent);
-					}catch(Throwable t){
+					}catch (Throwable t){
 						t.printStackTrace();
 					}
 				}else if (type.equals("block")){
 					//String blockName = storageCompound.getString("blockName");
 					int blockID = storageCompound.getInteger("blockID");
 					int meta = storageCompound.getInteger("meta");
-					
+
 					//Block block = Block.getBlockFromName(blockName);
 					Block block = Block.getBlockById(blockID);
 					if (block != null){
@@ -236,7 +235,7 @@ public class Appropriation implements ISpellComponent{
 						stack.stackTagCompound.removeTag(storageKey);
 						return;
 					}
-						
+
 
 					if (storageCompound.hasKey("tileEntity")){
 						TileEntity te = world.getTileEntity(x, y, z);
@@ -258,24 +257,24 @@ public class Appropriation implements ISpellComponent{
 	}
 
 	@Override
-	public float manaCost(EntityLivingBase caster) {
+	public float manaCost(EntityLivingBase caster){
 		return 415;
 	}
 
 	@Override
-	public float burnout(EntityLivingBase caster) {
+	public float burnout(EntityLivingBase caster){
 		return 100;
 	}
 
 	@Override
-	public ItemStack[] reagents(EntityLivingBase caster) {
+	public ItemStack[] reagents(EntityLivingBase caster){
 		return null;
 	}
 
 	@Override
-	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier) {
-		for (int i = 0; i < 5 + 5*AMCore.config.getGFXLevel(); ++i){
-			AMParticle particle = (AMParticle) AMCore.proxy.particleManager.spawn(world, "water_ball", x, y, z);
+	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
+		for (int i = 0; i < 5 + 5 * AMCore.config.getGFXLevel(); ++i){
+			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, "water_ball", x, y, z);
 			if (particle != null){
 				particle.addRandomOffset(1, 1, 1);
 				particle.setMaxAge(10);
@@ -286,12 +285,12 @@ public class Appropriation implements ISpellComponent{
 	}
 
 	@Override
-	public EnumSet<Affinity> getAffinity() {
+	public EnumSet<Affinity> getAffinity(){
 		return EnumSet.of(Affinity.WATER);
 	}
 
 	@Override
-	public float getAffinityShift(Affinity affinity) {
+	public float getAffinityShift(Affinity affinity){
 		return 0;
 	}
 }

@@ -1,13 +1,13 @@
 package am2.damage;
 
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
-import cpw.mods.fml.relauncher.ReflectionHelper;
 
-public class DamageSources {
+public class DamageSources{
 	public static DamageSourceUnsummon unsummon = new DamageSourceUnsummon();
 	public static DamageSourceWTFBoom wtfBoom = new DamageSourceWTFBoom();
 	public static DamageSourceDarkNexus darkNexus = new DamageSourceDarkNexus();
@@ -89,46 +89,46 @@ public class DamageSources {
 		return ds;
 	}
 
-	public static DamageSource causeEntityWitherDamage(EntityLivingBase source) {
+	public static DamageSource causeEntityWitherDamage(EntityLivingBase source){
 		return (new EntityDamageSource("wither", source));
 	}
 
-	public static DamageSource causeEntityThornsDamage(EntityLivingBase source) {
+	public static DamageSource causeEntityThornsDamage(EntityLivingBase source){
 		return (new EntityDamageSource("thorns", source));
 	}
 
-	public static DamageSource causeEntityCactusDamage(EntityLivingBase source) {
+	public static DamageSource causeEntityCactusDamage(EntityLivingBase source){
 		return (new EntityDamageSource("cactus", source));
 	}
 
-	public static DamageSource causeEntityMagicDamage(EntityLivingBase source) {
+	public static DamageSource causeEntityMagicDamage(EntityLivingBase source){
 		DamageSource ds = new EntityDamageSource("magic", source);
 		ds.setMagicDamage();
 		setDamageSourceUnblockable(ds);
 		return ds;
 	}
 
-	public static DamageSource causeEntityPhysicalDamage(Entity source) {
+	public static DamageSource causeEntityPhysicalDamage(Entity source){
 		if (source instanceof EntityPlayer)
 			return (new EntityDamageSource("player", source));
 		return (new EntityDamageSource("mob", source));
 	}
 
-	public static DamageSource causeEntityWitherDamage(EntityLivingBase source, boolean unblockable) {
+	public static DamageSource causeEntityWitherDamage(EntityLivingBase source, boolean unblockable){
 		DamageSource ds = causeEntityWitherDamage(source);
 		if (unblockable)
 			setDamageSourceUnblockable(ds);
 		return ds;
 	}
 
-	public static DamageSource causeEntityThornsDamage(EntityLivingBase source, boolean unblockable) {
+	public static DamageSource causeEntityThornsDamage(EntityLivingBase source, boolean unblockable){
 		DamageSource ds = causeEntityThornsDamage(source);
 		if (unblockable)
 			setDamageSourceUnblockable(ds);
 		return ds;
 	}
 
-	public static DamageSource causeEntityCactusDamage(EntityLivingBase source, boolean unblockable) {
+	public static DamageSource causeEntityCactusDamage(EntityLivingBase source, boolean unblockable){
 		DamageSource ds = causeEntityCactusDamage(source);
 		if (unblockable)
 			setDamageSourceUnblockable(ds);
@@ -140,7 +140,7 @@ public class DamageSources {
 		return original;
 	}
 
-	public static DamageSource causeEntityDrownDamage(EntityLivingBase source) {
+	public static DamageSource causeEntityDrownDamage(EntityLivingBase source){
 		return (new EntityDamageSource("drown", source));
 	}
 

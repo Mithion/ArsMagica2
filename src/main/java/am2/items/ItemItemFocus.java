@@ -1,26 +1,24 @@
 package am2.items;
 
-import net.minecraft.block.Block;
+import am2.texture.ResourceManager;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import am2.texture.ResourceManager;
 
 public class ItemItemFocus extends ItemFilterFocus{
 
-	protected ItemItemFocus() {
+	protected ItemItemFocus(){
 		super();
 	}
 
 	@Override
-	public Class getFilterClass() {
+	public Class getFilterClass(){
 		return EntityItem.class;
 	}
 
 	@Override
-	public Object[] getRecipeItems() {
+	public Object[] getRecipeItems(){
 		return new Object[]{
 				" C ",
 				"PFS",
@@ -34,12 +32,12 @@ public class ItemItemFocus extends ItemFilterFocus{
 	}
 
 	@Override
-	public String getInGameName() {
+	public String getInGameName(){
 		return "Item Focus";
 	}
 
 	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {
+	public void registerIcons(IIconRegister par1IconRegister){
 		this.itemIcon = ResourceManager.RegisterTexture("focus_seer_item", par1IconRegister);
 	}
 }

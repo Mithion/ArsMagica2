@@ -1,18 +1,17 @@
 package am2.network;
 
+import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.network.ByteBufUtils;
-
-public class AMDataWriter {
+public class AMDataWriter{
 	ByteArrayOutputStream bytes;
 	DataOutputStream data;
 
@@ -22,119 +21,92 @@ public class AMDataWriter {
 	}
 
 	public AMDataWriter add(int value){
-		try
-		{
+		try{
 			data.writeInt(Integer.valueOf(value));
-		}
-		catch(IOException e)
-		{
+		}catch (IOException e){
 			FMLLog.severe("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
 
 	public AMDataWriter add(boolean value){
-		try
-		{
+		try{
 			data.writeBoolean(value);
-		}
-		catch(IOException e)
-		{
+		}catch (IOException e){
 			FMLLog.severe(e.getMessage());
 		}
 		return this;
 	}
 
 	public AMDataWriter add(byte value){
-		try
-		{
+		try{
 			data.writeByte(value);
-		}
-		catch(IOException e)
-		{
+		}catch (IOException e){
 			FMLLog.severe("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
 
 	public AMDataWriter add(String value){
-		try
-		{
+		try{
 			data.writeUTF(value);
-		}
-		catch(IOException e)
-		{
+		}catch (IOException e){
 			FMLLog.severe("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
 
 	public AMDataWriter add(short value){
-		try
-		{
+		try{
 			data.writeShort(value);
-		}
-		catch(IOException e)
-		{
+		}catch (IOException e){
 			FMLLog.severe("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
 
 	public AMDataWriter add(double value){
-		try
-		{
+		try{
 			data.writeDouble(value);
-		}
-		catch(IOException e)
-		{
+		}catch (IOException e){
 			FMLLog.severe("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
 
 	public AMDataWriter add(float value){
-		try
-		{
+		try{
 			data.writeFloat(value);
-		}
-		catch(IOException e)
-		{
+		}catch (IOException e){
 			FMLLog.severe("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
 
 	public AMDataWriter add(long value){
-		try
-		{
+		try{
 			data.writeLong(value);
-		}
-		catch(IOException e)
-		{
+		}catch (IOException e){
 			FMLLog.severe("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
 
 	public AMDataWriter add(byte[] value){
-		try
-		{
+		try{
 			data.write(value);
-		}
-		catch(IOException e)
-		{
+		}catch (IOException e){
 			FMLLog.severe("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
 
 	public AMDataWriter add(int[] value){
-		try {
+		try{
 			data.writeInt(Integer.valueOf(value.length));
 			for (int i = 0; i < value.length; ++i)
 				data.writeInt(Integer.valueOf(value[i]));
-		} catch (IOException e) {
+		}catch (IOException e){
 			FMLLog.severe("AMDataWriter: " + e.getMessage());
 		}
 		return this;
@@ -147,7 +119,7 @@ public class AMDataWriter {
 			byte[] arr = buf.array();
 			data.writeInt(arr.length);
 			data.write(arr);
-		}catch(IOException ex){
+		}catch (IOException ex){
 			FMLLog.severe("AMDataWriter: " + ex.getMessage());
 		}
 		return this;

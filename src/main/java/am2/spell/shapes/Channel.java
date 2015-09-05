@@ -1,8 +1,5 @@
 package am2.spell.shapes;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import am2.api.spell.ItemSpellBase;
 import am2.api.spell.component.interfaces.ISpellShape;
 import am2.api.spell.enums.Affinity;
@@ -14,16 +11,19 @@ import am2.spell.SpellUtils;
 import am2.spell.components.Attract;
 import am2.spell.components.Repel;
 import am2.spell.components.Telekinesis;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class Channel implements ISpellShape{
 
 	@Override
-	public int getID() {
+	public int getID(){
 		return 4;
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount) {
+	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount){
 		boolean shouldApplyEffect = useCount % 10 == 0 || SpellUtils.instance.componentIsPresent(stack, Telekinesis.class, 0) || SpellUtils.instance.componentIsPresent(stack, Attract.class, 0) || SpellUtils.instance.componentIsPresent(stack, Repel.class, 0);
 		if (shouldApplyEffect){
 			SpellCastResult result = SpellHelper.instance.applyStageToEntity(stack, caster, world, caster, 0, giveXP);
@@ -36,12 +36,12 @@ public class Channel implements ISpellShape{
 	}
 
 	@Override
-	public boolean isChanneled() {
+	public boolean isChanneled(){
 		return true;
 	}
 
 	@Override
-	public Object[] getRecipeItems() {
+	public Object[] getRecipeItems(){
 		//Arcane Ash, Arcane Essence, Tarma Root, 500 any power
 		return new Object[]{
 				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_ARCANEASH),
@@ -52,23 +52,23 @@ public class Channel implements ISpellShape{
 	}
 
 	@Override
-	public float manaCostMultiplier(ItemStack spellStack) {
+	public float manaCostMultiplier(ItemStack spellStack){
 		return 1;
 	}
 
 	@Override
-	public boolean isTerminusShape() {
+	public boolean isTerminusShape(){
 		return true;
 	}
 
 	@Override
-	public boolean isPrincipumShape() {
+	public boolean isPrincipumShape(){
 		return false;
 	}
 
 	@Override
-	public String getSoundForAffinity(Affinity affinity, ItemStack stack, World world) {
-		switch(affinity){
+	public String getSoundForAffinity(Affinity affinity, ItemStack stack, World world){
+		switch (affinity){
 		case AIR:
 			return "arsmagica2:spell.loop.air";
 		case ARCANE:

@@ -1,10 +1,13 @@
 package am2.blocks.tileentities;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-
+import am2.api.math.AMVector3;
+import am2.api.spell.enums.Affinity;
+import am2.blocks.BlocksCommonProxy;
+import am2.blocks.tileentities.flickers.FlickerOperatorRegistry;
+import am2.blocks.tileentities.flickers.TileEntityFlickerControllerBase;
+import am2.items.ItemFlickerJar;
+import am2.items.ItemsCommonProxy;
+import cpw.mods.fml.common.FMLLog;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -17,24 +20,18 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
-import am2.api.math.AMVector3;
-import am2.api.spell.enums.Affinity;
-import am2.blocks.BlockCrystalMarker;
-import am2.blocks.BlocksCommonProxy;
-import am2.blocks.tileentities.flickers.FlickerOperatorRegistry;
-import am2.blocks.tileentities.flickers.TileEntityFlickerControllerBase;
-import am2.items.ItemFlickerJar;
-import am2.items.ItemsCommonProxy;
-import am2.spell.components.Forge;
-import cpw.mods.fml.common.FMLLog;
 
-public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase implements IInventory {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+
+public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase implements IInventory{
 	private static final float FULL_CIRCLE = 360.0f;
 	private static final float ROATATION_RATE = 1.0f;
 	private static final float FLOAT_RATE = 0.001f;
 	private static final float MAX_FLOAT_UP = 0.1f;
 	private static final float MAX_FLOAT_DOWN = -0.04f;
-	
+
 	public static final int PRIORITY_LEVELS = 10;
 	public static final int PRIORITY_FINAL = PRIORITY_LEVELS + 1;
 
@@ -57,23 +54,23 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	private ForgeDirection mainHabitatDirection = ForgeDirection.UNKNOWN;
 
 
-	public boolean isUpgrade() {
+	public boolean isUpgrade(){
 		return isUpgrade;
 	}
 
-	public void setUpgrade(boolean isUpgrade, ForgeDirection direction) {
+	public void setUpgrade(boolean isUpgrade, ForgeDirection direction){
 		this.isUpgrade = isUpgrade;
 		this.mainHabitatDirection = direction;
 	}
 
-	public ForgeDirection getMainHabitatDirection() {
+	public ForgeDirection getMainHabitatDirection(){
 		return mainHabitatDirection;
 	}
 
-	public TileEntityFlickerHabitat() {
+	public TileEntityFlickerHabitat(){
 		initLocationLists();
 
-		if(worldObj != null && worldObj.isRemote){
+		if (worldObj != null && worldObj.isRemote){
 			Random rnd = new Random(System.currentTimeMillis());
 			rotateOffset = rnd.nextFloat() * FULL_CIRCLE - 1;
 			floatOffset = MAX_FLOAT_DOWN + (rnd.nextFloat() * (MAX_FLOAT_UP - MAX_FLOAT_DOWN) + 1);
@@ -83,15 +80,15 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	private void initLocationLists(){
 		inList = new ArrayList<AMVector3>();
 		outList = new HashMap<Integer, ArrayList<AMVector3>>();
-		
+
 		for (int i = 0; i < PRIORITY_LEVELS; ++i)
 			outList.put(i, new ArrayList<AMVector3>());
 	}
-	
+
 	public Affinity getSelectedAffinity(){
-		if(flickerJar != null){
+		if (flickerJar != null){
 			return Affinity.getByID(flickerJar.getItemDamage());
-		} else {
+		}else{
 			return null;
 		}
 	}
@@ -103,14 +100,14 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	/**
 	 * @return the inListPosition
 	 */
-	public int getInListPosition() {
+	public int getInListPosition(){
 		return inListPosition;
 	}
 
 	/**
 	 * @param inListPosition the inListPosition to set
 	 */
-	public void setInListPosition(int inListPosition) {
+	public void setInListPosition(int inListPosition){
 		this.inListPosition = inListPosition;
 	}
 
@@ -118,17 +115,17 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	/**
 	 * @return the outListPosition
 	 */
-	public int getOutListPosition(int priority) {
+	public int getOutListPosition(int priority){
 		if (!outListPositions.containsKey(priority))
 			outListPositions.put(priority, 0);
-		
+
 		return outListPositions.get(priority);
 	}
 
 	/**
 	 * @param outListPosition the outListPosition to set
 	 */
-	public void setOutListPosition(int priority, int outListPosition) {
+	public void setOutListPosition(int priority, int outListPosition){
 		this.outListPositions.put(priority, outListPosition);
 	}
 
@@ -143,14 +140,14 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	/**
 	 * @return the inList
 	 */
-	public AMVector3 getInListAt(int index) {
+	public AMVector3 getInListAt(int index){
 		return inList.get(index);
 	}
 
 	/**
 	 * @param inList the inList to set
 	 */
-	public void setInListAt(int index, AMVector3 value) {
+	public void setInListAt(int index, AMVector3 value){
 		this.inList.set(index, value);
 	}
 
@@ -197,7 +194,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	/**
 	 * @return the rotateOffset
 	 */
-	public float getRotateOffset() {
+	public float getRotateOffset(){
 		return rotateOffset;
 	}
 
@@ -205,43 +202,39 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 		return floatOffset;
 	}
 
-	public void AddMarkerLocationIn(AMVector3 markerLocation) {
-		if(!inList.contains(markerLocation)){
+	public void AddMarkerLocationIn(AMVector3 markerLocation){
+		if (!inList.contains(markerLocation)){
 			inList.add(markerLocation);
 			FMLLog.info("In Link Created");
-		}
-		else
-		{
+		}else{
 			FMLLog.info("Link Already Exists");
 		}
 	}
 
-	public void AddMarkerLocationOut(AMVector3 markerLocation) {
+	public void AddMarkerLocationOut(AMVector3 markerLocation){
 
 		Block out = this.worldObj.getBlock((int)markerLocation.x, (int)markerLocation.y, (int)markerLocation.z);
 		if (out != BlocksCommonProxy.crystalMarker)
 			return;
-		
+
 		TileEntity te = this.worldObj.getTileEntity((int)markerLocation.x, (int)markerLocation.y, (int)markerLocation.z);
 		if (te == null || te instanceof TileEntityCrystalMarker == false)
 			return;
 
 		int priority = ((TileEntityCrystalMarker)te).getPriority();
-		
+
 		if (!outList.containsKey(priority))
 			outList.put(priority, new ArrayList<AMVector3>());
-		
-		if(!outList.get(priority).contains(markerLocation)){
+
+		if (!outList.get(priority).contains(markerLocation)){
 			outList.get(priority).add(markerLocation);
 			FMLLog.finer("Out Link Create");
-		}
-		else
-		{
+		}else{
 			FMLLog.finer("Link Already Exists");
 		}
 	}
-	
-	public void removeInMarkerLocation(int x, int y, int z) {
+
+	public void removeInMarkerLocation(int x, int y, int z){
 		inList.remove(new AMVector3(x, y, z));
 	}
 
@@ -250,12 +243,12 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbttagcompound) {
+	public void writeToNBT(NBTTagCompound nbttagcompound){
 		super.writeToNBT(nbttagcompound);
 
 		//write in list
 		NBTTagList inItems = new NBTTagList();
-		for(AMVector3 inItem : inList){
+		for (AMVector3 inItem : inList){
 			NBTTagCompound vectorItem = new NBTTagCompound();
 			vectorItem.setFloat("x", inItem.x);
 			vectorItem.setFloat("y", inItem.y);
@@ -267,7 +260,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 		//write out list
 		writeOutList(nbttagcompound);
 
-		if(flickerJar != null){
+		if (flickerJar != null){
 			NBTTagCompound jar = new NBTTagCompound();
 			flickerJar.writeToNBT(jar);
 			nbttagcompound.setTag("flickerJar", jar);
@@ -275,25 +268,25 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 		//write upgrade status
 		nbttagcompound.setBoolean("upgrade", isUpgrade);
-		if(this.isUpgrade){
+		if (this.isUpgrade){
 			nbttagcompound.setInteger("mainHabitatDirection", mainHabitatDirection.flag);
 		}
 	}
-	
+
 	private void writeOutList(NBTTagCompound compound){
 		NBTTagList outputList = new NBTTagList();
-		
+
 		for (int priority : outList.keySet()){
 			//create a compound for the priority
 			NBTTagCompound priorityCompound = new NBTTagCompound();
 			//attach the priority to the compound
 			priorityCompound.setInteger("priority", priority);
-			
+
 			//get the list of locations for this priority
 			ArrayList<AMVector3> priorityList = outList.get(priority);
 			if (priorityList == null)
 				continue;
-			
+
 			//create a tag list to store the vectors in
 			NBTTagList vectors = new NBTTagList();
 			//spin through the list
@@ -307,15 +300,15 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 			}
 			//attach the vectors to the priority compound
 			priorityCompound.setTag("vectors", vectors);
-			
+
 			//attach the priority compound to the final output list
 			outputList.appendTag(priorityCompound);
 		}
-		
+
 		//store the final output list in the parent compound
 		compound.setTag("outList", outputList);
 	}
-	
+
 	private void readOutList(NBTTagCompound compound){
 		//valid compound?
 		if (!compound.hasKey("outList"))
@@ -348,25 +341,25 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 					locationsInPriority.add(vec);
 				}
 			}
-			
+
 			//insert the list into the output list at the specified priority
 			this.outList.put(priority, locationsInPriority);
 		}
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbttagcompound) {
+	public void readFromNBT(NBTTagCompound nbttagcompound){
 		super.readFromNBT(nbttagcompound);
 
 		initLocationLists();
 
 		//read in list
-		if(nbttagcompound.hasKey("InList")){
+		if (nbttagcompound.hasKey("InList")){
 			NBTTagList inItems = nbttagcompound.getTagList("InList", Constants.NBT.TAG_COMPOUND);
 
-			for(int i = 0; i < inItems.tagCount(); ++i){
+			for (int i = 0; i < inItems.tagCount(); ++i){
 				NBTTagCompound inItem = (NBTTagCompound)inItems.getCompoundTagAt(i);
-				if(inItem == null){
+				if (inItem == null){
 					continue;
 				}
 
@@ -375,28 +368,25 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 				float z = 0;
 				boolean success = true;
 
-				if(inItem.hasKey("x")){
+				if (inItem.hasKey("x")){
 					x = inItem.getFloat("x");
-				}
-				else {
+				}else{
 					success = false;
 				}
 
-				if(success && inItem.hasKey("y")){
+				if (success && inItem.hasKey("y")){
 					y = inItem.getFloat("y");
-				}
-				else {
+				}else{
 					success = false;
 				}
 
-				if(success && inItem.hasKey("z")){
+				if (success && inItem.hasKey("z")){
 					z = inItem.getFloat("z");
-				}
-				else {
+				}else{
 					success = false;
 				}
 
-				if(success){
+				if (success){
 					inList.add(new AMVector3(x, y, z));
 				}
 			}//end for(int i = 0; i < inItems.tagCount(); ++i)
@@ -404,26 +394,25 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 		readOutList(nbttagcompound);
 
-		if(nbttagcompound.hasKey("upgrade")){
+		if (nbttagcompound.hasKey("upgrade")){
 			isUpgrade = nbttagcompound.getBoolean("upgrade");
 		}
 
-		if(nbttagcompound.hasKey("flickerJar")){
+		if (nbttagcompound.hasKey("flickerJar")){
 			NBTTagCompound jar = nbttagcompound.getCompoundTag("flickerJar");
 			flickerJar = ItemStack.loadItemStackFromNBT(jar);
 
-			if(!this.isUpgrade){
+			if (!this.isUpgrade){
 				setOperatorBasedOnFlicker();
-			} 
+			}
 		}
 
 
-
-		if(this.isUpgrade){
+		if (this.isUpgrade){
 			int flag = nbttagcompound.getInteger("mainHabitatDirection");
 
-			for(ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS){
-				if(direction.flag == flag){
+			for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS){
+				if (direction.flag == flag){
 					this.mainHabitatDirection = direction;
 					break;
 				}
@@ -474,22 +463,22 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 		float dg = (sg - fg) / MAX_SHIFT_TICKS;
 		float db = (sb - fb) / MAX_SHIFT_TICKS;
 
-		int combined = 
+		int combined =
 				(((fr + (int)(dr * fadeCounter)) & 0xFF) << 16) |
-				(((fg + (int)(dg * fadeCounter)) & 0xFF) << 8) |
-				(((fb + (int)(db * fadeCounter)) & 0xFF));
+						(((fg + (int)(dg * fadeCounter)) & 0xFF) << 8) |
+						(((fb + (int)(db * fadeCounter)) & 0xFF));
 
 		return combined;
 	}
 
 	@Override
-	public int getSizeInventory() {
+	public int getSizeInventory(){
 		return 1;
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int i) {
-		if(i <= getSizeInventory() && flickerJar != null){
+	public ItemStack getStackInSlot(int i){
+		if (i <= getSizeInventory() && flickerJar != null){
 			return flickerJar;
 		}
 
@@ -497,8 +486,8 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if(i <= getSizeInventory() && flickerJar != null){
+	public ItemStack decrStackSize(int i, int j){
+		if (i <= getSizeInventory() && flickerJar != null){
 			ItemStack jar = flickerJar;
 			flickerJar = null;
 			return jar;
@@ -507,8 +496,8 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if(i <= getSizeInventory() && flickerJar != null){
+	public ItemStack getStackInSlotOnClosing(int i){
+		if (i <= getSizeInventory() && flickerJar != null){
 			ItemStack jar = flickerJar;
 			flickerJar = null;
 			return jar;
@@ -517,29 +506,27 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
+	public void setInventorySlotContents(int i, ItemStack itemstack){
 		flickerJar = itemstack;
-		if(itemstack != null && itemstack.stackSize > getInventoryStackLimit())
-		{
+		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
 			itemstack.stackSize = getInventoryStackLimit();
 		}
 
 	}
 
 	@Override
-	public String getInventoryName() {
+	public String getInventoryName(){
 		return "Flicker Habitat";
 	}
 
 	@Override
-	public int getInventoryStackLimit() {
+	public int getInventoryStackLimit(){
 		return 1;
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
-		{
+	public boolean isUseableByPlayer(EntityPlayer entityplayer){
+		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
 			return false;
 		}
 
@@ -547,56 +534,56 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	@Override
-	public void openInventory() {
+	public void openInventory(){
 	}
 
 	@Override
-	public void closeInventory() {
-		if(!this.isUpgrade){
+	public void closeInventory(){
+		if (!this.isUpgrade){
 			setOperatorBasedOnFlicker();
 			scanForNearbyUpgrades();
-		} else {
+		}else{
 			setUpgradeOfMainHabitat();
 		}
 	}
 
 	private void setUpgradeOfMainHabitat(){
-		if(this.mainHabitatDirection != ForgeDirection.UNKNOWN){
+		if (this.mainHabitatDirection != ForgeDirection.UNKNOWN){
 			TileEntity te = worldObj.getTileEntity(this.xCoord + this.mainHabitatDirection.offsetX, this.yCoord + this.mainHabitatDirection.offsetY, this.zCoord + this.mainHabitatDirection.offsetZ);
-			if(te != null && te instanceof TileEntityFlickerHabitat){
+			if (te != null && te instanceof TileEntityFlickerHabitat){
 				((TileEntityFlickerHabitat)te).notifyOfNearbyUpgradeChange(this);
 			}
 		}
 	}
 
-	private void setOperatorBasedOnFlicker() {
-		if(flickerJar != null && flickerJar.getItem() == ItemsCommonProxy.flickerFocus){
+	private void setOperatorBasedOnFlicker(){
+		if (flickerJar != null && flickerJar.getItem() == ItemsCommonProxy.flickerFocus){
 			this.setOperator(FlickerOperatorRegistry.instance.getOperatorForMask(flickerJar.getItemDamage()));
-		} else {
+		}else{
 			this.setOperator(null);
 		}
 
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+	public boolean isItemValidForSlot(int i, ItemStack itemstack){
 		return false;
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+	public Packet getDescriptionPacket(){
 		NBTTagCompound nbt = new NBTTagCompound();
 		this.writeToNBT(nbt);
 		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbt);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
 		this.readFromNBT(pkt.func_148857_g());
 	}
 
 	@Override
-	public void updateEntity() {
+	public void updateEntity(){
 		super.updateEntity();
 
 		if (fadeCounter++ >= 30){
@@ -604,22 +591,22 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 			fadeCounter = 0;
 		}
 
-		if(worldObj.isRemote && this.hasFlicker()){
+		if (worldObj.isRemote && this.hasFlicker()){
 			rotateOffset += ROATATION_RATE;
 
-			if(rotateOffset >= FULL_CIRCLE){
+			if (rotateOffset >= FULL_CIRCLE){
 				rotateOffset -= FULL_CIRCLE;
 			}
 
-			if(floatUp){
+			if (floatUp){
 				floatOffset += FLOAT_RATE;
 
-				if(floatOffset >= MAX_FLOAT_UP){
+				if (floatOffset >= MAX_FLOAT_UP){
 					invertDirection();
 				}
-			} else {
+			}else{
 				floatOffset -= FLOAT_RATE;
-				if(floatOffset <= MAX_FLOAT_DOWN){
+				if (floatOffset <= MAX_FLOAT_DOWN){
 					invertDirection();
 				}
 			}
@@ -627,22 +614,22 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	private void invertDirection(){
-		floatUp = !floatUp;		
+		floatUp = !floatUp;
 	}
 
 	@Override
-	public boolean hasCustomInventoryName() {
+	public boolean hasCustomInventoryName(){
 		return false;
 	}
 
-	
-	public void switchMarkerPriority(AMVector3 vec, int oldPriority, int priority) {
+
+	public void switchMarkerPriority(AMVector3 vec, int oldPriority, int priority){
 		if (this.outList.containsKey(oldPriority))
 			this.removeOutListAt(oldPriority, vec);
-		
+
 		if (!this.outList.containsKey(priority))
 			this.outList.put(priority, new ArrayList<AMVector3>());
-		
+
 		this.outList.get(priority).add(vec);
 	}
 }

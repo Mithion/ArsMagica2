@@ -1,17 +1,17 @@
 package am2.configuration;
 
-import java.io.File;
-
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
 import am2.api.math.AMVector2;
 import am2.particles.AMParticle;
 import am2.particles.ParticleController;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 
-public class AMConfig extends Configuration {
+import java.io.File;
+
+public class AMConfig extends Configuration{
 
 	private final String KEY_PlayerSpellsDamageTerrain = "Player_Spells_Destroy_Terrain";
 	private final String KEY_NPCSpellsDamageTerrain = "NPC_Spells_Destroy_Terrain";
@@ -68,14 +68,16 @@ public class AMConfig extends Configuration {
 	private final String KEY_MeteorMinSpawnLevel = "Meteor_Spawn_Min_Level";
 	private final String KEY_HazardousGateways = "Hazardous_Gateways";
 	private final String KEY_CanDryadsDespawn = "Can_Dryads_Despawn";
-	
+
 	private final String KEY_ArmorXPInfusionFactor = "Armor_XP_Infusion_Factor";
-	
+
 	private final String KEY_SavePowerOnWorldSave = "PND_File_WSave";
-	
+
 	private final String KEY_EnableWitchwoodForest = "Enable_Witchwood_Forests";
 
-	/** Beta Particles **/
+	/**
+	 * Beta Particles
+	 **/
 	private final String KEY_AuraType = "AuraType";
 	private final String KEY_AuraBehaviour = "AuraBehaviour";
 	private final String KEY_AuraScale = "AuraScale";
@@ -88,7 +90,9 @@ public class AMConfig extends Configuration {
 	private final String KEY_AuraColorDefault = "AuraColorDefault";
 	/** End Beta Particles **/
 
-	/** GUI Config **/
+	/**
+	 * GUI Config
+	 **/
 	private final String KEY_ManaHudPositionX = "ManaHudPositionX";
 	private final String KEY_BurnoutHudPositionX = "BurnoutHudPositionX";
 	private final String KEY_BuffsPositivePositionX = "BuffsPositivePositionX";
@@ -135,7 +139,9 @@ public class AMConfig extends Configuration {
 	private final String KEY_ShowXPAlways = "ShowXPAlways";
 	private final String KEY_ShowHUDBars = "ShowHUDBars";
 	private final String KEY_ColourblindMode = "ColourblindMode";
-	/** End GUI Config **/
+	/**
+	 * End GUI Config
+	 **/
 
 	private static final String CATEGORY_BETA = "beta";
 	private static final String CATEGORY_MOBS = "mobs";
@@ -212,7 +218,7 @@ public class AMConfig extends Configuration {
 	private boolean candlesAreRovingLights;
 	private int meteorMinSpawnLevel;
 	private boolean hazardousGateways;
-	private boolean disarmAffectsPlayers; 
+	private boolean disarmAffectsPlayers;
 	private boolean digBreaksTileEntities;
 	private boolean savePowerOnWorldSave;
 
@@ -223,7 +229,7 @@ public class AMConfig extends Configuration {
 
 	public static final String DEFAULT_LANGUAGE = "en_US";
 
-	public AMConfig(File file) {
+	public AMConfig(File file){
 		super(file);
 		load();
 		addCustomCategoryComment(CATEGORY_BETA, "This applies to those who have beta auras unlocked only");
@@ -234,16 +240,16 @@ public class AMConfig extends Configuration {
 	public void init(){
 
 		PlayerSpellsDamageTerrain = get(CATEGORY_GENERAL, KEY_PlayerSpellsDamageTerrain, true).getBoolean(true);
-		NPCSpellsDamageTerrain = get(CATEGORY_GENERAL, KEY_NPCSpellsDamageTerrain,false).getBoolean(false);
+		NPCSpellsDamageTerrain = get(CATEGORY_GENERAL, KEY_NPCSpellsDamageTerrain, false).getBoolean(false);
 
-		DamageMultiplier = (float) get(CATEGORY_GENERAL, KEY_DamageMultiplier, 1.0, "How much the damage in Ars Magica is scaled.").getDouble(1.0);
+		DamageMultiplier = (float)get(CATEGORY_GENERAL, KEY_DamageMultiplier, 1.0, "How much the damage in Ars Magica is scaled.").getDouble(1.0);
 
 		UseSpecialRenderers = get(CATEGORY_GENERAL, KEY_UseSpecialRenderers, true, "Render spell effects on equipped scrolls rather than the scroll itself (only applies to the in-game one, the one on your hotbar remains unchanged)").getBoolean(true);
 
 		boolean def = !Loader.isModLoaded("NotEnoughItems");
 		DisplayManaInInventory = get(CATEGORY_GENERAL, KEY_DisplayManaInInventory, def, "This will toggle mana display on and off in your inventory.  Default 'O' key in game.").getBoolean(def);
 
-		FrictionCoefficient = (float) get(CATEGORY_GENERAL, KEY_FrictionCoefficient, 0.8, "This is the multiplier used to determine velocity lost when a spell projectile bounces. 0.0 is a complete stop, 1.0 is no loss.").getDouble(0.8);
+		FrictionCoefficient = (float)get(CATEGORY_GENERAL, KEY_FrictionCoefficient, 0.8, "This is the multiplier used to determine velocity lost when a spell projectile bounces. 0.0 is a complete stop, 1.0 is no loss.").getDouble(0.8);
 
 		Property retroWorldGenProp = get(CATEGORY_GENERAL, KEY_RetroactiveWorldGen, false, "Set this to true to enable retroactive worldgen for Ars Magica structures and ores.  *WARNING* This may break your save!  Do a backup first!  Note: This will automatically turn off after running the game once.");
 		RetroWorldGen = retroWorldGenProp.getBoolean(false);
@@ -275,8 +281,8 @@ public class AMConfig extends Configuration {
 
 		showHudMinimally = get(CATEGORY_UI, KEY_ShowHudMinimally, false, "Set this to true to only show the AM HUD when a spell is equipped").getBoolean(false);
 		showArmorUI = get(CATEGORY_UI, KEY_ShowArmorUI, true).getBoolean(true);
-		showBuffs  = get(CATEGORY_UI, KEY_ShowBuffs, true).getBoolean(true);
-		showNumerics  = get(CATEGORY_UI, KEY_ShowNumerics, false).getBoolean(false);
+		showBuffs = get(CATEGORY_UI, KEY_ShowBuffs, true).getBoolean(true);
+		showNumerics = get(CATEGORY_UI, KEY_ShowNumerics, false).getBoolean(false);
 		showXPAlways = get(CATEGORY_UI, KEY_ShowXPAlways, false).getBoolean(false);
 		showHudBars = get(CATEGORY_UI, KEY_ShowHUDBars, true).getBoolean(true);
 
@@ -309,15 +315,15 @@ public class AMConfig extends Configuration {
 		ArmorXPInfusionFactor = get(CATEGORY_GENERAL, KEY_ArmorXPInfusionFactor, 1.0, "Alter this to change the rate at which armor XP infuses.").getDouble();
 		disarmAffectsPlayers = get(CATEGORY_GENERAL, KEY_DisarmAffectsPlayers, true, "If false, disarm won't work on players.").getBoolean(true);
 		manaCap = get(CATEGORY_GENERAL, KEY_ManaCap, 0, "Sets the maximum mana a player can have (0 for no cap)").getDouble(0);
-		
+
 		digBreaksTileEntities = get(CATEGORY_GENERAL, KEY_DigBreaksTEs, true, "Can the dig component break blocks that have a tile entity?").getBoolean(true);
-	
+
 		savePowerOnWorldSave = get(CATEGORY_GENERAL, KEY_SavePowerOnWorldSave, true, "Set this to false if you are experiencing tick lage due to AM2 saving power data alongside the world save.  This will instead cache the power data in memory to be saved later.  This comes with more risk in the event of a crash, and a larger memory footprint, but increased performance. Can be used alongside chunk unload save config. Power data is still always saved at world unload (server shutdown).").getBoolean(true);
-		
+
 		canDryadsDespawn = get(CATEGORY_MOBS, KEY_CanDryadsDespawn, true, "Set this to false if you don't want dryads to despawn.").getBoolean(true);
-		
+
 		enderAffinityAbilityCooldown = get(CATEGORY_GENERAL, KEY_EnderAffinityAbilityCooldown, 100, "Set this to the number of ticks between ender affinity teleports.").getInt();
-		
+
 		String digBlacklistString = get(CATEGORY_GENERAL, KEY_DigDisabledBlocks, "", "Comma-separated list of block IDs that dig cannot break.  If a block is flagged as unbreackable in code, Dig will already be unable to break it.  There is no need to set it here (eg, bedrock, etc.).  Dig also makes use of Forge block harvest checks.  This is mainly for fine-tuning.").getString();
 		digBlacklist = digBlacklistString.split(",");
 
@@ -329,7 +335,7 @@ public class AMConfig extends Configuration {
 			if (s.equals("")) continue;
 			try{
 				worldgenBlacklist[count] = Integer.parseInt(s.trim());
-			}catch(Throwable t){
+			}catch (Throwable t){
 				FMLLog.info("Ars Magica >> Malformed item in worldgen blacklist (%s).  Skipping.", s);
 				t.printStackTrace();
 				worldgenBlacklist[count] = -1;
@@ -349,7 +355,7 @@ public class AMConfig extends Configuration {
 			if (s.equals("")) continue;
 			try{
 				appropriationMobBlacklist[count] = Class.forName(s);
-			}catch(Throwable t){
+			}catch (Throwable t){
 				FMLLog.info("Ars Magica >> Malformed item in appropriation entity blacklist (%s).  Skipping.", s);
 				t.printStackTrace();
 				appropriationMobBlacklist[count] = null;
@@ -368,8 +374,8 @@ public class AMConfig extends Configuration {
 		AuraType %= AMParticle.particleTypes.length;
 		AuraBehaviour = get(CATEGORY_BETA, KEY_AuraBehaviour, 0).getInt(0);
 		AuraBehaviour %= ParticleController.AuraControllerOptions.length;
-		AuraAlpha = (float) (get(CATEGORY_BETA, KEY_AuraAlpha, 1.0D)).getDouble(1.0D);
-		AuraScale = (float) (get(CATEGORY_BETA, KEY_AuraScale, 1.0D).getDouble(1.0));
+		AuraAlpha = (float)(get(CATEGORY_BETA, KEY_AuraAlpha, 1.0D)).getDouble(1.0D);
+		AuraScale = (float)(get(CATEGORY_BETA, KEY_AuraScale, 1.0D).getDouble(1.0));
 		AuraColor = get(CATEGORY_BETA, KEY_AuraColor, 0xFFFFFF).getInt(0xFFFFFF);
 		AuraQuantity = get(CATEGORY_BETA, KEY_AuraQuanity, 1).getInt(1);
 		AuraDelay = get(CATEGORY_BETA, KEY_AuraDelay, 5).getInt(5);
@@ -410,7 +416,7 @@ public class AMConfig extends Configuration {
 		return GFXLevel;
 	}
 
-	public float getDamageMultiplier() {
+	public float getDamageMultiplier(){
 		return DamageMultiplier;
 	}
 
@@ -422,7 +428,7 @@ public class AMConfig extends Configuration {
 		return 0;
 	}
 
-	public boolean useSpecialRenderers() {
+	public boolean useSpecialRenderers(){
 		return UseSpecialRenderers;
 	}
 
@@ -434,7 +440,7 @@ public class AMConfig extends Configuration {
 		return FrictionCoefficient;
 	}
 
-	public boolean retroactiveWorldgen() {
+	public boolean retroactiveWorldgen(){
 		return RetroWorldGen;
 	}
 
@@ -442,7 +448,7 @@ public class AMConfig extends Configuration {
 		return secondarySkillTreeTierCap;
 	}
 
-	public int getVillagerProfessionID() {
+	public int getVillagerProfessionID(){
 		return mageVillagerProfessionID;
 	}
 
@@ -505,7 +511,7 @@ public class AMConfig extends Configuration {
 	public AMVector2 getXPNumericPosition(){
 		return XPNumericPosition;
 	}
-	
+
 	public AMVector2 getSpellBookPosition(){
 		return SpellBookPosition;
 	}
@@ -526,7 +532,7 @@ public class AMConfig extends Configuration {
 		return worldgenBlacklist;
 	}
 
-	public boolean moonstoneMeteorsDestroyTerrain() {
+	public boolean moonstoneMeteorsDestroyTerrain(){
 		return moonstoneMeteorsDestroyTerrain;
 	}
 
@@ -534,11 +540,11 @@ public class AMConfig extends Configuration {
 		return suggestSpellNames;
 	}
 
-	public int getWitchwoodForestID() {
+	public int getWitchwoodForestID(){
 		return witchwoodForestID;
 	}
 
-	public int getEverstoneRepairRate() {
+	public int getEverstoneRepairRate(){
 		return everstoneRepairRate;
 	}
 
@@ -554,7 +560,7 @@ public class AMConfig extends Configuration {
 		return showXPAlways;
 	}
 
-	public boolean showHudBars() {
+	public boolean showHudBars(){
 		return showHudBars;
 	}
 
@@ -585,60 +591,60 @@ public class AMConfig extends Configuration {
 	public boolean getHazardousGateways(){
 		return hazardousGateways;
 	}
-	
+
 	public double getArmorXPInfusionFactor(){
 		return ArmorXPInfusionFactor;
 	}
-	
+
 	public boolean getDisarmAffectsPlayers(){
 		return disarmAffectsPlayers;
 	}
-	
+
 	public double getManaCap(){
 		return manaCap;
 	}
-	
+
 	public boolean getDigBreaksTileEntities(){
 		return digBreaksTileEntities;
 	}
-	
+
 	public boolean savePowerDataOnWorldSave(){
 		return savePowerOnWorldSave;
 	}
 
 
-	public boolean canDraydsDespawn() {
+	public boolean canDraydsDespawn(){
 		return canDryadsDespawn;
 	}
-	
-	public int getMeteorMinSpawnLevel() {
+
+	public int getMeteorMinSpawnLevel(){
 		return meteorMinSpawnLevel;
 	}
 
-	public boolean forgeSmeltsVillagers() {
+	public boolean forgeSmeltsVillagers(){
 		return forgeSmeltsVillagers;
 	}
 
-	public boolean showArmorUI() {
+	public boolean showArmorUI(){
 		return this.showArmorUI;
 	}
 
-	public boolean candlesAreRovingLights() {
+	public boolean candlesAreRovingLights(){
 		return candlesAreRovingLights;
 	}
 
-	public int getEnderAffinityAbilityCooldown() {
+	public int getEnderAffinityAbilityCooldown(){
 		return this.enderAffinityAbilityCooldown;
 	}
-	
+
 	public boolean getEnableWitchwoodForest(){
 		return this.enableWitchwoodForest;
 	}
-	
+
 	public int getWitchwoodForestRarity(){
 		return this.witchwoodForestRarity;
 	}
-	
+
 	//====================================================================================
 	// Getters - Aura
 	//====================================================================================
@@ -676,16 +682,14 @@ public class AMConfig extends Configuration {
 	}
 
 	public float getAuraSpeed(){
-		return (float) AuraSpeed;
+		return (float)AuraSpeed;
 	}
 
 	public float getAuraAlpha(){
 		return AuraAlpha;
 	}
 
-	
 
-	
 	//====================================================================================
 	// Getters - Direct
 	//====================================================================================
@@ -713,7 +717,7 @@ public class AMConfig extends Configuration {
 		get(CATEGORY_ENCHANTMENTS, enchantmentName, new_value).set(new_value);
 		save();
 	}
-	
+
 	public int GetHecateSpawnRate(){
 		Property prop = get(CATEGORY_MOBS, KEY_hecateSpawnRate, 2);
 		return Math.max(prop.getInt(2), 0);
@@ -744,22 +748,22 @@ public class AMConfig extends Configuration {
 		return Math.max(prop.getInt(3), 0);
 	}
 
-	public int GetDarklingSpawnRate() {
+	public int GetDarklingSpawnRate(){
 		Property prop = get(CATEGORY_MOBS, KEY_darklingSpawnRate, 5);
 		return Math.max(prop.getInt(5), 0);
 	}
 
-	public int GetEarthElementalSpawnRate() {
+	public int GetEarthElementalSpawnRate(){
 		Property prop = get(CATEGORY_MOBS, KEY_earthElementalSpawnRate, 2);
 		return Math.max(prop.getInt(2), 0);
 	}
 
-	public int GetFireElementalSpawnRate() {
+	public int GetFireElementalSpawnRate(){
 		Property prop = get(CATEGORY_MOBS, KEY_fireElementalSpawnRate, 2);
 		return Math.max(prop.getInt(2), 0);
 	}
 
-	public int GetFlickerSpawnRate() {
+	public int GetFlickerSpawnRate(){
 		Property prop = get(CATEGORY_MOBS, KEY_flickerSpawnRate, 4);
 		return Math.max(prop.getInt(4), 0);
 	}
@@ -770,15 +774,14 @@ public class AMConfig extends Configuration {
 		save();
 		return val;
 	}
-	
+
 	//====================================================================================
 	// Setters
 	//====================================================================================
 
-	public void setAuraIndex(int index)
-	{
+	public void setAuraIndex(int index){
 		if (index < 0) index = 0;
-		if (index >= AMParticle.particleTypes.length) index = AMParticle.particleTypes.length-1;
+		if (index >= AMParticle.particleTypes.length) index = AMParticle.particleTypes.length - 1;
 
 		Property prop = get(CATEGORY_BETA, KEY_AuraType, 15);
 		prop.set(index);
@@ -788,7 +791,8 @@ public class AMConfig extends Configuration {
 
 	public void setAuraBehaviour(int index){
 		if (index < 0) index = 0;
-		if (index >= ParticleController.AuraControllerOptions.length) index = ParticleController.AuraControllerOptions.length-1;
+		if (index >= ParticleController.AuraControllerOptions.length)
+			index = ParticleController.AuraControllerOptions.length - 1;
 
 		Property prop = get(CATEGORY_BETA, KEY_AuraBehaviour, 0);
 		prop.set(index);
@@ -872,7 +876,7 @@ public class AMConfig extends Configuration {
 		this.DisplayManaInInventory = value;
 	}
 
-	public void disableRetroactiveWorldgen() {
+	public void disableRetroactiveWorldgen(){
 		Property prop = get(CATEGORY_GENERAL, KEY_RetroactiveWorldGen, false, "Set this to true to enable retroactive worldgen for Ars Magica structures and ores.  *WARNING* This may break your save!  Do a backup first!");
 		prop.set(false);
 
@@ -949,7 +953,7 @@ public class AMConfig extends Configuration {
 		save();
 	}
 
-	public void setSkillTreeSecondaryTierCap(int skillTreeLock) {
+	public void setSkillTreeSecondaryTierCap(int skillTreeLock){
 		this.secondarySkillTreeTierCap = skillTreeLock;
 	}
 
@@ -964,5 +968,5 @@ public class AMConfig extends Configuration {
 
 	public void setManaCap(double cap){
 		this.manaCap = cap;
-	}	
+	}
 }

@@ -1,26 +1,25 @@
 package am2.utility;
 
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.List;
-
+import am2.api.math.AMVector3;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import am2.api.math.AMVector3;
 
-public class MathUtilities {
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MathUtilities{
 	public static AMVector3 bezier(AMVector3 s, AMVector3 c1, AMVector3 c2, AMVector3 e, float t){
 		if (t < 0 || t > 1.0f){
 			throw new InvalidParameterException("t is out of range, with a value of :" + t);
 		}
-		float one_minus_t = 1-t;
+		float one_minus_t = 1 - t;
 
 		AMVector3 retValue = new AMVector3(0, 0, 0);
 		AMVector3[] terms = new AMVector3[4];
@@ -36,8 +35,7 @@ public class MathUtilities {
 		return retValue;
 	}
 
-	private static AMVector3 calcNewVector(float scaler, AMVector3 base)
-	{
+	private static AMVector3 calcNewVector(float scaler, AMVector3 base){
 		AMVector3 retValue = new AMVector3(base.x, base.y, base.z);
 		retValue.scale(scaler);
 		return retValue;
@@ -77,7 +75,7 @@ public class MathUtilities {
 		AMVector3[] list = new AMVector3[numBlocks];
 		list[0] = new AMVector3(x, y, z);
 		int count = 1;
-		while(count < numBlocks){
+		while (count < numBlocks){
 			curX += motionX;
 			curZ += motionZ;
 
@@ -131,7 +129,7 @@ public class MathUtilities {
 		AMVector3[] list = new AMVector3[numBlocks];
 		list[0] = new AMVector3(x, y, z);
 		int count = 1;
-		while(count < numBlocks){
+		while (count < numBlocks){
 			curX += motionX;
 			curY += motionY;
 			curZ += motionZ;
@@ -217,7 +215,7 @@ public class MathUtilities {
 		float pitchFOVMax = e2.rotationPitch + Y;
 		boolean flag1 = (yawFOVMin < 0F && (rotationYawPrime >= yawFOVMin + 360F || rotationYawPrime <= yawFOVMax)) || (yawFOVMax >= 360F && (rotationYawPrime <= yawFOVMax - 360F || rotationYawPrime >= yawFOVMin)) || (yawFOVMax < 360F && yawFOVMin >= 0F && rotationYawPrime <= yawFOVMax && rotationYawPrime >= yawFOVMin);
 		boolean flag2 = (pitchFOVMin <= -180F && (rotationPitchPrime >= pitchFOVMin + 360F || rotationPitchPrime <= pitchFOVMax)) || (pitchFOVMax > 180F && (rotationPitchPrime <= pitchFOVMax - 360F || rotationPitchPrime >= pitchFOVMin)) || (pitchFOVMax < 180F && pitchFOVMin >= -180F && rotationPitchPrime <= pitchFOVMax && rotationPitchPrime >= pitchFOVMin);
-		if(flag1 && flag2 && e2.canEntityBeSeen(e1))
+		if (flag1 && flag2 && e2.canEntityBeSeen(e1))
 			return true;
 		else return false;
 	}
@@ -227,8 +225,7 @@ public class MathUtilities {
 			while (yawValue < 0){
 				yawValue += 360;
 			}
-		}
-		else if (yawValue > 359){
+		}else if (yawValue > 359){
 			while (yawValue > 359){
 				yawValue -= 360;
 			}
@@ -250,11 +247,11 @@ public class MathUtilities {
 		return delta;
 	}
 
-	public static Entity getPointedEntity(World world, EntityLivingBase entityplayer, double range, double collideRadius) {
+	public static Entity getPointedEntity(World world, EntityLivingBase entityplayer, double range, double collideRadius){
 		return getPointedEntity(world, entityplayer, range, collideRadius, false);
 	}
 
-	public static Entity getPointedEntity(World world, EntityLivingBase entityplayer, double range, double collideRadius, boolean nonCollide) {
+	public static Entity getPointedEntity(World world, EntityLivingBase entityplayer, double range, double collideRadius, boolean nonCollide){
 		Entity pointedEntity = null;
 		double d = range;
 		Vec3 vec3d = Vec3.createVectorHelper(entityplayer.posX, entityplayer.posY + entityplayer.getEyeHeight(), entityplayer.posZ);
@@ -264,32 +261,25 @@ public class MathUtilities {
 		List list = world.getEntitiesWithinAABBExcludingEntity(entityplayer, entityplayer.boundingBox.addCoord(vec3d1.xCoord * d, vec3d1.yCoord * d, vec3d1.zCoord * d).expand(f1, f1, f1));
 
 		double d2 = 0.0D;
-		for (int i = 0; i < list.size(); i++)
-		{
+		for (int i = 0; i < list.size(); i++){
 			Entity entity = (Entity)list.get(i);
 			MovingObjectPosition mop = world.rayTraceBlocks(
-					Vec3.createVectorHelper(entityplayer.posX, entityplayer.posY + entityplayer.getEyeHeight(), entityplayer.posZ), 
-					Vec3.createVectorHelper(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ), 
+					Vec3.createVectorHelper(entityplayer.posX, entityplayer.posY + entityplayer.getEyeHeight(), entityplayer.posZ),
+					Vec3.createVectorHelper(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ),
 					false);
-			if (((entity.canBeCollidedWith()) || (nonCollide)) && mop == null)
-			{
+			if (((entity.canBeCollidedWith()) || (nonCollide)) && mop == null){
 				float f2 = Math.max(0.8F, entity.getCollisionBorderSize());
 				AxisAlignedBB axisalignedbb = entity.boundingBox.expand(f2, f2, f2);
 				MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(vec3d, vec3d2);
-				if (axisalignedbb.isVecInside(vec3d))
-				{
-					if ((0.0D < d2) || (d2 == 0.0D))
-					{
+				if (axisalignedbb.isVecInside(vec3d)){
+					if ((0.0D < d2) || (d2 == 0.0D)){
 						pointedEntity = entity;
 						d2 = 0.0D;
 					}
 
-				}
-				else if (movingobjectposition != null)
-				{
+				}else if (movingobjectposition != null){
 					double d3 = vec3d.distanceTo(movingobjectposition.hitVec);
-					if ((d3 < d2) || (d2 == 0.0D))
-					{
+					if ((d3 < d2) || (d2 == 0.0D)){
 						pointedEntity = entity;
 						d2 = d3;
 					}
@@ -319,22 +309,19 @@ public class MathUtilities {
 		return var23;
 	}
 
-	public static AMVector3 getLook(Entity source, float f) {
+	public static AMVector3 getLook(Entity source, float f){
 		float var2;
 		float var3;
 		float var4;
 		float var5;
 
-		if (f == 1.0F)
-		{
+		if (f == 1.0F){
 			var2 = MathHelper.cos(-source.rotationYaw * 0.017453292F - (float)Math.PI);
 			var3 = MathHelper.sin(-source.rotationYaw * 0.017453292F - (float)Math.PI);
 			var4 = -MathHelper.cos(-source.rotationPitch * 0.017453292F);
 			var5 = MathHelper.sin(-source.rotationPitch * 0.017453292F);
 			return new AMVector3(var3 * var4, var5, var2 * var4);
-		}
-		else
-		{
+		}else{
 			var2 = source.prevRotationPitch + (source.rotationPitch - source.prevRotationPitch) * f;
 			var3 = source.prevRotationYaw + (source.rotationYaw - source.prevRotationYaw) * f;
 			var4 = MathHelper.cos(-var3 * 0.017453292F - (float)Math.PI);
@@ -345,7 +332,7 @@ public class MathUtilities {
 		}
 	}
 
-	public static int getDistanceToGround(EntityLivingBase ent, World world) {
+	public static int getDistanceToGround(EntityLivingBase ent, World world){
 		int yCoord = (int)(ent.posY);
 		int distance = 0;
 
@@ -386,14 +373,14 @@ public class MathUtilities {
 		int[] newArr = new int[original.length + 1];
 		for (int i = 0; i < original.length; ++i)
 			newArr[i] = original[i];
-		newArr[newArr.length-1] = value;
+		newArr[newArr.length - 1] = value;
 		return newArr;
 	}
-	
+
 	public static int[] splice(int[] arr, int index){
 		if (arr.length <= 1)
 			return arr;
-		int[] newArr = new int[arr.length-1];
+		int[] newArr = new int[arr.length - 1];
 		int count = 0;
 		for (int i = 0; i < arr.length; ++i){
 			if (i == index)

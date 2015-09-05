@@ -6,22 +6,22 @@ import am2.power.PowerNodeRegistry;
 
 public class TileEntityFlickerLure extends TileEntityAMPower{
 
-	public TileEntityFlickerLure() {
+	public TileEntityFlickerLure(){
 		super(200);
 	}
 
 	@Override
-	public boolean canRelayPower(PowerTypes type) {
+	public boolean canRelayPower(PowerTypes type){
 		return false;
 	}
 
 	@Override
-	public int getChargeRate() {
+	public int getChargeRate(){
 		return 5;
 	}
 
 	@Override
-	public void updateEntity() {
+	public void updateEntity(){
 		super.updateEntity();
 
 		if (worldObj.isRemote)

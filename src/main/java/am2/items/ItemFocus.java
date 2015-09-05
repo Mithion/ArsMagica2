@@ -1,13 +1,13 @@
 package am2.items;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.util.IIcon;
 
-public abstract class ItemFocus extends ArsMagicaItem {
+public abstract class ItemFocus extends ArsMagicaItem{
 
-	protected ItemFocus() {
+	protected ItemFocus(){
 		super();
 	}
 
@@ -17,7 +17,7 @@ public abstract class ItemFocus extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamageForRenderPass(int dmg, int pass) {
+	public IIcon getIconFromDamageForRenderPass(int dmg, int pass){
 		return this.itemIcon;
 	}
 

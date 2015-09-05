@@ -6,8 +6,8 @@ import net.minecraft.item.ItemStack;
 
 /**
  * Fired whenever mana cost of a spell is calculated, after all predefined calculations.
- * @author Mithion
  *
+ * @author Mithion
  */
 public class ManaCostEvent extends Event{
 	public final ItemStack spell;

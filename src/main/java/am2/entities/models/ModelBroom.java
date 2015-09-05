@@ -1,18 +1,16 @@
 package am2.entities.models;
 
+import am2.entities.EntityBroom;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import am2.entities.EntityBroom;
 
-public class ModelBroom extends ModelBase
-{
+public class ModelBroom extends ModelBase{
 	//fields
 	ModelRenderer Handle;
 	ModelRenderer Brush;
 
-	public ModelBroom()
-	{
+	public ModelBroom(){
 		textureWidth = 32;
 		textureHeight = 32;
 
@@ -31,8 +29,7 @@ public class ModelBroom extends ModelBase
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		renderBroom((EntityBroom)entity, f5);
 	}
 
@@ -43,8 +40,7 @@ public class ModelBroom extends ModelBase
 		Brush.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z){
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

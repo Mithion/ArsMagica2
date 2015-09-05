@@ -1,17 +1,15 @@
 package am2.blocks.renderers;
 
+import am2.api.power.PowerTypes;
+import am2.blocks.tileentities.TileEntitySeerStone;
+import am2.models.ModelSeerStone;
+import am2.texture.ResourceManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
-import am2.api.power.PowerTypes;
-import am2.blocks.tileentities.TileEntitySeerStone;
-import am2.models.ModelSeerStone;
-import am2.texture.ResourceManager;
 
 public class SeerStoneRenderer extends TileEntitySpecialRenderer{
 
@@ -21,17 +19,16 @@ public class SeerStoneRenderer extends TileEntitySpecialRenderer{
 	private ResourceLocation block;
 	private ResourceLocation eye;
 
-	public SeerStoneRenderer() {
+	public SeerStoneRenderer(){
 		model = new ModelSeerStone();
 		block = new ResourceLocation("arsmagica2", ResourceManager.getCustomBlockTexturePath("blockSeerStone.png"));
 		eye = new ResourceLocation("arsmagica2", ResourceManager.getCustomBlockTexturePath("eye_bw.png"));
 	}
 
-	public void renderAModelAt(TileEntitySeerStone tile, double d, double d1, double d2, float f) {
+	public void renderAModelAt(TileEntitySeerStone tile, double d, double d1, double d2, float f){
 		int i = 0;
 
-		if (tile.getWorldObj() != null)
-		{
+		if (tile.getWorldObj() != null){
 			i = tile.getBlockMetadata();
 		}
 
@@ -83,8 +80,8 @@ public class SeerStoneRenderer extends TileEntitySpecialRenderer{
 		GL11.glTranslatef((float)d + 0.5f, (float)d1 + 0.5f, (float)d2 + 0.5f);
 		GL11.glScalef(0.5F, 0.5F, 0.5F);
 		GL11.glEnable(32826 /*GL_RESCALE_NORMAL_EXT*/);
-		GL11.glEnable (GL11.GL_BLEND);
-		GL11.glBlendFunc (GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		Tessellator tessellator = Tessellator.instance;
 
 		if (powerType == PowerTypes.DARK)
@@ -96,20 +93,19 @@ public class SeerStoneRenderer extends TileEntitySpecialRenderer{
 
 		renderArsMagicaEffect(tessellator, index, meta);
 
-		GL11.glDisable (GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_BLEND);
 		//GL11.glDisable(32826 /*GL_RESCALE_NORMAL_EXT*/);
 		GL11.glPopMatrix(); //end
 	}
 
-	private void renderArsMagicaEffect(Tessellator tessellator, int i, int meta)
-	{
+	private void renderArsMagicaEffect(Tessellator tessellator, int i, int meta){
 		float iof = TextureSize / FrameSize;
 		float foi = FrameSize / TextureSize;
 
 		float TLX = (i % iof) * foi;
 		float BRX = (i % iof) * foi + foi;
-		float TLY = (float) (Math.floor(i / iof) * foi);
-		float BRY = (float) (Math.floor(i / iof) * foi + foi);
+		float TLY = (float)(Math.floor(i / iof) * foi);
+		float BRY = (float)(Math.floor(i / iof) * foi + foi);
 
 		float f4 = 1.0F;
 		float f5 = 0.5F;
@@ -121,7 +117,7 @@ public class SeerStoneRenderer extends TileEntitySpecialRenderer{
 		//GL11.glRotatef(90, 0.0f, 1.0f, 0f);
 
 
-		switch(meta){
+		switch (meta){
 		case 1:
 			GL11.glTranslatef(0.0f, -0.4f, 0.0f);
 			break;
@@ -155,8 +151,8 @@ public class SeerStoneRenderer extends TileEntitySpecialRenderer{
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f) {
-		renderAModelAt((TileEntitySeerStone) tileentity, d, d1, d2, f); //where to render
+	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f){
+		renderAModelAt((TileEntitySeerStone)tileentity, d, d1, d2, f); //where to render
 	}
 
 	private ModelSeerStone model;

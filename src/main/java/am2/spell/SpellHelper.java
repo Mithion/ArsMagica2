@@ -1,23 +1,5 @@
 package am2.spell;
 
-import java.util.ArrayList;
-import java.util.Random;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import am2.AMCore;
 import am2.api.events.ManaCostEvent;
 import am2.api.events.SpellCastingEvent;
@@ -41,10 +23,25 @@ import am2.playerextensions.ExtendedProperties;
 import am2.spell.SpellUtils.SpellRequirements;
 import am2.spell.modifiers.Colour;
 import am2.utility.EntityUtilities;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.FMLLog;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 
-public class SpellHelper {
+import java.util.ArrayList;
+import java.util.Random;
+
+public class SpellHelper{
 
 	public static final SpellHelper instance = new SpellHelper();
 
@@ -66,7 +63,7 @@ public class SpellHelper {
 
 			if (SkillTreeManager.instance.isSkillDisabled(component))
 				continue;
-			
+
 			//special logic for spell sealed doors
 			if (BlocksCommonProxy.spellSealedDoor.applyComponentToDoor(world, component, blockX, blockY, blockZ))
 				continue;
@@ -80,7 +77,7 @@ public class SpellHelper {
 						for (ISpellModifier mod : mods){
 							if (mod instanceof Colour){
 								byte[] meta = SpellUtils.instance.getModifierMetadataFromStack(stack, mod, 0, ordinalCount++);
-								color = (int) mod.getModifier(SpellModifiers.COLOR, null, null, null, meta);
+								color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, meta);
 							}
 						}
 					}
@@ -117,7 +114,7 @@ public class SpellHelper {
 						for (ISpellModifier mod : mods){
 							if (mod instanceof Colour){
 								byte[] meta = SpellUtils.instance.getModifierMetadataFromStack(stack, mod, 0, ordinalCount++);
-								color = (int) mod.getModifier(SpellModifiers.COLOR, null, null, null, meta);
+								color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, meta);
 							}
 						}
 					}
@@ -149,7 +146,7 @@ public class SpellHelper {
 		manaCost = mce.manaCost;
 		burnout = mce.burnout;
 
-		SpellCastingEvent.Pre event = new SpellCastingEvent().new Pre(stack, (ItemSpellBase) stack.getItem(), caster, manaCost, burnout, isChanneled);
+		SpellCastingEvent.Pre event = new SpellCastingEvent().new Pre(stack, (ItemSpellBase)stack.getItem(), caster, manaCost, burnout, isChanneled);
 
 		if (MinecraftForge.EVENT_BUS.post(event)){
 			event.castResult = SpellCastResult.EFFECT_FAILED;
@@ -185,7 +182,7 @@ public class SpellHelper {
 		if (!(caster instanceof EntityPlayer)){
 			consumeMBR = false;
 		}
-		
+
 		SpellCastingEvent.Pre checkEvent = null;
 		if (consumeMBR){
 			checkEvent = preSpellCast(parsedStack, caster, false);
@@ -193,9 +190,9 @@ public class SpellHelper {
 				if (checkEvent.castResult == SpellCastResult.NOT_ENOUGH_MANA && caster.worldObj.isRemote && caster instanceof EntityPlayer){
 					AMCore.proxy.flashManaBar();
 				}
-				SpellCastingEvent.Post event = new SpellCastingEvent().new Post(parsedStack, (ItemSpellBase) parsedStack.getItem(), caster, checkEvent.manaCost, checkEvent.burnout, false, checkEvent.castResult);
+				SpellCastingEvent.Post event = new SpellCastingEvent().new Post(parsedStack, (ItemSpellBase)parsedStack.getItem(), caster, checkEvent.manaCost, checkEvent.burnout, false, checkEvent.castResult);
 				MinecraftForge.EVENT_BUS.post(event);
-				
+
 				return checkEvent.castResult;
 			}
 		}
@@ -218,7 +215,7 @@ public class SpellHelper {
 				writer.add(x).add(y).add(z);
 				writer.add(side);
 				writer.add(ticksUsed);
-				
+
 				AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.dimensionId, x, y, z, 32, AMPacketIDs.SPELL_CAST, writer.generate());
 			}
 		}
@@ -247,14 +244,14 @@ public class SpellHelper {
 				if (sfx != null){
 					if (!shape.isChanneled()){
 						world.playSound(caster.posX, caster.posY, caster.posZ, sfx, 0.4f, world.rand.nextFloat() * 0.1F + 0.9F, false);
-					}else{						
+					}else{
 						//SoundHelper.instance.loopSound(world, (float)x, (float)y, (float)z, sfx, 0.6f);
 					}
 				}
 			}
 		}
-		
-		SpellCastingEvent.Post event = new SpellCastingEvent().new Post(parsedStack, (ItemSpellBase) parsedStack.getItem(), caster, manaCost, burnout, false, result);
+
+		SpellCastingEvent.Post event = new SpellCastingEvent().new Post(parsedStack, (ItemSpellBase)parsedStack.getItem(), caster, manaCost, burnout, false, result);
 		MinecraftForge.EVENT_BUS.post(event);
 
 		return result;
@@ -272,7 +269,7 @@ public class SpellHelper {
 		return applyStackStage(stack, caster, target, x, y, z, 0, world, consumeMBR, giveXP, ticks);
 	}
 
-	public boolean attackTargetSpecial(ItemStack spellStack, Entity target, DamageSource damagesource, float magnitude) {
+	public boolean attackTargetSpecial(ItemStack spellStack, Entity target, DamageSource damagesource, float magnitude){
 
 		if (target.worldObj.isRemote)
 			return true;
@@ -297,7 +294,7 @@ public class SpellHelper {
 			}
 
 			if (damagesource.getSourceOfDamage() instanceof EntityPlayer){
-				dmgSrcPlayer = (EntityPlayer) damagesource.getSourceOfDamage();
+				dmgSrcPlayer = (EntityPlayer)damagesource.getSourceOfDamage();
 				int armorSet = ArmorHelper.getFullArsMagicaArmorSet(dmgSrcPlayer);
 				if (armorSet == ArsMagicaArmorMaterial.MAGE.getMaterialID()){
 					magnitude *= 1.05f;

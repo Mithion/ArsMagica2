@@ -1,28 +1,5 @@
 package am2.entities;
 
-import java.util.List;
-
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.monster.EntitySlime;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemNameTag;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.StatCollector;
-import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.World;
 import am2.entities.ai.EntityAIAllyManaLink;
 import am2.entities.ai.EntityAIRangedAttackSpell;
 import am2.entities.ai.selectors.LightMageEntitySelector;
@@ -36,6 +13,23 @@ import am2.utility.EntityUtilities;
 import am2.utility.NPCSpells;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.EntitySlime;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemNameTag;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
+import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.world.World;
+
+import java.util.List;
 
 public class EntityLightMage extends EntityCreature{
 
@@ -49,7 +43,7 @@ public class EntityLightMage extends EntityCreature{
 	public static final int DW_MAGE_SKIN = 20;
 	public static final int DW_MAGE_BOOK = 21;
 
-	public EntityLightMage(World world) {
+	public EntityLightMage(World world){
 		super(world);
 		setSize(1F, 2F);
 		hp = rand.nextInt(10) + 12;
@@ -57,21 +51,20 @@ public class EntityLightMage extends EntityCreature{
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void entityInit(){
 		super.entityInit();
 		this.dataWatcher.addObject(DW_MAGE_BOOK, 0);
 		this.dataWatcher.addObject(DW_MAGE_SKIN, rand.nextInt(12) + 1);
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(22D);
 	}
 
 	@Override
-	public ItemStack getHeldItem() {
+	public ItemStack getHeldItem(){
 		int cm = this.dataWatcher.getWatchableObjectInt(DW_MAGE_BOOK);
 		if (cm == 0)
 			return diminishedHeldItem;
@@ -101,7 +94,7 @@ public class EntityLightMage extends EntityCreature{
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound par1nbtTagCompound) {
+	public void readEntityFromNBT(NBTTagCompound par1nbtTagCompound){
 		super.readEntityFromNBT(par1nbtTagCompound);
 		hasUpdated = true;
 		ExtendedProperties.For(this).forceSync();
@@ -110,7 +103,7 @@ public class EntityLightMage extends EntityCreature{
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound) {
+	public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound){
 		super.writeEntityToNBT(par1nbtTagCompound);
 
 		par1nbtTagCompound.setInteger("am2_lm_skin", this.dataWatcher.getWatchableObjectInt(DW_MAGE_SKIN));
@@ -118,8 +111,7 @@ public class EntityLightMage extends EntityCreature{
 	}
 
 	@Override
-	public int getTotalArmorValue()
-	{
+	public int getTotalArmorValue(){
 		return 1;
 	}
 
@@ -144,11 +136,11 @@ public class EntityLightMage extends EntityCreature{
 		for (EntityPlayer player : players){
 			avgLvl += ExtendedProperties.For(player).getMagicLevel();
 		}
-		return (int)Math.ceil(avgLvl/players.size());
+		return (int)Math.ceil(avgLvl / players.size());
 	}
 
 	@Override
-	public boolean getCanSpawnHere() {
+	public boolean getCanSpawnHere(){
 		if (!SpawnBlacklists.entityCanSpawnHere(this.posX, this.posZ, worldObj, this))
 			return false;
 		if (getAverageNearbyPlayerMagicLevel() < 8){
@@ -159,7 +151,7 @@ public class EntityLightMage extends EntityCreature{
 		IAttributeInstance attributeinstance = this.getEntityAttribute(SharedMonsterAttributes.maxHealth);
 		if (avgLevel == 0){
 			ExtendedProperties.For(this).setMagicLevelWithMana(10);
-			if (rand.nextInt(100)<10){
+			if (rand.nextInt(100) < 10){
 				this.tasks.addTask(3, new EntityAIRangedAttackSpell(this, MovementSpeed(), 40, NPCSpells.instance.lightMage_NormalAttack));
 				this.dataWatcher.updateObject(DW_MAGE_BOOK, 1);
 			}
@@ -170,7 +162,7 @@ public class EntityLightMage extends EntityCreature{
 				this.tasks.addTask(2, new EntityAIRangedAttackSpell(this, MovementSpeed(), 100, NPCSpells.instance.lightMage_AugmentedAttack));
 				this.dataWatcher.updateObject(DW_MAGE_BOOK, 2);
 			}
-			if (levelRand > 30) {
+			if (levelRand > 30){
 				this.tasks.addTask(3, new EntityAIRangedAttackSpell(this, MovementSpeed(), 40, NPCSpells.instance.lightMage_NormalAttack));
 				this.dataWatcher.updateObject(DW_MAGE_BOOK, 1);
 			}
@@ -182,22 +174,17 @@ public class EntityLightMage extends EntityCreature{
 		return isValidLightLevel() && super.getCanSpawnHere();
 	}
 
-	protected boolean isValidLightLevel()
-	{
+	protected boolean isValidLightLevel(){
 		int var1 = MathHelper.floor_double(this.posX);
 		int var2 = MathHelper.floor_double(this.boundingBox.minY);
 		int var3 = MathHelper.floor_double(this.posZ);
 
-		if (this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, var1, var2, var3) > this.rand.nextInt(32))
-		{
+		if (this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, var1, var2, var3) > this.rand.nextInt(32)){
 			return false;
-		}
-		else
-		{
+		}else{
 			int var4 = this.worldObj.getBlockLightValue(var1, var2, var3);
 
-			if (this.worldObj.isThundering())
-			{
+			if (this.worldObj.isThundering()){
 				int var5 = this.worldObj.skylightSubtracted;
 				this.worldObj.skylightSubtracted = 10;
 				var4 = this.worldObj.getBlockLightValue(var1, var2, var3);
@@ -209,11 +196,11 @@ public class EntityLightMage extends EntityCreature{
 	}
 
 	@Override
-	protected void dropRareDrop(int par1) {
+	protected void dropRareDrop(int par1){
 	}
 
 	@Override
-	protected void dropFewItems(boolean par1, int par2) {
+	protected void dropFewItems(boolean par1, int par2){
 		if (par1 && getRNG().nextDouble() < 0.2)
 			for (int j = 0; j < getRNG().nextInt(3); ++j)
 				this.entityDropItem(new ItemStack(ItemsCommonProxy.rune, 1, getRNG().nextInt(16)), 0.0f);
@@ -226,7 +213,7 @@ public class EntityLightMage extends EntityCreature{
 	}
 
 	@Override
-	protected boolean interact(EntityPlayer player) {
+	protected boolean interact(EntityPlayer player){
 		if (worldObj.isRemote)
 			return false;
 

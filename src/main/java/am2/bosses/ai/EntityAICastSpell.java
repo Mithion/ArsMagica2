@@ -1,13 +1,13 @@
 package am2.bosses.ai;
 
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.item.ItemStack;
 import am2.bosses.BossActions;
 import am2.bosses.IArsMagicaBoss;
 import am2.spell.SpellHelper;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.item.ItemStack;
 
-public class EntityAICastSpell extends EntityAIBase {
+public class EntityAICastSpell extends EntityAIBase{
 
 	private final EntityLiving host;
 	private int cooldownTicks = 0;
@@ -43,7 +43,7 @@ public class EntityAICastSpell extends EntityAIBase {
 	}
 
 	@Override
-	public boolean shouldExecute() {
+	public boolean shouldExecute(){
 		cooldownTicks--;
 		boolean execute = ((IArsMagicaBoss)host).getCurrentAction() == BossActions.IDLE && host.getAttackTarget() != null && cooldownTicks <= 0;
 		if (execute){
@@ -56,12 +56,12 @@ public class EntityAICastSpell extends EntityAIBase {
 	}
 
 	@Override
-	public boolean continueExecuting() {
+	public boolean continueExecuting(){
 		return !hasCasted && host.getAttackTarget() != null && !host.getAttackTarget().isDead;
 	}
 
 	@Override
-	public void resetTask() {
+	public void resetTask(){
 		((IArsMagicaBoss)host).setCurrentAction(BossActions.IDLE);
 		cooldownTicks = cooldown;
 		hasCasted = true;
@@ -69,7 +69,7 @@ public class EntityAICastSpell extends EntityAIBase {
 	}
 
 	@Override
-	public void updateTask() {
+	public void updateTask(){
 		host.getLookHelper().setLookPositionWithEntity(host.getAttackTarget(), 30, 30);
 		if (host.getDistanceSqToEntity(host.getAttackTarget()) > 64){
 

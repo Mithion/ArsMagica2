@@ -1,25 +1,5 @@
 package am2.spell.components;
 
-import java.util.EnumSet;
-import java.util.Random;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.passive.EntityCow;
-import net.minecraft.entity.passive.EntityHorse;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
 import am2.api.power.PowerTypes;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
@@ -33,20 +13,35 @@ import am2.playerextensions.ExtendedProperties;
 import am2.spell.SpellHelper;
 import am2.spell.SpellUtils;
 import am2.utility.EntityUtilities;
+import net.minecraft.entity.*;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
+
+import java.util.EnumSet;
+import java.util.Random;
 
 public class Summon implements ISpellComponent{
 
 	@Override
-	public int getID() {
+	public int getID(){
 		return 61;
 	}
 
 	public EntityLiving summonCreature(ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z){
 		Class clazz = getSummonType(stack);
 		EntityLiving entity = null;
-		try {
-			entity = (EntityLiving) clazz.getConstructor(World.class).newInstance(world);
-		} catch (Throwable t){
+		try{
+			entity = (EntityLiving)clazz.getConstructor(World.class).newInstance(world);
+		}catch (Throwable t){
 			t.printStackTrace();
 			return null;
 		}
@@ -57,16 +52,15 @@ public class Summon implements ISpellComponent{
 		if (entity instanceof EntitySkeleton){
 			((EntitySkeleton)entity).setSkeletonType(0);
 			((EntitySkeleton)entity).setCurrentItemOrArmor(0, new ItemStack(Items.bow));
-		}
-		else if (entity instanceof EntityHorse && caster instanceof EntityPlayer){
+		}else if (entity instanceof EntityHorse && caster instanceof EntityPlayer){
 			((EntityHorse)entity).setTamedBy(((EntityPlayer)caster));
 		}
 		entity.setPosition(x, y, z);
 		world.spawnEntityInWorld(entity);
 		if (caster instanceof EntityPlayer){
-			EntityUtilities.makeSummon_PlayerFaction((EntityCreature) entity, (EntityPlayer)caster, false);
+			EntityUtilities.makeSummon_PlayerFaction((EntityCreature)entity, (EntityPlayer)caster, false);
 		}else{
-			EntityUtilities.makeSummon_MonsterFaction((EntityCreature) entity, false);
+			EntityUtilities.makeSummon_MonsterFaction((EntityCreature)entity, false);
 		}
 		EntityUtilities.setOwner(entity, caster);
 
@@ -80,7 +74,7 @@ public class Summon implements ISpellComponent{
 	}
 
 	@Override
-	public Object[] getRecipeItems() {
+	public Object[] getRecipeItems(){
 		//Chimerite, purified vinteum, blue orchid, monster focus, any filled crystal phylactery, 1500 dark power
 		return new Object[]{
 				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_CHIMERITE),
@@ -105,12 +99,12 @@ public class Summon implements ISpellComponent{
 		String s = SpellUtils.instance.getSpellMetadata(stack, "SummonType");
 		if (s == null || s == "")
 			s = "Skeleton"; //default!  default!  default!
-		Class clazz = (Class) EntityList.stringToClassMapping.get(s);
+		Class clazz = (Class)EntityList.stringToClassMapping.get(s);
 		return clazz;
 	}
 
 	public void setSummonType(ItemStack stack, String s){
-		Class clazz = (Class) EntityList.stringToClassMapping.get(s);
+		Class clazz = (Class)EntityList.stringToClassMapping.get(s);
 		setSummonType(stack, clazz);
 	}
 
@@ -120,7 +114,7 @@ public class Summon implements ISpellComponent{
 
 		clazz = checkForSpecialSpawns(stack, clazz);
 
-		String s = (String) EntityList.classToStringMapping.get(clazz);
+		String s = (String)EntityList.classToStringMapping.get(clazz);
 		if (s == null)
 			s = "";
 
@@ -142,7 +136,7 @@ public class Summon implements ISpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx,int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		if (!world.isRemote){
 			if (ExtendedProperties.For(caster).getCanHaveMoreSummons()){
 				if (summonCreature(stack, caster, caster, world, impactX, impactY, impactZ) == null){
@@ -159,9 +153,9 @@ public class Summon implements ISpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target) {
+	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
 
-		if (target instanceof EntityLivingBase && EntityUtilities.isSummon((EntityLivingBase) target))
+		if (target instanceof EntityLivingBase && EntityUtilities.isSummon((EntityLivingBase)target))
 			return false;
 
 		if (!world.isRemote){
@@ -180,32 +174,32 @@ public class Summon implements ISpellComponent{
 	}
 
 	@Override
-	public float manaCost(EntityLivingBase caster) {
+	public float manaCost(EntityLivingBase caster){
 		return 400;
 	}
 
 	@Override
-	public float burnout(EntityLivingBase caster) {
+	public float burnout(EntityLivingBase caster){
 		return 120;
 	}
 
 	@Override
-	public ItemStack[] reagents(EntityLivingBase caster) {
+	public ItemStack[] reagents(EntityLivingBase caster){
 		return null;
 	}
 
 	@Override
-	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier) {
+	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
 
 	}
 
 	@Override
-	public EnumSet<Affinity> getAffinity() {
+	public EnumSet<Affinity> getAffinity(){
 		return EnumSet.of(Affinity.ENDER, Affinity.LIFE);
 	}
 
 	@Override
-	public float getAffinityShift(Affinity affinity) {
+	public float getAffinityShift(Affinity affinity){
 		return 0.01f;
 	}
 }

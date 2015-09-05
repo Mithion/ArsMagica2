@@ -1,8 +1,10 @@
 package am2.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import am2.PlayerTracker;
+import am2.bosses.EntityNatureGuardian;
+import am2.damage.DamageSources;
+import am2.items.ItemsCommonProxy;
+import am2.utility.DummyEntityPlayer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockFlower;
@@ -14,19 +16,13 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.*;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
-import am2.PlayerTracker;
-import am2.bosses.EntityNatureGuardian;
-import am2.damage.DamageSources;
-import am2.items.ItemsCommonProxy;
-import am2.utility.DummyEntityPlayer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EntityThrownSickle extends EntityLiving{
 
@@ -38,7 +34,7 @@ public class EntityThrownSickle extends EntityLiving{
 	private static final int DW_THROWING_ENTITY = 20;
 	private static final int DW_PROJECTILE_SPEED = 21;
 
-	public EntityThrownSickle(World par1World) {
+	public EntityThrownSickle(World par1World){
 		super(par1World);
 		ticksExisted = 0;
 		maxTicksToExist = 120;
@@ -47,8 +43,7 @@ public class EntityThrownSickle extends EntityLiving{
 		this.setSize(0.5f, 2);
 	}
 
-	public EntityThrownSickle(World world, EntityLivingBase entityLiving, double projectileSpeed)
-	{
+	public EntityThrownSickle(World world, EntityLivingBase entityLiving, double projectileSpeed){
 		this(world);
 		throwingEntity = entityLiving;
 		setSize(0.25F, 0.25F);
@@ -66,8 +61,7 @@ public class EntityThrownSickle extends EntityLiving{
 		this.projectileSpeed = projectileSpeed;
 	}
 
-	public void setHeading(double movementX, double movementY, double movementZ, double projectileSpeed, double projectileSpeed2)
-	{
+	public void setHeading(double movementX, double movementY, double movementZ, double projectileSpeed, double projectileSpeed2){
 		float f = MathHelper.sqrt_double(movementX * movementX + movementY * movementY + movementZ * movementZ);
 		movementX /= f;
 		movementY /= f;
@@ -87,11 +81,10 @@ public class EntityThrownSickle extends EntityLiving{
 	}
 
 	@Override
-	public void setDead() {
+	public void setDead(){
 		if (getThrowingEntity() != null && getThrowingEntity() instanceof EntityNatureGuardian){
 			((EntityNatureGuardian)getThrowingEntity()).hasSickle = true;
-		}
-		else if (getThrowingEntity() != null && getThrowingEntity() instanceof EntityPlayer){
+		}else if (getThrowingEntity() != null && getThrowingEntity() instanceof EntityPlayer){
 			if (!worldObj.isRemote)
 				if (getThrowingEntity().getHealth() <= 0){
 					PlayerTracker.storeSoulboundItemForRespawn((EntityPlayer)getThrowingEntity(), ItemsCommonProxy.natureScytheEnchanted.copy());
@@ -108,18 +101,13 @@ public class EntityThrownSickle extends EntityLiving{
 	}
 
 	@Override
-	public void onUpdate()
-	{
-		if (!worldObj.isRemote && (getThrowingEntity() == null || getThrowingEntity().isDead))
-		{
+	public void onUpdate(){
+		if (!worldObj.isRemote && (getThrowingEntity() == null || getThrowingEntity().isDead)){
 			setDead();
 			return;
-		}
-		else
-		{
+		}else{
 			ticksExisted++;
-			if (ticksExisted >= maxTicksToExist && !worldObj.isRemote)
-			{
+			if (ticksExisted >= maxTicksToExist && !worldObj.isRemote){
 				setDead();
 				return;
 			}
@@ -134,43 +122,36 @@ public class EntityThrownSickle extends EntityLiving{
 		MovingObjectPosition movingobjectposition = worldObj.rayTraceBlocks(vec3d, vec3d1);
 		vec3d = Vec3.createVectorHelper(posX, posY, posZ);
 		vec3d1 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
-		if (movingobjectposition != null)
-		{
+		if (movingobjectposition != null){
 			vec3d1 = Vec3.createVectorHelper(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
 		}
 		Entity entity = null;
 		List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
 		double d = 0.0D;
-		for (int j = 0; j < list.size(); j++)
-		{
+		for (int j = 0; j < list.size(); j++){
 			Entity entity1 = (Entity)list.get(j);
-			if (!entity1.canBeCollidedWith() || entity1.isEntityEqual(getThrowingEntity()) && ticksExisted < 25)
-			{
+			if (!entity1.canBeCollidedWith() || entity1.isEntityEqual(getThrowingEntity()) && ticksExisted < 25){
 				continue;
 			}
 			float f2 = 0.3F;
 			AxisAlignedBB axisalignedbb = entity1.boundingBox.expand(f2, f2, f2);
 			MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3d, vec3d1);
-			if (movingobjectposition1 == null)
-			{
+			if (movingobjectposition1 == null){
 				continue;
 			}
 			double d1 = vec3d.distanceTo(movingobjectposition1.hitVec);
-			if (d1 < d || d == 0.0D)
-			{
+			if (d1 < d || d == 0.0D){
 				entity = entity1;
 				d = d1;
 			}
 		}
 
-		if (entity != null)
-		{
+		if (entity != null){
 			movingobjectposition = new MovingObjectPosition(entity);
 		}else{
 			movingobjectposition = new MovingObjectPosition((int)Math.floor(posX), (int)Math.floor(posY), (int)Math.floor(posZ), 0, Vec3.createVectorHelper(posX, posY, posZ));
 		}
-		if (movingobjectposition != null)
-		{
+		if (movingobjectposition != null){
 			HitObject(movingobjectposition);
 		}
 
@@ -179,17 +160,19 @@ public class EntityThrownSickle extends EntityLiving{
 		posZ += motionZ;
 		float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
 		rotationYaw = (float)((Math.atan2(motionX, motionZ) * 180D) / 3.1415927410125732D);
-		for (rotationPitch = (float)((Math.atan2(motionY, f) * 180D) / 3.1415927410125732D); rotationPitch - prevRotationPitch < -180F; prevRotationPitch -= 360F) { }
-		for (; rotationPitch - prevRotationPitch >= 180F; prevRotationPitch += 360F) { }
-		for (; rotationYaw - prevRotationYaw < -180F; prevRotationYaw -= 360F) { }
-		for (; rotationYaw - prevRotationYaw >= 180F; prevRotationYaw += 360F) { }
+		for (rotationPitch = (float)((Math.atan2(motionY, f) * 180D) / 3.1415927410125732D); rotationPitch - prevRotationPitch < -180F; prevRotationPitch -= 360F){
+		}
+		for (; rotationPitch - prevRotationPitch >= 180F; prevRotationPitch += 360F){
+		}
+		for (; rotationYaw - prevRotationYaw < -180F; prevRotationYaw -= 360F){
+		}
+		for (; rotationYaw - prevRotationYaw >= 180F; prevRotationYaw += 360F){
+		}
 		rotationPitch = prevRotationPitch + (rotationPitch - prevRotationPitch) * 0.2F;
 		rotationYaw = prevRotationYaw + (rotationYaw - prevRotationYaw) * 0.2F;
 		float f1 = 0.95F;
-		if (isInWater())
-		{
-			for (int k = 0; k < 4; k++)
-			{
+		if (isInWater()){
+			for (int k = 0; k < 4; k++){
 				float f3 = 0.25F;
 				worldObj.spawnParticle("bubble", posX - motionX * f3, posY - motionY * f3, posZ - motionZ * f3, motionX, motionY, motionZ);
 			}
@@ -222,15 +205,14 @@ public class EntityThrownSickle extends EntityLiving{
 		}
 	}
 
-	protected void HitObject(MovingObjectPosition movingobjectposition)
-	{
-		if (movingobjectposition.entityHit != null && movingobjectposition.entityHit instanceof EntityLivingBase)
-		{
+	protected void HitObject(MovingObjectPosition movingobjectposition){
+		if (movingobjectposition.entityHit != null && movingobjectposition.entityHit instanceof EntityLivingBase){
 			if (movingobjectposition.entityHit == getThrowingEntity() || getThrowingEntity() == null) return;
 			if (getThrowingEntity() != null && !this.entityHits.contains(movingobjectposition.entityHit.getEntityId())){
 				this.entityHits.add(movingobjectposition.entityHit.getEntityId());
 				if (getThrowingEntity() instanceof EntityPlayer){
-					if (movingobjectposition.entityHit instanceof EntityPlayer && ((!getThrowingEntity().worldObj.isRemote && !MinecraftServer.getServer().isPVPEnabled()) || getThrowingEntity().worldObj.isRemote)) return;
+					if (movingobjectposition.entityHit instanceof EntityPlayer && ((!getThrowingEntity().worldObj.isRemote && !MinecraftServer.getServer().isPVPEnabled()) || getThrowingEntity().worldObj.isRemote))
+						return;
 					movingobjectposition.entityHit.attackEntityFrom(DamageSources.causeEntityCactusDamage(getThrowingEntity(), true), 10);
 				}else{
 					movingobjectposition.entityHit.attackEntityFrom(DamageSources.causeEntityCactusDamage(getThrowingEntity(), true), 12);
@@ -255,7 +237,7 @@ public class EntityThrownSickle extends EntityLiving{
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void entityInit(){
 		super.entityInit();
 		this.dataWatcher.addObject(DW_THROWING_ENTITY, 0);
 		this.dataWatcher.addObject(DW_PROJECTILE_SPEED, 20);
@@ -285,27 +267,27 @@ public class EntityThrownSickle extends EntityLiving{
 	}
 
 	@Override
-	public ItemStack getHeldItem() {
+	public ItemStack getHeldItem(){
 		return null;
 	}
 
 	@Override
-	public void setCurrentItemOrArmor(int i, ItemStack itemstack) {
+	public void setCurrentItemOrArmor(int i, ItemStack itemstack){
 
 	}
 
 	@Override
-	public ItemStack[] getLastActiveItems() {
+	public ItemStack[] getLastActiveItems(){
 		return new ItemStack[0];
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
 		return false;
 	}
 
 	@Override
-	protected boolean canDespawn() {
+	protected boolean canDespawn(){
 		return false;
 	}
 }

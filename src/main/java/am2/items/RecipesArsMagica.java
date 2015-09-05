@@ -1,18 +1,18 @@
 package am2.items;
 
-import java.util.Map;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import am2.api.IAMRecipeManager;
 import am2.blocks.CraftingEssenceExtractor;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 
-public abstract class RecipesArsMagica implements IAMRecipeManager {
+import java.util.Map;
+
+public abstract class RecipesArsMagica implements IAMRecipeManager{
 
 	protected Map RecipeList;
 
 	@Override
-	public void addRefinerRecipe(ItemStack output, ItemStack[] components) {
+	public void addRefinerRecipe(ItemStack output, ItemStack[] components){
 		if (output != null && components.length == 5)
 			AddRecipe(components, output);
 	}

@@ -1,21 +1,18 @@
 package am2.blocks.tileentities;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import am2.AMCore;
 import am2.api.math.AMVector3;
 import am2.api.power.PowerTypes;
 import am2.entities.EntityShadowHelper;
 import am2.items.ItemsCommonProxy;
-import am2.particles.AMParticle;
-import am2.particles.ParticleFloatUpward;
 import am2.power.PowerNodeRegistry;
 import am2.utility.InventoryUtilities;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class TileEntityOtherworldAura extends TileEntityAMPower{
 
@@ -32,22 +29,22 @@ public class TileEntityOtherworldAura extends TileEntityAMPower{
 	private String placedByUsername = ""; //username of the player who placed the block (used to get the shadow's texture)
 	private EntityShadowHelper helper; //the helper entity that actually moves items around
 
-	public TileEntityOtherworldAura() {
+	public TileEntityOtherworldAura(){
 		super(200);
 	}
 
 	@Override
-	public boolean canRelayPower(PowerTypes type) {
+	public boolean canRelayPower(PowerTypes type){
 		return false;
 	}
 
 	@Override
-	public int getChargeRate() {
+	public int getChargeRate(){
 		return 100;
 	}
 
 	@Override
-	public PowerTypes[] getValidPowerTypes() {
+	public PowerTypes[] getValidPowerTypes(){
 		return valid;
 	}
 
@@ -78,14 +75,14 @@ public class TileEntityOtherworldAura extends TileEntityAMPower{
 					if (te == null) continue;
 					if (!(te instanceof IInventory)) continue;
 					nearbyInventories.add(new AMVector3(te));
-				}	
-			}	
+				}
+			}
 		}
 	}
 
 	private AMVector3 findInNearbyInventories(ItemStack search){
 		Iterator<AMVector3> it = this.nearbyInventories.iterator();
-		while(it.hasNext()){
+		while (it.hasNext()){
 			AMVector3 vec = it.next();
 			TileEntity te = worldObj.getTileEntity((int)vec.x, (int)vec.y, (int)vec.z);
 			if (te == null || !(te instanceof IInventory)){
@@ -109,7 +106,7 @@ public class TileEntityOtherworldAura extends TileEntityAMPower{
 			return;
 
 		this.helper = new EntityShadowHelper(worldObj);
-		this.helper.setPosition(xCoord, yCoord + 1, zCoord);	
+		this.helper.setPosition(xCoord, yCoord + 1, zCoord);
 		if (this.watchTarget != null)
 			this.helper.setAltarTarget(watchTarget);
 		this.worldObj.spawnEntityInWorld(helper);
@@ -122,8 +119,8 @@ public class TileEntityOtherworldAura extends TileEntityAMPower{
 	}
 
 	@Override
-	public void updateEntity() {
-		super.updateEntity();		
+	public void updateEntity(){
+		super.updateEntity();
 
 		//sanity check
 		if (nearbyInventories == null) return;
@@ -131,17 +128,17 @@ public class TileEntityOtherworldAura extends TileEntityAMPower{
 			setActive(false, null);
 			return;
 		}
-		
+
 		if (helper != null && helper.isDead){
 			return;
 		}
 
 		if (!worldObj.isRemote){
 			if (PowerNodeRegistry.For(worldObj).checkPower(this, 1.25f)){
-				if (delayCounter-- <= 0){	
+				if (delayCounter-- <= 0){
 					if (helper == null){
 						spawnHelper();
-					}			
+					}
 
 					ItemStack next = watchTarget.getNextPlannedItem();
 					if (next == null){
@@ -151,7 +148,7 @@ public class TileEntityOtherworldAura extends TileEntityAMPower{
 
 					if (next.getItem() == ItemsCommonProxy.essence && next.getItemDamage() > ItemsCommonProxy.essence.META_MAX){
 						if (!this.helper.hasSearchLocation())
-							this.helper.setSearchLocationAndItem(new AMVector3(1,1,1), next);
+							this.helper.setSearchLocationAndItem(new AMVector3(1, 1, 1), next);
 						delayCounter = 100;
 					}else{
 						AMVector3 location = findInNearbyInventories(next);
@@ -165,8 +162,8 @@ public class TileEntityOtherworldAura extends TileEntityAMPower{
 							if (!this.helper.hasSearchLocation())
 								this.helper.setSearchLocationAndItem(location, next);
 							delayCounter = 20; //delay for 5s (give the helper time to get the item and toss it in)
-						}	
-					}				
+						}
+					}
 				}
 				PowerNodeRegistry.For(worldObj).consumePower(this, PowerNodeRegistry.For(worldObj).getHighestPowerType(this), 1.25f);
 			}else{
@@ -181,13 +178,13 @@ public class TileEntityOtherworldAura extends TileEntityAMPower{
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbttagcompound) {		
+	public void writeToNBT(NBTTagCompound nbttagcompound){
 		super.writeToNBT(nbttagcompound);
 		nbttagcompound.setString("placedBy", placedByUsername);
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbttagcompound) {	
+	public void readFromNBT(NBTTagCompound nbttagcompound){
 		super.readFromNBT(nbttagcompound);
 		this.placedByUsername = nbttagcompound.getString("placedBy");
 	}

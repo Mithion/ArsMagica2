@@ -20,13 +20,13 @@ public class RegionCoordinates{
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj){
 		RegionCoordinates coord = (RegionCoordinates)obj;
 		return coord.x == this.x & coord.z == this.z && coord.dimension == this.dimension;
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode(){
 		return x + z + dimension;
 	}
 }

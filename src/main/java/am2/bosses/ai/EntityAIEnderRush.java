@@ -1,58 +1,56 @@
 package am2.bosses.ai;
 
-import thehippomaster.AnimationAPI.AIAnimation;
-import thehippomaster.AnimationAPI.IAnimatedEntity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.util.DamageSource;
-
-
 import am2.api.math.AMVector3;
 import am2.bosses.BossActions;
 import am2.bosses.EntityEnderGuardian;
 import am2.bosses.IArsMagicaBoss;
 import am2.utility.MathUtilities;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.util.DamageSource;
+import thehippomaster.AnimationAPI.AIAnimation;
+import thehippomaster.AnimationAPI.IAnimatedEntity;
 
 public class EntityAIEnderRush extends AIAnimation{
 	private int cooldownTicks = 0;
 
-	public EntityAIEnderRush(IAnimatedEntity entity) {
+	public EntityAIEnderRush(IAnimatedEntity entity){
 		super(entity);
 	}
 
 	@Override
-	public int getAnimID() {
+	public int getAnimID(){
 		return BossActions.CHARGE.ordinal();
 	}
 
 	@Override
-	public boolean isAutomatic() {
+	public boolean isAutomatic(){
 		return false;
 	}
 
 	@Override
-	public int getDuration() {
+	public int getDuration(){
 		return 30;
 	}
 
 	@Override
-	public boolean shouldAnimate() {
+	public boolean shouldAnimate(){
 		//accessor method in AIAnimation that gives access to the entity
 		EntityLiving living = getEntity();
 
 		//must have an attack target
-		if(living.getAttackTarget() == null) return false;
+		if (living.getAttackTarget() == null) return false;
 
 		return cooldownTicks-- <= 0;
 	}
 
 	@Override
-	public void resetTask() {
+	public void resetTask(){
 		cooldownTicks = 60;
 		super.resetTask();
 	}
 
 	@Override
-	public void updateTask() {
+	public void updateTask(){
 		EntityEnderGuardian guardian = getEntity();
 		if (guardian.getAttackTarget() != null){
 			guardian.getLookHelper().setLookPositionWithEntity(guardian.getAttackTarget(), 30, 30);
@@ -65,7 +63,7 @@ public class EntityAIEnderRush extends AIAnimation{
 				float speed = -5f;
 				guardian.moveEntity(movement.x * speed, movement.y * speed, movement.z * speed);
 			}else{
-				guardian.worldObj.playSoundAtEntity(guardian, ((IArsMagicaBoss)guardian).getAttackSound(), 1.0f, (float) (0.5 + guardian.getRNG().nextDouble() * 0.5f));
+				guardian.worldObj.playSoundAtEntity(guardian, ((IArsMagicaBoss)guardian).getAttackSound(), 1.0f, (float)(0.5 + guardian.getRNG().nextDouble() * 0.5f));
 				if (guardian.getAttackTarget().attackEntityFrom(DamageSource.causeMobDamage(guardian), 15) && guardian.getAttackTarget().getHealth() <= 0)
 					guardian.heal(200);
 			}

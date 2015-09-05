@@ -1,21 +1,5 @@
 package am2.guis;
 
-import java.util.ArrayList;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-
-import org.lwjgl.opengl.GL11;
-
-import am2.AMCore;
 import am2.guis.controls.GuiSlideControl;
 import am2.guis.controls.GuiStatedImageButton;
 import am2.items.ContainerKeystone;
@@ -27,9 +11,22 @@ import am2.network.AMDataWriter;
 import am2.network.AMNetHandler;
 import am2.network.AMPacketIDs;
 import am2.texture.ResourceManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
+import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
 
 
-public class GuiKeystone extends GuiContainer {
+public class GuiKeystone extends GuiContainer{
 
 	private static final ResourceLocation background = new ResourceLocation("arsmagica2", ResourceManager.GetGuiTexturePath("keystone_GUI.png"));
 	private static final ResourceLocation extras = new ResourceLocation("arsmagica2", ResourceManager.GetGuiTexturePath("spellBookGui_2.png"));
@@ -51,7 +48,7 @@ public class GuiKeystone extends GuiContainer {
 	private int comboScrollOffset = 0;
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
+	protected void drawGuiContainerBackgroundLayer(float f, int i, int j){
 		mc.renderEngine.bindTexture(background);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		int l = (width - xSize) / 2;
@@ -88,7 +85,7 @@ public class GuiKeystone extends GuiContainer {
 	}
 
 	@Override
-	public void initGui() {
+	public void initGui(){
 		super.initGui();
 		int l = (width - xSize) / 2;
 		int i1 = (height - ySize) / 2;
@@ -113,15 +110,15 @@ public class GuiKeystone extends GuiContainer {
 		addCombination = new GuiStatedImageButton(0, l + 26, i1 + 86, background, 208, 224);
 		forgetCombination = new GuiStatedImageButton(1, l + 134, i1 + 86, background, 208, 240);
 
-		prevCombination.addStateCoords(GuiStatedImageButton.States.MOUSEOVER,224, 192);
-		nextCombination.addStateCoords(GuiStatedImageButton.States.MOUSEOVER,224, 208);
-		addCombination.addStateCoords(GuiStatedImageButton.States.MOUSEOVER,224, 224);
-		forgetCombination.addStateCoords(GuiStatedImageButton.States.MOUSEOVER,224, 240);
+		prevCombination.addStateCoords(GuiStatedImageButton.States.MOUSEOVER, 224, 192);
+		nextCombination.addStateCoords(GuiStatedImageButton.States.MOUSEOVER, 224, 208);
+		addCombination.addStateCoords(GuiStatedImageButton.States.MOUSEOVER, 224, 224);
+		forgetCombination.addStateCoords(GuiStatedImageButton.States.MOUSEOVER, 224, 240);
 
-		prevCombination.addStateCoords(GuiStatedImageButton.States.CLICK,240, 192);
-		nextCombination.addStateCoords(GuiStatedImageButton.States.CLICK,240, 208);
-		addCombination.addStateCoords(GuiStatedImageButton.States.CLICK,240, 224);
-		forgetCombination.addStateCoords(GuiStatedImageButton.States.CLICK,240, 240);
+		prevCombination.addStateCoords(GuiStatedImageButton.States.CLICK, 240, 192);
+		nextCombination.addStateCoords(GuiStatedImageButton.States.CLICK, 240, 208);
+		addCombination.addStateCoords(GuiStatedImageButton.States.CLICK, 240, 224);
+		forgetCombination.addStateCoords(GuiStatedImageButton.States.CLICK, 240, 240);
 
 		prevCombination.setDimensions(16, 16);
 		nextCombination.setDimensions(16, 16);
@@ -136,7 +133,7 @@ public class GuiKeystone extends GuiContainer {
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton button) {
+	protected void actionPerformed(GuiButton button){
 		if (button == scrollBar){
 			comboScrollOffset = Math.round(scrollBar.getShiftedValue());
 			return;
@@ -254,7 +251,7 @@ public class GuiKeystone extends GuiContainer {
 	}
 
 	@Override
-	protected void mouseClicked(int par1, int par2, int par3) {
+	protected void mouseClicked(int par1, int par2, int par3){
 		super.mouseClicked(par1, par2, par3);
 
 		int l = (width - xSize) / 2;
@@ -274,7 +271,7 @@ public class GuiKeystone extends GuiContainer {
 	}
 
 	@Override
-	protected void mouseMovedOrUp(int par1, int par2, int par3) {
+	protected void mouseMovedOrUp(int par1, int par2, int par3){
 		super.mouseMovedOrUp(par1, par2, par3);
 		for (Object button : this.buttonList){
 			((GuiButton)button).mouseReleased(par1, par2);
@@ -282,7 +279,7 @@ public class GuiKeystone extends GuiContainer {
 	}
 
 	@Override
-	protected void mouseClickMove(int par1, int par2, int par3, long par4) {
+	protected void mouseClickMove(int par1, int par2, int par3, long par4){
 		super.mouseClickMove(par1, par2, par3, par4);
 		if (scrollBar.dragging){
 			comboScrollOffset = Math.round(scrollBar.getShiftedValue());
@@ -291,7 +288,7 @@ public class GuiKeystone extends GuiContainer {
 	}
 
 	@Override
-	protected void keyTyped(char par1, int par2) {
+	protected void keyTyped(char par1, int par2){
 		if (combinationName.isFocused()){
 			combinationName.textboxKeyTyped(par1, par2);
 		}else{
@@ -300,8 +297,7 @@ public class GuiKeystone extends GuiContainer {
 		}
 	}
 
-	public GuiKeystone(InventoryPlayer inventoryplayer, ItemStack keystoneStack, ItemStack runebagStack, InventoryKeyStone inventorykeystone, InventoryRuneBag runeBag, int runeBagIndex)
-	{
+	public GuiKeystone(InventoryPlayer inventoryplayer, ItemStack keystoneStack, ItemStack runebagStack, InventoryKeyStone inventorykeystone, InventoryRuneBag runeBag, int runeBagIndex){
 		super(new ContainerKeystone(inventoryplayer, keystoneStack, runebagStack, inventorykeystone, runeBag, runeBagIndex));
 		keystoneInventory = inventorykeystone;
 		xSize = 176;
@@ -309,8 +305,7 @@ public class GuiKeystone extends GuiContainer {
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int par1, int par2)
-	{
+	protected void drawGuiContainerForegroundLayer(int par1, int par2){
 		int l = (width - xSize) / 2;
 		int i1 = (height - ySize) / 2;
 

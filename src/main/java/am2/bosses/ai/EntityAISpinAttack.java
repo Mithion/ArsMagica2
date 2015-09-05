@@ -1,17 +1,17 @@
 package am2.bosses.ai;
 
-import java.util.List;
-
+import am2.bosses.BossActions;
+import am2.bosses.IArsMagicaBoss;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.util.DamageSource;
-import am2.bosses.BossActions;
-import am2.bosses.IArsMagicaBoss;
+
+import java.util.List;
 
 public class EntityAISpinAttack<T> extends EntityAIBase{
 
-	private final EntityLiving host;	
+	private final EntityLiving host;
 	private final float moveSpeed;
 	private EntityLivingBase target;
 	private int cooldownTicks = 0;
@@ -25,8 +25,9 @@ public class EntityAISpinAttack<T> extends EntityAIBase{
 	}
 
 	@Override
-	public boolean shouldExecute() {
-		if (cooldownTicks-- > 0 || ((IArsMagicaBoss)host).getCurrentAction() != BossActions.IDLE || !((IArsMagicaBoss)host).isActionValid(BossActions.SPINNING)) return false;
+	public boolean shouldExecute(){
+		if (cooldownTicks-- > 0 || ((IArsMagicaBoss)host).getCurrentAction() != BossActions.IDLE || !((IArsMagicaBoss)host).isActionValid(BossActions.SPINNING))
+			return false;
 		EntityLivingBase AITarget = host.getAttackTarget();
 		if (AITarget == null || AITarget.isDead || AITarget.getDistanceSqToEntity(host) > 25) return false;
 		this.target = AITarget;
@@ -35,7 +36,7 @@ public class EntityAISpinAttack<T> extends EntityAIBase{
 	}
 
 	@Override
-	public boolean continueExecuting() {
+	public boolean continueExecuting(){
 		EntityLivingBase AITarget = host.getAttackTarget();
 		if (AITarget == null || AITarget.isDead || ((IArsMagicaBoss)host).getTicksInCurrentAction() > BossActions.SPINNING.getMaxActionTime()){
 			resetTask();
@@ -43,20 +44,20 @@ public class EntityAISpinAttack<T> extends EntityAIBase{
 		}
 		return true;
 	}
-	
+
 	@Override
-	public void resetTask() {
+	public void resetTask(){
 		((IArsMagicaBoss)host).setCurrentAction(BossActions.IDLE);
 		cooldownTicks = 150;
 		
 		/*if (host.worldObj.isRemote)
 			SoundHelper.instance.stopSound("arsmagica2:mob.natureguardian.whirlloop");*/
-		
+
 		super.resetTask();
 	}
 
 	@Override
-	public void updateTask() {
+	public void updateTask(){
 		host.getLookHelper().setLookPositionWithEntity(target, 30, 30);
 		host.getNavigator().tryMoveToEntityLiving(target, moveSpeed);
 		List<EntityLivingBase> nearbyEntities = host.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, host.boundingBox.expand(2, 2, 2));
@@ -64,8 +65,8 @@ public class EntityAISpinAttack<T> extends EntityAIBase{
 			if (ent == host) continue;
 			ent.attackEntityFrom(DamageSource.causeMobDamage(host), damage);
 		}
-		
-		if (((IArsMagicaBoss) host).getTicksInCurrentAction() % 50 == 0){
+
+		if (((IArsMagicaBoss)host).getTicksInCurrentAction() % 50 == 0){
 			if (!host.worldObj.isRemote)
 				host.worldObj.playSoundAtEntity(host, "arsmagica2:mob.natureguardian.whirlloop", 1.0f, 1.0f);
 		}

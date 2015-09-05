@@ -1,22 +1,19 @@
 package am2.entities.models;
 
 import am2.entities.EntityManaElemental;
-import cpw.mods.fml.relauncher.SideOnly;
 import cpw.mods.fml.relauncher.Side;
-import net.minecraft.entity.Entity;
-import net.minecraft.client.model.ModelBase;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
 
 @SideOnly(Side.CLIENT)
-public class ModelManaElemental extends ModelBiped
-{
+public class ModelManaElemental extends ModelBiped{
 	//fields
 	ModelRenderer Core;
 	ModelRenderer Pelvis;
 
-	public ModelManaElemental()
-	{		
+	public ModelManaElemental(){
 		textureWidth = 64;
 		textureHeight = 32;
 
@@ -67,11 +64,10 @@ public class ModelManaElemental extends ModelBiped
 		bipedRightLeg.setRotationPoint(4F, 3F, 0F);
 		bipedRightLeg.setTextureSize(64, 32);
 		bipedRightLeg.mirror = true;
-		setRotation(bipedRightLeg, 0F, 0F, 0F);		
+		setRotation(bipedRightLeg, 0F, 0F, 0F);
 	}
 
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{		
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 		bipedHead.render(f5);
 		bipedBody.render(f5);
@@ -86,19 +82,17 @@ public class ModelManaElemental extends ModelBiped
 		}
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z){
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
 	}
 
-	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity)
-	{
+	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity){
 		super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 		setRotation(Core, bipedBody.rotateAngleX, bipedBody.rotateAngleY, bipedBody.rotateAngleZ);
 		setRotation(Pelvis, bipedBody.rotateAngleX, bipedBody.rotateAngleY, bipedBody.rotateAngleZ);
-		
+
 		bipedHead.setRotationPoint(0F, -9F, 0F);
 		bipedBody.setRotationPoint(0F, -7F, 0F);
 		bipedRightArm.setRotationPoint(-8F, -7F, 0F);

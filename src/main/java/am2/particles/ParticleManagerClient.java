@@ -1,7 +1,13 @@
 package am2.particles;
 
-import java.util.Random;
-
+import am2.AMCore;
+import am2.api.math.AMVector3;
+import am2.buffs.BuffList;
+import am2.codechicken.LightningBolt;
+import am2.network.AMDataReader;
+import am2.particles.ribbon.AMRibbon;
+import am2.playerextensions.ExtendedProperties;
+import am2.utility.MathUtilities;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -11,17 +17,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import am2.AMCore;
-import am2.AMKeyBindings;
-import am2.api.math.AMVector3;
-import am2.buffs.BuffList;
-import am2.codechicken.LightningBolt;
-import am2.network.AMDataReader;
-import am2.particles.ribbon.AMRibbon;
-import am2.playerextensions.ExtendedProperties;
-import am2.utility.MathUtilities;
 
-public class ParticleManagerClient extends ParticleManagerServer {
+import java.util.Random;
+
+public class ParticleManagerClient extends ParticleManagerServer{
 
 	public static final byte PKT_BOLT_ENT_ENT = 64;
 	public static final byte PKT_BOLT_PT_PT = 63;
@@ -59,12 +58,12 @@ public class ParticleManagerClient extends ParticleManagerServer {
 	}
 
 	@Override
-	public AMLineArc spawn(World world, String name, Entity source, Entity target) {
+	public AMLineArc spawn(World world, String name, Entity source, Entity target){
 		AMLineArc arc = new AMLineArc(world, source, target, name);
 		particleRenderer.addArcEffect(arc);
 		return arc;
 	}
-	
+
 	public void registerEventHandlers(){
 		MinecraftForge.EVENT_BUS.register(particleRenderer);
 		FMLCommonHandler.instance().bus().register(particleRenderer);
@@ -273,7 +272,7 @@ public class ParticleManagerClient extends ParticleManagerServer {
 		double endY;
 		double endZ;
 
-		switch(sub_id){
+		switch (sub_id){
 		case PKT_BOLT_ENT_ENT:
 			casterID = rdr.getInt();
 			sourceID = rdr.getInt();
@@ -405,7 +404,7 @@ public class ParticleManagerClient extends ParticleManagerServer {
 	}
 
 	@Override
-	public void spawnAuraParticles(EntityLivingBase ent) {
+	public void spawnAuraParticles(EntityLivingBase ent){
 		if (!ent.worldObj.isRemote) return;
 
 		int particleIndex = 15;
@@ -435,18 +434,18 @@ public class ParticleManagerClient extends ParticleManagerServer {
 			particleAlpha = ExtendedProperties.For(ent).getAuraAlpha();
 			particleDefaultColor = ExtendedProperties.For(ent).getAuraColorDefault();
 			particleRandomColor = ExtendedProperties.For(ent).getAuraColorRandomize();
-			particleColor =  ExtendedProperties.For(ent).getAuraColor();
-			particleQuantity =  ExtendedProperties.For(ent).getAuraQuantity();
-			particleSpeed =  ExtendedProperties.For(ent).getAuraSpeed() / 10;
+			particleColor = ExtendedProperties.For(ent).getAuraColor();
+			particleQuantity = ExtendedProperties.For(ent).getAuraQuantity();
+			particleSpeed = ExtendedProperties.For(ent).getAuraSpeed() / 10;
 		}
 
 		if (particleIndex == 31) //fix radiant particle's scaling issues...
 			particleScale /= 10;
 
-		if (ent.worldObj.isRemote && ent instanceof EntityPlayer && AMCore.proxy.playerTracker.hasAA((EntityPlayer) ent)){
+		if (ent.worldObj.isRemote && ent instanceof EntityPlayer && AMCore.proxy.playerTracker.hasAA((EntityPlayer)ent)){
 			if (Minecraft.getMinecraft().thePlayer != ent || Minecraft.getMinecraft().gameSettings.thirdPersonView > 0){
 				if (AMParticle.particleTypes[particleIndex].startsWith("lightning_bolts")){
-					int type = Integer.parseInt(new String(new char[] {AMParticle.particleTypes[particleIndex].charAt(AMParticle.particleTypes[particleIndex].length()-1)}));
+					int type = Integer.parseInt(new String(new char[]{AMParticle.particleTypes[particleIndex].charAt(AMParticle.particleTypes[particleIndex].length() - 1)}));
 					if (rand.nextInt(100) < 90){
 						BoltFromPointToPoint(ent.worldObj, ent.posX + (rand.nextFloat() - 0.5f), ent.posY + ent.getEyeHeight() - ent.height + (rand.nextFloat() * ent.height), ent.posZ + (rand.nextFloat() - 0.5f), ent.posX + (rand.nextFloat() - 0.5f), ent.posY + ent.getEyeHeight() - ent.height + (rand.nextFloat() * ent.height), ent.posZ + (rand.nextFloat() - 0.5f), type, -1);
 					}else{
@@ -506,7 +505,7 @@ public class ParticleManagerClient extends ParticleManagerServer {
 	}
 
 	@Override
-	public void spawnBuffParticles(EntityLivingBase entityliving) {
+	public void spawnBuffParticles(EntityLivingBase entityliving){
 		Random rand = new Random();
 		World world = entityliving.worldObj;
 
@@ -516,7 +515,7 @@ public class ParticleManagerClient extends ParticleManagerServer {
 			if (entityliving.isPotionActive(BuffList.trueSight.id) && entityliving.ticksExisted % 20 == 0){
 				int radius = 5;
 				for (int i = -radius; i <= radius; ++i){
-					for (int j= -radius; j <= radius; ++j){
+					for (int j = -radius; j <= radius; ++j){
 						for (int k = -radius; k <= radius; ++k){
 							if (entityliving.worldObj.getBlock((int)entityliving.posX + i, (int)entityliving.posY + j, (int)entityliving.posZ + k) == Blocks.air && entityliving.worldObj.getBlockLightValue((int)entityliving.posX + i, (int)entityliving.posY + j, (int)entityliving.posZ + k) <= 7){
 								AMParticle effect = spawn(world, "hr_sparkles_1", (int)entityliving.posX - 1 + i + (rand.nextDouble() * 3), (int)entityliving.posY - 1 + j + (rand.nextDouble() * 3), (int)entityliving.posZ - 1 + k + (rand.nextDouble() * 3));
@@ -524,7 +523,7 @@ public class ParticleManagerClient extends ParticleManagerServer {
 									effect.setRGBColorF(rand.nextFloat() * 0.4f + 0.3f, 0.6f, rand.nextFloat() * 0.4f + 0.6f);
 									effect.setIgnoreMaxAge(false);
 									effect.setMaxAge(40);
-									effect.AddParticleController(new ParticleFloatUpward(effect, 0.01f, 0.01f,  1, false));
+									effect.AddParticleController(new ParticleFloatUpward(effect, 0.01f, 0.01f, 1, false));
 									effect.AddParticleController(new ParticleFadeOut(effect, 2, false).setFadeSpeed(0.01f));
 								}
 							}
@@ -539,7 +538,7 @@ public class ParticleManagerClient extends ParticleManagerServer {
 	}
 
 	@Override
-	public ParticleController createDefaultParticleController(int type, Object eff, AMVector3 location, float modifier, int meta) {
+	public ParticleController createDefaultParticleController(int type, Object eff, AMVector3 location, float modifier, int meta){
 		AMParticle effect = (AMParticle)eff;
 		switch (type){
 		default:
@@ -564,9 +563,9 @@ public class ParticleManagerClient extends ParticleManagerServer {
 			return new ParticleMoveOnHeading(effect, (meta & ~0x8) * 90, 0, 0.02f * modifier, 1, false);
 		}
 	}
-	
+
 	@Override
-	public ParticleController createDefaultParticleController(int type, Object eff, EntityLivingBase ent) {
+	public ParticleController createDefaultParticleController(int type, Object eff, EntityLivingBase ent){
 		AMParticle effect = (AMParticle)eff;
 		switch (type){
 		default:
@@ -584,6 +583,6 @@ public class ParticleManagerClient extends ParticleManagerServer {
 			return new ParticleFleeEntity(effect, ent, 0.05f, 2D, 1, false);
 		case 6: //forward
 			return new ParticleMoveOnHeading(effect, ent.rotationYaw + 90, ent.rotationPitch, 0.05f, 1, false);
-		}		
+		}
 	}
 }

@@ -5,13 +5,12 @@
 // - ZeuX
 package am2.models;
 
+import am2.entities.renderers.AM2ModelRenderer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import am2.entities.renderers.AM2ModelRenderer;
 
-public class ModelHellCow extends ModelBiped
-{
+public class ModelHellCow extends ModelBiped{
 	//fields
 	AM2ModelRenderer Tail;
 	AM2ModelRenderer Snout;
@@ -30,8 +29,7 @@ public class ModelHellCow extends ModelBiped
 	AM2ModelRenderer AxeHead2;
 	AM2ModelRenderer AxeHead4;
 
-	public ModelHellCow()
-	{
+	public ModelHellCow(){
 		textureWidth = 128;
 		textureHeight = 64;
 
@@ -155,23 +153,23 @@ public class ModelHellCow extends ModelBiped
 		AxeHead4.setTextureSize(128, 64);
 		AxeHead4.mirror = true;
 		setRotation(AxeHead4, 0F, -0.3490659F, 0.2268928F);
-		
+
 		horn1.storeRestRotations();
 		horn2.storeRestRotations();
 		horn3.storeRestRotations();
 		horn4.storeRestRotations();
 		horn5.storeRestRotations();
 		horn6.storeRestRotations();
-		
+
 		Snout.storeRestRotations();
 	}
-	
+
 	@Override
-	public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity) {
-		super.setRotationAngles(par1, par2, par3, par4, par5, par6, par7Entity);		
-		
+	public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity){
+		super.setRotationAngles(par1, par2, par3, par4, par5, par6, par7Entity);
+
 		this.bipedHead.rotationPointY = -5.0F;
-		
+
 		setRotation(horn1, bipedHead.rotateAngleX, bipedHead.rotateAngleY, bipedHead.rotateAngleZ);
 		setRotation(horn2, bipedHead.rotateAngleX, bipedHead.rotateAngleY, bipedHead.rotateAngleZ);
 		setRotation(horn3, bipedHead.rotateAngleX, bipedHead.rotateAngleY, bipedHead.rotateAngleZ);
@@ -182,13 +180,12 @@ public class ModelHellCow extends ModelBiped
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		this.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-		
+
 		heldItemLeft = 0;
 		heldItemRight = 0;
-		
+
 		Tail.render(f5);
 		Snout.render(f5);
 		Handle.render(f5);
@@ -211,15 +208,13 @@ public class ModelHellCow extends ModelBiped
 		AxeHead3.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z){
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
 	}
-	
-	private void setRotationEx(AM2ModelRenderer model, float x, float y, float z)
-	{
+
+	private void setRotationEx(AM2ModelRenderer model, float x, float y, float z){
 		model.rotateAngleX = model.getRestRotationX() + x;
 		model.rotateAngleY = model.getRestRotationY() + y;
 		model.rotateAngleZ = model.getRestRotationZ() + z;

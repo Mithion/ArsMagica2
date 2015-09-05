@@ -1,12 +1,10 @@
 package am2.blocks;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
-import cpw.mods.fml.common.FMLLog;
+import am2.AMCore;
+import am2.blocks.tileentities.TileEntityEverstone;
+import am2.items.ItemsCommonProxy;
+import am2.particles.AMParticle;
+import am2.texture.ResourceManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EffectRenderer;
@@ -23,30 +21,30 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import am2.AMCore;
-import am2.blocks.tileentities.TileEntityEverstone;
-import am2.items.ItemsCommonProxy;
-import am2.particles.AMParticle;
-import am2.texture.ResourceManager;
 
-public class BlockEverstone extends PoweredBlock {
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class BlockEverstone extends PoweredBlock{
 
 	private boolean wiresProvidePower = true;
 	private Set blocksNeedingUpdate = new HashSet();
 
-	protected BlockEverstone() {
+	protected BlockEverstone(){
 		super(Material.rock);
 		setHardness(3.0f);
 		setResistance(3.0f);
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int i) {
+	public TileEntity createNewTileEntity(World world, int i){
 		return new TileEntityEverstone();
 	}
 
 	@Override
-	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z) {
+	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z){
 		TileEntityEverstone everstone = getTE(world, x, y, z);
 		if (everstone == null){
 			if (player.capabilities.isCreativeMode){
@@ -66,12 +64,12 @@ public class BlockEverstone extends PoweredBlock {
 	}
 
 	@Override
-	public ArrayList<ItemStack> getDrops(World arg0, int arg1, int arg2, int arg3, int arg4, int arg5) {
+	public ArrayList<ItemStack> getDrops(World arg0, int arg1, int arg2, int arg3, int arg4, int arg5){
 		return new ArrayList<ItemStack>();
 	}
 
 	@Override
-	public float getExplosionResistance(Entity par1Entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ) {
+	public float getExplosionResistance(Entity par1Entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ){
 		TileEntityEverstone everstone = getTE(world, x, y, z);
 		if (everstone != null){
 			everstone.onBreak();
@@ -82,16 +80,16 @@ public class BlockEverstone extends PoweredBlock {
 	private TileEntityEverstone getTE(IBlockAccess world, int x, int y, int z){
 		if (world == null)
 			return null;
-		
-		TileEntity te = world.getTileEntity(x, y, z);		
+
+		TileEntity te = world.getTileEntity(x, y, z);
 		if (te == null)
 			return null;
-	
+
 		return (TileEntityEverstone)te;
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9) {
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9){
 		if (player.getHeldItem() != null){
 			Block block = null;
 			int meta = -1;
@@ -118,7 +116,7 @@ public class BlockEverstone extends PoweredBlock {
 			}
 			if (everstone.getFacade() == null && block != null){
 				everstone.setFacade(block, meta);
-				world.notifyBlockChange(x, y, z, this);				
+				world.notifyBlockChange(x, y, z, this);
 				return true;
 			}
 		}
@@ -126,27 +124,27 @@ public class BlockEverstone extends PoweredBlock {
 	}
 
 	@Override
-	public IIcon getIcon(int par1, int par2) {
+	public IIcon getIcon(int par1, int par2){
 		return blockIcon;
 	}
 
 	@Override
-	public boolean isOpaqueCube() {
+	public boolean isOpaqueCube(){
 		return false;
 	}
 
 	@Override
-	public boolean renderAsNormalBlock() {
+	public boolean renderAsNormalBlock(){
 		return true;
 	}
 
 	@Override
-	public int getRenderType() {
+	public int getRenderType(){
 		return BlocksCommonProxy.commonBlockRenderID;
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4) {
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4){
 		TileEntityEverstone everstone = getTE(par1World, par2, par3, par4);
 		if (everstone == null || everstone.isSolid())
 			return super.getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
@@ -155,15 +153,15 @@ public class BlockEverstone extends PoweredBlock {
 
 	@Override
 	public void addCollisionBoxesToList(World par1World, int par2, int par3,
-			int par4, AxisAlignedBB par5AxisAlignedBB, List par6List,
-			Entity par7Entity) {
+										int par4, AxisAlignedBB par5AxisAlignedBB, List par6List,
+										Entity par7Entity){
 		TileEntityEverstone everstone = getTE(par1World, par2, par3, par4);
 		if (everstone == null || everstone.isSolid())
 			super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
 	}
 
 	@Override
-	public IIcon getIcon(IBlockAccess par1iBlockAccess, int x, int y, int z, int face) {
+	public IIcon getIcon(IBlockAccess par1iBlockAccess, int x, int y, int z, int face){
 		TileEntityEverstone everstone = getTE(par1iBlockAccess, x, y, z);
 		if (everstone != null){
 			if (everstone.isSolid()){
@@ -179,14 +177,14 @@ public class BlockEverstone extends PoweredBlock {
 	}
 
 	@Override
-	public boolean isNormalCube(IBlockAccess world, int x, int y, int z) {
+	public boolean isNormalCube(IBlockAccess world, int x, int y, int z){
 		TileEntityEverstone everstone = getTE(world, x, y, z);
 		if (everstone == null) return true;
 		return everstone.isSolid();
 	}
 
 	@Override
-	public int isProvidingWeakPower(IBlockAccess par1iBlockAccess, int par2, int par3, int par4, int par5) {
+	public int isProvidingWeakPower(IBlockAccess par1iBlockAccess, int par2, int par3, int par4, int par5){
 		if (par1iBlockAccess instanceof World){
 			return ((World)par1iBlockAccess).getBlockPowerInput(par2, par3, par4);
 		}else{
@@ -195,16 +193,16 @@ public class BlockEverstone extends PoweredBlock {
 	}
 
 	@Override
-	public float getBlockHardness(World world, int x, int y, int z) {
+	public float getBlockHardness(World world, int x, int y, int z){
 		TileEntityEverstone everstone = getTE(world, x, y, z);
 		if (everstone == null) return this.blockHardness;
 		Block block = everstone.getFacade();
 		if (block == null || block == this) return this.blockHardness;
 		return block.getBlockHardness(world, x, y, z);
 	}
-	
+
 	@Override
-	public boolean addDestroyEffects(World world, int x, int y, int z, int meta, EffectRenderer effectRenderer) {
+	public boolean addDestroyEffects(World world, int x, int y, int z, int meta, EffectRenderer effectRenderer){
 
 		TileEntityEverstone everstone = getTE(world, x, y, z);
 
@@ -218,26 +216,26 @@ public class BlockEverstone extends PoweredBlock {
 				if (block == null) block = this;
 				blockMeta = everstone.getFacadeMeta();
 			}
-			
-			effectRenderer.addEffect(new EntityDiggingFX(world, 
-					x + world.rand.nextDouble(), 
-					y + world.rand.nextDouble(), 
-					z + world.rand.nextDouble(), 
-					0, 
-					0, 
-					0, 
-					block, 
-					blockMeta, 
+
+			effectRenderer.addEffect(new EntityDiggingFX(world,
+					x + world.rand.nextDouble(),
+					y + world.rand.nextDouble(),
+					z + world.rand.nextDouble(),
+					0,
+					0,
+					0,
+					block,
+					blockMeta,
 					0
-				));
-			
+			));
+
 		}
 
 		return true;
 	}
 
 	@Override
-	public boolean addHitEffects(World worldObj, MovingObjectPosition target, EffectRenderer effectRenderer) {
+	public boolean addHitEffects(World worldObj, MovingObjectPosition target, EffectRenderer effectRenderer){
 		TileEntityEverstone everstone = getTE(worldObj, target.blockX, target.blockY, target.blockZ);
 		AMParticle particle;
 		Block block;
@@ -249,28 +247,28 @@ public class BlockEverstone extends PoweredBlock {
 			if (block == null) block = this;
 			blockMeta = everstone.getFacadeMeta();
 		}
-		effectRenderer.addEffect(new EntityDiggingFX(worldObj, 
-				target.blockX + worldObj.rand.nextDouble(), 
-				target.blockY + worldObj.rand.nextDouble(), 
-				target.blockZ + worldObj.rand.nextDouble(), 
-				0, 
-				0, 
-				0, 
-				block, 
-				blockMeta, 
+		effectRenderer.addEffect(new EntityDiggingFX(worldObj,
+				target.blockX + worldObj.rand.nextDouble(),
+				target.blockY + worldObj.rand.nextDouble(),
+				target.blockZ + worldObj.rand.nextDouble(),
+				0,
+				0,
+				0,
+				block,
+				blockMeta,
 				0
-			));
+		));
 
 		return true;
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister) {
+	public void registerBlockIcons(IIconRegister par1IconRegister){
 		this.blockIcon = ResourceManager.RegisterTexture("everstone", par1IconRegister);
 	}
-	
+
 	@Override
-	public int getRenderBlockPass() {
+	public int getRenderBlockPass(){
 		return 1;
 	}
 }

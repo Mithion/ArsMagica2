@@ -1,16 +1,16 @@
 package am2.api.events;
 
+import am2.api.spell.enums.SpellModifiers;
 import cpw.mods.fml.common.eventhandler.Event;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import am2.api.spell.enums.SpellModifiers;
 
 /**
  * Called whenever a spell's modified variable is calculated
- * @author Mithion
  *
+ * @author Mithion
  */
-public class ModifierCalculatedEvent extends Event {
+public class ModifierCalculatedEvent extends Event{
 	//The attribute being modified
 	public final SpellModifiers attribute;
 	//The caster of the spell

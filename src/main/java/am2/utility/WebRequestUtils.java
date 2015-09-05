@@ -8,13 +8,13 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 
-public class WebRequestUtils {
+public class WebRequestUtils{
 	private static final String charset = "UTF-8";
 	private static final String USER_AGENT = "Mozilla/5.0";
 
-	public static String sendPost(String webURL, HashMap<String, String> postOptions) throws Exception {
+	public static String sendPost(String webURL, HashMap<String, String> postOptions) throws Exception{
 		URL obj = new URL(webURL);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		HttpURLConnection con = (HttpURLConnection)obj.openConnection();
 
 		//add reuqest header
 		con.setRequestMethod("POST");
@@ -44,7 +44,7 @@ public class WebRequestUtils {
 		String inputLine;
 		StringBuffer response = new StringBuffer();
 
-		while ((inputLine = in.readLine()) != null) {
+		while ((inputLine = in.readLine()) != null){
 			response.append(inputLine + "\r\n");
 		}
 		in.close();

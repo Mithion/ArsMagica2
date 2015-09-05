@@ -1,6 +1,6 @@
 package am2.entities.ai;
 
-public enum TargetTypes {
+public enum TargetTypes{
 	DAMAGE,
 	HEALING,
 	BUFF,

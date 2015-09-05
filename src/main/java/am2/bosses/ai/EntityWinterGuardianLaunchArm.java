@@ -1,18 +1,18 @@
 package am2.bosses.ai;
 
-import java.util.List;
-
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.player.EntityPlayer;
 import am2.bosses.BossActions;
 import am2.bosses.EntityWinterGuardian;
 import am2.entities.EntityWinterGuardianArm;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.player.EntityPlayer;
+
+import java.util.List;
 
 public class EntityWinterGuardianLaunchArm extends EntityAIBase{
-	private final EntityWinterGuardian host;	
+	private final EntityWinterGuardian host;
 	private final float moveSpeed;
-	private EntityLivingBase target;	
+	private EntityLivingBase target;
 	private int cooldownTicks = 0;
 
 	public EntityWinterGuardianLaunchArm(EntityWinterGuardian host, float moveSpeed){
@@ -22,7 +22,7 @@ public class EntityWinterGuardianLaunchArm extends EntityAIBase{
 	}
 
 	@Override
-	public boolean shouldExecute() {
+	public boolean shouldExecute(){
 		if (cooldownTicks-- > 0 || host.getAttackTarget() == null) return false;
 		if (host.getAttackTarget().getDistanceSqToEntity(host) > 16D){
 			target = host.getAttackTarget();
@@ -36,13 +36,13 @@ public class EntityWinterGuardianLaunchArm extends EntityAIBase{
 					target = entity;
 					return true;
 				}
-			}			
-		}		
+			}
+		}
 		return false;
 	}
 
 	@Override
-	public boolean continueExecuting() {
+	public boolean continueExecuting(){
 		if (target == null || target.isDead || host.getDistanceSqToEntity(target) < 49D || host.getDistanceSqToEntity(target) > 225D || (host.getCurrentAction() == BossActions.LAUNCHING && host.getTicksInCurrentAction() > host.getCurrentAction().getMaxActionTime())){
 			host.setCurrentAction(BossActions.IDLE);
 			target = null;
@@ -54,7 +54,7 @@ public class EntityWinterGuardianLaunchArm extends EntityAIBase{
 	}
 
 	@Override
-	public void updateTask() {
+	public void updateTask(){
 		host.getLookHelper().setLookPositionWithEntity(target, 30, 30);
 		if (host.getDistanceSqToEntity(target) > 144 && host.getCurrentAction() == BossActions.IDLE){
 			host.getNavigator().tryMoveToEntityLiving(target, moveSpeed);
@@ -65,11 +65,11 @@ public class EntityWinterGuardianLaunchArm extends EntityAIBase{
 
 			if (host.getTicksInCurrentAction() == 14){
 				host.faceEntity(target, 180, 180);
-				if (!host.worldObj.isRemote){	
-					
+				if (!host.worldObj.isRemote){
+
 					if (!host.worldObj.isRemote)
 						host.worldObj.playSoundAtEntity(host, "arsmagica2:mob.winterguardian.launcharm", 1.0f, 1.0f);
-					
+
 					EntityWinterGuardianArm projectile = new EntityWinterGuardianArm(host.worldObj, host, 1.25f);
 					projectile.setThrowingEntity(host);
 					projectile.setProjectileSpeed(2.0);

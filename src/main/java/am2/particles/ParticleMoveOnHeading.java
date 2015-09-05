@@ -1,13 +1,13 @@
 package am2.particles;
 
 
-public class ParticleMoveOnHeading extends ParticleController {
+public class ParticleMoveOnHeading extends ParticleController{
 
 	private double yaw;
 	private double pitch;
 	private double speed;
 
-	public ParticleMoveOnHeading(AMParticle particleEffect, double yaw, double pitch, double speed, int priority, boolean exclusive) {
+	public ParticleMoveOnHeading(AMParticle particleEffect, double yaw, double pitch, double speed, int priority, boolean exclusive){
 		super(particleEffect, priority, exclusive);
 
 		this.yaw = Math.toRadians(yaw);
@@ -16,7 +16,7 @@ public class ParticleMoveOnHeading extends ParticleController {
 	}
 
 	@Override
-	public void doUpdate() {
+	public void doUpdate(){
 		double movementX = Math.cos(yaw) * speed;
 		double movementZ = Math.sin(yaw) * speed;
 		double movementY = -Math.sin(pitch) * speed;
@@ -25,7 +25,7 @@ public class ParticleMoveOnHeading extends ParticleController {
 	}
 
 	@Override
-	public ParticleController clone() {
+	public ParticleController clone(){
 		return new ParticleMoveOnHeading(particle, yaw, pitch, speed, priority, exclusive);
 	}
 }

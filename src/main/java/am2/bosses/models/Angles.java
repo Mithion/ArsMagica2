@@ -1,6 +1,6 @@
 package am2.bosses.models;
 
-public class Angles {
+public class Angles{
 	public static final float RADS_20 = 0.34906585f;
 	public static final float RADS_90 = 1.57079633f;
 	public static final float RADS_145 = 2.53072742f;

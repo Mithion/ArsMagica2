@@ -1,12 +1,12 @@
 package am2.armor;
 
+import am2.armor.infusions.GenericImbuement;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import am2.armor.infusions.GenericImbuement;
 
 public class ItemMageHood extends AMArmor{
 
-	public ItemMageHood(ArmorMaterial inheritFrom, ArsMagicaArmorMaterial enumarmormaterial, int par3, int par4) {
+	public ItemMageHood(ArmorMaterial inheritFrom, ArsMagicaArmorMaterial enumarmormaterial, int par3, int par4){
 		super(inheritFrom, enumarmormaterial, par3, par4);
 	}
 

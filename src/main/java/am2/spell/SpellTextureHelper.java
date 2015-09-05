@@ -1,5 +1,14 @@
 package am2.spell;
 
+import am2.AMCore;
+import am2.texture.ResourceManager;
+import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.init.Items;
+import net.minecraft.util.IIcon;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -12,29 +21,20 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.util.IIcon;
-import am2.AMCore;
-import am2.texture.ResourceManager;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 @SideOnly(Side.CLIENT)
-public class SpellTextureHelper {
+public class SpellTextureHelper{
 	public static final SpellTextureHelper instance = new SpellTextureHelper();
 
 	private IIcon[] icons;
 	private static final String iconsPath = "/assets/arsmagica2/textures/items/spells/icons/";
 	private static final String iconsPrefix = "/spells/icons/";
 
-	private SpellTextureHelper(){}
+	private SpellTextureHelper(){
+	}
 
 	public void loadAllIcons(IIconRegister register){
 		List<String> resources;
-		try {
+		try{
 			resources = getResourceListing();
 			if (resources.size() == 0){
 				FMLLog.severe("Ars Magica 2 >> No spell IIcons found?!?");
@@ -46,7 +46,7 @@ public class SpellTextureHelper {
 			for (String s : resources){
 				icons[count++] = ResourceManager.RegisterTexture(s, register);
 			}
-		} catch (Throwable e) {
+		}catch (Throwable e){
 			if (icons == null)
 				icons = new IIcon[0];
 			e.printStackTrace();
@@ -54,10 +54,10 @@ public class SpellTextureHelper {
 
 	}
 
-	public static List<String> getResourceListing() throws IOException, URISyntaxException {
+	public static List<String> getResourceListing() throws IOException, URISyntaxException{
 		CodeSource src = AMCore.class.getProtectionDomain().getCodeSource();
 		ArrayList<String> toReturn = new ArrayList<String>();
-		if (src != null) {
+		if (src != null){
 			URL jar = src.getLocation();
 			if (jar.getProtocol() == "jar"){
 				String path = jar.toString().replace("jar:", "").replace("file:", "").replace("!/am2/AMCore.class", "").replace('/', File.separatorChar);
@@ -84,8 +84,7 @@ public class SpellTextureHelper {
 				}
 			}
 			return toReturn;
-		}
-		else {
+		}else{
 			return toReturn;
 		}
 	}

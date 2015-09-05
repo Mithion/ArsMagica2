@@ -1,20 +1,18 @@
 package am2.bosses.ai;
 
-import thehippomaster.AnimationAPI.AIAnimation;
-import thehippomaster.AnimationAPI.IAnimatedEntity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.effect.EntityLightningBolt;
-
-
 import am2.AMCore;
 import am2.api.math.AMVector3;
 import am2.bosses.BossActions;
 import am2.bosses.EntityLightningGuardian;
 import am2.damage.DamageSources;
 import am2.playerextensions.ExtendedProperties;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.effect.EntityLightningBolt;
+import thehippomaster.AnimationAPI.AIAnimation;
+import thehippomaster.AnimationAPI.IAnimatedEntity;
 
-public class EntityAILightningRod extends AIAnimation {
+public class EntityAILightningRod extends AIAnimation{
 
 	private int cooldownTicks = 0;
 	private AMVector3 startPos;
@@ -23,39 +21,40 @@ public class EntityAILightningRod extends AIAnimation {
 	private boolean hasBolted = false;
 	EntityLivingBase target;
 
-	public EntityAILightningRod(IAnimatedEntity entity) {
+	public EntityAILightningRod(IAnimatedEntity entity){
 		super(entity);
 		this.setMutexBits(3);
 	}
 
 	@Override
-	public int getAnimID() {
+	public int getAnimID(){
 		return BossActions.LONG_CASTING.ordinal();
 	}
 
 	@Override
-	public boolean isAutomatic() {
+	public boolean isAutomatic(){
 		return false;
 	}
 
 	@Override
-	public int getDuration() {
+	public int getDuration(){
 		return 173;
 	}
 
 	@Override
-	public boolean shouldAnimate() {
+	public boolean shouldAnimate(){
 		//accessor method in AIAnimation that gives access to the entity
 		EntityLiving living = getEntity();
 
 		//must have an attack target
-		if(living.getHealth() > living.getMaxHealth() * 0.75f || living.getAttackTarget() == null || !living.getEntitySenses().canSee(living.getAttackTarget())) return false;
+		if (living.getHealth() > living.getMaxHealth() * 0.75f || living.getAttackTarget() == null || !living.getEntitySenses().canSee(living.getAttackTarget()))
+			return false;
 
 		return cooldownTicks-- <= 0;
 	}
 
 	@Override
-	public void resetTask() {
+	public void resetTask(){
 		startPos = null;
 		hasAttacked = false;
 		hasThrown = false;
@@ -70,11 +69,11 @@ public class EntityAILightningRod extends AIAnimation {
 	}
 
 	@Override
-	public void updateTask() {
+	public void updateTask(){
 		EntityLightningGuardian guardian = getEntity();
 
 		float factor = ((guardian.getHealth() / guardian.getMaxHealth()) + 0.1f);
-		cooldownTicks = (int) (500 * factor);
+		cooldownTicks = (int)(500 * factor);
 
 		int ticks = guardian.getTicksInCurrentAction();
 		if (ticks <= 25){
@@ -96,7 +95,7 @@ public class EntityAILightningRod extends AIAnimation {
 			}
 
 			if (ticks > 25 && ticks <= 85){
-				forcePosition(target, startPos.x, startPos.y + ((ticks-25) * 0.1), startPos.z);
+				forcePosition(target, startPos.x, startPos.y + ((ticks - 25) * 0.1), startPos.z);
 				ExtendedProperties.For(target).setDisableGravity(true);
 				if (!guardian.worldObj.isRemote && ticks == 30)
 					guardian.worldObj.playSoundAtEntity(guardian, "arsmagica2:mob.lightningguardian.lightning_rod_start", 1.0f, guardian.getRNG().nextFloat() * 0.5f + 0.5f);

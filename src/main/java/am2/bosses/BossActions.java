@@ -1,6 +1,6 @@
 package am2.bosses;
 
-public enum BossActions {
+public enum BossActions{
 	IDLE(-1),
 	STRIKE(15),
 	SMASH(20),

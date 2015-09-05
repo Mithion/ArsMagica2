@@ -1,27 +1,22 @@
 package am2.entities;
 
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import am2.entities.ai.EntityAIManaDrainBolt;
+import am2.items.ItemsCommonProxy;
+import am2.playerextensions.ExtendedProperties;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import am2.entities.ai.EntityAIManaDrainBolt;
-import am2.items.ItemsCommonProxy;
-import am2.playerextensions.ExtendedProperties;
 
-public class EntityManaElemental extends EntityMob {
+public class EntityManaElemental extends EntityMob{
 
 	private final float hostileSpeed;
 	private double yaw;
 
-	public EntityManaElemental(World par1World) {
+	public EntityManaElemental(World par1World){
 		super(par1World);
 		this.setAIMoveSpeed(0.2f);
 		this.hostileSpeed = 0.25F;
@@ -36,7 +31,7 @@ public class EntityManaElemental extends EntityMob {
 		yaw %= 360.0F;
 
 		/*if (yaw >= 180.0F)
-        {
+		{
         	yaw -= 360.0F;
         }
 
@@ -57,8 +52,7 @@ public class EntityManaElemental extends EntityMob {
 	}
 
 	@Override
-	public int getTotalArmorValue()
-	{
+	public int getTotalArmorValue(){
 		return 12;
 	}
 
@@ -76,31 +70,27 @@ public class EntityManaElemental extends EntityMob {
 	}
 
 	@Override
-	protected void dropRareDrop(int par1)
-	{
+	protected void dropRareDrop(int par1){
 		this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, 0), 0.0f);
 	}
-	
+
 	@Override
-	protected Item getDropItem() {
+	protected Item getDropItem(){
 		return ItemsCommonProxy.manaCake;
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
+	protected String getLivingSound(){
 		return "arsmagica2:mob.manaelemental.living";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
+	protected String getHurtSound(){
 		return "arsmagica2:mob.manaelemental.hit";
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
+	protected String getDeathSound(){
 		return "arsmagica2:mob.manaelemental.death";
 	}
 
@@ -116,7 +106,7 @@ public class EntityManaElemental extends EntityMob {
 	}
 
 	@Override
-	public boolean getCanSpawnHere() {
+	public boolean getCanSpawnHere(){
 		if (!SpawnBlacklists.entityCanSpawnHere(this.posX, this.posZ, worldObj, this))
 			return false;
 		return super.getCanSpawnHere();

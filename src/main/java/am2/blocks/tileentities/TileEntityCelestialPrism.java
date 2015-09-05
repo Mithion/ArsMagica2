@@ -1,13 +1,5 @@
 package am2.blocks.tileentities;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.AxisAlignedBB;
 import am2.AMCore;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.blocks.MultiblockStructureDefinition.StructureGroup;
@@ -17,6 +9,13 @@ import am2.buffs.BuffEffectManaRegen;
 import am2.buffs.BuffList;
 import am2.multiblock.IMultiblockStructureController;
 import am2.power.PowerNodeRegistry;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.AxisAlignedBB;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class TileEntityCelestialPrism extends TileEntityObelisk implements IMultiblockStructureController{
 
@@ -123,7 +122,7 @@ public class TileEntityCelestialPrism extends TileEntityObelisk implements IMult
 	}
 
 	@Override
-	public void updateEntity() {
+	public void updateEntity(){
 
 		if (surroundingCheckTicks++ % 100 == 0){
 			checkNearbyBlockState();
@@ -131,7 +130,7 @@ public class TileEntityCelestialPrism extends TileEntityObelisk implements IMult
 			if (!worldObj.isRemote && PowerNodeRegistry.For(this.worldObj).checkPower(this, this.capacity * 0.1f)){
 				List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(this.xCoord - 2, this.yCoord, this.zCoord - 2, this.xCoord + 2, this.yCoord + 3, this.zCoord + 2));
 				for (EntityPlayer p : nearbyPlayers){
-					if (p.isPotionActive(BuffList.manaRegen.id))continue;
+					if (p.isPotionActive(BuffList.manaRegen.id)) continue;
 					p.addPotionEffect(new BuffEffectManaRegen(600, 1));
 				}
 			}
@@ -151,29 +150,29 @@ public class TileEntityCelestialPrism extends TileEntityObelisk implements IMult
 	}
 
 	@Override
-	public MultiblockStructureDefinition getDefinition() {
+	public MultiblockStructureDefinition getDefinition(){
 		return structure;
 	}
 
 	@Override
-	public boolean canRequestPower() {
+	public boolean canRequestPower(){
 		return false;
 	}
 
 	@Override
-	public boolean canProvidePower(PowerTypes type) {
+	public boolean canProvidePower(PowerTypes type){
 		return type == PowerTypes.LIGHT;
 	}
 
 	@Override
-	public PowerTypes[] getValidPowerTypes() {
+	public PowerTypes[] getValidPowerTypes(){
 		return new PowerTypes[]{
-			PowerTypes.LIGHT
+				PowerTypes.LIGHT
 		};
 	}
 
 	@Override
-	public int getSizeInventory() {
+	public int getSizeInventory(){
 		return 0;
 	}
 }

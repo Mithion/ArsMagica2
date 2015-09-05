@@ -2,9 +2,9 @@ package am2.damage;
 
 import net.minecraft.util.DamageSource;
 
-public class DamageSourceDarkNexus  extends DamageSource{
+public class DamageSourceDarkNexus extends DamageSource{
 
-	protected DamageSourceDarkNexus() {
+	protected DamageSourceDarkNexus(){
 		super("DarkNexus");
 	}
 

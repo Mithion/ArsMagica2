@@ -1,5 +1,11 @@
 package am2.blocks;
 
+import am2.AMCore;
+import am2.blocks.tileentities.TileEntityParticleEmitter;
+import am2.items.ItemsCommonProxy;
+import am2.texture.ResourceManager;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,55 +19,44 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import am2.AMCore;
-import am2.blocks.tileentities.TileEntityParticleEmitter;
-import am2.items.ItemsCommonProxy;
-import am2.texture.ResourceManager;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockParticleEmitter extends AMBlockContainer{
 
-	protected BlockParticleEmitter() {
+	protected BlockParticleEmitter(){
 		super(Material.glass);
 	}
 
 	@Override
-	public boolean isAir(IBlockAccess world, int x, int y, int z) {
+	public boolean isAir(IBlockAccess world, int x, int y, int z){
 		return false;
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-	{
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z){
 		return null;
 	}
 
 	@Override
-	public boolean isOpaqueCube() {
+	public boolean isOpaqueCube(){
 		return false;
 	}
 
 	@Override
-	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLiving, ItemStack stack) {
+	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLiving, ItemStack stack){
 		int p = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4F) / 360F + 0.5D) & 3;
 
 		byte byte0 = 3;
 
-		if (p == 0)
-		{
+		if (p == 0){
 			byte0 = 1;
 		}
-		if (p == 1)
-		{
+		if (p == 1){
 			byte0 = 0;
 		}
-		if (p == 2)
-		{
+		if (p == 2){
 			byte0 = 3;
 		}
-		if (p == 3)
-		{
+		if (p == 3){
 			byte0 = 2;
 		}
 		par1World.setBlockMetadataWithNotify(par2, par3, par4, byte0, 2);
@@ -70,13 +65,13 @@ public class BlockParticleEmitter extends AMBlockContainer{
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int i) {
+	public TileEntity createNewTileEntity(World world, int i){
 		return new TileEntityParticleEmitter();
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(IBlockAccess par1iBlockAccess, int x, int y, int z, int l) {
+	public IIcon getIcon(IBlockAccess par1iBlockAccess, int x, int y, int z, int l){
 		int meta = par1iBlockAccess.getBlockMetadata(x, y, z);
 		if ((meta & 0x8) == 0x8)
 			return null;
@@ -85,7 +80,7 @@ public class BlockParticleEmitter extends AMBlockContainer{
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess access, int x, int y, int z) {
+	public void setBlockBoundsBasedOnState(IBlockAccess access, int x, int y, int z){
 		int meta = access.getBlockMetadata(x, y, z);
 		if ((meta & 0x8) == 0x8){
 			this.setBlockBounds(0, 0, 0, 0.01f, 0.01f, 0.01f);
@@ -95,24 +90,24 @@ public class BlockParticleEmitter extends AMBlockContainer{
 	}
 
 	@Override
-	public void setBlockBoundsForItemRender() {
+	public void setBlockBoundsForItemRender(){
 		this.setBlockBounds(0, 0, 0, 1, 1, 1);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int meta, int pass) {
+	public IIcon getIcon(int meta, int pass){
 		return blockIcon;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister par1IconRegister) {
+	public void registerBlockIcons(IIconRegister par1IconRegister){
 		this.blockIcon = ResourceManager.RegisterTexture("decoBlockFrame", par1IconRegister);
 	}
 
 	@Override
-	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
+	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
 		if (par1World.isRemote){
 			TileEntity te = par1World.getTileEntity(par2, par3, par4);
 			if (te != null && te instanceof TileEntityParticleEmitter){

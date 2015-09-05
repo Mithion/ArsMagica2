@@ -1,16 +1,14 @@
 package am2.blocks.renderers;
 
-import org.lwjgl.opengl.GL11;
-
-import am2.AMCore;
 import am2.blocks.tileentities.TileEntityAstralBarrier;
 import am2.models.ModelAstralBarrier;
 import am2.texture.ResourceManager;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
-public class AstralBarrierRenderer extends TileEntitySpecialRenderer {
+public class AstralBarrierRenderer extends TileEntitySpecialRenderer{
 
 	private ModelAstralBarrier model;
 	private ResourceLocation rLoc;
@@ -20,32 +18,27 @@ public class AstralBarrierRenderer extends TileEntitySpecialRenderer {
 		rLoc = new ResourceLocation("arsmagica2", ResourceManager.getCustomBlockTexturePath("blockAstralBarrier.png"));
 	}
 
-	public void renderAModelAt(TileEntityAstralBarrier tile, double d, double d1, double d2, float f) {
+	public void renderAModelAt(TileEntityAstralBarrier tile, double d, double d1, double d2, float f){
 		int i = 0;
 
-		if (tile.getWorldObj() != null)
-		{
+		if (tile.getWorldObj() != null){
 			i = tile.getBlockMetadata();
 		}
 		int j = 0;
 
-		if (i == 0)
-		{
+		if (i == 0){
 			j = 0;
 		}
 
-		if (i == 1)
-		{
+		if (i == 1){
 			j = 90;
 		}
 
-		if (i == 2)
-		{
+		if (i == 2){
 			j = 180;
 		}
 
-		if (i == 3)
-		{
+		if (i == 3){
 			j = 270;
 		}
 
@@ -60,10 +53,10 @@ public class AstralBarrierRenderer extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity var1, double var2, double var4,
-			double var6, float var8) {
+								   double var6, float var8){
 
 		renderAModelAt((TileEntityAstralBarrier)var1, var2, var4, var6, var8);
 
 	}
-	
+
 }

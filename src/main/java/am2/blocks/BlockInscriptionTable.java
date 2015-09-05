@@ -1,7 +1,11 @@
 package am2.blocks;
 
-import java.util.Random;
-
+import am2.AMCore;
+import am2.blocks.tileentities.TileEntityInscriptionTable;
+import am2.guis.ArsMagicaGuiIdList;
+import am2.items.ItemsCommonProxy;
+import am2.texture.ResourceManager;
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -15,14 +19,10 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import am2.AMCore;
-import am2.blocks.tileentities.TileEntityInscriptionTable;
-import am2.guis.ArsMagicaGuiIdList;
-import am2.items.ItemsCommonProxy;
-import am2.texture.ResourceManager;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 
-public class BlockInscriptionTable extends AMSpecialRenderBlockContainer {
+import java.util.Random;
+
+public class BlockInscriptionTable extends AMSpecialRenderBlockContainer{
 
 	public BlockInscriptionTable(){
 		super(Material.wood);
@@ -35,7 +35,7 @@ public class BlockInscriptionTable extends AMSpecialRenderBlockContainer {
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack){
 		int p = MathHelper.floor_double((entity.rotationYaw * 4F) / 360F + 0.5D) & 3;
 
 		byte byte0 = 3;
@@ -43,23 +43,19 @@ public class BlockInscriptionTable extends AMSpecialRenderBlockContainer {
 		int nX = x;
 		int nZ = z;
 
-		if (p == 0)
-		{
+		if (p == 0){
 			byte0 = 3;
 			nZ++;
 		}
-		if (p == 1)
-		{
+		if (p == 1){
 			byte0 = 2;
 			nX--;
 		}
-		if (p == 2)
-		{
+		if (p == 2){
 			byte0 = 1;
 			nZ--;
 		}
-		if (p == 3)
-		{
+		if (p == 3){
 			byte0 = 4;
 			nX++;
 		}
@@ -82,7 +78,7 @@ public class BlockInscriptionTable extends AMSpecialRenderBlockContainer {
 	}
 
 	@Override
-	public int getLightValue(IBlockAccess world, int x, int y, int z) {
+	public int getLightValue(IBlockAccess world, int x, int y, int z){
 		return 12;
 	}
 
@@ -92,23 +88,22 @@ public class BlockInscriptionTable extends AMSpecialRenderBlockContainer {
 	}
 
 	@Override
-	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
-	{
+	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
 		super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
 
 		if (par1World.isRemote){
 			return true;
 		}
 
-		TileEntityInscriptionTable te = (TileEntityInscriptionTable) par1World.getTileEntity(par2, par3, par4);
+		TileEntityInscriptionTable te = (TileEntityInscriptionTable)par1World.getTileEntity(par2, par3, par4);
 		TileEntityInscriptionTable tealt = te;
 
 		int meta = par1World.getBlockMetadata(par2, par3, par4);
 		boolean isLeft = (meta & 0x8) == 0x0;
 		if (te != null){
 			int checkMeta = meta & ~0x8;
-			if (!isLeft){				
-				switch(checkMeta){
+			if (!isLeft){
+				switch (checkMeta){
 				case 1:
 					par4--;
 					break;
@@ -122,13 +117,13 @@ public class BlockInscriptionTable extends AMSpecialRenderBlockContainer {
 					par2++;
 					break;
 				}
-	
-				te = (TileEntityInscriptionTable) par1World.getTileEntity(par2, par3, par4);
+
+				te = (TileEntityInscriptionTable)par1World.getTileEntity(par2, par3, par4);
 			}else{
 				int tx = par2;
-				int ty = par3; 
+				int ty = par3;
 				int tz = par4;
-				switch(checkMeta){
+				switch (checkMeta){
 				case 1:
 					tz++;
 					break;
@@ -142,8 +137,8 @@ public class BlockInscriptionTable extends AMSpecialRenderBlockContainer {
 					tx--;
 					break;
 				}
-				
-				tealt = (TileEntityInscriptionTable) par1World.getTileEntity(tx, ty, tz);
+
+				tealt = (TileEntityInscriptionTable)par1World.getTileEntity(tx, ty, tz);
 			}
 		}
 
@@ -154,7 +149,7 @@ public class BlockInscriptionTable extends AMSpecialRenderBlockContainer {
 			par5EntityPlayer.addChatMessage(new ChatComponentText("Someone else is using this."));
 			return true;
 		}
-		
+
 		ItemStack curItem = par5EntityPlayer.getCurrentEquippedItem();
 		if (curItem != null && curItem.getItem() == ItemsCommonProxy.inscriptionUpgrade){
 			if (te.getUpgradeState() == curItem.getItemDamage()){
@@ -171,12 +166,12 @@ public class BlockInscriptionTable extends AMSpecialRenderBlockContainer {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World par1World, int i) {
+	public TileEntity createNewTileEntity(World par1World, int i){
 		return new TileEntityInscriptionTable();
 	}
 
 	@Override
-	public void breakBlock(World world, int i, int j, int k, Block par5, int metadata) {		
+	public void breakBlock(World world, int i, int j, int k, Block par5, int metadata){
 		TileEntityInscriptionTable insc = (TileEntityInscriptionTable)world.getTileEntity(i, j, k);
 
 		if (insc == null) return;
@@ -206,38 +201,33 @@ public class BlockInscriptionTable extends AMSpecialRenderBlockContainer {
 			world.setBlock(x, j, z, Blocks.air);
 
 		if (!world.isRemote && main){
-			for(int l = 0; l < insc.getSizeInventory(); l++)
-			{
+			for (int l = 0; l < insc.getSizeInventory(); l++){
 				ItemStack itemstack = insc.getStackInSlot(l);
-				if(itemstack == null)
-				{
+				if (itemstack == null){
 					continue;
 				}
 				spawnItemOnBreak(world, i, j, k, par5, metadata, itemstack);
 			}
-			
+
 			int stat = insc.getUpgradeState();
 			for (int m = 0; m < stat; ++m)
 				spawnItemOnBreak(world, i, j, k, par5, metadata, new ItemStack(ItemsCommonProxy.inscriptionUpgrade, 1, m));
-		}		
-		
+		}
+
 		super.breakBlock(world, i, j, k, par5, metadata);
 	}
-	
+
 	private void spawnItemOnBreak(World world, int i, int j, int k, Block par5, int metadata, ItemStack itemstack){
 		Random rand = new Random();
 		float f = rand.nextFloat() * 0.8F + 0.1F;
 		float f1 = rand.nextFloat() * 0.8F + 0.1F;
 		float f2 = rand.nextFloat() * 0.8F + 0.1F;
-		do
-		{
-			if(itemstack.stackSize <= 0)
-			{
+		do{
+			if (itemstack.stackSize <= 0){
 				break;
 			}
 			int i1 = rand.nextInt(21) + 10;
-			if(i1 > itemstack.stackSize)
-			{
+			if (i1 > itemstack.stackSize){
 				i1 = itemstack.stackSize;
 			}
 			itemstack.stackSize -= i1;
@@ -249,11 +239,11 @@ public class BlockInscriptionTable extends AMSpecialRenderBlockContainer {
 			entityitem.motionY = (float)rand.nextGaussian() * f3 + 0.2F;
 			entityitem.motionZ = (float)rand.nextGaussian() * f3;
 			world.spawnEntityInWorld(entityitem);
-		} while(true);
+		}while (true);
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister) {
+	public void registerBlockIcons(IIconRegister par1IconRegister){
 		this.blockIcon = ResourceManager.RegisterTexture("Witchwood", par1IconRegister);
 	}
 }

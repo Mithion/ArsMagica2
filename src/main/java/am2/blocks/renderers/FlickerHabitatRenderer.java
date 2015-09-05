@@ -3,24 +3,20 @@
  */
 package am2.blocks.renderers;
 
+import am2.blocks.tileentities.TileEntityFlickerHabitat;
+import am2.texture.ResourceManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
-
 import org.lwjgl.opengl.GL11;
-
-import am2.blocks.tileentities.TileEntityFlickerHabitat;
-import am2.texture.ResourceManager;
 
 /**
  * @author Zero
- *
  */
-public class FlickerHabitatRenderer extends TileEntitySpecialRenderer {
+public class FlickerHabitatRenderer extends TileEntitySpecialRenderer{
 
 	private ResourceLocation rloc = new ResourceLocation("arsmagica2", ResourceManager.getCustomBlockTexturePath("habitat.png"));
 	private IModelCustom model;
@@ -30,8 +26,8 @@ public class FlickerHabitatRenderer extends TileEntitySpecialRenderer {
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double d0, double d1, double d2, float f) {
-		doRender((TileEntityFlickerHabitat) tileentity, d0, d1, d2, f);
+	public void renderTileEntityAt(TileEntity tileentity, double d0, double d1, double d2, float f){
+		doRender((TileEntityFlickerHabitat)tileentity, d0, d1, d2, f);
 	}
 
 	public void doRender(TileEntityFlickerHabitat tileentity, double x, double y, double z, float partialTicks){
@@ -43,12 +39,13 @@ public class FlickerHabitatRenderer extends TileEntitySpecialRenderer {
 		GL11.glTranslated(x + 0.5, y, z + 0.5);
 		try{
 			model.renderOnly("frame");
-		}catch(Throwable t){}
+		}catch (Throwable t){
+		}
 
-		if(tileentity.hasFlicker()){
+		if (tileentity.hasFlicker()){
 
-			if(tileentity.isUpgrade()){
-				switch(tileentity.getMainHabitatDirection()){
+			if (tileentity.isUpgrade()){
+				switch (tileentity.getMainHabitatDirection()){
 				case DOWN:
 					GL11.glRotatef(180.0f, 0.0f, 0.0f, 1.0f);
 					GL11.glTranslatef(0.0f, -0.9f, 0.0f);
@@ -89,8 +86,9 @@ public class FlickerHabitatRenderer extends TileEntitySpecialRenderer {
 						((color >> 8) & 0xFF) / 255.0f, //isolate green & convert to normalized float
 						(color & 0xFF) / 255.0f //isolate blue & convert to normalized float
 				);
-			model.renderOnly("crystal");
-			}catch (Throwable t){}
+				model.renderOnly("crystal");
+			}catch (Throwable t){
+			}
 		}
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopAttrib();

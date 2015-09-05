@@ -1,6 +1,6 @@
 package am2.api.spell.enums;
 
-public enum SkillTrees {
+public enum SkillTrees{
 	None,
 	Offense,
 	Defense,

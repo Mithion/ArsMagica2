@@ -3,18 +3,16 @@
  */
 package am2.containers;
 
-import net.minecraft.entity.player.EntityPlayer;
-import am2.blocks.tileentities.TileEntityFlickerHabitat;
 import am2.blocks.tileentities.TileEntityInertSpawner;
 import am2.containers.slots.AM2Container;
 import am2.containers.slots.SlotSpecifiedItemsOnly;
 import am2.items.ItemsCommonProxy;
+import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * @author Mithion
- *
  */
-public class ContainerInertSpawner extends AM2Container {
+public class ContainerInertSpawner extends AM2Container{
 
 	private TileEntityInertSpawner spawner;
 
@@ -31,9 +29,9 @@ public class ContainerInertSpawner extends AM2Container {
 		this.addPlayerActionBar(player, 8, 143);
 
 	}
-	
+
 	@Override
-	public boolean canInteractWith(EntityPlayer entityplayer) {
+	public boolean canInteractWith(EntityPlayer entityplayer){
 		return this.spawner.isUseableByPlayer(entityplayer);
 	}
 

@@ -1,17 +1,5 @@
 package am2.guis;
 
-import java.util.ArrayList;
-
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-
-import org.lwjgl.opengl.GL11;
-
-import am2.AMCore;
 import am2.api.items.armor.IArmorImbuement;
 import am2.api.items.armor.ImbuementTiers;
 import am2.armor.ArmorHelper;
@@ -20,8 +8,17 @@ import am2.blocks.tileentities.TileEntityArmorImbuer;
 import am2.containers.ContainerArmorInfuser;
 import am2.network.AMNetHandler;
 import am2.texture.ResourceManager;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
+import org.lwjgl.opengl.GL11;
 
-public class GuiArmorImbuer extends GuiContainer {
+import java.util.ArrayList;
+
+public class GuiArmorImbuer extends GuiContainer{
 
 	private TileEntityArmorImbuer tileEntity;
 
@@ -33,7 +30,7 @@ public class GuiArmorImbuer extends GuiContainer {
 	int spriteWidth = 43;
 	String hoveredID;
 
-	public GuiArmorImbuer(EntityPlayer player, TileEntityArmorImbuer infuser) {
+	public GuiArmorImbuer(EntityPlayer player, TileEntityArmorImbuer infuser){
 		super(new ContainerArmorInfuser(player, infuser));
 		this.tileEntity = infuser;
 		xSize = 247;
@@ -41,7 +38,7 @@ public class GuiArmorImbuer extends GuiContainer {
 	}
 
 	@Override
-	protected void mouseClicked(int par1, int par2, int par3) {
+	protected void mouseClicked(int par1, int par2, int par3){
 		if (hoveredID != null){
 			AMNetHandler.INSTANCE.sendImbueToServer(tileEntity, hoveredID);
 			tileEntity.imbueCurrentArmor(hoveredID);
@@ -50,7 +47,7 @@ public class GuiArmorImbuer extends GuiContainer {
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
+	protected void drawGuiContainerBackgroundLayer(float f, int i, int j){
 		int l = (width - xSize) / 2;
 		int i1 = (height - ySize) / 2;
 
@@ -70,7 +67,7 @@ public class GuiArmorImbuer extends GuiContainer {
 		GL11.glColor3f(0, 0, 0);
 		drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);
 
-		GL11.glColor3f(1,1,1);
+		GL11.glColor3f(1, 1, 1);
 		hoveredID = null;
 		if (stack != null){
 			mc.renderEngine.bindTexture(background_bw);
@@ -106,7 +103,7 @@ public class GuiArmorImbuer extends GuiContainer {
 					if (infusion.getTier() == tier){
 						tierInfusion = infusion;
 						if (tier.ordinal() >= highestSelectedTier)
-							highestSelectedTier = tier.ordinal()+1;
+							highestSelectedTier = tier.ordinal() + 1;
 						break;
 					}
 				}
@@ -143,8 +140,7 @@ public class GuiArmorImbuer extends GuiContainer {
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int par1, int par2)
-	{
+	protected void drawGuiContainerForegroundLayer(int par1, int par2){
 
 	}
 

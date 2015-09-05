@@ -3,11 +3,9 @@ package am2.models;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-
 import org.lwjgl.opengl.GL11;
 
-public class ModelWaterGuardianOrbs extends ModelBiped
-{
+public class ModelWaterGuardianOrbs extends ModelBiped{
 	//fields
 	ModelRenderer ornament4;
 	ModelRenderer ornament2;
@@ -18,8 +16,7 @@ public class ModelWaterGuardianOrbs extends ModelBiped
 	ModelRenderer ornament5;
 	ModelRenderer ornament3;
 
-	public ModelWaterGuardianOrbs()
-	{
+	public ModelWaterGuardianOrbs(){
 		textureWidth = 64;
 		textureHeight = 64;
 
@@ -74,8 +71,7 @@ public class ModelWaterGuardianOrbs extends ModelBiped
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		GL11.glPushMatrix();
 
 		if (entity != null)
@@ -92,8 +88,7 @@ public class ModelWaterGuardianOrbs extends ModelBiped
 		GL11.glPopMatrix();
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z){
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

@@ -1,23 +1,5 @@
 package am2.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.EntityDragonPart;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
 import am2.AMCore;
 import am2.api.math.AMVector3;
 import am2.api.spell.component.interfaces.ISpellModifier;
@@ -35,6 +17,19 @@ import am2.spell.modifiers.Colour;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityDragonPart;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.*;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EntitySpellProjectile extends Entity{
 
@@ -57,23 +52,22 @@ public class EntitySpellProjectile extends Entity{
 	private static final int DW_TARGETGRASS = 28;
 	private static final int DW_HOMING = 29;
 	private static final int DW_HOMING_TARGET = 30;
-	
+
 	private static final float GRAVITY_TERMINAL_VELOCITY = -2.0f;
-	
+
 	private String particleType = "";
 
 	//=========================================================================
 	//Constructors
 	//=========================================================================
-	public EntitySpellProjectile(World world) {
+	public EntitySpellProjectile(World world){
 		super(world);
 		ticksExisted = 0;
 		maxTicksToExist = -1;
 		this.noClip = true;
 	}
 
-	public EntitySpellProjectile(World world, EntityLivingBase entityLiving, double projectileSpeed)
-	{
+	public EntitySpellProjectile(World world, EntityLivingBase entityLiving, double projectileSpeed){
 		super(world);
 		this.noClip = true;
 		setSize(0.25F, 0.25F);
@@ -93,7 +87,7 @@ public class EntitySpellProjectile extends Entity{
 	//=========================================================================
 
 	@Override
-	protected void entityInit() {
+	protected void entityInit(){
 		this.dataWatcher.addObject(DW_BOUNCE_COUNTER, 0);
 		this.dataWatcher.addObject(DW_GRAVITY, 0);
 		this.dataWatcher.addObject(DW_EFFECT, new ItemStack(ItemsCommonProxy.spell));
@@ -108,8 +102,7 @@ public class EntitySpellProjectile extends Entity{
 		entityHits = new ArrayList<Integer>();
 	}
 
-	public void setSpellProjectileHeading(double movementX, double movementY, double movementZ, double projectileSpeed, double projectileSpeed2)
-	{
+	public void setSpellProjectileHeading(double movementX, double movementY, double movementZ, double projectileSpeed, double projectileSpeed2){
 		float f = MathHelper.sqrt_double(movementX * movementX + movementY * movementY + movementZ * movementZ);
 		movementX /= f;
 		movementY /= f;
@@ -133,22 +126,22 @@ public class EntitySpellProjectile extends Entity{
 			this.dataWatcher.updateObject(DW_HOMING_TARGET, entity.getEntityId());
 		}
 	}
-	
+
 	private void findHomingTarget(){
 		List<EntityLivingBase> entities = this.worldObj.getEntitiesWithinAABB(
-				EntityLivingBase.class, 
+				EntityLivingBase.class,
 				AxisAlignedBB.getBoundingBox(
-						this.posX - 15, 
-						this.posY - 15, 
-						this.posZ - 15, 
-						this.posX + 15, 
-						this.posY + 15, 
+						this.posX - 15,
+						this.posY - 15,
+						this.posZ - 15,
+						this.posX + 15,
+						this.posY + 15,
 						this.posZ + 15));
-		
+
 		EntityLivingBase closest = this.getShootingEntity();
 		double curShortestDistance = 900;
 		AMVector3 me = new AMVector3(this);
-		
+
 		for (EntityLivingBase e : entities){
 			if (e == this.getShootingEntity())
 				continue;
@@ -158,13 +151,13 @@ public class EntitySpellProjectile extends Entity{
 				closest = e;
 			}
 		}
-		
+
 		if (closest != null){
 			setHomingTarget(closest);
 		}
 	}
-	
-	public void setShootingEntity(EntityLivingBase caster) {
+
+	public void setShootingEntity(EntityLivingBase caster){
 		if (!this.worldObj.isRemote){
 			this.dataWatcher.updateObject(DW_SHOOTER, caster.getEntityId());
 		}
@@ -186,75 +179,63 @@ public class EntitySpellProjectile extends Entity{
 			return (EntityLivingBase)e;
 		return null;
 	}
-	
+
 	private EntityLivingBase getHomingEntity(){
 		int entityID = this.dataWatcher.getWatchableObjectInt(DW_HOMING_TARGET);
 		Entity e = this.worldObj.getEntityByID(entityID);
 		if (e != null && e instanceof EntityLivingBase)
 			return (EntityLivingBase)e;
-		return null;	
+		return null;
 	}
-	
-	public void moveTowards(Entity entity, float maxYaw, float maxPitch)
-    {
-        double deltaX = entity.posX - this.posX;
-        double deltaZ = entity.posZ - this.posZ;
-        double deltaY;
 
-        if (entity instanceof EntityLivingBase)
-        {
-            EntityLivingBase entitylivingbase = (EntityLivingBase)entity;
-            deltaY = entitylivingbase.posY + (double)entitylivingbase.getEyeHeight() - (this.posY + (double)this.getEyeHeight());
-        }
-        else
-        {
-            deltaY = (entity.boundingBox.minY + entity.boundingBox.maxY) / 2.0D - (this.posY + (double)this.getEyeHeight());
-        }
+	public void moveTowards(Entity entity, float maxYaw, float maxPitch){
+		double deltaX = entity.posX - this.posX;
+		double deltaZ = entity.posZ - this.posZ;
+		double deltaY;
 
-        double hypotenuse = (double)MathHelper.sqrt_double(deltaX * deltaX + deltaZ * deltaZ);
-        float f2 = (float)(Math.atan2(deltaZ, deltaX) * 180.0D / Math.PI) - 90.0F;
-        float f3 = (float)(-(Math.atan2(deltaY, hypotenuse) * 180.0D / Math.PI));
-        
-        //this.rotationPitch = this.updateRotation(this.rotationPitch, f3, maxPitch);
-        //this.rotationYaw = this.updateRotation(this.rotationYaw, f2, maxYaw);
-        
-        this.motionX = Math.cos(f2) * 0.4;
-        this.motionZ = Math.sin(f2) * 0.4;
-        //this.motionY = Math.sin(this.rotationPitch);
-    }
-	
-	private float updateRotation(float p_70663_1_, float p_70663_2_, float p_70663_3_)
-    {
-        float f3 = MathHelper.wrapAngleTo180_float(p_70663_2_ - p_70663_1_);
-
-        if (f3 > p_70663_3_)
-        {
-            f3 = p_70663_3_;
-        }
-
-        if (f3 < -p_70663_3_)
-        {
-            f3 = -p_70663_3_;
-        }
-
-        return p_70663_1_ + f3;
-    }
-	
-	
-	@Override
-	public void onUpdate()
-	{
-		//super.onUpdate();
-		if (!worldObj.isRemote && (getShootingEntity() == null || getShootingEntity().isDead))
-		{
-			setDead();
+		if (entity instanceof EntityLivingBase){
+			EntityLivingBase entitylivingbase = (EntityLivingBase)entity;
+			deltaY = entitylivingbase.posY + (double)entitylivingbase.getEyeHeight() - (this.posY + (double)this.getEyeHeight());
+		}else{
+			deltaY = (entity.boundingBox.minY + entity.boundingBox.maxY) / 2.0D - (this.posY + (double)this.getEyeHeight());
 		}
-		else
-		{
+
+		double hypotenuse = (double)MathHelper.sqrt_double(deltaX * deltaX + deltaZ * deltaZ);
+		float f2 = (float)(Math.atan2(deltaZ, deltaX) * 180.0D / Math.PI) - 90.0F;
+		float f3 = (float)(-(Math.atan2(deltaY, hypotenuse) * 180.0D / Math.PI));
+
+		//this.rotationPitch = this.updateRotation(this.rotationPitch, f3, maxPitch);
+		//this.rotationYaw = this.updateRotation(this.rotationYaw, f2, maxYaw);
+
+		this.motionX = Math.cos(f2) * 0.4;
+		this.motionZ = Math.sin(f2) * 0.4;
+		//this.motionY = Math.sin(this.rotationPitch);
+	}
+
+	private float updateRotation(float p_70663_1_, float p_70663_2_, float p_70663_3_){
+		float f3 = MathHelper.wrapAngleTo180_float(p_70663_2_ - p_70663_1_);
+
+		if (f3 > p_70663_3_){
+			f3 = p_70663_3_;
+		}
+
+		if (f3 < -p_70663_3_){
+			f3 = -p_70663_3_;
+		}
+
+		return p_70663_1_ + f3;
+	}
+
+
+	@Override
+	public void onUpdate(){
+		//super.onUpdate();
+		if (!worldObj.isRemote && (getShootingEntity() == null || getShootingEntity().isDead)){
+			setDead();
+		}else{
 			ticksExisted++;
 			int maxTicksToLive = maxTicksToExist > -1 ? maxTicksToExist : 100;
-			if (ticksExisted >= maxTicksToLive && !worldObj.isRemote)
-			{
+			if (ticksExisted >= maxTicksToLive && !worldObj.isRemote){
 				setDead();
 				return;
 			}
@@ -264,7 +245,7 @@ public class EntitySpellProjectile extends Entity{
 		if (this.dataWatcher.getWatchableObjectByte(DW_HOMING) != (byte)0 && this.ticksExisted > 10){
 			if (this.dataWatcher.getWatchableObjectInt(DW_HOMING_TARGET) == -1){
 				findHomingTarget();
-				
+
 			}else{
 				EntityLivingBase homingTarget = getHomingEntity();
 				//FMLLog.info("%.2f, %.2f, %.2f", posX, posY, posZ);
@@ -274,49 +255,42 @@ public class EntitySpellProjectile extends Entity{
 				}
 			}
 		}
-		
-		
+
+
 		Vec3 vec3d = Vec3.createVectorHelper(posX, posY, posZ);
 		Vec3 vec3d1 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
 		MovingObjectPosition movingobjectposition = null;
 		movingobjectposition = worldObj.rayTraceBlocks(vec3d, vec3d1, true);
 		vec3d = Vec3.createVectorHelper(posX, posY, posZ);
 		vec3d1 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
-		if (movingobjectposition != null)
-		{
+		if (movingobjectposition != null){
 			vec3d1 = Vec3.createVectorHelper(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
 		}
 		Entity entity = null;
 		List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
 		double d = 0.0D;
-		for (int j = 0; j < list.size(); j++)
-		{
+		for (int j = 0; j < list.size(); j++){
 			Entity entity1 = (Entity)list.get(j);
-			if (!entity1.canBeCollidedWith() || entity1.isEntityEqual(getShootingEntity()))
-			{
+			if (!entity1.canBeCollidedWith() || entity1.isEntityEqual(getShootingEntity())){
 				continue;
 			}
 			float f2 = 0.3F;
 			AxisAlignedBB axisalignedbb = entity1.boundingBox.expand(f2, f2, f2);
 			MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3d, vec3d1);
-			if (movingobjectposition1 == null)
-			{
+			if (movingobjectposition1 == null){
 				continue;
 			}
 			double d1 = vec3d.distanceTo(movingobjectposition1.hitVec);
-			if (d1 < d || d == 0.0D)
-			{
+			if (d1 < d || d == 0.0D){
 				entity = entity1;
 				d = d1;
 			}
 		}
 
-		if (entity != null)
-		{
+		if (entity != null){
 			movingobjectposition = new MovingObjectPosition(entity);
 		}
-		if (movingobjectposition != null)
-		{
+		if (movingobjectposition != null){
 			boolean doHit = true;
 			boolean pierce = this.getNumPierces() > 0;
 			if (movingobjectposition.typeOfHit == MovingObjectType.ENTITY && movingobjectposition.entityHit != null && movingobjectposition.entityHit instanceof EntityLivingBase){
@@ -335,21 +309,20 @@ public class EntitySpellProjectile extends Entity{
 
 					if (worldObj.isRemote){
 						for (int i = 0; i < 13; ++i){
-							AMParticle effect = (AMParticle) AMCore.instance.proxy.particleManager.spawn(worldObj, "hr_lensflare", ent.posX + rand.nextDouble() - 0.5, ent.posY + ent.getEyeHeight() + rand.nextDouble() - 0.5, ent.posZ + rand.nextDouble() - 0.5);
+							AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "hr_lensflare", ent.posX + rand.nextDouble() - 0.5, ent.posY + ent.getEyeHeight() + rand.nextDouble() - 0.5, ent.posZ + rand.nextDouble() - 0.5);
 							if (effect != null){
 								EntityPlayer player = AMCore.instance.proxy.getLocalPlayer();
 								effect.setIgnoreMaxAge(true);
 								if (player != null && ent != player){
 									effect.setParticleScale(1.5f);
 								}
-								effect.setRGBColorF(0.5f + rand.nextFloat() * 0.5f, 0.2f, 0.5f+ rand.nextFloat() * 0.5f);
+								effect.setRGBColorF(0.5f + rand.nextFloat() * 0.5f, 0.2f, 0.5f + rand.nextFloat() * 0.5f);
 								effect.AddParticleController(new ParticleHoldPosition(effect, 100, 1, false));
 							}
 						}
 					}
 				}
-			}
-			else if (movingobjectposition.typeOfHit == MovingObjectType.BLOCK && getBounces() > 0){
+			}else if (movingobjectposition.typeOfHit == MovingObjectType.BLOCK && getBounces() > 0){
 				doHit = false;
 				switch (movingobjectposition.sideHit){
 				case 0:
@@ -365,16 +338,16 @@ public class EntitySpellProjectile extends Entity{
 					motionX = motionX * friction_coefficient * -1;
 					break;
 				}
-				this.setBounces(getBounces()-1);
+				this.setBounces(getBounces() - 1);
 			}
-			
+
 			if (movingobjectposition.typeOfHit == MovingObjectType.BLOCK){
 				Block block = worldObj.getBlock(movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ);
 				AxisAlignedBB bb = block.getCollisionBoundingBoxFromPool(worldObj, movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ);
 				if (bb == null && !SpellUtils.instance.modifierIsPresent(SpellModifiers.TARGET_NONSOLID_BLOCKS, getEffectStack(), 0))
 					doHit = false;
 			}
-			
+
 			if (doHit)
 				HitObject(movingobjectposition, pierce);
 		}
@@ -397,10 +370,8 @@ public class EntitySpellProjectile extends Entity{
 		rotationPitch = prevRotationPitch + (rotationPitch - prevRotationPitch) * 0.2F;
 		rotationYaw = prevRotationYaw + (rotationYaw - prevRotationYaw) * 0.2F;*/
 		float f1 = 0.95F;
-		if (isInWater())
-		{
-			for (int k = 0; k < 4; k++)
-			{
+		if (isInWater()){
+			for (int k = 0; k < 4; k++){
 				float f3 = 0.25F;
 				worldObj.spawnParticle("bubble", posX - motionX * f3, posY - motionY * f3, posZ - motionZ * f3, motionX, motionY, motionZ);
 			}
@@ -410,7 +381,7 @@ public class EntitySpellProjectile extends Entity{
 		if (!AMCore.config.NoGFX() && worldObj.isRemote && this.getShootingEntity() instanceof EntityPlayer){
 			if (this.particleType == null || this.particleType.isEmpty())
 				particleType = AMParticleIcons.instance.getSecondaryParticleForAffinity(SpellUtils.instance.mainAffinityFor(getEffectStack()));
-			AMParticle particle = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, particleType, this.posX, this.posY, this.posZ);
+			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, particleType, this.posX, this.posY, this.posZ);
 			if (particle != null){
 				particle.addRandomOffset(0.3f, 0.3f, 0.3f);
 				particle.AddParticleController(new ParticleFloatUpward(particle, 0.1f, 0, 1, false));
@@ -421,11 +392,9 @@ public class EntitySpellProjectile extends Entity{
 		setPosition(posX, posY, posZ);
 	}
 
-	protected void HitObject(MovingObjectPosition movingobjectposition, boolean pierce)
-	{
+	protected void HitObject(MovingObjectPosition movingobjectposition, boolean pierce){
 
-		if (movingobjectposition.entityHit != null)
-		{
+		if (movingobjectposition.entityHit != null){
 			if (movingobjectposition.entityHit == getShootingEntity() || getShootingEntity() == null) return;
 
 			Entity e = movingobjectposition.entityHit;
@@ -434,12 +403,10 @@ public class EntitySpellProjectile extends Entity{
 
 			if (e instanceof EntityLivingBase && getShootingEntity() != null && !this.entityHits.contains(movingobjectposition.entityHit.getEntityId())){
 				SpellHelper.instance.applyStageToEntity(this.getEffectStack(), getShootingEntity(), this.worldObj, e, 0, true);
-				SpellHelper.instance.applyStackStage(SpellUtils.instance.popStackStage(getEffectStack()), getShootingEntity(), (EntityLivingBase)e , movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord, 0, worldObj, false, true, 0);
+				SpellHelper.instance.applyStackStage(SpellUtils.instance.popStackStage(getEffectStack()), getShootingEntity(), (EntityLivingBase)e, movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord, 0, worldObj, false, true, 0);
 				this.entityHits.add(movingobjectposition.entityHit.getEntityId());
 			}
-		}
-		else
-		{
+		}else{
 			AMVector3 blockLoc = new AMVector3(movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ);
 			if (getShootingEntity() != null && !this.blockhits.contains(blockLoc)){
 				SpellHelper.instance.applyStageToGround(getEffectStack(), getShootingEntity(), worldObj, movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ, movingobjectposition.sideHit, movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord, 0, true);
@@ -459,24 +426,29 @@ public class EntitySpellProjectile extends Entity{
 	public int getBounces(){
 		return this.dataWatcher.getWatchableObjectInt(DW_BOUNCE_COUNTER);
 	}
+
 	public void setBounces(int bounces){
 		this.dataWatcher.updateObject(DW_BOUNCE_COUNTER, bounces);
 	}
+
 	public double getGravity(){
 		return this.dataWatcher.getWatchableObjectInt(DW_GRAVITY) / 1000D;
 	}
+
 	public void setGravity(double gravity){
 		this.dataWatcher.updateObject(DW_GRAVITY, (int)(gravity * 1000));
 	}
+
 	public ItemStack getEffectStack(){
 		return this.dataWatcher.getWatchableObjectItemStack(DW_EFFECT);
 	}
+
 	public void setEffectStack(ItemStack stack){
 		this.dataWatcher.updateObject(DW_EFFECT, stack);
 
 		if (!this.worldObj.isRemote){
 			Affinity aff = SpellUtils.instance.mainAffinityFor(stack);
-			switch(aff){
+			switch (aff){
 			case AIR:
 				setIcon("wind");
 				break;
@@ -523,28 +495,34 @@ public class EntitySpellProjectile extends Entity{
 			for (ISpellModifier mod : mods){
 				if (mod instanceof Colour){
 					byte[] meta = SpellUtils.instance.getModifierMetadataFromStack(stack, mod, 0, ordinalCount++);
-					setColor((int) mod.getModifier(SpellModifiers.COLOR, null, null, null, meta));
+					setColor((int)mod.getModifier(SpellModifiers.COLOR, null, null, null, meta));
 				}
 			}
 		}
 	}
+
 	public int getNumPierces(){
 		return this.dataWatcher.getWatchableObjectInt(DW_PIERCE_COUNT);
 	}
+
 	public void setNumPierces(int pierces){
 		this.dataWatcher.updateObject(DW_PIERCE_COUNT, pierces);
 	}
+
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(){
 		String name = this.dataWatcher.getWatchableObjectString(DW_ICON_NAME);
 		return AMParticleIcons.instance.getIconByName(name);
 	}
+
 	public void setIcon(String name){
 		this.dataWatcher.updateObject(DW_ICON_NAME, name);
 	}
+
 	public int getColor(){
 		return this.dataWatcher.getWatchableObjectInt(DW_COLOR);
 	}
+
 	private void setColor(int color){
 		this.dataWatcher.updateObject(DW_COLOR, color);
 	}
@@ -555,37 +533,33 @@ public class EntitySpellProjectile extends Entity{
 	//Utility overrides
 	//=========================================================================
 	@Override
-	public boolean isInRangeToRenderDist(double d)
-	{
+	public boolean isInRangeToRenderDist(double d){
 		double d1 = boundingBox.getAverageEdgeLength() * 4D;
 		d1 *= 64D;
 		return d < d1 * d1;
 	}
 
 	@Override
-	public boolean canBeCollidedWith()
-	{
+	public boolean canBeCollidedWith(){
 		return false;
 	}
 
 	@Override
-	public float getCollisionBorderSize()
-	{
+	public float getCollisionBorderSize(){
 		return 0.0F;
 	}
 
 	@Override
-	public float getShadowSize()
-	{
+	public float getShadowSize(){
 		return 0.0F;
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+	protected void readEntityFromNBT(NBTTagCompound nbttagcompound){
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+	protected void writeEntityToNBT(NBTTagCompound nbttagcompound){
 	}
 	//=========================================================================
 }

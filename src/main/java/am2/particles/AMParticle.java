@@ -1,26 +1,19 @@
 package am2.particles;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
-
-import net.minecraft.block.Block;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.*;
 
 @SideOnly(Side.CLIENT)
-public class AMParticle extends EntityFX {
+public class AMParticle extends EntityFX{
 
 	private boolean ignoreMaxAge;
 	private final List<ParticleController> controllers;
@@ -58,7 +51,7 @@ public class AMParticle extends EntityFX {
 		this.particleAge = age;
 	}
 
-	public AMParticle(World par1World, double par2, double par4, double par6) {
+	public AMParticle(World par1World, double par2, double par4, double par6){
 		super(par1World, 0, 0, 0, 0, 0, 0);
 		motionX = 0;
 		motionY = 0;
@@ -102,8 +95,7 @@ public class AMParticle extends EntityFX {
 	}
 
 	@Override
-	protected boolean canTriggerWalking()
-	{
+	protected boolean canTriggerWalking(){
 		return false;
 	}
 
@@ -112,8 +104,7 @@ public class AMParticle extends EntityFX {
 	}
 
 	@Override
-	public boolean canAttackWithItem()
-	{
+	public boolean canAttackWithItem(){
 		return false;
 	}
 
@@ -166,7 +157,7 @@ public class AMParticle extends EntityFX {
 	}
 
 	public AMParticle setRandomScale(float min, float max){
-		this.setParticleScale((rand.nextFloat() * (max-min)) + min);
+		this.setParticleScale((rand.nextFloat() * (max - min)) + min);
 		return this;
 	}
 
@@ -245,17 +236,14 @@ public class AMParticle extends EntityFX {
 	}
 
 	@Override
-	public int getBrightnessForRender(float par1)
-	{
+	public int getBrightnessForRender(float par1){
 		float f = (particleAge + par1) / particleMaxAge;
 
-		if (f < 0.0F)
-		{
+		if (f < 0.0F){
 			f = 0.0F;
 		}
 
-		if (f > 1.0F)
-		{
+		if (f > 1.0F){
 			f = 1.0F;
 		}
 
@@ -264,8 +252,7 @@ public class AMParticle extends EntityFX {
 		int k = i >> 16 & 0xff;
 		j += (int)(f * 15F * 16F);
 
-		if (j > 240)
-		{
+		if (j > 240){
 			j = 240;
 		}
 
@@ -276,17 +263,14 @@ public class AMParticle extends EntityFX {
 	 * Gets how bright this entity is.
 	 */
 	@Override
-	public float getBrightness(float par1)
-	{
+	public float getBrightness(float par1){
 		float f = (particleAge + par1) / particleMaxAge;
 
-		if (f < 0.0F)
-		{
+		if (f < 0.0F){
 			f = 0.0F;
 		}
 
-		if (f > 1.0F)
-		{
+		if (f > 1.0F){
 			f = 1.0F;
 		}
 
@@ -298,8 +282,7 @@ public class AMParticle extends EntityFX {
 	 * Called to update the entity's position/logic.
 	 */
 	@Override
-	public void onUpdate()
-	{
+	public void onUpdate(){
 		++this.ticksExisted;
 		this.prevDistanceWalkedModified = this.distanceWalkedModified;
 		this.prevPosX = this.posX;
@@ -337,30 +320,30 @@ public class AMParticle extends EntityFX {
 
 	public class ControllerComparator implements Comparator<ParticleController>{
 		@Override
-		public int compare(ParticleController o1, ParticleController o2) {
-			return (o1.getPriority() > o2.getPriority() ? 1 : (o1==o2 ? 0 : -1));
+		public int compare(ParticleController o1, ParticleController o2){
+			return (o1.getPriority() > o2.getPriority() ? 1 : (o1 == o2 ? 0 : -1));
 		}
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void entityInit(){
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound var1) {
+	public void readEntityFromNBT(NBTTagCompound var1){
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound var1) {
+	public void writeEntityToNBT(NBTTagCompound var1){
 	}
 
 	@Override
-	public int getFXLayer() {
+	public int getFXLayer(){
 		return 2;
 	}
 
 	@Override
-	public void renderParticle(Tessellator tessellator, float partialframe, float cosyaw, float cospitch, float sinyaw, float sinsinpitch, float cossinpitch) {
+	public void renderParticle(Tessellator tessellator, float partialframe, float cosyaw, float cospitch, float sinyaw, float sinsinpitch, float cossinpitch){
 		if (!this.worldObj.isRemote){
 			return;
 		}
@@ -399,8 +382,7 @@ public class AMParticle extends EntityFX {
 		float var4 = (this.GetParticleAge() + partialFrame) / this.GetParticleMaxAge();
 		float var5 = 0.0F;
 
-		if (var4 > 0.8F)
-		{
+		if (var4 > 0.8F){
 			var5 = (var4 - 0.8F) / 0.2F;
 		}
 
@@ -413,8 +395,7 @@ public class AMParticle extends EntityFX {
 		GL11.glTranslatef(f11, f12, f13);
 		GL11.glScalef(getParticleScaleX(), getParticleScaleY(), getParticleScaleZ());
 
-		for (int var7 = 0; var7 < 50.0F; ++var7)
-		{
+		for (int var7 = 0; var7 < 50.0F; ++var7){
 			GL11.glRotatef(var6.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(var6.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(var6.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);

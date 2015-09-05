@@ -1,8 +1,7 @@
 package am2.blocks;
 
-import java.util.ArrayList;
-import java.util.Random;
-
+import am2.blocks.tileentities.TileEntityCandle;
+import am2.items.ItemsCommonProxy;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
@@ -10,12 +9,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import am2.blocks.tileentities.TileEntityCandle;
-import am2.items.ItemsCommonProxy;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class BlockCandle extends AMSpecialRenderBlockContainer{
 
-	protected BlockCandle() {
+	protected BlockCandle(){
 		super(Material.wood);
 		setHardness(1.0f);
 		setResistance(1.0f);
@@ -23,38 +23,38 @@ public class BlockCandle extends AMSpecialRenderBlockContainer{
 	}
 
 	@Override
-	public int getLightValue(IBlockAccess world, int x, int y, int z) {
+	public int getLightValue(IBlockAccess world, int x, int y, int z){
 		return 14;
 	}
 
 	@Override
-	public int getRenderType() {
+	public int getRenderType(){
 		return BlocksCommonProxy.blockRenderID;
 	}
-	
+
 	@Override
-	public ArrayList<ItemStack> getDrops(World arg0, int arg1, int arg2, int arg3, int arg4, int arg5) {
+	public ArrayList<ItemStack> getDrops(World arg0, int arg1, int arg2, int arg3, int arg4, int arg5){
 		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
 		drops.add(new ItemStack(ItemsCommonProxy.wardingCandle));
 		return drops;
 	}
-	
+
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z){
 		return new ItemStack(ItemsCommonProxy.wardingCandle);
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int i) {
+	public TileEntity createNewTileEntity(World world, int i){
 		return new TileEntityCandle();
 	}
 
 	@Override
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
 		world.spawnParticle("flame", x + 0.5, y + 0.65, z + 0.5, 0, 0, 0);
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister) {
+	public void registerBlockIcons(IIconRegister par1IconRegister){
 	}
 }

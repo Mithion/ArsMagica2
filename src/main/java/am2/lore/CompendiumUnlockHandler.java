@@ -1,23 +1,10 @@
 package am2.lore;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import am2.AMCore;
 import am2.api.events.PlayerMagicLevelChangeEvent;
 import am2.api.events.SkillLearnedEvent;
 import am2.api.events.SpellCastingEvent;
 import am2.api.spell.enums.SkillPointTypes;
-import am2.items.ItemsCommonProxy;
-import am2.network.AMNetHandler;
 import am2.playerextensions.ExtendedProperties;
 import am2.spell.SkillTreeManager;
 import am2.spell.components.Summon;
@@ -27,16 +14,21 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry.EntityRegistration;
+import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 
 /**
  * This class should handle compendium unlocks wherever possible through events.
  * If it is not possible, then all calls should use the static utility methods here.
- * @author Mithion
  *
+ * @author Mithion
  */
 public class CompendiumUnlockHandler{
 	/**
 	 * This is a catch all method - it's genericized to attempt to unlock a compendium entry for anything AM2 based that the player picks up
+	 *
 	 * @param event
 	 */
 	@SubscribeEvent
@@ -45,6 +37,7 @@ public class CompendiumUnlockHandler{
 
 	/**
 	 * Any magic level based unlocks should go in here
+	 *
 	 * @param event
 	 */
 	@SubscribeEvent
@@ -86,6 +79,7 @@ public class CompendiumUnlockHandler{
 
 	/**
 	 * This should handle all mobs and the Astral Barrier
+	 *
 	 * @param event
 	 */
 	@SubscribeEvent
@@ -106,6 +100,7 @@ public class CompendiumUnlockHandler{
 
 	/**
 	 * Any skill-based unlocks should go in here
+	 *
 	 * @param event
 	 */
 	@SubscribeEvent
@@ -127,6 +122,7 @@ public class CompendiumUnlockHandler{
 
 	/**
 	 * Any spell-based unlocks should go here (eg, low mana based unlocks, affinity, etc.)
+	 *
 	 * @param event
 	 */
 	@SubscribeEvent
@@ -143,7 +139,7 @@ public class CompendiumUnlockHandler{
 	 * This is another genericized method, which attempts to unlock any entry for something the player crafts
 	 */
 	@SubscribeEvent
-	public void onCrafting(ItemCraftedEvent event) {
+	public void onCrafting(ItemCraftedEvent event){
 		if (event.player.worldObj.isRemote){
 			ArcaneCompendium.instance.unlockRelatedItems(event.crafting);
 		}
@@ -151,6 +147,7 @@ public class CompendiumUnlockHandler{
 
 	/**
 	 * Helper method (auto-proxied) that will unlock a compendium entry.  If the entry is found to be a category, it wil be unlocked instead.
+	 *
 	 * @param id The ID used to identify the entry to unlock.
 	 */
 	public static void unlockEntry(String id){
@@ -159,6 +156,7 @@ public class CompendiumUnlockHandler{
 
 	/**
 	 * Helper method (auto-proxied) that will unlock a compendium category.
+	 *
 	 * @param id The ID used to identify the entry to unlock.
 	 */
 	public static void unlockCategory(String id){

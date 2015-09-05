@@ -1,12 +1,10 @@
 package am2.lore;
 
-import net.minecraft.item.ItemStack;
-
-import org.w3c.dom.Node;
-
 import am2.guis.GuiArcaneCompendium;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.item.ItemStack;
+import org.w3c.dom.Node;
 
 public class CompendiumEntryMechanic extends CompendiumEntry{
 
@@ -15,17 +13,17 @@ public class CompendiumEntryMechanic extends CompendiumEntry{
 	}
 
 	@Override
-	protected void parseEx(Node node) {
+	protected void parseEx(Node node){
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected GuiArcaneCompendium getCompendiumGui(String searchID, int meta) {
+	protected GuiArcaneCompendium getCompendiumGui(String searchID, int meta){
 		return new GuiArcaneCompendium(searchID);
 	}
 
 	@Override
-	public ItemStack getRepresentItemStack(String searchID, int meta) {
+	public ItemStack getRepresentItemStack(String searchID, int meta){
 		return null;
 	}
 

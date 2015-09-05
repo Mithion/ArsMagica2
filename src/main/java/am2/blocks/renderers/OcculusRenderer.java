@@ -1,40 +1,37 @@
 package am2.blocks.renderers;
 
-import org.lwjgl.opengl.GL11;
-
-import am2.AMCore;
 import am2.blocks.tileentities.TileEntityOcculus;
 import am2.models.ModelOcculus;
 import am2.texture.ResourceManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public class OcculusRenderer extends TileEntitySpecialRenderer{
 
 	private ResourceLocation rLoc;
-	
+
 	@Override
-	public void renderTileEntityAt(TileEntity var1, double var2, double var4, double var6, float var8) {
-		renderTileEntityOcculusAt((TileEntityOcculus) var1, var2, var4, var6, var8);
+	public void renderTileEntityAt(TileEntity var1, double var2, double var4, double var6, float var8){
+		renderTileEntityOcculusAt((TileEntityOcculus)var1, var2, var4, var6, var8);
 	}
 
 	private ModelOcculus occulus = new ModelOcculus();
-	
+
 	public OcculusRenderer(){
 		rLoc = new ResourceLocation("arsmagica2", ResourceManager.getCustomBlockTexturePath("Occulus.png"));
 	}
 
-	public void renderTileEntityOcculusAt(TileEntityOcculus podium, double d, double d1, double d2, float f1)
-	{
-		
+	public void renderTileEntityOcculusAt(TileEntityOcculus podium, double d, double d1, double d2, float f1){
+
 		int meta = 0;
-		if (podium.getWorldObj() != null) meta = podium.getWorldObj().getBlockMetadata(podium.xCoord, podium.yCoord, podium.zCoord) - 1;
+		if (podium.getWorldObj() != null)
+			meta = podium.getWorldObj().getBlockMetadata(podium.xCoord, podium.yCoord, podium.zCoord) - 1;
 
 		int i = 2;
 
-		if (podium.getWorldObj() != null)
-		{
+		if (podium.getWorldObj() != null){
 			i = podium.getBlockMetadata();
 		}
 		int j = i * 90;

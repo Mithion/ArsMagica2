@@ -5,8 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public abstract class AStar<T>
-{
+public abstract class AStar<T>{
 	private class Path implements Comparable{
 		public T point;
 		public Double f;
@@ -16,7 +15,7 @@ public abstract class AStar<T>
 		/**
 		 * Default c'tor.
 		 */
-		 public Path(){
+		public Path(){
 			parent = null;
 			point = null;
 			g = f = 0.0;
@@ -27,45 +26,45 @@ public abstract class AStar<T>
 		 *
 		 * @param p The path object to clone.
 		 */
-		 public Path(Path p){
-			 this();
-			 parent = p;
-			 g = p.g;
-			 f = p.f;
-		 }
+		public Path(Path p){
+			this();
+			parent = p;
+			g = p.g;
+			f = p.f;
+		}
 
-		 /**
-		  * Compare to another object using the total cost f.
-		  *
-		  * @param o The object to compare to.
-		  * @see       Comparable#compareTo()
-		  * @return <code>less than 0</code> This object is smaller
-		  * than <code>0</code>;
-		  *        <code>0</code> Object are the same.
-		  *        <code>bigger than 0</code> This object is bigger
-		  * than o.
-		  */
-		 @Override
+		/**
+		 * Compare to another object using the total cost f.
+		 *
+		 * @param o The object to compare to.
+		 * @return <code>less than 0</code> This object is smaller
+		 * than <code>0</code>;
+		 * <code>0</code> Object are the same.
+		 * <code>bigger than 0</code> This object is bigger
+		 * than o.
+		 * @see Comparable#compareTo()
+		 */
+		@Override
 		public int compareTo(Object o){
-			 Path p = (Path)o;
-			 return (int)(f - p.f);
-		 }
+			Path p = (Path)o;
+			return (int)(f - p.f);
+		}
 
-		 /**
-		  * Get the last point on the path.
-		  *
-		  * @return The last point visited by the path.
-		  */
-		 public T getPoint(){
-			 return point;
-		 }
+		/**
+		 * Get the last point on the path.
+		 *
+		 * @return The last point visited by the path.
+		 */
+		public T getPoint(){
+			return point;
+		}
 
-		 /**
-		  * Set the
-		  */
-		 public void setPoint(T p){
-			 point = p;
-		 }
+		/**
+		 * Set the
+		 */
+		public void setPoint(T p){
+			point = p;
+		}
 	}
 
 	/**
@@ -81,7 +80,7 @@ public abstract class AStar<T>
 	 * <code>from</from>.
 	 *
 	 * @param from The node we are leaving.
-	 * @param to The node we are reaching.
+	 * @param to   The node we are reaching.
 	 * @return The cost of the operation.
 	 */
 	protected abstract Double g(T from, T to);
@@ -93,7 +92,7 @@ public abstract class AStar<T>
 	 * <code>from</from>.
 	 *
 	 * @param from The node we are leaving.
-	 * @param to The node we are reaching.
+	 * @param to   The node we are reaching.
 	 * @return The estimated cost to reach an object.
 	 */
 	protected abstract Double h(T from, T to);
@@ -136,14 +135,15 @@ public abstract class AStar<T>
 	/**
 	 * Total cost function to reach the node <code>to</code> from
 	 * <code>from</code>.
-	 *
+	 * <p/>
 	 * The total cost is defined as: f(x) = g(x) + h(x).
+	 *
 	 * @param from The node we are leaving.
-	 * @param to The node we are reaching.
+	 * @param to   The node we are reaching.
 	 * @return The total cost.
 	 */
 	protected Double f(Path p, T from, T to){
-		Double g =  g(from, to) + ((p.parent != null) ? p.parent.g : 0.0);
+		Double g = g(from, to) + ((p.parent != null) ? p.parent.g : 0.0);
 		Double h = h(from, to);
 
 		p.g = g;
@@ -165,14 +165,14 @@ public abstract class AStar<T>
 		 * If a better path passing for this point already exists then
 		 * don't expand it.
 		 */
-		if(min == null || min.doubleValue() > path.f.doubleValue())
+		if (min == null || min.doubleValue() > path.f.doubleValue())
 			mindists.put(path.getPoint(), path.f);
 		else
 			return;
 
 		List<T> successors = generateSuccessors(p);
 
-		for(T t : successors){
+		for (T t : successors){
 			Path newPath = new Path(path);
 			newPath.setPoint(t);
 			f(newPath, path.getPoint(), t);
@@ -210,10 +210,10 @@ public abstract class AStar<T>
 
 			expand(root);
 
-			for(;;){
+			for (; ; ){
 				Path p = paths.poll();
 
-				if(p == null){
+				if (p == null){
 					lastCost = Double.MAX_VALUE;
 					return null;
 				}
@@ -222,10 +222,10 @@ public abstract class AStar<T>
 
 				lastCost = p.g;
 
-				if(isGoal(last)){
+				if (isGoal(last)){
 					LinkedList<T> retPath = new LinkedList<T>();
 
-					for(Path i = p; i != null; i = i.parent){
+					for (Path i = p; i != null; i = i.parent){
 						retPath.addFirst(i.getPoint());
 					}
 
@@ -233,8 +233,7 @@ public abstract class AStar<T>
 				}
 				expand(p);
 			}
-		}
-		catch(Exception e){
+		}catch (Exception e){
 			e.printStackTrace();
 		}
 		return null;

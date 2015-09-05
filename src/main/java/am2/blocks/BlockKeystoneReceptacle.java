@@ -1,5 +1,13 @@
 package am2.blocks;
 
+import am2.AMCore;
+import am2.api.blocks.IKeystoneLockable;
+import am2.blocks.tileentities.TileEntityKeystoneRecepticle;
+import am2.guis.ArsMagicaGuiIdList;
+import am2.items.ItemKeystone;
+import am2.texture.ResourceManager;
+import am2.utility.KeystoneUtilities;
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -9,37 +17,26 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import am2.AMCore;
-import am2.api.blocks.IKeystoneLockable;
-import am2.blocks.tileentities.TileEntityKeystoneRecepticle;
-import am2.guis.ArsMagicaGuiIdList;
-import am2.items.ItemKeystone;
-import am2.items.ItemsCommonProxy;
-import am2.texture.ResourceManager;
-import am2.utility.KeystoneUtilities;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 
 public class BlockKeystoneReceptacle extends AMSpecialRenderPoweredBlock{
-	public BlockKeystoneReceptacle() {
+	public BlockKeystoneReceptacle(){
 		super(Material.rock);
 		setHardness(4.5f);
 		setResistance(10f);
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int i) {
+	public TileEntity createNewTileEntity(World var1, int i){
 		return new TileEntityKeystoneRecepticle();
 	}
 
 	@Override
-	public boolean onBlockActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
-	{
+	public boolean onBlockActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
 		super.onBlockActivated(par1World, x, y, z, par5EntityPlayer, par6, par7, par8, par9);
 
 		if (HandleSpecialItems(par1World, par5EntityPlayer, x, y, z)){
 			return true;
 		}
-
 
 
 		TileEntity myTE = par1World.getTileEntity(x, y, z);
@@ -74,25 +71,21 @@ public class BlockKeystoneReceptacle extends AMSpecialRenderPoweredBlock{
 	}
 
 	@Override
-	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLiving, ItemStack stack) {
+	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLiving, ItemStack stack){
 		int p = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4F) / 360F + 0.5D) & 3;
 
 		byte byte0 = 3;
 
-		if (p == 0)
-		{
+		if (p == 0){
 			byte0 = 1;
 		}
-		if (p == 1)
-		{
+		if (p == 1){
 			byte0 = 0;
 		}
-		if (p == 2)
-		{
+		if (p == 2){
 			byte0 = 3;
 		}
-		if (p == 3)
-		{
+		if (p == 3){
 			byte0 = 2;
 		}
 
@@ -107,8 +100,8 @@ public class BlockKeystoneReceptacle extends AMSpecialRenderPoweredBlock{
 	}
 
 	@Override
-	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z) {
-		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(x,y,z);
+	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z){
+		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(x, y, z);
 		if (KeystoneUtilities.instance.getKeyFromRunes(lockable.getRunesInKey()) != 0){
 			if (!world.isRemote)
 				player.addChatMessage(new ChatComponentText("am2.tooltip.clearKey"));
@@ -119,7 +112,7 @@ public class BlockKeystoneReceptacle extends AMSpecialRenderPoweredBlock{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister) {
+	public void registerBlockIcons(IIconRegister par1IconRegister){
 		this.blockIcon = ResourceManager.RegisterTexture("custom/KeystoneReceptacle.png", par1IconRegister);
 	}
 }

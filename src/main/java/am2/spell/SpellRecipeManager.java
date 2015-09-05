@@ -1,22 +1,22 @@
 package am2.spell;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemPotion;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.oredict.OreDictionary;
 import am2.api.events.SpellRecipeItemsEvent;
 import am2.api.power.PowerTypes;
 import am2.api.spell.component.interfaces.ISpellPart;
 import am2.items.ItemEssence;
 import am2.items.ItemsCommonProxy;
 import cpw.mods.fml.common.FMLLog;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemPotion;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.OreDictionary;
 
-public class SpellRecipeManager {
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class SpellRecipeManager{
 	private final HashMap<ArrayList<Object>, ISpellPart> recipes;
 
 	public static final SpellRecipeManager instance = new SpellRecipeManager();
@@ -48,12 +48,12 @@ public class SpellRecipeManager {
 				recipeItems.add(new ItemStack((Block)o));
 			}else if (o instanceof String){
 				if (((String)o).toLowerCase().startsWith("e:")){
-					if (i == recipe.length-1 || !(recipe[i + 1] instanceof Integer)){
+					if (i == recipe.length - 1 || !(recipe[i + 1] instanceof Integer)){
 						FMLLog.severe("Ars Magica >> Error registering recipe.  Power must be declared in Integer pairs (type flags, quantity)).");
 						return;
 					}
 
-					int[] ids = ParseEssenceIDs((String) o);
+					int[] ids = ParseEssenceIDs((String)o);
 					int flag = 0;
 					for (int f : ids){
 						flag |= f;
@@ -215,8 +215,7 @@ public class SpellRecipeManager {
 		return match;
 	}
 
-	public static int parsePotionMeta(String potionDefinition)
-	{
+	public static int parsePotionMeta(String potionDefinition){
 		String[] potionSections = potionDefinition.split("&");
 
 		int potionMeta = 0;

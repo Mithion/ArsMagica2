@@ -4,10 +4,10 @@ import am2.guis.AMGuiIcons;
 import am2.items.ItemsCommonProxy;
 import am2.texture.SpellIconManager;
 
-public class CompendiumEntryTypes {
+public class CompendiumEntryTypes{
 
 	public final CompendiumEntryType GUIDE = new CompendiumEntryType("guides", "guide", "Guides", 0, CompendiumEntryGuide.class);
-	public final CompendiumEntryType MECHANIC = new CompendiumEntryType("mechanics", "mechanic",  "Mechanics", 1, CompendiumEntryMechanic.class);
+	public final CompendiumEntryType MECHANIC = new CompendiumEntryType("mechanics", "mechanic", "Mechanics", 1, CompendiumEntryMechanic.class);
 	public final CompendiumEntryType ITEM = new CompendiumEntryType("items", "item", "Items", 2, CompendiumEntryItem.class);
 	public final CompendiumEntryType BLOCK = new CompendiumEntryType("blocks", "block", "Blocks", 3, CompendiumEntryBlock.class);
 	public final CompendiumEntryType SPELL_SHAPE = new CompendiumEntryType("shapes", "shape", "Shapes", 4, CompendiumEntrySpellShape.class);

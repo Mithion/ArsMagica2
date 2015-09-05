@@ -1,18 +1,18 @@
 package am2.items;
 
-import java.util.List;
-
+import am2.texture.ResourceManager;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
-import am2.texture.ResourceManager;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemOre extends ArsMagicaItem {
+import java.util.List;
+
+public class ItemOre extends ArsMagicaItem{
 
 	@SideOnly(Side.CLIENT)
 	private IIcon[] icons;
@@ -29,14 +29,14 @@ public class ItemOre extends ArsMagicaItem {
 	public static final int META_MOONSTONE = 7;
 	public static final int META_ANIMALFAT = 8;
 
-	public ItemOre() {
+	public ItemOre(){
 		super();
 		this.setHasSubtypes(true);
 	}
 
 	@Override
-	public boolean isPotionIngredient(ItemStack stack) {
-		switch(stack.getItemDamage()){
+	public boolean isPotionIngredient(ItemStack stack){
+		switch (stack.getItemDamage()){
 		case META_VINTEUMDUST:
 		case META_ARCANEASH:
 		case META_PURIFIEDVINTEUM:
@@ -46,7 +46,7 @@ public class ItemOre extends ArsMagicaItem {
 	}
 
 	@Override
-	public String getItemStackDisplayName(ItemStack par1ItemStack) {
+	public String getItemStackDisplayName(ItemStack par1ItemStack){
 		int meta = par1ItemStack.getItemDamage();
 		switch (meta){
 		case META_VINTEUMDUST:
@@ -74,8 +74,8 @@ public class ItemOre extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister) {
-		textures = new String[] { "vinteum_dust", "arcane_compound", "arcane_ash", "purified_vinteum", "chimerite_gem", "blue_topaz_gem", "sunstone_gem", "moonstone_gem", "animalFat" };
+	public void registerIcons(IIconRegister par1IconRegister){
+		textures = new String[]{"vinteum_dust", "arcane_compound", "arcane_ash", "purified_vinteum", "chimerite_gem", "blue_topaz_gem", "sunstone_gem", "moonstone_gem", "animalFat"};
 
 		icons = new IIcon[textures.length];
 
@@ -87,13 +87,13 @@ public class ItemOre extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int meta) {
+	public IIcon getIconFromDamage(int meta){
 		return icons[meta % icons.length];
 	}
 
 	@Override
-	public String getPotionEffect(ItemStack stack) {
-		switch(stack.getItemDamage()){
+	public String getPotionEffect(ItemStack stack){
+		switch (stack.getItemDamage()){
 		case META_VINTEUMDUST:
 			return "+0+1+2-3&4-4+13";
 		case META_ARCANEASH:
@@ -106,7 +106,7 @@ public class ItemOre extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
+	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List){
 		for (int i = 0; i < icons.length; ++i){
 			par3List.add(new ItemStack(this, 1, i));
 		}

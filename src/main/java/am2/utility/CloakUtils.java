@@ -1,10 +1,7 @@
 package am2.utility;
 
-import java.io.File;
-import java.util.TreeMap;
-
-import org.lwjgl.opengl.GL11;
-
+import am2.AMCore;
+import am2.models.ModelCloaks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
@@ -12,10 +9,12 @@ import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import am2.AMCore;
-import am2.models.ModelCloaks;
+import org.lwjgl.opengl.GL11;
 
-public class CloakUtils {
+import java.io.File;
+import java.util.TreeMap;
+
+public class CloakUtils{
 	private static TreeMap<String, ThreadDownloadImageData> downloadedCloaks = new TreeMap<String, ThreadDownloadImageData>();
 	private static TreeMap<String, ResourceLocation> downloadedCloakLocations = new TreeMap<String, ResourceLocation>();
 
@@ -38,8 +37,7 @@ public class CloakUtils {
 			dy += player.height - player.yOffset - 0.125f;
 		double dz = (player.prevPosZ + (player.posZ - player.prevPosZ) * partialRenderTick) - (localPlayer.prevPosZ + (localPlayer.posZ - localPlayer.prevPosZ) * partialRenderTick);
 
-		
-		
+
 		GL11.glTranslated(dx, dy, dz);
 
 		cloak.render(player, mainModel, 0.0625f, partialRenderTick, capeLoc, dm);
@@ -55,8 +53,7 @@ public class CloakUtils {
 		return resourceLocation;
 	}
 
-	private static ThreadDownloadImageData downloadCapeTexture(ResourceLocation resourceLocation, String userName)
-	{
+	private static ThreadDownloadImageData downloadCapeTexture(ResourceLocation resourceLocation, String userName){
 		ThreadDownloadImageData data = downloadedCloaks.get(userName);
 
 		if (data == null){

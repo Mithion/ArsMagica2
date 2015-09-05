@@ -1,13 +1,11 @@
 package am2.models;
 
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.entity.Entity;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import org.lwjgl.opengl.GL11;
 
-public class ModelAstralBarrier extends ModelBase
-{
+public class ModelAstralBarrier extends ModelBase{
 	//fields
 	ModelRenderer Shape1;
 	ModelRenderer Shape2;
@@ -24,8 +22,7 @@ public class ModelAstralBarrier extends ModelBase
 	ModelRenderer Shape13;
 	ModelRenderer Shape14;
 
-	public ModelAstralBarrier()
-	{
+	public ModelAstralBarrier(){
 		textureWidth = 64;
 		textureHeight = 64;
 
@@ -115,8 +112,7 @@ public class ModelAstralBarrier extends ModelBase
 		setRotation(Shape14, 0F, 0F, 0F);
 	}
 
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		Shape1.render(f5);
 		Shape2.render(f5);
@@ -134,8 +130,7 @@ public class ModelAstralBarrier extends ModelBase
 		Shape14.render(f5);
 	}
 
-	public void renderModel(float f5)
-	{
+	public void renderModel(float f5){
 		Shape1.render(f5);
 		Shape2.render(f5);
 		Shape3.render(f5);
@@ -145,23 +140,22 @@ public class ModelAstralBarrier extends ModelBase
 		Shape7.render(f5);
 		Shape8.render(f5);
 		Shape9.render(f5);
-		
+
 		GL11.glDepthMask(false);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		
+
 		Shape10.render(f5);
 		Shape11.render(f5);
 		Shape12.render(f5);
 		Shape13.render(f5);
 		Shape14.render(f5);
-		
+
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glDepthMask(true);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z){
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

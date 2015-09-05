@@ -1,6 +1,6 @@
 package am2.guis;
 
-public class ArsMagicaGuiIdList {
+public class ArsMagicaGuiIdList{
 	public static final int GUI_INSCRIPTION_TABLE = 1;
 	public static final int GUI_ESSENCE_REFINER = 2;
 	public static final int GUI_CASTER = 3;

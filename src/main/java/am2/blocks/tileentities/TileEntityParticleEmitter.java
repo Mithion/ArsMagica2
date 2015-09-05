@@ -1,22 +1,21 @@
 package am2.blocks.tileentities;
 
-import java.util.Random;
-
+import am2.AMCore;
+import am2.api.math.AMVector3;
+import am2.items.ItemsCommonProxy;
+import am2.network.AMDataWriter;
+import am2.network.AMNetHandler;
+import am2.network.AMPacketIDs;
+import am2.particles.AMParticle;
+import am2.particles.AMParticleIcons;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import am2.AMCore;
-import am2.api.math.AMVector3;
-import am2.items.ItemsCommonProxy;
-import am2.network.AMDataReader;
-import am2.network.AMDataWriter;
-import am2.network.AMNetHandler;
-import am2.network.AMPacketIDs;
-import am2.particles.AMParticle;
-import am2.particles.AMParticleIcons;
+
+import java.util.Random;
 
 public class TileEntityParticleEmitter extends TileEntity{
 
@@ -58,7 +57,7 @@ public class TileEntityParticleEmitter extends TileEntity{
 	}
 
 	@Override
-	public void updateEntity() {
+	public void updateEntity(){
 		if (worldObj.isRemote && spawnTicks++ >= spawnRate){
 			for (int i = 0; i < particleQuantity; ++i)
 				doSpawn();
@@ -92,7 +91,7 @@ public class TileEntityParticleEmitter extends TileEntity{
 		double x = randomzieCoord(xCoord + 0.5);
 		double y = randomzieCoord(yCoord + 0.5);
 		double z = randomzieCoord(zCoord + 0.5);
-		AMParticle particle = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, AMParticle.particleTypes[particleType], x, y, z);
+		AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, AMParticle.particleTypes[particleType], x, y, z);
 		if (particle != null){
 			particle.AddParticleController(AMCore.proxy.particleManager.createDefaultParticleController(particleBehaviour, particle, new AMVector3(x, y, z), speed, worldObj.getBlockMetadata(xCoord, yCoord, zCoord)));
 			particle.setParticleAge(Math.min(Math.max(spawnRate, 10), 40));
@@ -113,15 +112,15 @@ public class TileEntityParticleEmitter extends TileEntity{
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		this.writeToNBT(compound);
 		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
 		return packet;
 	}
-	
+
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
 		this.readFromNBT(pkt.func_148857_g());
 		applyParamConstraints();
 		hasReceivedFullUpdate = true;
@@ -132,7 +131,8 @@ public class TileEntityParticleEmitter extends TileEntity{
 		if (particleQuantity < 1) particleQuantity = 1;
 		if (particleQuantity > 5) particleQuantity = 5;
 		if (particleType < 0) particleType = 0;
-		if (particleType > AMParticleIcons.instance.numParticles()) particleType = AMParticleIcons.instance.numParticles() - 1;
+		if (particleType > AMParticleIcons.instance.numParticles())
+			particleType = AMParticleIcons.instance.numParticles() - 1;
 		if (particleBehaviour < 0) particleBehaviour = 0;
 		if (particleBehaviour > 6) particleBehaviour = 6;
 		if (particleScale < 0) particleScale = 0;
@@ -142,7 +142,7 @@ public class TileEntityParticleEmitter extends TileEntity{
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
+	public void readFromNBT(NBTTagCompound compound){
 		super.readFromNBT(compound);
 		readSettingsFromNBT(compound);
 	}
@@ -162,7 +162,7 @@ public class TileEntityParticleEmitter extends TileEntity{
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound compound) {
+	public void writeToNBT(NBTTagCompound compound){
 		super.writeToNBT(compound);
 		writeSettingsToNBT(compound);
 	}
@@ -213,7 +213,7 @@ public class TileEntityParticleEmitter extends TileEntity{
 		this.show = show;
 		if (worldObj.isRemote && show){
 			forceShow = false;
-			showTicks= 0;
+			showTicks = 0;
 			EntityPlayer localPlayer = AMCore.proxy.getLocalPlayer();
 			if (localPlayer != null && localPlayer.inventory.getCurrentItem() != null && localPlayer.inventory.getCurrentItem().getItem() == ItemsCommonProxy.crystalWrench){
 				AMVector3 myLoc = new AMVector3(xCoord, yCoord, zCoord);
@@ -261,7 +261,7 @@ public class TileEntityParticleEmitter extends TileEntity{
 		return this.show;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(int quantity){
 		this.particleQuantity = quantity;
 	}
 
@@ -269,7 +269,7 @@ public class TileEntityParticleEmitter extends TileEntity{
 		return this.particleQuantity;
 	}
 
-	public void setDelay(int delay) {
+	public void setDelay(int delay){
 		this.spawnRate = delay;
 		this.spawnTicks = 0;
 	}
@@ -278,11 +278,11 @@ public class TileEntityParticleEmitter extends TileEntity{
 		return this.spawnRate;
 	}
 
-	public void setSpeed(float speed) {
+	public void setSpeed(float speed){
 		this.speed = speed;
 	}
 
-	public float getSpeed() {
+	public float getSpeed(){
 		return speed;
 	}
 

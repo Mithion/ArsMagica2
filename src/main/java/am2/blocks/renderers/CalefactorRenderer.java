@@ -1,6 +1,9 @@
 package am2.blocks.renderers;
 
-import net.minecraft.client.renderer.Tessellator;
+import am2.blocks.tileentities.TileEntityCalefactor;
+import am2.guis.AMGuiHelper;
+import am2.models.ModelCalefactor;
+import am2.texture.ResourceManager;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -8,32 +11,25 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
-import am2.blocks.tileentities.TileEntityCalefactor;
-import am2.guis.AMGuiHelper;
-import am2.models.ModelCalefactor;
-import am2.texture.ResourceManager;
 
 public class CalefactorRenderer extends TileEntitySpecialRenderer{
 
 	private final ResourceLocation rLoc;
 	RenderItem renderItem;
 
-	public CalefactorRenderer() {
+	public CalefactorRenderer(){
 		model = new ModelCalefactor();
 
 		rLoc = new ResourceLocation("arsmagica2", ResourceManager.getCustomBlockTexturePath("blockCalefactor.png"));
-		renderItem = (RenderItem) RenderManager.instance.entityRenderMap.get(EntityItem.class);
+		renderItem = (RenderItem)RenderManager.instance.entityRenderMap.get(EntityItem.class);
 	}
 
-	public void renderAModelAt(TileEntityCalefactor tile, double d, double d1, double d2, float f) {
+	public void renderAModelAt(TileEntityCalefactor tile, double d, double d1, double d2, float f){
 
 		int i = 0;
 
-		if (tile.getWorldObj() != null)
-		{
+		if (tile.getWorldObj() != null){
 			i = tile.getBlockMetadata();
 		}
 
@@ -120,8 +116,8 @@ public class CalefactorRenderer extends TileEntitySpecialRenderer{
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f) {
-		renderAModelAt((TileEntityCalefactor) tileentity, d, d1, d2, f); //where to render
+	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f){
+		renderAModelAt((TileEntityCalefactor)tileentity, d, d1, d2, f); //where to render
 	}
 
 	private final ModelCalefactor model;

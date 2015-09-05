@@ -3,7 +3,7 @@ package am2.api.blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
-public interface IKeystoneLockable <T extends TileEntity, IInventory> {
+public interface IKeystoneLockable<T extends TileEntity, IInventory>{
 	/**
 	 * Return a three element array of the three runes in the inventory that make up the current keystone combination.
 	 * Elements can be NULL if there is no rune present.

@@ -1,44 +1,22 @@
 package am2.entities;
 
-import java.io.File;
-
-import com.mojang.authlib.GameProfile;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import am2.AMCore;
 import am2.api.math.AMVector3;
 import am2.blocks.tileentities.TileEntityCraftingAltar;
 import am2.entities.ai.EntityAISpellmaking;
-import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
 import am2.proxy.ShadowSkinHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IImageBuffer;
-import net.minecraft.client.renderer.ImageBufferDownload;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
-import net.minecraft.client.renderer.texture.ITextureObject;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIBreakDoor;
-import net.minecraft.entity.ai.EntityAIFleeSun;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIOpenDoor;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityGolem;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StringUtils;
 import net.minecraft.world.World;
 
 public class EntityShadowHelper extends EntityLiving{
@@ -54,34 +32,34 @@ public class EntityShadowHelper extends EntityLiving{
 	private static final int DW_DROP_LOC_Z = 29; //z-coordinate of search
 
 	private TileEntityCraftingAltar altarTarget = null;
-	private String lastDWString = "";	
-	
+	private String lastDWString = "";
+
 	@SideOnly(Side.CLIENT)
 	private ShadowSkinHelper skinHelper;
 
-	public EntityShadowHelper(World par1World) {
+	public EntityShadowHelper(World par1World){
 		super(par1World);
-		initAI();		
+		initAI();
 	}
 
 	@Override
-	protected boolean isAIEnabled() {
+	protected boolean isAIEnabled(){
 		return true;
 	}
-	
+
 	@Override
-	public void onDeath(DamageSource par1DamageSource) {	
-		super.onDeath(par1DamageSource);			
+	public void onDeath(DamageSource par1DamageSource){
+		super.onDeath(par1DamageSource);
 		if (worldObj.isRemote){
 			spawnParticles();
 			worldObj.playSound(posX, posY, posZ, "arsmagica2:misc.craftingaltar.create_spell", 1.0f, 1.0f, true);
 		}
 	}
-	
+
 	private void spawnParticles(){
 		if (worldObj.isRemote){
 			for (int i = 0; i < 25 * AMCore.config.getGFXLevel() + 1; ++i){
-				AMParticle particle = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "arcane", posX, posY, posZ);
+				AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "arcane", posX, posY, posZ);
 				if (particle != null){
 					particle.addRandomOffset(1, 1, 1);
 					particle.AddParticleController(new ParticleFloatUpward(particle, 0, 0.02f + getRNG().nextFloat() * 0.2f, 1, false));
@@ -91,30 +69,30 @@ public class EntityShadowHelper extends EntityLiving{
 			}
 		}
 	}
-	
+
 	public void onJoinWorld(World world){
 		spawnParticles();
 		if (world.isRemote)
 			this.skinHelper = new ShadowSkinHelper();
 	}
-	
+
 	@Override
-	protected String getDeathSound() {
+	protected String getDeathSound(){
 		return null;
 	}
-	
+
 	@Override
-	protected boolean canDespawn() {
+	protected boolean canDespawn(){
 		return false;
 	}
-	
+
 	@Override
-	protected void onDeathUpdate() {		
+	protected void onDeathUpdate(){
 		this.setDead();
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void entityInit(){
 		super.entityInit();
 		this.dataWatcher.addObject(DW_MIMIC_USER, "");
 		this.dataWatcher.addObject(DW_SEARCH_ITEM, new ItemStack(Items.apple));
@@ -140,7 +118,7 @@ public class EntityShadowHelper extends EntityLiving{
 		this.dataWatcher.updateObject(DW_DROP_LOC_Y, (int)location.y);
 		this.dataWatcher.updateObject(DW_DROP_LOC_Z, (int)location.z);
 	}
-	
+
 	public AMVector3 getSearchLocation(){
 		return new AMVector3(this.dataWatcher.getWatchableObjectInt(DW_TRANS_LOC_X), this.dataWatcher.getWatchableObjectInt(DW_TRANS_LOC_Y), this.dataWatcher.getWatchableObjectInt(DW_TRANS_LOC_Z));
 	}
@@ -184,12 +162,12 @@ public class EntityShadowHelper extends EntityLiving{
 	}
 
 	@Override
-	public ItemStack getHeldItem() {
+	public ItemStack getHeldItem(){
 		return this.dataWatcher.getWatchableObjectItemStack(DW_HELD_ITEM);
 	}
 
 	@Override
-	public void onUpdate() {	
+	public void onUpdate(){
 		super.onUpdate();
 		if (this.worldObj.isRemote){
 			if (this.getMimicUser() != lastDWString){
@@ -201,23 +179,21 @@ public class EntityShadowHelper extends EntityLiving{
 			this.unSummon();
 		}
 	}
-	
+
 	@Override
-	protected String getHurtSound() {
+	protected String getHurtSound(){
 		return null;
-	}	
-	
+	}
+
 	public void unSummon(){
 		this.attackEntityFrom(DamageSource.generic, 5000);
 	}
-	
-	public ResourceLocation getLocationSkin()
-	{
+
+	public ResourceLocation getLocationSkin(){
 		return this.skinHelper.getLocationSkin();
 	}
-	
-	public ThreadDownloadImageData getTextureSkin()
-	{
+
+	public ThreadDownloadImageData getTextureSkin(){
 		return this.skinHelper.getTextureSkin();
 	}
 }

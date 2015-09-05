@@ -1,6 +1,6 @@
 package am2.api.items.armor;
 
-public enum ImbuementTiers {
+public enum ImbuementTiers{
 	FIRST,
 	SECOND,
 	THIRD,

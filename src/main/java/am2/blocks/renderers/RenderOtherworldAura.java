@@ -1,7 +1,5 @@
 package am2.blocks.renderers;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.blocks.tileentities.TileEntityOtherworldAura;
 import am2.texture.ResourceManager;
 import net.minecraft.client.Minecraft;
@@ -11,8 +9,9 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
-public class RenderOtherworldAura extends TileEntitySpecialRenderer {
+public class RenderOtherworldAura extends TileEntitySpecialRenderer{
 
 	private ResourceLocation rLoc_aura;
 
@@ -21,8 +20,8 @@ public class RenderOtherworldAura extends TileEntitySpecialRenderer {
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity var1, double var2, double var4, double var6, float var8) {
-		doRender((TileEntityOtherworldAura) var1, var2, var4, var6, var8);
+	public void renderTileEntityAt(TileEntity var1, double var2, double var4, double var6, float var8){
+		doRender((TileEntityOtherworldAura)var1, var2, var4, var6, var8);
 	}
 
 	private void doRender(TileEntityOtherworldAura tile, double d1, double d2, double d3, float f){
@@ -31,8 +30,8 @@ public class RenderOtherworldAura extends TileEntitySpecialRenderer {
 
 		GL11.glTranslatef((float)d1 + 0.5f, (float)d2 + 0.5f, (float)d3 + 0.5f);
 		GL11.glDepthMask(false);
-		GL11.glEnable (GL11.GL_BLEND);
-		GL11.glBlendFunc (GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 
 		RenderHelper.disableStandardItemLighting();
@@ -48,15 +47,14 @@ public class RenderOtherworldAura extends TileEntitySpecialRenderer {
 		}
 
 		RenderHelper.enableStandardItemLighting();
-		GL11.glDisable (GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glDepthMask(true);
 		GL11.glPopAttrib();
 		GL11.glPopMatrix();
 	}
 
 
-	private void renderArsMagicaEffect(Tessellator tessellator, float offset, float scale, float smooth, boolean rotate)
-	{
+	private void renderArsMagicaEffect(Tessellator tessellator, float offset, float scale, float smooth, boolean rotate){
 		GL11.glPushMatrix();
 		if (rotate){
 			GL11.glRotatef(180F - RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
@@ -67,11 +65,11 @@ public class RenderOtherworldAura extends TileEntitySpecialRenderer {
 		}
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("arsmagica2", ResourceManager.getCustomBlockTexturePath("sc_auto.png")));
-		GL11.glBlendFunc (GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glColor4f(1, 0, 0.75f, 1);
 		GL11.glTranslatef(0.0f, 0.25f, 0.0f);
 		GL11.glRotatef((Minecraft.getMinecraft().thePlayer.ticksExisted + smooth) * (scale * 2) * offset, 0, 0, 1);
-		float scalefactor = (float) Math.abs(Math.sin(System.currentTimeMillis() / 1000.0 * scale)) + 0.01f;
+		float scalefactor = (float)Math.abs(Math.sin(System.currentTimeMillis() / 1000.0 * scale)) + 0.01f;
 		GL11.glScalef(scale * scalefactor, scale * scalefactor, scale * scalefactor);
 		GL11.glTranslatef(0.0f, -0.25f, 0.0f);
 		renderSprite(tessellator);
@@ -79,8 +77,7 @@ public class RenderOtherworldAura extends TileEntitySpecialRenderer {
 
 	}
 
-	private void renderSprite(Tessellator tessellator)
-	{
+	private void renderSprite(Tessellator tessellator){
 
 		float TLX = 0;
 		float BRX = 1;

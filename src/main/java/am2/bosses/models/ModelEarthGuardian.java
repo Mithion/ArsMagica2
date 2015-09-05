@@ -1,14 +1,12 @@
 package am2.bosses.models;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.bosses.EntityEarthGuardian;
 import am2.entities.renderers.AM2ModelRenderer;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
+import org.lwjgl.opengl.GL11;
 
-public class ModelEarthGuardian extends ModelBase
-{
+public class ModelEarthGuardian extends ModelBase{
 	//fields
 	AM2ModelRenderer Core2;
 	AM2ModelRenderer Rod3;
@@ -32,8 +30,7 @@ public class ModelEarthGuardian extends ModelBase
 	AM2ModelRenderer Rock2;
 	AM2ModelRenderer Rock3;
 
-	public ModelEarthGuardian()
-	{
+	public ModelEarthGuardian(){
 		textureWidth = 64;
 		textureHeight = 64;
 
@@ -216,21 +213,20 @@ public class ModelEarthGuardian extends ModelBase
 		Rod3.storeRestRotations();
 		Rod4.storeRestRotations();
 		RodMain.storeRestRotations();
-		
+
 		Rock1.storeRestRotations();
 		Rock2.storeRestRotations();
 		Rock3.storeRestRotations();
 	}
 
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		if (entity instanceof EntityEarthGuardian){
 
 			GL11.glPushMatrix();
 			GL11.glScalef(1.5f, 1.5f, 1.5f);
 			GL11.glTranslatef(0, -0.5f, 0);
 			setHeadRotations(f3, f4);
-			setRotations((EntityEarthGuardian) entity);
+			setRotations((EntityEarthGuardian)entity);
 
 			Core2.render(f5);
 
@@ -240,20 +236,20 @@ public class ModelEarthGuardian extends ModelBase
 			RightArmUpper.render(f5);
 			LeftArm1.render(f5);
 			RightArmLower.render(f5);
-			LeftArm2.render(f5);			
+			LeftArm2.render(f5);
 			Neck.render(f5);
 			Head.render(f5);
 			LeftShoulder2.render(f5);
 			RightShoulder2.render(f5);
-			RightShoulder1.render(f5);			
+			RightShoulder1.render(f5);
 
 			RodMain.render(f5);
 			Rod3.render(f5);
 			Rod4.render(f5);
 			Rod2.render(f5);
 			Rod1.render(f5);
-			
-			if (((EntityEarthGuardian) entity).shouldRenderRock()){
+
+			if (((EntityEarthGuardian)entity).shouldRenderRock()){
 				Rock1.render(f5);
 				Rock2.render(f5);
 				Rock3.render(f5);
@@ -292,22 +288,22 @@ public class ModelEarthGuardian extends ModelBase
 			float hold_ticks = 10;
 			float rise_ticks = 10;
 			if (guardian.getTicksInCurrentAction() < action_ticks){
-				left_arm_rotation_x = (float) Math.toRadians(-max_degrees_x * ((float)guardian.getTicksInCurrentAction() / action_ticks));
+				left_arm_rotation_x = (float)Math.toRadians(-max_degrees_x * ((float)guardian.getTicksInCurrentAction() / action_ticks));
 			}else if (guardian.getTicksInCurrentAction() < (action_ticks + fast_action_ticks)){
 				float pct = ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks);
 				float degrees = -max_degrees_x + (final_degrees * pct);
-				left_arm_rotation_x = (float) Math.toRadians(degrees);
+				left_arm_rotation_x = (float)Math.toRadians(degrees);
 				GL11.glRotatef((max_degrees_x + degrees) / 2, 1, 0, 0);
 				GL11.glTranslatef(0, 1f * pct, 0);
 			}else if (guardian.getTicksInCurrentAction() < (action_ticks + fast_action_ticks + hold_ticks)){
-				left_arm_rotation_x = (float) Math.toRadians(-final_degrees);
+				left_arm_rotation_x = (float)Math.toRadians(-final_degrees);
 				GL11.glRotatef(final_degrees / 2, 1, 0, 0);
 				GL11.glTranslatef(0, 1f, 0);
 			}else{
 				float pct = 1.0f - ((float)(guardian.getTicksInCurrentAction() - action_ticks - fast_action_ticks - hold_ticks) / rise_ticks);
 				float degrees = -max_degrees_x + (final_degrees * pct);
 				float degrees2 = -max_degrees_x + (final_degrees * (1.0f - pct));
-				left_arm_rotation_x = (float) Math.toRadians(degrees2);
+				left_arm_rotation_x = (float)Math.toRadians(degrees2);
 				GL11.glRotatef((max_degrees_x + degrees) / 2, 1, 0, 0);
 				GL11.glTranslatef(0, 1f * pct, 0);
 			}
@@ -321,17 +317,17 @@ public class ModelEarthGuardian extends ModelBase
 			action_ticks = 4;
 			fast_action_ticks = 11;
 			if (guardian.getTicksInCurrentAction() < action_ticks){
-				left_arm_rotation_z = (float) Math.toRadians(-max_degrees_x * ((float)guardian.getTicksInCurrentAction() / action_ticks));
+				left_arm_rotation_z = (float)Math.toRadians(-max_degrees_x * ((float)guardian.getTicksInCurrentAction() / action_ticks));
 			}else if (guardian.getTicksInCurrentAction() < (action_ticks + fast_action_ticks)){
 				float pct = ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks);
 				float degrees = -max_degrees_x + (max_degrees_x * pct);
-				left_arm_rotation_z = (float) Math.toRadians(degrees);
+				left_arm_rotation_z = (float)Math.toRadians(degrees);
 				GL11.glRotatef(guardian.leftArm ? 360 * pct : -360 * pct, 0, 1, 0);
 			}
 			if (!guardian.leftArm){
 				right_arm_rotation_z = -left_arm_rotation_z;
 				right_shoulder_rotation_z = left_arm_rotation_z;
-				left_arm_rotation_z = 0;						
+				left_arm_rotation_z = 0;
 			}else{
 				left_shoulder_rotation_z = left_arm_rotation_z;
 			}
@@ -346,26 +342,26 @@ public class ModelEarthGuardian extends ModelBase
 			if (guardian.getTicksInCurrentAction() < action_ticks){
 				float pct = (float)(guardian.getTicksInCurrentAction() / action_ticks);
 				float degrees = -max_degrees_x * pct;
-				left_arm_rotation_x = (float) Math.toRadians(degrees);
+				left_arm_rotation_x = (float)Math.toRadians(degrees);
 				GL11.glRotatef(-degrees / 2, 1, 0, 0);
 				GL11.glTranslatef(0, 1f * pct, 0);
 
 			}else if (guardian.getTicksInCurrentAction() < (action_ticks + fast_action_ticks)){
 				float pct = 1.0f - ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks);
 				float degrees = (-final_degrees * (1.0f - pct)) - max_degrees_x;
-				left_arm_rotation_x = (float) Math.toRadians(degrees);
+				left_arm_rotation_x = (float)Math.toRadians(degrees);
 				GL11.glRotatef((max_degrees_x * pct) / 2, 1, 0, 0);
 				GL11.glTranslatef(0, 1f * pct, 0);
 			}else if (guardian.getTicksInCurrentAction() < (action_ticks + fast_action_ticks + hold_ticks)){
 				float degrees = -final_degrees - max_degrees_x;
-				left_arm_rotation_x = (float) Math.toRadians(degrees);
+				left_arm_rotation_x = (float)Math.toRadians(degrees);
 			}else{
 				float pct = 1.0f - ((float)(guardian.getTicksInCurrentAction() - action_ticks - fast_action_ticks - hold_ticks) / rise_ticks);
 				float degrees = (-final_degrees - max_degrees_x) * pct;
-				left_arm_rotation_x = (float) Math.toRadians(degrees);
+				left_arm_rotation_x = (float)Math.toRadians(degrees);
 			}
 			right_arm_rotation_x = left_arm_rotation_x;
-			right_arm_rotation_y = left_arm_rotation_y = left_arm_rotation_x / 4;			
+			right_arm_rotation_y = left_arm_rotation_y = left_arm_rotation_x / 4;
 			break;
 		}
 
@@ -375,13 +371,13 @@ public class ModelEarthGuardian extends ModelBase
 		LeftArm1.rotateAngleZ = LeftArm1.getRestRotationZ() + left_arm_rotation_z;
 		LeftArm2.rotateAngleZ = LeftArm2.getRestRotationZ() + left_arm_rotation_z;
 
-		LeftShoulder1.rotateAngleX = LeftShoulder1.getRestRotationX() + left_arm_rotation_x;		
-		LeftShoulder2.rotateAngleX = LeftShoulder2.getRestRotationX() + left_arm_rotation_x;	
+		LeftShoulder1.rotateAngleX = LeftShoulder1.getRestRotationX() + left_arm_rotation_x;
+		LeftShoulder2.rotateAngleX = LeftShoulder2.getRestRotationX() + left_arm_rotation_x;
 
-		LeftShoulder1.rotateAngleY = LeftShoulder1.getRestRotationY() + left_arm_rotation_y;		
+		LeftShoulder1.rotateAngleY = LeftShoulder1.getRestRotationY() + left_arm_rotation_y;
 		LeftShoulder2.rotateAngleY = LeftShoulder2.getRestRotationY() + left_arm_rotation_y;
 
-		LeftShoulder1.rotateAngleZ = LeftShoulder1.getRestRotationZ() + left_shoulder_rotation_z;		
+		LeftShoulder1.rotateAngleZ = LeftShoulder1.getRestRotationZ() + left_shoulder_rotation_z;
 		LeftShoulder2.rotateAngleZ = LeftShoulder2.getRestRotationZ() + left_shoulder_rotation_z;
 
 		RightArmUpper.rotateAngleX = RightArmUpper.getRestRotationX() + right_arm_rotation_x;
@@ -390,27 +386,26 @@ public class ModelEarthGuardian extends ModelBase
 		RightArmUpper.rotateAngleZ = RightArmUpper.getRestRotationZ() + right_arm_rotation_z;
 		RightArmLower.rotateAngleZ = RightArmLower.getRestRotationZ() + right_arm_rotation_z;
 
-		RightShoulder1.rotateAngleX = RightShoulder1.getRestRotationX() + right_arm_rotation_x;		
+		RightShoulder1.rotateAngleX = RightShoulder1.getRestRotationX() + right_arm_rotation_x;
 		RightShoulder2.rotateAngleX = RightShoulder2.getRestRotationX() + right_arm_rotation_x;
 
-		RightShoulder1.rotateAngleY = RightShoulder1.getRestRotationY() - right_arm_rotation_y;		
+		RightShoulder1.rotateAngleY = RightShoulder1.getRestRotationY() - right_arm_rotation_y;
 		RightShoulder2.rotateAngleY = RightShoulder2.getRestRotationY() - right_arm_rotation_y;
 
-		RightShoulder1.rotateAngleZ = RightShoulder1.getRestRotationZ() - right_shoulder_rotation_z;		
+		RightShoulder1.rotateAngleZ = RightShoulder1.getRestRotationZ() - right_shoulder_rotation_z;
 		RightShoulder2.rotateAngleZ = RightShoulder2.getRestRotationZ() - right_shoulder_rotation_z;
-		
+
 		Rock1.rotateAngleX = Rock1.getRestRotationX() + right_arm_rotation_x;
 		Rock2.rotateAngleX = Rock2.getRestRotationX() + right_arm_rotation_x;
 		Rock3.rotateAngleX = Rock3.getRestRotationX() + right_arm_rotation_x;
 	}
 
 	private void setHeadRotations(float yaw, float pitch){
-		Head.rotateAngleX = (float) Math.toRadians(pitch);
-		Head.rotateAngleY = (float) Math.toRadians(yaw);
+		Head.rotateAngleX = (float)Math.toRadians(pitch);
+		Head.rotateAngleY = (float)Math.toRadians(yaw);
 	}
 
-	private void setRotation(AM2ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(AM2ModelRenderer model, float x, float y, float z){
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

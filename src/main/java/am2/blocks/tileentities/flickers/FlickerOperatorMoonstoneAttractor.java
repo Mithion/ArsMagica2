@@ -1,16 +1,16 @@
 package am2.blocks.tileentities.flickers;
 
-import java.util.ArrayList;
-
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.api.math.AMVector3;
 import am2.api.spell.enums.Affinity;
 import am2.blocks.BlocksCommonProxy;
 import am2.items.ItemsCommonProxy;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 public class FlickerOperatorMoonstoneAttractor implements IFlickerFunctionality{
 
@@ -25,17 +25,17 @@ public class FlickerOperatorMoonstoneAttractor implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean RequiresPower() {
+	public boolean RequiresPower(){
 		return true;
 	}
 
 	@Override
-	public int PowerPerOperation() {
+	public int PowerPerOperation(){
 		return 10;
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered) {
+	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered){
 		AMVector3 vec = new AMVector3((TileEntity)habitat);
 		if (powered){
 			if (!attractors.contains(vec)){
@@ -49,39 +49,39 @@ public class FlickerOperatorMoonstoneAttractor implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers) {
+	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
 		return DoOperation(worldObj, habitat, powered);
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered) {
+	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered){
 		AMVector3 vec = new AMVector3((TileEntity)habitat);
 		attractors.remove(vec);
 	}
 
 	@Override
-	public int TimeBetweenOperation(boolean powered, Affinity[] flickers) {
+	public int TimeBetweenOperation(boolean powered, Affinity[] flickers){
 		return 100;
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers) {
+	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
 		RemoveOperator(worldObj, habitat, powered);
 	}
 
 	@Override
-	public Object[] getRecipe() {
+	public Object[] getRecipe(){
 		return new Object[]{
-			"RLR",
-			"AME",
-			"I T",
-			Character.valueOf('R'), new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_ORANGE),
-			Character.valueOf('L'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.LIGHTNING.ordinal()),
-			Character.valueOf('A'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.ARCANE.ordinal()),
-			Character.valueOf('E'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.EARTH.ordinal()),
-			Character.valueOf('M'), new ItemStack(BlocksCommonProxy.AMOres, 1 ,BlocksCommonProxy.AMOres.META_MOONSTONE_BLOCK),
-			Character.valueOf('I'), new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_AIR),
-			Character.valueOf('T'), new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_EARTH)
+				"RLR",
+				"AME",
+				"I T",
+				Character.valueOf('R'), new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_ORANGE),
+				Character.valueOf('L'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.LIGHTNING.ordinal()),
+				Character.valueOf('A'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.ARCANE.ordinal()),
+				Character.valueOf('E'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.EARTH.ordinal()),
+				Character.valueOf('M'), new ItemStack(BlocksCommonProxy.AMOres, 1, BlocksCommonProxy.AMOres.META_MOONSTONE_BLOCK),
+				Character.valueOf('I'), new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_AIR),
+				Character.valueOf('T'), new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_EARTH)
 		};
 	}
 

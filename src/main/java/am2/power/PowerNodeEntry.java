@@ -1,21 +1,20 @@
 package am2.power;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-
-import cpw.mods.fml.common.FMLLog;
+import am2.api.math.AMVector3;
+import am2.api.power.IPowerNode;
+import am2.api.power.PowerTypes;
+import am2.blocks.BlocksCommonProxy;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.util.Constants;
-import am2.api.math.AMVector3;
-import am2.api.power.IPowerNode;
-import am2.api.power.PowerTypes;
-import am2.blocks.BlocksCommonProxy;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 public class PowerNodeEntry{
 	HashMap<PowerTypes, Float> powerAmounts;
@@ -31,7 +30,7 @@ public class PowerNodeEntry{
 			nodePaths.get(type).clear();
 		}
 	}
-	
+
 	public void registerNodePath(PowerTypes type, LinkedList<AMVector3> path){
 		ArrayList<LinkedList<AMVector3>> paths = nodePaths.get(type);
 		if (paths == null){
@@ -59,7 +58,7 @@ public class PowerNodeEntry{
 			//FMLLog.info("No Paths!");
 			return 0;
 		}
-		
+
 		//FMLLog.info("Path Exists");
 
 		if (powerAmounts.containsKey(type) && powerAmounts.get(type) + amount > capacity){
@@ -68,7 +67,7 @@ public class PowerNodeEntry{
 
 		float requested = 0f;
 		for (LinkedList<AMVector3> path : paths){
-			requested += requestPowerFrom(world, path, type, amount-requested);
+			requested += requestPowerFrom(world, path, type, amount - requested);
 			if (requested >= amount)
 				break;
 		}
@@ -110,7 +109,7 @@ public class PowerNodeEntry{
 		return 0f;
 	}
 
-	public PowerTypes getHighestPowerType() {
+	public PowerTypes getHighestPowerType(){
 		float highest = 0;
 		PowerTypes hType = PowerTypes.NONE;
 		for (PowerTypes type : powerAmounts.keySet()){
@@ -122,7 +121,7 @@ public class PowerNodeEntry{
 		return hType;
 	}
 
-	public float getHighestPower() {
+	public float getHighestPower(){
 		float highest = 0;
 		for (PowerTypes type : powerAmounts.keySet()){
 			if (powerAmounts.get(type) > highest){
@@ -180,7 +179,7 @@ public class PowerNodeEntry{
 				for (AMVector3 pathNode : path){
 					//This stores one individual node in the given path
 					NBTTagCompound node = new NBTTagCompound();
-					pathNode.writeToNBT(node);					
+					pathNode.writeToNBT(node);
 					//Append individual node to path
 					pathNodes.appendTag(node);
 				}
@@ -192,7 +191,7 @@ public class PowerNodeEntry{
 			powerPathEntry.setInteger("powerType", type.ID());
 			//append the list of paths to the entry in the power path list
 			powerPathEntry.setTag("nodePaths", pathsForType);
-			
+
 			//FMLLog.info("Ars Magica 2 >> Saved %d node paths for %s etherium.", nodePaths.get(type).size(), type.name());
 
 			//append this entry in the power path list to the list of power path entries
@@ -213,7 +212,7 @@ public class PowerNodeEntry{
 			//spin through nodes
 			for (int i = 0; i < powerAmountStore.tagCount(); ++i){
 				//reference current node
-				NBTTagCompound powerType = (NBTTagCompound) powerAmountStore.getCompoundTagAt(i);
+				NBTTagCompound powerType = (NBTTagCompound)powerAmountStore.getCompoundTagAt(i);
 				//resolve power type
 				PowerTypes type = PowerTypes.getByID(powerType.getInteger("powerType"));
 				//resolve power amount
@@ -231,7 +230,7 @@ public class PowerNodeEntry{
 			//spin through list
 			for (int i = 0; i < powerPathList.tagCount(); ++i){
 				//reference current node
-				NBTTagCompound powerPathEntry = (NBTTagCompound) powerPathList.getCompoundTagAt(i);
+				NBTTagCompound powerPathEntry = (NBTTagCompound)powerPathList.getCompoundTagAt(i);
 				//get the power type
 				PowerTypes type = PowerTypes.getByID(powerPathEntry.getInteger("powerType"));
 				//get the list of node paths for this power type
@@ -243,7 +242,7 @@ public class PowerNodeEntry{
 					//spin through node paths
 					while (pathNodes.tagCount() > 0){
 						//reference current node
-						NBTTagList nodeList = (NBTTagList) pathNodes.removeTag(0);
+						NBTTagList nodeList = (NBTTagList)pathNodes.removeTag(0);
 						//initialize linked list to hold the path
 						LinkedList<AMVector3> powerPath = new LinkedList<AMVector3>();
 						//sanity check
@@ -251,7 +250,7 @@ public class PowerNodeEntry{
 							//spin through node list
 							for (int b = 0; b < nodeList.tagCount(); ++b){
 								//reference current node
-								NBTTagCompound node = (NBTTagCompound) nodeList.getCompoundTagAt(b);
+								NBTTagCompound node = (NBTTagCompound)nodeList.getCompoundTagAt(b);
 								//resolve AMVector3 from node values								
 								AMVector3 nodeLocation = AMVector3.readFromNBT(node);
 								//tack the node on to the power path
@@ -264,14 +263,14 @@ public class PowerNodeEntry{
 
 					//register the list of paths and power type
 					nodePaths.put(type, pathsList);
-					
-				//	FMLLog.info("Ars Magica 2 >> Loaded %d node paths for %s etherium.", pathsList.size(), type.name());
+
+					//	FMLLog.info("Ars Magica 2 >> Loaded %d node paths for %s etherium.", pathsList.size(), type.name());
 				}
 			}
-		}		
+		}
 	}
 
 	public HashMap<PowerTypes, ArrayList<LinkedList<AMVector3>>> getNodePaths(){
-		return (HashMap<PowerTypes, ArrayList<LinkedList<AMVector3>>>) nodePaths.clone();
+		return (HashMap<PowerTypes, ArrayList<LinkedList<AMVector3>>>)nodePaths.clone();
 	}
 }

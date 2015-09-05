@@ -1,17 +1,16 @@
 package am2.entities;
 
-import java.util.List;
-
+import am2.AMCore;
+import am2.items.ItemsCommonProxy;
+import am2.network.AMNetHandler;
+import am2.particles.AMParticle;
+import am2.particles.ParticleFadeOut;
+import am2.particles.ParticleFloatUpward;
+import am2.particles.ParticleMoveOnHeading;
+import am2.playerextensions.ExtendedProperties;
+import am2.texture.ResourceManager;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIBreakDoor;
-import net.minecraft.entity.ai.EntityAIFleeSun;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityGolem;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityVillager;
@@ -24,17 +23,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
-import am2.AMCore;
-import am2.items.ItemsCommonProxy;
-import am2.network.AMNetHandler;
-import am2.particles.AMParticle;
-import am2.particles.ParticleFadeOut;
-import am2.particles.ParticleFloatUpward;
-import am2.particles.ParticleMoveOnHeading;
-import am2.playerextensions.ExtendedProperties;
-import am2.texture.ResourceManager;
 
-public class EntityHecate extends EntityZombie {
+import java.util.List;
+
+public class EntityHecate extends EntityZombie{
 
 	private double leftArmAnimTicks;
 	private double rightArmAnimTicks;
@@ -43,7 +35,7 @@ public class EntityHecate extends EntityZombie {
 	private double rightArmRotationOffset;
 
 	private final float hostileSpeed;
-	private static final float forwardThreshold =  1.22f;
+	private static final float forwardThreshold = 1.22f;
 	private static float rotationAtThreshold;
 	private float currentForwardRotation = 0f;
 
@@ -52,11 +44,11 @@ public class EntityHecate extends EntityZombie {
 	private boolean hasSpawnedInvisParticles = false;
 	private final String localTexture;
 
-	public EntityHecate(World par1World) {
+	public EntityHecate(World par1World){
 		super(par1World);
 		leftArmAnimTicks = 0;
 		rightArmAnimTicks = 12;
-		leftArmRotationOffset= 0;
+		leftArmRotationOffset = 0;
 		rightArmRotationOffset = 0;
 		localTexture = ResourceManager.getMobTexturePath("mobHecate.png");
 		this.hostileSpeed = 1.7F;
@@ -73,15 +65,14 @@ public class EntityHecate extends EntityZombie {
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(12D);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(5D);
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void entityInit(){
 		super.entityInit();
 	}
 
@@ -98,7 +89,7 @@ public class EntityHecate extends EntityZombie {
 		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityGolem.class,  0, false));
+		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityGolem.class, 0, false));
 		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityVillager.class, 0, false));
 	}
@@ -109,17 +100,16 @@ public class EntityHecate extends EntityZombie {
 	}
 
 	@Override
-	public int getTotalArmorValue()
-	{
+	public int getTotalArmorValue(){
 		return 5;
 	}
 
 	public float getHorizontalAverageVelocity(){
-		return (float) ((this.motionX + this.motionZ) / 2);
+		return (float)((this.motionX + this.motionZ) / 2);
 	}
 
 	@Override
-	public void onDeath(DamageSource par1DamageSource) {
+	public void onDeath(DamageSource par1DamageSource){
 		super.onDeath(par1DamageSource);
 	}
 
@@ -178,13 +168,11 @@ public class EntityHecate extends EntityZombie {
 	}
 
 	@Override
-	public void onLivingUpdate() {
-		if (this.worldObj.isDaytime() && !this.worldObj.isRemote && !this.isDead)
-		{
+	public void onLivingUpdate(){
+		if (this.worldObj.isDaytime() && !this.worldObj.isRemote && !this.isDead){
 			float f = this.getBrightness(1.0F);
 
-			if (f > 0.5F && this.rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && this.worldObj.canBlockSeeTheSky(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)))
-			{
+			if (f > 0.5F && this.rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && this.worldObj.canBlockSeeTheSky(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ))){
 				AMNetHandler.INSTANCE.sendHecateDeathToAllAround(this);
 				this.attackEntityFrom(DamageSource.onFire, 5000);
 			}
@@ -221,7 +209,7 @@ public class EntityHecate extends EntityZombie {
 				yPos += 0.3;
 			}
 
-			AMParticle effect = (AMParticle) AMCore.instance.proxy.particleManager.spawn(worldObj, "smoke",
+			AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "smoke",
 					this.posX + ((rand.nextFloat() * 0.2) - 0.1f),
 					yPos,
 					this.posZ + ((rand.nextFloat() * 0.4) - 0.2f));
@@ -253,33 +241,32 @@ public class EntityHecate extends EntityZombie {
 	}
 
 	@Override
-	protected void dropRareDrop(int par1)
-	{
+	protected void dropRareDrop(int par1){
 		this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, 9), 0.0f);
 	}
 
 	@Override
-	protected Item getDropItem() {
+	protected Item getDropItem(){
 		return null;
 	}
 
 	@Override
-	protected String getHurtSound() {
+	protected String getHurtSound(){
 		return "arsmagica2:mob.hecate.hit";
 	}
 
 	@Override
-	protected String getDeathSound() {
+	protected String getDeathSound(){
 		return "arsmagica2:mob.hecate.death";
 	}
 
 	@Override
-	protected String getLivingSound() {
+	protected String getLivingSound(){
 		return "arsmagica2:mob.hecate.idle";
 	}
 
 	@Override
-	public float getShadowSize() {
+	public float getShadowSize(){
 		return 0;
 	}
 
@@ -291,11 +278,11 @@ public class EntityHecate extends EntityZombie {
 		for (EntityPlayer player : players){
 			avgLvl += ExtendedProperties.For(player).getMagicLevel();
 		}
-		return (int)Math.ceil(avgLvl/players.size());
+		return (int)Math.ceil(avgLvl / players.size());
 	}
 
 	@Override
-	public boolean getCanSpawnHere() {
+	public boolean getCanSpawnHere(){
 		if (!SpawnBlacklists.entityCanSpawnHere(this.posX, this.posZ, worldObj, this))
 			return false;
 		if (getAverageNearbyPlayerMagicLevel() < 20){
