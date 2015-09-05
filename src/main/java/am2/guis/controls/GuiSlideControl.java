@@ -1,21 +1,23 @@
 package am2.guis.controls;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 @SideOnly(Side.CLIENT)
-public class GuiSlideControl extends GuiButton {
-	/** The value of this slider control. */
+public class GuiSlideControl extends GuiButton{
+	/**
+	 * The value of this slider control.
+	 */
 	public float sliderValue = 1.0F;
 
-	/** Is this slider control being dragged. */
+	/**
+	 * Is this slider control being dragged.
+	 */
 	public boolean dragging = false;
 
 	private String displayStringBase;
@@ -36,8 +38,7 @@ public class GuiSlideControl extends GuiButton {
 	private int buttonW = 4;
 	private int buttonH = 20;
 
-	public GuiSlideControl(int par1, int par2, int par3, int width, String par5Str, float initialValue, float sliderMin, float sliderMax)
-	{
+	public GuiSlideControl(int par1, int par2, int par3, int width, String par5Str, float initialValue, float sliderMin, float sliderMax){
 		super(par1, par2, par3, width, 10, par5Str);
 		this.sliderValue = (initialValue - sliderMin) / (sliderMax - sliderMin);
 		this.displayStringBase = par5Str;
@@ -50,8 +51,7 @@ public class GuiSlideControl extends GuiButton {
 		formatDisplayString();
 	}
 
-	public GuiSlideControl(int par1, int par2, int par3, int width, int height, String par5Str, float initialValue, float sliderMin, float sliderMax)
-	{
+	public GuiSlideControl(int par1, int par2, int par3, int width, int height, String par5Str, float initialValue, float sliderMin, float sliderMax){
 		super(par1, par2, par3, width, height, par5Str);
 		this.sliderValue = (initialValue - sliderMin) / (sliderMax - sliderMin);
 		this.displayStringBase = par5Str;
@@ -96,10 +96,8 @@ public class GuiSlideControl extends GuiButton {
 	}
 
 	@Override
-	public void drawButton(Minecraft par1Minecraft, int par2, int par3)
-	{
-		if (this.visible)
-		{
+	public void drawButton(Minecraft par1Minecraft, int par2, int par3){
+		if (this.visible){
 			FontRenderer fontrenderer = par1Minecraft.fontRenderer;
 			par1Minecraft.renderEngine.bindTexture(buttonImage);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -117,12 +115,9 @@ public class GuiSlideControl extends GuiButton {
 			this.mouseDragged(par1Minecraft, par2, par3);
 			int l = 14737632;
 
-			if (!this.enabled)
-			{
+			if (!this.enabled){
 				l = -6250336;
-			}
-			else if (this.dragging)
-			{
+			}else if (this.dragging){
 				l = 16777120;
 			}
 
@@ -153,8 +148,7 @@ public class GuiSlideControl extends GuiButton {
 	 * this button.
 	 */
 	@Override
-	public int getHoverState(boolean par1)
-	{
+	public int getHoverState(boolean par1){
 		return 0;
 	}
 
@@ -162,25 +156,20 @@ public class GuiSlideControl extends GuiButton {
 	 * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
 	 */
 	@Override
-	protected void mouseDragged(Minecraft par1Minecraft, int par2, int par3)
-	{
-		if (this.visible)
-		{
-			if (this.dragging)
-			{
+	protected void mouseDragged(Minecraft par1Minecraft, int par2, int par3){
+		if (this.visible){
+			if (this.dragging){
 				if (this.isVertical){
 					this.sliderValue = (float)(par3 - (this.yPosition)) / (float)(this.height);
 				}else{
-					this.sliderValue = (float)(par2 - (this.xPosition + buttonW)) / (float)(this.width - 2*buttonW);
+					this.sliderValue = (float)(par2 - (this.xPosition + buttonW)) / (float)(this.width - 2 * buttonW);
 				}
 
-				if (this.sliderValue < 0.0F)
-				{
+				if (this.sliderValue < 0.0F){
 					this.sliderValue = 0.0F;
 				}
 
-				if (this.sliderValue > 1.0F)
-				{
+				if (this.sliderValue > 1.0F){
 					this.sliderValue = 1.0F;
 				}
 				formatDisplayString();
@@ -213,10 +202,10 @@ public class GuiSlideControl extends GuiButton {
 			return;
 		}
 
-		float value =  ((this.sliderMax - this.sliderMin) * this.sliderValue) + this.sliderMin;
+		float value = ((this.sliderMax - this.sliderMin) * this.sliderValue) + this.sliderMin;
 
 		if (!isInteger){
-			this.displayString = displayStringBase + ": " + String.format("%.2f",value) + (isPercent ? "%" : "");
+			this.displayString = displayStringBase + ": " + String.format("%.2f", value) + (isPercent ? "%" : "");
 		}else{
 			this.displayString = displayStringBase + ": " + String.format("%d", (int)value) + (isPercent ? "%" : "");
 		}
@@ -227,31 +216,25 @@ public class GuiSlideControl extends GuiButton {
 	 * e).
 	 */
 	@Override
-	public boolean mousePressed(Minecraft par1Minecraft, int par2, int par3)
-	{
-		if (super.mousePressed(par1Minecraft, par2, par3))
-		{
+	public boolean mousePressed(Minecraft par1Minecraft, int par2, int par3){
+		if (super.mousePressed(par1Minecraft, par2, par3)){
 			if (this.isVertical){
 				this.sliderValue = (float)(par3 - (this.yPosition + 4)) / (float)(this.height - 8);
 			}else{
 				this.sliderValue = (float)(par2 - (this.xPosition + 4)) / (float)(this.width - 8);
 			}
 
-			if (this.sliderValue < 0.0F)
-			{
+			if (this.sliderValue < 0.0F){
 				this.sliderValue = 0.0F;
 			}
 
-			if (this.sliderValue > 1.0F)
-			{
+			if (this.sliderValue > 1.0F){
 				this.sliderValue = 1.0F;
 			}
 			formatDisplayString();
 			this.dragging = true;
 			return true;
-		}
-		else
-		{
+		}else{
 			return false;
 		}
 	}
@@ -260,12 +243,11 @@ public class GuiSlideControl extends GuiButton {
 	 * Fired when the mouse button is released. Equivalent of MouseListener.mouseReleased(MouseEvent e).
 	 */
 	@Override
-	public void mouseReleased(int par1, int par2)
-	{
+	public void mouseReleased(int par1, int par2){
 		this.dragging = false;
 	}
 
-	public void setScale(float f) {
+	public void setScale(float f){
 		this.scale = f;
 	}
 }

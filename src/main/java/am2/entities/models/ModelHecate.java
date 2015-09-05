@@ -1,24 +1,21 @@
 package am2.entities.models;
 
-import java.util.Calendar;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import am2.entities.EntityHecate;
 import am2.models.ModelSantaHat;
 import am2.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
+
+import java.util.Calendar;
 
 @SideOnly(Side.CLIENT)
-public class ModelHecate extends ModelBase
-{
+public class ModelHecate extends ModelBase{
 	private ModelSantaHat hat;
 
 	private static final ResourceLocation hatLoc = new ResourceLocation("arsmagica2", ResourceManager.getMobTexturePath("SantaHat.png"));
@@ -56,8 +53,7 @@ public class ModelHecate extends ModelBase
 	ModelRenderer H1;
 
 
-	public ModelHecate()
-	{
+	public ModelHecate(){
 		hat = new ModelSantaHat();
 
 		setupUVMapping();
@@ -323,8 +319,7 @@ public class ModelHecate extends ModelBase
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 
@@ -345,8 +340,7 @@ public class ModelHecate extends ModelBase
 		GL11.glPopMatrix();
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z){
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

@@ -1,7 +1,8 @@
 package am2.items;
 
-import java.util.List;
-
+import am2.texture.ResourceManager;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
@@ -9,9 +10,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
-import am2.texture.ResourceManager;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 public class ItemBindingCatalyst extends ArsMagicaItem{
 
@@ -22,14 +22,14 @@ public class ItemBindingCatalyst extends ArsMagicaItem{
 	public static final int META_HOE = 4;
 	public static final int META_BOW = 5;
 
-	public ItemBindingCatalyst() {
+	public ItemBindingCatalyst(){
 		super();
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 	}
 
 	@Override
-	public String getItemStackDisplayName(ItemStack stack) {
+	public String getItemStackDisplayName(ItemStack stack){
 		int meta = stack.getItemDamage();
 
 		String baseName = StatCollector.translateToLocal("item.arsmagica2:bindingCatalyst.name");
@@ -53,23 +53,23 @@ public class ItemBindingCatalyst extends ArsMagicaItem{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister IIconRegister) {
+	public void registerIcons(IIconRegister IIconRegister){
 		itemIcon = ResourceManager.RegisterTexture("bindingCatalyst", IIconRegister);
 	}
 
 	@Override
-	public boolean requiresMultipleRenderPasses() {
+	public boolean requiresMultipleRenderPasses(){
 		return true;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int damage) {
+	public IIcon getIconFromDamage(int damage){
 		return itemIcon;
 	}
 
 	@Override
-	public IIcon getIconFromDamageForRenderPass(int dmg, int pass) {
+	public IIcon getIconFromDamageForRenderPass(int dmg, int pass){
 		if (pass == 0){
 			switch (dmg){
 			case META_PICK:
@@ -92,7 +92,7 @@ public class ItemBindingCatalyst extends ArsMagicaItem{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
+	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List){
 		par3List.add(new ItemStack(par1, 1, META_PICK));
 		par3List.add(new ItemStack(par1, 1, META_AXE));
 		par3List.add(new ItemStack(par1, 1, META_SHOVEL));

@@ -1,50 +1,9 @@
 package am2.blocks.tileentities;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.TreeMap;
-
-import com.google.common.collect.ArrayListMultimap;
-
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemSlab;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemWritableBook;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.management.PlayerManager;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.oredict.OreDictionary;
 import am2.AMCore;
-import am2.api.events.PlayerMagicLevelChangeEvent;
 import am2.api.events.SpellRecipeItemsEvent;
 import am2.api.power.PowerTypes;
-import am2.api.spell.component.interfaces.ISkillTreeEntry;
-import am2.api.spell.component.interfaces.ISpellComponent;
-import am2.api.spell.component.interfaces.ISpellModifier;
-import am2.api.spell.component.interfaces.ISpellPart;
-import am2.api.spell.component.interfaces.ISpellShape;
+import am2.api.spell.component.interfaces.*;
 import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
 import am2.containers.ContainerInscriptionTable;
@@ -63,8 +22,29 @@ import am2.spell.SpellUtils;
 import am2.spell.SpellValidator;
 import am2.utility.KeyValuePair;
 import cpw.mods.fml.common.FMLLog;
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Items;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityInscriptionTable extends TileEntity implements IInventory {
+import java.util.*;
+
+public class TileEntityInscriptionTable extends TileEntity implements IInventory{
 
 	private ItemStack inscriptionTableItemStacks[];
 	private final ArrayList<ISpellPart> currentRecipe;
@@ -107,60 +87,54 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	}
 
 	@Override
-	public int getSizeInventory() {
+	public int getSizeInventory(){
 		return 4;
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int i) {
+	public ItemStack getStackInSlot(int i){
 		return inscriptionTableItemStacks[i];
 	}
 
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if(inscriptionTableItemStacks[i] != null)
-		{
-			if(inscriptionTableItemStacks[i].stackSize <= j)
-			{
+	public ItemStack decrStackSize(int i, int j){
+		if (inscriptionTableItemStacks[i] != null){
+			if (inscriptionTableItemStacks[i].stackSize <= j){
 				ItemStack itemstack = inscriptionTableItemStacks[i];
 				inscriptionTableItemStacks[i] = null;
 				return itemstack;
 			}
 			ItemStack itemstack1 = inscriptionTableItemStacks[i].splitStack(j);
-			if(inscriptionTableItemStacks[i].stackSize == 0)
-			{
+			if (inscriptionTableItemStacks[i].stackSize == 0){
 				inscriptionTableItemStacks[i] = null;
 			}
 			return itemstack1;
-		} else
-		{
+		}else{
 			return null;
 		}
 	}
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
+	public void setInventorySlotContents(int i, ItemStack itemstack){
 		inscriptionTableItemStacks[i] = itemstack;
-		if(itemstack != null && itemstack.stackSize > getInventoryStackLimit())
-		{
+		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
 			itemstack.stackSize = getInventoryStackLimit();
 		}
 	}
 
 	@Override
-	public String getInventoryName() {
+	public String getInventoryName(){
 		return "Inscription Table";
 	}
 
 	@Override
-	public int getInventoryStackLimit() {
+	public int getInventoryStackLimit(){
 		return 64;
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
-		{
+	public boolean isUseableByPlayer(EntityPlayer entityplayer){
+		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
 			return false;
 		}
 		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
@@ -184,31 +158,30 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	private boolean isRenderingLeft(){
 		return (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) & 0x8) == 0x8;
 	}
-	
+
 	@Override
-	public boolean canUpdate() {
+	public boolean canUpdate(){
 		return true;
 	}
 
 	@Override
-	public void updateEntity()
-	{
+	public void updateEntity(){
 		if (worldObj.isRemote && getUpgradeState() >= 3)
 			candleUpdate();
-		
+
 		if (this.numStageGroups > MAX_STAGE_GROUPS)
 			this.numStageGroups = MAX_STAGE_GROUPS;
 	}
-	
+
 	public int getUpgradeState(){
 		return this.numStageGroups - 2;
 	}
-	
+
 	private void candleUpdate(){
 		ticksToNextParticle--;
 
 		if (isRenderingLeft()){
-			if (ticksToNextParticle == 0 || ticksToNextParticle == 15) {
+			if (ticksToNextParticle == 0 || ticksToNextParticle == 15){
 
 				int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord) & ~0x8;
 
@@ -235,7 +208,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				}
 
 				ticksToNextParticle = 30;
-				AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "fire", particleX, yCoord + 1.32, particleZ);
+				AMParticle effect = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "fire", particleX, yCoord + 1.32, particleZ);
 				if (effect != null){
 					effect.setParticleScale(0.025f, 0.1f, 0.025f);
 					effect.AddParticleController(new ParticleHoldPosition(effect, 29, 1, false));
@@ -244,7 +217,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				}
 
 				if (rand.nextInt(100) > 80){
-					AMParticle smoke = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "smoke", particleX, yCoord + 1.4, particleZ);
+					AMParticle smoke = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "smoke", particleX, yCoord + 1.4, particleZ);
 					if (smoke != null){
 						smoke.setParticleScale(0.025f);
 						smoke.AddParticleController(new ParticleFloatUpward(smoke, 0.01f, 0.01f, 1, false));
@@ -279,7 +252,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 					break;
 				}
 
-				AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "fire", particleX, yCoord + 1.26, particleZ);
+				AMParticle effect = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "fire", particleX, yCoord + 1.26, particleZ);
 				if (effect != null){
 					effect.setParticleScale(0.025f, 0.1f, 0.025f);
 					effect.AddParticleController(new ParticleHoldPosition(effect, 29, 1, false));
@@ -288,7 +261,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				}
 
 				if (rand.nextInt(100) > 80){
-					AMParticle smoke = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "smoke", particleX, yCoord + 1.4, particleZ);
+					AMParticle smoke = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "smoke", particleX, yCoord + 1.4, particleZ);
 					if (smoke != null){
 						smoke.setParticleScale(0.025f);
 						smoke.AddParticleController(new ParticleFloatUpward(smoke, 0.01f, 0.01f, 1, false));
@@ -320,49 +293,43 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	}
 
 	@Override
-	public void openInventory() {
+	public void openInventory(){
 	}
 
 	@Override
-	public void closeInventory() {
+	public void closeInventory(){
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if (inscriptionTableItemStacks[i] != null)
-		{
+	public ItemStack getStackInSlotOnClosing(int i){
+		if (inscriptionTableItemStacks[i] != null){
 			ItemStack itemstack = inscriptionTableItemStacks[i];
 			inscriptionTableItemStacks[i] = null;
 			return itemstack;
-		}
-		else
-		{
+		}else{
 			return null;
 		}
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
-	{
+	public void readFromNBT(NBTTagCompound par1NBTTagCompound){
 		super.readFromNBT(par1NBTTagCompound);
 		parseTagCompound(par1NBTTagCompound);
 		clearCurrentRecipe();
 	}
-	
+
 	private void parseTagCompound(NBTTagCompound par1NBTTagCompound){
 		NBTTagList nbttaglist = par1NBTTagCompound.getTagList("InscriptionTableInventory", Constants.NBT.TAG_COMPOUND);
 		inscriptionTableItemStacks = new ItemStack[getSizeInventory()];
-		for(int i = 0; i < nbttaglist.tagCount(); i++)
-		{
+		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
 			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
 			byte byte0 = nbttagcompound1.getByte(tag);
-			if(byte0 >= 0 && byte0 < inscriptionTableItemStacks.length)
-			{
+			if (byte0 >= 0 && byte0 < inscriptionTableItemStacks.length){
 				inscriptionTableItemStacks[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
 			}
 		}
-		
+
 		this.numStageGroups = Math.max(par1NBTTagCompound.getInteger("numShapeGroupSlots"), 2);
 	}
 
@@ -370,10 +337,8 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound){
 		super.writeToNBT(par1NBTTagCompound);
 		NBTTagList nbttaglist = new NBTTagList();
-		for(int i = 0; i < inscriptionTableItemStacks.length; i++)
-		{
-			if(inscriptionTableItemStacks[i] != null)
-			{
+		for (int i = 0; i < inscriptionTableItemStacks.length; i++){
+			if (inscriptionTableItemStacks[i] != null){
 				String tag = String.format("ArrayIndex", i);
 				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 				nbttagcompound1.setByte(tag, (byte)i);
@@ -387,20 +352,20 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	}
 
 	@Override
-	public boolean hasCustomInventoryName() {
+	public boolean hasCustomInventoryName(){
 		return false;
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+	public boolean isItemValidForSlot(int i, ItemStack itemstack){
 		return false;
 	}
 
-	public void HandleUpdatePacket(byte[] data) {
+	public void HandleUpdatePacket(byte[] data){
 		if (this.worldObj == null)
 			return;
 		AMDataReader rdr = new AMDataReader(data);
-		switch(rdr.ID){
+		switch (rdr.ID){
 		case FULL_UPDATE:
 			if (!rdr.getBoolean()){
 				Entity e = this.worldObj.getEntityByID(rdr.getInt());
@@ -420,7 +385,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			for (int i = 0; i < partLength; ++i){
 				ISkillTreeEntry part = SkillManager.instance.getSkill(rdr.getInt());
 				if (part instanceof ISpellPart)
-					this.currentRecipe.add((ISpellPart) part);
+					this.currentRecipe.add((ISpellPart)part);
 			}
 
 			this.shapeGroups.clear();
@@ -457,7 +422,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		}
 	}
 
-	private byte[] GetUpdatePacketForServer() {
+	private byte[] GetUpdatePacketForServer(){
 		AMDataWriter writer = new AMDataWriter();
 		writer.add(FULL_UPDATE);
 		writer.add(this.currentPlayerUsing == null);
@@ -490,7 +455,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		this.writeToNBT(compound);
 		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
@@ -498,7 +463,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
 		this.parseTagCompound(pkt.func_148857_g());
 	}
 
@@ -585,14 +550,14 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 		ArrayList<ArrayList<ISpellPart>> stages = SpellValidator.splitToStages(currentRecipe);
 		if (stages.size() == 0) return;
-		ArrayList<ISpellPart> currentStage = stages.get(stages.size()-1);
+		ArrayList<ISpellPart> currentStage = stages.get(stages.size() - 1);
 		countModifiersInList(currentStage);
 	}
 
 	private void countModifiersInList(ArrayList<ISpellPart> currentStage){
 		for (ISpellPart part : currentStage){
 			if (part instanceof ISpellModifier){
-				EnumSet<SpellModifiers> modifiers = ((ISpellModifier) part).getAspectsModified();
+				EnumSet<SpellModifiers> modifiers = ((ISpellModifier)part).getAspectsModified();
 				for (SpellModifiers modifier : modifiers){
 					int count = modifierCount.get(modifier) + 1;
 					modifierCount.put(modifier, count);
@@ -622,21 +587,21 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			writer.add(player.getEntityId());
 			AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.INSCRIPTION_TABLE_UPDATE, writer.generate());
 		}else{
-			
-			ArrayList<ArrayList<KeyValuePair<ISpellPart,byte[]>>> shapeGroupSetup = new ArrayList<ArrayList<KeyValuePair<ISpellPart,byte[]>>>();
-			ArrayList<KeyValuePair<ISpellPart, byte[]>> curRecipeSetup = new ArrayList<KeyValuePair<ISpellPart,byte[]>>();
-			
+
+			ArrayList<ArrayList<KeyValuePair<ISpellPart, byte[]>>> shapeGroupSetup = new ArrayList<ArrayList<KeyValuePair<ISpellPart, byte[]>>>();
+			ArrayList<KeyValuePair<ISpellPart, byte[]>> curRecipeSetup = new ArrayList<KeyValuePair<ISpellPart, byte[]>>();
+
 			for (ArrayList<ISpellPart> arr : shapeGroups){
-				shapeGroupSetup.add(new ArrayList<KeyValuePair<ISpellPart,byte[]>>());
+				shapeGroupSetup.add(new ArrayList<KeyValuePair<ISpellPart, byte[]>>());
 				for (ISpellPart part : arr){
 					shapeGroupSetup.get(shapeGroupSetup.size() - 1).add(new KeyValuePair<ISpellPart, byte[]>(part, new byte[0]));
 				}
 			}
-			
+
 			for (ISpellPart part : currentRecipe){
 				curRecipeSetup.add(new KeyValuePair<ISpellPart, byte[]>(part, new byte[0]));
 			}
-			
+
 			ItemStack stack = SpellUtils.instance.createSpellStack(shapeGroupSetup, curRecipeSetup);
 
 			stack.stackTagCompound.setString("suggestedName", currentSpellName);
@@ -648,10 +613,10 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	public ItemStack writeRecipeAndDataToBook(ItemStack bookstack, EntityPlayer player, String title){
 		if (bookstack.getItem() == Items.written_book && this.currentRecipe != null){
 			if (!currentRecipeIsValid().valid)
-				return bookstack;		
-			
+				return bookstack;
+
 			if (!bookstack.hasTagCompound())
-				bookstack.setTagCompound(new NBTTagCompound());	
+				bookstack.setTagCompound(new NBTTagCompound());
 			else if (bookstack.getTagCompound().getBoolean("spellFinalized")) //don't overwrite a completed spell
 				return bookstack;
 
@@ -785,7 +750,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			it = currentRecipe.iterator();
 			HashMap<Affinity, Integer> affinityData = new HashMap<Affinity, Integer>();
 			int cpCount = 0;
-			while(it.hasNext()){
+			while (it.hasNext()){
 				ISpellPart part = it.next();
 				if (part instanceof ISpellComponent){
 					EnumSet<Affinity> aff = ((ISpellComponent)part).getAffinity();
@@ -822,7 +787,6 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			}
 
 
-
 			bookstack.stackTagCompound.setIntArray("spell_combo", recipeData);
 			bookstack.stackTagCompound.setIntArray("output_combo", outputData);
 			bookstack.stackTagCompound.setInteger("numShapeGroups", shapeGroupCombos.length);
@@ -839,8 +803,8 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			this.currentRecipe.clear();
 			for (ArrayList<ISpellPart> list : shapeGroups)
 				list.clear();
-			currentSpellName = "";			
-			
+			currentSpellName = "";
+
 			bookstack.stackTagCompound.setBoolean("spellFinalized", true);
 
 			worldObj.playSound(xCoord, yCoord, zCoord, "arsmagica2:misc.inscriptiontable.takebook", 1.0f, 1.0f, true);
@@ -862,7 +826,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 	private int[] SpellPartListToStringBuilder(Iterator<ISpellPart> it, StringBuilder sb, String prefix){
 		ArrayList<Integer> outputCombo = new ArrayList<Integer>();
-		while(it.hasNext()){
+		while (it.hasNext()){
 			ISpellPart part = it.next();
 			String displayName = SkillManager.instance.getDisplayName(part);
 
@@ -907,26 +871,26 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		return false;
 	}
 
-	static class ValueComparator implements Comparator<Affinity> {
+	static class ValueComparator implements Comparator<Affinity>{
 
 		Map<Affinity, Integer> base;
 
-		ValueComparator(Map<Affinity, Integer> base) {
+		ValueComparator(Map<Affinity, Integer> base){
 			this.base = base;
 		}
 
 		@Override
-		public int compare(Affinity a, Affinity b) {
+		public int compare(Affinity a, Affinity b){
 			Integer x = base.get(a);
 			Integer y = base.get(b);
-			if (x.equals(y)) {
+			if (x.equals(y)){
 				return a.compareTo(b);
 			}
 			return x.compareTo(y);
 		}
 	}
 
-	public void setSpellName(String name) {
+	public void setSpellName(String name){
 		this.currentSpellName = name;
 		sendDataToServer();
 	}
@@ -935,7 +899,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		return this.currentSpellName != null ? this.currentSpellName : "";
 	}
 
-	public void reverseEngineerSpell(ItemStack stack) {
+	public void reverseEngineerSpell(ItemStack stack){
 		this.currentRecipe.clear();
 		for (ArrayList<ISpellPart> group : shapeGroups){
 			group.clear();
@@ -962,7 +926,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			for (int partID : parts){
 				ISkillTreeEntry entry = SkillManager.instance.getSkill(partID);
 				if (entry != null && entry instanceof ISpellPart)
-					this.shapeGroups.get(i).add((ISpellPart) entry);
+					this.shapeGroups.get(i).add((ISpellPart)entry);
 			}
 		}
 
@@ -973,7 +937,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		return this.currentSpellIsReadOnly;
 	}
 
-	public void resetSpellNameAndIcon(ItemStack stack, EntityPlayer player) {
+	public void resetSpellNameAndIcon(ItemStack stack, EntityPlayer player){
 		if (worldObj.isRemote){
 			AMDataWriter writer = new AMDataWriter();
 			writer.add(xCoord);
@@ -987,7 +951,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		stack.func_135074_t();
 	}
 
-	public int getShapeGroupSize(int groupIndex) {
+	public int getShapeGroupSize(int groupIndex){
 		return this.shapeGroups.get(groupIndex).size();
 	}
 
@@ -995,11 +959,11 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		return this.shapeGroups.get(groupIndex).get(index);
 	}
 
-	
-	public void incrementUpgradeState() {
+
+	public void incrementUpgradeState(){
 		this.numStageGroups++;
 		if (!this.worldObj.isRemote){
-			List<EntityPlayerMP> players = this.worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord+1, yCoord+1, zCoord+1).expand(256, 256, 256));
+			List<EntityPlayerMP> players = this.worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(256, 256, 256));
 			for (EntityPlayerMP player : players){
 				player.playerNetServerHandler.sendPacket(getDescriptionPacket());
 			}

@@ -1,27 +1,25 @@
 package am2.lore;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import am2.AMCore;
 import am2.guis.GuiArcaneCompendium;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class CompendiumEntryItem extends CompendiumEntry{
 
 	int lowerMetaRange, upperMetaRange;
 
-	public CompendiumEntryItem() {
+	public CompendiumEntryItem(){
 		super(CompendiumEntryTypes.instance.ITEM);
 	}
 
 	@Override
-	protected void parseEx(Node node) {
+	protected void parseEx(Node node){
 		NodeList childNodes = node.getChildNodes();
 		for (int i = 0; i < childNodes.getLength(); ++i){
 			Node child = childNodes.item(i);
@@ -49,7 +47,7 @@ public class CompendiumEntryItem extends CompendiumEntry{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected GuiArcaneCompendium getCompendiumGui(String searchID, int meta) {
+	protected GuiArcaneCompendium getCompendiumGui(String searchID, int meta){
 		String[] split = searchID.split(":");
 		if (split.length == 2){
 			Item item = GameRegistry.findItem(split[0], split[1]);
@@ -59,7 +57,7 @@ public class CompendiumEntryItem extends CompendiumEntry{
 				else
 					return new GuiArcaneCompendium(searchID + "@" + meta, item, meta);
 			}
-		}else{	
+		}else{
 			for (Item item : AMCore.instance.proxy.items.getArsMagicaItems()){
 				if (item.getUnlocalizedName() == null) continue;
 				String itemID = item.getUnlocalizedName().replace("item.", "").replace("arsmagica2:", "");
@@ -75,12 +73,12 @@ public class CompendiumEntryItem extends CompendiumEntry{
 	}
 
 	@Override
-	public ItemStack getRepresentItemStack(String searchID, int meta) {
+	public ItemStack getRepresentItemStack(String searchID, int meta){
 
 		String[] split = searchID.split(":");
 		if (split.length == 2){
 			return GameRegistry.findItemStack(split[0], split[1], 1);
-		}else{		
+		}else{
 			for (Item item : AMCore.instance.proxy.items.getArsMagicaItems()){
 				if (item.getUnlocalizedName() == null) continue;
 				String itemID = item.getUnlocalizedName().replace("item.", "").replace("arsmagica2:", "");

@@ -1,8 +1,10 @@
 package am2.items.renderers;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import am2.api.spell.ItemSpellBase;
+import am2.api.spell.enums.Affinity;
+import am2.items.ItemSpellBook;
+import am2.particles.AMParticleIcons;
+import am2.spell.SpellUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -20,15 +22,11 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import am2.api.spell.ItemSpellBase;
-import am2.api.spell.enums.Affinity;
-import am2.items.ItemSpellBook;
-import am2.particles.AMParticleIcons;
-import am2.spell.SpellUtils;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SpellScrollRenderer implements IItemRenderer{
 
@@ -48,7 +46,7 @@ public class SpellScrollRenderer implements IItemRenderer{
 	}
 
 	@Override
-	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
+	public boolean handleRenderType(ItemStack item, ItemRenderType type){
 		if (type == ItemRenderType.EQUIPPED || type == ItemRenderType.EQUIPPED_FIRST_PERSON){
 			if (Minecraft.getMinecraft().inGameHasFocus){
 				if (item.getItem() instanceof ItemSpellBase || (item.getItem() instanceof ItemSpellBook && ((ItemSpellBook)item.getItem()).GetActiveScroll(item) != null)){
@@ -60,23 +58,21 @@ public class SpellScrollRenderer implements IItemRenderer{
 	}
 
 	@Override
-	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
+	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper){
 		return true;
 	}
 
 	@Override
-	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+	public void renderItem(ItemRenderType type, ItemStack item, Object... data){
 
 		if (mc.thePlayer.isPotionActive(Potion.invisibility.id)) return;
 
 		ItemStack scrollStack = null;
 		if (item.getItem() instanceof ItemSpellBase){
 			scrollStack = item;
-		}
-		else if (item.getItem() instanceof ItemSpellBook){
+		}else if (item.getItem() instanceof ItemSpellBook){
 			scrollStack = ((ItemSpellBook)item.getItem()).getActiveScrollInventory(item)[((ItemSpellBook)item.getItem()).GetActiveSlot(item)];
 		}
-
 
 
 		if (scrollStack == null) return;
@@ -86,21 +82,21 @@ public class SpellScrollRenderer implements IItemRenderer{
 		renderEffect(affinity, true, data);
 	}
 
-	public void renderEffect(Affinity affinity, boolean includeArm, Object...data){
+	public void renderEffect(Affinity affinity, boolean includeArm, Object... data){
 
 		if (!setupIcons){
 			setupAffinityIcons();
 			setupIcons = true;
 		}
 
-		RenderBlocks renderer = (RenderBlocks) data[0];
+		RenderBlocks renderer = (RenderBlocks)data[0];
 
 		EntityLivingBase entity = (EntityLivingBase)data[1];
 		GL11.glPushMatrix();
 		GL11.glEnable(32826 /*GL_RESCALE_NORMAL_EXT*/);
 		GL11.glEnable(3042);
-		GL11.glEnable (GL11.GL_BLEND);
-		GL11.glBlendFunc (GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 		float scale = 3f;
 		if (entity == mc.thePlayer && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0){
@@ -147,7 +143,7 @@ public class SpellScrollRenderer implements IItemRenderer{
 		}
 
 		GL11.glDisable(32826 /*GL_RESCALE_NORMAL_EXT*/);
-		GL11.glDisable (GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glDisable(3042);
 
 		GL11.glPopMatrix();
@@ -245,7 +241,8 @@ public class SpellScrollRenderer implements IItemRenderer{
 		GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glScalef(1.0F, 1.0F, 1.0F);
 		GL11.glTranslatef(5.6F, 0.0F, 0.0F);
-		float f = 1.0F;
+
+		float f = 1.0F;
 		GL11.glColor3f(f, f, f);
 		this.modelBipedMain.onGround = 0.0F;
 		this.modelBipedMain.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, player);

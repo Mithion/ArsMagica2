@@ -1,15 +1,13 @@
 package am2.guis;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class GuiBlockAccess implements IBlockAccess{
 
@@ -24,8 +22,7 @@ public class GuiBlockAccess implements IBlockAccess{
 		this.controllingTileEntity = controllingTileEntity;
 	}
 
-	public void setOuterBlockAccess(IBlockAccess outer)
-	{
+	public void setOuterBlockAccess(IBlockAccess outer){
 		this.outerBlockAccess = outer;
 	}
 
@@ -41,7 +38,7 @@ public class GuiBlockAccess implements IBlockAccess{
 	}
 
 	@Override
-	public Block getBlock(int i, int j, int k) {
+	public Block getBlock(int i, int j, int k){
 		if (i == overridex && j == overridey && k == overridez)
 			return this.fakeBlock;
 		if (outerBlockAccess != null)
@@ -50,7 +47,7 @@ public class GuiBlockAccess implements IBlockAccess{
 	}
 
 	@Override
-	public TileEntity getTileEntity(int i, int j, int k) {
+	public TileEntity getTileEntity(int i, int j, int k){
 		if (i == overridex && j == overridey && k == overridez) return controllingTileEntity;
 		if (outerBlockAccess != null)
 			return outerBlockAccess.getTileEntity(i, j, k);
@@ -59,14 +56,14 @@ public class GuiBlockAccess implements IBlockAccess{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getLightBrightnessForSkyBlocks(int i, int j, int k, int l) {
+	public int getLightBrightnessForSkyBlocks(int i, int j, int k, int l){
 		if (outerBlockAccess != null)
 			return outerBlockAccess.getLightBrightnessForSkyBlocks(i, j, k, l);
 		return 15728704;
 	}
 
 	@Override
-	public int getBlockMetadata(int i, int j, int k) {
+	public int getBlockMetadata(int i, int j, int k){
 		if (i == overridex && j == overridey && k == overridez)
 			return this.fakeBlockMeta;
 		if (outerBlockAccess != null)
@@ -76,35 +73,35 @@ public class GuiBlockAccess implements IBlockAccess{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean isAirBlock(int i, int j, int k) {
+	public boolean isAirBlock(int i, int j, int k){
 		return false;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public BiomeGenBase getBiomeGenForCoords(int i, int j) {
+	public BiomeGenBase getBiomeGenForCoords(int i, int j){
 		return BiomeGenBase.plains;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getHeight() {
+	public int getHeight(){
 		return 0;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean extendedLevelsInChunkCache() {
+	public boolean extendedLevelsInChunkCache(){
 		return false;
 	}
 
 	@Override
-	public int isBlockProvidingPowerTo(int i, int j, int k, int l) {
+	public int isBlockProvidingPowerTo(int i, int j, int k, int l){
 		return 0;
 	}
 
 	@Override
-	public boolean isSideSolid(int arg0, int arg1, int arg2, ForgeDirection arg3, boolean arg4) {
+	public boolean isSideSolid(int arg0, int arg1, int arg2, ForgeDirection arg3, boolean arg4){
 		return false;
 	}
 

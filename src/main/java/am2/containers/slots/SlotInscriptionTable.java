@@ -1,23 +1,22 @@
 package am2.containers.slots;
 
+import am2.api.spell.ItemSpellBase;
+import am2.blocks.tileentities.TileEntityInscriptionTable;
+import am2.items.ItemsCommonProxy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemWritableBook;
 import net.minecraft.util.StatCollector;
-import am2.api.spell.ItemSpellBase;
-import am2.blocks.tileentities.TileEntityInscriptionTable;
-import am2.items.ItemsCommonProxy;
 
 public class SlotInscriptionTable extends Slot{
 
-	public SlotInscriptionTable(TileEntityInscriptionTable par1iInventory, int par2, int par3, int par4) {
+	public SlotInscriptionTable(TileEntityInscriptionTable par1iInventory, int par2, int par3, int par4){
 		super(par1iInventory, par2, par3, par4);
 	}
 
 	@Override
-	public boolean isItemValid(ItemStack par1ItemStack) {
+	public boolean isItemValid(ItemStack par1ItemStack){
 		if (par1ItemStack == null || par1ItemStack.getItem() == null){
 			return false;
 		}
@@ -32,7 +31,7 @@ public class SlotInscriptionTable extends Slot{
 	}
 
 	@Override
-	public void onPickupFromSlot(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack) {
+	public void onPickupFromSlot(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack){
 		if (par2ItemStack.getItem() == Items.written_book)
 			par2ItemStack = ((TileEntityInscriptionTable)this.inventory).writeRecipeAndDataToBook(par2ItemStack, par1EntityPlayer, "Spell Recipe");
 		else
@@ -41,7 +40,7 @@ public class SlotInscriptionTable extends Slot{
 	}
 
 	@Override
-	public void onSlotChanged() {
+	public void onSlotChanged(){
 		if (this.getStack() != null){
 			Class clazz = this.getStack().getItem().getClass();
 			if (ItemSpellBase.class.isAssignableFrom(clazz)){
@@ -50,9 +49,9 @@ public class SlotInscriptionTable extends Slot{
 		}
 		super.onSlotChanged();
 	}
-	
+
 	@Override
-	public void putStack(ItemStack stack) {
+	public void putStack(ItemStack stack){
 		if (stack != null && stack.getItem() == Items.writable_book){
 			stack.func_150996_a(Items.written_book);
 			stack.setStackDisplayName(StatCollector.translateToLocal("am2.tooltip.unfinishedSpellRecipe"));

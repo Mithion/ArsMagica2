@@ -1,14 +1,5 @@
 package am2.spell.shapes;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.EntityDragonPart;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraft.world.World;
 import am2.api.spell.ItemSpellBase;
 import am2.api.spell.component.interfaces.ISpellShape;
 import am2.api.spell.enums.Affinity;
@@ -17,16 +8,24 @@ import am2.api.spell.enums.SpellModifiers;
 import am2.items.ItemsCommonProxy;
 import am2.spell.SpellHelper;
 import am2.spell.SpellUtils;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityDragonPart;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.world.World;
 
 public class Touch implements ISpellShape{
 
 	@Override
-	public int getID() {
+	public int getID(){
 		return 9;
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount) {
+	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount){
 		if (target != null){
 			Entity e = target;
 			if (e instanceof EntityDragonPart && ((EntityDragonPart)e).entityDragonObj instanceof EntityLivingBase)
@@ -64,12 +63,12 @@ public class Touch implements ISpellShape{
 	}
 
 	@Override
-	public boolean isChanneled() {
+	public boolean isChanneled(){
 		return false;
 	}
 
 	@Override
-	public Object[] getRecipeItems() {
+	public Object[] getRecipeItems(){
 		return new Object[]{
 				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_VINTEUMDUST),
 				Items.feather,
@@ -79,23 +78,23 @@ public class Touch implements ISpellShape{
 	}
 
 	@Override
-	public float manaCostMultiplier(ItemStack spellStack) {
+	public float manaCostMultiplier(ItemStack spellStack){
 		return 1;
 	}
 
 	@Override
-	public boolean isTerminusShape() {
+	public boolean isTerminusShape(){
 		return false;
 	}
 
 	@Override
-	public boolean isPrincipumShape() {
+	public boolean isPrincipumShape(){
 		return false;
 	}
 
 	@Override
-	public String getSoundForAffinity(Affinity affinity, ItemStack stack, World world) {
-		switch(affinity){
+	public String getSoundForAffinity(Affinity affinity, ItemStack stack, World world){
+		switch (affinity){
 		case AIR:
 			return "arsmagica2:spell.cast.air";
 		case ARCANE:

@@ -1,29 +1,12 @@
 package am2.spell;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashMap;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import am2.AMCore;
 import am2.api.ArsMagicaApi;
 import am2.api.events.AffinityChangingEvent;
 import am2.api.events.ModifierCalculatedEvent;
 import am2.api.events.ModifierCalculatedEvent.OperationType;
 import am2.api.spell.ISpellUtils;
-import am2.api.spell.component.interfaces.ISkillTreeEntry;
-import am2.api.spell.component.interfaces.ISpellComponent;
-import am2.api.spell.component.interfaces.ISpellModifier;
-import am2.api.spell.component.interfaces.ISpellPart;
-import am2.api.spell.component.interfaces.ISpellShape;
+import am2.api.spell.component.interfaces.*;
 import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
 import am2.armor.ArmorHelper;
@@ -37,11 +20,23 @@ import am2.playerextensions.SkillData;
 import am2.spell.components.Summon;
 import am2.spell.shapes.MissingShape;
 import am2.utility.KeyValuePair;
-
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 
-public class SpellUtils implements ISpellUtils {
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashMap;
+
+public class SpellUtils implements ISpellUtils{
 
 	//Shape groups
 	private static final String CurShapeGroup_Identifier = "CurrentShapeGroup";
@@ -73,12 +68,13 @@ public class SpellUtils implements ISpellUtils {
 
 	public static SpellUtils instance = new SpellUtils();
 
-	private SpellUtils(){}
+	private SpellUtils(){
+	}
 
 	//==============================================================================
 	// API Satisfaction
 	//==============================================================================
-	
+
 	public double getModifiedDouble_Mul(double defaultValue, ItemStack stack, EntityLivingBase caster, Entity target, World world, SpellModifiers check){
 		return getModifiedDouble_Mul(defaultValue, stack, caster, target, world, 0, check);
 	}
@@ -118,7 +114,7 @@ public class SpellUtils implements ISpellUtils {
 	public int countModifiers(SpellModifiers check, ItemStack stack){
 		return countModifiers(check, stack, 0);
 	}
-	
+
 	//==============================================================================
 	// Modifiers
 	//==============================================================================
@@ -133,7 +129,7 @@ public class SpellUtils implements ISpellUtils {
 		}
 
 		if (caster instanceof EntityPlayer){
-			if (SkillData.For((EntityPlayer) caster).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("AugmentedCasting")))){
+			if (SkillData.For((EntityPlayer)caster).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("AugmentedCasting")))){
 				modifiedValue *= 1.1f;
 			}
 		}
@@ -155,7 +151,7 @@ public class SpellUtils implements ISpellUtils {
 		}
 
 		if (caster instanceof EntityPlayer){
-			if (SkillData.For((EntityPlayer) caster).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("AugmentedCasting")))){
+			if (SkillData.For((EntityPlayer)caster).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("AugmentedCasting")))){
 				modifiedValue *= 1.1f;
 			}
 		}
@@ -163,7 +159,7 @@ public class SpellUtils implements ISpellUtils {
 		ModifierCalculatedEvent event = new ModifierCalculatedEvent(stack, caster, check, defaultValue, modifiedValue, OperationType.MULTIPLY);
 		MinecraftForge.EVENT_BUS.post(event);
 
-		return (int) event.modifiedValue;
+		return (int)event.modifiedValue;
 	}
 
 	public double getModifiedDouble_Mul(SpellModifiers check, ItemStack stack, EntityLivingBase caster, Entity target, World world, int stage){
@@ -177,7 +173,7 @@ public class SpellUtils implements ISpellUtils {
 		}
 
 		if (caster instanceof EntityPlayer){
-			if (SkillData.For((EntityPlayer) caster).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("AugmentedCasting")))){
+			if (SkillData.For((EntityPlayer)caster).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("AugmentedCasting")))){
 				modifiedValue *= 1.1f;
 			}
 		}
@@ -199,7 +195,7 @@ public class SpellUtils implements ISpellUtils {
 		}
 
 		if (caster instanceof EntityPlayer){
-			if (SkillData.For((EntityPlayer) caster).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("AugmentedCasting")))){
+			if (SkillData.For((EntityPlayer)caster).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("AugmentedCasting")))){
 				modifiedValue *= 1.1f;
 			}
 		}
@@ -207,7 +203,7 @@ public class SpellUtils implements ISpellUtils {
 		ModifierCalculatedEvent event = new ModifierCalculatedEvent(stack, caster, check, check.defaultValue, modifiedValue, OperationType.MULTIPLY);
 		MinecraftForge.EVENT_BUS.post(event);
 
-		return (int) event.modifiedValue;
+		return (int)event.modifiedValue;
 	}
 
 	public double getModifiedDouble_Add(double defaultValue, ItemStack stack, EntityLivingBase caster, Entity target, World world, int stage, SpellModifiers check){
@@ -221,7 +217,7 @@ public class SpellUtils implements ISpellUtils {
 		}
 
 		if (caster instanceof EntityPlayer){
-			if (SkillData.For((EntityPlayer) caster).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("AugmentedCasting")))){
+			if (SkillData.For((EntityPlayer)caster).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("AugmentedCasting")))){
 				modifiedValue *= 1.1f;
 			}
 		}
@@ -245,7 +241,7 @@ public class SpellUtils implements ISpellUtils {
 		}
 
 		if (caster instanceof EntityPlayer){
-			if (SkillData.For((EntityPlayer) caster).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("AugmentedCasting")))){
+			if (SkillData.For((EntityPlayer)caster).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("AugmentedCasting")))){
 				modifiedValue *= 1.1f;
 			}
 		}
@@ -253,7 +249,7 @@ public class SpellUtils implements ISpellUtils {
 		ModifierCalculatedEvent event = new ModifierCalculatedEvent(stack, caster, check, defaultValue, modifiedValue, OperationType.ADD);
 		MinecraftForge.EVENT_BUS.post(event);
 
-		return (int) Math.ceil(event.modifiedValue);
+		return (int)Math.ceil(event.modifiedValue);
 	}
 
 	public double getModifiedDouble_Add(SpellModifiers check, ItemStack stack, EntityLivingBase caster, Entity target, World world, int stage){
@@ -267,7 +263,7 @@ public class SpellUtils implements ISpellUtils {
 		}
 
 		if (caster instanceof EntityPlayer){
-			if (SkillData.For((EntityPlayer) caster).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("AugmentedCasting")))){
+			if (SkillData.For((EntityPlayer)caster).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("AugmentedCasting")))){
 				modifiedValue *= 1.1f;
 			}
 		}
@@ -289,7 +285,7 @@ public class SpellUtils implements ISpellUtils {
 		}
 
 		if (caster instanceof EntityPlayer){
-			if (SkillData.For((EntityPlayer) caster).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("AugmentedCasting")))){
+			if (SkillData.For((EntityPlayer)caster).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("AugmentedCasting")))){
 				modifiedValue *= 1.1f;
 			}
 		}
@@ -297,7 +293,7 @@ public class SpellUtils implements ISpellUtils {
 		ModifierCalculatedEvent event = new ModifierCalculatedEvent(stack, caster, check, check.defaultValue, modifiedValue, OperationType.ADD);
 		MinecraftForge.EVENT_BUS.post(event);
 
-		return (int) event.modifiedValue;
+		return (int)event.modifiedValue;
 	}
 
 	public boolean modifierIsPresent(SpellModifiers check, ItemStack stack, int stage){
@@ -324,7 +320,7 @@ public class SpellUtils implements ISpellUtils {
 
 	public int modifyDurationBasedOnArmor(EntityLivingBase caster, int baseDuration){
 		if (!(caster instanceof EntityPlayer)) return baseDuration;
-		int armorSet = ArmorHelper.getFullArsMagicaArmorSet((EntityPlayer) caster);
+		int armorSet = ArmorHelper.getFullArsMagicaArmorSet((EntityPlayer)caster);
 		if (armorSet == ArsMagicaArmorMaterial.MAGE.getMaterialID()){
 			baseDuration *= 1.25f;
 		}else if (armorSet == ArsMagicaArmorMaterial.BATTLEMAGE.getMaterialID()){
@@ -374,7 +370,7 @@ public class SpellUtils implements ISpellUtils {
 		ArrayList<ItemStack> reagents = new ArrayList<ItemStack>();
 		int stages = numStages(stack);
 
-		for (int i = stages-1; i >= 0; --i){
+		for (int i = stages - 1; i >= 0; --i){
 			float stageManaCost = 0;
 			float stageBurnout = 0;
 
@@ -422,7 +418,7 @@ public class SpellUtils implements ISpellUtils {
 		int[] reagentList = stack.stackTagCompound.getIntArray(BaseReagentsIdentifier);
 		ArrayList<ItemStack> reagents = new ArrayList<ItemStack>();
 		for (int i = 0; i < reagentList.length; i += 3){
-			reagents.add(new ItemStack(Item.getItemById(reagentList[i]), reagentList[i+1], reagentList[i+2]));
+			reagents.add(new ItemStack(Item.getItemById(reagentList[i]), reagentList[i + 1], reagentList[i + 2]));
 		}
 
 		return new SpellRequirements(manaCost, burnout, reagents);
@@ -515,14 +511,15 @@ public class SpellUtils implements ISpellUtils {
 		int numShapeGroups = stack.stackTagCompound.getInteger(NumShapeGroups_Identifier) + 1;
 		stack.stackTagCompound.setInteger(NumShapeGroups_Identifier, numShapeGroups);
 		stack.stackTagCompound.setInteger(CurShapeGroup_Identifier, 0);
-		stack.stackTagCompound.setIntArray(String.format("%s%d", ShapeGroup_Identifier, numShapeGroups-1), shapeGroupParts);
+		stack.stackTagCompound.setIntArray(String.format("%s%d", ShapeGroup_Identifier, numShapeGroups - 1), shapeGroupParts);
 		for (int i = 0; i < metaDatas.length; ++i){
-			stack.stackTagCompound.setByteArray(String.format("%s%d%d", ShapeGroupMeta_Identifier, numShapeGroups-1, i), metaDatas[i]);
+			stack.stackTagCompound.setByteArray(String.format("%s%d%d", ShapeGroupMeta_Identifier, numShapeGroups - 1, i), metaDatas[i]);
 		}
 	}
 
 	/**
 	 * Takes an item stack, looks at the current shape group assigned to it, and constructs a "classic" spell definition from the shape group and the rest of the main spell def
+	 *
 	 * @param stack The item stack contaning the entire spell def, including all start shape groups
 	 * @return An ItemStack that contains a classic spell definition that the casting system can handle.  This is what should be passed to the spell helper class.
 	 */
@@ -548,19 +545,19 @@ public class SpellUtils implements ISpellUtils {
 			ISkillTreeEntry entry = SkillManager.instance.getSkill(i);
 			if (entry instanceof ISpellShape){
 				newStages.add(new SpellStageDefinition());
-				newStages.get(newStages.size()-1).shape = entry.getID();
+				newStages.get(newStages.size() - 1).shape = entry.getID();
 			}else if (entry instanceof ISpellModifier){
 				byte[] meta = stack.stackTagCompound.getByteArray(String.format("%s%d%d", ShapeGroupMeta_Identifier, currentShapeGroup, shapeGroupElementCount));
 				if (meta == null)
 					meta = new byte[0];
-				newStages.get(newStages.size()-1).definition.addModifier(SkillManager.instance.getShiftedPartID(entry), meta);
+				newStages.get(newStages.size() - 1).definition.addModifier(SkillManager.instance.getShiftedPartID(entry), meta);
 			}
 			shapeGroupElementCount++;
 		}
 
 		//check the old spell definition - if it starts with MissingShape, then inject the components and modifiers into the last stage from the shape group
 		if (numStages(stack) > 0 && newStages.size() > 0){
-			SpellStageDefinition last = newStages.get(newStages.size()-1);
+			SpellStageDefinition last = newStages.get(newStages.size() - 1);
 			int firstShape = stack.stackTagCompound.getInteger(Shape_Prefix + "0");
 			if (firstShape == SkillManager.instance.missingShape.getID()){
 				int[] components = stack.stackTagCompound.getIntArray(Component_Prefix + "0");
@@ -619,15 +616,15 @@ public class SpellUtils implements ISpellUtils {
 		int stages = numStages(workingStack);
 		if (stages == 0) return workingStack;
 		for (int i = 1; i < stages; ++i){
-			workingStack.stackTagCompound.setIntArray(Component_Prefix + (i-1), workingStack.stackTagCompound.getIntArray(Component_Prefix + i));
-			workingStack.stackTagCompound.setIntArray(Modifier_Prefix + (i-1), workingStack.stackTagCompound.getIntArray(Modifier_Prefix + i));
-			workingStack.stackTagCompound.setInteger(Shape_Prefix + (i-1), workingStack.stackTagCompound.getInteger(Shape_Prefix + i));
+			workingStack.stackTagCompound.setIntArray(Component_Prefix + (i - 1), workingStack.stackTagCompound.getIntArray(Component_Prefix + i));
+			workingStack.stackTagCompound.setIntArray(Modifier_Prefix + (i - 1), workingStack.stackTagCompound.getIntArray(Modifier_Prefix + i));
+			workingStack.stackTagCompound.setInteger(Shape_Prefix + (i - 1), workingStack.stackTagCompound.getInteger(Shape_Prefix + i));
 		}
-		workingStack.stackTagCompound.setInteger(Stages_Identifier, stages-1);
+		workingStack.stackTagCompound.setInteger(Stages_Identifier, stages - 1);
 
-		workingStack.stackTagCompound.removeTag(Component_Prefix + (stages-1));
-		workingStack.stackTagCompound.removeTag(Modifier_Prefix + (stages-1));
-		workingStack.stackTagCompound.removeTag(Shape_Prefix + (stages-1));
+		workingStack.stackTagCompound.removeTag(Component_Prefix + (stages - 1));
+		workingStack.stackTagCompound.removeTag(Modifier_Prefix + (stages - 1));
+		workingStack.stackTagCompound.removeTag(Shape_Prefix + (stages - 1));
 
 		return workingStack;
 	}
@@ -709,7 +706,7 @@ public class SpellUtils implements ISpellUtils {
 		}
 		//stages are 0-based
 		int nextStage = numStages(scrollStack);
-		scrollStack.stackTagCompound.setInteger(Stages_Identifier, nextStage+1);
+		scrollStack.stackTagCompound.setInteger(Stages_Identifier, nextStage + 1);
 		scrollStack.stackTagCompound.setInteger(Shape_Prefix + nextStage, shape);
 		scrollStack.stackTagCompound.setIntArray(Component_Prefix + nextStage, components);
 
@@ -732,7 +729,7 @@ public class SpellUtils implements ISpellUtils {
 		scrollStack.stackTagCompound.setIntArray(Modifier_Prefix + nextStage, modifierarray);
 	}
 
-	public Affinity mainAffinityFor(ItemStack stack) {
+	public Affinity mainAffinityFor(ItemStack stack){
 
 		if (!stack.hasTagCompound())
 			return Affinity.NONE;
@@ -752,7 +749,7 @@ public class SpellUtils implements ISpellUtils {
 						affinityFrequency.put(affinity.ordinal(), 1);
 					}else{
 						int old = affinityFrequency.get(affinity.ordinal());
-						affinityFrequency.put(affinity.ordinal(), old+1);
+						affinityFrequency.put(affinity.ordinal(), old + 1);
 					}
 				}
 			}
@@ -785,7 +782,7 @@ public class SpellUtils implements ISpellUtils {
 			}
 
 			if (caster instanceof EntityPlayer){
-				if (SkillData.For((EntityPlayer) caster).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("AffinityGains")))){
+				if (SkillData.For((EntityPlayer)caster).isEntryKnown(SkillTreeManager.instance.getSkillTreeEntry(SkillManager.instance.getSkill("AffinityGains")))){
 					shift *= 1.1f;
 					xp *= 0.9f;
 				}
@@ -795,7 +792,7 @@ public class SpellUtils implements ISpellUtils {
 			}
 
 			if (shift > 0){
-				AffinityChangingEvent event = new AffinityChangingEvent((EntityPlayer) caster, affinity, shift);
+				AffinityChangingEvent event = new AffinityChangingEvent((EntityPlayer)caster, affinity, shift);
 				MinecraftForge.EVENT_BUS.post(event);
 				if (!event.isCanceled())
 					aff.incrementAffinity(affinity, event.amount);
@@ -808,7 +805,7 @@ public class SpellUtils implements ISpellUtils {
 		aff.addDiminishingReturns(governingShape.isChanneled());
 	}
 
-	public HashMap<Affinity, Float> AffinityFor(ItemStack stack) {
+	public HashMap<Affinity, Float> AffinityFor(ItemStack stack){
 		HashMap<Affinity, Integer> affinityFrequency = new HashMap<Affinity, Integer>();
 		HashMap<Affinity, Float> affinities = new HashMap<Affinity, Float>();
 		float totalAffinityEntries = 0;
@@ -830,7 +827,7 @@ public class SpellUtils implements ISpellUtils {
 						affinityFrequency.put(affinity, 1);
 					}else{
 						int old = affinityFrequency.get(affinity);
-						affinityFrequency.put(affinity, old+1);
+						affinityFrequency.put(affinity, old + 1);
 					}
 				}
 			}
@@ -865,16 +862,17 @@ public class SpellUtils implements ISpellUtils {
 
 	/**
 	 * Modifies the damage based on the caster's magic level
+	 *
 	 * @return
 	 */
 	public float modifyDamage(EntityLivingBase caster, float damage){
-		float factor = (float) (ExtendedProperties.For(caster).getMagicLevel() < 20 ?
+		float factor = (float)(ExtendedProperties.For(caster).getMagicLevel() < 20 ?
 				0.5 + (0.5 * ExtendedProperties.For(caster).getMagicLevel() / 19) :
-					1.0 + (1.0 * (ExtendedProperties.For(caster).getMagicLevel() - 20) / 79));
+				1.0 + (1.0 * (ExtendedProperties.For(caster).getMagicLevel() - 20) / 79));
 		return damage * factor;
 	}
 
-	public void writeModVersionToStack(ItemStack stack) {
+	public void writeModVersionToStack(ItemStack stack){
 		if (!stack.hasTagCompound()) return;
 		stack.stackTagCompound.setString("spell_mod_version", AMCore.instance.getVersion());
 	}
@@ -919,7 +917,7 @@ public class SpellUtils implements ISpellUtils {
 		}
 	}
 
-	public boolean componentIsPresent(ItemStack stack, Class clazz, int stage) {
+	public boolean componentIsPresent(ItemStack stack, Class clazz, int stage){
 		if (!stack.hasTagCompound()) return false;
 
 		ISpellComponent[] components = getComponentsForStage(stack, stage);
@@ -935,7 +933,7 @@ public class SpellUtils implements ISpellUtils {
 		if (numShapeGroups(stack) == 0 || !(shape instanceof MissingShape)){
 			return shape.isChanneled();
 		}else{
-			int [] parts = getShapeGroupParts(stack);
+			int[] parts = getShapeGroupParts(stack);
 			ISpellShape finalShape = null;
 			for (int i : parts){
 				ISkillTreeEntry entry = SkillManager.instance.getSkill(i);
@@ -952,7 +950,7 @@ public class SpellUtils implements ISpellUtils {
 	}
 
 	public ItemStack createSpellStack(ArrayList<ArrayList<KeyValuePair<ISpellPart, byte[]>>> shapeGroups, ArrayList<KeyValuePair<ISpellPart, byte[]>> spell){
-		ArrayList<KeyValuePair<ISpellPart, byte[]>> recipeCopy = (ArrayList<KeyValuePair<ISpellPart, byte[]>>) spell.clone();
+		ArrayList<KeyValuePair<ISpellPart, byte[]>> recipeCopy = (ArrayList<KeyValuePair<ISpellPart, byte[]>>)spell.clone();
 
 		if (recipeCopy.size() > 0 && !(recipeCopy.get(0).getKey() instanceof ISpellShape))
 			recipeCopy.add(0, new KeyValuePair<ISpellPart, byte[]>(SkillManager.instance.missingShape, new byte[0]));
@@ -967,7 +965,7 @@ public class SpellUtils implements ISpellUtils {
 			KeyValuePair<ISpellPart, byte[]> part = recipeCopy.get(0);
 			recipeCopy.remove(0);
 			if (part.getKey() instanceof ISpellShape){
-				shape = (ISpellShape) part.getKey();
+				shape = (ISpellShape)part.getKey();
 
 				part = recipeCopy.size() > 0 ? recipeCopy.get(0) : null;
 				while (part != null && !(part.getKey() instanceof ISpellShape)){
@@ -1033,7 +1031,7 @@ public class SpellUtils implements ISpellUtils {
 
 	private int[] ArrayListToIntArray(ArrayList<Integer> list){
 		int[] arr = new int[list.size()];
-		for (int i = 0 ;i < arr.length; ++i){
+		for (int i = 0; i < arr.length; ++i){
 			arr[i] = list.get(i).intValue();
 		}
 		return arr;
@@ -1046,14 +1044,14 @@ public class SpellUtils implements ISpellUtils {
 		stack.stackTagCompound.setInteger(ForcedAffinity, aff.ordinal());
 	}
 
-	public String getSpellMetadata(ItemStack stack, String key) {
+	public String getSpellMetadata(ItemStack stack, String key){
 		if (!stack.hasTagCompound() || !stack.stackTagCompound.hasKey(Global_Spell_Meta))
 			return "";
 		NBTTagCompound metaComp = stack.stackTagCompound.getCompoundTag(Global_Spell_Meta);
 		return metaComp.getString(key);
 	}
 
-	public void setSpellMetadata(ItemStack stack, String string, String s) {
+	public void setSpellMetadata(ItemStack stack, String string, String s){
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 		NBTTagCompound meta = stack.stackTagCompound.getCompoundTag(Global_Spell_Meta);

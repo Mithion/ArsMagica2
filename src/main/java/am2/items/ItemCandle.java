@@ -1,7 +1,11 @@
 package am2.items;
 
-import java.util.List;
-
+import am2.AMCore;
+import am2.armor.ArmorHelper;
+import am2.armor.infusions.GenericImbuement;
+import am2.blocks.BlocksCommonProxy;
+import am2.particles.AMParticle;
+import am2.particles.ParticleHoldPosition;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,27 +17,23 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import am2.AMCore;
-import am2.armor.ArmorHelper;
-import am2.armor.infusions.GenericImbuement;
-import am2.blocks.BlocksCommonProxy;
-import am2.particles.AMParticle;
-import am2.particles.ParticleHoldPosition;
 
-public class ItemCandle extends ArsMagicaItem {
+import java.util.List;
+
+public class ItemCandle extends ArsMagicaItem{
 
 	private static final int radius = 10;
 	private static final int short_radius = 5;
 	private static final float immediate_radius = 2.5f;
 
-	public ItemCandle() {
+	public ItemCandle(){
 		super();
 		setMaxStackSize(1);
 		setMaxDamage(18000); //15 minutes (20 * 60 * 15)
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 
 		if (!stack.hasTagCompound() || !stack.stackTagCompound.hasKey("search_block")){
 			Block block = world.getBlock(x, y, z);
@@ -42,7 +42,7 @@ public class ItemCandle extends ArsMagicaItem {
 					setSearchBlock(world.getBlock(x, y, z), world.getBlockMetadata(x, y, z), stack);
 					world.setBlockToAir(x, y, z);
 				}else{
-					AMParticle particle = (AMParticle) AMCore.proxy.particleManager.spawn(world, "radiant", x+0.5, y+0.5, z+0.5);
+					AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, "radiant", x + 0.5, y + 0.5, z + 0.5);
 					if (particle != null){
 						particle.AddParticleController(new ParticleHoldPosition(particle, 20, 1, false));
 						particle.setRGBColorF(0, 0.5f, 1);
@@ -59,7 +59,7 @@ public class ItemCandle extends ArsMagicaItem {
 				return false;
 			}
 
-			switch(side){
+			switch (side){
 			case 0:
 				y--;
 				break;
@@ -116,9 +116,9 @@ public class ItemCandle extends ArsMagicaItem {
 
 		for (int i = -radius; i <= radius; ++i){
 			for (int j = -1; j <= 1; ++j){
-				for (int k = -radius; k<= radius; ++k){
-					Block f_block = world.getBlock(cx+i, cy+j, cz+k);
-					int f_meta = world.getBlockMetadata(cx+i, cy+j, cz+k);
+				for (int k = -radius; k <= radius; ++k){
+					Block f_block = world.getBlock(cx + i, cy + j, cz + k);
+					int f_meta = world.getBlockMetadata(cx + i, cy + j, cz + k);
 
 					if (block == f_block && (meta == Short.MAX_VALUE || meta == f_meta)){
 						if (Math.abs(i) <= immediate_radius && Math.abs(k) <= immediate_radius && player.getCurrentArmor(3) != null && ArmorHelper.isInfusionPreset(player.getCurrentArmor(3), GenericImbuement.pinpointOres)){
@@ -140,12 +140,12 @@ public class ItemCandle extends ArsMagicaItem {
 	}
 
 	@Override
-	public boolean getShareTag() {
+	public boolean getShareTag(){
 		return true;
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World world, Entity entity, int indexInInventory, boolean isCurrentlyHeld) {
+	public void onUpdate(ItemStack stack, World world, Entity entity, int indexInInventory, boolean isCurrentlyHeld){
 		if (isCurrentlyHeld && entity instanceof EntityPlayer){
 			if (!world.isRemote && stack.hasTagCompound() && stack.getItemDamage() % 40 == 0){
 				search((EntityPlayer)entity, stack, world,
@@ -160,14 +160,14 @@ public class ItemCandle extends ArsMagicaItem {
 				((EntityPlayer)entity).inventory.setInventorySlotContents(indexInInventory, null);
 			if (!world.isRemote && AMCore.config.candlesAreRovingLights() &&
 					world.isAirBlock((int)Math.round(entity.posX), (int)Math.round(entity.posY), (int)Math.round(entity.posZ)) &&
-					world.getBlockLightValue((int)Math.round(entity.posX), (int)Math.round(entity.posY), (int)Math.round(entity.posZ)) < 14 ){
+					world.getBlockLightValue((int)Math.round(entity.posX), (int)Math.round(entity.posY), (int)Math.round(entity.posZ)) < 14){
 				world.setBlock((int)Math.round(entity.posX), (int)Math.round(entity.posY), (int)Math.round(entity.posZ), BlocksCommonProxy.invisibleUtility, 2, 2);
 			}
 		}
 	}
 
 	@Override
-	public String getItemStackDisplayName(ItemStack stack) {
+	public String getItemStackDisplayName(ItemStack stack){
 		String name = StatCollector.translateToLocal("item.arsmagica2:warding_candle.name");
 		if (stack.hasTagCompound() && stack.stackTagCompound.hasKey("search_block")){
 			ItemStack blockStack = new ItemStack(Block.getBlockById(stack.stackTagCompound.getInteger("search_block")), 1, stack.stackTagCompound.getInteger("search_meta"));
@@ -180,18 +180,18 @@ public class ItemCandle extends ArsMagicaItem {
 	}
 
 	@Override
-	public boolean getHasSubtypes() {
+	public boolean getHasSubtypes(){
 		return true;
 	}
 
 	@Override
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
+	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List){
 		ItemStack unattuned = new ItemStack(this, 1, 0);
 		par3List.add(unattuned);
 	}
 
 	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {
+	public void registerIcons(IIconRegister par1IconRegister){
 	}
 }
 

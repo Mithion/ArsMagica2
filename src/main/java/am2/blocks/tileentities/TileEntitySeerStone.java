@@ -1,8 +1,18 @@
 package am2.blocks.tileentities;
 
-import java.util.ArrayList;
-import java.util.Random;
-
+import am2.AMCore;
+import am2.api.blocks.IKeystoneLockable;
+import am2.api.power.PowerTypes;
+import am2.blocks.BlocksCommonProxy;
+import am2.items.ISpellFocus;
+import am2.items.ItemFilterFocus;
+import am2.models.SpriteRenderInfo;
+import am2.network.AMDataWriter;
+import am2.particles.AMParticle;
+import am2.particles.ParticleFloatUpward;
+import am2.particles.ParticleMoveOnHeading;
+import am2.power.PowerNodeRegistry;
+import am2.utility.KeystoneUtilities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,22 +25,11 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants;
-import am2.AMCore;
-import am2.api.blocks.IKeystoneLockable;
-import am2.api.power.PowerTypes;
-import am2.blocks.BlocksCommonProxy;
-import am2.items.ISpellFocus;
-import am2.items.ItemFilterFocus;
-import am2.models.SpriteRenderInfo;
-import am2.network.AMDataReader;
-import am2.network.AMDataWriter;
-import am2.particles.AMParticle;
-import am2.particles.ParticleFloatUpward;
-import am2.particles.ParticleMoveOnHeading;
-import am2.power.PowerNodeRegistry;
-import am2.utility.KeystoneUtilities;
 
-public class TileEntitySeerStone extends TileEntityAMPower implements IInventory, IKeystoneLockable {
+import java.util.ArrayList;
+import java.util.Random;
+
+public class TileEntitySeerStone extends TileEntityAMPower implements IInventory, IKeystoneLockable{
 
 	private boolean hasSight;
 	private ArrayList<SpriteRenderInfo> animations;
@@ -42,13 +41,13 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	int tickCounter;
 	public static int keystoneSlot = 1;
 
-	private PowerTypes[] validTypes =new PowerTypes[]{
+	private PowerTypes[] validTypes = new PowerTypes[]{
 			PowerTypes.LIGHT
-		};
+	};
 
 	boolean swapDetectionMode = false;
 
-	public TileEntitySeerStone() {
+	public TileEntitySeerStone(){
 		super(100);
 		hasSight = false;
 		tickCounter = 0;
@@ -84,11 +83,11 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	}
 
 	@Override
-	public float particleOffset(int axis) {
+	public float particleOffset(int axis){
 		int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 
 		if (axis == 0){
-			switch(meta){
+			switch (meta){
 			case 6:
 				return 0.15f;
 			case 5:
@@ -97,7 +96,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 				return 0.5f;
 			}
 		}else if (axis == 1){
-			switch(meta){
+			switch (meta){
 			case 1:
 				return 0.85f;
 			case 2:
@@ -106,7 +105,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 				return 0.5f;
 			}
 		}else if (axis == 2){
-			switch(meta){
+			switch (meta){
 			case 4:
 				return 0.15f;
 			case 3:
@@ -154,19 +153,19 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		this.writeToNBT(compound);
 		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
 	}
-	
+
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
 		this.readFromNBT(pkt.func_148857_g());
 	}
-	
+
 	@Override
-	public void updateEntity() {
+	public void updateEntity(){
 		super.updateEntity();
 
 		if (!worldObj.isRemote && isActive()){
@@ -186,7 +185,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 			Class searchClass = GetSearchClass();
 			ArrayList<Entity> nearbyMobs = new ArrayList<Entity>();
 			if (searchClass != null){
-				nearbyMobs = (ArrayList<Entity>) this.worldObj.getEntitiesWithinAABB(searchClass, AxisAlignedBB.getBoundingBox(xCoord - radius, yCoord - radius, zCoord - radius, xCoord + radius, yCoord + radius, zCoord + radius));
+				nearbyMobs = (ArrayList<Entity>)this.worldObj.getEntitiesWithinAABB(searchClass, AxisAlignedBB.getBoundingBox(xCoord - radius, yCoord - radius, zCoord - radius, xCoord + radius, yCoord + radius, zCoord + radius));
 
 				if (key > 0){
 					ArrayList<Entity> mobsToIgnore = new ArrayList<Entity>();
@@ -196,12 +195,12 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 								mobsToIgnore.add(e);
 								continue;
 							}
-							if (!KeystoneUtilities.instance.GetKeysInInvenory((EntityLivingBase) e).contains(key)){
+							if (!KeystoneUtilities.instance.GetKeysInInvenory((EntityLivingBase)e).contains(key)){
 								mobsToIgnore.add(e);
 							}
 						}else{
 							if (!(e instanceof EntityPlayer)) continue;
-							if (KeystoneUtilities.instance.GetKeysInInvenory((EntityLivingBase) e).contains(key)){
+							if (KeystoneUtilities.instance.GetKeysInInvenory((EntityLivingBase)e).contains(key)){
 								mobsToIgnore.add(e);
 							}
 						}
@@ -269,7 +268,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 				double x = xCoord + 0.5;
 				double z = zCoord + 0.5;
 
-				switch(meta){
+				switch (meta){
 				case 1:
 					y += 0.3;
 					break;
@@ -294,13 +293,13 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 					break;
 				}
 
-				AMParticle effect = (AMParticle) AMCore.instance.proxy.particleManager.spawn(worldObj, "sparkle2", x, y, z);
+				AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "sparkle2", x, y, z);
 				if (effect != null){
 					effect.setIgnoreMaxAge(false);
 					effect.setMaxAge(35);
 					//effect.setRGBColorF(0.9f, 0.7f, 0.0f);
 
-					switch(meta){
+					switch (meta){
 					case 1:
 						effect.AddParticleController(new ParticleFloatUpward(effect, 0.1f, -0.01f, 1, false));
 						break;
@@ -380,12 +379,12 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	}
 
 	@Override
-	public int getSizeInventory() {
+	public int getSizeInventory(){
 		return 5;
 	}
 
 	@Override
-	public ItemStack[] getRunesInKey() {
+	public ItemStack[] getRunesInKey(){
 		ItemStack[] runes = new ItemStack[3];
 		runes[0] = inventory[2];
 		runes[1] = inventory[3];
@@ -394,122 +393,108 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	}
 
 	@Override
-	public boolean keystoneMustBeHeld() {
+	public boolean keystoneMustBeHeld(){
 		return false;
 	}
 
 	@Override
-	public boolean keystoneMustBeInActionBar() {
+	public boolean keystoneMustBeInActionBar(){
 		return false;
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int slot) {
+	public ItemStack getStackInSlot(int slot){
 		if (slot >= inventory.length)
 			return null;
 		return inventory[slot];
 	}
 
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if(inventory[i] != null)
-		{
-			if(inventory[i].stackSize <= j)
-			{
+	public ItemStack decrStackSize(int i, int j){
+		if (inventory[i] != null){
+			if (inventory[i].stackSize <= j){
 				ItemStack itemstack = inventory[i];
 				inventory[i] = null;
 				return itemstack;
 			}
 			ItemStack itemstack1 = inventory[i].splitStack(j);
-			if(inventory[i].stackSize == 0)
-			{
+			if (inventory[i].stackSize == 0){
 				inventory[i] = null;
 			}
 			return itemstack1;
-		} else {
+		}else{
 			return null;
 		}
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if (inventory[i] != null)
-		{
+	public ItemStack getStackInSlotOnClosing(int i){
+		if (inventory[i] != null){
 			ItemStack itemstack = inventory[i];
 			inventory[i] = null;
 			return itemstack;
-		}
-		else
-		{
+		}else{
 			return null;
 		}
 	}
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
+	public void setInventorySlotContents(int i, ItemStack itemstack){
 		inventory[i] = itemstack;
-		if(itemstack != null && itemstack.stackSize > getInventoryStackLimit())
-		{
+		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
 			itemstack.stackSize = getInventoryStackLimit();
 		}
 	}
 
 	@Override
-	public String getInventoryName() {
+	public String getInventoryName(){
 		return "Seer Stone";
 	}
 
 	@Override
-	public int getInventoryStackLimit() {
+	public int getInventoryStackLimit(){
 		return 1;
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
-		{
+	public boolean isUseableByPlayer(EntityPlayer entityplayer){
+		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
 			return false;
 		}
 		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
 	}
 
 	@Override
-	public void openInventory() {
+	public void openInventory(){
 	}
 
 	@Override
-	public void closeInventory() {
+	public void closeInventory(){
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbttagcompound)
-	{
+	public void readFromNBT(NBTTagCompound nbttagcompound){
 		super.readFromNBT(nbttagcompound);
 		this.swapDetectionMode = nbttagcompound.getBoolean("seerStoneIsInverting");
 		NBTTagList nbttaglist = nbttagcompound.getTagList("SeerStoneInventory", Constants.NBT.TAG_COMPOUND);
 		inventory = new ItemStack[getSizeInventory()];
-		for(int i = 0; i < nbttaglist.tagCount(); i++)
-		{
+		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
 			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
 			byte byte0 = nbttagcompound1.getByte(tag);
-			if(byte0 >= 0 && byte0 < inventory.length)
-			{
+			if (byte0 >= 0 && byte0 < inventory.length){
 				inventory[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
 			}
 		}
-		
+
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbttagcompound)
-	{
+	public void writeToNBT(NBTTagCompound nbttagcompound){
 		super.writeToNBT(nbttagcompound);
 		NBTTagList nbttaglist = new NBTTagList();
-		for(int i = 0; i < inventory.length; i++)
-		{
-			if(inventory[i] != null)
-			{
+		for (int i = 0; i < inventory.length; i++){
+			if (inventory[i] != null){
 				String tag = String.format("ArrayIndex", i);
 				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 				nbttagcompound1.setByte(tag, (byte)i);
@@ -541,27 +526,27 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	}
 
 	@Override
-	public boolean hasCustomInventoryName() {
+	public boolean hasCustomInventoryName(){
 		return false;
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+	public boolean isItemValidForSlot(int i, ItemStack itemstack){
 		return false;
 	}
 
 	@Override
-	public int getChargeRate() {
+	public int getChargeRate(){
 		return 20;
 	}
 
 	@Override
-	public PowerTypes[] getValidPowerTypes() {
+	public PowerTypes[] getValidPowerTypes(){
 		return validTypes;
 	}
 
 	@Override
-	public boolean canRelayPower(PowerTypes type) {
+	public boolean canRelayPower(PowerTypes type){
 		return false;
 	}
 }

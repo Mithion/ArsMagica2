@@ -1,12 +1,12 @@
 package am2.particles;
 
-public class ParticleChangeSize extends ParticleController {
+public class ParticleChangeSize extends ParticleController{
 
 	private float start;
 	private float end;
 	private int time;
 
-	public ParticleChangeSize(AMParticle star, float start, float end, int time, int priority, boolean exclusive) {
+	public ParticleChangeSize(AMParticle star, float start, float end, int time, int priority, boolean exclusive){
 		super(star, priority, exclusive);
 		this.start = start;
 		this.end = end;
@@ -14,10 +14,9 @@ public class ParticleChangeSize extends ParticleController {
 	}
 
 	@Override
-	public void doUpdate() {
+	public void doUpdate(){
 
-		if (particle.ticksExisted > time)
-		{
+		if (particle.ticksExisted > time){
 			this.finish();
 			return;
 		}
@@ -29,7 +28,7 @@ public class ParticleChangeSize extends ParticleController {
 	}
 
 	@Override
-	public ParticleController clone() {
+	public ParticleController clone(){
 		return new ParticleChangeSize(particle, start, end, time, time, exclusive);
 	}
 

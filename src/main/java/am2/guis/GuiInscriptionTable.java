@@ -1,32 +1,7 @@
 package am2.guis;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import am2.api.math.AMVector2;
-import am2.api.spell.component.interfaces.ISkillTreeEntry;
-import am2.api.spell.component.interfaces.ISpellComponent;
-import am2.api.spell.component.interfaces.ISpellModifier;
-import am2.api.spell.component.interfaces.ISpellPart;
-import am2.api.spell.component.interfaces.ISpellShape;
+import am2.api.spell.component.interfaces.*;
 import am2.blocks.tileentities.TileEntityInscriptionTable;
 import am2.containers.ContainerInscriptionTable;
 import am2.guis.controls.GuiButtonVariableDims;
@@ -36,6 +11,24 @@ import am2.spell.SkillTreeManager;
 import am2.spell.SpellValidator.ValidationResult;
 import am2.texture.ResourceManager;
 import am2.texture.SpellIconManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class GuiInscriptionTable extends GuiContainer{
 
@@ -89,7 +82,7 @@ public class GuiInscriptionTable extends GuiContainer{
 	private String defaultSearchLabel = "\2477\247o" + StatCollector.translateToLocal("am2.gui.search");
 	private String defaultNameLabel = "\2477\247o" + StatCollector.translateToLocal("am2.gui.name");
 
-	public GuiInscriptionTable(InventoryPlayer playerInventory, TileEntityInscriptionTable table) {
+	public GuiInscriptionTable(InventoryPlayer playerInventory, TileEntityInscriptionTable table){
 		super(new ContainerInscriptionTable(table, playerInventory));
 		usingPlayer = playerInventory.player;
 		xSize = 220;
@@ -102,12 +95,12 @@ public class GuiInscriptionTable extends GuiContainer{
 	}
 
 	@Override
-	public boolean doesGuiPauseGame() {
+	public boolean doesGuiPauseGame(){
 		return false;
 	}
 
 	@Override
-	public void initGui() {
+	public void initGui(){
 		super.initGui();
 		searchFieldPosition = new AMVector2(39, 59);
 		searchFieldDimensions = new AMVector2(141, 12);
@@ -145,7 +138,7 @@ public class GuiInscriptionTable extends GuiContainer{
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton par1GuiButton) {
+	protected void actionPerformed(GuiButton par1GuiButton){
 		if (par1GuiButton == createSpellButton && usingPlayer.capabilities.isCreativeMode){
 			((ContainerInscriptionTable)this.inventorySlots).giveSpellToPlayer(usingPlayer);
 		}else if (par1GuiButton == resetSpellButton){
@@ -154,7 +147,7 @@ public class GuiInscriptionTable extends GuiContainer{
 	}
 
 	@Override
-	protected void mouseClicked(int par1, int par2, int par3) {
+	protected void mouseClicked(int par1, int par2, int par3){
 		super.mouseClicked(par1, par2, par3);
 		int l = (width - xSize) / 2;
 		int i1 = (height - ySize) / 2;
@@ -187,8 +180,7 @@ public class GuiInscriptionTable extends GuiContainer{
 						int count = 0;
 						index++;
 						while (index < ((ContainerInscriptionTable)this.inventorySlots).getShapeGroupSize(lowerHoverShapeGroup) &&
-								!(((ContainerInscriptionTable)this.inventorySlots).getShapeGroupPartAt(lowerHoverShapeGroup, index) instanceof ISpellShape))
-						{
+								!(((ContainerInscriptionTable)this.inventorySlots).getShapeGroupPartAt(lowerHoverShapeGroup, index) instanceof ISpellShape)){
 							count++;
 							index++;
 						}
@@ -238,7 +230,7 @@ public class GuiInscriptionTable extends GuiContainer{
 	}
 
 	@Override
-	protected void mouseMovedOrUp(int x, int y, int action) {
+	protected void mouseMovedOrUp(int x, int y, int action){
 		super.mouseMovedOrUp(x, y, action);
 
 		int l = (width - xSize) / 2;
@@ -290,14 +282,14 @@ public class GuiInscriptionTable extends GuiContainer{
 	}
 
 	private void drawRectangle(int x, int y, int width, int height, int color){
-		AMGuiHelper.line2d(x, y, x+width, y, this.zLevel, color);
-		AMGuiHelper.line2d(x+width, y, x+width, y+height, this.zLevel, color);
-		AMGuiHelper.line2d(x, y+height, x+width, y+height, this.zLevel, color);
+		AMGuiHelper.line2d(x, y, x + width, y, this.zLevel, color);
+		AMGuiHelper.line2d(x + width, y, x + width, y + height, this.zLevel, color);
+		AMGuiHelper.line2d(x, y + height, x + width, y + height, this.zLevel, color);
 		AMGuiHelper.line2d(x, y, x, y + height, this.zLevel, color);
 	}
 
 	@Override
-	protected void keyTyped(char par1, int par2) {
+	protected void keyTyped(char par1, int par2){
 		if (searchBar.textboxKeyTyped(par1, par2)){
 
 		}else if (nameBar.textboxKeyTyped(par1, par2)){
@@ -308,7 +300,7 @@ public class GuiInscriptionTable extends GuiContainer{
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
+	protected void drawGuiContainerBackgroundLayer(float f, int i, int j){
 		mc.renderEngine.bindTexture(background);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		int l = (width - xSize) / 2;
@@ -334,17 +326,17 @@ public class GuiInscriptionTable extends GuiContainer{
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
+	protected void drawGuiContainerForegroundLayer(int par1, int par2){
 		super.drawGuiContainerForegroundLayer(par1, par2);
 
 		ArrayList<String> label = new ArrayList<String>();
 
 		int l = (width - xSize) / 2;
 		int i1 = (height - ySize) / 2;
-		
+
 		this.zLevel = 0.0F;
-		
-        GL11.glEnable(GL11.GL_ALPHA_TEST);
+
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
 
 		drawBookIcon();
 		boolean hovering = false;
@@ -392,7 +384,7 @@ public class GuiInscriptionTable extends GuiContainer{
 			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 			drawDraggedItem();
 		}
-		
+
 	}
 
 	private void drawBookIcon(){
@@ -483,7 +475,7 @@ public class GuiInscriptionTable extends GuiContainer{
 				continue;
 
 			String name = SkillManager.instance.getDisplayName(part);
-			
+
 			String filterText = searchBar.getText().toLowerCase();
 			if (filterText != "" && !filterText.equals(defaultSearchLabel.toLowerCase()) && !name.toLowerCase().contains(filterText)){
 				continue;
@@ -511,7 +503,8 @@ public class GuiInscriptionTable extends GuiContainer{
 		}
 		if (!hasShape && !(part instanceof ISpellShape))
 			return false;
-		if (part instanceof ISpellShape && ((ContainerInscriptionTable)this.inventorySlots).currentRecipeContains(part)) return false;
+		if (part instanceof ISpellShape && ((ContainerInscriptionTable)this.inventorySlots).currentRecipeContains(part))
+			return false;
 		if (part instanceof ISpellComponent){
 			int index = ((ContainerInscriptionTable)this.inventorySlots).getCurrentRecipeSize() - 1;
 			while (index >= 0 && !(((ContainerInscriptionTable)this.inventorySlots).getRecipeItemAt(index) instanceof ISpellShape)){
@@ -522,7 +515,7 @@ public class GuiInscriptionTable extends GuiContainer{
 			}
 		}
 		if (part instanceof ISpellModifier){
-			return ((ContainerInscriptionTable)this.inventorySlots).modifierCanBeAdded((ISpellModifier) part);
+			return ((ContainerInscriptionTable)this.inventorySlots).modifierCanBeAdded((ISpellModifier)part);
 		}
 		return true;
 	}
@@ -571,14 +564,12 @@ public class GuiInscriptionTable extends GuiContainer{
 	}
 
 	private void drawDraggedItem(){
-		AMGuiHelper.DrawIconAtXY(hoveredIcon, lastMouseX-8, lastMouseY-8, this.zLevel, 16, 16, false);
+		AMGuiHelper.DrawIconAtXY(hoveredIcon, lastMouseX - 8, lastMouseY - 8, this.zLevel, 16, 16, false);
 	}
 
 	@Override
-	protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font)
-	{
-		if (!par1List.isEmpty())
-		{
+	protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font){
+		if (!par1List.isEmpty()){
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 			RenderHelper.disableStandardItemLighting();
 			GL11.glDisable(GL11.GL_LIGHTING);
@@ -586,13 +577,11 @@ public class GuiInscriptionTable extends GuiContainer{
 			int k = 0;
 			Iterator iterator = par1List.iterator();
 
-			while (iterator.hasNext())
-			{
+			while (iterator.hasNext()){
 				String s = (String)iterator.next();
 				int l = font.getStringWidth(s);
 
-				if (l > k)
-				{
+				if (l > k){
 					k = l;
 				}
 			}
@@ -601,18 +590,15 @@ public class GuiInscriptionTable extends GuiContainer{
 			int j1 = par3 - 12;
 			int k1 = 8;
 
-			if (par1List.size() > 1)
-			{
+			if (par1List.size() > 1){
 				k1 += 2 + (par1List.size() - 1) * 10;
 			}
 
-			if (i1 + k > this.width)
-			{
+			if (i1 + k > this.width){
 				i1 -= 28 + k;
 			}
 
-			if (j1 + k1 + 6 > this.height)
-			{
+			if (j1 + k1 + 6 > this.height){
 				j1 = this.height - k1 - 6;
 			}
 
@@ -625,29 +611,27 @@ public class GuiInscriptionTable extends GuiContainer{
 			this.drawGradientRect(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
 			int i2 = 1347420415;
 			int j2 = (i2 & 16711422) >> 1 | i2 & -16777216;
-						this.drawGradientRect(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
-						this.drawGradientRect(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
-						this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
-						this.drawGradientRect(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
+			this.drawGradientRect(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
+			this.drawGradientRect(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
+			this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
+			this.drawGradientRect(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
 
-						for (int k2 = 0; k2 < par1List.size(); ++k2)
-						{
-							String s1 = (String)par1List.get(k2);
-							font.drawStringWithShadow(s1, i1, j1, -1);
+			for (int k2 = 0; k2 < par1List.size(); ++k2){
+				String s1 = (String)par1List.get(k2);
+				font.drawStringWithShadow(s1, i1, j1, -1);
 
-							if (k2 == 0)
-							{
-								j1 += 2;
-							}
+				if (k2 == 0){
+					j1 += 2;
+				}
 
-							j1 += 10;
-						}
+				j1 += 10;
+			}
 
-						this.zLevel = 0.0F;
-						GL11.glEnable(GL11.GL_LIGHTING);
-						GL11.glEnable(GL11.GL_DEPTH_TEST);
-						RenderHelper.enableStandardItemLighting();
-						GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+			this.zLevel = 0.0F;
+			GL11.glEnable(GL11.GL_LIGHTING);
+			GL11.glEnable(GL11.GL_DEPTH_TEST);
+			RenderHelper.enableStandardItemLighting();
+			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		}
 	}
 

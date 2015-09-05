@@ -1,7 +1,8 @@
 package am2.particles;
+
 import java.util.Random;
 
-public final class ParticleOrbitPoint extends ParticleController {
+public final class ParticleOrbitPoint extends ParticleController{
 
 	private CoordStore target;
 	private double distance;
@@ -19,7 +20,8 @@ public final class ParticleOrbitPoint extends ParticleController {
 	private double shrinkTargetDistance = 0;
 
 	private class CoordStore{
-		public double x,y,z;
+		public double x, y, z;
+
 		public CoordStore(double x, double y, double z){
 			this.x = x;
 			this.y = y;
@@ -27,7 +29,7 @@ public final class ParticleOrbitPoint extends ParticleController {
 		}
 	}
 
-	public ParticleOrbitPoint(AMParticle particleEffect, double orbitX, double orbitY, double orbitZ, int priority, boolean exclusive) {
+	public ParticleOrbitPoint(AMParticle particleEffect, double orbitX, double orbitY, double orbitZ, int priority, boolean exclusive){
 		super(particleEffect, priority, exclusive);
 		target = new CoordStore(orbitX, orbitY, orbitZ);
 		orbitAngle = rand.nextInt(360);
@@ -88,6 +90,7 @@ public final class ParticleOrbitPoint extends ParticleController {
 	/**
 	 * Set true for clockwise, false for counterclockwise.
 	 * Not calling this method will cause the direction to be random.
+	 *
 	 * @param clockwise
 	 */
 	public ParticleOrbitPoint setRotateDirection(boolean clockwise){
@@ -97,6 +100,7 @@ public final class ParticleOrbitPoint extends ParticleController {
 
 	/**
 	 * Sets the start angle of rotation, in radians
+	 *
 	 * @param angle
 	 * @return
 	 */
@@ -106,7 +110,7 @@ public final class ParticleOrbitPoint extends ParticleController {
 	}
 
 	@Override
-	public void doUpdate() {
+	public void doUpdate(){
 
 		double posX;
 		double posZ;
@@ -146,8 +150,7 @@ public final class ParticleOrbitPoint extends ParticleController {
 		if (!ignoreYCoord){
 			if (particle.posY < relativeTargetY){
 				particle.posY += 0.1;
-			}
-			else if (particle.posY > relativeTargetY){
+			}else if (particle.posY > relativeTargetY){
 				particle.posY -= 0.1;
 			}
 		}
@@ -176,7 +179,7 @@ public final class ParticleOrbitPoint extends ParticleController {
 	}
 
 	@Override
-	public ParticleController clone() {
+	public ParticleController clone(){
 		ParticleOrbitPoint clone = new ParticleOrbitPoint(particle, target.x, target.y, target.z, priority, exclusive);
 		if (useCurrentDistance) clone.SetUseCurrentDistance();
 		else clone.SetTargetDistance(targetDistance);
@@ -189,7 +192,7 @@ public final class ParticleOrbitPoint extends ParticleController {
 
 		clone.setRotateDirection(this.rotateClockwise);
 
-		clone.setStartAngle((float) this.orbitAngle);
+		clone.setStartAngle((float)this.orbitAngle);
 
 		if (this.shrinkingOrbit) clone.SetShrinkingOrbit(this.shrinkSpeed, this.shrinkTargetDistance);
 

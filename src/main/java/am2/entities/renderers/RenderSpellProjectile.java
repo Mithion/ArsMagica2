@@ -1,5 +1,6 @@
 package am2.entities.renderers;
 
+import am2.entities.EntitySpellProjectile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -8,17 +9,14 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
-import am2.entities.EntitySpellProjectile;
 
 public class RenderSpellProjectile extends Render{
 
 	private static final ResourceLocation projectile = new ResourceLocation("textures/atlas/items.png");
 
 	@Override
-	public void doRender(Entity entity, double d0, double d1, double d2, float f, float f1) {
+	public void doRender(Entity entity, double d0, double d1, double d2, float f, float f1){
 		doRenderSpellProjectile((EntitySpellProjectile)entity, d0, d1, d2, f, f1);
 	}
 
@@ -71,7 +69,7 @@ public class RenderSpellProjectile extends Render{
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity entity) {
+	protected ResourceLocation getEntityTexture(Entity entity){
 		return null;
 	}
 

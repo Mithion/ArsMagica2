@@ -1,26 +1,23 @@
 package am2.power;
 
+import am2.AMCore;
+import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraft.world.World;
+import net.minecraft.world.storage.ISaveHandler;
+import net.minecraft.world.storage.SaveHandler;
+import net.minecraftforge.event.world.ChunkEvent;
+import net.minecraftforge.event.world.WorldEvent;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import am2.AMCore;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.world.ChunkCoordIntPair;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.storage.ISaveHandler;
-import net.minecraft.world.storage.SaveHandler;
-import net.minecraftforge.event.world.ChunkDataEvent;
-import net.minecraftforge.event.world.ChunkEvent;
-import net.minecraftforge.event.world.WorldEvent;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-
-public class PowerNodeCache {
+public class PowerNodeCache{
 
 	public static String extension = ".amc";
 	public static String folder = "AM2PowerData";
@@ -30,8 +27,8 @@ public class PowerNodeCache {
 	private static HashMap<String, File> saveFilesCached = new HashMap<String, File>();
 	private static HashMap<RegionCoordinates, NBTTagCompound> dataCache = new HashMap<RegionCoordinates, NBTTagCompound>();
 
-	public static final PowerNodeCache instance = new PowerNodeCache(); 
-	
+	public static final PowerNodeCache instance = new PowerNodeCache();
+
 	private File getFileFromChunk(World world, ChunkCoordIntPair chunk, boolean createNew){
 
 		File saveFolder = saveDirs.get(world.provider.dimensionId);
@@ -61,12 +58,11 @@ public class PowerNodeCache {
 
 		file = new File(saveFolder, fileName);
 
-		if (!file.exists())
-		{
+		if (!file.exists()){
 			if (createNew){
 				try{
 					file.createNewFile();
-				}catch(Throwable t){
+				}catch (Throwable t){
 					t.printStackTrace();
 				}
 			}else{
@@ -89,12 +85,12 @@ public class PowerNodeCache {
 		}
 		return LoadNBTFromFile(world, chunk);
 	}
-	
+
 	private void SaveNBTToFile(World world, ChunkCoordIntPair chunk, NBTTagCompound compound, boolean flushImmediate){
 
 		RegionCoordinates rc = new RegionCoordinates(chunk, world.provider.dimensionId);
 
-		NBTTagCompound dataCompound = dataCache.get(rc);		
+		NBTTagCompound dataCompound = dataCache.get(rc);
 
 		if (dataCompound == null){
 			File file = getFileFromChunk(world, chunk, true);
@@ -102,10 +98,10 @@ public class PowerNodeCache {
 				FMLLog.severe("Ars Magica 2 >> Unable to obtain file handle!  The power system data for the chunk at %d, %d will NOT be saved!  To fix this, make sure you have read/write access to the Minecraft instance folder.", chunk.chunkXPos, chunk.chunkZPos);
 				return;
 			}
-			try {
+			try{
 				//read the existing data out
 				dataCompound = CompressedStreamTools.read(file);
-			} catch (Throwable e) {
+			}catch (Throwable e){
 				//recover
 				dataCompound = new NBTTagCompound();
 			}
@@ -120,10 +116,10 @@ public class PowerNodeCache {
 				FMLLog.severe("Ars Magica 2 >> Unable to obtain file handle!  The power system data for the chunk at %d, %d will NOT be saved!  To fix this, make sure you have read/write access to the Minecraft instance folder.", chunk.chunkXPos, chunk.chunkZPos);
 				return;
 			}
-			try {
+			try{
 				//write the modified compound back to the file
 				CompressedStreamTools.write(dataCompound, file);
-			} catch (IOException e) {
+			}catch (IOException e){
 				e.printStackTrace();
 			}
 		}
@@ -145,17 +141,17 @@ public class PowerNodeCache {
 				return null;
 			}
 
-			try {
+			try{
 				//read the existing data out
 				dataCompound = CompressedStreamTools.read(file);
-			} catch (Throwable e) {
+			}catch (Throwable e){
 				//recover
 				dataCompound = new NBTTagCompound();
 			}
 
 			dataCache.put(rc, dataCompound);
 		}
-		
+
 		if (dataCompound == null){
 			dataCompound = new NBTTagCompound();
 			dataCache.put(rc, dataCompound);
@@ -193,7 +189,7 @@ public class PowerNodeCache {
 		World world = event.world;
 		saveWorldToFile(world);
 	}
-	
+
 	private void cacheToFile(World world, RegionCoordinates coords){
 		NBTTagCompound cachedRegion = dataCache.get(coords);
 		if (!cachedRegion.hasKey("AM2PowerData"))
@@ -210,11 +206,11 @@ public class PowerNodeCache {
 			}
 		}
 	}
-	
+
 	public void saveWorldToFile(World world){
 		if (world.isRemote)
 			return;
-		
+
 		FMLLog.finer("Ars Magica 2 >> Saving all cached power data for DIM %d to disk", world.provider.dimensionId);
 
 		//cached data to file
@@ -225,7 +221,7 @@ public class PowerNodeCache {
 				it.remove();
 			}
 		}
-		
+
 		//live data to file (may override cache, but that's what we want as live would be newer)
 		HashMap<ChunkCoordIntPair, NBTTagCompound> saveData = PowerNodeRegistry.For(world).saveAll();
 		for (ChunkCoordIntPair pair : saveData.keySet()){

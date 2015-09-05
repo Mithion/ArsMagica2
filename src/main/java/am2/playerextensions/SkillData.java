@@ -1,14 +1,5 @@
 package am2.playerextensions;
 
-import java.util.ArrayList;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
-import net.minecraftforge.common.IExtendedEntityProperties;
-import net.minecraftforge.common.MinecraftForge;
 import am2.AMCore;
 import am2.api.ISkillData;
 import am2.api.SkillTreeEntry;
@@ -27,6 +18,15 @@ import am2.network.AMPacketIDs;
 import am2.spell.SkillManager;
 import am2.spell.SkillTreeManager;
 import cpw.mods.fml.common.FMLLog;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
+import net.minecraftforge.common.IExtendedEntityProperties;
+import net.minecraftforge.common.MinecraftForge;
+
+import java.util.ArrayList;
 
 public class SkillData implements IExtendedEntityProperties, ISkillData{
 	private Entity entity;
@@ -60,7 +60,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 	public static final String identifier = "SpellKnowledgeData";
 
 	public static SkillData For(EntityPlayer player){
-		return (SkillData) player.getExtendedProperties(identifier);
+		return (SkillData)player.getExtendedProperties(identifier);
 	}
 
 	public SkillData(EntityPlayer player){
@@ -68,7 +68,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 		componentsKnown = new ArrayList<Integer>();
 		modifiersKnown = new ArrayList<Integer>();
 		talentsKnown = new ArrayList<Integer>();
-		spellPoints = new int[] { 3, 0 ,0, 0 };
+		spellPoints = new int[]{3, 0, 0, 0};
 		this.primaryTree = SkillTrees.None;
 		this.player = player;
 	}
@@ -96,10 +96,14 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 	@Override
 	public boolean isEntryKnown(SkillTreeEntry entry){
 		if (player.capabilities.isCreativeMode) return true;
-		if (entry.registeredItem instanceof ISpellShape) return isShapeKnown(((ISpellShape)entry.registeredItem).getID());
-		else if (entry.registeredItem instanceof ISpellComponent) return isComponentKnown(((ISpellComponent)entry.registeredItem).getID() + SkillManager.COMPONENT_OFFSET);
-		else if (entry.registeredItem instanceof ISpellModifier) return isModifierKnown(((ISpellModifier)entry.registeredItem).getID() + SkillManager.MODIFIER_OFFSET);
-		else if (entry.registeredItem instanceof ISkillTreeEntry) return isTalentKnown(entry.registeredItem.getID() + SkillManager.TALENT_OFFSET);
+		if (entry.registeredItem instanceof ISpellShape)
+			return isShapeKnown(((ISpellShape)entry.registeredItem).getID());
+		else if (entry.registeredItem instanceof ISpellComponent)
+			return isComponentKnown(((ISpellComponent)entry.registeredItem).getID() + SkillManager.COMPONENT_OFFSET);
+		else if (entry.registeredItem instanceof ISpellModifier)
+			return isModifierKnown(((ISpellModifier)entry.registeredItem).getID() + SkillManager.MODIFIER_OFFSET);
+		else if (entry.registeredItem instanceof ISkillTreeEntry)
+			return isTalentKnown(entry.registeredItem.getID() + SkillManager.TALENT_OFFSET);
 		return false;
 	}
 
@@ -206,7 +210,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 			else if (entry instanceof ISpellModifier) writer.add(2);
 			else writer.add(3);
 			AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.SYNC_SPELL_KNOWLEDGE, writer.generate());
-			
+
 		}else{
 			int id = entry.getID();
 			if (entry instanceof ISpellComponent)
@@ -239,7 +243,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 		}else{
 			SkillPointTypes skillType = SkillTreeManager.instance.getSkillPointTypeForPart(id);
 			boolean learned = false;
-			switch(type){
+			switch (type){
 			case 0:
 				if (!isShapeKnown(id) && getSpellPoints(skillType) > 0){
 					setShapeKnown(id);
@@ -321,7 +325,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 			AMDataReader rdr = new AMDataReader(data, false);
 			byte subID = rdr.getByte();
 			int entityID = rdr.getInt();
-			switch(subID){
+			switch (subID){
 			case SPELL_LEARNED:
 				int id = rdr.getInt();
 				int type = rdr.getInt();
@@ -373,7 +377,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 				}
 				break;
 			}
-		}catch(Throwable t){
+		}catch (Throwable t){
 			t.printStackTrace();
 			return false;
 		}
@@ -381,7 +385,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 	}
 
 	public boolean HasDoneFullSync(){
-		return this.hasDoneFullSync ;
+		return this.hasDoneFullSync;
 	}
 
 	public void setFullSync(){
@@ -403,7 +407,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 	}
 
 	public boolean hasUpdate(){
-		if (!(this.entity instanceof EntityPlayer) && !forcingSync ){
+		if (!(this.entity instanceof EntityPlayer) && !forcingSync){
 			return false;
 		}
 		this.ticksToSync--;
@@ -462,7 +466,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 		return writer.generate();
 	}
 
-	public void handleExtendedPropertySync() {
+	public void handleExtendedPropertySync(){
 		if (!this.HasDoneFullSync()) this.setFullSync();
 
 		if (!entity.worldObj.isRemote && this.hasUpdate()){
@@ -489,7 +493,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 	}
 
 	@Override
-	public void saveNBTData(NBTTagCompound compound) {
+	public void saveNBTData(NBTTagCompound compound){
 		NBTTagCompound spellKnowledgeData = new NBTTagCompound();
 		spellKnowledgeData.setIntArray("KnownShapes", arrayListToIntArray(shapesKnown));
 		spellKnowledgeData.setIntArray("KnownComponents", arrayListToIntArray(componentsKnown));
@@ -501,7 +505,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 	}
 
 	@Override
-	public void loadNBTData(NBTTagCompound compound) {
+	public void loadNBTData(NBTTagCompound compound){
 		shapesKnown = new ArrayList<Integer>();
 		componentsKnown = new ArrayList<Integer>();
 		modifiersKnown = new ArrayList<Integer>();
@@ -515,7 +519,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 			spellPoints = spellKnowledgeData.getIntArray("SpellPoints");
 
 			if (spellPoints.length != 4){
-				spellPoints = new int[] { 3, 0 ,0, 0 };
+				spellPoints = new int[]{3, 0, 0, 0};
 			}
 
 			int ordinal = spellKnowledgeData.getInteger("PrimarySkillTree");
@@ -526,18 +530,18 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 	}
 
 	@Override
-	public void init(Entity entity, World world) {
+	public void init(Entity entity, World world){
 		this.entity = entity;
 	}
 
 	@Override
-	public void clearAllKnowledge() {
+	public void clearAllKnowledge(){
 		shapesKnown.clear();
 		componentsKnown.clear();
 		modifiersKnown.clear();
 		talentsKnown.clear();
 		this.primaryTree = SkillTrees.None;
-		this.spellPoints = new int[] {0,0,0,0};
+		this.spellPoints = new int[]{0, 0, 0, 0};
 		this.setFullSync();
 	}
 

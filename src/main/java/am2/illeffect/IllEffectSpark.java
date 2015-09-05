@@ -1,28 +1,28 @@
 package am2.illeffect;
 
+import am2.AMCore;
+import am2.api.illeffect.IllEffectBase;
+import am2.api.illeffect.IllEffectSeverity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
-import am2.AMCore;
-import am2.api.illeffect.IllEffectBase;
-import am2.api.illeffect.IllEffectSeverity;
-
 public class IllEffectSpark extends IllEffectBase{
 
 	@Override
-	public IllEffectSeverity GetSeverity() {
+	public IllEffectSeverity GetSeverity(){
 		return IllEffectSeverity.MODERATE;
 	}
 
 	@Override
-	public Map<EntityPlayer, Object> ApplyIllEffect(World world, int x, int y, int z) {
-		HashMap<EntityPlayer, Object> toReturn  = new HashMap<EntityPlayer, Object>();
+	public Map<EntityPlayer, Object> ApplyIllEffect(World world, int x, int y, int z){
+		HashMap<EntityPlayer, Object> toReturn = new HashMap<EntityPlayer, Object>();
 		if (world.isRemote) return toReturn;
 		Random rand = new Random();
 		List<EntityPlayer> located_players = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x - 3, y - 3, z - 3, x + 3, y + 3, z + 3));
@@ -38,7 +38,7 @@ public class IllEffectSpark extends IllEffectBase{
 	}
 
 	@Override
-	public String getDescription(EntityPlayer player, Object meta) {
+	public String getDescription(EntityPlayer player, Object meta){
 		return player.getCommandSenderName() + " got hit by a stray tendril of energy!";
 	}
 

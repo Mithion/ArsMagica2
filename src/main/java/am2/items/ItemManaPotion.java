@@ -1,7 +1,10 @@
 package am2.items;
 
-import java.util.List;
-
+import am2.buffs.BuffEffectManaRegen;
+import am2.playerextensions.ExtendedProperties;
+import am2.texture.ResourceManager;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,11 +14,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import am2.buffs.BuffEffectManaRegen;
-import am2.playerextensions.ExtendedProperties;
-import am2.texture.ResourceManager;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 public class ItemManaPotion extends ArsMagicaItem{
 
@@ -24,14 +24,14 @@ public class ItemManaPotion extends ArsMagicaItem{
 	@SideOnly(Side.CLIENT)
 	private String[] textureFiles;
 
-	public ItemManaPotion() {
+	public ItemManaPotion(){
 		super();
 		this.setMaxStackSize(1);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister) {
+	public void registerIcons(IIconRegister par1IconRegister){
 		textureFiles = new String[]{"mana_potion_lesser", "mana_potion_standard", "mana_potion_greater", "mana_potion_epic", "mana_potion_legendary"};
 		icons = new IIcon[textureFiles.length];
 
@@ -42,12 +42,12 @@ public class ItemManaPotion extends ArsMagicaItem{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack par1ItemStack) {
+	public boolean hasEffect(ItemStack par1ItemStack){
 		return true;
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
 		ExtendedProperties props = ExtendedProperties.For(par3EntityPlayer);
 		if (props.getCurrentMana() < props.getMaxMana()){
 			par3EntityPlayer.setItemInUse(par1ItemStack, getMaxItemUseDuration(par1ItemStack));
@@ -57,7 +57,7 @@ public class ItemManaPotion extends ArsMagicaItem{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int par1) {
+	public IIcon getIconFromDamage(int par1){
 		if (this == ItemsCommonProxy.lesserManaPotion){
 			return icons[0];
 		}else if (this == ItemsCommonProxy.standardManaPotion){
@@ -74,7 +74,7 @@ public class ItemManaPotion extends ArsMagicaItem{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean requiresMultipleRenderPasses() {
+	public boolean requiresMultipleRenderPasses(){
 		return false;
 	}
 
@@ -126,12 +126,12 @@ public class ItemManaPotion extends ArsMagicaItem{
 	}
 
 	@Override
-	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
+	public EnumAction getItemUseAction(ItemStack par1ItemStack){
 		return EnumAction.drink;
 	}
 
 	@Override
-	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
 		par1ItemStack = new ItemStack(Items.glass_bottle);
 		ExtendedProperties.For(par3EntityPlayer).setCurrentMana(ExtendedProperties.For(par3EntityPlayer).getCurrentMana() + getManaRestored());
 		ExtendedProperties.For(par3EntityPlayer).forceSync();
@@ -144,19 +144,18 @@ public class ItemManaPotion extends ArsMagicaItem{
 	}
 
 	@Override
-	public int getMaxItemUseDuration(ItemStack par1ItemStack)
-	{
+	public int getMaxItemUseDuration(ItemStack par1ItemStack){
 		return 32;
 	}
 
 	@Override
-	public boolean getHasSubtypes() {
+	public boolean getHasSubtypes(){
 		return false;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs,List par3List) {
+	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List){
 	}
 
 }

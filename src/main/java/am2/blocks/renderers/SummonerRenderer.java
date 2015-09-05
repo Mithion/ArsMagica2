@@ -1,14 +1,12 @@
 package am2.blocks.renderers;
 
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import am2.blocks.tileentities.TileEntitySummoner;
 import am2.models.ModelSummoner;
 import am2.texture.ResourceManager;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public class SummonerRenderer extends TileEntitySpecialRenderer{
 	private ResourceLocation rLoc;
@@ -21,16 +19,15 @@ public class SummonerRenderer extends TileEntitySpecialRenderer{
 		powered = new ResourceLocation("arsmagica2", ResourceManager.getCustomBlockTexturePath("essenceConduit.png"));
 	}
 
-	public void renderAModelAt(TileEntitySummoner tile, double d, double d1, double d2, float f) {
+	public void renderAModelAt(TileEntitySummoner tile, double d, double d1, double d2, float f){
 		int i = 2;
 		int y = 0;
 
-		if (tile.getWorldObj() != null)
-		{
+		if (tile.getWorldObj() != null){
 			i = tile.getBlockMetadata() & 3;
 			y = (tile.getBlockMetadata() & 12) >> 2;
 		}
-		int j = (i+1) * 90;
+		int j = (i + 1) * 90;
 		int n = 0;
 		if (y == 1){
 			n = 90;
@@ -53,7 +50,7 @@ public class SummonerRenderer extends TileEntitySpecialRenderer{
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f) {
-		renderAModelAt((TileEntitySummoner) tileentity, d, d1, d2, f); //where to render
+	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f){
+		renderAModelAt((TileEntitySummoner)tileentity, d, d1, d2, f); //where to render
 	}
 }

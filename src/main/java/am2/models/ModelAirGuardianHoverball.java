@@ -1,18 +1,16 @@
 package am2.models;
 
+import am2.entities.EntityAirSled;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import am2.entities.EntityAirSled;
 
-public class ModelAirGuardianHoverball extends ModelBase
-{
+public class ModelAirGuardianHoverball extends ModelBase{
 	//fields
 	ModelRenderer Ball1;
 	ModelRenderer Ball2;
 
-	public ModelAirGuardianHoverball()
-	{
+	public ModelAirGuardianHoverball(){
 		textureWidth = 64;
 		textureHeight = 64;
 
@@ -31,23 +29,21 @@ public class ModelAirGuardianHoverball extends ModelBase
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		if (entity != null){
-			Ball1.rotateAngleX = (float) Math.toRadians(((EntityAirSled)entity).getRotation());
-			Ball1.rotateAngleY =  (float) -Math.toRadians(-((EntityAirSled)entity).getRotation());
-			Ball1.rotateAngleZ =  (float) -Math.toRadians(-((EntityAirSled)entity).getRotation());
+			Ball1.rotateAngleX = (float)Math.toRadians(((EntityAirSled)entity).getRotation());
+			Ball1.rotateAngleY = (float)-Math.toRadians(-((EntityAirSled)entity).getRotation());
+			Ball1.rotateAngleZ = (float)-Math.toRadians(-((EntityAirSled)entity).getRotation());
 
-			Ball2.rotateAngleX = (float) -Math.toRadians(((EntityAirSled)entity).getRotation());
-			Ball2.rotateAngleY = (float) Math.toRadians(((EntityAirSled)entity).getRotation());
-			Ball1.rotateAngleZ =  (float) Math.toRadians(-((EntityAirSled)entity).getRotation());
+			Ball2.rotateAngleX = (float)-Math.toRadians(((EntityAirSled)entity).getRotation());
+			Ball2.rotateAngleY = (float)Math.toRadians(((EntityAirSled)entity).getRotation());
+			Ball1.rotateAngleZ = (float)Math.toRadians(-((EntityAirSled)entity).getRotation());
 		}
 		Ball1.render(f5);
 		Ball2.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z){
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

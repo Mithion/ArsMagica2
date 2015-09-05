@@ -1,18 +1,5 @@
 package am2.entities;
 
-import java.util.ArrayList;
-
-import net.minecraft.block.Block;
-import net.minecraft.entity.passive.EntityAmbientCreature;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
 import am2.AMCore;
 import am2.api.math.AMVector3;
 import am2.api.spell.enums.Affinity;
@@ -24,6 +11,19 @@ import am2.particles.AMParticleIcons;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleMoveOnHeading;
 import am2.utility.InventoryUtilities;
+import net.minecraft.block.Block;
+import net.minecraft.entity.passive.EntityAmbientCreature;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
+
+import java.util.ArrayList;
 
 public class EntityFlicker extends EntityAmbientCreature{
 
@@ -37,21 +37,21 @@ public class EntityFlicker extends EntityAmbientCreature{
 
 	private int flickCount = 0;
 
-	public EntityFlicker(World par1World) {
+	public EntityFlicker(World par1World){
 		super(par1World);
 		this.setSize(0.5f, 0.5f);
 		setFlickerType(Affinity.values()[par1World.rand.nextInt(Affinity.values().length - 1)]);
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void entityInit(){
 		super.entityInit();
 		this.dataWatcher.addObject(WATCHER_FLICKERTYPE, 0);
 		this.dataWatcher.addObject(WATCHER_AMBIENTFLICK, (byte)0);
 	}
 
 	@Override
-	public void setDead() {
+	public void setDead(){
 		AMCore.proxy.decrementFlickerCount();
 		super.setDead();
 	}
@@ -66,7 +66,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
 		if (this.worldObj.isRemote)
 			return false;
 		flick();
@@ -74,42 +74,42 @@ public class EntityFlicker extends EntityAmbientCreature{
 	}
 
 	@Override
-	public boolean doesEntityNotTriggerPressurePlate() {
+	public boolean doesEntityNotTriggerPressurePlate(){
 		return true;
 	}
 
 	@Override
-	protected void fall(float par1) {
+	protected void fall(float par1){
 	}
 
 	@Override
-	public boolean allowLeashing() {
+	public boolean allowLeashing(){
 		return false;
 	}
 
 	@Override
-	public boolean canBePushed() {
+	public boolean canBePushed(){
 		return false;
 	}
 
 	@Override
-	public boolean canBreatheUnderwater() {
+	public boolean canBreatheUnderwater(){
 		return true;
 	}
 
 	@Override
-	protected boolean canTriggerWalking() {
+	protected boolean canTriggerWalking(){
 		return false;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound par1nbtTagCompound) {
+	public void readFromNBT(NBTTagCompound par1nbtTagCompound){
 		AMCore.proxy.incrementFlickerCount();
 		super.readFromNBT(par1nbtTagCompound);
 	}
 
 	@Override
-	public void onUpdate() {
+	public void onUpdate(){
 		super.onUpdate();
 
 		this.motionX = 0;
@@ -151,7 +151,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 		if (worldObj.isRemote){
 			//for (int i = 0; i < + 1; ++i){
 			if (getRNG().nextInt(10) < AMCore.config.getGFXLevel()){
-				AMParticle effect = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, AMParticleIcons.instance.getParticleForAffinity(getFlickerAffinity()), posX, posY, posZ);
+				AMParticle effect = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, AMParticleIcons.instance.getParticleForAffinity(getFlickerAffinity()), posX, posY, posZ);
 				if (effect != null){
 					effect.addRandomOffset(this.width, this.height, this.width);
 					effect.setDontRequireControllers();
@@ -166,7 +166,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 	}
 
 	@Override
-	protected void updateEntityActionState() {
+	protected void updateEntityActionState(){
 		super.updateEntityActionState();
 
 		AMVector3 me = new AMVector3(this);
@@ -214,7 +214,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 	private void flick(){
 		if (this.worldObj.isRemote){
 			for (int i = 0; i < 10 * AMCore.config.getGFXLevel(); ++i){
-				AMParticle particle = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "radiant", posX, posY, posZ);
+				AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "radiant", posX, posY, posZ);
 				if (particle != null){
 					particle.AddParticleController(
 							new ParticleMoveOnHeading(
@@ -225,7 +225,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 									1,
 									false));
 					particle.setRGBColorI(getFlickerAffinity().color);
-					particle.AddParticleController(new ParticleFadeOut(particle, 1, false).setFadeSpeed((float) (worldObj.rand.nextDouble() * 0.1 + 0.05)).setKillParticleOnFinish(true));
+					particle.AddParticleController(new ParticleFadeOut(particle, 1, false).setFadeSpeed((float)(worldObj.rand.nextDouble() * 0.1 + 0.05)).setKillParticleOnFinish(true));
 					particle.setIgnoreMaxAge(true);
 					particle.setParticleScale(0.1f);
 				}
@@ -238,7 +238,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 	private void pickNewTargetPosition(){
 		int groundLevel = 0;
 
-		switch(this.getFlickerAffinity()){
+		switch (this.getFlickerAffinity()){
 		case WATER: //water flicker
 			for (int i = 0; i < 5; ++i){
 				targetPosition = new AMVector3(this.posX - 5 + worldObj.rand.nextInt(10), this.posY - 5 + worldObj.rand.nextInt(10), this.posZ - 5 + worldObj.rand.nextInt(10));
@@ -276,20 +276,20 @@ public class EntityFlicker extends EntityAmbientCreature{
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound) {
+	public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound){
 		super.writeEntityToNBT(par1nbtTagCompound);
 		par1nbtTagCompound.setInteger("flickerType", dataWatcher.getWatchableObjectInt(WATCHER_FLICKERTYPE));
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound par1nbtTagCompound) {
+	public void readEntityFromNBT(NBTTagCompound par1nbtTagCompound){
 		super.readEntityFromNBT(par1nbtTagCompound);
 		dataWatcher.updateObject(WATCHER_FLICKERTYPE, par1nbtTagCompound.getInteger("flickerType"));
 		AMCore.proxy.incrementFlickerCount();
 	}
 
 	@Override
-	protected boolean interact(EntityPlayer player) {
+	protected boolean interact(EntityPlayer player){
 		ItemStack stack = player.getCurrentEquippedItem();
 		if (stack != null && stack.getItem() == ItemsCommonProxy.flickerJar && !this.isDead){
 			if (stack.getItemDamage() == 0){
@@ -312,7 +312,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 	}
 
 	@Override
-	public boolean getCanSpawnHere() {
+	public boolean getCanSpawnHere(){
 		if (AMCore.proxy.getTotalFlickerCount() > 8 * worldObj.playerEntities.size() || worldObj.rand.nextDouble() > 0.2f){
 			return false;
 		}
@@ -327,7 +327,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 			ArrayList<Affinity> validAffinities = new ArrayList<Affinity>();
 			//populate the list
 			//DO NOT USE THIS LIST FOR AIR/EARTH/LIFE - they are handled by special cases.
-			switch(tagType){	
+			switch (tagType){
 			case END:
 				validAffinities.add(Affinity.ENDER);
 				break;
@@ -345,24 +345,24 @@ public class EntityFlicker extends EntityAmbientCreature{
 				break;
 			case NETHER:
 				validAffinities.add(Affinity.FIRE);
-				break;			
+				break;
 			case OCEAN:
 				validAffinities.add(Affinity.LIGHTNING);
 			case SWAMP:
-			case WATER:			
+			case WATER:
 			case RIVER:
 			case WET:
 			case BEACH:
 				validAffinities.add(Affinity.WATER);
-				break;	
+				break;
 			case DEAD:
 			case DENSE:
 			case DRY:
 			case HOT:
 			case LUSH:
-			case MESA:						
+			case MESA:
 			case SANDY:
-			case SAVANNA:			
+			case SAVANNA:
 			case SPARSE:
 			case SPOOKY:
 			case WASTELAND:

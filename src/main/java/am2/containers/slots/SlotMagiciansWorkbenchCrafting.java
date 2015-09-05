@@ -1,24 +1,24 @@
 package am2.containers.slots;
 
-import net.minecraft.block.Block;
+import am2.containers.ContainerMagiciansWorkbench;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.AchievementList;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
-import am2.containers.ContainerMagiciansWorkbench;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class SlotMagiciansWorkbenchCrafting extends Slot{
 
-	/** The craft matrix inventory linked to this result slot. */
+	/**
+	 * The craft matrix inventory linked to this result slot.
+	 */
 	private final IInventory craftMatrix;
 
-	/** The player that is using the GUI where this slot resides. */
+	/**
+	 * The player that is using the GUI where this slot resides.
+	 */
 	private final EntityPlayer thePlayer;
 
 	private final ContainerMagiciansWorkbench workbench;
@@ -28,8 +28,7 @@ public class SlotMagiciansWorkbenchCrafting extends Slot{
 	 */
 	private int amountCrafted;
 
-	public SlotMagiciansWorkbenchCrafting(EntityPlayer player, IInventory craftMatrix, IInventory craftResult, ContainerMagiciansWorkbench workbench, int index, int x, int y)
-	{
+	public SlotMagiciansWorkbenchCrafting(EntityPlayer player, IInventory craftMatrix, IInventory craftResult, ContainerMagiciansWorkbench workbench, int index, int x, int y){
 		super(craftResult, index, x, y);
 		this.thePlayer = player;
 		this.craftMatrix = craftMatrix;
@@ -40,8 +39,7 @@ public class SlotMagiciansWorkbenchCrafting extends Slot{
 	 * Check if the stack is a valid item for this slot. Always true beside for the armor slots.
 	 */
 	@Override
-	public boolean isItemValid(ItemStack stack)
-	{
+	public boolean isItemValid(ItemStack stack){
 		return false;
 	}
 
@@ -50,10 +48,8 @@ public class SlotMagiciansWorkbenchCrafting extends Slot{
 	 * stack.
 	 */
 	@Override
-	public ItemStack decrStackSize(int par1)
-	{
-		if (this.getHasStack())
-		{
+	public ItemStack decrStackSize(int par1){
+		if (this.getHasStack()){
 			this.amountCrafted += Math.min(par1, this.getStack().stackSize);
 		}
 
@@ -65,8 +61,7 @@ public class SlotMagiciansWorkbenchCrafting extends Slot{
 	 * internal count then calls onCrafting(item).
 	 */
 	@Override
-	protected void onCrafting(ItemStack par1ItemStack, int par2)
-	{
+	protected void onCrafting(ItemStack par1ItemStack, int par2){
 		this.amountCrafted += par2;
 		this.onCrafting(par1ItemStack);
 	}
@@ -75,8 +70,7 @@ public class SlotMagiciansWorkbenchCrafting extends Slot{
 	 * the itemStack passed in is the output - ie, iron ingots, and pickaxes, not ore and wood.
 	 */
 	@Override
-	protected void onCrafting(ItemStack itemCrafted)
-	{
+	protected void onCrafting(ItemStack itemCrafted){
 		itemCrafted.onCrafting(this.thePlayer.worldObj, this.thePlayer, this.amountCrafted);
 		this.amountCrafted = 0;
 
@@ -92,15 +86,12 @@ public class SlotMagiciansWorkbenchCrafting extends Slot{
 	}
 
 	@Override
-	public void onSlotChange(ItemStack par1ItemStack, ItemStack par2ItemStack) {
-		if (par1ItemStack != null && par2ItemStack != null)
-		{
-			if (par1ItemStack.getItem() == par2ItemStack.getItem())
-			{
+	public void onSlotChange(ItemStack par1ItemStack, ItemStack par2ItemStack){
+		if (par1ItemStack != null && par2ItemStack != null){
+			if (par1ItemStack.getItem() == par2ItemStack.getItem()){
 				int i = par2ItemStack.stackSize - par1ItemStack.stackSize;
 
-				if (i > 0)
-				{
+				if (i > 0){
 					this.onCrafting(par1ItemStack, i);
 					doComponentDecrements();
 				}
@@ -109,8 +100,7 @@ public class SlotMagiciansWorkbenchCrafting extends Slot{
 	}
 
 	@Override
-	public void onPickupFromSlot(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack)
-	{
+	public void onPickupFromSlot(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack){
 		this.onCrafting(par2ItemStack);
 		ItemCraftedEvent event = new ItemCraftedEvent(par1EntityPlayer, par2ItemStack, craftMatrix);
 		MinecraftForge.EVENT_BUS.post(event);
@@ -118,12 +108,10 @@ public class SlotMagiciansWorkbenchCrafting extends Slot{
 	}
 
 	private void doComponentDecrements(){
-		for (int i = 0; i < this.craftMatrix.getSizeInventory(); ++i)
-		{
+		for (int i = 0; i < this.craftMatrix.getSizeInventory(); ++i){
 			ItemStack itemstack1 = this.craftMatrix.getStackInSlot(i);
 
-			if (itemstack1 != null)
-			{
+			if (itemstack1 != null){
 				if (itemstack1.stackSize > 1 || !searchAndDecrement(itemstack1)){
 					doStandardDecrement(this.craftMatrix, itemstack1, i);
 				}else{
@@ -146,24 +134,18 @@ public class SlotMagiciansWorkbenchCrafting extends Slot{
 
 	private void doStandardDecrement(IInventory inventory, ItemStack itemstack1, int i){
 
-		if (itemstack1.getItem().hasContainerItem(itemstack1))
-		{
+		if (itemstack1.getItem().hasContainerItem(itemstack1)){
 			ItemStack itemstack2 = itemstack1.getItem().getContainerItem(itemstack1);
 
-			if (itemstack2.isItemStackDamageable() && itemstack2.getItemDamage() > itemstack2.getMaxDamage())
-			{
+			if (itemstack2.isItemStackDamageable() && itemstack2.getItemDamage() > itemstack2.getMaxDamage()){
 				MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(thePlayer, itemstack2));
 				itemstack2 = null;
 			}
 
-			if (itemstack2 != null && (itemstack1.getItem().doesContainerItemLeaveCraftingGrid(itemstack1)))
-			{
-				if (inventory.getStackInSlot(i) == null)
-				{
+			if (itemstack2 != null && (itemstack1.getItem().doesContainerItemLeaveCraftingGrid(itemstack1))){
+				if (inventory.getStackInSlot(i) == null){
 					inventory.setInventorySlotContents(i, itemstack2);
-				}
-				else
-				{
+				}else{
 					if (itemstack1.getItem().doesContainerItemLeaveCraftingGrid(itemstack1)){
 						if (!this.thePlayer.inventory.addItemStackToInventory(itemstack2))
 							this.thePlayer.dropItem(itemstack2.getItem(), itemstack2.getItemDamage());

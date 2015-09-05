@@ -1,33 +1,32 @@
 package am2.commands;
 
+import am2.api.spell.enums.SkillPointTypes;
+import am2.playerextensions.SkillData;
+import am2.spell.SkillManager;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
-import am2.api.spell.enums.SkillPointTypes;
-import am2.playerextensions.SkillData;
-import am2.spell.SkillManager;
 
 public class UnlockAugmentedCastingCommand extends CommandBase{
 
 	@Override
-	public String getCommandName() {
+	public String getCommandName(){
 		return "unlockaugmentedcasting";
 	}
 
 	@Override
-	public int getRequiredPermissionLevel()
-	{
+	public int getRequiredPermissionLevel(){
 		return 2;
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender var1) {
+	public String getCommandUsage(ICommandSender var1){
 		return "/unlockaugmentedcasting [<player>]";
 	}
 
 	@Override
-	public void processCommand(ICommandSender var1, String[] var2) {
+	public void processCommand(ICommandSender var1, String[] var2){
 		if (var2.length > 1){
 			throw new WrongUsageException(this.getCommandUsage(var1), new Object[0]);
 		}

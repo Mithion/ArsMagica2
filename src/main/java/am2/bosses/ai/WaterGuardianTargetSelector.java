@@ -7,7 +7,7 @@ import net.minecraft.entity.Entity;
 public class WaterGuardianTargetSelector implements IEntitySelector{
 
 	@Override
-	public boolean isEntityApplicable(Entity entity) {
+	public boolean isEntityApplicable(Entity entity){
 		return !(entity instanceof EntityWaterGuardian);
 	}
 

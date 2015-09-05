@@ -1,22 +1,18 @@
 package am2;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.blocks.MultiblockStructureDefinition.StructureGroup;
 import am2.api.spell.component.interfaces.IRitualInteraction;
 import am2.blocks.BlocksCommonProxy;
 import am2.utility.InventoryUtilities;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 
-public class RitualShapeHelper {
+import java.util.*;
+
+public class RitualShapeHelper{
 	public MultiblockStructureDefinition ringedCross;
 	public MultiblockStructureDefinition hourglass;
 	public MultiblockStructureDefinition corruption;
@@ -35,11 +31,11 @@ public class RitualShapeHelper {
 				return reagents;
 
 			int r = interaction.getReagentSearchRadius();
-			ArrayList<EntityItem> items = (ArrayList<EntityItem>) world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x - r, y, z - r, x + r + 1, y+1, z + r + 1));
+			ArrayList<EntityItem> items = (ArrayList<EntityItem>)world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x - r, y, z - r, x + r + 1, y + 1, z + r + 1));
 
 			Collections.sort(items, new EntityItemComparator());
 
-			if (!itemsMustMatch || matchReagents((List<EntityItem>) items.clone(), reagents)){
+			if (!itemsMustMatch || matchReagents((List<EntityItem>)items.clone(), reagents)){
 				ItemStack[] toReturn = new ItemStack[items.size()];
 				for (int i = 0; i < items.size(); ++i)
 					toReturn[i] = items.get(i).getEntityItem();
@@ -63,7 +59,7 @@ public class RitualShapeHelper {
 
 		Iterator it = itemList.iterator();
 		while (it.hasNext()){
-			ItemStack stack = (ItemStack) it.next();
+			ItemStack stack = (ItemStack)it.next();
 			Iterator eIt = items.iterator();
 			boolean found = false;
 			while (eIt.hasNext()){
@@ -89,7 +85,7 @@ public class RitualShapeHelper {
 
 	public void consumeRitualReagents(IRitualInteraction interaction, World world, int x, int y, int z){
 		int r = interaction.getReagentSearchRadius();
-		List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x - r, y, z - r, x + r + 1, y+1, z + r + 1));
+		List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x - r, y, z - r, x + r + 1, y + 1, z + r + 1));
 		for (EntityItem item : items)
 			item.setDead();
 	}
@@ -273,7 +269,7 @@ public class RitualShapeHelper {
 	private class EntityItemComparator implements Comparator<EntityItem>{
 
 		@Override
-		public int compare(EntityItem o1, EntityItem o2) {
+		public int compare(EntityItem o1, EntityItem o2){
 			if (o1.ticksExisted == o2.ticksExisted)
 				return 0;
 			else if (o1.ticksExisted > o2.ticksExisted)

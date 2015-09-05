@@ -1,9 +1,5 @@
 package am2.blocks.tileentities.flickers;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import am2.AMCore;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
@@ -15,24 +11,28 @@ import am2.network.AMDataWriter;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleFloatUpward;
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 public class FlickerOperatorLight implements IFlickerFunctionality{
 
 	@Override
-	public boolean RequiresPower() {
+	public boolean RequiresPower(){
 		return false;
 	}
 
 	@Override
-	public int PowerPerOperation() {
+	public int PowerPerOperation(){
 		return 0;
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered) {
+	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered){
 		if (!worldObj.isRemote){
 			int radius = 16;
-			int yRadius = radius/4;
+			int yRadius = radius / 4;
 			int checksPerOperation = 8;
 
 			int checkX = ((TileEntity)habitat).xCoord - radius;
@@ -57,8 +57,7 @@ public class FlickerOperatorLight implements IFlickerFunctionality{
 				}
 
 				checkX++;
-				if (checkX > ((TileEntity)habitat).xCoord + radius)
-				{
+				if (checkX > ((TileEntity)habitat).xCoord + radius){
 					checkX = ((TileEntity)habitat).xCoord - radius;
 					checkY++;
 					if (checkY > ((TileEntity)habitat).yCoord + yRadius){
@@ -76,7 +75,7 @@ public class FlickerOperatorLight implements IFlickerFunctionality{
 
 			habitat.setMetadata(this, writer.generate());
 		}else{
-			AMParticle particle = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "sparkle", ((TileEntity)habitat).xCoord + 0.5, ((TileEntity)habitat).yCoord + 1, ((TileEntity)habitat).zCoord + 0.5);
+			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "sparkle", ((TileEntity)habitat).xCoord + 0.5, ((TileEntity)habitat).yCoord + 1, ((TileEntity)habitat).zCoord + 0.5);
 			if (particle != null){
 				particle.addRandomOffset(0.5, 0.4, 0.5);
 				particle.AddParticleController(new ParticleFloatUpward(particle, 0, 0.02f, 1, false));
@@ -89,21 +88,21 @@ public class FlickerOperatorLight implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers) {
+	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
 		return DoOperation(worldObj, habitat, powered);
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered) {
+	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered){
 		habitat.removeMetadata(this);
 
 		if (!worldObj.isRemote){
 			int radius = 28;
-			int yRadius = radius/4;
+			int yRadius = radius / 4;
 
-			for (int i = ((TileEntity)habitat).xCoord-radius; i <= ((TileEntity)habitat).xCoord+radius; ++i){
-				for (int j = ((TileEntity)habitat).yCoord-yRadius; j <= ((TileEntity)habitat).yCoord+yRadius; ++j){
-					for (int k = ((TileEntity)habitat).zCoord-radius; k <= ((TileEntity)habitat).zCoord+radius; ++k){
+			for (int i = ((TileEntity)habitat).xCoord - radius; i <= ((TileEntity)habitat).xCoord + radius; ++i){
+				for (int j = ((TileEntity)habitat).yCoord - yRadius; j <= ((TileEntity)habitat).yCoord + yRadius; ++j){
+					for (int k = ((TileEntity)habitat).zCoord - radius; k <= ((TileEntity)habitat).zCoord + radius; ++k){
 						Block block = worldObj.getBlock(i, j, k);
 						if (block == BlocksCommonProxy.invisibleUtility){
 							int meta = worldObj.getBlockMetadata(i, j, k);
@@ -118,18 +117,18 @@ public class FlickerOperatorLight implements IFlickerFunctionality{
 	}
 
 	@Override
-	public int TimeBetweenOperation(boolean powered, Affinity[] flickers) {
+	public int TimeBetweenOperation(boolean powered, Affinity[] flickers){
 		return 10;
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers) {
+	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
 		RemoveOperator(worldObj, habitat, powered);
 	}
 
 
 	@Override
-	public Object[] getRecipe() {
+	public Object[] getRecipe(){
 		return new Object[]{
 				"ISI",
 				"F L",
@@ -139,7 +138,7 @@ public class FlickerOperatorLight implements IFlickerFunctionality{
 				Character.valueOf('L'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.LIGHTNING.ordinal()),
 				Character.valueOf('I'), ItemsCommonProxy.liquidEssenceBottle
 
-			};
+		};
 	}
 
 }

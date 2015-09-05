@@ -1,18 +1,16 @@
 package am2.lore;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-
-import org.w3c.dom.Node;
-
 import am2.AMCore;
 import am2.blocks.BlocksCommonProxy;
 import am2.guis.GuiArcaneCompendium;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import org.w3c.dom.Node;
 
 public class CompendiumEntryBlock extends CompendiumEntry{
 
@@ -22,7 +20,7 @@ public class CompendiumEntryBlock extends CompendiumEntry{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected GuiArcaneCompendium getCompendiumGui(String searchID, int meta) {
+	protected GuiArcaneCompendium getCompendiumGui(String searchID, int meta){
 
 		if (this.id.equals("stonebricksmooth@3")){
 			return new GuiArcaneCompendium(this.id, Blocks.stonebrick, 3);
@@ -39,7 +37,7 @@ public class CompendiumEntryBlock extends CompendiumEntry{
 				else
 					return new GuiArcaneCompendium(searchID + "@" + meta, item, meta);
 			}
-		}else{	
+		}else{
 			for (Item item : AMCore.instance.proxy.items.getArsMagicaItems()){
 				if (item.getUnlocalizedName() == null) continue;
 				String itemID = item.getUnlocalizedName().replace("item.", "").replace("arsmagica2:", "");
@@ -60,7 +58,7 @@ public class CompendiumEntryBlock extends CompendiumEntry{
 				else
 					return new GuiArcaneCompendium(searchID + "@" + meta, block, meta);
 			}
-		}else{	
+		}else{
 			for (Block block : AMCore.instance.proxy.blocks.getArsMagicaBlocks()){
 				if (block.getUnlocalizedName() == null) continue;
 				String[] split = searchID.split("@");
@@ -77,16 +75,16 @@ public class CompendiumEntryBlock extends CompendiumEntry{
 	}
 
 	@Override
-	protected void parseEx(Node node) {
+	protected void parseEx(Node node){
 	}
 
 	@Override
-	public int compareTo(CompendiumEntry arg0) {
+	public int compareTo(CompendiumEntry arg0){
 		return 0;
 	}
 
 	@Override
-	public ItemStack getRepresentItemStack(String searchID, int meta) {
+	public ItemStack getRepresentItemStack(String searchID, int meta){
 		if (this.id.equals("stonebricksmooth@3")){
 			return new ItemStack(Blocks.stonebrick, 1, 3);
 		}

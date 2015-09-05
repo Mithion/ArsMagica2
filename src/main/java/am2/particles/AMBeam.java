@@ -1,5 +1,10 @@
 package am2.particles;
 
+import am2.AMCore;
+import am2.api.particles.IBeamParticle;
+import am2.texture.ResourceManager;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
@@ -8,14 +13,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import am2.AMCore;
-import am2.api.particles.IBeamParticle;
-import am2.texture.ResourceManager;
 
 @SideOnly(Side.CLIENT)
 public class AMBeam extends EntityFX implements IBeamParticle{
@@ -44,11 +42,11 @@ public class AMBeam extends EntityFX implements IBeamParticle{
 
 	private boolean fppc = false; //first person player cast
 
-	public AMBeam(World world, double x, double y, double z, double destX, double destY, double destZ) {
+	public AMBeam(World world, double x, double y, double z, double destX, double destY, double destZ){
 		this(world, x, y, z, destX, destY, destZ, 0);
 	}
 
-	public AMBeam(World world, double x, double y, double z, double destX, double destY, double destZ, int color) {
+	public AMBeam(World world, double x, double y, double z, double destX, double destY, double destZ, int color){
 		super(world, x, y, z);
 		this.type = 0;
 		this.dX = destX;
@@ -74,6 +72,7 @@ public class AMBeam extends EntityFX implements IBeamParticle{
 	/**
 	 * Sets the beam to be instantly full size instead of playing the grow
 	 * animation.
+	 *
 	 * @return
 	 */
 	public AMBeam setInstantSpawn(){
@@ -86,9 +85,9 @@ public class AMBeam extends EntityFX implements IBeamParticle{
 	}
 
 	private void calculateLengthAndRotation(){
-		float deltaX = (float) (this.posX - this.dX);
-		float deltaY = (float) (this.posY - this.dY);
-		float deltaZ = (float) (this.posZ - this.dZ);
+		float deltaX = (float)(this.posX - this.dX);
+		float deltaY = (float)(this.posY - this.dY);
+		float deltaZ = (float)(this.posZ - this.dZ);
 
 		this.length = MathHelper.sqrt_float(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 		double hDist = MathHelper.sqrt_double(deltaX * deltaX + deltaZ * deltaZ);
@@ -117,7 +116,7 @@ public class AMBeam extends EntityFX implements IBeamParticle{
 		this.prevPosY = this.posY;
 		this.prevPosZ = this.posZ;
 
-		if (this.positionChanged) {
+		if (this.positionChanged){
 			this.posX = this.updateX;
 			this.posY = this.updateY;
 			this.posZ = this.updateZ;
@@ -125,7 +124,7 @@ public class AMBeam extends EntityFX implements IBeamParticle{
 				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 				if (player != null){
 					float yaw = player.rotationYaw;
-					float rotationYaw = (float) (yaw * Math.PI / 180);
+					float rotationYaw = (float)(yaw * Math.PI / 180);
 					float offsetX = (float)Math.cos(rotationYaw) * 0.06f;
 					float offsetZ = (float)Math.sin(rotationYaw) * 0.06f;
 					this.posX -= offsetX;
@@ -150,8 +149,7 @@ public class AMBeam extends EntityFX implements IBeamParticle{
 
 	private void handleAging(){
 		this.particleAge++;
-		if (this.particleAge >= this.particleMaxAge)
-		{
+		if (this.particleAge >= this.particleMaxAge){
 			this.setDead();
 		}
 	}
@@ -162,19 +160,19 @@ public class AMBeam extends EntityFX implements IBeamParticle{
 	}
 
 	@Override
-	public void onUpdate() {
+	public void onUpdate(){
 		storePrevInformation();
 		calculateLengthAndRotation();
 		handleAging();
 	}
 
 	@Override
-	public int getFXLayer() {
+	public int getFXLayer(){
 		return 2;
 	}
 
 	@Override
-	public void renderParticle(Tessellator tessellator, float par2, float par3, float par4, float par5, float par6, float par7) {
+	public void renderParticle(Tessellator tessellator, float par2, float par3, float par4, float par5, float par6, float par7){
 
 		tessellator.draw();
 
@@ -191,7 +189,7 @@ public class AMBeam extends EntityFX implements IBeamParticle{
 
 		IIcon beamIcon = null;
 
-		switch (this.type) {
+		switch (this.type){
 		default:
 			beamIcon = AMParticleIcons.instance.getHiddenIconByName("beam");
 			break;
@@ -232,7 +230,7 @@ public class AMBeam extends EntityFX implements IBeamParticle{
 
 		GL11.glRotatef(rot, 0.0F, 1.0F, 0.0F);
 		int i = 5;
-		float inc =36.0F;
+		float inc = 36.0F;
 		if (AMCore.config.LowGFX()){
 			i = 3;
 			inc = 90;
@@ -240,8 +238,7 @@ public class AMBeam extends EntityFX implements IBeamParticle{
 			i = 1;
 			inc = 180;
 		}
-		for (int t = 0; t < i; t++)
-		{
+		for (int t = 0; t < i; t++){
 			double l = this.length * size * scaleFactor;
 			double tl = beamIcon.getMinU();
 			double br = beamIcon.getMaxU();
@@ -272,21 +269,21 @@ public class AMBeam extends EntityFX implements IBeamParticle{
 	}
 
 	@Override
-	public void setRGBColorF(float r, float g, float b) {
+	public void setRGBColorF(float r, float g, float b){
 		this.particleGreen = g;
 		this.particleRed = r;
 		this.particleBlue = b;
 	}
 
 	@Override
-	public void setRGBColor(int color) {
+	public void setRGBColor(int color){
 		this.particleRed = ((color >> 16) & 0xFF) / 255.0F;
 		this.particleGreen = ((color >> 8) & 0xFF) / 255.0F;
 		this.particleBlue = (color & 0xFF) / 255.0F;
 	}
 
 	@Override
-	public void setRGBColorI(int r, int g, int b) {
+	public void setRGBColorI(int r, int g, int b){
 		this.particleRed = r / 255.0f;
 		this.particleGreen = g / 255.0f;
 		this.particleBlue = b / 255.0f;

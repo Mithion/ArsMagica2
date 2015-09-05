@@ -1,7 +1,5 @@
 package am2.commands;
 
-import java.util.Random;
-
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -10,20 +8,22 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.Explosion;
 
-public class Explosions extends CommandBase {
+import java.util.Random;
+
+public class Explosions extends CommandBase{
 
 	@Override
-	public String getCommandName() {
+	public String getCommandName(){
 		return "EXPLOSIONS!";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender icommandsender) {
+	public String getCommandUsage(ICommandSender icommandsender){
 		return "/EXPLOSIONS!";
 	}
 
 	@Override
-	public void processCommand(ICommandSender icommandsender, String[] astring) {
+	public void processCommand(ICommandSender icommandsender, String[] astring){
 		EntityPlayer player = getCommandSenderAsPlayer(icommandsender);
 		Random rand = new Random();
 

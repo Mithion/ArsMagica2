@@ -1,20 +1,20 @@
 package am2.enchantments;
 
-import java.util.Map;
-
+import am2.api.enchantment.IAMEnchantmentHelper;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
-import am2.api.enchantment.IAMEnchantmentHelper;
 
-public class AMEnchantmentHelper implements IAMEnchantmentHelper {
+import java.util.Map;
+
+public class AMEnchantmentHelper implements IAMEnchantmentHelper{
 	@Override
-	public int getSoulboundID() {
+	public int getSoulboundID(){
 		return AMEnchantments.soulbound.effectId;
 	}
 
 	@Override
-	public int getMagicResistID() {
+	public int getMagicResistID(){
 		return AMEnchantments.magicResist.effectId;
 	}
 

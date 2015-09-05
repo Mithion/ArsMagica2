@@ -1,7 +1,10 @@
 package am2.items;
 
-import java.util.List;
-
+import am2.AMCore;
+import am2.entities.EntityThrownSickle;
+import am2.playerextensions.ExtendedProperties;
+import am2.utility.DummyEntityPlayer;
+import com.google.common.collect.Multimap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -15,35 +18,31 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
-import am2.AMCore;
-import am2.entities.EntityThrownSickle;
-import am2.playerextensions.ExtendedProperties;
-import am2.utility.DummyEntityPlayer;
 
-import com.google.common.collect.Multimap;
+import java.util.List;
 
 public class ItemNatureGuardianSickle extends ArsMagicaItem{
 
-	public ItemNatureGuardianSickle() {
+	public ItemNatureGuardianSickle(){
 		super();
 		setMaxStackSize(1);
 	}
 
 	@Override
-	public Multimap getItemAttributeModifiers() {
+	public Multimap getItemAttributeModifiers(){
 		Multimap multimap = super.getItemAttributeModifiers();
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", 7, 0));
 		return multimap;
 	}
 
 	@Override
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4){
 		par3List.add(StatCollector.translateToLocal("am2.tooltip.nature_scythe"));
 		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 	}
-	
+
 	@Override
-	public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World, Block par3, int par4, int par5, int par6, EntityLivingBase par7EntityLivingBase) {
+	public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World, Block par3, int par4, int par5, int par6, EntityLivingBase par7EntityLivingBase){
 
 		int radius = 1;
 
@@ -73,11 +72,11 @@ public class ItemNatureGuardianSickle extends ArsMagicaItem{
 	}
 
 	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {
+	public void registerIcons(IIconRegister par1IconRegister){
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
 		if (flingSickle(par1ItemStack, par2World, par3EntityPlayer)){
 			par3EntityPlayer.inventory.setInventorySlotContents(par3EntityPlayer.inventory.currentItem, null);
 		}
@@ -101,7 +100,7 @@ public class ItemNatureGuardianSickle extends ArsMagicaItem{
 	}
 
 	@Override
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
+	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List){
 		par3List.add(ItemsCommonProxy.natureScytheEnchanted.copy());
 	}
 }

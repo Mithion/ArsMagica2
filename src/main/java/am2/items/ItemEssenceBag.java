@@ -1,43 +1,40 @@
 package am2.items;
 
-import java.util.List;
-
+import am2.AMCore;
+import am2.guis.ArsMagicaGuiIdList;
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import am2.AMCore;
-import am2.guis.ArsMagicaGuiIdList;
-import am2.network.AMDataWriter;
-import am2.network.AMPacketIDs;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 public class ItemEssenceBag extends ArsMagicaItem{
 
-	public ItemEssenceBag() {
+	public ItemEssenceBag(){
 		super();
 		setMaxStackSize(1);
 		setMaxDamage(0);
 	}
 
 	@Override
-	public boolean getShareTag() {
+	public boolean getShareTag(){
 		return true;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+							   EntityPlayer par2EntityPlayer, List par3List, boolean par4){
 		par3List.add(StatCollector.translateToLocal("am2.tooltip.rupees"));
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer entityplayer) {
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer entityplayer){
 		if (entityplayer.isSneaking()){
 			FMLNetworkHandler.openGui(entityplayer, AMCore.instance, ArsMagicaGuiIdList.GUI_ESSENCE_BAG, world, (int)entityplayer.posX, (int)entityplayer.posY, (int)entityplayer.posZ);
 		}
@@ -50,34 +47,34 @@ public class ItemEssenceBag extends ArsMagicaItem{
 
 	public void UpdateStackTagCompound(ItemStack itemStack, ItemStack[] values){
 		if (itemStack.stackTagCompound == null){
-			itemStack.stackTagCompound = new NBTTagCompound(); 
+			itemStack.stackTagCompound = new NBTTagCompound();
 		}
 		for (int i = 0; i < values.length; ++i){
 			ItemStack stack = values[i];
 			if (stack == null){
 				itemStack.stackTagCompound.removeTag("essencebagstacksize" + i);
-				itemStack.stackTagCompound.removeTag("essencebagmeta"+i);
-				continue;				
+				itemStack.stackTagCompound.removeTag("essencebagmeta" + i);
+				continue;
 			}else{
 				itemStack.stackTagCompound.setInteger("essencebagstacksize" + i, stack.stackSize);
 				if (stack.getItemDamage() != 0)
-					itemStack.stackTagCompound.setInteger("essencebagmeta"+i, stack.getItemDamage());
+					itemStack.stackTagCompound.setInteger("essencebagmeta" + i, stack.getItemDamage());
 			}
 		}
 	}
-	
+
 	public void UpdateStackTagCompound(ItemStack itemStack, InventoryEssenceBag inventory){
 		if (itemStack.stackTagCompound == null){
-			itemStack.stackTagCompound = new NBTTagCompound(); 
+			itemStack.stackTagCompound = new NBTTagCompound();
 		}
 		for (int i = 0; i < inventory.getSizeInventory(); ++i){
 			ItemStack stack = inventory.getStackInSlot(i);
 			if (stack == null){
-				continue;				
+				continue;
 			}else{
 				itemStack.stackTagCompound.setInteger("essencebagstacksize" + i, stack.stackSize);
 				if (stack.getItemDamage() != 0)
-					itemStack.stackTagCompound.setInteger("essencebagmeta"+i, stack.getItemDamage());
+					itemStack.stackTagCompound.setInteger("essencebagmeta" + i, stack.getItemDamage());
 			}
 		}
 	}
@@ -87,7 +84,7 @@ public class ItemEssenceBag extends ArsMagicaItem{
 			return new ItemStack[InventoryEssenceBag.inventorySize];
 		}
 		ItemStack[] items = new ItemStack[InventoryEssenceBag.inventorySize];
-		for (int i = 0; i < items.length; ++i){			
+		for (int i = 0; i < items.length; ++i){
 			if (!itemStack.stackTagCompound.hasKey("essencebagmeta" + i) || itemStack.stackTagCompound.getInteger("essencebagmeta" + i) == -1){
 				items[i] = null;
 				continue;

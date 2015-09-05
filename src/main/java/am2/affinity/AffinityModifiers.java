@@ -1,7 +1,5 @@
 package am2.affinity;
 
-import java.util.UUID;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -11,7 +9,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 
-public class AffinityModifiers {
+import java.util.UUID;
+
+public class AffinityModifiers{
 
 	public static AffinityModifiers instance = new AffinityModifiers();
 
@@ -53,8 +53,8 @@ public class AffinityModifiers {
 
 		applyOrRemoveModifier(attribute, waterWeakness,
 				((fireDepth >= 0.5f && fireDepth <= 0.9f) ||
-				 (enderDepth >= 0.5f && enderDepth <= 0.9f) ||
-				 (lightningDepth >= 0.5f && lightningDepth <= 0.9f)) && ent.isWet());
+						(enderDepth >= 0.5f && enderDepth <= 0.9f) ||
+						(lightningDepth >= 0.5f && lightningDepth <= 0.9f)) && ent.isWet());
 		applyOrRemoveModifier(attribute, fireWeakness, (waterDepth >= 0.5f && waterDepth <= 0.9f) && (ent.isBurning() || ent.worldObj.provider.dimensionId == -1));
 		int worldTime = (int)ent.worldObj.getWorldTime() % 24000;
 		applyOrRemoveModifier(attribute, sunlightWeakness, (enderDepth > 0.65 && enderDepth <= 0.95f) && ent.worldObj.canBlockSeeTheSky((int)ent.posX, (int)ent.posY, (int)ent.posZ) && (worldTime > 23000 || worldTime < 12500));
@@ -81,14 +81,11 @@ public class AffinityModifiers {
 		int i1 = MathHelper.floor_double(par1AxisAlignedBB.minZ);
 		int j1 = MathHelper.floor_double(par1AxisAlignedBB.maxZ + 1.0D);
 		boolean isOnIce = false;
-		for (int k1 = i; k1 < j && !isOnIce; ++k1)
-		{
-			for (int l1 = k; l1 < l && !isOnIce; ++l1)
-			{
-				for (int i2 = i1; i2 < j1 && !isOnIce; ++i2)
-				{
+		for (int k1 = i; k1 < j && !isOnIce; ++k1){
+			for (int l1 = k; l1 < l && !isOnIce; ++l1){
+				for (int i2 = i1; i2 < j1 && !isOnIce; ++i2){
 					Block block = ent.worldObj.getBlock(k1, l1, i2);
-					if (block ==  Blocks.ice){
+					if (block == Blocks.ice){
 						return true;
 					}
 				}

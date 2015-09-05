@@ -1,10 +1,10 @@
 package am2.api.blocks;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MultiblockStructureDefinition{
 	public class BlockDec{
@@ -25,7 +25,7 @@ public class MultiblockStructureDefinition{
 		}
 
 		@Override
-		public String toString() {
+		public String toString(){
 			String blockName = "";
 			if (block != null){
 				blockName = block.getLocalizedName();
@@ -36,7 +36,7 @@ public class MultiblockStructureDefinition{
 		}
 
 		@Override
-		public boolean equals(Object obj) {
+		public boolean equals(Object obj){
 			if (obj instanceof BlockDec){
 				return this.block == ((BlockDec)obj).block && (this.meta == -1 || ((BlockDec)obj).meta == -1 || this.meta == ((BlockDec)obj).meta);
 			}
@@ -44,7 +44,7 @@ public class MultiblockStructureDefinition{
 		}
 
 		@Override
-		public int hashCode() {
+		public int hashCode(){
 			return Block.getIdFromBlock(block);
 		}
 	}
@@ -61,7 +61,7 @@ public class MultiblockStructureDefinition{
 		}
 
 		@Override
-		public boolean equals(Object obj) {
+		public boolean equals(Object obj){
 			if (obj instanceof BlockCoord){
 				return this.x == ((BlockCoord)obj).x && this.y == ((BlockCoord)obj).y && this.z == ((BlockCoord)obj).z;
 			}
@@ -69,7 +69,7 @@ public class MultiblockStructureDefinition{
 		}
 
 		@Override
-		public int hashCode() {
+		public int hashCode(){
 			return this.x + this.y + this.z;
 		}
 
@@ -87,18 +87,17 @@ public class MultiblockStructureDefinition{
 		}
 
 		@Override
-		public String toString() {
+		public String toString(){
 			return String.format("BlockCoord: %d, %d, %d", x, y, z);
 		}
 
 		@Override
-		public int compareTo(BlockCoord o) {
+		public int compareTo(BlockCoord o){
 			return this.z > o.z ? 1 : this.z < o.z ? -1 : this.x > o.x ? 1 : this.x < o.x ? -1 : this.y > o.y ? 1 : this.y < o.y ? -1 : 0;
 		}
 	}
 
-	public class StructureGroup
-	{
+	public class StructureGroup{
 		String name;
 		int mutex;
 		HashMap<BlockCoord, ArrayList<BlockDec>> allowedBlocks;
@@ -173,10 +172,10 @@ public class MultiblockStructureDefinition{
 		}
 
 		public HashMap<BlockCoord, ArrayList<BlockDec>> getAllowedBlocks(){
-			return (HashMap<BlockCoord, ArrayList<BlockDec>>) allowedBlocks.clone();
+			return (HashMap<BlockCoord, ArrayList<BlockDec>>)allowedBlocks.clone();
 		}
 
-		public void deleteBlocksFromWorld(World world, int x, int y, int z) {
+		public void deleteBlocksFromWorld(World world, int x, int y, int z){
 			for (BlockCoord offset : allowedBlocks.keySet()){
 				world.setBlockToAir(x + offset.x, y + offset.y, z + offset.z);
 			}
@@ -360,7 +359,7 @@ public class MultiblockStructureDefinition{
 
 	public boolean checkStructure(World world, int originX, int originY, int originZ){
 		boolean valid = true;
-		for (int i: mutexCache){
+		for (int i : mutexCache){
 			valid &= matchMutex(i, world, originX, originY, originZ);
 			if (!valid) break;
 		}

@@ -1,25 +1,21 @@
 package am2.blocks.renderers;
 
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
-
-import org.lwjgl.opengl.GL11;
-
 import am2.api.math.AMVector3;
 import am2.blocks.tileentities.TileEntityArcaneReconstructor;
 import am2.bosses.renderers.RenderItemNoBob;
 import am2.guis.AMGuiHelper;
 import am2.texture.ResourceManager;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
+import org.lwjgl.opengl.GL11;
 
-public class ArcaneReconstructorRenderer extends TileEntitySpecialRenderer {
+public class ArcaneReconstructorRenderer extends TileEntitySpecialRenderer{
 
 	private final IModelCustom model;
 	private ItemStack renderStack;
@@ -39,7 +35,7 @@ public class ArcaneReconstructorRenderer extends TileEntitySpecialRenderer {
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity var1, double var2, double var4, double var6, float var8) {
+	public void renderTileEntityAt(TileEntity var1, double var2, double var4, double var6, float var8){
 		doRender((TileEntityArcaneReconstructor)var1, var2, var4, var6, var8);
 	}
 
@@ -62,7 +58,7 @@ public class ArcaneReconstructorRenderer extends TileEntitySpecialRenderer {
 
 		try{
 			model.renderPart("Main");
-		}catch(Throwable t){
+		}catch (Throwable t){
 
 		}
 		GL11.glTranslatef(0, 0.22f + floatingOffset, 0);
@@ -79,9 +75,9 @@ public class ArcaneReconstructorRenderer extends TileEntitySpecialRenderer {
 
 			GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.15f);
 
-			RenderRotatedModelGroup("Ring03", te.getInnerRingRotation().copy().sub(te.getInnerRingRotationSpeed().copy().scale(te.getRotateOffset()*2)));
-			RenderRotatedModelGroup("Ring01", te.getMiddleRingRotation().copy().sub(te.getMiddleRingRotationSpeed().copy().scale(te.getRotateOffset()*2)));
-			RenderRotatedModelGroup("Ring02", te.getOuterRingRotation().copy().sub(te.getOuterRingRotationSpeed().copy().scale(te.getRotateOffset()*2)));
+			RenderRotatedModelGroup("Ring03", te.getInnerRingRotation().copy().sub(te.getInnerRingRotationSpeed().copy().scale(te.getRotateOffset() * 2)));
+			RenderRotatedModelGroup("Ring01", te.getMiddleRingRotation().copy().sub(te.getMiddleRingRotationSpeed().copy().scale(te.getRotateOffset() * 2)));
+			RenderRotatedModelGroup("Ring02", te.getOuterRingRotation().copy().sub(te.getOuterRingRotationSpeed().copy().scale(te.getRotateOffset() * 2)));
 		}
 
 		GL11.glEnable(GL11.GL_LIGHTING);
@@ -98,7 +94,7 @@ public class ArcaneReconstructorRenderer extends TileEntitySpecialRenderer {
 		GL11.glRotatef(rotation.z, 1.0f, 0.0f, 1.0f);
 		try{
 			model.renderPart(groupName);
-		}catch(Throwable t){
+		}catch (Throwable t){
 
 		}
 		GL11.glPopMatrix();

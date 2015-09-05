@@ -1,19 +1,5 @@
 package am2.proxy.tick;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
-
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.server.MinecraftServer;
 import am2.AMCore;
 import am2.EntityItemWatcher;
 import am2.MeteorSpawnHelper;
@@ -24,6 +10,18 @@ import am2.network.AMNetHandler;
 import am2.network.AMPacketIDs;
 import am2.utility.DimensionUtilities;
 import am2.worldgen.RetroactiveWorldgenerator;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.server.MinecraftServer;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 public class ServerTickHandler{
 
@@ -40,7 +38,7 @@ public class ServerTickHandler{
 		}
 
 		if (firstTick){
-			ItemsCommonProxy.crystalPhylactery.getSpawnableEntities(MinecraftServer.getServer().worldServers[0]);			
+			ItemsCommonProxy.crystalPhylactery.getSpawnableEntities(MinecraftServer.getServer().worldServers[0]);
 			firstTick = false;
 		}
 
@@ -52,7 +50,7 @@ public class ServerTickHandler{
 		MeteorSpawnHelper.instance.tick();
 		EntityItemWatcher.instance.tick();
 	}
-	
+
 	@SubscribeEvent
 	public void onServerTick(TickEvent.ServerTickEvent event){
 		if (event.phase == TickEvent.Phase.START){
@@ -61,7 +59,7 @@ public class ServerTickHandler{
 			gameTick_End();
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onWorldTick(TickEvent.WorldTickEvent event){
 		if (AMCore.config.retroactiveWorldgen())
@@ -90,9 +88,9 @@ public class ServerTickHandler{
 	}
 
 	private void applyDeferredTargetSets(){
-		Iterator<Entry<EntityLiving,EntityLivingBase>> it = targetsToSet.entrySet().iterator();
+		Iterator<Entry<EntityLiving, EntityLivingBase>> it = targetsToSet.entrySet().iterator();
 		while (it.hasNext()){
-			Entry<EntityLiving,EntityLivingBase> entry = it.next();
+			Entry<EntityLiving, EntityLivingBase> entry = it.next();
 			if (entry.getKey() != null && !entry.getKey().isDead)
 				entry.getKey().setAttackTarget(entry.getValue());
 			it.remove();
@@ -103,7 +101,7 @@ public class ServerTickHandler{
 		targetsToSet.put(ent, target);
 	}
 
-	public void blackoutArmorPiece(EntityPlayerMP player, int slot, int cooldown) {
+	public void blackoutArmorPiece(EntityPlayerMP player, int slot, int cooldown){
 		AMNetHandler.INSTANCE.sendPacketToClientPlayer(player, AMPacketIDs.FLASH_ARMOR_PIECE, new AMDataWriter().add(slot).add(cooldown).generate());
 	}
 

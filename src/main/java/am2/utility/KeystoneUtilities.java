@@ -1,23 +1,23 @@
 package am2.utility;
 
-import java.util.ArrayList;
-
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.items.IKeystoneHelper;
 import am2.items.ItemKeystone;
 import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
+
+import java.util.ArrayList;
 
 public class KeystoneUtilities implements IKeystoneHelper{
 
 	public static final KeystoneUtilities instance = new KeystoneUtilities();
 
-	public static boolean HandleKeystoneRecovery(EntityPlayer player, IKeystoneLockable lock) {
+	public static boolean HandleKeystoneRecovery(EntityPlayer player, IKeystoneLockable lock){
 		if (ExtendedProperties.For(player).isRecoveringKeystone){
 			if (KeystoneUtilities.instance.getKeyFromRunes(lock.getRunesInKey()) != 0){
 				String combo = "";
@@ -39,9 +39,9 @@ public class KeystoneUtilities implements IKeystoneHelper{
 	}
 
 	@Override
-	public ArrayList<Long> GetKeysInInvenory(EntityLivingBase ent) {
+	public ArrayList<Long> GetKeysInInvenory(EntityLivingBase ent){
 		ArrayList<Long> toReturn = new ArrayList<Long>();
-		toReturn.add((long) 0); //any inventory has the "0", or "unlocked" key
+		toReturn.add((long)0); //any inventory has the "0", or "unlocked" key
 
 		if (ent instanceof EntityPlayer){
 			EntityPlayer p = (EntityPlayer)ent;
@@ -59,7 +59,7 @@ public class KeystoneUtilities implements IKeystoneHelper{
 	}
 
 	@Override
-	public long getKeyFromRunes(ItemStack[] runes) {
+	public long getKeyFromRunes(ItemStack[] runes){
 		long key = 0;
 
 		int index = 0;
@@ -75,7 +75,7 @@ public class KeystoneUtilities implements IKeystoneHelper{
 
 
 	@Override
-	public boolean canPlayerAccess(IKeystoneLockable inventory, EntityPlayer player) {
+	public boolean canPlayerAccess(IKeystoneLockable inventory, EntityPlayer player){
 		ItemStack[] runes = inventory.getRunesInKey();
 		long key = getKeyFromRunes(runes);
 

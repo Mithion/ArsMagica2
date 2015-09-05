@@ -1,15 +1,5 @@
 package am2.blocks.tileentities.flickers;
 
-import java.util.HashMap;
-import java.util.List;
-
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
 import am2.AMCore;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
@@ -18,6 +8,15 @@ import am2.entities.SpawnBlacklists;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
+import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class FlickerOperatorProgeny implements IFlickerFunctionality{
 
@@ -26,21 +25,21 @@ public class FlickerOperatorProgeny implements IFlickerFunctionality{
 	private static final int COOLDOWN_MINIMUM = 600; //minimum 30 seconds
 
 	@Override
-	public boolean RequiresPower() {
+	public boolean RequiresPower(){
 		return true;
 	}
 
 	@Override
-	public int PowerPerOperation() {
+	public int PowerPerOperation(){
 		return 500;
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered) {
+	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered){
 		HashMap<Class, Integer> entityCount = new HashMap<Class, Integer>();
 		int radius = 8;
-		int diameter = radius*2+1;
-		List<EntityAnimal> creatures = worldObj.getEntitiesWithinAABB(EntityAnimal.class, AxisAlignedBB.getBoundingBox(((TileEntity)habitat).xCoord-radius, ((TileEntity)habitat).yCoord-radius, ((TileEntity)habitat).zCoord-radius, ((TileEntity)habitat).xCoord+radius+1, ((TileEntity)habitat).yCoord+radius+1, ((TileEntity)habitat).zCoord+radius+1));
+		int diameter = radius * 2 + 1;
+		List<EntityAnimal> creatures = worldObj.getEntitiesWithinAABB(EntityAnimal.class, AxisAlignedBB.getBoundingBox(((TileEntity)habitat).xCoord - radius, ((TileEntity)habitat).yCoord - radius, ((TileEntity)habitat).zCoord - radius, ((TileEntity)habitat).xCoord + radius + 1, ((TileEntity)habitat).yCoord + radius + 1, ((TileEntity)habitat).zCoord + radius + 1));
 		for (EntityAnimal creature : creatures){
 			Class clazz = creature.getClass();
 			if (!SpawnBlacklists.canProgenyAffect(clazz))
@@ -53,13 +52,13 @@ public class FlickerOperatorProgeny implements IFlickerFunctionality{
 			entityCount.put(clazz, count);
 			if (count == 2){
 				if (worldObj.isRemote){
-					AMParticle particle = (AMParticle) AMCore.proxy.particleManager.spawn(worldObj, "heart", ((TileEntity)habitat).xCoord + 0.5, ((TileEntity)habitat).yCoord+0.7, ((TileEntity)habitat).zCoord + 0.5);
+					AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "heart", ((TileEntity)habitat).xCoord + 0.5, ((TileEntity)habitat).yCoord + 0.7, ((TileEntity)habitat).zCoord + 0.5);
 					if (particle != null){
 						particle.setMaxAge(20);
 						particle.AddParticleController(new ParticleFloatUpward(particle, 0, 0.05f, 1, false));
 					}
 				}else{
-					creatures = worldObj.getEntitiesWithinAABB(clazz, AxisAlignedBB.getBoundingBox(((TileEntity)habitat).xCoord-radius, ((TileEntity)habitat).yCoord-radius, ((TileEntity)habitat).zCoord-radius, ((TileEntity)habitat).xCoord+radius+1, ((TileEntity)habitat).yCoord+radius+1, ((TileEntity)habitat).zCoord+radius+1));
+					creatures = worldObj.getEntitiesWithinAABB(clazz, AxisAlignedBB.getBoundingBox(((TileEntity)habitat).xCoord - radius, ((TileEntity)habitat).yCoord - radius, ((TileEntity)habitat).zCoord - radius, ((TileEntity)habitat).xCoord + radius + 1, ((TileEntity)habitat).yCoord + radius + 1, ((TileEntity)habitat).zCoord + radius + 1));
 					count = 0;
 					for (EntityAnimal animal : creatures){
 						if (!animal.isChild()){
@@ -78,16 +77,16 @@ public class FlickerOperatorProgeny implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController controller, boolean powered, Affinity[] flickers) {
+	public boolean DoOperation(World worldObj, IFlickerController controller, boolean powered, Affinity[] flickers){
 		return DoOperation(worldObj, controller, powered);
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController controller, boolean powered) {
+	public void RemoveOperator(World worldObj, IFlickerController controller, boolean powered){
 	}
 
 	@Override
-	public int TimeBetweenOperation(boolean powered, Affinity[] flickers) {
+	public int TimeBetweenOperation(boolean powered, Affinity[] flickers){
 		if (powered){
 			float base = BASE_COOLDOWN;
 			for (Affinity aff : flickers)
@@ -101,11 +100,11 @@ public class FlickerOperatorProgeny implements IFlickerFunctionality{
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController controller, boolean powered, Affinity[] flickers) {
+	public void RemoveOperator(World worldObj, IFlickerController controller, boolean powered, Affinity[] flickers){
 	}
 
 	@Override
-	public Object[] getRecipe() {
+	public Object[] getRecipe(){
 		return new Object[]{
 				"ELE",
 				"EFE",
@@ -115,7 +114,7 @@ public class FlickerOperatorProgeny implements IFlickerFunctionality{
 				Character.valueOf('F'), new ItemStack(ItemsCommonProxy.flickerJar, 1, Affinity.LIFE.ordinal()),
 				Character.valueOf('W'), new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_WHITE)
 
-			};
+		};
 	}
 
 }

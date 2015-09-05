@@ -1,21 +1,20 @@
 package am2.preloader;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.Map;
-
 import com.google.common.eventbus.EventBus;
-
 import cpw.mods.fml.common.DummyModContainer;
 import cpw.mods.fml.common.LoadController;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.relauncher.FMLRelaunchLog;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.Map;
 
-public class AM2PreloaderContainer extends DummyModContainer implements IFMLLoadingPlugin {
 
-	private final String[] asmTransformers = new String[] { "am2.preloader.AccessTransformers", "am2.preloader.BytecodeTransformers" };
+public class AM2PreloaderContainer extends DummyModContainer implements IFMLLoadingPlugin{
+
+	private final String[] asmTransformers = new String[]{"am2.preloader.AccessTransformers", "am2.preloader.BytecodeTransformers"};
 	private final ModMetadata md = new ModMetadata();
 
 	public static boolean foundThaumcraft = false;
@@ -34,64 +33,54 @@ public class AM2PreloaderContainer extends DummyModContainer implements IFMLLoad
 	}
 
 	@Override
-	public String getModId ()
-	{
+	public String getModId(){
 		return "AM2-Preloader";
 	}
 
 	@Override
-	public String getName ()
-	{
+	public String getName(){
 		return "AMCore";
 	}
 
 	@Override
-	public String getVersion ()
-	{
+	public String getVersion(){
 		return "0.0.2";
 	}
 
 	@Override
-	public String getDisplayVersion ()
-	{
+	public String getDisplayVersion(){
 		return getVersion();
 	}
 
 	@Override
-	public ModMetadata getMetadata ()
-	{
+	public ModMetadata getMetadata(){
 		return md;
 	}
 
 	@Override
-	public boolean registerBus (EventBus bus, LoadController controller)
-	{
+	public boolean registerBus(EventBus bus, LoadController controller){
 		bus.register(this);
 		return true;
 	}
 
 	@Override
-	public String[] getASMTransformerClass ()
-	{
+	public String[] getASMTransformerClass(){
 		return asmTransformers;
 	}
 
 	@Override
-	public String getModContainerClass ()
-	{
+	public String getModContainerClass(){
 		return "am2.preloader.AM2PreloaderContainer";
 	}
 
 	@Override
-	public String getSetupClass ()
-	{
+	public String getSetupClass(){
 		return null;
 	}
 
 	@Override
-	public void injectData (Map<String, Object> data)
-	{
-		File loc = (File) data.get("mcLocation");
+	public void injectData(Map<String, Object> data){
+		File loc = (File)data.get("mcLocation");
 
 		FMLRelaunchLog.info("MC located at: " + loc.getAbsolutePath());
 
@@ -101,17 +90,17 @@ public class AM2PreloaderContainer extends DummyModContainer implements IFMLLoad
 			if (f.getName() != null){
 				if (f.getName().toLowerCase().contains("thaumcraft")){
 					FMLRelaunchLog.info("AMCore >> Located Thaumcraft");
-					foundThaumcraft = true;				
+					foundThaumcraft = true;
 				}else if (f.getName().toLowerCase().contains("optifine")){
 					FMLRelaunchLog.info("AMCore >> Located Optifine");
-					foundOptifine = true;				
+					foundOptifine = true;
 				}
 			}
 		}
 	}
 
 	@Override
-	public String getAccessTransformerClass() {
+	public String getAccessTransformerClass(){
 		return null;
 	}
 

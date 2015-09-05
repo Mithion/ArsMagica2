@@ -1,26 +1,24 @@
 package am2.guis;
 
+import am2.blocks.tileentities.TileEntitySummoner;
+import am2.containers.ContainerSummoner;
+import am2.power.PowerNodeRegistry;
+import am2.texture.ResourceManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-
-import am2.blocks.tileentities.TileEntitySummoner;
-import am2.containers.ContainerSummoner;
-import am2.power.PowerNodeRegistry;
-import am2.texture.ResourceManager;
 
 public class GuiSummoner extends GuiContainer{
 
 	private static final ResourceLocation background = new ResourceLocation("arsmagica2", ResourceManager.GetGuiTexturePath("SummonerGui.png"));
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
+	protected void drawGuiContainerBackgroundLayer(float f, int i, int j){
 		mc.renderEngine.bindTexture(background);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		int l = (width - xSize) / 2;
@@ -28,8 +26,7 @@ public class GuiSummoner extends GuiContainer{
 		drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);
 	}
 
-	public GuiSummoner(InventoryPlayer inventoryplayer, TileEntitySummoner summoner)
-	{
+	public GuiSummoner(InventoryPlayer inventoryplayer, TileEntitySummoner summoner){
 		super(new ContainerSummoner(inventoryplayer, summoner));
 		summonerInventory = summoner;
 		xSize = 176;
@@ -37,8 +34,7 @@ public class GuiSummoner extends GuiContainer{
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int par1, int par2)
-	{
+	protected void drawGuiContainerForegroundLayer(int par1, int par2){
 		int l = (width - xSize) / 2;
 		int i1 = (height - ySize) / 2;
 

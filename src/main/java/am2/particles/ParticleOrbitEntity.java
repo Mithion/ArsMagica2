@@ -1,11 +1,12 @@
 package am2.particles;
-import java.util.Random;
 
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
-public final class ParticleOrbitEntity extends ParticleController {
+import java.util.Random;
+
+public final class ParticleOrbitEntity extends ParticleController{
 
 	private final Entity target;
 	private double distance;
@@ -18,7 +19,7 @@ public final class ParticleOrbitEntity extends ParticleController {
 	private double orbitY = -512;
 	private boolean ignoreYCoordinate = false;
 
-	public ParticleOrbitEntity(AMParticle particleEffect, Entity orbitTarget, double orbitSpeed, int priority, boolean exclusive) {
+	public ParticleOrbitEntity(AMParticle particleEffect, Entity orbitTarget, double orbitSpeed, int priority, boolean exclusive){
 		super(particleEffect, priority, exclusive);
 		target = orbitTarget;
 		orbitAngle = rand.nextInt(360);
@@ -55,7 +56,7 @@ public final class ParticleOrbitEntity extends ParticleController {
 	}
 
 	@Override
-	public void doUpdate() {
+	public void doUpdate(){
 
 		if (firstTick){
 			curYOffset = particle.posY - (target.posY + target.getEyeHeight());
@@ -79,8 +80,7 @@ public final class ParticleOrbitEntity extends ParticleController {
 
 		if (targetY < curYOffset){
 			curYOffset -= orbitSpeed / 4;
-		}
-		else if (targetY > curYOffset){
+		}else if (targetY > curYOffset){
 			curYOffset += orbitSpeed / 4;
 		}
 
@@ -115,7 +115,7 @@ public final class ParticleOrbitEntity extends ParticleController {
 	}
 
 	@Override
-	public ParticleController clone() {
+	public ParticleController clone(){
 		ParticleOrbitEntity clone = new ParticleOrbitEntity(particle, target, orbitSpeed, priority, rotateClockwise).SetTargetDistance(targetDistance);
 		if (orbitY != -512){
 			clone.setOrbitY(orbitY);
@@ -124,7 +124,7 @@ public final class ParticleOrbitEntity extends ParticleController {
 		return clone;
 	}
 
-	public ParticleOrbitEntity setIgnoreYCoordinate(boolean b) {
+	public ParticleOrbitEntity setIgnoreYCoordinate(boolean b){
 		ignoreYCoordinate = b;
 		return this;
 	}

@@ -1,24 +1,5 @@
 package am2.guis;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-
-import org.lwjgl.opengl.GL11;
-
 import am2.AMCore;
 import am2.api.math.AMVector2;
 import am2.api.spell.ItemSpellBase;
@@ -34,8 +15,25 @@ import am2.spell.SkillManager;
 import am2.spell.SpellUtils;
 import am2.texture.ResourceManager;
 import am2.texture.SpellIconManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
+import org.lwjgl.opengl.GL11;
 
-public class AMIngameGUI {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+
+public class AMIngameGUI{
 	private final Minecraft mc;
 	private final RenderItem itemRenderer;
 	private float zLevel;
@@ -49,13 +47,12 @@ public class AMIngameGUI {
 	private static final ResourceLocation inventory = new ResourceLocation("textures/gui/container/inventory.png");
 	private static final ResourceLocation items = new ResourceLocation("textures/atlas/items.png");
 
-	public AMIngameGUI() {
+	public AMIngameGUI(){
 		mc = Minecraft.getMinecraft();
 		itemRenderer = new RenderItem();
 	}
 
-	public void renderGameOverlay()
-	{
+	public void renderGameOverlay(){
 		ItemStack ci = Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem();
 
 		boolean drawAMHud = !AMCore.config.showHudMinimally() || (ci != null && (ci.getItem() == ItemsCommonProxy.spellBook || ci.getItem() == ItemsCommonProxy.spell || ci.getItem() == ItemsCommonProxy.arcaneSpellbook || ci.getItem() instanceof IBoundItem));
@@ -75,8 +72,8 @@ public class AMIngameGUI {
 		if (drawAMHud)
 			RenderArsMagicaGUIItems(i, j, mc.fontRenderer);
 		if (drawAMHud)
-			RenderAffinity(i,j);
-		RenderArmorStatus(i,j,mc, mc.fontRenderer);
+			RenderAffinity(i, j);
+		RenderArmorStatus(i, j, mc, mc.fontRenderer);
 		if (drawAMHud)
 			RenderMagicXP(i, j);
 
@@ -89,12 +86,12 @@ public class AMIngameGUI {
 		GL11.glPopAttrib();
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glColor4f(1,1,1,1);
+		GL11.glColor4f(1, 1, 1, 1);
 	}
 
 	private void RenderArsMagicaGUIItems(int i, int j, FontRenderer fontRenderer){
 		if (ExtendedProperties.For(mc.thePlayer).getMagicLevel() > 0 || mc.thePlayer.capabilities.isCreativeMode){
-			RenderManaBar(i,j,fontRenderer);
+			RenderManaBar(i, j, fontRenderer);
 		}
 	}
 
@@ -102,7 +99,7 @@ public class AMIngameGUI {
 		mc.renderEngine.bindTexture(spellbook_ui);
 
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		
+
 		AMVector2 spellbookVec = getShiftedVector(AMCore.config.getSpellBookPosition(), i, j);
 
 		int spellUI_x = spellbookVec.iX;
@@ -122,7 +119,7 @@ public class AMIngameGUI {
 		ItemStack[] activeScrolls = ((ItemSpellBook)bookStack.getItem()).getActiveScrollInventory(bookStack);
 
 		mc.renderEngine.bindTexture(items);
-		
+
 		this.zLevel = 0;
 		for (int n = 0; n < 8; ++n){
 			float IIconX = spellUI_x + 1.5f + n * 12.9f;
@@ -131,8 +128,8 @@ public class AMIngameGUI {
 				continue;
 			}
 			int d = 12;
-			DrawIconAtXY( ((ItemSpellBase)stackItem.getItem()).getIconFromDamageForRenderPass(stackItem.getItemDamage(), 0), "items", IIconX, spellUI_y + 1.5f, d, d, false);
-			DrawIconAtXY( ((ItemSpellBase)stackItem.getItem()).getIconFromDamageForRenderPass(stackItem.getItemDamage(), 1), "items", IIconX, spellUI_y + 1.5f, d, d, false);
+			DrawIconAtXY(((ItemSpellBase)stackItem.getItem()).getIconFromDamageForRenderPass(stackItem.getItemDamage(), 0), "items", IIconX, spellUI_y + 1.5f, d, d, false);
+			DrawIconAtXY(((ItemSpellBase)stackItem.getItem()).getIconFromDamageForRenderPass(stackItem.getItemDamage(), 1), "items", IIconX, spellUI_y + 1.5f, d, d, false);
 		}
 
 		mc.renderEngine.bindTexture(spellbook_ui);
@@ -168,7 +165,7 @@ public class AMIngameGUI {
 		if (mana + bonusMana > maxMana)
 			mana = maxMana;
 
-		float progressScaled = (mana / (maxMana+0.01f));
+		float progressScaled = (mana / (maxMana + 0.01f));
 
 		if (AMCore.config.showHudBars()){
 			//handle flashing of mana bar
@@ -196,7 +193,7 @@ public class AMIngameGUI {
 			if (curItem != null && (curItem.getItem() == ItemsCommonProxy.spell || curItem.getItem() == ItemsCommonProxy.spellBook || curItem.getItem() == ItemsCommonProxy.arcaneSpellbook)){
 				ItemStack spellStack = curItem.getItem() == ItemsCommonProxy.spell ? curItem : ((ItemSpellBook)curItem.getItem()).GetActiveItemStack(curItem);
 				if (spellStack != null){
-					int [] parts = SpellUtils.instance.getShapeGroupParts(spellStack);
+					int[] parts = SpellUtils.instance.getShapeGroupParts(spellStack);
 					int sx = mana_hud.iX - 2 * parts.length / 2;
 					int sy = mana_hud.iY - 2 * parts.length / 2;
 					for (int p : parts){
@@ -210,28 +207,28 @@ public class AMIngameGUI {
 				}
 			}
 
-			DrawPartialIconAtXY(AMGuiIcons.manaLevel, progressScaled, 1, mana_hud.iX + 16, mana_hud.iY+1f, (int) (barWidth * 0.97f), 40, false);
-			DrawIconAtXY(AMGuiIcons.manaBar, "items", mana_hud.iX + 15, mana_hud.iY+3, barWidth, 50, false);
+			DrawPartialIconAtXY(AMGuiIcons.manaLevel, progressScaled, 1, mana_hud.iX + 16, mana_hud.iY + 1f, (int)(barWidth * 0.97f), 40, false);
+			DrawIconAtXY(AMGuiIcons.manaBar, "items", mana_hud.iX + 15, mana_hud.iY + 3, barWidth, 50, false);
 
 			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-			progressScaled = (fatigue / (maxFatigue+0.01f));
+			progressScaled = (fatigue / (maxFatigue + 0.01f));
 			DrawIconAtXY(AMGuiIcons.fatigueIcon, "items", fatigue_hud.iX + barWidth, fatigue_hud.iY, false);
 
-			DrawPartialIconAtXY(AMGuiIcons.fatigueLevel, progressScaled, 1, fatigue_hud.iX, fatigue_hud.iY+3f, fatigueBarWidth, 40, false);
-			DrawIconAtXY(AMGuiIcons.fatigueBar, "items", fatigue_hud.iX, fatigue_hud.iY+4, barWidth, 48, false);
+			DrawPartialIconAtXY(AMGuiIcons.fatigueLevel, progressScaled, 1, fatigue_hud.iX, fatigue_hud.iY + 3f, fatigueBarWidth, 40, false);
+			DrawIconAtXY(AMGuiIcons.fatigueBar, "items", fatigue_hud.iX, fatigue_hud.iY + 4, barWidth, 48, false);
 
 			green = 0.5f;
 			blue = 1.0f;
 			red = 0.126f;
 			//magic level
-			int manaBarColor = Math.round(red*255);
-			manaBarColor = (manaBarColor << 8) + Math.round(green*255);
-			manaBarColor = (manaBarColor << 8) + Math.round(blue*255);
+			int manaBarColor = Math.round(red * 255);
+			manaBarColor = (manaBarColor << 8) + Math.round(green * 255);
+			manaBarColor = (manaBarColor << 8) + Math.round(blue * 255);
 
 			String magicLevel = (new StringBuilder()).append("").append(ExtendedProperties.For(mc.thePlayer).getMagicLevel()).toString();
 			AMVector2 magicLevelPos = getShiftedVector(AMCore.config.getLevelPosition(), i, j);
-			magicLevelPos.iX -= Minecraft.getMinecraft().fontRenderer.getStringWidth(magicLevel)/2;
+			magicLevelPos.iX -= Minecraft.getMinecraft().fontRenderer.getStringWidth(magicLevel) / 2;
 			fontRenderer.drawStringWithShadow(magicLevel, magicLevelPos.iX, magicLevelPos.iY, manaBarColor);
 
 			if (flashTimer > 0){
@@ -265,20 +262,20 @@ public class AMIngameGUI {
 		ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
 
 		for (int slot = 0; slot < 4; ++slot){
-			if (ArmorHelper.PlayerHasArmorInSlot(mc.thePlayer, 3-slot)){
+			if (ArmorHelper.PlayerHasArmorInSlot(mc.thePlayer, 3 - slot)){
 
 				AMVector2 position = getArmorSlotPosition(slot, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight());
-				int blackoutTimer = AMGuiHelper.instance.getBlackoutTimer(3-slot);
-				int blackoutMaxTimer = AMGuiHelper.instance.getBlackoutTimerMax(3-slot);
+				int blackoutTimer = AMGuiHelper.instance.getBlackoutTimer(3 - slot);
+				int blackoutMaxTimer = AMGuiHelper.instance.getBlackoutTimerMax(3 - slot);
 				GL11.glColor3f(1.0f, 1.0f, 1.0f);
-				ItemStack armor = mc.thePlayer.inventory.armorInventory[3-slot];
+				ItemStack armor = mc.thePlayer.inventory.armorInventory[3 - slot];
 				float lineweight = 4f;
 				//durability
 				if (armor.isItemDamaged() && armor.getMaxDamage() > 0){
 					float pct = 1 - (float)armor.getItemDamage() / (float)armor.getMaxDamage();
 					AMGuiHelper.line2d(position.iX, position.iY + 10, position.iX + 10, position.iY + 10, this.zLevel + 100, lineweight, 0);
 
-					int color = (int)(255.0f * (1-pct)) << 16 | (int)(255.0f * pct) << 8;
+					int color = (int)(255.0f * (1 - pct)) << 16 | (int)(255.0f * pct) << 8;
 
 					AMGuiHelper.line2d(position.iX, position.iY + 10, position.iX + (10 * pct), position.iY + 10, this.zLevel + 101, lineweight, color);
 				}
@@ -291,11 +288,11 @@ public class AMIngameGUI {
 					AMGuiHelper.line2d(position.iX, position.iY + 11, position.iX + 10, position.iY + 11, this.zLevel + 101, lineweight, 0x0000FF);
 				}
 
-				IIcon icon = mc.thePlayer.inventory.armorInventory[3-slot].getIconIndex();
+				IIcon icon = mc.thePlayer.inventory.armorInventory[3 - slot].getIconIndex();
 				if (icon != null){
 					AMGuiHelper.DrawIconAtXY(icon, position.iX, position.iY, this.zLevel, 10, 10, true);
 				}else{
-					AMGuiHelper.DrawItemAtXY(mc.thePlayer.inventory.armorInventory[3-slot], position.iX, position.iY, this.zLevel, 0.63f);
+					AMGuiHelper.DrawItemAtXY(mc.thePlayer.inventory.armorInventory[3 - slot], position.iX, position.iY, this.zLevel, 0.63f);
 				}
 			}
 		}
@@ -330,7 +327,7 @@ public class AMIngameGUI {
 
 			if (AMCore.config.getShowNumerics()){
 				String display = String.format("%.2f%%", AffinityData.For(mc.thePlayer).getAffinityDepth(affinity) * 100);
-				if (x < i/2)
+				if (x < i / 2)
 					Minecraft.getMinecraft().fontRenderer.drawString(display, x + 14, y + 2, affinity.color);
 				else
 					Minecraft.getMinecraft().fontRenderer.drawString(display, x - 2 - Minecraft.getMinecraft().fontRenderer.getStringWidth(display), y + 2, affinity.color);
@@ -394,13 +391,12 @@ public class AMIngameGUI {
 				continue;
 
 			Potion potion = Potion.potionTypes[potionID];
-			
+
 			if (potion == null)
 				continue;
-			
+
 			if (potion.isBadEffect()){
-				if (potion.hasStatusIcon())
-				{
+				if (potion.hasStatusIcon()){
 					int l = potion.getStatusIconIndex();
 					if (pe.getDuration() < 100){
 						GL11.glColor4f(1.0f, 1.0f, 1.0f, AMGuiHelper.instance.fastFlashAlpha);
@@ -417,8 +413,7 @@ public class AMIngameGUI {
 				}
 			}else{
 				this.mc.renderEngine.bindTexture(inventory);
-				if (potion.hasStatusIcon())
-				{
+				if (potion.hasStatusIcon()){
 					int l = potion.getStatusIconIndex();
 					if (pe.getDuration() < 100){
 						GL11.glColor4f(1.0f, 1.0f, 1.0f, AMGuiHelper.instance.fastFlashAlpha);
@@ -452,12 +447,12 @@ public class AMIngameGUI {
 				float pctXP = props.getMagicXP() / props.getXPToNextLevel();
 				if (pctXP > 1)
 					pctXP = 1;
-				int width = (int) ((dimensions.iX + 1) * pctXP);
+				int width = (int)((dimensions.iX + 1) * pctXP);
 				drawTexturedModalRect_Classic(position.iX, position.iY, 0, 69, width, dimensions.iY, width, dimensions.iY);
 			}
 
 			if (AMCore.config.getShowNumerics() && (AMCore.config.showXPAlways() || AMGuiHelper.instance.getMagicXPBarAlpha() > 0)){
-				String xpStr = StatCollector.translateToLocal("am2.gui.xp") + ": " + + (int)(props.getMagicXP() * 100) + "/" + (int)(props.getXPToNextLevel() * 100);
+				String xpStr = StatCollector.translateToLocal("am2.gui.xp") + ": " + +(int)(props.getMagicXP() * 100) + "/" + (int)(props.getXPToNextLevel() * 100);
 				AMVector2 numericPos = getShiftedVector(AMCore.config.getXPNumericPosition(), i, j);
 				Minecraft.getMinecraft().fontRenderer.drawString(xpStr, numericPos.iX, numericPos.iY, 0x999999);
 			}
@@ -466,17 +461,16 @@ public class AMIngameGUI {
 
 	private ArrayList<PotionEffect> getPotionEffectsByTimeRemaining(){
 		Iterator i = mc.thePlayer.getActivePotionEffects().iterator();
-		ArrayList<PotionEffect> potions= new ArrayList<PotionEffect>();
+		ArrayList<PotionEffect> potions = new ArrayList<PotionEffect>();
 
 		while (i.hasNext())
-			potions.add((PotionEffect) i.next());
+			potions.add((PotionEffect)i.next());
 
 		Collections.sort(potions, durationComparator);
 		return potions;
 	}
 
-	public void drawTexturedModalRect_Classic(int par1, int par2, int par3, int par4, int par5, int par6)
-	{
+	public void drawTexturedModalRect_Classic(int par1, int par2, int par3, int par4, int par5, int par6){
 		float var7 = 0.00390625F;
 		float var8 = 0.00390625F;
 
@@ -491,17 +485,17 @@ public class AMIngameGUI {
 
 	/**
 	 * Draw a section of the currently bound texture to the screen.
-	 * @param dst_x The x coordinate on the screen to draw to
-	 * @param dst_y The y coordinate on the screen to draw to
-	 * @param src_x The x coordinate on the texture to pull from
-	 * @param src_y The y coordinate on the texture to pull from
-	 * @param dst_width The width on screen to draw
+	 *
+	 * @param dst_x      The x coordinate on the screen to draw to
+	 * @param dst_y      The y coordinate on the screen to draw to
+	 * @param src_x      The x coordinate on the texture to pull from
+	 * @param src_y      The y coordinate on the texture to pull from
+	 * @param dst_width  The width on screen to draw
 	 * @param dst_height The height on screen to draw
-	 * @param src_width The width of the texture section
+	 * @param src_width  The width of the texture section
 	 * @param src_height The height of the texture section
 	 */
-	public void drawTexturedModalRect_Classic(float dst_x, float dst_y, float src_x, float src_y, float dst_width, float dst_height, float src_width, float src_height)
-	{
+	public void drawTexturedModalRect_Classic(float dst_x, float dst_y, float src_x, float src_y, float dst_width, float dst_height, float src_width, float src_height){
 		float var7 = 0.00390625F;
 		float var8 = 0.00390625F;
 
@@ -514,8 +508,7 @@ public class AMIngameGUI {
 		var9.draw();
 	}
 
-	public void drawTexturedModalRect(int par1, int par2, int par3, int par4, int par5, int par6)
-	{
+	public void drawTexturedModalRect(int par1, int par2, int par3, int par4, int par5, int par6){
 		float var9 = 0;
 		float var10 = 1;
 		float var11 = 0;
@@ -532,8 +525,7 @@ public class AMIngameGUI {
 		var8.draw();
 	}
 
-	private void renderPortalOverlay(float par1, int par2, int par3)
-	{
+	private void renderPortalOverlay(float par1, int par2, int par3){
 
 	}
 
@@ -579,14 +571,14 @@ public class AMIngameGUI {
 		return new AMVector2(x, y);
 	}
 
-	class PotionEffectDurationComparator implements Comparator<PotionEffect> {
+	class PotionEffectDurationComparator implements Comparator<PotionEffect>{
 
 
-		public PotionEffectDurationComparator() {
+		public PotionEffectDurationComparator(){
 		}
 
 		@Override
-		public int compare(PotionEffect o1, PotionEffect o2) {
+		public int compare(PotionEffect o1, PotionEffect o2){
 			if (o1.getDuration() < o2.getDuration()) return -1;
 			else if (o1.getDuration() > o2.getDuration()) return 1;
 			else return 0;

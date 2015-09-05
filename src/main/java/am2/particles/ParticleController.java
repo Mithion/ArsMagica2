@@ -1,10 +1,10 @@
 package am2.particles;
 
-import java.util.Random;
-
 import net.minecraft.world.World;
 
-public abstract class ParticleController {
+import java.util.Random;
+
+public abstract class ParticleController{
 
 	protected AMParticle particle;
 	protected Random rand;
@@ -16,15 +16,15 @@ public abstract class ParticleController {
 	protected boolean firstTick = true;
 
 	public static String[] AuraControllerOptions = new String[]{
-		"fade",
-		"float",
-		"sink",
-		"orbit",
-		"arc",
-		"flee",
-		"forward",
-		"pendulum",
-		"grow"
+			"fade",
+			"float",
+			"sink",
+			"orbit",
+			"arc",
+			"flee",
+			"forward",
+			"pendulum",
+			"grow"
 	};
 
 	public ParticleController(AMParticle particleEffect, int priority, boolean exclusive){

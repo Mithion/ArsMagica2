@@ -6,14 +6,12 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 
-public class SlotEssenceRefiner extends Slot {
-	public SlotEssenceRefiner(EntityPlayer entityplayer, IInventory iinventory, int i, int j, int k)
-    {
-        super(iinventory, i, j, k);
-    }
+public class SlotEssenceRefiner extends Slot{
+	public SlotEssenceRefiner(EntityPlayer entityplayer, IInventory iinventory, int i, int j, int k){
+		super(iinventory, i, j, k);
+	}
 
-    public boolean isItemValid(ItemStack itemstack)
-    {
-        return false;
-    }
+	public boolean isItemValid(ItemStack itemstack){
+		return false;
+	}
 }

@@ -1,10 +1,12 @@
 package am2.items;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-
+import am2.bosses.*;
+import am2.entities.*;
+import am2.guis.AMGuiIcons;
+import am2.particles.AMParticleIcons;
+import am2.spell.SpellTextureHelper;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,47 +16,21 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Facing;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.*;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import am2.bosses.EntityAirGuardian;
-import am2.bosses.EntityArcaneGuardian;
-import am2.bosses.EntityEarthGuardian;
-import am2.bosses.EntityEnderGuardian;
-import am2.bosses.EntityFireGuardian;
-import am2.bosses.EntityLifeGuardian;
-import am2.bosses.EntityLightningGuardian;
-import am2.bosses.EntityNatureGuardian;
-import am2.bosses.EntityWaterGuardian;
-import am2.bosses.EntityWinterGuardian;
-import am2.entities.EntityDarkMage;
-import am2.entities.EntityDarkling;
-import am2.entities.EntityDryad;
-import am2.entities.EntityEarthElemental;
-import am2.entities.EntityFireElemental;
-import am2.entities.EntityFlicker;
-import am2.entities.EntityHecate;
-import am2.entities.EntityHellCow;
-import am2.entities.EntityLightMage;
-import am2.entities.EntityMageVillager;
-import am2.entities.EntityManaCreeper;
-import am2.entities.EntityManaElemental;
-import am2.entities.EntityWaterElemental;
-import am2.guis.AMGuiIcons;
-import am2.particles.AMParticleIcons;
-import am2.spell.SpellTextureHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AMSpawnEgg extends ArsMagicaItem{
 
 	private final int numClasses = 23;
 	private final ArrayList<ColorPair> colorPairs;
-	public AMSpawnEgg() {
+
+	public AMSpawnEgg(){
 		super();
 		colorPairs = new ArrayList<AMSpawnEgg.ColorPair>();
 
@@ -66,11 +42,11 @@ public class AMSpawnEgg extends ArsMagicaItem{
 		colorPairs.add(new ColorPair(0x6080c9, 0x282096)); //Water Elemental
 		colorPairs.add(new ColorPair(0xDDDDDD, 0x7b1a7c)); //Light Mage
 		colorPairs.add(new ColorPair(0x222222, 0x7b1a7c)); //Dark Mage
-		colorPairs.add(new ColorPair(0,0)); //Hell Cow
-		colorPairs.add(new ColorPair(0x5a5a5a,0x42220c)); //Earth Elemental
-		colorPairs.add(new ColorPair(0xd42603,0xdb8f23)); //Fire Elemental
-		colorPairs.add(new ColorPair(0x0,0xdb8f23)); //Darkling
-		colorPairs.add(new ColorPair(0xFFFFFF,0xF0F0F0)); //Flicker
+		colorPairs.add(new ColorPair(0, 0)); //Hell Cow
+		colorPairs.add(new ColorPair(0x5a5a5a, 0x42220c)); //Earth Elemental
+		colorPairs.add(new ColorPair(0xd42603, 0xdb8f23)); //Fire Elemental
+		colorPairs.add(new ColorPair(0x0, 0xdb8f23)); //Darkling
+		colorPairs.add(new ColorPair(0xFFFFFF, 0xF0F0F0)); //Flicker
 
 		colorPairs.add(new ColorPair(0x2f9821, 0xc9bc2f)); //Nature Guardian
 		colorPairs.add(new ColorPair(0x7f3280, 0xc9bc2f)); //Arcane Guardian
@@ -87,36 +63,34 @@ public class AMSpawnEgg extends ArsMagicaItem{
 	}
 
 	@Override
-	public boolean hasEffect(ItemStack stack, int pass) {
+	public boolean hasEffect(ItemStack stack, int pass){
 		return pass == 0 && stack.getItemDamage() > 8;
 	}
 
 	@Override
-	public boolean requiresMultipleRenderPasses() {
+	public boolean requiresMultipleRenderPasses(){
 		return true;
 	}
 
 	@Override
-	public int getRenderPasses(int metadata) {
+	public int getRenderPasses(int metadata){
 		return 2;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister iconRegister) {
+	public void registerIcons(IIconRegister iconRegister){
 		AMGuiIcons.instance.init(iconRegister);
 		AMParticleIcons.instance.init(iconRegister);
 		SpellTextureHelper.instance.loadAllIcons(iconRegister);
 	}
 
 	@Override
-	public String getItemStackDisplayName(ItemStack stack)
-	{
+	public String getItemStackDisplayName(ItemStack stack){
 		String s = ("" + StatCollector.translateToLocal(Items.spawn_egg.getUnlocalizedName() + ".name")).trim();
 		String s1 = getSpawnStringFromMeta(stack.getItemDamage());
 
-		if (s1 != null)
-		{
+		if (s1 != null){
 			s = s + " " + s1;
 		}
 
@@ -125,13 +99,12 @@ public class AMSpawnEgg extends ArsMagicaItem{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getColorFromItemStack(ItemStack stack, int pass)
-	{
+	public int getColorFromItemStack(ItemStack stack, int pass){
 		return colorPairs.get(stack.getItemDamage()).colors[pass];
 	}
 
 	private static Class getSpawnClassFromMeta(int meta){
-		switch(meta){
+		switch (meta){
 		case 0:
 			return EntityManaCreeper.class;
 		case 1:
@@ -184,7 +157,7 @@ public class AMSpawnEgg extends ArsMagicaItem{
 	}
 
 	private String getSpawnStringFromMeta(int meta){
-		switch(meta){
+		switch (meta){
 		case 0:
 			return StatCollector.translateToLocal("entity.arsmagica2.MobManaCreeper.name");
 		case 1:
@@ -237,14 +210,10 @@ public class AMSpawnEgg extends ArsMagicaItem{
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
-	{
-		if (par3World.isRemote)
-		{
+	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10){
+		if (par3World.isRemote){
 			return true;
-		}
-		else
-		{
+		}else{
 
 			Block block = par3World.getBlock(par4, par5, par6);
 			par4 += Facing.offsetsXForSide[par7];
@@ -252,22 +221,18 @@ public class AMSpawnEgg extends ArsMagicaItem{
 			par6 += Facing.offsetsZForSide[par7];
 			double d0 = 0.0D;
 
-			if (par7 == 1 && block != null && block.getRenderType() == 11)
-			{
+			if (par7 == 1 && block != null && block.getRenderType() == 11){
 				d0 = 0.5D;
 			}
 
 			Entity entity = spawnCreature(par3World, par1ItemStack.getItemDamage(), par4 + 0.5D, par5 + d0, par6 + 0.5D);
 
-			if (entity != null)
-			{
-				if (entity instanceof EntityLiving && par1ItemStack.hasDisplayName())
-				{
+			if (entity != null){
+				if (entity instanceof EntityLiving && par1ItemStack.hasDisplayName()){
 					((EntityLiving)entity).setCustomNameTag(par1ItemStack.getDisplayName());
 				}
 
-				if (!par2EntityPlayer.capabilities.isCreativeMode)
-				{
+				if (!par2EntityPlayer.capabilities.isCreativeMode){
 					--par1ItemStack.stackSize;
 				}
 			}
@@ -277,22 +242,19 @@ public class AMSpawnEgg extends ArsMagicaItem{
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
 		MovingObjectPosition mop = ItemsCommonProxy.spell.getMovingObjectPosition(par3EntityPlayer, par2World, 8.0f, true, false);
 
 		if (mop != null && mop.typeOfHit == MovingObjectType.ENTITY && !par2World.isRemote){
 
 			Entity entity = spawnCreature(par2World, par1ItemStack.getItemDamage(), mop.entityHit.posX, mop.entityHit.posY, mop.entityHit.posZ);
 
-			if (entity != null)
-			{
-				if (entity instanceof EntityLiving && par1ItemStack.hasDisplayName())
-				{
+			if (entity != null){
+				if (entity instanceof EntityLiving && par1ItemStack.hasDisplayName()){
 					((EntityLiving)entity).setCustomNameTag(par1ItemStack.getDisplayName());
 				}
 
-				if (!par3EntityPlayer.capabilities.isCreativeMode)
-				{
+				if (!par3EntityPlayer.capabilities.isCreativeMode){
 					--par1ItemStack.stackSize;
 				}
 
@@ -305,35 +267,30 @@ public class AMSpawnEgg extends ArsMagicaItem{
 		return par1ItemStack;
 	}
 
-	public static Entity spawnCreature(World par0World, int par1, double par2, double par4, double par6)
-	{
+	public static Entity spawnCreature(World par0World, int par1, double par2, double par4, double par6){
 		Class entityClass = getSpawnClassFromMeta(par1);
-		if (entityClass == null)
-		{
+		if (entityClass == null){
 			return null;
-		}
-		else
-		{
+		}else{
 			Entity entity = null;
-			try {
+			try{
 				Constructor c = entityClass.getConstructor(World.class);
-				entity = (Entity) c.newInstance(par0World);
-			} catch (InstantiationException e) {
+				entity = (Entity)c.newInstance(par0World);
+			}catch (InstantiationException e){
 				e.printStackTrace();
-			} catch (IllegalAccessException e) {
+			}catch (IllegalAccessException e){
 				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
+			}catch (NoSuchMethodException e){
 				e.printStackTrace();
-			} catch (SecurityException e) {
+			}catch (SecurityException e){
 				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
+			}catch (IllegalArgumentException e){
 				e.printStackTrace();
-			} catch (InvocationTargetException e) {
+			}catch (InvocationTargetException e){
 				e.printStackTrace();
 			}
 
-			if (entity != null && entity instanceof EntityLiving)
-			{
+			if (entity != null && entity instanceof EntityLiving){
 				EntityLiving entityliving = (EntityLiving)entity;
 				entity.setLocationAndAngles(par2, par4, par6, MathHelper.wrapAngleTo180_float(par0World.rand.nextFloat() * 360.0F), 0.0F);
 				entityliving.rotationYawHead = entityliving.rotationYaw;
@@ -347,8 +304,7 @@ public class AMSpawnEgg extends ArsMagicaItem{
 	}
 
 	@Override
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List)
-	{
+	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List){
 		for (int i = 0; i < numClasses; ++i){
 			par3List.add(new ItemStack(par1, 1, i));
 		}
@@ -356,23 +312,23 @@ public class AMSpawnEgg extends ArsMagicaItem{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int par1) {
+	public IIcon getIconFromDamage(int par1){
 		return Items.spawn_egg.getIconFromDamage(par1);
 	}
 
 	@Override
-	public IIcon getIcon(ItemStack stack, int pass) {
+	public IIcon getIcon(ItemStack stack, int pass){
 		return Items.spawn_egg.getIcon(stack, pass);
 	}
 
 	@Override
-	public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining) {
+	public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining){
 		return Items.spawn_egg.getIcon(stack, renderPass, player, usingItem, useRemaining);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamageForRenderPass(int par1, int par2) {
+	public IIcon getIconFromDamageForRenderPass(int par1, int par2){
 		return Items.spawn_egg.getIconFromDamageForRenderPass(par1, par2);
 	}
 

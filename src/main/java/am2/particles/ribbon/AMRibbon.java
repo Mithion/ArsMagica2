@@ -1,25 +1,20 @@
 package am2.particles.ribbon;
 
-import java.util.LinkedList;
-import java.util.Vector;
-
+import am2.api.math.AMVector3;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-
 import org.lwjgl.opengl.GL11;
 
-import am2.api.math.AMVector3;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.LinkedList;
+import java.util.Vector;
 
 public class AMRibbon extends EntityFX{
 
-	int NUMCURVES = 5;	//number of ribbonCurves per ribbon
+	int NUMCURVES = 5;    //number of ribbonCurves per ribbon
 	int CURVERESOLUTION = 25; //lower -> faster
 	float RIBBONWIDTH = 2.25f;
 	float NOISESTEP = 0.005f;
@@ -27,7 +22,7 @@ public class AMRibbon extends EntityFX{
 
 	PerlinNoise noise;
 
-	float ribbonSeparation,noisePosn;
+	float ribbonSeparation, noisePosn;
 	Vector pts;
 	LinkedList curves;
 	float ribbonColor;
@@ -52,8 +47,8 @@ public class AMRibbon extends EntityFX{
 		ribbonWidth = width;
 		stepId = 0;
 
-		ribbonTarget = new AMVector3(random(-movement,movement), random(-movement,movement), random(-movement,movement));
-		ribbonSeparation = lerp(-MAXSEPARATION,MAXSEPARATION, noise.noise1(noisePosn+=NOISESTEP));
+		ribbonTarget = new AMVector3(random(-movement, movement), random(-movement, movement), random(-movement, movement));
+		ribbonSeparation = lerp(-MAXSEPARATION, MAXSEPARATION, noise.noise1(noisePosn += NOISESTEP));
 
 		pts.addElement(getRandPt());
 		pts.addElement(getRandPt());
@@ -67,7 +62,7 @@ public class AMRibbon extends EntityFX{
 	}
 
 	@Override
-	public void renderParticle(Tessellator par1Tessellator, float partialframe, float cosyaw, float cospitch, float sinyaw, float sinsinpitch, float cossinpitch) {
+	public void renderParticle(Tessellator par1Tessellator, float partialframe, float cosyaw, float cospitch, float sinyaw, float sinsinpitch, float cossinpitch){
 
 		par1Tessellator.draw();
 
@@ -96,19 +91,19 @@ public class AMRibbon extends EntityFX{
 	}
 
 	@Override
-	public int getFXLayer() {
+	public int getFXLayer(){
 		return 2;
 	}
 
 	void draw(){
-		ribbonTarget = new AMVector3(random(-movement,movement), random(-movement,movement), random(-movement,movement));
-		ribbonSeparation = lerp(-MAXSEPARATION,MAXSEPARATION, noise.noise1(noisePosn+=NOISESTEP));
+		ribbonTarget = new AMVector3(random(-movement, movement), random(-movement, movement), random(-movement, movement));
+		ribbonSeparation = lerp(-MAXSEPARATION, MAXSEPARATION, noise.noise1(noisePosn += NOISESTEP));
 
 		currentCurve.addSegment();
 
 		int size = curves.size();
-		if (size > NUMCURVES-1) {
-			RibbonCurve c = (RibbonCurve) curves.get(0);
+		if (size > NUMCURVES - 1){
+			RibbonCurve c = (RibbonCurve)curves.get(0);
 			c.removeSegment();
 		}
 		stepId++;
@@ -116,14 +111,14 @@ public class AMRibbon extends EntityFX{
 		if (stepId > CURVERESOLUTION) addRibbonCurve();
 
 		//draw curves
-		for (int i = 0; i < size; i++) {
-			RibbonCurve c = (RibbonCurve) curves.get(i);
+		for (int i = 0; i < size; i++){
+			RibbonCurve c = (RibbonCurve)curves.get(i);
 			c.draw();
 		}
 	}
 
 	private float random(float min, float max){
-		return (float) ((Math.random() * max) - min);
+		return (float)((Math.random() * max) - min);
 	}
 
 	private float lerp(float start, float stop, float amount){
@@ -134,17 +129,17 @@ public class AMRibbon extends EntityFX{
 		//add new point
 		pts.addElement(getRandPt());
 
-		AMVector3 nextPt = (AMVector3) pts.elementAt(pts.size()-1);
-		AMVector3 curPt = (AMVector3) pts.elementAt(pts.size()-2);
-		AMVector3 lastPt = (AMVector3) pts.elementAt(pts.size()-3);
+		AMVector3 nextPt = (AMVector3)pts.elementAt(pts.size() - 1);
+		AMVector3 curPt = (AMVector3)pts.elementAt(pts.size() - 2);
+		AMVector3 lastPt = (AMVector3)pts.elementAt(pts.size() - 3);
 
-		AMVector3 lastMidPt = new AMVector3 ((curPt.x + lastPt.x)/2,
-				(curPt.y + lastPt.y)/2,
-				(curPt.z + lastPt.z)/2);
+		AMVector3 lastMidPt = new AMVector3((curPt.x + lastPt.x) / 2,
+				(curPt.y + lastPt.y) / 2,
+				(curPt.z + lastPt.z) / 2);
 
-		AMVector3 midPt = new AMVector3 ((curPt.x + nextPt.x)/2,
-				(curPt.y + nextPt.y)/2,
-				(curPt.z + nextPt.z)/2);
+		AMVector3 midPt = new AMVector3((curPt.x + nextPt.x) / 2,
+				(curPt.y + nextPt.y) / 2,
+				(curPt.z + nextPt.z) / 2);
 
 		/*float width = 0.00003F * (getRelativeViewVector(midPt).length()) * 1.5f;
 		if (width > 0.2f)
@@ -154,7 +149,7 @@ public class AMRibbon extends EntityFX{
 
 		float width = 0.2f;
 
-		currentCurve = new RibbonCurve(lastMidPt, midPt,curPt,width,CURVERESOLUTION,ribbonColor);
+		currentCurve = new RibbonCurve(lastMidPt, midPt, curPt, width, CURVERESOLUTION, ribbonColor);
 		curves.add(currentCurve);
 
 		//remove old curves
@@ -166,30 +161,29 @@ public class AMRibbon extends EntityFX{
 
 	}
 
-	private static AMVector3 getRelativeViewVector(AMVector3 pos)
-	{
+	private static AMVector3 getRelativeViewVector(AMVector3 pos){
 		EntityPlayer renderentity = Minecraft.getMinecraft().thePlayer;
 		return new AMVector3((float)renderentity.posX - pos.x, (float)renderentity.posY - pos.y, (float)renderentity.posZ - pos.z);
 	}
 
 	AMVector3 getRandPt(){
-		return new AMVector3(ribbonTarget.x + random(-ribbonSeparation,ribbonSeparation),
-				ribbonTarget.y + random(-ribbonSeparation,ribbonSeparation),
-				ribbonTarget.z + random(-ribbonSeparation,ribbonSeparation));
+		return new AMVector3(ribbonTarget.x + random(-ribbonSeparation, ribbonSeparation),
+				ribbonTarget.y + random(-ribbonSeparation, ribbonSeparation),
+				ribbonTarget.z + random(-ribbonSeparation, ribbonSeparation));
 	}
-	
+
 	@Override
-	public boolean isInRangeToRenderDist(double par1) {
-		return true;
-	}
-	
-	@Override
-	public boolean isInRangeToRender3d(double p_145770_1_, double p_145770_3_, double p_145770_5_) {
+	public boolean isInRangeToRenderDist(double par1){
 		return true;
 	}
 
 	@Override
-	public void onUpdate() {
+	public boolean isInRangeToRender3d(double p_145770_1_, double p_145770_3_, double p_145770_5_){
+		return true;
+	}
+
+	@Override
+	public void onUpdate(){
 		//intentionally left blank
 		super.onUpdate();
 	}

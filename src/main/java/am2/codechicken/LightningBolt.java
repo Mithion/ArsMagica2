@@ -1,7 +1,7 @@
 package am2.codechicken;
 
-import java.util.Iterator;
-
+import am2.api.math.AMVector3;
+import am2.texture.ResourceManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
@@ -10,96 +10,81 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-
 import org.lwjgl.opengl.GL11;
 
-import am2.api.math.AMVector3;
-import am2.texture.ResourceManager;
+import java.util.Iterator;
 
-public class LightningBolt extends EntityFX
-{
+public class LightningBolt extends EntityFX{
 	private int type = 0;
 	private int overrideColor = -1;
 	private LightningBoltCommon main;
 
 	private static final ResourceLocation bolt = new ResourceLocation("arsmagica2", ResourceManager.GetFXTexturePath("smoke.png"));
 
-	public LightningBolt(World world, AMVector3 jammervec, AMVector3 targetvec, long seed)
-	{
+	public LightningBolt(World world, AMVector3 jammervec, AMVector3 targetvec, long seed){
 		super(world, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 		this.main = new LightningBoltCommon(world, jammervec, targetvec, seed);
 		setupFromMain();
 	}
 
-	public LightningBolt(World world, Entity detonator, Entity target, long seed)
-	{
+	public LightningBolt(World world, Entity detonator, Entity target, long seed){
 		super(world, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 		this.main = new LightningBoltCommon(world, detonator, target, seed);
 		setupFromMain();
 	}
 
-	public LightningBolt(World world, Entity detonator, Entity target, long seed, int speed)
-	{
+	public LightningBolt(World world, Entity detonator, Entity target, long seed, int speed){
 		super(world, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 		this.main = new LightningBoltCommon(world, detonator, target, seed, speed);
 		setupFromMain();
 	}
 
-	public LightningBolt(World world, TileEntity detonator, Entity target, long seed)
-	{
+	public LightningBolt(World world, TileEntity detonator, Entity target, long seed){
 		super(world, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 		this.main = new LightningBoltCommon(world, detonator, target, seed);
 		setupFromMain();
 	}
 
-	public LightningBolt(World world, double x1, double y1, double z1, double x, double y, double z, long seed, int duration, float multi)
-	{
+	public LightningBolt(World world, double x1, double y1, double z1, double x, double y, double z, long seed, int duration, float multi){
 		super(world, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 		this.main = new LightningBoltCommon(world, x1, y1, z1, x, y, z, seed, duration, multi);
 		setupFromMain();
 	}
 
-	public LightningBolt(World world, double x1, double y1, double z1, double x, double y, double z, long seed, int duration, float multi, int speed)
-	{
+	public LightningBolt(World world, double x1, double y1, double z1, double x, double y, double z, long seed, int duration, float multi, int speed){
 		super(world, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 		this.main = new LightningBoltCommon(world, x1, y1, z1, x, y, z, seed, duration, multi, speed);
 		setupFromMain();
 	}
 
-	public LightningBolt(World world, double x1, double y1, double z1, double x, double y, double z, long seed, int duration)
-	{
+	public LightningBolt(World world, double x1, double y1, double z1, double x, double y, double z, long seed, int duration){
 		super(world, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 		this.main = new LightningBoltCommon(world, x1, y1, z1, x, y, z, seed, duration, 1.0F);
 		setupFromMain();
 	}
 
-	public LightningBolt(World world, TileEntity detonator, double x, double y, double z, long seed)
-	{
+	public LightningBolt(World world, TileEntity detonator, double x, double y, double z, long seed){
 		super(world, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 		this.main = new LightningBoltCommon(world, detonator, x, y, z, seed);
 		setupFromMain();
 	}
 
-	private void setupFromMain()
-	{
+	private void setupFromMain(){
 		this.main.setWrapper(this);
 		this.particleAge = this.main.particleMaxAge;
 		setPosition(this.main.start.x, this.main.start.y, this.main.start.z);
 		setVelocity(0.0D, 0.0D, 0.0D);
 	}
 
-	public void defaultFractal()
-	{
+	public void defaultFractal(){
 		this.main.defaultFractal();
 	}
 
-	public void fractal(int splits, float amount, float splitchance, float splitlength, float splitangle)
-	{
+	public void fractal(int splits, float amount, float splitchance, float splitlength, float splitangle){
 		this.main.fractal(splits, amount, splitchance, splitlength, splitangle);
 	}
 
-	public void finalizeBolt()
-	{
+	public void finalizeBolt(){
 		this.main.finalizeBolt();
 		Minecraft.getMinecraft().effectRenderer.addEffect(this);
 	}
@@ -108,44 +93,41 @@ public class LightningBolt extends EntityFX
 		this.overrideColor = overrideColor;
 	}
 
-	public void setSourceEntity(Entity entity)
-	{
+	public void setSourceEntity(Entity entity){
 		this.main.wrapper = entity;
 	}
 
-	public void setType(int type) {
+	public void setType(int type){
 		this.type = type;
 		this.main.type = type;
 	}
-	public void setDamage(int dmg) {
+
+	public void setDamage(int dmg){
 		this.main.damage = dmg;
 	}
 
-	public void setNonLethal() {
+	public void setNonLethal(){
 		this.main.nonLethal = true;
 	}
 
-	public void setMultiplier(float m) {
+	public void setMultiplier(float m){
 		this.main.multiplier = m;
 	}
 
 	@Override
-	public void onUpdate()
-	{
+	public void onUpdate(){
 		this.main.onUpdate();
 		if (this.main.particleAge >= this.main.particleMaxAge){
 			setDead();
 		}
 	}
 
-	private static AMVector3 getRelativeViewVector(AMVector3 pos)
-	{
+	private static AMVector3 getRelativeViewVector(AMVector3 pos){
 		EntityPlayer renderentity = Minecraft.getMinecraft().thePlayer;
 		return new AMVector3((float)renderentity.posX - pos.x, (float)renderentity.posY - pos.y, (float)renderentity.posZ - pos.z);
 	}
 
-	private void renderBolt(Tessellator tessellator, float partialframe, float cosyaw, float cospitch, float sinyaw, float cossinpitch, int pass)
-	{
+	private void renderBolt(Tessellator tessellator, float partialframe, float cosyaw, float cospitch, float sinyaw, float cossinpitch, int pass){
 		AMVector3 playervec = new AMVector3(sinyaw * -cospitch, -cossinpitch / cosyaw, cosyaw * cospitch);
 		float boltage = this.main.particleAge >= 0 ? this.main.particleAge / this.main.particleMaxAge : 0.0F;
 		float mainalpha = 1.0F;
@@ -156,11 +138,9 @@ public class LightningBolt extends EntityFX
 		else
 			mainalpha = 1.0F - boltage * 0.3F;
 		int renderlength = (int)((this.main.particleAge + partialframe + (int)(this.main.length * 3.0F)) / (int)(this.main.length * 3.0F) * this.main.numsegments0);
-		for (Iterator iterator = this.main.segments.iterator(); iterator.hasNext(); )
-		{
+		for (Iterator iterator = this.main.segments.iterator(); iterator.hasNext(); ){
 			LightningBoltCommon.Segment rendersegment = (LightningBoltCommon.Segment)iterator.next();
-			if (rendersegment.segmentno <= renderlength)
-			{
+			if (rendersegment.segmentno <= renderlength){
 				float width = 0.03F * (getRelativeViewVector(rendersegment.startpoint.point).length() / 10.0F + 1.0F) * (1.0F + rendersegment.light) * 0.5F;
 				if (width > 0.05F) width = 0.05F;
 				if (pass == 1) width += 0.025f;
@@ -180,8 +160,7 @@ public class LightningBolt extends EntityFX
 				tessellator.addVertexWithUV(rx1 - diff1.x, ry1 - diff1.y, rz1 - diff1.z, 0.5D, 0.0D);
 				tessellator.addVertexWithUV(rx1 + diff1.x, ry1 + diff1.y, rz1 + diff1.z, 0.5D, 1.0D);
 				tessellator.addVertexWithUV(rx2 + diff2.x, ry2 + diff2.y, rz2 + diff2.z, 0.5D, 1.0D);
-				if (rendersegment.next == null)
-				{
+				if (rendersegment.next == null){
 					AMVector3 roundend = rendersegment.endpoint.point.copy().add(rendersegment.diff.copy().normalize().scale(width));
 					float rx3 = (float)(roundend.x - interpPosX);
 					float ry3 = (float)(roundend.y - interpPosY);
@@ -191,8 +170,7 @@ public class LightningBolt extends EntityFX
 					tessellator.addVertexWithUV(rx2 + diff2.x, ry2 + diff2.y, rz2 + diff2.z, 0.5D, 1.0D);
 					tessellator.addVertexWithUV(rx3 + diff2.x, ry3 + diff2.y, rz3 + diff2.z, 0.0D, 1.0D);
 				}
-				if (rendersegment.prev == null)
-				{
+				if (rendersegment.prev == null){
 					AMVector3 roundend = rendersegment.startpoint.point.copy().sub(rendersegment.diff.copy().normalize().scale(width));
 					float rx3 = (float)(roundend.x - interpPosX);
 					float ry3 = (float)(roundend.y - interpPosY);
@@ -207,8 +185,7 @@ public class LightningBolt extends EntityFX
 	}
 
 	@Override
-	public void renderParticle(Tessellator tessellator, float partialframe, float cosyaw, float cospitch, float sinyaw, float sinsinpitch, float cossinpitch)
-	{
+	public void renderParticle(Tessellator tessellator, float partialframe, float cosyaw, float cospitch, float sinyaw, float sinsinpitch, float cossinpitch){
 		EntityPlayer renderentity = Minecraft.getMinecraft().thePlayer;
 		int visibleDistance = 100;
 		if ((!Minecraft.getMinecraft().gameSettings.fancyGraphics)) visibleDistance = 50;
@@ -226,7 +203,7 @@ public class LightningBolt extends EntityFX
 
 		int brightness = 0xF00F0;
 
-		switch (this.type) {
+		switch (this.type){
 		case 0:
 			this.particleRed = 0.1F;
 			this.particleGreen = 0.1F;
@@ -281,11 +258,15 @@ public class LightningBolt extends EntityFX
 
 		tessellator.setBrightness(brightness);
 		renderBolt(tessellator, partialframe, cosyaw, cospitch, sinyaw, cossinpitch, 0);
-		try{tessellator.draw();}catch(Throwable t){}
+		try{
+			tessellator.draw();
+		}catch (Throwable t){
+		}
 
 		brightness = 0xF00F0;
 
-		switch (this.type) { case 0:
+		switch (this.type){
+		case 0:
 			this.particleRed = 1.0F;
 			this.particleGreen = 0.6F;
 			this.particleBlue = 1.0F;
@@ -332,14 +313,22 @@ public class LightningBolt extends EntityFX
 			this.particleBlue = (overrideColor & 0xFF) / 255.0f;
 		}
 
-		try{tessellator.startDrawingQuads();}catch(Throwable t){};
+		try{
+			tessellator.startDrawingQuads();
+		}catch (Throwable t){
+		}
+		;
 		tessellator.setBrightness(brightness);
 		renderBolt(tessellator, partialframe, cosyaw, cospitch, sinyaw, cossinpitch, 1);
-		try{tessellator.draw();}catch(Throwable t){}
+		try{
+			tessellator.draw();
+		}catch (Throwable t){
+		}
 
 		brightness = 0xF00F0;
 
-		switch (this.type) { case 0:
+		switch (this.type){
+		case 0:
 			this.particleRed = 1.0F;
 			this.particleGreen = 0.6F;
 			this.particleBlue = 1.0F;
@@ -387,21 +376,29 @@ public class LightningBolt extends EntityFX
 			this.particleBlue = (overrideColor & 0xFF) / 255.0f;
 		}
 
-		try{tessellator.startDrawingQuads();}catch(Throwable t){}
+		try{
+			tessellator.startDrawingQuads();
+		}catch (Throwable t){
+		}
 		tessellator.setBrightness(brightness);
 		renderBolt(tessellator, partialframe, cosyaw, cospitch, sinyaw, cossinpitch, 2);
-		try{tessellator.draw();}catch(Throwable t){}
+		try{
+			tessellator.draw();
+		}catch (Throwable t){
+		}
 
-		try{tessellator.startDrawingQuads();}catch(Throwable t){}
-		
+		try{
+			tessellator.startDrawingQuads();
+		}catch (Throwable t){
+		}
+
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glDepthMask(true);
 		GL11.glPopAttrib();
 		GL11.glPopMatrix();
 	}
 
-	public int getRenderPass()
-	{
+	public int getRenderPass(){
 		return 2;
 	}
 }

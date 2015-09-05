@@ -1,21 +1,16 @@
 package am2.models;
 
+import am2.blocks.tileentities.TileEntitySummoner;
+import am2.texture.ResourceManager;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
-
 import org.lwjgl.opengl.GL11;
 
-import am2.blocks.tileentities.TileEntitySummoner;
-import am2.render3d.OBJModel;
-import am2.texture.ResourceManager;
-
-public class ModelSummoner extends ModelBase
-{
+public class ModelSummoner extends ModelBase{
 	//fields
 	ModelRenderer Shape1;
 	ModelRenderer Shape2;
@@ -31,8 +26,7 @@ public class ModelSummoner extends ModelBase
 
 	private IModelCustom crystalmodel;
 
-	public ModelSummoner()
-	{
+	public ModelSummoner(){
 		textureWidth = 64;
 		textureHeight = 32;
 
@@ -108,8 +102,7 @@ public class ModelSummoner extends ModelBase
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		Shape1.render(f5);
 		Shape2.render(f5);
@@ -152,13 +145,13 @@ public class ModelSummoner extends ModelBase
 		}
 		try{
 			crystalmodel.renderAll();
-		}catch(Throwable t){}
+		}catch (Throwable t){
+		}
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPopMatrix();
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z){
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

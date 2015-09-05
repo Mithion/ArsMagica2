@@ -1,10 +1,10 @@
 package am2.blocks.tileentities;
 
-import java.util.Random;
-
 import am2.api.power.PowerTypes;
 
-public class TileEntityEssenceConduit extends TileEntityAMPower {
+import java.util.Random;
+
+public class TileEntityEssenceConduit extends TileEntityAMPower{
 
 	private float rotationX;
 	private float rotationY;
@@ -42,11 +42,11 @@ public class TileEntityEssenceConduit extends TileEntityAMPower {
 	}
 
 	@Override
-	public float particleOffset(int axis) {
+	public float particleOffset(int axis){
 		int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 
 		if (axis == 0){
-			switch(meta){
+			switch (meta){
 			case 6:
 				return 0.8f;
 			case 5:
@@ -55,7 +55,7 @@ public class TileEntityEssenceConduit extends TileEntityAMPower {
 				return 0.5f;
 			}
 		}else if (axis == 1){
-			switch(meta){
+			switch (meta){
 			case 1:
 				return 0.2f;
 			case 2:
@@ -64,7 +64,7 @@ public class TileEntityEssenceConduit extends TileEntityAMPower {
 				return 0.5f;
 			}
 		}else if (axis == 2){
-			switch(meta){
+			switch (meta){
 			case 4:
 				return 0.8f;
 			case 3:
@@ -120,22 +120,22 @@ public class TileEntityEssenceConduit extends TileEntityAMPower {
 	}
 
 	@Override
-	public int getChargeRate() {
+	public int getChargeRate(){
 		return 1;
 	}
 
 	@Override
-	public boolean canRequestPower() {
+	public boolean canRequestPower(){
 		return !this.redstonePowered;
 	}
 
 	@Override
-	public boolean canProvidePower(PowerTypes type) {
+	public boolean canProvidePower(PowerTypes type){
 		return false;
 	}
 
 	@Override
-	public boolean canRelayPower(PowerTypes type) {
+	public boolean canRelayPower(PowerTypes type){
 		return true;
 	}
 }

@@ -1,14 +1,5 @@
 package am2.bosses;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
 import am2.AMCore;
 import am2.bosses.ai.EntityAICastSpell;
 import am2.bosses.ai.EntityAIDispel;
@@ -20,6 +11,15 @@ import am2.entities.EntityFireElemental;
 import am2.entities.EntityManaElemental;
 import am2.items.ItemsCommonProxy;
 import am2.utility.NPCSpells;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class EntityLifeGuardian extends AM2Boss{
 
@@ -28,7 +28,7 @@ public class EntityLifeGuardian extends AM2Boss{
 
 	private static final int DATA_MINION_COUNT = 20;
 
-	public EntityLifeGuardian(World par1World) {
+	public EntityLifeGuardian(World par1World){
 		super(par1World);
 		this.setSize(1, 2);
 		minions = new ArrayList<EntityLiving>();
@@ -36,23 +36,23 @@ public class EntityLifeGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void entityInit(){
 		super.entityInit();
 		this.dataWatcher.addObject(DATA_MINION_COUNT, 0);
 	}
 
 	@Override
-	protected void initSpecificAI() {
+	protected void initSpecificAI(){
 		this.tasks.addTask(1, new EntityAIDispel(this));
-		this.tasks.addTask(1, new EntityAICastSpell(this, NPCSpells.instance.healSelf, 16, 23, 100, BossActions.CASTING, new ISpellCastCallback<EntityLifeGuardian>() {
+		this.tasks.addTask(1, new EntityAICastSpell(this, NPCSpells.instance.healSelf, 16, 23, 100, BossActions.CASTING, new ISpellCastCallback<EntityLifeGuardian>(){
 			@Override
-			public boolean shouldCast(EntityLifeGuardian host, ItemStack spell) {
+			public boolean shouldCast(EntityLifeGuardian host, ItemStack spell){
 				return host.getHealth() < host.getMaxHealth();
 			}
 		}));
-		this.tasks.addTask(2, new EntityAICastSpell(this, NPCSpells.instance.nauseate, 16, 23, 20, BossActions.CASTING, new ISpellCastCallback<EntityLifeGuardian>() {
+		this.tasks.addTask(2, new EntityAICastSpell(this, NPCSpells.instance.nauseate, 16, 23, 20, BossActions.CASTING, new ISpellCastCallback<EntityLifeGuardian>(){
 			@Override
-			public boolean shouldCast(EntityLifeGuardian host, ItemStack spell) {
+			public boolean shouldCast(EntityLifeGuardian host, ItemStack spell){
 				return minions.size() == 0;
 			}
 		}));
@@ -60,17 +60,17 @@ public class EntityLifeGuardian extends AM2Boss{
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
 		if (par1DamageSource.getSourceOfDamage() != null && par1DamageSource.getSourceOfDamage() instanceof EntityLivingBase){
 			for (EntityLivingBase minion : minions.toArray(new EntityLivingBase[minions.size()])){
-				((EntityLiving)minion).setAttackTarget((EntityLivingBase) par1DamageSource.getSourceOfDamage());
+				((EntityLiving)minion).setAttackTarget((EntityLivingBase)par1DamageSource.getSourceOfDamage());
 			}
 		}
 		return super.attackEntityFrom(par1DamageSource, par2);
 	}
 
 	@Override
-	protected float modifyDamageAmount(DamageSource source, float damageAmt) {
+	protected float modifyDamageAmount(DamageSource source, float damageAmt){
 		if (minions.size() > 0){
 			damageAmt = 0;
 			minions.get(getRNG().nextInt(minions.size())).attackEntityFrom(source, damageAmt);
@@ -83,14 +83,13 @@ public class EntityLifeGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(200D);
 	}
 
 	@Override
-	public void onUpdate() {
+	public void onUpdate(){
 		//Minion management - add any queued minions to the minion list and prune out any fallen or nonexistant ones
 		if (!worldObj.isRemote){
 			minions.addAll(queued_minions);
@@ -117,35 +116,33 @@ public class EntityLifeGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected String getHurtSound() {
+	protected String getHurtSound(){
 		return "arsmagica2:mob.lifeguardian.hit";
 	}
 
 	@Override
-	protected String getDeathSound() {
+	protected String getDeathSound(){
 		return "arsmagica2:mob.lifeguardian.death";
 	}
 
 	@Override
-	protected String getLivingSound() {
+	protected String getLivingSound(){
 		return "arsmagica2:mob.lifeguardian.idle";
 	}
 
 	@Override
-	public String getAttackSound() {
+	public String getAttackSound(){
 		return "arsmagica2:mob.lifeguardian.heal";
 	}
 
 	@Override
-	protected void dropFewItems(boolean par1, int par2)
-	{
+	protected void dropFewItems(boolean par1, int par2){
 		if (par1)
 			this.entityDropItem(new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_INF_ORB_GREEN), 0.0f);
 
 		int i = rand.nextInt(4);
 
-		for (int j = 0; j < i; j++)
-		{
+		for (int j = 0; j < i; j++){
 			this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_LIFE), 0.0f);
 		}
 
@@ -157,7 +154,7 @@ public class EntityLifeGuardian extends AM2Boss{
 	}
 
 	@Override
-	public float getEyeHeight() {
+	public float getEyeHeight(){
 		return 1.5f;
 	}
 }

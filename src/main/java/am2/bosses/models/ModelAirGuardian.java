@@ -1,16 +1,13 @@
 package am2.bosses.models;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.bosses.BossActions;
 import am2.bosses.EntityAirGuardian;
-import am2.bosses.EntityArcaneGuardian;
 import am2.entities.renderers.AM2ModelRenderer;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
+import org.lwjgl.opengl.GL11;
 
-public class ModelAirGuardian extends ModelBase
-{
+public class ModelAirGuardian extends ModelBase{
 	//fields
 	AM2ModelRenderer Ball1;
 	AM2ModelRenderer Ball2;
@@ -22,8 +19,7 @@ public class ModelAirGuardian extends ModelBase
 	AM2ModelRenderer LeftArm;
 	AM2ModelRenderer Head;
 
-	public ModelAirGuardian()
-	{
+	public ModelAirGuardian(){
 		textureWidth = 64;
 		textureHeight = 64;
 
@@ -81,22 +77,21 @@ public class ModelAirGuardian extends ModelBase
 		Head.setTextureSize(64, 64);
 		Head.mirror = true;
 		setRotation(Head, 0F, 0F, 0F);
-		
+
 		Ball1.storeRestRotations();
 		Ball2.storeRestRotations();
 	}
 
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		if (entity instanceof EntityAirGuardian){
 			GL11.glPushMatrix();
 			setHeadRotations(f3, f4);
 
-			EntityAirGuardian guardian = (EntityAirGuardian) entity;
+			EntityAirGuardian guardian = (EntityAirGuardian)entity;
 			if (guardian.getCurrentAction() == BossActions.SPINNING){
 				GL11.glRotatef(guardian.spinRotation, 0, 1, 0);
 			}
-			
+
 			updateRotations(guardian);
 			Ball1.render(f5);
 			Ball2.render(f5);
@@ -107,13 +102,12 @@ public class ModelAirGuardian extends ModelBase
 			RightArm.render(f5);
 			LeftArm.render(f5);
 			Head.render(f5);
-			
+
 			GL11.glPopMatrix();
 		}
 	}
 
-	private void setRotation(AM2ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(AM2ModelRenderer model, float x, float y, float z){
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
@@ -121,8 +115,8 @@ public class ModelAirGuardian extends ModelBase
 
 	private void setHeadRotations(float yaw, float pitch){
 
-		yaw = (float) Math.toRadians(yaw);
-		pitch = (float) Math.toRadians(pitch);
+		yaw = (float)Math.toRadians(yaw);
+		pitch = (float)Math.toRadians(pitch);
 
 		Head.rotateAngleX = pitch;
 		Head.rotateAngleY = yaw;
@@ -131,11 +125,11 @@ public class ModelAirGuardian extends ModelBase
 	@SuppressWarnings("incomplete-switch")
 	private void updateRotations(EntityAirGuardian guardian){
 
-		float rot1 = (float) Math.toRadians(guardian.getOrbitRotation());
+		float rot1 = (float)Math.toRadians(guardian.getOrbitRotation());
 
 		Ball1.rotateAngleY = Ball1.getRestRotationY() + rot1;
 		Ball2.rotateAngleY = Ball2.getRestRotationY() + rot1;
-		
+
 		float right_arm_rotation_x = 0;
 		float left_arm_rotation_x = 0;
 
@@ -151,19 +145,19 @@ public class ModelAirGuardian extends ModelBase
 			float final_action_ticks = 6;
 
 			if (guardian.getTicksInCurrentAction() < action_ticks){
-				right_arm_rotation_x = (float) Math.toRadians(-max_degrees_x * ((float)guardian.getTicksInCurrentAction() / action_ticks));
+				right_arm_rotation_x = (float)Math.toRadians(-max_degrees_x * ((float)guardian.getTicksInCurrentAction() / action_ticks));
 			}else if (guardian.getTicksInCurrentAction() < action_ticks + fast_action_ticks){
-				right_arm_rotation_x = (float) Math.toRadians(-max_degrees_x + (final_degrees_x * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
+				right_arm_rotation_x = (float)Math.toRadians(-max_degrees_x + (final_degrees_x * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
 			}else{
 				right_arm_rotation_x = final_degrees_x;
 			}
-			
+
 			if (guardian.useLeftArm()){
 				left_arm_rotation_x = right_arm_rotation_x;
 				right_arm_rotation_x = 0;
 			}
-				
-			
+
+
 			break;
 		case LONG_CASTING:
 			max_degrees_x = 160;
@@ -176,9 +170,9 @@ public class ModelAirGuardian extends ModelBase
 			final_action_ticks = 6;
 
 			if (guardian.getTicksInCurrentAction() < action_ticks){
-				right_arm_rotation_x = (float) Math.toRadians(-max_degrees_x * ((float)guardian.getTicksInCurrentAction() / action_ticks));
+				right_arm_rotation_x = (float)Math.toRadians(-max_degrees_x * ((float)guardian.getTicksInCurrentAction() / action_ticks));
 			}else if (guardian.getTicksInCurrentAction() < action_ticks + fast_action_ticks){
-				right_arm_rotation_x = (float) Math.toRadians(-max_degrees_x + (final_degrees_x * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
+				right_arm_rotation_x = (float)Math.toRadians(-max_degrees_x + (final_degrees_x * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
 			}else{
 				right_arm_rotation_x = final_degrees_x;
 			}
@@ -187,14 +181,14 @@ public class ModelAirGuardian extends ModelBase
 		case SPINNING:
 			max_degrees_x = 180;
 			float degrees = guardian.getTicksInCurrentAction() < 20 ? max_degrees_x * ((float)guardian.getTicksInCurrentAction() / 20f) : max_degrees_x;
-			right_arm_rotation_x = (float) Math.toRadians(degrees);
+			right_arm_rotation_x = (float)Math.toRadians(degrees);
 			left_arm_rotation_x = right_arm_rotation_x;
 			break;
 		}
 
 		RightArm.rotateAngleX = right_arm_rotation_x;
 		RightShoulder.rotateAngleX = right_arm_rotation_x;
-		
+
 		LeftArm.rotateAngleX = left_arm_rotation_x;
 		LeftShoulder.rotateAngleX = left_arm_rotation_x;
 	}

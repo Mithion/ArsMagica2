@@ -1,8 +1,10 @@
 package am2.armor.infusions;
 
-import java.lang.reflect.Method;
-import java.util.EnumSet;
-
+import am2.api.items.armor.IArmorImbuement;
+import am2.api.items.armor.ImbuementApplicationTypes;
+import am2.api.items.armor.ImbuementTiers;
+import am2.api.math.AMVector3;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -10,36 +12,34 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import am2.api.items.armor.IArmorImbuement;
-import am2.api.items.armor.ImbuementApplicationTypes;
-import am2.api.items.armor.ImbuementTiers;
-import am2.api.math.AMVector3;
-import cpw.mods.fml.relauncher.ReflectionHelper;
+
+import java.lang.reflect.Method;
+import java.util.EnumSet;
 
 public class WaterWalking implements IArmorImbuement{
 
 	@Override
-	public String getID() {
+	public String getID(){
 		return "wtrwalk";
 	}
 
 	@Override
-	public int getIconIndex() {
+	public int getIconIndex(){
 		return 28;
 	}
 
 	@Override
-	public ImbuementTiers getTier() {
+	public ImbuementTiers getTier(){
 		return ImbuementTiers.FOURTH;
 	}
 
 	@Override
-	public EnumSet<ImbuementApplicationTypes> getApplicationTypes() {
+	public EnumSet<ImbuementApplicationTypes> getApplicationTypes(){
 		return EnumSet.of(ImbuementApplicationTypes.ON_TICK);
 	}
 
 	@Override
-	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params) {
+	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 		Block[] blocks = new Block[4];
 		AMVector3[] vectors = new AMVector3[4];
 		int posY = (int)Math.floor(player.posY - player.yOffset);
@@ -73,12 +73,11 @@ public class WaterWalking implements IArmorImbuement{
 
 			if (player.worldObj.isRemote && player.ticksExisted % 5 == 0 && (Math.abs(player.motionX) > 0.1f || Math.abs(player.motionZ) > 0.1f)){
 				player.playSound("liquid.swim", 0.02f, 1.0F + (player.getRNG().nextFloat() - player.getRNG().nextFloat()) * 0.4F);
-				for (float l = 0; l < 5; ++l)
-                {
-                    float f5 = (player.getRNG().nextFloat() * 2.0F - 1.0F) * player.width;
-                    float f4 = (player.getRNG().nextFloat() * 2.0F - 1.0F) * player.width;
-                    player.worldObj.spawnParticle("splash", player.posX + f5, player.posY - player.yOffset, player.posZ + f4, (player.getRNG().nextFloat() - 0.5f) * 0.2f, player.getRNG().nextFloat() * 0.1f, (player.getRNG().nextFloat() - 0.5f) * 0.2f);
-                }
+				for (float l = 0; l < 5; ++l){
+					float f5 = (player.getRNG().nextFloat() * 2.0F - 1.0F) * player.width;
+					float f4 = (player.getRNG().nextFloat() * 2.0F - 1.0F) * player.width;
+					player.worldObj.spawnParticle("splash", player.posX + f5, player.posY - player.yOffset, player.posZ + f4, (player.getRNG().nextFloat() - 0.5f) * 0.2f, player.getRNG().nextFloat() * 0.1f, (player.getRNG().nextFloat() - 0.5f) * 0.2f);
+				}
 			}
 		}
 		return false;
@@ -86,7 +85,7 @@ public class WaterWalking implements IArmorImbuement{
 
 	private void callFall(EntityPlayer player){
 		try{
-			Method m = ReflectionHelper.findMethod(Entity.class, player, new String[] { "fall" }, float.class);
+			Method m = ReflectionHelper.findMethod(Entity.class, player, new String[]{"fall"}, float.class);
 			if (m != null){
 				m.setAccessible(true);
 				m.invoke(player, player.fallDistance);
@@ -97,22 +96,22 @@ public class WaterWalking implements IArmorImbuement{
 	}
 
 	@Override
-	public int[] getValidSlots() {
-		return new int[] {ImbuementRegistry.SLOT_BOOTS};
+	public int[] getValidSlots(){
+		return new int[]{ImbuementRegistry.SLOT_BOOTS};
 	}
 
 	@Override
-	public boolean canApplyOnCooldown() {
+	public boolean canApplyOnCooldown(){
 		return true;
 	}
 
 	@Override
-	public int getCooldown() {
+	public int getCooldown(){
 		return 0;
 	}
 
 	@Override
-	public int getArmorDamage() {
+	public int getArmorDamage(){
 		return 0;
 	}
 }

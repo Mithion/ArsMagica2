@@ -1,5 +1,7 @@
 package am2.models;
 
+import am2.playerextensions.ExtendedProperties;
+import am2.texture.ResourceManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBiped;
@@ -8,14 +10,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 
-import am2.playerextensions.ExtendedProperties;
-import am2.texture.ResourceManager;
-
-public class ModelCloaks extends ModelBase
-{
+public class ModelCloaks extends ModelBase{
 	ResourceLocation cloakLoc = new ResourceLocation("arsmagica2", ResourceManager.getMobTexturePath("cloak.png"));
 	private static final int MASK_HOOD = 0x1;
 	private static final int MASK_SLEEVES = 0x2;
@@ -34,8 +31,7 @@ public class ModelCloaks extends ModelBase
 	ModelRenderer RightSleeveLong;
 	ModelRenderer LeftSleeveShort;
 
-	public ModelCloaks()
-	{
+	public ModelCloaks(){
 		textureWidth = 64;
 		textureHeight = 96;
 		setTextureOffset("Hood.HoodBottom", 35, 19);
@@ -134,18 +130,17 @@ public class ModelCloaks extends ModelBase
 		LeftSleeveShort.mirror = true;
 		setRotation(LeftSleeveShort, 0F, 0F, 0F);
 
-		Jacket.addChild( FlapRight );
-		Jacket.addChild( FlapBackWhole );
-		Jacket.addChild( FlapLeft );
-		Jacket.addChild( FlapFrontRight );
-		Jacket.addChild( FlapFrontLeft );
-		Jacket.addChild( FlapBackHalfRight );
-		Jacket.addChild( FlapBackHalfLeft );
+		Jacket.addChild(FlapRight);
+		Jacket.addChild(FlapBackWhole);
+		Jacket.addChild(FlapLeft);
+		Jacket.addChild(FlapFrontRight);
+		Jacket.addChild(FlapFrontLeft);
+		Jacket.addChild(FlapBackHalfRight);
+		Jacket.addChild(FlapBackHalfLeft);
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		super.render(entity, f, f1, f2, f3, f4, f5);
 	}
 
@@ -175,14 +170,14 @@ public class ModelCloaks extends ModelBase
 		if (ExtendedProperties.For(player).getShrinkPct() > 0){
 			float pct = ExtendedProperties.For(player).getShrinkPct();
 			float amt = 0.5f * pct;
-			GL11.glTranslatef(0, 1 * 1-pct, 0);
-			GL11.glScalef(1-amt, 1-amt, 1-amt);
+			GL11.glTranslatef(0, 1 * 1 - pct, 0);
+			GL11.glScalef(1 - amt, 1 - amt, 1 - amt);
 		}
 
 		GL11.glScalef(1, -1, -1);
 
 		float f7 = player.prevLimbSwingAmount + (player.limbSwingAmount - player.prevLimbSwingAmount) * partialTicks;
-        float f8 = player.limbSwing - player.limbSwingAmount * (1.0F - partialTicks);
+		float f8 = player.limbSwing - player.limbSwingAmount * (1.0F - partialTicks);
 
 		float leftLegRotation = MathHelper.cos(f8 * 0.6662F) * 1.4F * f7;
 		float rightLegRotation = MathHelper.cos(f8 * 0.6662F + (float)Math.PI) * 1.4F * f7;
@@ -225,7 +220,7 @@ public class ModelCloaks extends ModelBase
 			LeftSleeveLong.render(f5);
 		else
 			LeftSleeveShort.render(f5);
-		GL11.glTranslatef(offset*2, 0, 0);
+		GL11.glTranslatef(offset * 2, 0, 0);
 		if ((drawMask & MASK_SLEEVES) == MASK_SLEEVES)
 			RightSleeveLong.render(f5);
 		else
@@ -236,8 +231,7 @@ public class ModelCloaks extends ModelBase
 
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z){
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
@@ -252,8 +246,7 @@ public class ModelCloaks extends ModelBase
 		copyRotation(source.bipedRightArm, RightSleeveShort);
 	}
 
-	private void copyRotation(ModelRenderer source, ModelRenderer dest)
-	{
+	private void copyRotation(ModelRenderer source, ModelRenderer dest){
 		dest.rotateAngleX = source.rotateAngleX;
 		dest.rotateAngleY = source.rotateAngleY;
 		dest.rotateAngleZ = source.rotateAngleZ;

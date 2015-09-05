@@ -1,5 +1,9 @@
 package am2.blocks.renderers;
 
+import am2.blocks.tileentities.TileEntityBlackAurem;
+import am2.blocks.tileentities.TileEntityCelestialPrism;
+import am2.blocks.tileentities.TileEntityObelisk;
+import am2.texture.ResourceManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -8,17 +12,8 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.client.model.obj.WavefrontObject;
-
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.common.FMLLog;
-import am2.blocks.tileentities.TileEntityBlackAurem;
-import am2.blocks.tileentities.TileEntityCelestialPrism;
-import am2.blocks.tileentities.TileEntityObelisk;
-import am2.render3d.OBJModel;
-import am2.texture.ResourceManager;
 
 public class EssenceGeneratorRenderer extends TileEntitySpecialRenderer{
 
@@ -41,18 +36,18 @@ public class EssenceGeneratorRenderer extends TileEntitySpecialRenderer{
 
 		rLoc_black = new ResourceLocation("arsmagica2", ResourceManager.getCustomBlockTexturePath("black_aurem.png"));
 
-		model_obelisk = (WavefrontObject) AdvancedModelLoader.loadModel(ResourceManager.getOBJFilePath("Obelisk.obj"));
-		model_celestial = (WavefrontObject) AdvancedModelLoader.loadModel(ResourceManager.getOBJFilePath("celestial_prism.obj"));
+		model_obelisk = (WavefrontObject)AdvancedModelLoader.loadModel(ResourceManager.getOBJFilePath("Obelisk.obj"));
+		model_celestial = (WavefrontObject)AdvancedModelLoader.loadModel(ResourceManager.getOBJFilePath("celestial_prism.obj"));
 	}
 
-	public void renderAModelAt(TileEntityObelisk tile, double d, double d1, double d2, float f) {
+	public void renderAModelAt(TileEntityObelisk tile, double d, double d1, double d2, float f){
 
 		GL11.glPushMatrix();
 		GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_TEXTURE_BIT);
 		if (tile instanceof TileEntityCelestialPrism)
-			renderCelestial((TileEntityCelestialPrism) tile, d, d1, d2, f);
+			renderCelestial((TileEntityCelestialPrism)tile, d, d1, d2, f);
 		else if (tile instanceof TileEntityBlackAurem)
-			renderBlackAurem((TileEntityBlackAurem) tile, d, d1, d2, f);
+			renderBlackAurem((TileEntityBlackAurem)tile, d, d1, d2, f);
 		else
 			renderObelisk(tile, d, d1, d2, f);
 
@@ -69,15 +64,14 @@ public class EssenceGeneratorRenderer extends TileEntitySpecialRenderer{
 
 		int i = 2;
 
-		if (tile.getWorldObj() != null)
-		{
+		if (tile.getWorldObj() != null){
 			i = tile.getBlockMetadata();
 		}
 		int j = i * 90;
-		
-		GL11.glTranslated(d+0.5, d1, d2+0.5);
-		GL11.glEnable (GL11.GL_BLEND);
-		GL11.glBlendFunc (GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+		GL11.glTranslated(d + 0.5, d1, d2 + 0.5);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		Tessellator tessellator = Tessellator.instance;
 		if (tile.isHighPowerActive())
 			bindTexture(rLoc_obelisk_active_highpower);
@@ -88,8 +82,8 @@ public class EssenceGeneratorRenderer extends TileEntitySpecialRenderer{
 		GL11.glRotatef(j, 0.0F, 1.0F, 0.0F); //rotate based on metadata
 		try{
 			model_obelisk.renderAll();
-		}catch(Throwable t){
-			
+		}catch (Throwable t){
+
 		}
 
 		//runes
@@ -100,13 +94,13 @@ public class EssenceGeneratorRenderer extends TileEntitySpecialRenderer{
 			bindTexture(rLoc_obelisk_runes);
 			float normx = (System.currentTimeMillis() % 32000) / 32000.0f;
 			float normy = (System.currentTimeMillis() % 28000) / 28000.0f;
-			GL11.glTranslatef(normx, normy, 0);		
-			float transp = (float) Math.abs(Math.sin(System.currentTimeMillis() / 1000.0));
+			GL11.glTranslatef(normx, normy, 0);
+			float transp = (float)Math.abs(Math.sin(System.currentTimeMillis() / 1000.0));
 			GL11.glColor4f(1, 1, 1, transp);
 			try{
 				model_obelisk.renderAll();
-			}catch(Throwable t){
-				
+			}catch (Throwable t){
+
 			}
 			GL11.glPopMatrix();
 			GL11.glMatrixMode(GL11.GL_MODELVIEW);
@@ -122,28 +116,28 @@ public class EssenceGeneratorRenderer extends TileEntitySpecialRenderer{
 			GL11.glTranslatef((float)d + 0.5f, (float)d1 - 0.3f, (float)d2 + 0.5f);
 			GL11.glScalef(1.75f, 1.75f, 1.75f);
 		}
-		GL11.glEnable (GL11.GL_BLEND);
-		GL11.glBlendFunc (GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		RenderHelper.disableStandardItemLighting();
 		Tessellator tessellator = Tessellator.instance;
 
 		try{
 			model_celestial.renderAll();
-		}catch(Throwable t){
-			
+		}catch (Throwable t){
+
 		}
 
 		RenderHelper.enableStandardItemLighting();
 		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glDisable (GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_BLEND);
 	}
 
 	private void renderBlackAurem(TileEntityBlackAurem tile, double d, double d1, double d2, float f){
 		GL11.glTranslatef((float)d + 0.5f, (float)d1 + 1f, (float)d2 + 0.5f);
 		GL11.glDepthMask(false);
-		GL11.glEnable (GL11.GL_BLEND);
-		GL11.glBlendFunc (GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 
 		RenderHelper.disableStandardItemLighting();
@@ -153,12 +147,11 @@ public class EssenceGeneratorRenderer extends TileEntitySpecialRenderer{
 		renderArsMagicaEffect(tessellator, tile.xCoord + tile.yCoord + tile.zCoord, 1);
 
 		RenderHelper.enableStandardItemLighting();
-		GL11.glDisable (GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glDepthMask(true);
 	}
 
-	private void renderArsMagicaEffect(Tessellator tessellator, float offset, float scale)
-	{
+	private void renderArsMagicaEffect(Tessellator tessellator, float offset, float scale){
 		if (offset != 0){
 			GL11.glRotatef(180F - RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(-RenderManager.instance.playerViewX, 1.0F, 0.0F, 0.0F);
@@ -168,17 +161,16 @@ public class EssenceGeneratorRenderer extends TileEntitySpecialRenderer{
 		}
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(rLoc_black);
-		GL11.glBlendFunc (GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glTranslatef(0.0f, 0.25f, 0.0f);
 		GL11.glRotatef(Minecraft.getMinecraft().thePlayer.ticksExisted, 0, 0, 1);
-		GL11.glScalef(scale*2, scale*2, scale*2);
+		GL11.glScalef(scale * 2, scale * 2, scale * 2);
 		GL11.glTranslatef(0.0f, -0.25f, 0.0f);
 		renderSprite(tessellator);
 
 	}
 
-	private void renderSprite(Tessellator tessellator)
-	{
+	private void renderSprite(Tessellator tessellator){
 
 		float TLX = 0;
 		float BRX = 1;
@@ -190,18 +182,19 @@ public class EssenceGeneratorRenderer extends TileEntitySpecialRenderer{
 		float f6 = 0.25F;
 
 		try{
-		tessellator.startDrawingQuads();
-		tessellator.setBrightness(15728863);
-		tessellator.addVertexWithUV(0.0F - f5, 0.0F - f6, 0.0D, TLX, BRY);
-		tessellator.addVertexWithUV(f4 - f5, 0.0F - f6, 0.0D, BRX, BRY);
-		tessellator.addVertexWithUV(f4 - f5, f4 - f6, 0.0D, BRX, TLY);
-		tessellator.addVertexWithUV(0.0F - f5, f4 - f6, 0.0D, TLX, TLY);
-		tessellator.draw();
-		}catch(Throwable t) {}
+			tessellator.startDrawingQuads();
+			tessellator.setBrightness(15728863);
+			tessellator.addVertexWithUV(0.0F - f5, 0.0F - f6, 0.0D, TLX, BRY);
+			tessellator.addVertexWithUV(f4 - f5, 0.0F - f6, 0.0D, BRX, BRY);
+			tessellator.addVertexWithUV(f4 - f5, f4 - f6, 0.0D, BRX, TLY);
+			tessellator.addVertexWithUV(0.0F - f5, f4 - f6, 0.0D, TLX, TLY);
+			tessellator.draw();
+		}catch (Throwable t){
+		}
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f) {
-		renderAModelAt((TileEntityObelisk) tileentity, d, d1, d2, f); //where to render
+	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f){
+		renderAModelAt((TileEntityObelisk)tileentity, d, d1, d2, f); //where to render
 	}
 }

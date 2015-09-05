@@ -1,23 +1,23 @@
 package am2.items;
 
+import am2.texture.ResourceManager;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import am2.texture.ResourceManager;
 
 public class ItemPlayerFocus extends ItemFilterFocus{
 
-	protected ItemPlayerFocus() {
+	protected ItemPlayerFocus(){
 		super();
 	}
 
 	@Override
-	public Class getFilterClass() {
+	public Class getFilterClass(){
 		return EntityPlayer.class;
 	}
 
 	@Override
-	public Object[] getRecipeItems() {
+	public Object[] getRecipeItems(){
 		return new Object[]{
 				"L",
 				"F",
@@ -27,12 +27,12 @@ public class ItemPlayerFocus extends ItemFilterFocus{
 	}
 
 	@Override
-	public String getInGameName() {
+	public String getInGameName(){
 		return "Player Focus";
 	}
 
 	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {
+	public void registerIcons(IIconRegister par1IconRegister){
 		this.itemIcon = ResourceManager.RegisterTexture("focus_seer_player", par1IconRegister);
 	}
 

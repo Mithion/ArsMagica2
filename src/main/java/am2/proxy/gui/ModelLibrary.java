@@ -1,21 +1,16 @@
 package am2.proxy.gui;
 
-import net.minecraft.client.Minecraft;
 import am2.bosses.models.ModelPlantGuardianSickle;
 import am2.bosses.models.ModelWinterGuardianArm;
 import am2.entities.EntityBroom;
 import am2.entities.models.ModelBroom;
-import am2.models.ModelAirGuardianHoverball;
-import am2.models.ModelArcaneGuardianSpellBook;
-import am2.models.ModelCandle;
-import am2.models.ModelEarthGuardianChest;
-import am2.models.ModelFireGuardianEars;
-import am2.models.ModelWaterGuardianOrbs;
+import am2.models.*;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 
 @SideOnly(Side.CLIENT)
-public class ModelLibrary {
+public class ModelLibrary{
 
 	public static final ModelLibrary instance = new ModelLibrary();
 

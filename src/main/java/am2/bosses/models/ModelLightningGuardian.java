@@ -1,21 +1,19 @@
 package am2.bosses.models;
 
+import am2.bosses.BossActions;
+import am2.entities.renderers.AM2ModelRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
 import thehippomaster.AnimationAPI.IAnimatedEntity;
 import thehippomaster.AnimationAPI.client.Animator;
+
 //
 //import thehippomaster.AnimationAPI.client.Animator;
-import am2.bosses.BossActions;
-import am2.entities.renderers.AM2ModelRenderer;
 
-public class ModelLightningGuardian extends ModelBase
-{
+public class ModelLightningGuardian extends ModelBase{
 	//fields
 	AM2ModelRenderer ChestLower;
 	AM2ModelRenderer leftarmwristband3;
@@ -56,8 +54,7 @@ public class ModelLightningGuardian extends ModelBase
 
 	private Animator animator;
 
-	public ModelLightningGuardian(ResourceLocation armor, ResourceLocation lightning)
-	{
+	public ModelLightningGuardian(ResourceLocation armor, ResourceLocation lightning){
 		textureWidth = 256;
 		textureHeight = 256;
 
@@ -70,7 +67,7 @@ public class ModelLightningGuardian extends ModelBase
 		setMirrorStates();
 		setInitialRotations();
 		setupHierarchy();
-		
+
 		animator = new Animator(this);
 	}
 
@@ -430,9 +427,8 @@ public class ModelLightningGuardian extends ModelBase
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
-		animate((IAnimatedEntity) entity, f, f1, f2, f3, f4, f5);
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
+		animate((IAnimatedEntity)entity, f, f1, f2, f3, f4, f5);
 
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0, -2, 0);
@@ -469,7 +465,7 @@ public class ModelLightningGuardian extends ModelBase
 		GL11.glPopMatrix();
 	}
 
-	public void animate(IAnimatedEntity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+	public void animate(IAnimatedEntity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		animator.update(entity);
 		setToRestRotations();
 
@@ -788,8 +784,7 @@ public class ModelLightningGuardian extends ModelBase
 		ChestUpper.resetToRestRotations();
 	}
 
-	private void setRotation(AM2ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(AM2ModelRenderer model, float x, float y, float z){
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

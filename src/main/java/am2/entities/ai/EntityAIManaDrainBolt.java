@@ -1,7 +1,7 @@
 package am2.entities.ai;
 
-import java.util.Random;
-
+import am2.AMCore;
+import am2.playerextensions.ExtendedProperties;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -10,14 +10,16 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
-import am2.AMCore;
-import am2.playerextensions.ExtendedProperties;
 
-public class EntityAIManaDrainBolt extends EntityAIBase {
+import java.util.Random;
+
+public class EntityAIManaDrainBolt extends EntityAIBase{
 
 	World worldObj;
 
-	/** The entity the AI instance has been applied to */
+	/**
+	 * The entity the AI instance has been applied to
+	 */
 	EntityCreature entityHost;
 	EntityLivingBase attackTarget;
 
@@ -36,8 +38,7 @@ public class EntityAIManaDrainBolt extends EntityAIBase {
 	 */
 	int maxRangedAttackTime;
 
-	public EntityAIManaDrainBolt(EntityCreature par1EntityLiving, float moveSpeed, int attackTime, int damage, int manaDrained)
-	{
+	public EntityAIManaDrainBolt(EntityCreature par1EntityLiving, float moveSpeed, int attackTime, int damage, int manaDrained){
 		rangedAttackTime = 0;
 		stuckTime = 0;
 		entityHost = par1EntityLiving;
@@ -53,16 +54,12 @@ public class EntityAIManaDrainBolt extends EntityAIBase {
 	 * Returns whether the EntityAIBase should begin execution.
 	 */
 	@Override
-	public boolean shouldExecute()
-	{
+	public boolean shouldExecute(){
 		EntityLivingBase entityliving = entityHost.getAttackTarget();
 
-		if (entityliving == null)
-		{
+		if (entityliving == null){
 			return false;
-		}
-		else
-		{
+		}else{
 			attackTarget = entityliving;
 			return true;
 		}
@@ -72,8 +69,7 @@ public class EntityAIManaDrainBolt extends EntityAIBase {
 	 * Returns whether an in-progress EntityAIBase should continue executing
 	 */
 	@Override
-	public boolean continueExecuting()
-	{
+	public boolean continueExecuting(){
 		return shouldExecute() || !entityHost.getNavigator().noPath();
 	}
 
@@ -81,8 +77,7 @@ public class EntityAIManaDrainBolt extends EntityAIBase {
 	 * Resets the task
 	 */
 	@Override
-	public void resetTask()
-	{
+	public void resetTask(){
 		attackTarget = null;
 	}
 
@@ -90,44 +85,33 @@ public class EntityAIManaDrainBolt extends EntityAIBase {
 	 * Updates the task
 	 */
 	@Override
-	public void updateTask()
-	{
+	public void updateTask(){
 		double d = 25D; //5 blocks away
 		double d1 = entityHost.getDistanceSq(attackTarget.posX, attackTarget.boundingBox.minY, attackTarget.posZ);
 		boolean flag = entityHost.getEntitySenses().canSee(attackTarget);
 
-		if (flag)
-		{
+		if (flag){
 			stuckTime++;
-		}
-		else
-		{
+		}else{
 			stuckTime = 0;
 		}
 
-		if (d1 > d || stuckTime < 20)
-		{
+		if (d1 > d || stuckTime < 20){
 			entityHost.getNavigator().tryMoveToEntityLiving(attackTarget, moveSpeed);
-		}
-		else
-		{
+		}else{
 			entityHost.getNavigator().clearPathEntity();
 		}
 
 		entityHost.getLookHelper().setLookPositionWithEntity(attackTarget, 30F, 30F);
 		rangedAttackTime = Math.max(rangedAttackTime - 1, 0);
 
-		if (rangedAttackTime > 0)
-		{
+		if (rangedAttackTime > 0){
 			return;
 		}
 
-		if (d1 > d || !flag)
-		{
+		if (d1 > d || !flag){
 			return;
-		}
-		else
-		{
+		}else{
 			doRangedAttack();
 			rangedAttackTime = maxRangedAttackTime;
 			return;
@@ -137,8 +121,7 @@ public class EntityAIManaDrainBolt extends EntityAIBase {
 	/**
 	 * Performs a ranged attack according to the AI's rangedAttackID.
 	 */
-	private void doRangedAttack()
-	{
+	private void doRangedAttack(){
 		//43% chance to "miss"
 		Random rand = new Random();
 		int chanceToMiss = entityHost.isPotionActive(Potion.moveSpeed) ? 10 : 43;

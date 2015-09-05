@@ -1,9 +1,16 @@
 package am2.utility;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-
+import am2.AMCore;
+import am2.api.math.AMVector3;
+import am2.blocks.tileentities.TileEntitySummoner;
+import am2.buffs.BuffList;
+import am2.entities.ai.EntityAIGuardSpawnLocation;
+import am2.entities.ai.EntityAISummonFollowOwner;
+import am2.entities.ai.selectors.SummonEntitySelector;
+import am2.items.ItemCrystalPhylactery;
+import am2.items.ItemsCommonProxy;
+import am2.playerextensions.ExtendedProperties;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
@@ -24,19 +31,12 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import am2.AMCore;
-import am2.api.math.AMVector3;
-import am2.blocks.tileentities.TileEntitySummoner;
-import am2.buffs.BuffList;
-import am2.entities.ai.EntityAIGuardSpawnLocation;
-import am2.entities.ai.EntityAISummonFollowOwner;
-import am2.entities.ai.selectors.SummonEntitySelector;
-import am2.items.ItemCrystalPhylactery;
-import am2.items.ItemsCommonProxy;
-import am2.playerextensions.ExtendedProperties;
-import cpw.mods.fml.relauncher.ReflectionHelper;
 
-public class EntityUtilities {
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class EntityUtilities{
 	private static final HashMap<Integer, ArrayList> storedTasks = new HashMap<Integer, ArrayList>();
 	private static final HashMap<Integer, ArrayList> storedAITasks = new HashMap<Integer, ArrayList>();
 	private static final String isSummonKey = "AM2_Entity_Is_Made_Summon";
@@ -51,12 +51,12 @@ public class EntityUtilities {
 
 	public static boolean isAIEnabled(EntityCreature ent){
 		Method m = null;
-		try {
+		try{
 			m = EntityLiving.class.getDeclaredMethod("func_70650_aV");
-		}catch(NoSuchMethodException nex){
-			try {
+		}catch (NoSuchMethodException nex){
+			try{
 				m = EntityLiving.class.getDeclaredMethod("isAIEnabled");
-			} catch(Throwable t){
+			}catch (Throwable t){
 				t.printStackTrace();
 				return false;
 			}
@@ -66,9 +66,9 @@ public class EntityUtilities {
 		}
 		m.setAccessible(true);
 		boolean b;
-		try {
-			b = (Boolean) m.invoke(ent);
-		} catch (Throwable e) {
+		try{
+			b = (Boolean)m.invoke(ent);
+		}catch (Throwable e){
 			e.printStackTrace();
 			return false;
 		}
@@ -156,7 +156,7 @@ public class EntityUtilities {
 		Entity owner = entityliving.worldObj.getEntityByID(ownerID);
 		if (owner != null && owner instanceof EntityLivingBase){
 			ExtendedProperties.For((EntityLivingBase)owner).removeSummon();
-			if(ExtendedProperties.For((EntityLivingBase)owner).isManaLinkedTo(entityliving)){
+			if (ExtendedProperties.For((EntityLivingBase)owner).isManaLinkedTo(entityliving)){
 				ExtendedProperties.For((EntityLivingBase)owner).updateManaLink(entityliving);
 				ExtendedProperties.For((EntityLivingBase)owner).forceSync();
 			}
@@ -209,7 +209,7 @@ public class EntityUtilities {
 		if (entityliving instanceof EntityCreature){
 			float speed = entityliving.getAIMoveSpeed();
 			if (speed <= 0) speed = 1.0f;
-			((EntityCreature)entityliving).tasks.addTask(1, new EntityAISummonFollowOwner((EntityCreature) entityliving, speed, 10, 20));
+			((EntityCreature)entityliving).tasks.addTask(1, new EntityAISummonFollowOwner((EntityCreature)entityliving, speed, 10, 20));
 		}
 	}
 
@@ -254,8 +254,8 @@ public class EntityUtilities {
 			return;
 		if (ptrSetSize == null){
 			try{
-				ptrSetSize = ReflectionHelper.findMethod(Entity.class, entityliving, new String[] { "func_70105_a", "setSize" }, Float.TYPE, Float.TYPE);
-			}catch(Throwable t){
+				ptrSetSize = ReflectionHelper.findMethod(Entity.class, entityliving, new String[]{"func_70105_a", "setSize"}, Float.TYPE, Float.TYPE);
+			}catch (Throwable t){
 				t.printStackTrace();
 				return;
 			}
@@ -265,14 +265,14 @@ public class EntityUtilities {
 				ptrSetSize.setAccessible(true);
 				ptrSetSize.invoke(entityliving, width, height);
 				entityliving.yOffset = entityliving.height * 0.8f;
-			}catch(Throwable t){
+			}catch (Throwable t){
 				t.printStackTrace();
 				return;
 			}
 		}
 	}
 
-	public static void setSummonDuration(EntityLivingBase entity, int duration) {
+	public static void setSummonDuration(EntityLivingBase entity, int duration){
 		entity.getEntityData().setInteger(summonDurationKey, duration);
 	}
 
@@ -314,14 +314,14 @@ public class EntityUtilities {
 
 	public static int getLevelFromXP(float totalXP){
 		int level = 0;
-		int xp = (int) Math.floor(totalXP);
+		int xp = (int)Math.floor(totalXP);
 		do{
 			int cap = xpBarCap(level);
 			xp -= cap;
 			if (xp < 0)
 				break;
 			level++;
-		}while(true);
+		}while (true);
 
 		return level;
 	}
@@ -334,10 +334,9 @@ public class EntityUtilities {
 		return totalXP;
 	}
 
-	public static int xpBarCap(int experienceLevel)
-    {
-        return experienceLevel >= 30 ? 62 + (experienceLevel - 30) * 7 : (experienceLevel >= 15 ? 17 + (experienceLevel - 15) * 3 : 17);
-    }
+	public static int xpBarCap(int experienceLevel){
+		return experienceLevel >= 30 ? 62 + (experienceLevel - 30) * 7 : (experienceLevel >= 15 ? 17 + (experienceLevel - 15) * 3 : 17);
+	}
 
 	public static void deductXP(int amount, EntityPlayer player){
 		try{
@@ -359,7 +358,7 @@ public class EntityUtilities {
 
 			ReflectionHelper.setPrivateValue(EntityPlayer.class, player, xp, "field_71067_cb", "experienceTotal");
 			ReflectionHelper.setPrivateValue(EntityPlayer.class, player, xpBarXP, "field_71106_cc", "experience");
-		}catch(Throwable t){
+		}catch (Throwable t){
 			t.printStackTrace();
 		}
 	}

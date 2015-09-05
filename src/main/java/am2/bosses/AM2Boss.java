@@ -1,5 +1,10 @@
 package am2.bosses;
 
+import am2.AMCore;
+import am2.buffs.BuffList;
+import am2.entities.EntityLightMage;
+import am2.items.ItemsCommonProxy;
+import am2.playerextensions.ExtendedProperties;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -11,20 +16,16 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import am2.AMCore;
-import am2.buffs.BuffList;
-import am2.entities.EntityLightMage;
-import am2.items.ItemsCommonProxy;
-import am2.playerextensions.ExtendedProperties;
 
-public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss {
+public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss{
 
 	protected BossActions currentAction = BossActions.IDLE;
 	protected int ticksInCurrentAction;
 
-	public boolean playerCanSee = false;;
+	public boolean playerCanSee = false;
+	;
 
-	public AM2Boss(World par1World) {
+	public AM2Boss(World par1World){
 		super(par1World);
 		this.stepHeight = 1.02f;
 		ExtendedProperties.For(this).setMagicLevelWithMana(50);
@@ -32,12 +33,12 @@ public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss {
 	}
 
 	@Override
-	protected boolean isAIEnabled() {
+	protected boolean isAIEnabled(){
 		return true;
 	}
 
 	@Override
-	protected void applyEntityAttributes() {
+	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(48);
 	}
@@ -61,18 +62,18 @@ public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss {
 	protected abstract void initSpecificAI();
 
 	@Override
-	public BossActions getCurrentAction() {
+	public BossActions getCurrentAction(){
 		return currentAction;
 	}
 
 	@Override
-	public void setCurrentAction(BossActions action) {
+	public void setCurrentAction(BossActions action){
 		currentAction = action;
 		ticksInCurrentAction = 0;
 	}
 
 	@Override
-	public int getTicksInCurrentAction() {
+	public int getTicksInCurrentAction(){
 		return ticksInCurrentAction;
 	}
 
@@ -85,12 +86,12 @@ public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss {
 	public abstract String getAttackSound();
 
 	@Override
-	protected boolean canDespawn() {
+	protected boolean canDespawn(){
 		return false;
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
 
 		if (par1DamageSource == DamageSource.inWall){
 			if (!worldObj.isRemote){
@@ -147,7 +148,7 @@ public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss {
 	protected abstract float modifyDamageAmount(DamageSource source, float damageAmt);
 
 	@Override
-	public void onUpdate() {
+	public void onUpdate(){
 
 		this.ticksInCurrentAction++;
 
@@ -162,12 +163,12 @@ public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss {
 	}
 
 	@Override
-	public boolean allowLeashing() {
+	public boolean allowLeashing(){
 		return false;
 	}
 
 	@Override
-	public void addPotionEffect(PotionEffect effect) {
+	public void addPotionEffect(PotionEffect effect){
 		if (effect.getPotionID() == BuffList.silence.id)
 			return;
 		super.addPotionEffect(effect);

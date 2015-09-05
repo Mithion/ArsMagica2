@@ -1,24 +1,22 @@
 package am2.guis.controls;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
+import am2.api.math.AMVector2;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import am2.api.math.AMVector2;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class GuiButtonVariableDims extends GuiButton{
 
 	boolean renderBorderOnly = false;
 	protected ArrayList<String> hoverTextLines = new ArrayList<String>();
 
-	public GuiButtonVariableDims(int par1, int par2, int par3, String par4Str) {
+	public GuiButtonVariableDims(int par1, int par2, int par3, String par4Str){
 		super(par1, par2, par3, par4Str);
 	}
 
@@ -56,7 +54,7 @@ public class GuiButtonVariableDims extends GuiButton{
 	}
 
 	@Override
-	public void drawButton(Minecraft par1Minecraft, int par2, int par3) {
+	public void drawButton(Minecraft par1Minecraft, int par2, int par3){
 		boolean isMousedOver = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
 		if (!renderBorderOnly){
 			super.drawButton(par1Minecraft, par2, par3);
@@ -85,23 +83,19 @@ public class GuiButtonVariableDims extends GuiButton{
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 	}
 
-	protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font)
-	{
-		if (!par1List.isEmpty())
-		{
+	protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font){
+		if (!par1List.isEmpty()){
 			GL11.glPushAttrib(GL11.GL_TEXTURE_BIT);
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			int k = 0;
 			Iterator iterator = par1List.iterator();
 
-			while (iterator.hasNext())
-			{
+			while (iterator.hasNext()){
 				String s = (String)iterator.next();
 				int l = font.getStringWidth(s);
 
-				if (l > k)
-				{
+				if (l > k){
 					k = l;
 				}
 			}
@@ -110,8 +104,7 @@ public class GuiButtonVariableDims extends GuiButton{
 			int j1 = par3 - 12;
 			int k1 = 8;
 
-			if (par1List.size() > 1)
-			{
+			if (par1List.size() > 1){
 				k1 += 2 + (par1List.size() - 1) * 10;
 			}
 
@@ -129,13 +122,11 @@ public class GuiButtonVariableDims extends GuiButton{
 			this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
 			this.drawGradientRect(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
 
-			for (int k2 = 0; k2 < par1List.size(); ++k2)
-			{
+			for (int k2 = 0; k2 < par1List.size(); ++k2){
 				String s1 = (String)par1List.get(k2);
 				font.drawStringWithShadow(s1, i1, j1, -1);
 
-				if (k2 == 0)
-				{
+				if (k2 == 0){
 					j1 += 2;
 				}
 

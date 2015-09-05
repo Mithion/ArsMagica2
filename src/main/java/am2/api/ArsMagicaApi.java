@@ -1,12 +1,5 @@
 package am2.api;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.attributes.BaseAttribute;
-import net.minecraft.entity.ai.attributes.IAttribute;
-import net.minecraft.entity.ai.attributes.RangedAttribute;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.util.IIcon;
 import am2.api.enchantment.IAMEnchantmentHelper;
 import am2.api.entities.IEntityManager;
 import am2.api.flickers.IFlickerRegistry;
@@ -23,8 +16,14 @@ import am2.api.spell.enums.SkillPointTypes;
 import am2.api.spell.enums.SkillTrees;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.attributes.IAttribute;
+import net.minecraft.entity.ai.attributes.RangedAttribute;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.util.IIcon;
 
-public class ArsMagicaApi {
+public class ArsMagicaApi{
 	public static final ArsMagicaApi instance = new ArsMagicaApi();
 
 	/**
@@ -52,6 +51,7 @@ public class ArsMagicaApi {
 	public static final IAttribute burnoutReductionRate = new RangedAttribute("am2.burnoutReduction", 1.0f, 0.1f, 2.0f).setDescription("Burnout Reduction Rate").setShouldWatch(true);
 
 	private static final float manaBurnoutRatio = 0.38f;
+
 	private ArsMagicaApi(){
 
 	}
@@ -59,6 +59,7 @@ public class ArsMagicaApi {
 	//================================================================================
 	// Getters
 	//================================================================================
+
 	/**
 	 * Gets the spell part manager.  Used to register new shapes/components/modifiers/talents
 	 */
@@ -140,48 +141,50 @@ public class ArsMagicaApi {
 	 * Returns the extended properties for the passed in entity living
 	 */
 	public final IExtendedProperties getExtendedProperties(EntityLivingBase entity){
-		return (IExtendedProperties) entity.getExtendedProperties(extendedPropertiesIdentifier);
+		return (IExtendedProperties)entity.getExtendedProperties(extendedPropertiesIdentifier);
 	}
 
 	/**
 	 * Returns the skill data instance (known shapes/modifiers/components/talents)
 	 */
 	public final ISkillData getSkillData(EntityPlayer entity){
-		return (ISkillData) entity.getExtendedProperties(skillDataIdentifier);
+		return (ISkillData)entity.getExtendedProperties(skillDataIdentifier);
 	}
 
 	/**
 	 * Returns the affinity data for the passed in entity
 	 */
 	public final IAffinityData getAffinityData(EntityLivingBase entity){
-		return (IAffinityData) entity.getExtendedProperties(affinityDataIdentifier);
+		return (IAffinityData)entity.getExtendedProperties(affinityDataIdentifier);
 	}
 
 	/**
 	 * Returns the rift storage for the passed in player.
 	 */
 	public final IInventory getRiftStorage(EntityPlayer entity){
-		return (IInventory) entity.getExtendedProperties(riftStorageIdentifier);
+		return (IInventory)entity.getExtendedProperties(riftStorageIdentifier);
 	}
 
 	/**
 	 * Registers a skill tree entry (Shape, Component, Modifier, or Talent) into the mod
-	 * @param entry The skill tree entry to register
-	 * @param name The unlocalized name that is used to identify this entry
-	 * @param tree Which skill tree the entry should be located in
-	 * @param x The x coordinate that the entry should be located at in the tree.  Typical increments are of 45 to space the items.
-	 * @param y The y coordinate that the entry should be located at in the tree.  Typical increments are of 45 to space the items.
-	 * @param point The type of skill point needed to unlock this entry
+	 *
+	 * @param entry    The skill tree entry to register
+	 * @param name     The unlocalized name that is used to identify this entry
+	 * @param tree     Which skill tree the entry should be located in
+	 * @param x        The x coordinate that the entry should be located at in the tree.  Typical increments are of 45 to space the items.
+	 * @param y        The y coordinate that the entry should be located at in the tree.  Typical increments are of 45 to space the items.
+	 * @param point    The type of skill point needed to unlock this entry
 	 * @param prerequs Any skill tree entries that are required as prerequisites for this one.  All prerequisites must be registered before the current entry.
 	 */
-	public final void registerSkillTreeEntry(ISkillTreeEntry entry, String name, SkillTrees tree, int x, int y, SkillPointTypes point, ISkillTreeEntry...prereqs){
+	public final void registerSkillTreeEntry(ISkillTreeEntry entry, String name, SkillTrees tree, int x, int y, SkillPointTypes point, ISkillTreeEntry... prereqs){
 		spellPartManager.registerSkillTreeEntry(entry, name);
 		skillTreeManager.RegisterPart(entry, x, y, tree, point, prereqs);
 	}
 
 	/**
 	 * Registers the IIcon to use for the specified skill.  This should be called during the API's registerSkillTreeIcons event for each entry that you registered.  You get a reference to the ISpellIconManager which has the same method, so this is only here for convenience.
-	 * @param name The unlocalized name that was used to register the spell.  See {@link #registerSkillTreeEntry(ISkillTreeEntry, String, SkillTrees, int, int, SkillPointTypes, ISkillTreeEntry...) registerSkillTreeEntry} method for more info on the name.
+	 *
+	 * @param name  The unlocalized name that was used to register the spell.  See {@link #registerSkillTreeEntry(ISkillTreeEntry, String, SkillTrees, int, int, SkillPointTypes, ISkillTreeEntry...) registerSkillTreeEntry} method for more info on the name.
 	 * @param IIcon The IIcon to use.  You need to register these IIcons with the game beforehand during your mod's load phase - AM won't do it for you.
 	 */
 	@SideOnly(Side.CLIENT)
@@ -203,14 +206,14 @@ public class ArsMagicaApi {
 	public final IBuffHelper getBuffHelper(){
 		return this.buffHelper;
 	}
-	
+
 	/**
 	 * Gets the spell utils class
 	 */
 	public final ISpellUtils getSpellUtils(){
 		return this.spellUtils;
 	}
-	
+
 	//================================================================================
 	// Setters - for AM use only, do not call these.
 	//================================================================================
@@ -219,74 +222,90 @@ public class ArsMagicaApi {
 			this.spellPartManager = manager;
 		}
 	}
+
 	public final void setEnchantmentHelper(IAMEnchantmentHelper helper){
 		if (this.enchantmentHelper == null){
 			this.enchantmentHelper = helper;
 		}
 	}
+
 	public final void setSkillTreeManager(ISkillTreeManager manager){
 		if (this.skillTreeManager == null)
 			this.skillTreeManager = manager;
 	}
+
 	@SideOnly(Side.CLIENT)
 	public final void setSpellIconManager(ISpellIconManager manager){
 		if (this.spellIconManager == null)
 			this.spellIconManager = manager;
 	}
+
 	public final void setKeystoneHelper(IKeystoneHelper helper){
 		if (this.keystoneHelper == null){
 			this.keystoneHelper = helper;
 		}
 	}
+
 	public final void setExtendedPropertiesID(String identifier){
 		if (extendedPropertiesIdentifier == null)
 			extendedPropertiesIdentifier = identifier;
 	}
+
 	public final void setAffinityDataID(String identifier){
 		if (affinityDataIdentifier == null)
 			affinityDataIdentifier = identifier;
 	}
+
 	public final void setSkillDataID(String identifier){
 		if (skillDataIdentifier == null)
 			skillDataIdentifier = identifier;
 	}
+
 	public final void setRiftStorageID(String identifier){
 		if (riftStorageIdentifier == null)
 			riftStorageIdentifier = identifier;
 	}
+
 	public final void setEntityManager(IEntityManager manager){
 		if (entityManager == null)
 			entityManager = manager;
 	}
+
 	public final void setObeliskFuelHelper(IObeliskFuelHelper manager){
 		if (obeliskFuelHelper == null)
 			obeliskFuelHelper = manager;
 	}
+
 	public final void setFlickerOperatorRegistry(IFlickerRegistry registry){
 		if (flickerOperatorRegistry == null)
 			flickerOperatorRegistry = registry;
 	}
+
 	public final void setInfusionRegistry(IImbuementRegistry registry){
 		if (this.armorInfusionRegistry == null)
 			this.armorInfusionRegistry = registry;
 	}
+
 	public final void setEssenceRecipeHandler(IAMRecipeManager manager){
 		if (this.essenceRecipes != null)
 			this.essenceRecipes = manager;
 	}
+
 	public final void setColourblindMode(boolean colourblindMode){
 		this.colourblindMode = colourblindMode;
 	}
+
 	public final void setBuffHelper(IBuffHelper helper){
 		if (this.buffHelper == null)
 			this.buffHelper = helper;
 	}
+
 	public final void setSpellUtils(ISpellUtils utilsHelper){
 		if (this.spellUtils == null){
 			this.spellUtils = utilsHelper;
 		}
 	}
-	
+
 	private ISpellPartManager spellPartManager;
 	private ISpellUtils spellUtils;
 	private ISkillTreeManager skillTreeManager;

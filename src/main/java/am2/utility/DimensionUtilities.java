@@ -1,7 +1,7 @@
 package am2.utility;
 
-import java.util.ArrayList;
-
+import am2.blocks.BlocksCommonProxy;
+import am2.blocks.tileentities.TileEntityAstralBarrier;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -10,10 +10,10 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import am2.blocks.BlocksCommonProxy;
-import am2.blocks.tileentities.TileEntityAstralBarrier;
 
-public class DimensionUtilities {
+import java.util.ArrayList;
+
+public class DimensionUtilities{
 	public static void doDimensionTransfer(EntityLivingBase entity, int dimension){
 
 		if (entity instanceof EntityPlayerMP){
@@ -32,8 +32,7 @@ public class DimensionUtilities {
 
 			Entity e = EntityList.createEntityByName(EntityList.getEntityString(entity), worldserver1);
 
-			if (e != null)
-			{
+			if (e != null){
 				e.copyDataFrom(entity, true);
 				worldserver1.spawnEntityInWorld(e);
 			}
@@ -59,13 +58,13 @@ public class DimensionUtilities {
 						TileEntityAstralBarrier barrier = (TileEntityAstralBarrier)te;
 
 						long barrierKey = KeystoneUtilities.instance.getKeyFromRunes(barrier.getRunesInKey());
-						if ( (barrierKey != 0 && keys.contains(barrierKey)) || !barrier.IsActive()) continue;
+						if ((barrierKey != 0 && keys.contains(barrierKey)) || !barrier.IsActive()) continue;
 
 						int dx = x - barrier.xCoord;
 						int dy = y - barrier.yCoord;
 						int dz = z - barrier.zCoord;
 
-						int sqDist = (dx*dx + dy*dy + dz*dz);
+						int sqDist = (dx * dx + dy * dy + dz * dz);
 
 						if (sqDist < (barrier.getRadius() * barrier.getRadius())) return barrier;
 					}

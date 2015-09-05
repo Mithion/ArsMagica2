@@ -1,5 +1,6 @@
 package am2.armor;
 
+import am2.api.items.armor.ArmorTextureEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,12 +10,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.MinecraftForge;
-import am2.api.items.armor.ArmorTextureEvent;
 
-public class AMArmor extends ItemArmor implements ISpecialArmor {
+public class AMArmor extends ItemArmor implements ISpecialArmor{
 
 	private static final int maxDamageArray[] = {
-		11,16,15,13
+			11, 16, 15, 13
 	};
 	public final int armorType;
 	public final int damageReduceAmount;
@@ -29,7 +29,7 @@ public class AMArmor extends ItemArmor implements ISpecialArmor {
 	public static final String NBT_KEY_ARMORLEVEL = "XPLevel";
 	public static final String INFUSION_DELIMITER = "\\|";
 
-	public AMArmor(ArmorMaterial inheritFrom, ArsMagicaArmorMaterial enumarmormaterial, int par3, int par4) {
+	public AMArmor(ArmorMaterial inheritFrom, ArsMagicaArmorMaterial enumarmormaterial, int par3, int par4){
 		super(inheritFrom, par3, par4);
 		material = enumarmormaterial;
 		armorType = par4;
@@ -48,8 +48,7 @@ public class AMArmor extends ItemArmor implements ISpecialArmor {
 	}
 
 	@Override
-	public int getItemEnchantability()
-	{
+	public int getItemEnchantability(){
 		return material.getEnchantability();
 	}
 
@@ -74,7 +73,7 @@ public class AMArmor extends ItemArmor implements ISpecialArmor {
 	}
 
 	@Override
-	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
+	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot){
 		return GetDamageReduction();
 	}
 
@@ -84,14 +83,14 @@ public class AMArmor extends ItemArmor implements ISpecialArmor {
 	}
 
 	@Override
-	public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot) {
+	public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot){
 		AMArmor armorItem = (AMArmor)armor.getItem();
 		ArmorProperties ap = new ArmorProperties(1, material.getDamageReduceRatio(slot), 1000);
 		return ap;
 	}
 
 	@Override
-	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
+	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot){
 		if (source == DamageSource.onFire){
 			stack.damageItem(damage * 7, entity);
 		}else if (source == DamageSource.fall || source == DamageSource.inWall || source == DamageSource.drown || source == DamageSource.starve){
@@ -104,7 +103,7 @@ public class AMArmor extends ItemArmor implements ISpecialArmor {
 	}
 
 	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
+	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type){
 		int armorType = -1;
 		if (stack.getItem() instanceof AMArmor){
 			armorType = ((AMArmor)stack.getItem()).renderIndex;
@@ -117,7 +116,7 @@ public class AMArmor extends ItemArmor implements ISpecialArmor {
 	}
 
 	@Override
-	public boolean hasEffect(ItemStack stack, int pass) {
+	public boolean hasEffect(ItemStack stack, int pass){
 		if (stack.hasTagCompound() && stack.stackTagCompound.hasKey(NBT_KEY_AMPROPS)){
 			String s = ((NBTTagCompound)stack.stackTagCompound.getTag(NBT_KEY_AMPROPS)).getString(NBT_KEY_EFFECTS);
 			return s != null && s.length() > 0;

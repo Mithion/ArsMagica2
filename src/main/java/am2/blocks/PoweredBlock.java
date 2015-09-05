@@ -1,5 +1,10 @@
 package am2.blocks;
 
+import am2.api.power.IPowerNode;
+import am2.api.power.PowerTypes;
+import am2.blocks.tileentities.TileEntityAMPower;
+import am2.items.ItemsCommonProxy;
+import am2.power.PowerNodeRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -8,11 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import am2.api.power.IPowerNode;
-import am2.api.power.PowerTypes;
-import am2.blocks.tileentities.TileEntityAMPower;
-import am2.items.ItemsCommonProxy;
-import am2.power.PowerNodeRegistry;
 
 public abstract class PoweredBlock extends AMBlockContainer{
 	public PoweredBlock(Material material){
@@ -38,8 +38,7 @@ public abstract class PoweredBlock extends AMBlockContainer{
 
 
 	@Override
-	public void breakBlock(World par1World, int par2, int par3, int par4, Block par5, int par6)
-	{
+	public void breakBlock(World par1World, int par2, int par3, int par4, Block par5, int par6){
 		TileEntity myTE = par1World.getTileEntity(par2, par3, par4);
 		if (myTE != null && myTE instanceof TileEntityAMPower){
 			((TileEntityAMPower)myTE).onDeath(par1World);
@@ -48,8 +47,7 @@ public abstract class PoweredBlock extends AMBlockContainer{
 	}
 
 	@Override
-	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
-	{
+	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
 		super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
 
 		if (HandleSpecialItems(par1World, par5EntityPlayer, par2, par3, par4)){
@@ -59,12 +57,12 @@ public abstract class PoweredBlock extends AMBlockContainer{
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase elb, ItemStack stack) {
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase elb, ItemStack stack){
 		super.onBlockPlacedBy(world, x, y, z, elb, stack);
 
 		TileEntity te = world.getTileEntity(x, y, z);
 		if (te instanceof IPowerNode){
-			PowerNodeRegistry.For(world).registerPowerNode((IPowerNode) te);
+			PowerNodeRegistry.For(world).registerPowerNode((IPowerNode)te);
 		}
 	}
 }

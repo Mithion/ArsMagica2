@@ -1,5 +1,9 @@
 package am2.particles;
 
+import am2.AMCore;
+import am2.api.math.AMVector3;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
@@ -8,13 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import am2.AMCore;
-import am2.api.math.AMVector3;
 
 @SideOnly(Side.CLIENT)
 public class AMLineArc extends EntityFX{
@@ -37,7 +35,7 @@ public class AMLineArc extends EntityFX{
 	ResourceLocation rl;
 	float forwardFactor;
 
-	public AMLineArc(World world, double x, double y, double z, double targetX, double targetY, double targetZ, String IIconName) {
+	public AMLineArc(World world, double x, double y, double z, double targetX, double targetY, double targetZ, String IIconName){
 		super(world, x, y, z);
 		targetPoint = new AMVector3(targetX, targetY, targetZ);
 		currentTargetPoint = targetPoint.copy();
@@ -50,7 +48,7 @@ public class AMLineArc extends EntityFX{
 		forwardFactor = 0;
 	}
 
-	public AMLineArc(World world, double x, double y, double z, Entity targetEntity, String IIconName) {
+	public AMLineArc(World world, double x, double y, double z, Entity targetEntity, String IIconName){
 		this(world, x, y, z, targetEntity.posX, targetEntity.posY + targetEntity.getEyeHeight() - (targetEntity.height * 0.2f), targetEntity.posZ, IIconName);
 		this.targetEntity = targetEntity;
 
@@ -58,7 +56,7 @@ public class AMLineArc extends EntityFX{
 	}
 
 	public AMLineArc(World world, Entity sourceEntity, Entity targetEntity, String IIconName){
-		this(world, sourceEntity.posX, sourceEntity.posY + sourceEntity.getEyeHeight()- (sourceEntity.height * 0.2f), sourceEntity.posZ, targetEntity.posX, targetEntity.posY + targetEntity.getEyeHeight() - (targetEntity.height * 0.2f), targetEntity.posZ, IIconName);
+		this(world, sourceEntity.posX, sourceEntity.posY + sourceEntity.getEyeHeight() - (sourceEntity.height * 0.2f), sourceEntity.posZ, targetEntity.posX, targetEntity.posY + targetEntity.getEyeHeight() - (targetEntity.height * 0.2f), targetEntity.posZ, IIconName);
 		this.targetEntity = targetEntity;
 		this.sourceEntity = sourceEntity;
 
@@ -77,7 +75,7 @@ public class AMLineArc extends EntityFX{
 	}
 
 	@Override
-	public void onUpdate() {
+	public void onUpdate(){
 		this.ticksExisted++;
 
 		prevPosX = posX;
@@ -126,7 +124,7 @@ public class AMLineArc extends EntityFX{
 	}
 
 	@Override
-	public void renderParticle(Tessellator par1Tessellator, float partialTicks, float rotationX, float rotationXZ, float rotationZ, float rotationYZ, float rotationXY) {
+	public void renderParticle(Tessellator par1Tessellator, float partialTicks, float rotationX, float rotationXZ, float rotationZ, float rotationYZ, float rotationXY){
 		if (targetEntity != null && sourceEntity != null){
 			drawArcingLine(
 					sourceEntity.prevPosX + (sourceEntity.posX - sourceEntity.prevPosX) * partialTicks,
@@ -150,8 +148,7 @@ public class AMLineArc extends EntityFX{
 		}
 	}
 
-	public void drawArcingLine(double srcX, double srcY, double srcZ, double dstX, double dstY, double dstZ, float partialTicks, float speed, double distance)
-	{
+	public void drawArcingLine(double srcX, double srcY, double srcZ, double dstX, double dstY, double dstZ, float partialTicks, float speed, double distance){
 
 		GL11.glPushMatrix();
 
@@ -186,8 +183,7 @@ public class AMLineArc extends EntityFX{
 		double wGain = (width * 3) / (length * distance);
 		float curWidth = width * 3;
 
-		for (int i = 0; i <= length * distance; i++)
-		{
+		for (int i = 0; i <= length * distance; i++){
 			float lengthFactor = i / length;
 			float f3 = 1.0F - Math.abs(i - length / 2.0F) / (length / 2.0F);
 

@@ -1,14 +1,5 @@
 package am2.spell.components;
 
-import java.util.EnumSet;
-import java.util.Random;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import am2.AMCore;
 import am2.RitualShapeHelper;
 import am2.api.ArsMagicaApi;
@@ -24,16 +15,24 @@ import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleOrbitEntity;
 import am2.spell.SpellUtils;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
-public class Flight implements ISpellComponent, IRitualInteraction {
+import java.util.EnumSet;
+import java.util.Random;
+
+public class Flight implements ISpellComponent, IRitualInteraction{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		return false;
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target) {
+	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
 		if (target instanceof EntityLivingBase){
 			int duration = SpellUtils.instance.getModifiedInt_Mul(BuffList.default_buff_duration, stack, caster, target, world, 0, SpellModifiers.DURATION);
 			duration = SpellUtils.instance.modifyDurationBasedOnArmor(caster, duration);
@@ -54,48 +53,48 @@ public class Flight implements ISpellComponent, IRitualInteraction {
 	}
 
 	@Override
-	public float manaCost(EntityLivingBase caster) {
+	public float manaCost(EntityLivingBase caster){
 		return 80;
 	}
 
 	@Override
-	public float burnout(EntityLivingBase caster) {
+	public float burnout(EntityLivingBase caster){
 		return ArsMagicaApi.instance.getBurnoutFromMana(manaCost(caster));
 	}
 
 	@Override
-	public ItemStack[] reagents(EntityLivingBase caster) {
+	public ItemStack[] reagents(EntityLivingBase caster){
 		return null;
 	}
 
 	@Override
-	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier) {
+	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
 		for (int i = 0; i < 15; ++i){
-			AMParticle particle = (AMParticle) AMCore.proxy.particleManager.spawn(world, rand.nextBoolean() ? "wind" : "ember", x, y, z);
+			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, rand.nextBoolean() ? "wind" : "ember", x, y, z);
 			if (particle != null){
 				particle.addRandomOffset(1, 0.5, 1);
 				particle.AddParticleController(new ParticleOrbitEntity(particle, target, 0.2f + rand.nextFloat() * 0.2f, 1, false));
 				particle.setMaxAge(20);
 				particle.setParticleScale(0.1f);
 				if (colorModifier > -1){
-					particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier& 0xFF) / 255.0f);
+					particle.setRGBColorF(((colorModifier >> 16) & 0xFF) / 255.0f, ((colorModifier >> 8) & 0xFF) / 255.0f, (colorModifier & 0xFF) / 255.0f);
 				}
 			}
 		}
 	}
 
 	@Override
-	public EnumSet<Affinity> getAffinity() {
+	public EnumSet<Affinity> getAffinity(){
 		return EnumSet.of(Affinity.AIR);
 	}
 
 	@Override
-	public int getID() {
+	public int getID(){
 		return 16;
 	}
 
 	@Override
-	public Object[] getRecipeItems() {
+	public Object[] getRecipeItems(){
 		return new Object[]{
 				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_WHITE),
 				Items.nether_star,
@@ -104,17 +103,17 @@ public class Flight implements ISpellComponent, IRitualInteraction {
 	}
 
 	@Override
-	public float getAffinityShift(Affinity affinity) {
+	public float getAffinityShift(Affinity affinity){
 		return 0.05f;
 	}
 
 	@Override
-	public MultiblockStructureDefinition getRitualShape() {
+	public MultiblockStructureDefinition getRitualShape(){
 		return RitualShapeHelper.instance.hourglass;
 	}
 
 	@Override
-	public ItemStack[] getReagents() {
+	public ItemStack[] getReagents(){
 		return new ItemStack[]{
 				new ItemStack(Items.feather),
 				new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_AIR),
@@ -123,7 +122,7 @@ public class Flight implements ISpellComponent, IRitualInteraction {
 	}
 
 	@Override
-	public int getReagentSearchRadius() {
+	public int getReagentSearchRadius(){
 		return 3;
 	}
 }

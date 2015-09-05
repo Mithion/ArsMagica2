@@ -1,24 +1,5 @@
 package am2.playerextensions;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-
-import cpw.mods.fml.common.network.handshake.NetworkDispatcher;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
-import net.minecraftforge.common.IExtendedEntityProperties;
 import am2.AMCore;
 import am2.api.IAffinityData;
 import am2.api.math.AMVector3;
@@ -27,6 +8,17 @@ import am2.network.AMDataReader;
 import am2.network.AMDataWriter;
 import am2.network.AMNetHandler;
 import am2.network.AMPacketIDs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
+import net.minecraftforge.common.IExtendedEntityProperties;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 public class AffinityData implements IExtendedEntityProperties, IAffinityData{
 	public static final String identifier = "AffinityData";
@@ -38,7 +30,7 @@ public class AffinityData implements IExtendedEntityProperties, IAffinityData{
 	private static final float MAJOR_OPPOSING_FACTOR = 0.75f;
 	private Entity entity;
 	private float diminishingReturns = 1.2f;
-	
+
 	private AMVector3 lastGroundPosition = null;
 	private boolean hasActivatedNightVision = false;
 	private int abilityCooldown = 0;
@@ -63,7 +55,7 @@ public class AffinityData implements IExtendedEntityProperties, IAffinityData{
 	}
 
 	public static AffinityData For(EntityLivingBase living){
-		return (AffinityData) living.getExtendedProperties(identifier);
+		return (AffinityData)living.getExtendedProperties(identifier);
 	}
 
 	@Override
@@ -91,8 +83,9 @@ public class AffinityData implements IExtendedEntityProperties, IAffinityData{
 
 	/**
 	 * Directly sets an affinity.  Does not take into account oppositions or locks.  Use sparingly.
+	 *
 	 * @param affinity The affinity to set
-	 * @param depth The depth to set
+	 * @param depth    The depth to set
 	 */
 	@Override
 	public void setAffinityAndDepth(Affinity affinity, float depth){
@@ -108,8 +101,9 @@ public class AffinityData implements IExtendedEntityProperties, IAffinityData{
 	/**
 	 * Increments the affinity by the specified amount, and decrements other affinities by an amount related to
 	 * how much in opposition they are to the specified affinity.
+	 *
 	 * @param affinity The affinity to increase
-	 * @param amt The amount to increase the affinity by
+	 * @param amt      The amount to increase the affinity by
 	 */
 	@Override
 	public void incrementAffinity(Affinity affinity, float amt){
@@ -164,7 +158,7 @@ public class AffinityData implements IExtendedEntityProperties, IAffinityData{
 	}
 
 	@Override
-	public void saveNBTData(NBTTagCompound compound) {
+	public void saveNBTData(NBTTagCompound compound){
 		NBTTagCompound tags = new NBTTagCompound();
 		for (Integer affinity : affinityDepths.keySet()){
 			tags.setDouble(Affinity.values()[affinity].name(), affinityDepths.get(affinity));
@@ -174,12 +168,12 @@ public class AffinityData implements IExtendedEntityProperties, IAffinityData{
 	}
 
 	@Override
-	public void loadNBTData(NBTTagCompound compound) {
+	public void loadNBTData(NBTTagCompound compound){
 		NBTTagCompound tags = compound.getCompoundTag("AffinityDepthData");
 		setupAffinityDefaults();
 		for (Affinity affinity : Affinity.values()){
 			if (tags.hasKey(affinity.name())){
-				float depth = (float) tags.getDouble(affinity.name());
+				float depth = (float)tags.getDouble(affinity.name());
 				setAffinityAndDepth(affinity, depth);
 			}
 		}
@@ -187,7 +181,7 @@ public class AffinityData implements IExtendedEntityProperties, IAffinityData{
 	}
 
 	@Override
-	public void init(Entity entity, World world) {
+	public void init(Entity entity, World world){
 		this.entity = entity;
 	}
 
@@ -201,7 +195,7 @@ public class AffinityData implements IExtendedEntityProperties, IAffinityData{
 	}
 
 	public boolean HasDoneFullSync(){
-		return this.hasDoneFullSync ;
+		return this.hasDoneFullSync;
 	}
 
 	public void setFullSync(){
@@ -222,7 +216,7 @@ public class AffinityData implements IExtendedEntityProperties, IAffinityData{
 	}
 
 	public boolean hasUpdate(){
-		if (!(this.entity instanceof EntityPlayer) && !forcingSync ){
+		if (!(this.entity instanceof EntityPlayer) && !forcingSync){
 			return false;
 		}
 		this.ticksToSync--;
@@ -279,7 +273,7 @@ public class AffinityData implements IExtendedEntityProperties, IAffinityData{
 		return true;
 	}
 
-	public void handleExtendedPropertySync() {
+	public void handleExtendedPropertySync(){
 		if (!this.HasDoneFullSync()) this.setFullSync();
 
 		if (!entity.worldObj.isRemote && this.hasUpdate()){
@@ -291,24 +285,24 @@ public class AffinityData implements IExtendedEntityProperties, IAffinityData{
 	private void updateHighestAffinities(){
 		List<Float> values = new ArrayList<Float>(affinityDepths.values());
 		Collections.sort(values);
-		values = values.subList(values.size()-2, values.size());
+		values = values.subList(values.size() - 2, values.size());
 
 		//remove entries that are too low
 		Iterator it = values.iterator();
 		while (it.hasNext()){
-			Float f = (Float) it.next();
+			Float f = (Float)it.next();
 			if (Math.floor(f * 100.0f) / 100.0f == 0)
 				it.remove();
 		}
 
 		List<Affinity> resolvedAffinties = new ArrayList<Affinity>();
 
-		HashMap<Integer, Float> clone = (HashMap<Integer, Float>) affinityDepths.clone();
+		HashMap<Integer, Float> clone = (HashMap<Integer, Float>)affinityDepths.clone();
 
 		for (Float f : values){
 			it = clone.entrySet().iterator();
 			while (it.hasNext()){
-				Entry<Integer, Float> e = (Entry<Integer, Float>) it.next();
+				Entry<Integer, Float> e = (Entry<Integer, Float>)it.next();
 				if (compareFloats(e.getValue(), f, 2)){
 					resolvedAffinties.add(Affinity.getByID(e.getKey()));
 					it.remove();
@@ -401,8 +395,7 @@ public class AffinityData implements IExtendedEntityProperties, IAffinityData{
 		return list;
 	}
 
-	class AffinityEffectDescriptor
-	{
+	class AffinityEffectDescriptor{
 		private final boolean hasDepth;
 		private final String description;
 
@@ -417,84 +410,84 @@ public class AffinityData implements IExtendedEntityProperties, IAffinityData{
 		}
 	}
 
-	public Affinity[] getHighestAffinities() {
+	public Affinity[] getHighestAffinities(){
 		return this.highestAffinities;
 	}
 
 	public void onAffinityAbility(){
-	
+
 		if (getAffinityDepth(Affinity.ENDER) >= 0.75){
 			if (this.entity.isSneaking()){
 				this.hasActivatedNightVision = !this.hasActivatedNightVision;
 			}else{
 				if (this.lastGroundPosition != null){
 					if (positionIsValid(lastGroundPosition)){
-						
+
 						spawnParticlesAt(lastGroundPosition);
 						spawnParticlesAt(new AMVector3(entity));
-						
+
 						this.entity.setPosition(this.lastGroundPosition.x, this.lastGroundPosition.y + 1, this.lastGroundPosition.z);
-						ExtendedProperties.For((EntityLivingBase)this.entity).setFallProtection(20000);					
-						this.entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "mob.endermen.portal", 1.0F, 1.0F);	
-						
+						ExtendedProperties.For((EntityLivingBase)this.entity).setFallProtection(20000);
+						this.entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "mob.endermen.portal", 1.0F, 1.0F);
+
 						this.setCooldown(AMCore.config.getEnderAffinityAbilityCooldown());
 					}else{
 						((EntityPlayer)this.entity).addChatMessage(
 								new ChatComponentText("am2.affinity.enderTPFailed")
-							);
+						);
 					}
 				}else{
 					((EntityPlayer)this.entity).addChatMessage(
-						new ChatComponentText("am2.affinity.enderTPFailed")
+							new ChatComponentText("am2.affinity.enderTPFailed")
 					);
 				}
 			}
 		}
-		
+
 		//beyond here we can handle other affinities that have activatable abilities
 	}
-	
+
 	private void spawnParticlesAt(AMVector3 pos){
-		int numParticles  = entity.worldObj.rand.nextInt(25) + 1;
+		int numParticles = entity.worldObj.rand.nextInt(25) + 1;
 		for (int i = 0; i < numParticles; ++i){
-			this.entity.worldObj.spawnParticle("portal", 
-					pos.x + entity.worldObj.rand.nextDouble() - 0.5f, 
-					pos.y - 1 + entity.worldObj.rand.nextDouble() - 0.5f, 
-					pos.z + entity.worldObj.rand.nextDouble() - 0.5f, 
-					entity.worldObj.rand.nextDouble() - 0.5, 
-					entity.worldObj.rand.nextDouble() - 0.5, 
+			this.entity.worldObj.spawnParticle("portal",
+					pos.x + entity.worldObj.rand.nextDouble() - 0.5f,
+					pos.y - 1 + entity.worldObj.rand.nextDouble() - 0.5f,
+					pos.z + entity.worldObj.rand.nextDouble() - 0.5f,
+					entity.worldObj.rand.nextDouble() - 0.5,
+					entity.worldObj.rand.nextDouble() - 0.5,
 					entity.worldObj.rand.nextDouble() - 0.5
-				);
+			);
 		}
 	}
-	
+
 	private boolean positionIsValid(AMVector3 pos){
-		return 
+		return
 				this.entity.worldObj.isAirBlock((int)Math.floor(pos.x), (int)Math.floor(pos.y + 1), (int)Math.floor(pos.z)) &&
-				this.entity.worldObj.isAirBlock((int)Math.floor(pos.x), (int)Math.floor(pos.y + 2), (int)Math.floor(pos.z));
+						this.entity.worldObj.isAirBlock((int)Math.floor(pos.x), (int)Math.floor(pos.y + 2), (int)Math.floor(pos.z));
 	}
-	
+
 	public AMVector3 getLastGroundPosition(){
 		return this.lastGroundPosition;
 	}
-	
+
 	public void setLastGroundPosition(AMVector3 pos){
 		this.lastGroundPosition = pos;
 	}
-	
+
 	public boolean hasActivatedNightVision(){
 		return this.hasActivatedNightVision;
 	}
-	
+
 	public void setCooldown(int cd){
 		this.abilityCooldown = cd;
 	}
-	
+
 	public void tickCooldown(){
 		if (this.abilityCooldown > 0)
 			this.abilityCooldown--;
 	}
-	
+
 	public boolean isAbilityReady(){
 		return this.abilityCooldown == 0;
 	}

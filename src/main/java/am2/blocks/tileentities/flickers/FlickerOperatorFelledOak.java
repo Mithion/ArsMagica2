@@ -1,17 +1,5 @@
 package am2.blocks.tileentities.flickers;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockSapling;
-import net.minecraft.init.Blocks;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemBlockWithMetadata;
-import net.minecraft.item.ItemMultiTexture;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.util.ForgeDirection;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.api.math.AMVector3;
@@ -22,6 +10,14 @@ import am2.network.AMDataReader;
 import am2.network.AMDataWriter;
 import am2.utility.DummyEntityPlayer;
 import am2.utility.InventoryUtilities;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 
@@ -29,27 +25,20 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 
 	private static final int radius_horiz = 6;
 	private static final int radius_vert = 1;
-	
+
 	public FlickerOperatorFelledOak(){
 
 	}
 
-	void destroyTree (World world, int x, int y, int z, Block block, int meta)
-	{
-		for (int xPos = x - 1; xPos <= x + 1; xPos++)
-		{
-			for (int yPos = y; yPos <= y + 1; yPos++)
-			{
-				for (int zPos = z - 1; zPos <= z + 1; zPos++)
-				{
+	void destroyTree(World world, int x, int y, int z, Block block, int meta){
+		for (int xPos = x - 1; xPos <= x + 1; xPos++){
+			for (int yPos = y; yPos <= y + 1; yPos++){
+				for (int zPos = z - 1; zPos <= z + 1; zPos++){
 					Block localblock = world.getBlock(xPos, yPos, zPos);
-					if (block == localblock)
-					{
+					if (block == localblock){
 						meta = world.getBlockMetadata(xPos, yPos, zPos);
-						if (localblock == block && world.getBlockMetadata(xPos, yPos, zPos) % 4 == meta % 4)
-						{
-							if (block.removedByPlayer(world, dummyPlayer, xPos, yPos, zPos))
-							{
+						if (localblock == block && world.getBlockMetadata(xPos, yPos, zPos) % 4 == meta % 4){
+							if (block.removedByPlayer(world, dummyPlayer, xPos, yPos, zPos)){
 								block.onBlockDestroyedByPlayer(world, xPos, yPos, zPos, meta);
 							}
 							block.harvestBlock(world, dummyPlayer, xPos, yPos, zPos, meta);
@@ -73,30 +62,23 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 
 		wood = world.getBlock(x, y, z);
 
-		if (wood.isWood(world, x, y, z))
-		{
+		if (wood.isWood(world, x, y, z)){
 			int height = y;
 			boolean foundTop = false;
-			do
-			{
+			do{
 				height++;
 				Block block = world.getBlock(x, height, z);
-				if (block != wood)
-				{
+				if (block != wood){
 					height--;
 					foundTop = true;
 				}
-			} while (!foundTop);
+			}while (!foundTop);
 
 			int numLeaves = 0;
-			if (height - y < 50)
-			{
-				for (int xPos = x - 1; xPos <= x + 1; xPos++)
-				{
-					for (int yPos = height - 1; yPos <= height + 1; yPos++)
-					{
-						for (int zPos = z - 1; zPos <= z + 1; zPos++)
-						{
+			if (height - y < 50){
+				for (int xPos = x - 1; xPos <= x + 1; xPos++){
+					for (int yPos = height - 1; yPos <= height + 1; yPos++){
+						for (int zPos = z - 1; zPos <= z + 1; zPos++){
 							Block leaves = world.getBlock(xPos, yPos, zPos);
 							if (leaves != null && leaves.isLeaves(world, xPos, yPos, zPos))
 								numLeaves++;
@@ -118,19 +100,19 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 	private void plantTree(World worldObj, IFlickerController habitat, boolean powered){
 		if (!powered || worldObj.isRemote)
 			return;
-		
+
 		ItemStack sapling = getSaplingFromNearbyChest(worldObj, habitat);
 		if (sapling == null)
 			return;
-		
+
 		AMVector3 plantLoc = getPlantLocation(worldObj, habitat, sapling);
-		
+
 		if (plantLoc == null)
 			return;
-		
+
 		deductSaplingFromNearbyChest(worldObj, habitat);
-		ItemBlock block = (ItemBlock) sapling.getItem();
-		
+		ItemBlock block = (ItemBlock)sapling.getItem();
+
 		worldObj.setBlock((int)plantLoc.x, (int)plantLoc.y, (int)plantLoc.z, block.field_150939_a, block.getMetadata(sapling.getItemDamage()), 3);
 	}
 
@@ -146,9 +128,9 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 			AMDataReader reader = new AMDataReader(data, false);
 			offset = new AMVector3(reader.getInt(), te.yCoord - radius_vert, reader.getInt());
 		}
-	
+
 		Block treeBlock = ((ItemBlock)sapling.getItem()).field_150939_a;
-		
+
 		for (int i = (int)offset.x; i <= te.xCoord + radius_horiz; i += 2){
 			for (int k = (int)offset.z; k <= te.zCoord + radius_horiz; k += 2){
 				for (int j = (int)offset.y; j <= te.yCoord + radius_vert; ++j){
@@ -162,16 +144,17 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 				}
 			}
 		}
-		
+
 		AMDataWriter writer = new AMDataWriter();
 		writer.add(te.xCoord - radius_horiz).add(te.zCoord - radius_horiz);
 		habitat.setMetadata(this, writer.generate());
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Gets a single sapling from an adjacent chest
+	 *
 	 * @return
 	 */
 	private ItemStack getSaplingFromNearbyChest(World worldObj, IFlickerController habitat){
@@ -188,7 +171,7 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 		}
 		return null;
 	}
-	
+
 	private void deductSaplingFromNearbyChest(World worldObj, IFlickerController habitat){
 		for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
 			IInventory inv = getOffsetInventory(worldObj, habitat, dir);
@@ -214,29 +197,28 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean RequiresPower() {
+	public boolean RequiresPower(){
 		return false;
 	}
 
 	@Override
-	public int PowerPerOperation() {
+	public int PowerPerOperation(){
 		return 100;
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered) {
+	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered){
 		int radius = 6;
 
 		dummyPlayer = new DummyEntityPlayer(worldObj);
 
 		for (int i = -radius; i <= radius; ++i){
 			for (int j = -radius; j <= radius; ++j){
-				Block block = worldObj.getBlock(((TileEntity)habitat).xCoord+i, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord+j);
+				Block block = worldObj.getBlock(((TileEntity)habitat).xCoord + i, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord + j);
 				if (block == Blocks.air) continue;
-				if (block.isWood(worldObj, ((TileEntity)habitat).xCoord+i, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord+j))
-				{
+				if (block.isWood(worldObj, ((TileEntity)habitat).xCoord + i, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord + j)){
 					if (!worldObj.isRemote)
-						beginTreeFelling(worldObj, ((TileEntity)habitat).xCoord+i, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord+j);
+						beginTreeFelling(worldObj, ((TileEntity)habitat).xCoord + i, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord + j);
 					return true;
 				}
 			}
@@ -245,8 +227,8 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 	}
 
 	@Override
-	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers) {
-		
+	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
+
 		boolean hasNatureAugment = false;
 		for (Affinity aff : flickers){
 			if (aff == Affinity.NATURE){
@@ -254,20 +236,20 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 				break;
 			}
 		}
-		
+
 		if (hasNatureAugment){
 			plantTree(worldObj, habitat, powered);
 		}
-		
+
 		return DoOperation(worldObj, habitat, powered);
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered) {
+	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered){
 	}
 
 	@Override
-	public int TimeBetweenOperation(boolean powered, Affinity[] flickers) {
+	public int TimeBetweenOperation(boolean powered, Affinity[] flickers){
 		int base = powered ? 300 : 3600;
 		float augments = 1.0f;
 		for (Affinity aff : flickers){
@@ -278,11 +260,11 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 	}
 
 	@Override
-	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers) {
+	public void RemoveOperator(World worldObj, IFlickerController habitat, boolean powered, Affinity[] flickers){
 	}
 
 	@Override
-	public Object[] getRecipe() {
+	public Object[] getRecipe(){
 		return new Object[]{
 				"WG ",
 				"NCL",

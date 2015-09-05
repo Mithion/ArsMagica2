@@ -1,7 +1,10 @@
 package am2.items;
 
-import java.util.List;
-
+import am2.api.spell.enums.Affinity;
+import am2.playerextensions.AffinityData;
+import am2.texture.ResourceManager;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,13 +14,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import am2.api.spell.enums.Affinity;
-import am2.playerextensions.AffinityData;
-import am2.texture.ResourceManager;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemAffinityBook extends ArsMagicaItem {
+import java.util.List;
+
+public class ItemAffinityBook extends ArsMagicaItem{
 
 	@SideOnly(Side.CLIENT)
 	private IIcon[] icons;
@@ -36,7 +36,7 @@ public class ItemAffinityBook extends ArsMagicaItem {
 	public static final int META_LIFE = 9;
 	public static final int META_ENDER = 10;
 
-	public ItemAffinityBook() {
+	public ItemAffinityBook(){
 		super();
 		setMaxDamage(0);
 		setMaxStackSize(16);
@@ -48,7 +48,7 @@ public class ItemAffinityBook extends ArsMagicaItem {
 	}
 
 	@Override
-	public String getItemStackDisplayName(ItemStack par1ItemStack) {
+	public String getItemStackDisplayName(ItemStack par1ItemStack){
 		Affinity affinity = Affinity.getByID(par1ItemStack.getItemDamage());
 		if (affinity == null) return StatCollector.translateToLocal("item.arsmagica2:affinityTome.name");
 
@@ -57,8 +57,8 @@ public class ItemAffinityBook extends ArsMagicaItem {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister) {
-		textures = new String[]{ "affinity_tome_general", "affinity_tome_arcane", "affinity_tome_water", "affinity_tome_fire", "affinity_tome_earth", "affinity_tome_air", "affinity_tome_lightning", "affinity_tome_ice", "affinity_tome_nature", "affinity_tome_life", "affinity_tome_ender"};
+	public void registerIcons(IIconRegister par1IconRegister){
+		textures = new String[]{"affinity_tome_general", "affinity_tome_arcane", "affinity_tome_water", "affinity_tome_fire", "affinity_tome_earth", "affinity_tome_air", "affinity_tome_lightning", "affinity_tome_ice", "affinity_tome_nature", "affinity_tome_life", "affinity_tome_ender"};
 		icons = new IIcon[textures.length];
 		for (int i = 0; i < textures.length; ++i){
 			icons[i] = ResourceManager.RegisterTexture(textures[i], par1IconRegister);
@@ -66,41 +66,41 @@ public class ItemAffinityBook extends ArsMagicaItem {
 	}
 
 	@Override
-	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		return false;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int par1) {
+	public IIcon getIconFromDamage(int par1){
 		return icons[par1];
 	}
 
 	@Override
-	public EnumRarity getRarity(ItemStack par1ItemStack) {
+	public EnumRarity getRarity(ItemStack par1ItemStack){
 		return EnumRarity.uncommon;
 	}
 
 	@Override
-	public boolean hasEffect(ItemStack par1ItemStack) {
+	public boolean hasEffect(ItemStack par1ItemStack){
 		return true;
 	}
 
 	@Override
-	public boolean getHasSubtypes() {
+	public boolean getHasSubtypes(){
 		return true;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
+	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List){
 		for (int i = 0; i < textures.length; ++i){
 			par3List.add(new ItemStack(this, 1, i));
 		}
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
 
 		if (par1ItemStack.getItemDamage() == META_GENERAL){
 			AffinityData data = AffinityData.For(par3EntityPlayer);

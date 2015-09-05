@@ -1,12 +1,11 @@
 package am2.entities.renderers;
 
-import java.util.Map;
-
+import com.google.common.base.Function;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.util.ResourceLocation;
 
-import com.google.common.base.Function;
+import java.util.Map;
 
 public class AM2ModelRenderer extends ModelRenderer{
 
@@ -18,7 +17,7 @@ public class AM2ModelRenderer extends ModelRenderer{
 
 	private ResourceLocation current = null;
 
-	public AM2ModelRenderer(ModelBase par1ModelBase) {
+	public AM2ModelRenderer(ModelBase par1ModelBase){
 		super(par1ModelBase);
 	}
 

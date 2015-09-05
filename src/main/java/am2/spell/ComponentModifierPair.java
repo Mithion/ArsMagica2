@@ -1,9 +1,9 @@
 package am2.spell;
 
-import java.util.ArrayList;
-
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+
+import java.util.ArrayList;
 
 public class ComponentModifierPair{
 	public ArrayList<Integer> components;

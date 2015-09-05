@@ -1,5 +1,8 @@
 package am2.blocks.renderers;
 
+import am2.blocks.BlockCrystalMarker;
+import am2.blocks.tileentities.TileEntityCrystalMarker;
+import am2.texture.ResourceManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -7,14 +10,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
-
 import org.lwjgl.opengl.GL11;
 
-import am2.blocks.BlockCrystalMarker;
-import am2.blocks.tileentities.TileEntityCrystalMarker;
-import am2.texture.ResourceManager;
-
-public class CrystalMarkerRenderer extends TileEntitySpecialRenderer {
+public class CrystalMarkerRenderer extends TileEntitySpecialRenderer{
 	private ResourceLocation rloc = new ResourceLocation("arsmagica2", ResourceManager.getCustomBlockTexturePath("crystalmarker.png"));
 	private IModelCustom model;
 
@@ -24,14 +22,14 @@ public class CrystalMarkerRenderer extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double d0, double d1,
-			double d2, float f) {
-		doRender((TileEntityCrystalMarker) tileentity, d0, d1, d2, f);
+								   double d2, float f){
+		doRender((TileEntityCrystalMarker)tileentity, d0, d1, d2, f);
 	}
 
 	public void doRender(TileEntityCrystalMarker tileentity, double x, double y, double z, float partialTicks){
 		int facing = 0;
 
-		if(tileentity.getWorldObj() != null){
+		if (tileentity.getWorldObj() != null){
 			facing = tileentity.getFacing();
 		}
 
@@ -41,8 +39,8 @@ public class CrystalMarkerRenderer extends TileEntitySpecialRenderer {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		RenderHelper.disableStandardItemLighting();
 
-		if(tileentity.xCoord != 0 || tileentity.yCoord != 0 || tileentity.zCoord != 0){
-			switch(facing){
+		if (tileentity.xCoord != 0 || tileentity.yCoord != 0 || tileentity.zCoord != 0){
+			switch (facing){
 			case 0: //Bottom, Inventory is above
 				GL11.glTranslated(x + 0.5, y + 1.0 + tileentity.GetConnectedBoundingBox().minY, z + 0.5);
 				GL11.glRotated(90, 1, 0, 0);
@@ -52,7 +50,7 @@ public class CrystalMarkerRenderer extends TileEntitySpecialRenderer {
 				GL11.glRotated(270, 1, 0, 0);
 				break;
 			case 2: //North, Inventory is to the south
-				GL11.glTranslated(x + 0.5, y + 0.5, z + 1.0 + (1.0 - tileentity.GetConnectedBoundingBox().maxZ) );
+				GL11.glTranslated(x + 0.5, y + 0.5, z + 1.0 + (1.0 - tileentity.GetConnectedBoundingBox().maxZ));
 				GL11.glRotated(180, 0, 1, 0);
 				break;
 			case 3: //South, Inventory is to the north
@@ -69,7 +67,7 @@ public class CrystalMarkerRenderer extends TileEntitySpecialRenderer {
 			}
 
 			GL11.glScalef(0.5f, 0.5f, 0.5f);
-		} else {
+		}else{
 			GL11.glScalef(1.4f, 1.4f, 1.4f);
 		}
 
@@ -77,11 +75,11 @@ public class CrystalMarkerRenderer extends TileEntitySpecialRenderer {
 
 		if (tileentity.getWorldObj() != null){
 			blockType = tileentity.getBlockMetadata();
-		} else {
+		}else{
 			blockType = (int)partialTicks;
 		}
 
-		switch(blockType){
+		switch (blockType){
 		case BlockCrystalMarker.META_IN:
 			GL11.glColor3f(0.94f, 0.69f, 0.01f); //yellow
 			break;
@@ -110,8 +108,8 @@ public class CrystalMarkerRenderer extends TileEntitySpecialRenderer {
 
 		try{
 			model.renderAll();
-		}catch(Throwable t){
-			
+		}catch (Throwable t){
+
 		}
 
 		GL11.glPopAttrib();

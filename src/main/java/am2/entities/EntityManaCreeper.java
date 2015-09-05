@@ -1,30 +1,30 @@
 package am2.entities;
 
 import am2.items.ItemsCommonProxy;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.ReflectionHelper;
 
-public class EntityManaCreeper extends EntityCreeper {
+public class EntityManaCreeper extends EntityCreeper{
 
 	int timeSinceIgnited_Local;
 	int lastActiveTime;
 
 	protected int fuseLength = 20;
 
-	public EntityManaCreeper(World par1World) {
+	public EntityManaCreeper(World par1World){
 		super(par1World);
 	}
 
 	@Override
-	protected Item getDropItem() {
+	protected Item getDropItem(){
 		return ItemsCommonProxy.manaCake;
 	}
-	
+
 	@Override
-	protected void dropFewItems(boolean par1, int par2) {
+	protected void dropFewItems(boolean par1, int par2){
 		if (par1){
 			this.dropItem(getDropItem(), par2 > 0 ? 1 + getRNG().nextInt(par2) : 1);
 		}
@@ -35,37 +35,30 @@ public class EntityManaCreeper extends EntityCreeper {
 	}
 
 	@Override
-	public float getCreeperFlashIntensity(float par1)
-	{
+	public float getCreeperFlashIntensity(float par1){
 		return (this.lastActiveTime + (this.timeSinceIgnited_Local - this.lastActiveTime) * par1) / (this.fuseLength - 2);
 	}
 
 	@Override
-	public void onUpdate()
-	{
-		if (this.isEntityAlive())
-		{
+	public void onUpdate(){
+		if (this.isEntityAlive()){
 			this.lastActiveTime = this.timeSinceIgnited_Local;
 			int var1 = this.getCreeperState();
 
-			if (var1 > 0 && this.timeSinceIgnited_Local == 0)
-			{
+			if (var1 > 0 && this.timeSinceIgnited_Local == 0){
 				this.worldObj.playSoundAtEntity(this, "random.fuse", 1.0F, 0.5F);
 			}
 
 			this.timeSinceIgnited_Local += var1;
 
-			if (this.timeSinceIgnited_Local < 0)
-			{
+			if (this.timeSinceIgnited_Local < 0){
 				this.timeSinceIgnited_Local = 0;
 			}
 
-			if (this.timeSinceIgnited_Local >= 10)
-			{
+			if (this.timeSinceIgnited_Local >= 10){
 				this.timeSinceIgnited_Local = 10;
 
-				if (!this.worldObj.isRemote)
-				{
+				if (!this.worldObj.isRemote){
 					createManaVortex();
 					this.onDeath(DamageSource.generic);
 					this.setDead();
@@ -86,7 +79,7 @@ public class EntityManaCreeper extends EntityCreeper {
 	}
 
 	@Override
-	public boolean getCanSpawnHere() {
+	public boolean getCanSpawnHere(){
 		if (!SpawnBlacklists.entityCanSpawnHere(this.posX, this.posZ, worldObj, this))
 			return false;
 		return super.getCanSpawnHere();

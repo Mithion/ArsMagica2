@@ -1,9 +1,5 @@
 package am2.spell;
 
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import am2.AMCore;
 import am2.api.SkillTreeEntry;
 import am2.api.spell.ISkillTreeManager;
@@ -12,7 +8,11 @@ import am2.api.spell.enums.SkillPointTypes;
 import am2.api.spell.enums.SkillTrees;
 import cpw.mods.fml.common.FMLLog;
 
-public class SkillTreeManager implements ISkillTreeManager {
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class SkillTreeManager implements ISkillTreeManager{
 
 	private final ArrayList<SkillTreeEntry> offenseTree = new ArrayList<SkillTreeEntry>();
 	private final ArrayList<SkillTreeEntry> defenseTree = new ArrayList<SkillTreeEntry>();
@@ -38,14 +38,14 @@ public class SkillTreeManager implements ISkillTreeManager {
 	}
 
 	@Override
-	public void RegisterPart(ISkillTreeEntry item, int x, int y, SkillTrees tree, SkillPointTypes requiredPoint, ISkillTreeEntry ... prerequisites){
+	public void RegisterPart(ISkillTreeEntry item, int x, int y, SkillTrees tree, SkillPointTypes requiredPoint, ISkillTreeEntry... prerequisites){
 
 		//get appropriate skill tree
-		ArrayList<SkillTreeEntry> treeListing = tree == SkillTrees.Defense ? defenseTree : tree == SkillTrees.Offense ? offenseTree : tree == SkillTrees.Utility ?  utilityTree : talentTree;
+		ArrayList<SkillTreeEntry> treeListing = tree == SkillTrees.Defense ? defenseTree : tree == SkillTrees.Offense ? offenseTree : tree == SkillTrees.Utility ? utilityTree : talentTree;
 
 		//check for prereq
 		ArrayList<SkillTreeEntry> locatedPrerequisites = new ArrayList<SkillTreeEntry>();
-		if(prerequisites != null && prerequisites.length > 0){
+		if (prerequisites != null && prerequisites.length > 0){
 			for (Object prerequisite : prerequisites){
 				for (SkillTreeEntry entry : treeListing){
 					if (entry.registeredItem == prerequisite){
@@ -366,12 +366,12 @@ public class SkillTreeManager implements ISkillTreeManager {
 		return highest;
 	}
 
-	public int getHighestTier() {
+	public int getHighestTier(){
 		return this.highestSkillDepth;
 	}
 
 
-	public void disableAllSkillsIn(int[] disabledSkills) {
+	public void disableAllSkillsIn(int[] disabledSkills){
 		//enable all skills
 		for (SkillTreeEntry entry : offenseTree)
 			entry.enabled = true;
@@ -393,7 +393,7 @@ public class SkillTreeManager implements ISkillTreeManager {
 		}
 	}
 
-	public boolean isSkillDisabled(ISkillTreeEntry component) {
+	public boolean isSkillDisabled(ISkillTreeEntry component){
 		SkillTreeEntry entry = getSkillTreeEntry(component);
 		if (entry == null)
 			return false;

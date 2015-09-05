@@ -1,17 +1,17 @@
 package am2.armor.infusions;
 
-import java.util.EnumSet;
-import java.util.UUID;
-
+import am2.api.items.armor.IArmorImbuement;
+import am2.api.items.armor.ImbuementApplicationTypes;
+import am2.api.items.armor.ImbuementTiers;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import am2.api.items.armor.IArmorImbuement;
-import am2.api.items.armor.ImbuementApplicationTypes;
-import am2.api.items.armor.ImbuementTiers;
 
-public class GenericImbuement implements IArmorImbuement {
+import java.util.EnumSet;
+import java.util.UUID;
+
+public class GenericImbuement implements IArmorImbuement{
 
 	private String id = "";
 	private int iconIndex = 0;
@@ -41,9 +41,9 @@ public class GenericImbuement implements IArmorImbuement {
 
 	public static void registerAll(){
 		//all armors
-		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(manaRegen, 0, ImbuementTiers.FIRST, new int[]{ImbuementRegistry.SLOT_BOOTS,ImbuementRegistry.SLOT_LEGS,ImbuementRegistry.SLOT_CHEST,ImbuementRegistry.SLOT_HELM}));
-		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(burnoutReduction, 1, ImbuementTiers.FIRST, new int[]{ImbuementRegistry.SLOT_BOOTS,ImbuementRegistry.SLOT_LEGS,ImbuementRegistry.SLOT_CHEST,ImbuementRegistry.SLOT_HELM}));
-		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(soulbound, 31, ImbuementTiers.FIRST, new int[]{ImbuementRegistry.SLOT_BOOTS,ImbuementRegistry.SLOT_LEGS,ImbuementRegistry.SLOT_CHEST,ImbuementRegistry.SLOT_HELM}));
+		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(manaRegen, 0, ImbuementTiers.FIRST, new int[]{ImbuementRegistry.SLOT_BOOTS, ImbuementRegistry.SLOT_LEGS, ImbuementRegistry.SLOT_CHEST, ImbuementRegistry.SLOT_HELM}));
+		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(burnoutReduction, 1, ImbuementTiers.FIRST, new int[]{ImbuementRegistry.SLOT_BOOTS, ImbuementRegistry.SLOT_LEGS, ImbuementRegistry.SLOT_CHEST, ImbuementRegistry.SLOT_HELM}));
+		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(soulbound, 31, ImbuementTiers.FIRST, new int[]{ImbuementRegistry.SLOT_BOOTS, ImbuementRegistry.SLOT_LEGS, ImbuementRegistry.SLOT_CHEST, ImbuementRegistry.SLOT_HELM}));
 
 		//chest
 		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(flickerLure, 3, ImbuementTiers.FIRST, new int[]{ImbuementRegistry.SLOT_CHEST}));
@@ -55,54 +55,54 @@ public class GenericImbuement implements IArmorImbuement {
 		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(thaumcraftNodeReveal, 2, ImbuementTiers.FOURTH, new int[]{ImbuementRegistry.SLOT_HELM}));
 
 		//legs
-		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(stepAssist, 21, ImbuementTiers.FIRST, new int[] {ImbuementRegistry.SLOT_LEGS}));
+		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(stepAssist, 21, ImbuementTiers.FIRST, new int[]{ImbuementRegistry.SLOT_LEGS}));
 
 		//boots
 		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(runSpeed, 26, ImbuementTiers.FIRST, new int[]{ImbuementRegistry.SLOT_BOOTS}));
 	}
 
 	@Override
-	public String getID() {
+	public String getID(){
 		return id;
 	}
 
 	@Override
-	public int getIconIndex() {
+	public int getIconIndex(){
 		return iconIndex;
 	}
 
 	@Override
-	public ImbuementTiers getTier() {
+	public ImbuementTiers getTier(){
 		return tier;
 	}
 
 	@Override
-	public EnumSet<ImbuementApplicationTypes> getApplicationTypes() {
+	public EnumSet<ImbuementApplicationTypes> getApplicationTypes(){
 		return EnumSet.of(ImbuementApplicationTypes.NONE);
 	}
 
 	@Override
-	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params) {
+	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 		return false;
 	}
 
 	@Override
-	public int[] getValidSlots() {
+	public int[] getValidSlots(){
 		return validSlots;
 	}
 
 	@Override
-	public boolean canApplyOnCooldown() {
+	public boolean canApplyOnCooldown(){
 		return true;
 	}
 
 	@Override
-	public int getCooldown() {
+	public int getCooldown(){
 		return 0;
 	}
 
 	@Override
-	public int getArmorDamage() {
+	public int getArmorDamage(){
 		return 0;
 	}
 }

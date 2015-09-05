@@ -1,58 +1,13 @@
 package am2;
 
-import java.io.File;
-
-import net.minecraft.command.ICommandManager;
-import net.minecraft.command.ServerCommandManager;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
-import net.minecraftforge.common.BiomeManager;
-import net.minecraftforge.common.BiomeManager.BiomeEntry;
-import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.common.ForgeChunkManager;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
-import net.minecraftforge.fluids.FluidRegistry;
 import am2.api.ArsMagicaApi;
 import am2.api.spell.enums.Affinity;
 import am2.armor.infusions.ImbuementRegistry;
 import am2.blocks.RecipesEssenceRefiner;
 import am2.blocks.liquid.BlockLiquidEssence;
-import am2.blocks.tileentities.flickers.FlickerOperatorButchery;
-import am2.blocks.tileentities.flickers.FlickerOperatorContainment;
-import am2.blocks.tileentities.flickers.FlickerOperatorFelledOak;
-import am2.blocks.tileentities.flickers.FlickerOperatorFishing;
-import am2.blocks.tileentities.flickers.FlickerOperatorFlatLands;
-import am2.blocks.tileentities.flickers.FlickerOperatorGentleRains;
-import am2.blocks.tileentities.flickers.FlickerOperatorInterdiction;
-import am2.blocks.tileentities.flickers.FlickerOperatorItemTransport;
-import am2.blocks.tileentities.flickers.FlickerOperatorLight;
-import am2.blocks.tileentities.flickers.FlickerOperatorMoonstoneAttractor;
-import am2.blocks.tileentities.flickers.FlickerOperatorNaturesBounty;
-import am2.blocks.tileentities.flickers.FlickerOperatorPackedEarth;
-import am2.blocks.tileentities.flickers.FlickerOperatorProgeny;
-import am2.blocks.tileentities.flickers.FlickerOperatorRegistry;
+import am2.blocks.tileentities.flickers.*;
 import am2.buffs.BuffList;
-import am2.commands.ClearKnownSpellParts;
-import am2.commands.ConfigureAMUICommand;
-import am2.commands.DumpNBT;
-import am2.commands.Explosions;
-import am2.commands.FillManaBarCommand;
-import am2.commands.GiveSkillPoints;
-import am2.commands.RecoverKeystoneCommand;
-import am2.commands.RegisterTeamHostilityCommand;
-import am2.commands.ReloadSkillTree;
-import am2.commands.Respec;
-import am2.commands.SetAffinityCommand;
-import am2.commands.SetMagicLevelCommand;
-import am2.commands.ShiftAffinityCommand;
-import am2.commands.TakeSkillPoints;
-import am2.commands.UnlockAugmentedCastingCommand;
-import am2.commands.UnlockCompendiumEntry;
+import am2.commands.*;
 import am2.configuration.AMConfig;
 import am2.configuration.SkillConfiguration;
 import am2.enchantments.AMEnchantmentHelper;
@@ -66,7 +21,6 @@ import am2.playerextensions.AffinityData;
 import am2.playerextensions.ExtendedProperties;
 import am2.playerextensions.RiftStorage;
 import am2.playerextensions.SkillData;
-import am2.power.PowerNodeRegistry;
 import am2.power.PowerNodeCache;
 import am2.proxy.CommonProxy;
 import am2.spell.SkillManager;
@@ -80,26 +34,33 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLInterModComms;
+import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.event.FMLServerStoppingEvent;
-import cpw.mods.fml.common.network.FMLEventChannel;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.command.ICommandManager;
+import net.minecraft.command.ServerCommandManager;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraftforge.common.BiomeManager;
+import net.minecraftforge.common.BiomeManager.BiomeEntry;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
+import net.minecraftforge.fluids.FluidRegistry;
 
-@Mod(modid = "arsmagica2", modLanguage="java", name="Ars Magica 2", version = "1.4.0.009", dependencies = "required-after:AnimationAPI")
-public class AMCore {
+import java.io.File;
 
-	@Instance(value="arsmagica2")
+@Mod(modid = "arsmagica2", modLanguage = "java", name = "Ars Magica 2", version = "1.4.0.009", dependencies = "required-after:AnimationAPI")
+public class AMCore{
+
+	@Instance(value = "arsmagica2")
 	public static AMCore instance;
 
 	@SidedProxy(clientSide = "am2.proxy.ClientProxy", serverSide = "am2.proxy.CommonProxy")
-	public static CommonProxy proxy;	
-	
+	public static CommonProxy proxy;
+
 	public static AMConfig config;
 	public static SkillConfiguration skillConfig;
 	public static final int ANY_META = 32767;
@@ -123,7 +84,7 @@ public class AMCore {
 		skillConfig = new SkillConfiguration(new File(configBase + "SkillConf.cfg"));
 
 		AMNetHandler.INSTANCE.init();
-		
+
 		proxy.InitializeAndRegisterHandlers();
 		proxy.preinit();
 	}
@@ -136,8 +97,8 @@ public class AMCore {
 	}
 
 	@EventHandler
-	public void init(FMLInitializationEvent event){		
-		
+	public void init(FMLInitializationEvent event){
+
 		FMLInterModComms.sendMessage("Waila", "register", "am2.interop.WailaSupport.callbackRegister");
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, AMChunkLoader.INSTANCE);
@@ -165,7 +126,7 @@ public class AMCore {
 
 		FluidContainerRegistry.registerFluidContainer(
 				new FluidContainerData(
-						FluidRegistry.getFluidStack( BlockLiquidEssence.liquidEssenceFluid.getName(), FluidContainerRegistry.BUCKET_VOLUME ),
+						FluidRegistry.getFluidStack(BlockLiquidEssence.liquidEssenceFluid.getName(), FluidContainerRegistry.BUCKET_VOLUME),
 						new ItemStack(ItemsCommonProxy.itemAMBucket),
 						FluidContainerRegistry.EMPTY_BUCKET));
 
@@ -203,7 +164,7 @@ public class AMCore {
 		FlickerOperatorRegistry.instance.registerFlickerOperator(
 				new FlickerOperatorGentleRains(),
 				Affinity.WATER
-		);		
+		);
 		FlickerOperatorRegistry.instance.registerFlickerOperator(
 				new FlickerOperatorInterdiction(),
 				Affinity.AIR, Affinity.ARCANE
@@ -237,7 +198,7 @@ public class AMCore {
 	@EventHandler
 	public void serverStarting(FMLServerStartingEvent event){
 		ICommandManager commandManager = event.getServer().getCommandManager();
-		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
+		ServerCommandManager serverCommandManager = ((ServerCommandManager)commandManager);
 		serverCommandManager.registerCommand(new SetMagicLevelCommand());
 		serverCommandManager.registerCommand(new UnlockAugmentedCastingCommand());
 		serverCommandManager.registerCommand(new SetAffinityCommand());
@@ -255,7 +216,7 @@ public class AMCore {
 		serverCommandManager.registerCommand(new Respec());
 		serverCommandManager.registerCommand(new UnlockCompendiumEntry());
 	}
-	
+
 	@EventHandler
 	public void serverStopping(FMLServerStoppingEvent event){
 		for (WorldServer ws : MinecraftServer.getServer().worldServers){
@@ -278,8 +239,7 @@ public class AMCore {
 				}catch (NumberFormatException nex){
 					FMLLog.warning("Ars Magica 2 >> Could not parse dsb IMC - improper dimension ID (not a number)!  Syntax is 'ClassName|DimensionID', for example:  EntityDryad|22");
 				}
-			}
-			else if (msg.key == "bsb"){
+			}else if (msg.key == "bsb"){
 				FMLLog.info("Ars Magica 2 >> Received biome spawn blacklist IMC!  Processing.");
 				String[] split = msg.getStringValue().split("|");
 				if (split.length != 2){
@@ -291,19 +251,18 @@ public class AMCore {
 				}catch (NumberFormatException nex){
 					FMLLog.warning("Ars Magica 2 >> Could not parse bsb IMC - improper biome ID (not a number)!  Syntax is 'ClassName|BiomeID', for example:  EntityDryad|22");
 				}
-			}
-			else if (msg.key == "dwg"){
+			}else if (msg.key == "dwg"){
 				FMLLog.info("Ars Magica 2 >> Received dimension worldgen blacklist IMC!  Processing.");
 				try{
 					SpawnBlacklists.addBlacklistedDimensionForWorldgen(Integer.parseInt(msg.getStringValue()));
-				}catch(NumberFormatException nex){
+				}catch (NumberFormatException nex){
 					FMLLog.warning("Ars Magica 2 >> Could not parse dwg IMC - improper dimension ID (not a number)!  Syntax is 'dimensionID', for example:  2");
 				}
 			}else if (msg.key == "adb"){
 				FMLLog.info("Ars Magica 2 >> Received dispel blacklist IMC!  Processing.");
 				try{
 					BuffList.instance.addDispelExclusion(Integer.parseInt(msg.getStringValue()));
-				}catch(NumberFormatException nex){
+				}catch (NumberFormatException nex){
 					FMLLog.warning("Ars Magica 2 >> Could not parse adb IMC - improper potion ID (not a number)!  Syntax is 'potionID', for example:  10");
 				}
 			}

@@ -1,15 +1,5 @@
 package am2.blocks.renderers;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
-
-import org.lwjgl.opengl.GL11;
-
 import am2.AMCore;
 import am2.blocks.BlockInlay;
 import am2.blocks.BlocksClientProxy;
@@ -20,7 +10,14 @@ import am2.guis.GuiBlockAccess;
 import am2.items.ItemsCommonProxy;
 import am2.models.ModelCandle;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.common.FMLLog;
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+import org.lwjgl.opengl.GL11;
 
 public class SimpleBlockRenderHandler implements ISimpleBlockRenderingHandler{
 
@@ -33,7 +30,7 @@ public class SimpleBlockRenderHandler implements ISimpleBlockRenderingHandler{
 	}
 
 	@Override
-	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
+	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer){
 		Tessellator tessellator = Tessellator.instance;
 		boolean isInlay = block instanceof BlockInlay;
 		block.setBlockBoundsForItemRender();
@@ -44,10 +41,16 @@ public class SimpleBlockRenderHandler implements ISimpleBlockRenderingHandler{
 		if (isInlay)
 			GL11.glTranslatef(0, 0.5f, 0);
 
-		try{tessellator.startDrawingQuads();}catch(Throwable t){}
+		try{
+			tessellator.startDrawingQuads();
+		}catch (Throwable t){
+		}
 		tessellator.setNormal(0.0F, 1.0F, 0.0F);
 		renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, metadata));
-		try{tessellator.draw();}catch(Throwable t){}
+		try{
+			tessellator.draw();
+		}catch (Throwable t){
+		}
 
 		if (!isInlay){
 			if (block == BlocksCommonProxy.craftingAltar){
@@ -64,30 +67,66 @@ public class SimpleBlockRenderHandler implements ISimpleBlockRenderingHandler{
 
 	private void renderStandardBlock(Block block, int metadata, RenderBlocks renderer){
 		Tessellator tessellator = Tessellator.instance;
-		try{tessellator.startDrawingQuads();}catch(Throwable t){}
+		try{
+			tessellator.startDrawingQuads();
+		}catch (Throwable t){
+		}
 		tessellator.setNormal(0.0F, -1.0F, 0.0F);
 		renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 0, metadata));
-		try{tessellator.draw();}catch(Throwable t){}
-		try{tessellator.startDrawingQuads();}catch(Throwable t){}
+		try{
+			tessellator.draw();
+		}catch (Throwable t){
+		}
+		try{
+			tessellator.startDrawingQuads();
+		}catch (Throwable t){
+		}
 		tessellator.setNormal(0.0F, 1.0F, 0.0F);
 		renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, metadata));
-		try{tessellator.draw();}catch(Throwable t){}
-		try{tessellator.startDrawingQuads();}catch(Throwable t){}
+		try{
+			tessellator.draw();
+		}catch (Throwable t){
+		}
+		try{
+			tessellator.startDrawingQuads();
+		}catch (Throwable t){
+		}
 		tessellator.setNormal(0.0F, 0.0F, -1.0F);
 		renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 2, metadata));
-		try{tessellator.draw();}catch(Throwable t){}
-		try{tessellator.startDrawingQuads();}catch(Throwable t){}
+		try{
+			tessellator.draw();
+		}catch (Throwable t){
+		}
+		try{
+			tessellator.startDrawingQuads();
+		}catch (Throwable t){
+		}
 		tessellator.setNormal(0.0F, 0.0F, 1.0F);
 		renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 3, metadata));
-		try{tessellator.draw();}catch(Throwable t){}
-		try{tessellator.startDrawingQuads();}catch(Throwable t){}
+		try{
+			tessellator.draw();
+		}catch (Throwable t){
+		}
+		try{
+			tessellator.startDrawingQuads();
+		}catch (Throwable t){
+		}
 		tessellator.setNormal(-1.0F, 0.0F, 0.0F);
 		renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 4, metadata));
-		try{tessellator.draw();}catch(Throwable t){}
-		try{tessellator.startDrawingQuads();}catch(Throwable t){}
+		try{
+			tessellator.draw();
+		}catch (Throwable t){
+		}
+		try{
+			tessellator.startDrawingQuads();
+		}catch (Throwable t){
+		}
 		tessellator.setNormal(1.0F, 0.0F, 0.0F);
 		renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, metadata));
-		try{tessellator.draw();}catch(Throwable t){}
+		try{
+			tessellator.draw();
+		}catch (Throwable t){
+		}
 	}
 
 	private void renderWizardChalk(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer){
@@ -105,24 +144,24 @@ public class SimpleBlockRenderHandler implements ISimpleBlockRenderingHandler{
 		IIcon par8Icon = BlocksCommonProxy.wizardChalk.getIcon(1, meta);
 
 		double d3 = par8Icon.getInterpolatedU(renderer.renderMinX * 16.0D);
-        double d4 = par8Icon.getInterpolatedU(renderer.renderMaxX * 16.0D);
-        double d5 = par8Icon.getInterpolatedV(renderer.renderMinZ * 16.0D);
-        double d6 = par8Icon.getInterpolatedV(renderer.renderMaxZ * 16.0D);
-        double d7 = d4;
-        double d8 = d3;
-        double d9 = d5;
-        double d10 = d6;
+		double d4 = par8Icon.getInterpolatedU(renderer.renderMaxX * 16.0D);
+		double d5 = par8Icon.getInterpolatedV(renderer.renderMinZ * 16.0D);
+		double d6 = par8Icon.getInterpolatedV(renderer.renderMaxZ * 16.0D);
+		double d7 = d4;
+		double d8 = d3;
+		double d9 = d5;
+		double d10 = d6;
 
-        double d11 = x + renderer.renderMinX;
-        double d12 = x + renderer.renderMaxX;
-        double d13 = y + renderer.renderMaxY;
-        double d14 = z + renderer.renderMinZ;
-        double d15 = z + renderer.renderMaxZ;
+		double d11 = x + renderer.renderMinX;
+		double d12 = x + renderer.renderMaxX;
+		double d13 = y + renderer.renderMaxY;
+		double d14 = z + renderer.renderMinZ;
+		double d15 = z + renderer.renderMaxZ;
 
-        tessellator.addVertexWithUV(d12, d13, d15, d4, d6);
-        tessellator.addVertexWithUV(d12, d13, d14, d7, d9);
-        tessellator.addVertexWithUV(d11, d13, d14, d3, d5);
-        tessellator.addVertexWithUV(d11, d13, d15, d8, d10);
+		tessellator.addVertexWithUV(d12, d13, d15, d4, d6);
+		tessellator.addVertexWithUV(d12, d13, d14, d7, d9);
+		tessellator.addVertexWithUV(d11, d13, d14, d3, d5);
+		tessellator.addVertexWithUV(d11, d13, d15, d8, d10);
 	}
 
 	private void renderCraftingAltar(Block block, Block mimic, int x, int y, int z, int metadata, RenderBlocks renderer){
@@ -187,12 +226,11 @@ public class SimpleBlockRenderHandler implements ISimpleBlockRenderingHandler{
 	}
 
 	@Override
-	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer){
 		if (block == BlocksCommonProxy.wizardChalk){
 			renderWizardChalk(world, x, y, z, block, modelId, renderer);
 			return true;
-		}
-		else if (block instanceof BlockInlay){
+		}else if (block instanceof BlockInlay){
 			RenderInlayBlock(world, x, y, z, block, modelId, renderer);
 			return true;
 		}else if (block == BlocksCommonProxy.everstone){
@@ -264,7 +302,7 @@ public class SimpleBlockRenderHandler implements ISimpleBlockRenderingHandler{
 		if (world == null)
 			return;
 		if (block == null)
-			return;		
+			return;
 
 		GL11.glColor4f(1, 1, 1, 1);
 
@@ -329,14 +367,14 @@ public class SimpleBlockRenderHandler implements ISimpleBlockRenderingHandler{
 
 		}
 	}
-	
+
 	@Override
-	public boolean shouldRender3DInInventory(int arg0) {
+	public boolean shouldRender3DInInventory(int arg0){
 		return true;
 	}
 
 	@Override
-	public int getRenderId() {
+	public int getRenderId(){
 		return BlocksClientProxy.blockRenderID;
 	}
 

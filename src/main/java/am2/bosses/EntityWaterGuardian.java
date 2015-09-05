@@ -1,11 +1,5 @@
 package am2.bosses;
 
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
-import am2.AMCore;
 import am2.bosses.ai.EntityAICastSpell;
 import am2.bosses.ai.EntityAIChaosWaterBolt;
 import am2.bosses.ai.EntityAICloneSelf;
@@ -16,6 +10,11 @@ import am2.items.ItemsCommonProxy;
 import am2.network.AMNetHandler;
 import am2.playerextensions.ExtendedProperties;
 import am2.utility.NPCSpells;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 
 public class EntityWaterGuardian extends AM2Boss{
 
@@ -28,7 +27,7 @@ public class EntityWaterGuardian extends AM2Boss{
 
 	public float spinRotation = 0;
 
-	public EntityWaterGuardian(World par1World) {
+	public EntityWaterGuardian(World par1World){
 		super(par1World);
 		currentAction = BossActions.IDLE;
 		master = null;
@@ -38,8 +37,7 @@ public class EntityWaterGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(75D);
 	}
@@ -82,7 +80,7 @@ public class EntityWaterGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected void initSpecificAI() {
+	protected void initSpecificAI(){
 		this.tasks.addTask(2, new EntityAIChaosWaterBolt(this));
 		this.tasks.addTask(3, new EntityAICloneSelf(this));
 		this.tasks.addTask(4, new EntityAICastSpell(this, NPCSpells.instance.waterBolt, 12, 23, 5, BossActions.CASTING));
@@ -90,7 +88,7 @@ public class EntityWaterGuardian extends AM2Boss{
 	}
 
 	@Override
-	public void onUpdate() {
+	public void onUpdate(){
 
 		if (currentAction == BossActions.CASTING){
 			uberSpinAvailable = false;
@@ -111,7 +109,7 @@ public class EntityWaterGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void entityInit(){
 		super.entityInit();
 
 		this.dataWatcher.addObject(IS_CLONE, (byte)0);
@@ -124,7 +122,7 @@ public class EntityWaterGuardian extends AM2Boss{
 			orbitRotation -= 2f;
 		orbitRotation %= 360;
 
-		if (this.getCurrentAction()== BossActions.SPINNING || this.getCurrentAction() == BossActions.CASTING){
+		if (this.getCurrentAction() == BossActions.SPINNING || this.getCurrentAction() == BossActions.CASTING){
 			this.spinRotation = (this.spinRotation - 30) % 360;
 		}
 	}
@@ -134,7 +132,7 @@ public class EntityWaterGuardian extends AM2Boss{
 	}
 
 	@Override
-	public void setCurrentAction(BossActions action) {
+	public void setCurrentAction(BossActions action){
 		super.setCurrentAction(action);
 		this.spinRotation = 0;
 
@@ -144,7 +142,7 @@ public class EntityWaterGuardian extends AM2Boss{
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
 		if (par1DamageSource.getSourceOfDamage() instanceof EntityWaterGuardian)
 			return false;
 		if (isClone() && master != null){
@@ -163,7 +161,7 @@ public class EntityWaterGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected float modifyDamageAmount(DamageSource source, float damageAmt) {
+	protected float modifyDamageAmount(DamageSource source, float damageAmt){
 		if (source instanceof DamageSourceLightning)
 			damageAmt *= 2.0f;
 		if (source.getSourceOfDamage() != null && source.getSourceOfDamage() instanceof EntityWaterGuardian)
@@ -175,7 +173,7 @@ public class EntityWaterGuardian extends AM2Boss{
 	}
 
 	@Override
-	public boolean isActionValid(BossActions action) {
+	public boolean isActionValid(BossActions action){
 		if (uberSpinAvailable && action != BossActions.CASTING) return false;
 		if (action == BossActions.CASTING){
 			return uberSpinAvailable;
@@ -187,19 +185,19 @@ public class EntityWaterGuardian extends AM2Boss{
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound) {
+	public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound){
 		super.writeEntityToNBT(par1nbtTagCompound);
 
 		par1nbtTagCompound.setBoolean("isClone", isClone());
 	}
 
 	@Override
-	public int getTotalArmorValue() {
+	public int getTotalArmorValue(){
 		return 10;
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound par1nbtTagCompound) {
+	public void readEntityFromNBT(NBTTagCompound par1nbtTagCompound){
 		super.readEntityFromNBT(par1nbtTagCompound);
 
 		dataWatcher.updateObject(IS_CLONE, par1nbtTagCompound.getBoolean("isClone") ? (byte)1 : (byte)0);
@@ -207,15 +205,13 @@ public class EntityWaterGuardian extends AM2Boss{
 
 
 	@Override
-	protected void dropFewItems(boolean par1, int par2)
-	{
+	protected void dropFewItems(boolean par1, int par2){
 		if (par1)
 			this.entityDropItem(new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_INF_ORB_BLUE), 0.0f);
 
 		int i = rand.nextInt(4);
 
-		for (int j = 0; j < i; j++)
-		{
+		for (int j = 0; j < i; j++){
 			this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_WATER), 0.0f);
 		}
 
@@ -227,22 +223,22 @@ public class EntityWaterGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected String getHurtSound() {
+	protected String getHurtSound(){
 		return "arsmagica2:mob.waterguardian.hit";
 	}
 
 	@Override
-	protected String getDeathSound() {
+	protected String getDeathSound(){
 		return "arsmagica2:mob.waterguardian.death";
 	}
 
 	@Override
-	protected String getLivingSound() {
+	protected String getLivingSound(){
 		return "arsmagica2:mob.waterguardian.idle";
 	}
 
 	@Override
-	public String getAttackSound() {
+	public String getAttackSound(){
 		return "arsmagica2:mob.waterguardian.attack";
 	}
 }

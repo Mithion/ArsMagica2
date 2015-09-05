@@ -1,14 +1,14 @@
 package am2.particles;
 
 
-public class ParticleFloatUpward extends ParticleController {
+public class ParticleFloatUpward extends ParticleController{
 
 	private final float jitter;
 	private final float halfJitter;
 	private final float speed;
-	
+
 	public ParticleFloatUpward(AMParticle particleEffect, float jitter, float speed, int priority,
-			boolean exclusive) {
+							   boolean exclusive){
 		super(particleEffect, priority, exclusive);
 		this.jitter = jitter;
 		this.halfJitter = jitter / 2;
@@ -16,7 +16,7 @@ public class ParticleFloatUpward extends ParticleController {
 	}
 
 	@Override
-	public void doUpdate() {
+	public void doUpdate(){
 		if (particle.posY > 384){
 			this.finish();
 			return;
@@ -25,7 +25,7 @@ public class ParticleFloatUpward extends ParticleController {
 	}
 
 	@Override
-	public ParticleController clone() {
+	public ParticleController clone(){
 		return new ParticleFloatUpward(particle, jitter, speed, priority, exclusive);
 	}
 

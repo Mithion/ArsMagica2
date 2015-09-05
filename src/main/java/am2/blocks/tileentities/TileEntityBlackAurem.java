@@ -1,11 +1,19 @@
 package am2.blocks.tileentities;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
-import net.minecraft.block.Block;
+import am2.AMCore;
+import am2.api.blocks.MultiblockStructureDefinition;
+import am2.api.blocks.MultiblockStructureDefinition.StructureGroup;
+import am2.api.math.AMVector3;
+import am2.api.power.PowerTypes;
+import am2.blocks.BlocksCommonProxy;
+import am2.buffs.BuffEffectManaRegen;
+import am2.buffs.BuffList;
+import am2.damage.DamageSources;
+import am2.entities.*;
+import am2.multiblock.IMultiblockStructureController;
+import am2.particles.AMLineArc;
+import am2.power.PowerNodeRegistry;
+import am2.utility.EntityUtilities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
@@ -14,26 +22,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
-import am2.AMCore;
-import am2.api.blocks.MultiblockStructureDefinition;
-import am2.api.blocks.MultiblockStructureDefinition.StructureGroup;
-import am2.api.math.AMVector3;
-import am2.api.power.PowerTypes;
-import am2.blocks.BlocksCommonProxy;
-import am2.bosses.EntityNatureGuardian;
-import am2.buffs.BuffEffectManaRegen;
-import am2.buffs.BuffList;
-import am2.damage.DamageSources;
-import am2.entities.EntityAirSled;
-import am2.entities.EntityDarkling;
-import am2.entities.EntityFlicker;
-import am2.entities.EntityShadowHelper;
-import am2.entities.EntityThrownSickle;
-import am2.entities.EntityWinterGuardianArm;
-import am2.multiblock.IMultiblockStructureController;
-import am2.particles.AMLineArc;
-import am2.power.PowerNodeRegistry;
-import am2.utility.EntityUtilities;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblockStructureController{
 
@@ -127,7 +120,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 	}
 
 	@Override
-	public void updateEntity() {
+	public void updateEntity(){
 		if (worldObj.isRemote){
 			this.rotation += this.rotationIncrement;
 		}else{
@@ -193,19 +186,18 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 
 			if (worldObj.isRemote){
 				if (!arcs.containsKey(ent)){
-					AMLineArc arc = (AMLineArc) AMCore.proxy.particleManager.spawn(worldObj, "textures/blocks/oreblocksunstone.png", xCoord + 0.5, yCoord + 1.3, zCoord + 0.5, ent);
+					AMLineArc arc = (AMLineArc)AMCore.proxy.particleManager.spawn(worldObj, "textures/blocks/oreblocksunstone.png", xCoord + 0.5, yCoord + 1.3, zCoord + 0.5, ent);
 					if (arc != null){
 						arc.setExtendToTarget();
-						arc.setRBGColorF(1,1,1);
+						arc.setRBGColorF(1, 1, 1);
 					}
 					arcs.put(ent, arc);
 				}
 				Iterator arcIterator = arcs.keySet().iterator();
 				ArrayList<Entity> toRemove = new ArrayList<Entity>();
-				while (arcIterator.hasNext())
-				{
-					Entity arcEnt = (Entity) arcIterator.next();
-					AMLineArc arc = (AMLineArc) arcs.get(arcEnt);
+				while (arcIterator.hasNext()){
+					Entity arcEnt = (Entity)arcIterator.next();
+					AMLineArc arc = (AMLineArc)arcs.get(arcEnt);
 					if (arcEnt == null || arcEnt.isDead || arc == null || arc.isDead || new AMVector3(ent).distanceSqTo(new AMVector3(xCoord, yCoord, zCoord)) > 100)
 						toRemove.add(arcEnt);
 				}
@@ -223,7 +215,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 			if (!worldObj.isRemote && PowerNodeRegistry.For(this.worldObj).checkPower(this, this.capacity * 0.1f)){
 				List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(this.xCoord - 2, this.yCoord, this.zCoord - 2, this.xCoord + 2, this.yCoord + 3, this.zCoord + 2));
 				for (EntityPlayer p : nearbyPlayers){
-					if (p.isPotionActive(BuffList.manaRegen.id))continue;
+					if (p.isPotionActive(BuffList.manaRegen.id)) continue;
 					p.addPotionEffect(new BuffEffectManaRegen(600, 3));
 				}
 			}
@@ -240,16 +232,16 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 
 	private void updateNearbyEntities(){
 		ArrayList<EntityLivingBase> toRemove = new ArrayList<EntityLivingBase>();
-		List<EntityLivingBase> nearbyEntities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(this.xCoord-10, this.yCoord, this.zCoord-10, this.xCoord+10, this.yCoord+4, this.zCoord+10));
+		List<EntityLivingBase> nearbyEntities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(this.xCoord - 10, this.yCoord, this.zCoord - 10, this.xCoord + 10, this.yCoord + 4, this.zCoord + 10));
 		for (EntityLivingBase entity : nearbyEntities){
-			if (entity.isEntityInvulnerable() || 
-					entity instanceof IBossDisplayData || 
-					entity instanceof EntityDarkling || 
-					entity instanceof EntityPlayer || 
+			if (entity.isEntityInvulnerable() ||
+					entity instanceof IBossDisplayData ||
+					entity instanceof EntityDarkling ||
+					entity instanceof EntityPlayer ||
 					entity instanceof EntityAirSled ||
 					entity instanceof EntityWinterGuardianArm ||
 					entity instanceof EntityThrownSickle ||
-					entity instanceof EntityFlicker || 
+					entity instanceof EntityFlicker ||
 					entity instanceof EntityShadowHelper)
 				continue;
 			if (!cachedEntities.contains(entity))
@@ -260,29 +252,29 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 	}
 
 	@Override
-	public MultiblockStructureDefinition getDefinition() {
+	public MultiblockStructureDefinition getDefinition(){
 		return structure;
 	}
 
 	@Override
-	public boolean canRequestPower() {
+	public boolean canRequestPower(){
 		return false;
 	}
 
 	@Override
-	public boolean canProvidePower(PowerTypes type) {
+	public boolean canProvidePower(PowerTypes type){
 		return type == PowerTypes.DARK;
 	}
 
 	@Override
-	public PowerTypes[] getValidPowerTypes() {
+	public PowerTypes[] getValidPowerTypes(){
 		return new PowerTypes[]{
-			PowerTypes.DARK
+				PowerTypes.DARK
 		};
 	}
 
 	@Override
-	public int getSizeInventory() {
+	public int getSizeInventory(){
 		return 0;
 	}
 }

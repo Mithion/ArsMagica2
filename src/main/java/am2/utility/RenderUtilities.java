@@ -1,5 +1,7 @@
 package am2.utility;
 
+import am2.guis.AMGuiHelper;
+import am2.playerextensions.ExtendedProperties;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderHelper;
@@ -7,13 +9,9 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.IIcon;
-
 import org.lwjgl.opengl.GL11;
 
-import am2.guis.AMGuiHelper;
-import am2.playerextensions.ExtendedProperties;
-
-public class RenderUtilities {
+public class RenderUtilities{
 	public static void DrawIconInWorldAtOffset(IIcon icon, double x, double y, double z, double width, double height){
 		Tessellator t = Tessellator.instance;
 
@@ -37,41 +35,41 @@ public class RenderUtilities {
 		Tessellator t = Tessellator.instance;
 
 		FontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;
-        float f = 1.6F;
-        float f1 = 0.016666668F * f;
-        GL11.glPushMatrix();
-        GL11.glTranslatef((float)x, (float)y, (float)z);
-        GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(RenderManager.instance.playerViewX, 1.0F, 0.0F, 0.0F);
-        GL11.glScalef(-f1, -f1, f1);
-        GL11.glScalef(0.5f, 0.5f, 0.5f);
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glDepthMask(false);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        Tessellator tessellator = Tessellator.instance;
-        byte b0 = 0;
+		float f = 1.6F;
+		float f1 = 0.016666668F * f;
+		GL11.glPushMatrix();
+		GL11.glTranslatef((float)x, (float)y, (float)z);
+		GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(RenderManager.instance.playerViewX, 1.0F, 0.0F, 0.0F);
+		GL11.glScalef(-f1, -f1, f1);
+		GL11.glScalef(0.5f, 0.5f, 0.5f);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glDepthMask(false);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		Tessellator tessellator = Tessellator.instance;
+		byte b0 = 0;
 
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        tessellator.startDrawingQuads();
-        int j = fontrenderer.getStringWidth(text) / 2;
-        tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.75F);
-        tessellator.addVertex(-j - 1, -1 + b0, 0.0D);
-        tessellator.addVertex(-j - 1, 8 + b0, 0.0D);
-        tessellator.addVertex(j + 1, 8 + b0, 0.0D);
-        tessellator.addVertex(j + 1, -1 + b0, 0.0D);
-        tessellator.draw();
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        fontrenderer.drawString(text, -fontrenderer.getStringWidth(text) / 2, b0, 553648127);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glDepthMask(true);
-        fontrenderer.drawString(text, -fontrenderer.getStringWidth(text) / 2, b0, -1);
-        GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glPopMatrix();
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		tessellator.startDrawingQuads();
+		int j = fontrenderer.getStringWidth(text) / 2;
+		tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.75F);
+		tessellator.addVertex(-j - 1, -1 + b0, 0.0D);
+		tessellator.addVertex(-j - 1, 8 + b0, 0.0D);
+		tessellator.addVertex(j + 1, 8 + b0, 0.0D);
+		tessellator.addVertex(j + 1, -1 + b0, 0.0D);
+		tessellator.draw();
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		fontrenderer.drawString(text, -fontrenderer.getStringWidth(text) / 2, b0, 553648127);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(true);
+		fontrenderer.drawString(text, -fontrenderer.getStringWidth(text) / 2, b0, -1);
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glPopMatrix();
 
 	}
 
@@ -99,12 +97,12 @@ public class RenderUtilities {
 	public static void setupShrinkRender(EntityLivingBase entity){
 		if (entity == null)
 			return;
-		
+
 		ExtendedProperties exProps = ExtendedProperties.For(entity);
 		if (exProps.getShrinkPct() > 0f){
 
 			float amt = 0.5f * exProps.getShrinkPct();
-			GL11.glScalef(1-amt, 1-amt, 1-amt);
+			GL11.glScalef(1 - amt, 1 - amt, 1 - amt);
 		}
 	}
 }
