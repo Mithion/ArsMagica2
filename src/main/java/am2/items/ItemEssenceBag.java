@@ -35,9 +35,7 @@ public class ItemEssenceBag extends ArsMagicaItem{
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer entityplayer){
-		if (entityplayer.isSneaking()){
-			FMLNetworkHandler.openGui(entityplayer, AMCore.instance, ArsMagicaGuiIdList.GUI_ESSENCE_BAG, world, (int)entityplayer.posX, (int)entityplayer.posY, (int)entityplayer.posZ);
-		}
+		FMLNetworkHandler.openGui(entityplayer, AMCore.instance, ArsMagicaGuiIdList.GUI_ESSENCE_BAG, world, (int)entityplayer.posX, (int)entityplayer.posY, (int)entityplayer.posZ);
 		return stack;
 	}
 
@@ -57,8 +55,7 @@ public class ItemEssenceBag extends ArsMagicaItem{
 				continue;
 			}else{
 				itemStack.stackTagCompound.setInteger("essencebagstacksize" + i, stack.stackSize);
-				if (stack.getItemDamage() != 0)
-					itemStack.stackTagCompound.setInteger("essencebagmeta" + i, stack.getItemDamage());
+				itemStack.stackTagCompound.setInteger("essencebagmeta" + i, stack.getItemDamage());
 			}
 		}
 	}
@@ -73,8 +70,7 @@ public class ItemEssenceBag extends ArsMagicaItem{
 				continue;
 			}else{
 				itemStack.stackTagCompound.setInteger("essencebagstacksize" + i, stack.stackSize);
-				if (stack.getItemDamage() != 0)
-					itemStack.stackTagCompound.setInteger("essencebagmeta" + i, stack.getItemDamage());
+				itemStack.stackTagCompound.setInteger("essencebagmeta" + i, stack.getItemDamage());
 			}
 		}
 	}
