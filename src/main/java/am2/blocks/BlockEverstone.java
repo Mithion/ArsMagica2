@@ -5,6 +5,8 @@ import am2.blocks.tileentities.TileEntityEverstone;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.texture.ResourceManager;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EffectRenderer;
@@ -202,6 +204,7 @@ public class BlockEverstone extends PoweredBlock{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public boolean addDestroyEffects(World world, int x, int y, int z, int meta, EffectRenderer effectRenderer){
 
 		TileEntityEverstone everstone = getTE(world, x, y, z);
@@ -235,6 +238,7 @@ public class BlockEverstone extends PoweredBlock{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public boolean addHitEffects(World worldObj, MovingObjectPosition target, EffectRenderer effectRenderer){
 		TileEntityEverstone everstone = getTE(worldObj, target.blockX, target.blockY, target.blockZ);
 		AMParticle particle;
