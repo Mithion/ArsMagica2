@@ -96,8 +96,10 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 							}
 						}else{
 							if (current_deconstruction_time++ >= DECONSTRUCTION_TIME){
-								for (ItemStack stack : deconstructionRecipe){
-									transferOrEjectItem(stack);
+							        if(getDeconstructionRecipe() == true){
+									for (ItemStack stack : deconstructionRecipe){
+										transferOrEjectItem(stack);
+									}
 								}
 								deconstructionRecipe = null;
 								decrStackSize(0, 1);
@@ -200,7 +202,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 
 				for (Object o : recipeParts){
 					ItemStack stack = objectToItemStack(o);
-					if (stack != null){
+					if (stack != null && !stack.getItem().hasContainerItem(stack)){
 						stack.stackSize = 1;
 						recipeItems.add(stack.copy());
 					}

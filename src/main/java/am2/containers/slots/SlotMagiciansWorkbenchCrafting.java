@@ -141,17 +141,13 @@ public class SlotMagiciansWorkbenchCrafting extends Slot{
 				MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(thePlayer, itemstack2));
 				itemstack2 = null;
 			}
-
-			if (itemstack2 != null && (itemstack1.getItem().doesContainerItemLeaveCraftingGrid(itemstack1))){
-				if (inventory.getStackInSlot(i) == null){
-					inventory.setInventorySlotContents(i, itemstack2);
-				}else{
-					if (itemstack1.getItem().doesContainerItemLeaveCraftingGrid(itemstack1)){
-						if (!this.thePlayer.inventory.addItemStackToInventory(itemstack2))
-							this.thePlayer.dropItem(itemstack2.getItem(), itemstack2.getItemDamage());
-					}
-				}
+			
+			if (itemstack2 != null){
+			        inventory.setInventorySlotContents(i, itemstack2);
+			}else{
+			        inventory.decrStackSize(i, 1);
 			}
+			
 		}else{
 			inventory.decrStackSize(i, 1);
 		}
