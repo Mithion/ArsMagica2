@@ -70,7 +70,7 @@ public class ItemJournal extends ArsMagicaItem{
 
 			if (player.isSneaking()){
 				try{
-					int amt = Math.min((Integer)ReflectionHelper.getPrivateValue(EntityPlayer.class, player, "field_71067_cb", "experienceTotal"), 10);
+					int amt = Math.min(player.experienceTotal, 10);
 					if (amt > 0){
 						EntityUtilities.deductXP(amt, player);
 						addXPToJournal(journal, amt);
