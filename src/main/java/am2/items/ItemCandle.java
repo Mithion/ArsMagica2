@@ -55,7 +55,7 @@ public class ItemCandle extends ArsMagicaItem{
 		if (!world.isRemote){
 
 			if (stack.hasTagCompound() && stack.stackTagCompound.hasKey("search_block")){
-				player.addChatMessage(new ChatComponentText("am2.tooltip.candlecantplace"));
+				player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.candlecantplace")));
 				return false;
 			}
 
@@ -171,7 +171,13 @@ public class ItemCandle extends ArsMagicaItem{
 		String name = StatCollector.translateToLocal("item.arsmagica2:warding_candle.name");
 		if (stack.hasTagCompound() && stack.stackTagCompound.hasKey("search_block")){
 			ItemStack blockStack = new ItemStack(Block.getBlockById(stack.stackTagCompound.getInteger("search_block")), 1, stack.stackTagCompound.getInteger("search_meta"));
-			name += " (" + blockStack.getDisplayName() + ")";
+			Item tempItem = blockStack.getItem();
+			if(tempItem == null){
+				name += " (" + stack.stackTagCompound.getInteger("search_block") + ":" + stack.stackTagCompound.getInteger("search_meta") + ")";
+			}
+			else{
+				name += " (" + blockStack.getDisplayName() + ")";
+			}
 		}else{
 			name += " (" + StatCollector.translateToLocal("am2.tooltip.unattuned") + ")";
 		}
