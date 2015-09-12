@@ -339,28 +339,23 @@ public class EntityUtilities{
 	}
 
 	public static void deductXP(int amount, EntityPlayer player){
-		try{
-			int xp = ReflectionHelper.getPrivateValue(EntityPlayer.class, player, "field_71067_cb", "experienceTotal");
-			float xpBarXP = ReflectionHelper.getPrivateValue(EntityPlayer.class, player, "field_71106_cc", "experience");
-			int currentLevel = ReflectionHelper.getPrivateValue(EntityPlayer.class, player, "field_71068_ca", "experienceLevel");
-
-			float fillRatio = (float)amount / xpBarCap(currentLevel);
-
-			if (xpBarXP > fillRatio){
-				xpBarXP -= fillRatio;
-				xp -= amount;
-			}else{
-				int level = getLevelFromXP(xp);
-				xp -= amount;
-				xpBarXP = (xpBarCap(level) + (xpBarXP - amount)) / xpBarCap(level);
-				ReflectionHelper.setPrivateValue(EntityPlayer.class, player, level, "field_71068_ca", "experienceLevel");
-			}
-
-			ReflectionHelper.setPrivateValue(EntityPlayer.class, player, xp, "field_71067_cb", "experienceTotal");
-			ReflectionHelper.setPrivateValue(EntityPlayer.class, player, xpBarXP, "field_71106_cc", "experience");
-		}catch (Throwable t){
-			t.printStackTrace();
+		// the problem with the enchanting table is that it directly "adds" experience levels
+		// doing it like this does not update experienceTotal
+		// we therefore need to go and calculate an effective total ourselves
+		int effectiveTotal = 0;
+		for(int i = 0; i < player.experienceLevel; i++){
+			effectiveTotal += xpBarCap(i);
 		}
+		effectiveTotal += (int)(player.experience * xpBarCap(player.experienceLevel));
+		
+		int newTotal = effectiveTotal - amount;
+		if (newTotal < 0)
+			newTotal = 0;
+		
+		player.experience = 0.0F;
+		player.experienceLevel = 0;
+		player.experienceTotal = 0;
+		player.addExperience(newTotal);
 	}
 
 	public static float modifySoundPitch(Entity e, float p){
