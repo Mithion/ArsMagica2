@@ -342,13 +342,7 @@ public class EntityUtilities{
 		// the problem with the enchanting table is that it directly "adds" experience levels
 		// doing it like this does not update experienceTotal
 		// we therefore need to go and calculate an effective total ourselves
-		int effectiveTotal = 0;
-		for(int i = 0; i < player.experienceLevel; i++){
-			effectiveTotal += xpBarCap(i);
-		}
-		effectiveTotal += (int)(player.experience * xpBarCap(player.experienceLevel));
-		
-		int newTotal = effectiveTotal - amount;
+		int newTotal = getXPFromLevel(player.experienceLevel) - amount;
 		if (newTotal < 0)
 			newTotal = 0;
 		
