@@ -433,6 +433,7 @@ am2.tooltip.ender_boots=§3I reject your reality, and substitute my own!§f
 am2.tooltip.life_ward=§3Gray Walker, be gone from this place.§f
 am2.tooltip.life_ward2=§3You have no power here!§f
 am2.tooltip.lightning_charm=§3Side effects include muscle spasms and frizzy hair.§f
+am2.tooltip.attuned=Attuned
 am2.tooltip.unattuned=Unattuned
 am2.tooltip.candlecantplace=You cannot place an attuned candle.
 am2.tooltip.success=Pairing Successful!
