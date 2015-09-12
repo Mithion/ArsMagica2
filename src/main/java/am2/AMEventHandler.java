@@ -46,6 +46,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.stats.AchievementList;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -56,6 +57,7 @@ import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.player.AchievementEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
@@ -176,6 +178,14 @@ public class AMEventHandler{
 
 		if (soonToBeDead instanceof EntityVillager && ((EntityVillager)soonToBeDead).isChild()){
 			BossSpawnHelper.instance.onVillagerChildKilled((EntityVillager)soonToBeDead);
+		}
+	}
+
+	@SubscribeEvent
+	public void onPlayerGetAchievement(AchievementEvent event){
+		if (!event.entityPlayer.worldObj.isRemote && event.achievement == AchievementList.theEnd2){
+			AMCore.instance.proxy.playerTracker.storeExtendedPropertiesForRespawn(event.entityPlayer);
+			// AMCore.instance.proxy.playerTracker.storeSoulboundItemsForRespawn(event.entityPlayer);
 		}
 	}
 
@@ -315,14 +325,6 @@ public class AMEventHandler{
 	public void onEntityLiving(LivingUpdateEvent event){
 
 		EntityLivingBase ent = event.entityLiving;
-
-		if (ent.isDead){
-			if (ent instanceof EntityPlayer && ent.dimension == 1){
-				AMCore.instance.proxy.playerTracker.storeExtendedPropertiesForRespawn((EntityPlayer)ent);
-				AMCore.instance.proxy.playerTracker.storeSoulboundItemsForRespawn((EntityPlayer)ent);
-			}
-			return;
-		}
 
 		World world = ent.worldObj;
 
