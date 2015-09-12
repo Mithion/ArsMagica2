@@ -64,20 +64,13 @@ public class ItemJournal extends ArsMagicaItem{
 			if (getOwner(journal) == null){
 				setOwner(journal, player);
 			}else if (!getOwner(journal).equals(player.getCommandSenderName())){
-				player.addChatMessage(new ChatComponentText("am2.tooltip.notYourJournal"));
+			  player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.notYourJournal")));
 				return super.onItemRightClick(journal, world, player);
 			}
 
 			if (player.isSneaking()){
-				try{
-					int amt = Math.min(player.experienceTotal, 10);
-					if (amt > 0){
-						EntityUtilities.deductXP(amt, player);
-						addXPToJournal(journal, amt);
-					}
-				}catch (Throwable t){
-					t.printStackTrace();
-				}
+				int removedXP = EntityUtilities.deductXP(10, player);
+				addXPToJournal(journal, removedXP);
 			}else{
 				int amt = Math.min(getXPInJournal(journal), 10);
 				if (amt > 0){
