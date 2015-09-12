@@ -170,8 +170,7 @@ public class ItemCandle extends ArsMagicaItem{
 	public String getItemStackDisplayName(ItemStack stack){
 		String name = StatCollector.translateToLocal("item.arsmagica2:warding_candle.name");
 		if (stack.hasTagCompound() && stack.stackTagCompound.hasKey("search_block")){
-			ItemStack blockStack = new ItemStack(Block.getBlockById(stack.stackTagCompound.getInteger("search_block")), 1, stack.stackTagCompound.getInteger("search_meta"));
-			name += " (" + blockStack.getDisplayName() + ")";
+			name += " (" + StatCollector.translateToLocal("am2.tooltip.unattuned") + ")";
 		}else{
 			name += " (" + StatCollector.translateToLocal("am2.tooltip.unattuned") + ")";
 		}
