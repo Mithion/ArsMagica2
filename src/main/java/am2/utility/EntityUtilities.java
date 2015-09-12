@@ -355,7 +355,7 @@ public class EntityUtilities{
 		
 		player.experience = 0.0F;
 		player.experienceLevel = 0;
-		player.experienceTotal -= amount;
+		player.experienceTotal -= removedXP;
 		if(player.experienceTotal < 0)
 			player.experienceTotal = 0;
 		player.addExperience(newTotal);
