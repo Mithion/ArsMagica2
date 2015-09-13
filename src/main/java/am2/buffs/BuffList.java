@@ -87,6 +87,19 @@ public class BuffList implements IBuffHelper{
 		return potion;
 	}
 
+	private static ManaPotion createManaPotion(int index, String name, int IIconRow, int iconCol, boolean isBadEffect, int colour){
+		String configID = name.replace(" ", "").toLowerCase().trim();
+		index = AMCore.config.getConfigurablePotionID(configID, index);
+		
+		FMLLog.info("Ars Magica 2 >> Potion %s is ID %d", name, index);
+		
+		ManaPotion potion = new ManaPotion(index, isBadEffect, colour);
+		potion.setPotionName(name);
+		potion._setIconIndex(iconCol, IIconRow);
+		
+		return potion;
+	}
+
 	private static void createDummyBuff(Class buffEffectClass, int potionID){
 		try{
 			Constructor ctor = buffEffectClass.getConstructor(Integer.TYPE, Integer.TYPE);
@@ -141,18 +154,21 @@ public class BuffList implements IBuffHelper{
 		fury = createAMPotion(potionDefaultOffset + 21, "Fury", 1, 6, false, BuffEffectFury.class);
 		scrambleSynapses = createAMPotion(potionDefaultOffset + 22, "Scramble Synapses", 1, 7, true, BuffEffectScrambleSynapses.class);
 		illumination = createAMPotion(potionDefaultOffset + 23, "Illuminated", 1, 0, false, BuffEffectIllumination.class);
+		
+		greaterManaPotion = createManaPotion(potionDefaultOffset + 24, "Greater Mana Restoration", 0, 1, false, 0x40c6be);
+		// greaterManaPotion = new ManaPotion(potionDefaultOffset + 24, false, 0x40c6be);
+		// greaterManaPotion.setPotionName("Greater Mana Restoration");
+		// greaterManaPotion._setIconIndex(0, 1);
 
-		greaterManaPotion = new ManaPotion(potionDefaultOffset + 24, false, 0x40c6be);
-		greaterManaPotion.setPotionName("Greater Mana Restoration");
-		greaterManaPotion._setIconIndex(0, 1);
+		epicManaPotion = createManaPotion(potionDefaultOffset + 25, "Epic Mana Restoration", 0, 1, false, 0xFF00FF);
+		// epicManaPotion = new ManaPotion(potionDefaultOffset + 25, false, 0xFF00FF);
+		// epicManaPotion.setPotionName("Epic Mana Restoration");
+		// epicManaPotion._setIconIndex(0, 1);
 
-		epicManaPotion = new ManaPotion(potionDefaultOffset + 25, false, 0xFF00FF);
-		epicManaPotion.setPotionName("Epic Mana Restoration");
-		epicManaPotion._setIconIndex(0, 1);
-
-		legendaryManaPotion = new ManaPotion(potionDefaultOffset + 26, false, 0xFFFF00);
-		legendaryManaPotion.setPotionName("Legendary Mana Restoration");
-		legendaryManaPotion._setIconIndex(0, 1);
+		legendaryManaPotion = createManaPotion(potionDefaultOffset + 26, "Legendary Mana Restoration", 0, 1, false, 0xFFFF00);
+		// legendaryManaPotion = new ManaPotion(potionDefaultOffset + 26, false, 0xFFFF00);
+		// legendaryManaPotion.setPotionName("Legendary Mana Restoration");
+		// legendaryManaPotion._setIconIndex(0, 1);
 
 		gravityWell = createAMPotion(potionDefaultOffset + 27, "Gravity Well", 0, 6, true, BuffEffectGravityWell.class);
 		levitation = createAMPotion(potionDefaultOffset + 28, "Levitation", 0, 7, false, BuffEffectLevitation.class);
