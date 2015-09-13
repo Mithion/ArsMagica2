@@ -221,7 +221,7 @@ public class EntityWinterGuardianArm extends EntityLiving{
 				Entity entityhit = worldObj.getEntityByID(this.entityHit);
 				if (entityhit != null){
 					entityhit.posX = this.posX;
-					entityhit.posY = this.posY + 1.2;
+					entityhit.posY = this.posY - entityhit.height / 2 + 1.2;
 					entityhit.posZ = this.posZ;
 
 					entityhit.motionX = this.motionX;
@@ -229,7 +229,7 @@ public class EntityWinterGuardianArm extends EntityLiving{
 					entityhit.motionZ = this.motionZ;
 
 					entityhit.lastTickPosX = this.lastTickPosX;
-					entityhit.lastTickPosY = this.lastTickPosY + 1.2;
+					entityhit.lastTickPosY = this.lastTickPosY - entityhit.height / 2 + 1.2;
 					entityhit.lastTickPosZ = this.lastTickPosZ;
 
 					entityhit.fallDistance = 0;
