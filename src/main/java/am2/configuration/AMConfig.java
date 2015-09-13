@@ -6,6 +6,7 @@ import am2.particles.ParticleController;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import net.minecraft.client.Minecraft;
+import net.minecraft.potion.Potion;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
@@ -768,9 +769,30 @@ public class AMConfig extends Configuration{
 		return Math.max(prop.getInt(4), 0);
 	}
 
+	// Gets the first available potion ID
+	// returns -1 if there are no available IDs
+	private static int getNextFreePotionID(){
+		int freeID = -1;
+		for(int i = 1; i < Potion.potionTypes.length; i++){
+			if(Potion.potionTypes[i] == null){
+			  freeID = i;
+			  break;
+			}
+		}
+		return freeID;
+	}
+
 	public int getConfigurablePotionID(String id, int default_value){
-		Property prop = get(CATEGORY_POTIONS, id, default_value);
-		int val = prop.getInt(default_value);
+		// because we auto-configure, default_value is ignored
+		int val = getNextFreePotionID();
+		
+		if(val == -1 && !hasKey(CATEGORY_POTIONS, id)){
+		      FMLLog.severe("Ars Magica >> Cannot find a free potion ID for the %s effect. This will cause severe problems!", id);
+		      FMLLog.severe("Effect %s has been assigned to a default of potion ID 1 (movement speed). Erroneous behaviour *will* result.", id);
+		      val = 1;
+		}
+		Property prop = get(CATEGORY_POTIONS, id, val);
+		val = prop.getInt(val);
 		save();
 		return val;
 	}
