@@ -78,13 +78,10 @@ public class Dig implements ISpellComponent{
 				if (event.isCanceled()){
 					return false;
 				}
-				ItemStack oldStack = null;
-				if (caster instanceof EntityPlayer){
-					block.harvestBlock(world, DummyEntityPlayer.fromEntityLiving(caster), blockx, blocky, blockz, meta);
-				}else{
-					block.harvestBlock(world, DummyEntityPlayer.fromEntityLiving(caster), blockx, blocky, blockz, meta);
-				}
-				world.setBlockToAir(blockx, blocky, blockz);
+				block.onBlockHarvested(world, blockx, blocky, blockz, meta, DummyEntityPlayer.fromEntityLiving(caster));
+				block.removedByPlayer(world, DummyEntityPlayer.fromEntityLiving(caster), blockx, blocky, blockz, true);
+				block.onBlockDestroyedByPlayer(world, blockx, blocky, blockz, meta);
+				block.harvestBlock(world, DummyEntityPlayer.fromEntityLiving(caster), blockx, blocky, blockz, meta);
 
 			}
 
