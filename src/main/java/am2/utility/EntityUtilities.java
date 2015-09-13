@@ -327,10 +327,10 @@ public class EntityUtilities{
 	}
 
 	public static int getXPFromLevel(int level){
-		int lCount = 0;
 		int totalXP = 0;
-		while (lCount <= level)
-			totalXP += xpBarCap(lCount++);
+		for(int i = 0; i < level; i++){
+			totalXP += xpBarCap(i);
+		}
 		return totalXP;
 	}
 
@@ -338,29 +338,29 @@ public class EntityUtilities{
 		return experienceLevel >= 30 ? 62 + (experienceLevel - 30) * 7 : (experienceLevel >= 15 ? 17 + (experienceLevel - 15) * 3 : 17);
 	}
 
-	public static void deductXP(int amount, EntityPlayer player){
-		try{
-			int xp = ReflectionHelper.getPrivateValue(EntityPlayer.class, player, "field_71067_cb", "experienceTotal");
-			float xpBarXP = ReflectionHelper.getPrivateValue(EntityPlayer.class, player, "field_71106_cc", "experience");
-			int currentLevel = ReflectionHelper.getPrivateValue(EntityPlayer.class, player, "field_71068_ca", "experienceLevel");
-
-			float fillRatio = (float)amount / xpBarCap(currentLevel);
-
-			if (xpBarXP > fillRatio){
-				xpBarXP -= fillRatio;
-				xp -= amount;
-			}else{
-				int level = getLevelFromXP(xp);
-				xp -= amount;
-				xpBarXP = (xpBarCap(level) + (xpBarXP - amount)) / xpBarCap(level);
-				ReflectionHelper.setPrivateValue(EntityPlayer.class, player, level, "field_71068_ca", "experienceLevel");
-			}
-
-			ReflectionHelper.setPrivateValue(EntityPlayer.class, player, xp, "field_71067_cb", "experienceTotal");
-			ReflectionHelper.setPrivateValue(EntityPlayer.class, player, xpBarXP, "field_71106_cc", "experience");
-		}catch (Throwable t){
-			t.printStackTrace();
-		}
+	public static int deductXP(int amount, EntityPlayer player){
+		// the problem with the enchanting table is that it directly "adds" experience levels
+		// doing it like this does not update experienceTotal
+		// we therefore need to go and calculate an effective total ourselves
+		int effectiveTotal = getXPFromLevel(player.experienceLevel) + (int)(player.experience * (float)xpBarCap(player.experienceLevel));
+		
+		// since we already calculate the player's total XP here,
+		// we may as well do the zero check and pass the result (how much was actually deducted) back
+		// there's no sense in duplicating work
+		int removedXP = effectiveTotal >= amount ? amount : effectiveTotal;
+		
+		int newTotal = effectiveTotal - amount;
+		if(newTotal < 0)
+			newTotal = 0;
+		
+		player.experience = 0.0F;
+		player.experienceLevel = 0;
+		player.experienceTotal -= removedXP;
+		if(player.experienceTotal < 0)
+			player.experienceTotal = 0;
+		player.addExperience(newTotal);
+		
+		return removedXP;
 	}
 
 	public static float modifySoundPitch(Entity e, float p){
