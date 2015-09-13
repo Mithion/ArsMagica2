@@ -28,6 +28,7 @@ public class Projectile implements ISpellShape{
 			int projectileBounce = SpellUtils.instance.getModifiedInt_Add(SpellModifiers.BOUNCE, stack, caster, target, world, 0);
 			int projectileLife = SpellUtils.instance.getModifiedInt_Mul(SpellModifiers.DURATION, stack, caster, target, world, 0);
 			int pierces = SpellUtils.instance.getModifiedInt_Add(0, stack, caster, target, world, 0, SpellModifiers.PIERCING);
+			int homing =  SpellUtils.instance.getModifiedInt_Add(SpellModifiers.HOMING, stack, caster, target, world, 0);
 
 			boolean tWater = SpellUtils.instance.modifierIsPresent(SpellModifiers.TARGET_NONSOLID_BLOCKS, stack, 0);
 
@@ -39,6 +40,7 @@ public class Projectile implements ISpellShape{
 				projectile.setTargetWater();
 			projectile.setGravity(projectileGravity);
 			projectile.setNumPierces(pierces);
+			projectile.setHoming(homing);
 
 			world.spawnEntityInWorld(projectile);
 		}
