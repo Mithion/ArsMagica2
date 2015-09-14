@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class BlockKeystoneReceptacle extends AMSpecialRenderPoweredBlock{
@@ -104,7 +105,7 @@ public class BlockKeystoneReceptacle extends AMSpecialRenderPoweredBlock{
 		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(x, y, z);
 		if (KeystoneUtilities.instance.getKeyFromRunes(lockable.getRunesInKey()) != 0){
 			if (!world.isRemote)
-				player.addChatMessage(new ChatComponentText("am2.tooltip.clearKey"));
+				player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.clearKey")));
 			return false;
 		}
 
