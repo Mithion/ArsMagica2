@@ -2,14 +2,17 @@ package am2.spell.components;
 
 import am2.AMCore;
 import am2.api.ArsMagicaApi;
+import am2.api.blocks.IKeystoneLockable;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
+import am2.blocks.BlockEverstone;
 import am2.blocks.BlocksCommonProxy;
 import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
 import am2.spell.SpellUtils;
 import am2.utility.DummyEntityPlayer;
+import am2.utility.KeystoneUtilities;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -55,8 +59,14 @@ public class Dig implements ISpellComponent{
 			return false;
 		}
 
-		if (world.getTileEntity(blockx, blocky, blockz) != null && !AMCore.config.getDigBreaksTileEntities())
-			return false;
+		TileEntity te = world.getTileEntity(blockx, blocky, blockz);
+		if (te != null){
+			if (!AMCore.config.getDigBreaksTileEntities())
+				return false;
+			
+			if (te instanceof IKeystoneLockable && !KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)te, DummyEntityPlayer.fromEntityLiving(caster)))
+				return false;
+		}
 
 		if (disallowedBlocks.contains(block)) return false;
 
@@ -79,9 +89,11 @@ public class Dig implements ISpellComponent{
 					return false;
 				}
 				block.onBlockHarvested(world, blockx, blocky, blockz, meta, DummyEntityPlayer.fromEntityLiving(caster));
-				block.removedByPlayer(world, DummyEntityPlayer.fromEntityLiving(caster), blockx, blocky, blockz, true);
-				block.onBlockDestroyedByPlayer(world, blockx, blocky, blockz, meta);
-				block.harvestBlock(world, DummyEntityPlayer.fromEntityLiving(caster), blockx, blocky, blockz, meta);
+				boolean flag = block.removedByPlayer(world, DummyEntityPlayer.fromEntityLiving(caster), blockx, blocky, blockz, true);
+				if(flag){
+					block.onBlockDestroyedByPlayer(world, blockx, blocky, blockz, meta);
+					block.harvestBlock(world, DummyEntityPlayer.fromEntityLiving(caster), blockx, blocky, blockz, meta);
+				}
 
 			}
 
