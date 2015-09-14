@@ -88,6 +88,8 @@ public class CommonProxy{
 		blocks.setupSpellConstraints();
 		items.postInit();
 		playerTracker.postInit();
+		
+		BuffList.postInit();
 
 		MinecraftForge.EVENT_BUS.register(new AMEventHandler());
 		MinecraftForge.EVENT_BUS.register(PowerNodeCache.instance);
