@@ -268,6 +268,7 @@ public class ModelEnderGuardian extends ModelBase{
 		setOffsetRotation(LeftWingUpper, 0, -halfangle, 0);
 		setOffsetRotation(RightWingLower, angle, angle, 0);
 		setOffsetRotation(RightWingUpper, 0, halfangle, 0);
+		GL11.glTranslatef(0, MathHelper.sin((entity.getWingFlapTime() + f2 - entity.ticksExisted + f5) * entity.getWingFlapSpeed()) / 8, 0);
 	}
 
 	@Override
@@ -278,11 +279,13 @@ public class ModelEnderGuardian extends ModelBase{
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 		animate((IAnimatedEntity)entity, f, f1, f2, f3, f4, f5);
+		GL11.glPushMatrix();
 
 		if (((EntityEnderGuardian)entity).shouldFlapWings())
 			flapWings((EntityEnderGuardian)entity, f, f1, f2, f3, f4, f5);
 
 		Body.render(f5);
+		GL11.glPopMatrix();
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glColor4f(1, 1, 1, 1);
 	}
