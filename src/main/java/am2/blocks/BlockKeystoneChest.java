@@ -73,6 +73,20 @@ public class BlockKeystoneChest extends AMSpecialRenderBlockContainer{
 	}
 
 	@Override
+	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player){
+		TileEntityKeystoneChest receptacle = (TileEntityKeystoneChest)world.getTileEntity(x, y, z);
+		if (receptacle == null)
+			return;
+		if (KeystoneUtilities.instance.canPlayerAccess(receptacle, player)){
+			for (int i = receptacle.getSizeInventory() - 3; i < receptacle.getSizeInventory(); i++){
+				receptacle.decrStackSize(i, 9001);
+				// arbitrary number, just in case rune stack sizes increase in the future
+				// yes, it's hard-coded; yes, it's also less computationally intensive than a stack size lookup
+			}
+		}
+	}
+
+	@Override
 	public void breakBlock(World world, int i, int j, int k, Block par5, int metadata){
 		if (world.isRemote){
 			super.breakBlock(world, i, j, k, par5, metadata);
@@ -85,7 +99,7 @@ public class BlockKeystoneChest extends AMSpecialRenderBlockContainer{
 
 		if (KeystoneUtilities.instance.getKeyFromRunes(receptacle.getRunesInKey()) == 0){
 
-			for (int l = 0; l < receptacle.getSizeInventory(); l++){
+			for (int l = 0; l < receptacle.getSizeInventory() - 3; l++){
 				ItemStack itemstack = receptacle.getStackInSlot(l);
 				if (itemstack == null){
 					continue;
@@ -112,8 +126,8 @@ public class BlockKeystoneChest extends AMSpecialRenderBlockContainer{
 					world.spawnEntityInWorld(entityitem);
 				}while (true);
 			}
+			super.breakBlock(world, i, j, k, par5, metadata);
 		}
-		super.breakBlock(world, i, j, k, par5, metadata);
 	}
 
 	@Override
