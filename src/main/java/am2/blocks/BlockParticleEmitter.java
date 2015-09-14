@@ -42,6 +42,15 @@ public class BlockParticleEmitter extends AMBlockContainer{
 	}
 
 	@Override
+	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z){
+		TileEntityParticleEmitter tile = (TileEntityParticleEmitter)world.getTileEntity(x, y, z);
+		if(tile != null && !tile.getShow())
+			return false;
+		
+		return super.removedByPlayer(world, player, x, y, z);
+	}
+	
+	@Override
 	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLiving, ItemStack stack){
 		int p = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4F) / 360F + 0.5D) & 3;
 
