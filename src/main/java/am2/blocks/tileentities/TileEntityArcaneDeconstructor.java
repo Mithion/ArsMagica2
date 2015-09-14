@@ -347,12 +347,12 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack){
-		return i <= 10;
+		return i <= 9;
 	}
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int var1){
-		return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+		return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 	}
 
 	@Override
@@ -368,9 +368,9 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 	@Override
 	public ItemStack[] getRunesInKey(){
 		return new ItemStack[]{
-				inventory[10],
-				inventory[11],
-				inventory[12]
+				inventory[13],
+				inventory[14],
+				inventory[15]
 		};
 	}
 
