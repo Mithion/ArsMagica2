@@ -15,6 +15,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.HashMap;
 
 public class BuffList implements IBuffHelper{
@@ -65,8 +66,11 @@ public class BuffList implements IBuffHelper{
 	private static final HashMap<Integer, BuffEffect> utilityBuffs = new HashMap<Integer, BuffEffect>();
 	private static final ArrayList<ArsMagicaPotion> arsMagicaPotions = new ArrayList<ArsMagicaPotion>();
 	private static ArrayList<Integer> dispelBlacklist;
+	
 
 	public static final BuffList instance = new BuffList();
+
+	private static HashMap<Integer, Potion> ourInitialPotionAllocations;
 
 	private BuffList(){
 
@@ -78,12 +82,18 @@ public class BuffList implements IBuffHelper{
 		index = AMCore.config.getConfigurablePotionID(configID, index);
 
 		FMLLog.info("Ars Magica 2 >> Potion %s is ID %d", name, index);
+		
+		if (Potion.potionTypes[index] != null){
+			FMLLog.severe("Ars Magica 2 >> Warning: Potion index %d is already occupied by potion %s. Check your config files for clashes.", index, Potion.potionTypes[index].getName());
+		}
 
 		ArsMagicaPotion potion = new ArsMagicaPotion(index, isBadEffect, 0x000000);
 		potion.setPotionName(name);
 		potion._setIconIndex(iconCol, IIconRow);
 		classesForBuffID.put(index, buffEffectClass);
 		arsMagicaPotions.add(potion);
+		ourInitialPotionAllocations.put(index, potion);
+		
 		return potion;
 	}
 
@@ -93,9 +103,14 @@ public class BuffList implements IBuffHelper{
 		
 		FMLLog.info("Ars Magica 2 >> Potion %s is ID %d", name, index);
 		
+		if (Potion.potionTypes[index] != null){
+			FMLLog.severe("Ars Magica 2 >> Warning: Potion index %d is already occupied by potion %s. Check your config files for clashes.", index, Potion.potionTypes[index].getName());
+		}
+		
 		ManaPotion potion = new ManaPotion(index, isBadEffect, colour);
 		potion.setPotionName(name);
 		potion._setIconIndex(iconCol, IIconRow);
+		ourInitialPotionAllocations.put(index, potion);
 		
 		return potion;
 	}
@@ -114,6 +129,7 @@ public class BuffList implements IBuffHelper{
 		dispelBlacklist = new ArrayList<Integer>();
 		particlesForBuffID = new HashMap<Integer, Integer>();
 		classesForBuffID = new HashMap<Integer, Class>();
+		ourInitialPotionAllocations = new HashMap<Integer, Potion>();
 
 		try{
 			extendPotionsArray();
@@ -126,6 +142,15 @@ public class BuffList implements IBuffHelper{
 		}catch (Throwable t){
 			FMLLog.severe("Ars Magica >> Buffs failed to initialize!  This will make the game very unstable!");
 			t.printStackTrace();
+		}
+	}
+
+	public static void postInit(){
+		// potion clash detection
+		for (Map.Entry<Integer, Potion> entry : ourInitialPotionAllocations.entrySet()){
+			if (Potion.potionTypes[entry.getKey()] != entry.getValue()){
+				FMLLog.severe("Ars Magica 2 >> Error: my potion, %s, at index %d has been over-written by another potion, %s. You have a conflict in your configuration files.", entry.getValue().getName(), entry.getKey(), Potion.potionTypes[entry.getKey()].getName());
+			}
 		}
 	}
 
