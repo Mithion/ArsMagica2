@@ -6,7 +6,6 @@ import am2.api.blocks.IKeystoneLockable;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
-import am2.blocks.BlockEverstone;
 import am2.blocks.BlocksCommonProxy;
 import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
