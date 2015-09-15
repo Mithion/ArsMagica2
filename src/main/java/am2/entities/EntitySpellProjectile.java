@@ -6,6 +6,8 @@ import am2.api.spell.component.interfaces.ISpellModifier;
 import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
 import am2.buffs.BuffList;
+import am2.blocks.BlockParticleEmitter;
+import am2.blocks.tileentities.TileEntityParticleEmitter;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.AMParticleIcons;
@@ -24,6 +26,7 @@ import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
@@ -82,7 +85,6 @@ public class EntitySpellProjectile extends Entity{
 		motionZ = MathHelper.cos((rotationYaw / 180F) * 3.141593F) * MathHelper.cos((rotationPitch / 180F) * 3.141593F) * f;
 		motionY = -MathHelper.sin((rotationPitch / 180F) * 3.141593F) * f;
 		maxTicksToExist = -1;
-		projectileSpeed = 0.1;
 		setSpellProjectileHeading(motionX, motionY, motionZ, projectileSpeed, projectileSpeed);
 	}
 	//=========================================================================
@@ -242,8 +244,8 @@ public class EntitySpellProjectile extends Entity{
 			}
 		}
 
-		//handle homing
-		if (this.dataWatcher.getWatchableObjectByte(DW_HOMING) == (byte)0 && this.ticksExisted > 10){
+		//TODO Fix homing
+		if (this.dataWatcher.getWatchableObjectByte(DW_HOMING) != (byte)0 && this.ticksExisted > 10){
 			if (this.dataWatcher.getWatchableObjectInt(DW_HOMING_TARGET) == -1){
 				findHomingTarget();
 
@@ -347,6 +349,12 @@ public class EntitySpellProjectile extends Entity{
 				AxisAlignedBB bb = block.getCollisionBoundingBoxFromPool(worldObj, movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ);
 				if (bb == null && !SpellUtils.instance.modifierIsPresent(SpellModifiers.TARGET_NONSOLID_BLOCKS, getEffectStack(), 0))
 					doHit = false;
+				if (block instanceof BlockParticleEmitter){
+					TileEntity te = worldObj.getTileEntity(movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ);
+					if (te != null && te instanceof TileEntityParticleEmitter && !((TileEntityParticleEmitter)te).getShow()) {
+						doHit = false;
+					}
+				}
 			}
 
 			if (doHit)
