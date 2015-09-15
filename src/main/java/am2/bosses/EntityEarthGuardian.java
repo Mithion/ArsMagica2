@@ -21,7 +21,7 @@ public class EntityEarthGuardian extends AM2Boss{
 
 	public EntityEarthGuardian(World par1World){
 		super(par1World);
-		this.setSize(1.0f, 2.0f);
+		this.setSize(1.5f, 3.5f);
 		this.stepHeight = 1.02f;
 	}
 

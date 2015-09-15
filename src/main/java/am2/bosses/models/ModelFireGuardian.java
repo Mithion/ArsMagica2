@@ -209,7 +209,7 @@ public class ModelFireGuardian extends ModelBase{
 				return;
 			GL11.glPushMatrix();
 			setHeadRotations(f3, f4);
-			setModelRotations((EntityFireGuardian)entity);
+			setModelRotations((EntityFireGuardian)entity, f, f1, f2, f3, f4, f5);
 			Body9.render(f5);
 			Body8.render(f5);
 			Body7.render(f5);
@@ -254,7 +254,7 @@ public class ModelFireGuardian extends ModelBase{
 	}
 
 	@SuppressWarnings("incomplete-switch")
-	private void setModelRotations(EntityFireGuardian entity){
+	private void setModelRotations(EntityFireGuardian entity, float f, float f1, float f2, float f3, float f4, float f5){
 
 		float entityOffset = 0;
 		float leftArmRotation = 0;
@@ -269,7 +269,7 @@ public class ModelFireGuardian extends ModelBase{
 
 			if (!entity.getIsUnderground()){
 				if (entity.getTicksInCurrentAction() > stage){
-					float offset = 3 * ((entity.getTicksInCurrentAction() - stage) / 5);
+					float offset = 3 * ((entity.getTicksInCurrentAction() + (f2 - entity.ticksExisted) - stage) / 5);
 					GL11.glTranslatef(0, -offset, 0);
 				}
 			}else{
@@ -279,7 +279,7 @@ public class ModelFireGuardian extends ModelBase{
 			stage = 10;
 
 			if (entity.getTicksInCurrentAction() > stage){
-				float rotation = 180 * ((entity.getTicksInCurrentAction() - stage) / 20);
+				float rotation = 180 * ((entity.getTicksInCurrentAction() + (f2 - entity.ticksExisted) - stage) / 20);
 				if (rotation > 180) rotation = 180;
 				Vec3 look = entity.getLook(1.0f);
 				GL11.glRotatef(rotation, 0.5f, 0, 0);
@@ -299,9 +299,9 @@ public class ModelFireGuardian extends ModelBase{
 			float final_action_ticks = 6;
 
 			if (entity.getTicksInCurrentAction() < action_ticks){
-				rightArmRotation = (float)Math.toRadians(-max_degrees_x * (entity.getTicksInCurrentAction() / action_ticks));
+				rightArmRotation = (float)Math.toRadians(-max_degrees_x * ((entity.getTicksInCurrentAction() + (f2 - entity.ticksExisted)) / action_ticks));
 			}else if (entity.getTicksInCurrentAction() < action_ticks + fast_action_ticks){
-				rightArmRotation = (float)Math.toRadians(-max_degrees_x + (final_degrees_x * ((entity.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
+				rightArmRotation = (float)Math.toRadians(-max_degrees_x + (final_degrees_x * ((entity.getTicksInCurrentAction() + (f2 - entity.ticksExisted) - action_ticks) / fast_action_ticks)));
 			}else{
 				rightArmRotation = final_degrees_x;
 			}
@@ -320,9 +320,9 @@ public class ModelFireGuardian extends ModelBase{
 			final_action_ticks = 6;
 
 			if (entity.getTicksInCurrentAction() < action_ticks){
-				rightArmRotation = (float)Math.toRadians(-max_degrees_x * (entity.getTicksInCurrentAction() / action_ticks));
+				rightArmRotation = (float)Math.toRadians(-max_degrees_x * ((entity.getTicksInCurrentAction() + (f2 - entity.ticksExisted)) / action_ticks));
 			}else if (entity.getTicksInCurrentAction() < action_ticks + fast_action_ticks){
-				rightArmRotation = (float)Math.toRadians(-max_degrees_x + (final_degrees_x * ((entity.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
+				rightArmRotation = (float)Math.toRadians(-max_degrees_x + (final_degrees_x * ((entity.getTicksInCurrentAction() + (f2 - entity.ticksExisted) - action_ticks) / fast_action_ticks)));
 			}else{
 				rightArmRotation = final_degrees_x;
 			}

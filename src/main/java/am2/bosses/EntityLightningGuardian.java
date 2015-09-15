@@ -19,7 +19,7 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 
 	public EntityLightningGuardian(World par1World){
 		super(par1World);
-		this.setSize(1, 2);
+		this.setSize(1.75f, 3);
 	}
 
 	@Override

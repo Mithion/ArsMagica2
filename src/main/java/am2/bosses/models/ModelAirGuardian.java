@@ -89,12 +89,17 @@ public class ModelAirGuardian extends ModelBase{
 
 			EntityAirGuardian guardian = (EntityAirGuardian)entity;
 			if (guardian.getCurrentAction() == BossActions.SPINNING){
-				GL11.glRotatef(guardian.spinRotation, 0, 1, 0);
+				GL11.glRotatef(guardian.spinRotation - (f2 - guardian.ticksExisted) * 40, 0, 1, 0);
 			}
 
-			updateRotations(guardian);
+			updateRotations(guardian, f, f1, f2, f3, f4, f5);
+			float offset = (float)Math.sin(f2 / 10f) / 17f;
+			GL11.glPushMatrix();
+			GL11.glTranslatef(0, offset, 0);
 			Ball1.render(f5);
 			Ball2.render(f5);
+			GL11.glPushMatrix();
+			GL11.glTranslatef(0, (float)Math.sin(f2 / 10f - 2) / 17f, 0);
 			LowerTorso.render(f5);
 			Torso.render(f5);
 			RightShoulder.render(f5);
@@ -103,6 +108,8 @@ public class ModelAirGuardian extends ModelBase{
 			LeftArm.render(f5);
 			Head.render(f5);
 
+			GL11.glPopMatrix();
+			GL11.glPopMatrix();
 			GL11.glPopMatrix();
 		}
 	}
@@ -123,12 +130,14 @@ public class ModelAirGuardian extends ModelBase{
 	}
 
 	@SuppressWarnings("incomplete-switch")
-	private void updateRotations(EntityAirGuardian guardian){
+	private void updateRotations(EntityAirGuardian guardian, float f, float f1, float f2, float f3, float f4, float f5){
+		float ticksInCurrentAction = guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted);
 
-		float rot1 = (float)Math.toRadians(guardian.getOrbitRotation());
+		float rot1 = (float)Math.toRadians(guardian.getOrbitRotation() + (f2 - guardian.ticksExisted) * 2);
 
 		Ball1.rotateAngleY = Ball1.getRestRotationY() + rot1;
 		Ball2.rotateAngleY = Ball2.getRestRotationY() + rot1;
+		Ball2.rotateAngleX = Ball2.getRestRotationX() + rot1 - (float) Math.PI / 4f;
 
 		float right_arm_rotation_x = 0;
 		float left_arm_rotation_x = 0;
@@ -144,10 +153,10 @@ public class ModelAirGuardian extends ModelBase{
 			float fast_action_ticks = 3;
 			float final_action_ticks = 6;
 
-			if (guardian.getTicksInCurrentAction() < action_ticks){
-				right_arm_rotation_x = (float)Math.toRadians(-max_degrees_x * ((float)guardian.getTicksInCurrentAction() / action_ticks));
-			}else if (guardian.getTicksInCurrentAction() < action_ticks + fast_action_ticks){
-				right_arm_rotation_x = (float)Math.toRadians(-max_degrees_x + (final_degrees_x * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
+			if (ticksInCurrentAction < action_ticks){
+				right_arm_rotation_x = (float)Math.toRadians(-max_degrees_x * (ticksInCurrentAction / action_ticks));
+			}else if (ticksInCurrentAction < action_ticks + fast_action_ticks){
+				right_arm_rotation_x = (float)Math.toRadians(-max_degrees_x + (final_degrees_x * (ticksInCurrentAction - action_ticks) / fast_action_ticks));
 			}else{
 				right_arm_rotation_x = final_degrees_x;
 			}
@@ -169,10 +178,10 @@ public class ModelAirGuardian extends ModelBase{
 			fast_action_ticks = 3;
 			final_action_ticks = 6;
 
-			if (guardian.getTicksInCurrentAction() < action_ticks){
-				right_arm_rotation_x = (float)Math.toRadians(-max_degrees_x * ((float)guardian.getTicksInCurrentAction() / action_ticks));
-			}else if (guardian.getTicksInCurrentAction() < action_ticks + fast_action_ticks){
-				right_arm_rotation_x = (float)Math.toRadians(-max_degrees_x + (final_degrees_x * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
+			if (ticksInCurrentAction < action_ticks){
+				right_arm_rotation_x = (float)Math.toRadians(-max_degrees_x * (ticksInCurrentAction / action_ticks));
+			}else if (ticksInCurrentAction < action_ticks + fast_action_ticks){
+				right_arm_rotation_x = (float)Math.toRadians(-max_degrees_x + (final_degrees_x * (ticksInCurrentAction - action_ticks) / fast_action_ticks));
 			}else{
 				right_arm_rotation_x = final_degrees_x;
 			}
@@ -180,7 +189,7 @@ public class ModelAirGuardian extends ModelBase{
 			break;
 		case SPINNING:
 			max_degrees_x = 180;
-			float degrees = guardian.getTicksInCurrentAction() < 20 ? max_degrees_x * ((float)guardian.getTicksInCurrentAction() / 20f) : max_degrees_x;
+			float degrees = ticksInCurrentAction < 20 ? max_degrees_x * (ticksInCurrentAction / 20f) : max_degrees_x;
 			right_arm_rotation_x = (float)Math.toRadians(degrees);
 			left_arm_rotation_x = right_arm_rotation_x;
 			break;

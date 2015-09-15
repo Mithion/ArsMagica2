@@ -283,13 +283,13 @@ public class ModelPlantGuardian extends ModelBase{
 
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		if (!(entity instanceof EntityNatureGuardian)) return;
-		updateRotations((EntityNatureGuardian)entity);
+		updateRotations((EntityNatureGuardian)entity, f, f1, f2, f3, f4, f5);
 
 		GL11.glPushMatrix();
 
 		EntityNatureGuardian guardian = (EntityNatureGuardian)entity;
 		if (guardian.getCurrentAction() == BossActions.SPINNING){
-			GL11.glRotatef(guardian.spinRotation, 0, 1, 0);
+			GL11.glRotatef(guardian.spinRotation + (f2 - guardian.ticksExisted) * -40f, 0, 1, 0);
 		}
 		setHeadRotation(f3, f4);
 		Head.render(f5);
@@ -336,8 +336,8 @@ public class ModelPlantGuardian extends ModelBase{
 	}
 
 	@SuppressWarnings("incomplete-switch")
-	private void updateRotations(EntityNatureGuardian guardian){
-		setTendrilRotations(guardian.tendrilRotation);
+	private void updateRotations(EntityNatureGuardian guardian, float f, float f1, float f2, float f3, float f4, float f5){
+		setTendrilRotations(guardian.tendrilRotation + (f2 - guardian.ticksExisted) * 0.2f);
 
 		float main_arm_rotation_z = 0;
 		float shield_arm_rotation_z = 0;
@@ -352,15 +352,15 @@ public class ModelPlantGuardian extends ModelBase{
 		case IDLE:
 			if (guardian.getTicksInCurrentAction() < 20){
 				if (guardian.last_rotation_z_main != 0){
-					main_arm_rotation_z = guardian.last_rotation_z_main / ((float)z_interp_ticks - (float)guardian.getTicksInCurrentAction());
+					main_arm_rotation_z = guardian.last_rotation_z_main / ((float)z_interp_ticks - ((float)guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted)));
 				}
 				if (guardian.last_rotation_z_shield != 0){
-					shield_arm_rotation_z = guardian.last_rotation_z_shield / ((float)z_interp_ticks - (float)guardian.getTicksInCurrentAction());
+					shield_arm_rotation_z = guardian.last_rotation_z_shield / ((float)z_interp_ticks - ((float)guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted)));
 				}
 			}
 			break;
 		case SPINNING:
-			float degrees = guardian.getTicksInCurrentAction() < 20 ? 60f * ((float)guardian.getTicksInCurrentAction() / 20f) : 60;
+			float degrees = guardian.getTicksInCurrentAction() < 20 ? 60f * (((float)guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted)) / 20f) : 60;
 			main_arm_rotation_z = (float)-Math.toRadians(degrees);
 			shield_arm_rotation_z = (float)Math.toRadians(degrees);
 			break;
@@ -370,11 +370,11 @@ public class ModelPlantGuardian extends ModelBase{
 			float action_ticks = 10;
 			float fast_action_ticks = 3;
 			if (guardian.getTicksInCurrentAction() < action_ticks){
-				main_arm_rotation_x = (float)Math.toRadians(-max_degrees_x * ((float)guardian.getTicksInCurrentAction() / action_ticks));
-				main_arm_rotation_y = (float)Math.toRadians(max_degrees_y * ((float)guardian.getTicksInCurrentAction() / action_ticks));
+				main_arm_rotation_x = (float)Math.toRadians(-max_degrees_x * (((float)guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted)) / action_ticks));
+				main_arm_rotation_y = (float)Math.toRadians(max_degrees_y * (((float)guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted)) / action_ticks));
 			}else if (guardian.getTicksInCurrentAction() < (action_ticks + fast_action_ticks)){
-				main_arm_rotation_x = (float)Math.toRadians(-max_degrees_x + (max_degrees_x * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
-				main_arm_rotation_y = (float)Math.toRadians(max_degrees_y - (max_degrees_y * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
+				main_arm_rotation_x = (float)Math.toRadians(-max_degrees_x + (max_degrees_x * ((float)(guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted) - action_ticks) / fast_action_ticks)));
+				main_arm_rotation_y = (float)Math.toRadians(max_degrees_y - (max_degrees_y * ((float)(guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted) - action_ticks) / fast_action_ticks)));
 			}
 			shield_arm_rotation_y = main_arm_rotation_y;
 			GL11.glRotatef((float)Math.toDegrees(shield_arm_rotation_y), 0, 1, 0);
@@ -386,10 +386,10 @@ public class ModelPlantGuardian extends ModelBase{
 			fast_action_ticks = 3;
 			if (guardian.getTicksInCurrentAction() < action_ticks){
 				//main_arm_rotation_x = (float) Math.toRadians(-max_degrees_x * ((float)guardian.getTicksInCurrentAction() / action_ticks));
-				shield_arm_rotation_y = (float)Math.toRadians(-max_degrees_y * ((float)guardian.getTicksInCurrentAction() / action_ticks));
+				shield_arm_rotation_y = (float)Math.toRadians(-max_degrees_y * (((float)guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted)) / action_ticks));
 			}else if (guardian.getTicksInCurrentAction() < (action_ticks + fast_action_ticks)){
 				//main_arm_rotation_x = (float) Math.toRadians(-max_degrees_x + (max_degrees_x * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
-				shield_arm_rotation_y = (float)Math.toRadians(-max_degrees_y + (max_degrees_y * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks)));
+				shield_arm_rotation_y = (float)Math.toRadians(-max_degrees_y + (max_degrees_y * ((float)(guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted) - action_ticks) / fast_action_ticks)));
 			}
 			main_arm_rotation_y = shield_arm_rotation_y / 2;
 			GL11.glRotatef((float)Math.toDegrees(shield_arm_rotation_y), 0, 1, 0);
@@ -401,14 +401,14 @@ public class ModelPlantGuardian extends ModelBase{
 			fast_action_ticks = 3;
 			if (guardian.getTicksInCurrentAction() < action_ticks){
 				if (guardian.last_rotation_z_main != 0){
-					main_arm_rotation_z = guardian.last_rotation_z_main / ((float)z_interp_ticks - (float)guardian.getTicksInCurrentAction());
+					main_arm_rotation_z = guardian.last_rotation_z_main / ((float)z_interp_ticks - ((float)guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted)));
 				}
 				if (guardian.last_rotation_z_shield != 0){
-					shield_arm_rotation_z = guardian.last_rotation_z_shield / ((float)z_interp_ticks - (float)guardian.getTicksInCurrentAction());
+					shield_arm_rotation_z = guardian.last_rotation_z_shield / ((float)z_interp_ticks - ((float)guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted)));
 				}
-				degrees = -max_degrees * ((float)guardian.getTicksInCurrentAction() / action_ticks);
+				degrees = -max_degrees * (((float)guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted)) / action_ticks);
 			}else if (guardian.getTicksInCurrentAction() < (action_ticks + fast_action_ticks)){
-				degrees = -max_degrees + (max_degrees * ((float)(guardian.getTicksInCurrentAction() - action_ticks) / fast_action_ticks));
+				degrees = -max_degrees + (max_degrees * ((float)(guardian.getTicksInCurrentAction() + (f2 - guardian.ticksExisted) - action_ticks) / fast_action_ticks));
 			}
 			main_arm_rotation_x = (float)Math.toRadians(degrees);
 			break;
@@ -460,10 +460,10 @@ public class ModelPlantGuardian extends ModelBase{
 		Shield.rotateAngleY = Shield.getRestRotationY() + shield_arm_rotation_y;
 	}
 
-	private void interp_to_zero_zrot(AM2ModelRenderer model, int ticks){
-		float delta = model.rotateAngleZ / (z_interp_ticks - ticks);
-		model.rotateAngleZ -= delta;
-	}
+//	private void interp_to_zero_zrot(AM2ModelRenderer model, int ticks){
+//		float delta = model.rotateAngleZ / (z_interp_ticks - ticks);
+//		model.rotateAngleZ -= delta;
+//	}
 
 	private void setTendrilRotations(float r){
 		//r = (float) Math.toRadians(r);
