@@ -288,6 +288,9 @@ public class EntitySpellProjectile extends Entity{
 		}
 
 		if (entity != null){
+			if (entity instanceof EntityDragonPart && ((EntityDragonPart)entity).entityDragonObj != null && ((EntityDragonPart)entity).entityDragonObj instanceof EntityLivingBase) {
+				entity = (EntityLivingBase)((EntityDragonPart)entity).entityDragonObj;
+			}
 			movingobjectposition = new MovingObjectPosition(entity);
 		}
 		if (movingobjectposition != null){
