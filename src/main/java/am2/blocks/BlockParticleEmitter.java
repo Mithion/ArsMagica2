@@ -17,6 +17,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -49,7 +50,20 @@ public class BlockParticleEmitter extends AMBlockContainer{
 		
 		return super.removedByPlayer(world, player, x, y, z);
 	}
-	
+
+	@Override
+	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion){
+	  TileEntity te = world.getTileEntity(x, y, z);
+	  TileEntityParticleEmitter te2 = null;
+	  if (te instanceof TileEntityParticleEmitter)
+	    te2 = (TileEntityParticleEmitter)te;
+	  if (te2 == null)
+	    super.onBlockExploded(world, x, y, z, explosion);
+	  if (te2 != null && te2.getShow())
+	    super.onBlockExploded(world, x, y, z, explosion);
+	  // do not explode the block if it's invisible
+	}
+
 	@Override
 	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLiving, ItemStack stack){
 		int p = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4F) / 360F + 0.5D) & 3;
@@ -119,19 +133,22 @@ public class BlockParticleEmitter extends AMBlockContainer{
 	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
 		if (par1World.isRemote){
 			TileEntity te = par1World.getTileEntity(par2, par3, par4);
-			if (te != null && te instanceof TileEntityParticleEmitter){
+			TileEntityParticleEmitter te2 = null;
+			if (te instanceof TileEntityParticleEmitter)
+				te2 = (TileEntityParticleEmitter)te;
+			if (te2 != null && te2.getShow()){
 				if (par5EntityPlayer.inventory.getCurrentItem() != null && par5EntityPlayer.inventory.getCurrentItem().getItem() == ItemsCommonProxy.crystalWrench){
 					if (AMCore.proxy.cwCopyLoc == null){
 						par5EntityPlayer.addChatMessage(new ChatComponentText("Settings Copied."));
 						AMCore.proxy.cwCopyLoc = new NBTTagCompound();
-						((TileEntityParticleEmitter)te).writeSettingsToNBT(AMCore.proxy.cwCopyLoc);
+						te2.writeSettingsToNBT(AMCore.proxy.cwCopyLoc);
 					}else{
-						((TileEntityParticleEmitter)te).readSettingsFromNBT(AMCore.proxy.cwCopyLoc);
-						((TileEntityParticleEmitter)te).syncWithServer();
+						te2.readSettingsFromNBT(AMCore.proxy.cwCopyLoc);
+						te2.syncWithServer();
 						AMCore.proxy.cwCopyLoc = null;
 					}
 				}else{
-					AMCore.proxy.openParticleBlockGUI(par1World, par5EntityPlayer, (TileEntityParticleEmitter)te);
+					AMCore.proxy.openParticleBlockGUI(par1World, par5EntityPlayer, te2);
 				}
 			}
 		}
