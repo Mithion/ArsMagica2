@@ -5,6 +5,7 @@ import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
 import am2.blocks.tileentities.TileEntityCrystalMarker;
 import am2.blocks.tileentities.TileEntityFlickerHabitat;
+import am2.blocks.tileentities.TileEntityParticleEmitter;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleMoveOnHeading;
@@ -57,7 +58,7 @@ public class ItemCrystalWrench extends ArsMagicaRotatedItem{
 			stack.setTagCompound(new NBTTagCompound());
 
 		int cMode = getMode(stack);
-		if (te != null && !(te instanceof IPowerNode) && cMode == MODE_DISCONNECT){
+		if (te != null && !(te instanceof IPowerNode || te instanceof TileEntityParticleEmitter) && cMode == MODE_DISCONNECT){
 			player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.wrongWrenchMode")));
 			return false;
 		}
@@ -156,7 +157,7 @@ public class ItemCrystalWrench extends ArsMagicaRotatedItem{
 		}
 	}
 
-	private int getMode(ItemStack stack){
+	public static int getMode(ItemStack stack){
 		if (stack.stackTagCompound.hasKey(MODE)){
 			return stack.stackTagCompound.getInteger(MODE);
 		}
