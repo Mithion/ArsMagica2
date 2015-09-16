@@ -3,6 +3,7 @@ package am2.blocks;
 import am2.AMCore;
 import am2.blocks.tileentities.TileEntityParticleEmitter;
 import am2.items.ItemsCommonProxy;
+import am2.items.ItemCrystalWrench;
 import am2.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -133,25 +134,31 @@ public class BlockParticleEmitter extends AMBlockContainer{
 	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
 		if (par1World.isRemote){
 			TileEntity te = par1World.getTileEntity(par2, par3, par4);
-			TileEntityParticleEmitter te2 = null;
-			if (te instanceof TileEntityParticleEmitter)
-				te2 = (TileEntityParticleEmitter)te;
-			if (te2 != null && te2.getShow()){
-				if (par5EntityPlayer.inventory.getCurrentItem() != null && par5EntityPlayer.inventory.getCurrentItem().getItem() == ItemsCommonProxy.crystalWrench){
-					if (AMCore.proxy.cwCopyLoc == null){
-						par5EntityPlayer.addChatMessage(new ChatComponentText("Settings Copied."));
-						AMCore.proxy.cwCopyLoc = new NBTTagCompound();
-						te2.writeSettingsToNBT(AMCore.proxy.cwCopyLoc);
-					}else{
-						te2.readSettingsFromNBT(AMCore.proxy.cwCopyLoc);
-						te2.syncWithServer();
-						AMCore.proxy.cwCopyLoc = null;
-					}
-				}else{
-					AMCore.proxy.openParticleBlockGUI(par1World, par5EntityPlayer, te2);
-				}
+			if (te != null && te instanceof TileEntityParticleEmitter){
+			      if (par5EntityPlayer.inventory.getCurrentItem() != null && par5EntityPlayer.inventory.getCurrentItem().getItem() == ItemsCommonProxy.crystalWrench){
+				      if (ItemCrystalWrench.getMode(par5EntityPlayer.inventory.getCurrentItem()) == 0){
+					AMCore.proxy.openParticleBlockGUI(par1World, par5EntityPlayer, (TileEntityParticleEmitter)te);
+				      }
+				      else{
+					      if (AMCore.proxy.cwCopyLoc == null){
+						      par5EntityPlayer.addChatMessage(new ChatComponentText("Settings Copied."));
+						      AMCore.proxy.cwCopyLoc = new NBTTagCompound();
+						      ((TileEntityParticleEmitter)te).writeSettingsToNBT(AMCore.proxy.cwCopyLoc);
+					      }else{
+						      par5EntityPlayer.addChatMessage(new ChatComponentText("Settings Applied."));
+						      ((TileEntityParticleEmitter)te).readSettingsFromNBT(AMCore.proxy.cwCopyLoc);
+						      ((TileEntityParticleEmitter)te).syncWithServer();
+						      AMCore.proxy.cwCopyLoc = null;
+					      }
+				      }
+				      return true;
+			      }
+			      else{
+				AMCore.proxy.openParticleBlockGUI(par1World, par5EntityPlayer, (TileEntityParticleEmitter)te);
+				      return true;
+			      }
 			}
 		}
-		return true;
+		return false;
 	}
 }
