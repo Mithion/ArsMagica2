@@ -28,37 +28,38 @@ import net.minecraft.nbt.NBTTagCompound;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.UUID;
 
 public class PlayerTracker{
 
-	public static HashMap<String, NBTTagCompound> storedExtProps_death;
-	public static HashMap<String, NBTTagCompound> riftStorage_death;
-	public static HashMap<String, NBTTagCompound> affinityStorage_death;
-	public static HashMap<String, NBTTagCompound> spellKnowledgeStorage_death;
+	public static HashMap<UUID, NBTTagCompound> storedExtProps_death;
+	public static HashMap<UUID, NBTTagCompound> riftStorage_death;
+	public static HashMap<UUID, NBTTagCompound> affinityStorage_death;
+	public static HashMap<UUID, NBTTagCompound> spellKnowledgeStorage_death;
 
-	public static HashMap<String, NBTTagCompound> storedExtProps_dimension;
-	public static HashMap<String, NBTTagCompound> riftStorage_dimension;
-	public static HashMap<String, NBTTagCompound> affinityStorage_dimension;
-	public static HashMap<String, NBTTagCompound> spellKnowledgeStorage_dimension;
+	public static HashMap<UUID, NBTTagCompound> storedExtProps_dimension;
+	public static HashMap<UUID, NBTTagCompound> riftStorage_dimension;
+	public static HashMap<UUID, NBTTagCompound> affinityStorage_dimension;
+	public static HashMap<UUID, NBTTagCompound> spellKnowledgeStorage_dimension;
 
-	public static HashMap<String, HashMap<Integer, ItemStack>> soulbound_Storage;
+	public static HashMap<UUID, HashMap<Integer, ItemStack>> soulbound_Storage;
 
 	private TreeMap<String, Integer> aals;
 	private TreeMap<String, String> clls;
 	private TreeMap<String, Integer> cldm;
 
 	public PlayerTracker(){
-		storedExtProps_death = new HashMap<String, NBTTagCompound>();
-		storedExtProps_dimension = new HashMap<String, NBTTagCompound>();
-		affinityStorage_death = new HashMap<String, NBTTagCompound>();
-		spellKnowledgeStorage_death = new HashMap<String, NBTTagCompound>();
+		storedExtProps_death = new HashMap<UUID, NBTTagCompound>();
+		storedExtProps_dimension = new HashMap<UUID, NBTTagCompound>();
+		affinityStorage_death = new HashMap<UUID, NBTTagCompound>();
+		spellKnowledgeStorage_death = new HashMap<UUID, NBTTagCompound>();
 
-		riftStorage_death = new HashMap<String, NBTTagCompound>();
-		riftStorage_dimension = new HashMap<String, NBTTagCompound>();
-		affinityStorage_dimension = new HashMap<String, NBTTagCompound>();
-		spellKnowledgeStorage_dimension = new HashMap<String, NBTTagCompound>();
+		riftStorage_death = new HashMap<UUID, NBTTagCompound>();
+		riftStorage_dimension = new HashMap<UUID, NBTTagCompound>();
+		affinityStorage_dimension = new HashMap<UUID, NBTTagCompound>();
+		spellKnowledgeStorage_dimension = new HashMap<UUID, NBTTagCompound>();
 
-		soulbound_Storage = new HashMap<String, HashMap<Integer, ItemStack>>();
+		soulbound_Storage = new HashMap<UUID, HashMap<Integer, ItemStack>>();
 
 		aals = new TreeMap<String, Integer>();
 		clls = new TreeMap<String, String>();
@@ -121,15 +122,15 @@ public class PlayerTracker{
 	public void onPlayerRespawn(PlayerRespawnEvent event){
 		//extended properties
 		//================================================================================
-		if (storedExtProps_death.containsKey(event.player.getDisplayName())){
-			NBTTagCompound stored = storedExtProps_death.get(event.player.getDisplayName());
-			storedExtProps_death.remove(event.player.getDisplayName());
+		if (storedExtProps_death.containsKey(event.player.getUniqueID())){
+			NBTTagCompound stored = storedExtProps_death.get(event.player.getUniqueID());
+			storedExtProps_death.remove(event.player.getUniqueID());
 
 			ExtendedProperties.For(event.player).loadNBTData(stored);
 			ExtendedProperties.For(event.player).setDelayedSync(40);
-		}else if (storedExtProps_dimension.containsKey(event.player.getDisplayName())){
-			NBTTagCompound stored = storedExtProps_dimension.get(event.player.getDisplayName());
-			storedExtProps_dimension.remove(event.player.getDisplayName());
+		}else if (storedExtProps_dimension.containsKey(event.player.getUniqueID())){
+			NBTTagCompound stored = storedExtProps_dimension.get(event.player.getUniqueID());
+			storedExtProps_dimension.remove(event.player.getUniqueID());
 
 			ExtendedProperties.For(event.player).loadNBTData(stored);
 			ExtendedProperties.For(event.player).setDelayedSync(40);
@@ -137,50 +138,50 @@ public class PlayerTracker{
 		//================================================================================
 		//rift storage
 		//================================================================================
-		if (riftStorage_death.containsKey(event.player.getDisplayName())){
-			NBTTagCompound stored = riftStorage_death.get(event.player.getDisplayName());
-			riftStorage_death.remove(event.player.getDisplayName());
+		if (riftStorage_death.containsKey(event.player.getUniqueID())){
+			NBTTagCompound stored = riftStorage_death.get(event.player.getUniqueID());
+			riftStorage_death.remove(event.player.getUniqueID());
 
 			RiftStorage.For(event.player).loadNBTData(stored);
-		}else if (riftStorage_dimension.containsKey(event.player.getDisplayName())){
-			NBTTagCompound stored = riftStorage_dimension.get(event.player.getDisplayName());
-			riftStorage_dimension.remove(event.player.getDisplayName());
+		}else if (riftStorage_dimension.containsKey(event.player.getUniqueID())){
+			NBTTagCompound stored = riftStorage_dimension.get(event.player.getUniqueID());
+			riftStorage_dimension.remove(event.player.getUniqueID());
 
 			RiftStorage.For(event.player).loadNBTData(stored);
 		}
 		//================================================================================
 		//affinity data
 		//================================================================================
-		if (affinityStorage_death.containsKey(event.player.getDisplayName())){
-			NBTTagCompound stored = affinityStorage_death.get(event.player.getDisplayName());
-			affinityStorage_death.remove(event.player.getDisplayName());
+		if (affinityStorage_death.containsKey(event.player.getUniqueID())){
+			NBTTagCompound stored = affinityStorage_death.get(event.player.getUniqueID());
+			affinityStorage_death.remove(event.player.getUniqueID());
 
 			AffinityData.For(event.player).loadNBTData(stored);
-		}else if (affinityStorage_dimension.containsKey(event.player.getDisplayName())){
-			NBTTagCompound stored = affinityStorage_dimension.get(event.player.getDisplayName());
-			affinityStorage_dimension.remove(event.player.getDisplayName());
+		}else if (affinityStorage_dimension.containsKey(event.player.getUniqueID())){
+			NBTTagCompound stored = affinityStorage_dimension.get(event.player.getUniqueID());
+			affinityStorage_dimension.remove(event.player.getUniqueID());
 
 			AffinityData.For(event.player).loadNBTData(stored);
 		}
 		//================================================================================
 		//spell knowledge data
 		//================================================================================
-		if (spellKnowledgeStorage_death.containsKey(event.player.getDisplayName())){
-			NBTTagCompound stored = spellKnowledgeStorage_death.get(event.player.getDisplayName());
-			spellKnowledgeStorage_death.remove(event.player.getDisplayName());
+		if (spellKnowledgeStorage_death.containsKey(event.player.getUniqueID())){
+			NBTTagCompound stored = spellKnowledgeStorage_death.get(event.player.getUniqueID());
+			spellKnowledgeStorage_death.remove(event.player.getUniqueID());
 
 			SkillData.For(event.player).loadNBTData(stored);
-		}else if (spellKnowledgeStorage_dimension.containsKey(event.player.getDisplayName())){
-			NBTTagCompound stored = spellKnowledgeStorage_dimension.get(event.player.getDisplayName());
-			spellKnowledgeStorage_dimension.remove(event.player.getDisplayName());
+		}else if (spellKnowledgeStorage_dimension.containsKey(event.player.getUniqueID())){
+			NBTTagCompound stored = spellKnowledgeStorage_dimension.get(event.player.getUniqueID());
+			spellKnowledgeStorage_dimension.remove(event.player.getUniqueID());
 
 			SkillData.For(event.player).loadNBTData(stored);
 		}
 		//================================================================================
 		//soulbound items
 		//================================================================================
-		if (soulbound_Storage.containsKey(event.player.getDisplayName())){
-			HashMap<Integer, ItemStack> soulboundItems = soulbound_Storage.get(event.player.getDisplayName());
+		if (soulbound_Storage.containsKey(event.player.getUniqueID())){
+			HashMap<Integer, ItemStack> soulboundItems = soulbound_Storage.get(event.player.getUniqueID());
 			for (Integer i : soulboundItems.keySet()){
 				if (i < event.player.inventory.getSizeInventory())
 					event.player.inventory.setInventorySlotContents(i, soulboundItems.get(i));
@@ -199,48 +200,48 @@ public class PlayerTracker{
 	public static void storeExtendedPropertiesForRespawn(EntityPlayer player){
 		//extended properties
 		//================================================================================
-		if (storedExtProps_death.containsKey(player.getDisplayName()))
-			storedExtProps_death.remove(player.getDisplayName());
+		if (storedExtProps_death.containsKey(player.getUniqueID()))
+			storedExtProps_death.remove(player.getUniqueID());
 
 		NBTTagCompound save = new NBTTagCompound();
 		ExtendedProperties.For(player).saveNBTData(save);
 
-		storedExtProps_death.put(player.getDisplayName(), save);
+		storedExtProps_death.put(player.getUniqueID(), save);
 
 		//================================================================================
 		//rift storage
 		//================================================================================
-		if (riftStorage_death.containsKey(player.getDisplayName()))
-			riftStorage_death.remove(player.getDisplayName());
+		if (riftStorage_death.containsKey(player.getUniqueID()))
+			riftStorage_death.remove(player.getUniqueID());
 		NBTTagCompound saveRift = new NBTTagCompound();
 		RiftStorage.For(player).saveNBTData(saveRift);
 
-		riftStorage_death.put(player.getDisplayName(), saveRift);
+		riftStorage_death.put(player.getUniqueID(), saveRift);
 
 		//================================================================================
 		//affinity storage
 		//================================================================================
-		if (affinityStorage_death.containsKey(player.getDisplayName()))
-			affinityStorage_death.remove(player.getDisplayName());
+		if (affinityStorage_death.containsKey(player.getUniqueID()))
+			affinityStorage_death.remove(player.getUniqueID());
 		NBTTagCompound saveAffinity = new NBTTagCompound();
 		AffinityData.For(player).saveNBTData(saveAffinity);
 
-		affinityStorage_death.put(player.getDisplayName(), saveAffinity);
+		affinityStorage_death.put(player.getUniqueID(), saveAffinity);
 		//================================================================================
 		//affinity storage
 		//================================================================================
-		if (spellKnowledgeStorage_death.containsKey(player.getDisplayName()))
-			spellKnowledgeStorage_death.remove(player.getDisplayName());
+		if (spellKnowledgeStorage_death.containsKey(player.getUniqueID()))
+			spellKnowledgeStorage_death.remove(player.getUniqueID());
 		NBTTagCompound saveSpellKnowledge = new NBTTagCompound();
 		SkillData.For(player).saveNBTData(saveSpellKnowledge);
 
-		spellKnowledgeStorage_death.put(player.getDisplayName(), saveSpellKnowledge);
+		spellKnowledgeStorage_death.put(player.getUniqueID(), saveSpellKnowledge);
 		//================================================================================
 	}
 
 	public static void storeSoulboundItemsForRespawn(EntityPlayer player){
-		if (soulbound_Storage.containsKey(player.getDisplayName()))
-			soulbound_Storage.remove(player.getDisplayName());
+		if (soulbound_Storage.containsKey(player.getUniqueID()))
+			soulbound_Storage.remove(player.getUniqueID());
 
 		HashMap<Integer, ItemStack> soulboundItems = new HashMap<Integer, ItemStack>();
 
@@ -263,65 +264,65 @@ public class PlayerTracker{
 			slotCount++;
 		}
 
-		soulbound_Storage.put(player.getDisplayName(), soulboundItems);
+		soulbound_Storage.put(player.getUniqueID(), soulboundItems);
 	}
 
 	public static void storeExtendedPropertiesForDimensionChange(EntityPlayer player){
 		//extended properties
 		//================================================================================
-		if (!storedExtProps_death.containsKey(player.getDisplayName())){
-			if (storedExtProps_dimension.containsKey(player.getDisplayName()))
-				storedExtProps_dimension.remove(player.getDisplayName());
+		if (!storedExtProps_death.containsKey(player.getUniqueID())){
+			if (storedExtProps_dimension.containsKey(player.getUniqueID()))
+				storedExtProps_dimension.remove(player.getUniqueID());
 
 			NBTTagCompound saveExprop = new NBTTagCompound();
 			ExtendedProperties.For(player).saveNBTData(saveExprop);
 
-			storedExtProps_dimension.put(player.getDisplayName(), saveExprop);
+			storedExtProps_dimension.put(player.getUniqueID(), saveExprop);
 		}
 		//================================================================================
 		//rift storage
 		//================================================================================
-		if (!riftStorage_death.containsKey(player.getDisplayName())){
-			if (riftStorage_dimension.containsKey(player.getDisplayName()))
-				riftStorage_dimension.remove(player.getDisplayName());
+		if (!riftStorage_death.containsKey(player.getUniqueID())){
+			if (riftStorage_dimension.containsKey(player.getUniqueID()))
+				riftStorage_dimension.remove(player.getUniqueID());
 
 			NBTTagCompound saveRift = new NBTTagCompound();
 			RiftStorage.For(player).saveNBTData(saveRift);
 
-			riftStorage_dimension.put(player.getDisplayName(), saveRift);
+			riftStorage_dimension.put(player.getUniqueID(), saveRift);
 		}
 		//================================================================================
 		//affinity storage
 		//================================================================================
-		if (!affinityStorage_death.containsKey(player.getDisplayName())){
-			if (affinityStorage_dimension.containsKey(player.getDisplayName()))
-				affinityStorage_dimension.remove(player.getDisplayName());
+		if (!affinityStorage_death.containsKey(player.getUniqueID())){
+			if (affinityStorage_dimension.containsKey(player.getUniqueID()))
+				affinityStorage_dimension.remove(player.getUniqueID());
 
 			NBTTagCompound saveAffinity = new NBTTagCompound();
 			AffinityData.For(player).saveNBTData(saveAffinity);
 
-			affinityStorage_dimension.put(player.getDisplayName(), saveAffinity);
+			affinityStorage_dimension.put(player.getUniqueID(), saveAffinity);
 		}
 		//================================================================================
 		//spell knowledge storage
 		//================================================================================
-		if (!spellKnowledgeStorage_death.containsKey(player.getDisplayName())){
-			if (spellKnowledgeStorage_dimension.containsKey(player.getDisplayName()))
-				spellKnowledgeStorage_dimension.remove(player.getDisplayName());
+		if (!spellKnowledgeStorage_death.containsKey(player.getUniqueID())){
+			if (spellKnowledgeStorage_dimension.containsKey(player.getUniqueID()))
+				spellKnowledgeStorage_dimension.remove(player.getUniqueID());
 
 			NBTTagCompound spellKnowledge = new NBTTagCompound();
 			SkillData.For(player).saveNBTData(spellKnowledge);
 
-			spellKnowledgeStorage_dimension.put(player.getDisplayName(), spellKnowledge);
+			spellKnowledgeStorage_dimension.put(player.getUniqueID(), spellKnowledge);
 		}
 		//================================================================================
 	}
 
 	public static void storeSoulboundItemForRespawn(EntityPlayer player, ItemStack stack){
-		if (!soulbound_Storage.containsKey(player.getDisplayName()))
+		if (!soulbound_Storage.containsKey(player.getUniqueID()))
 			return;
 
-		HashMap<Integer, ItemStack> soulboundItems = soulbound_Storage.get(player.getDisplayName());
+		HashMap<Integer, ItemStack> soulboundItems = soulbound_Storage.get(player.getUniqueID());
 
 		int slotTest = 0;
 		while (soulboundItems.containsKey(slotTest)){
