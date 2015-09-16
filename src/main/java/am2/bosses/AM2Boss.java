@@ -36,12 +36,22 @@ public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss, IEnti
 	}
 
 	//Bosses should be able to follow players through doors and hallways, so setSize is overridden to instead add a
-	//damageable bounding box of the specified size, unless a boss already uses parts.
+	//damageable entity based bounding box of the specified size, unless a boss already uses parts.
 	@Override
 	public void setSize(float width, float height){
 		if (parts == null){
-			parts = new EntityDragonPart[]{new EntityDragonPart(this, "defaultBody", width, height)};
-			parts[0].noClip = false;
+			parts = new EntityDragonPart[]{new EntityDragonPart(this, "defaultBody", width, height){
+				@Override
+				public void onUpdate(){
+					super.onUpdate();
+					this.isDead = ((Entity)entityDragonObj).isDead;
+				}
+
+				@Override
+				public boolean shouldRenderInPass(int pass){
+					return false;
+				}
+			}};
 		}else{
 			super.setSize(width, height);
 		}
@@ -181,7 +191,10 @@ public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss, IEnti
 
 		if (parts != null && parts[0] != null && parts[0].field_146032_b == "defaultBody"){
 			parts[0].setPosition(this.posX, this.posY, this.posZ);
-			parts[0].onUpdate();
+			parts[0].setVelocity(this.motionX, this.motionY, this.motionZ);
+			if (!parts[0].addedToChunk){
+				this.worldObj.spawnEntityInWorld(parts[0]);
+			}
 		}
 
 		this.ticksInCurrentAction++;
