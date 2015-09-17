@@ -62,16 +62,7 @@ public class TechneBlockRenderHandler implements ISimpleBlockRenderingHandler{
 
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer){
-
-		if (!(world instanceof World) && !(world instanceof GuiBlockAccess)){
-			return false;
-		}
-
-		TileEntity TE = world.getTileEntity(x, y, z);
-
-		TileEntityRendererDispatcher.instance.renderTileEntityAt(TE, x, y, z, 0.0F);
-
-		return true;
+		return false;
 	}
 
 	@Override
