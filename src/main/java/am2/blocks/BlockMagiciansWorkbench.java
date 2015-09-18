@@ -2,6 +2,7 @@ package am2.blocks;
 
 import am2.AMCore;
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntityMagiciansWorkbench;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.items.ItemsCommonProxy;
@@ -82,7 +83,7 @@ public class BlockMagiciansWorkbench extends AMSpecialRenderBlockContainer{
 			if (KeystoneUtilities.HandleKeystoneRecovery(player, (IKeystoneLockable)te))
 				return true;
 
-			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)te, player)){
+			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)te, player, KeystoneAccessType.USE)){
 
 				super.onBlockActivated(world, x, y, z, player, par6, par7, par8, par9);
 
@@ -121,7 +122,7 @@ public class BlockMagiciansWorkbench extends AMSpecialRenderBlockContainer{
 	  TileEntityMagiciansWorkbench receptacle = (TileEntityMagiciansWorkbench)world.getTileEntity(x, y, z);
 	  if (receptacle == null)
 	    return;
-	  if (KeystoneUtilities.instance.canPlayerAccess(receptacle, player)){
+	  if (KeystoneUtilities.instance.canPlayerAccess(receptacle, player, KeystoneAccessType.BREAK)){
 	    for (int i = receptacle.getSizeInventory() - 3; i < receptacle.getSizeInventory(); i++){
 	      receptacle.decrStackSize(i, 9001);
 	      // arbitrary number, just in case rune stack sizes increase in the future
@@ -188,7 +189,7 @@ public class BlockMagiciansWorkbench extends AMSpecialRenderBlockContainer{
 	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z){
 		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(x, y, z);
-		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player)) return false;
+		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player, KeystoneAccessType.BREAK)) return false;
 
 		return super.removedByPlayer(world, player, x, y, z);
 	}
