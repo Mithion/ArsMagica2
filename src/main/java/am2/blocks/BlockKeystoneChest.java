@@ -1,6 +1,7 @@
 package am2.blocks;
 
 import am2.AMCore;
+import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntityKeystoneChest;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.utility.KeystoneUtilities;
@@ -57,7 +58,7 @@ public class BlockKeystoneChest extends AMSpecialRenderBlockContainer{
 				return true;
 			}
 
-			if (!KeystoneUtilities.instance.canPlayerAccess(te, entityplayer)){
+			if (!KeystoneUtilities.instance.canPlayerAccess(te, entityplayer, KeystoneAccessType.USE)){
 				return true;
 			}
 
@@ -77,7 +78,7 @@ public class BlockKeystoneChest extends AMSpecialRenderBlockContainer{
 		TileEntityKeystoneChest receptacle = (TileEntityKeystoneChest)world.getTileEntity(x, y, z);
 		if (receptacle == null)
 			return;
-		if (KeystoneUtilities.instance.canPlayerAccess(receptacle, player)){
+		if (KeystoneUtilities.instance.canPlayerAccess(receptacle, player, KeystoneAccessType.BREAK)){
 			for (int i = receptacle.getSizeInventory() - 3; i < receptacle.getSizeInventory(); i++){
 				receptacle.decrStackSize(i, 9001);
 				// arbitrary number, just in case rune stack sizes increase in the future
@@ -156,7 +157,7 @@ public class BlockKeystoneChest extends AMSpecialRenderBlockContainer{
 	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z){
 		TileEntityKeystoneChest chest = (TileEntityKeystoneChest)world.getTileEntity(x, y, z);
-		if (!KeystoneUtilities.instance.canPlayerAccess(chest, player)) return false;
+		if (!KeystoneUtilities.instance.canPlayerAccess(chest, player, KeystoneAccessType.BREAK)) return false;
 
 		return super.removedByPlayer(world, player, x, y, z);
 	}
