@@ -3,6 +3,7 @@ package am2.blocks;
 import java.util.Random;
 import am2.AMCore;
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntityKeystoneDoor;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.items.ItemsCommonProxy;
@@ -111,7 +112,7 @@ public class BlockKeystoneDoor extends BlockDoor implements ITileEntityProvider{
 			if (KeystoneUtilities.HandleKeystoneRecovery(player, (IKeystoneLockable)te))
 				return true;
 
-			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)te, player)){
+			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)te, player, KeystoneAccessType.USE)){
 				if (player.isSneaking()){
 					FMLNetworkHandler.openGui(player, AMCore.instance, ArsMagicaGuiIdList.GUI_KEYSTONE_LOCKABLE, world, x, y, z);
 				}else{
@@ -153,7 +154,7 @@ public class BlockKeystoneDoor extends BlockDoor implements ITileEntityProvider{
 		if (lockable == null)
 			return false;
 
-		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player)) return false;
+		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player, KeystoneAccessType.BREAK)) return false;
 
 		return super.removedByPlayer(world, player, x, y, z);
 	}
@@ -171,7 +172,7 @@ public class BlockKeystoneDoor extends BlockDoor implements ITileEntityProvider{
 		if (lockable == null)
 			return;
 
-		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player))
+		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player, KeystoneAccessType.BREAK))
 			return;
 		super.onBlockHarvested(world, x, y, z, meta, player);
 	}
