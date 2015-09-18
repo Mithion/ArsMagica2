@@ -3,6 +3,7 @@ package am2.spell.components;
 import am2.AMCore;
 import am2.api.ArsMagicaApi;
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.items.KeystoneAccessType;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
@@ -63,7 +64,7 @@ public class Dig implements ISpellComponent{
 			if (!AMCore.config.getDigBreaksTileEntities())
 				return false;
 			
-			if (te instanceof IKeystoneLockable && !KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)te, DummyEntityPlayer.fromEntityLiving(caster)))
+			if (te instanceof IKeystoneLockable && !KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)te, DummyEntityPlayer.fromEntityLiving(caster), KeystoneAccessType.BREAK))
 				return false;
 		}
 
