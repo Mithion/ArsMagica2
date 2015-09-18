@@ -24,7 +24,7 @@ public class EntityArcaneGuardian extends AM2Boss{
 
 	public EntityArcaneGuardian(World par1World){
 		super(par1World);
-		this.setSize(1.0f, 2.0f);
+		this.setSize(1.0f, 3.0f);
 	}
 
 	@Override
@@ -146,7 +146,7 @@ public class EntityArcaneGuardian extends AM2Boss{
 		return source + tolerance > target && source - tolerance < target;
 	}
 
-	private Entity getTarget(){
+	public Entity getTarget(){
 		int eid = this.dataWatcher.getWatchableObjectInt(DW_TARGET_ID);
 		if (eid == -1) return null;
 		return this.worldObj.getEntityByID(eid);

@@ -82,7 +82,6 @@ public class EntitySpellProjectile extends Entity{
 		motionZ = MathHelper.cos((rotationYaw / 180F) * 3.141593F) * MathHelper.cos((rotationPitch / 180F) * 3.141593F) * f;
 		motionY = -MathHelper.sin((rotationPitch / 180F) * 3.141593F) * f;
 		maxTicksToExist = -1;
-		projectileSpeed = 0.1;
 		setSpellProjectileHeading(motionX, motionY, motionZ, projectileSpeed, projectileSpeed);
 	}
 	//=========================================================================
@@ -139,7 +138,7 @@ public class EntitySpellProjectile extends Entity{
 						this.posY + 15,
 						this.posZ + 15));
 
-		EntityLivingBase closest = this.getShootingEntity();
+		EntityLivingBase closest = null;
 		double curShortestDistance = 900;
 		AMVector3 me = new AMVector3(this);
 
@@ -202,15 +201,15 @@ public class EntitySpellProjectile extends Entity{
 		}
 
 		double hypotenuse = (double)MathHelper.sqrt_double(deltaX * deltaX + deltaZ * deltaZ);
-		float f2 = (float)(Math.atan2(deltaZ, deltaX) * 180.0D / Math.PI) - 90.0F;
-		float f3 = (float)(-(Math.atan2(deltaY, hypotenuse) * 180.0D / Math.PI));
+		float f2 = (float)(Math.atan2(deltaZ, deltaX));// * 180.0D / Math.PI) - 90.0F;
+		float f3 = (float)(Math.atan2(deltaY, hypotenuse));// * 180.0D / Math.PI);
 
-		//this.rotationPitch = this.updateRotation(this.rotationPitch, f3, maxPitch);
-		//this.rotationYaw = this.updateRotation(this.rotationYaw, f2, maxYaw);
+		this.rotationPitch = this.updateRotation(this.rotationPitch, f3, maxPitch);
+		this.rotationYaw = this.updateRotation(this.rotationYaw, f2, maxYaw);
 
-		this.motionX = Math.cos(f2) * 0.4;
-		this.motionZ = Math.sin(f2) * 0.4;
-		//this.motionY = Math.sin(this.rotationPitch);
+		this.motionX = Math.cos(rotationYaw) * 0.4;
+		this.motionZ = Math.sin(rotationYaw) * 0.4;
+		this.motionY = Math.sin(this.rotationPitch);
 	}
 
 	private float updateRotation(float p_70663_1_, float p_70663_2_, float p_70663_3_){
@@ -242,8 +241,8 @@ public class EntitySpellProjectile extends Entity{
 			}
 		}
 
-		//handle homing
-		if (this.dataWatcher.getWatchableObjectByte(DW_HOMING) == (byte)0 && this.ticksExisted > 10){
+		//TODO Fix homing
+		if (this.dataWatcher.getWatchableObjectByte(DW_HOMING) != (byte)0 && this.ticksExisted > 10){
 			if (this.dataWatcher.getWatchableObjectInt(DW_HOMING_TARGET) == -1){
 				findHomingTarget();
 
@@ -289,6 +288,9 @@ public class EntitySpellProjectile extends Entity{
 		}
 
 		if (entity != null){
+			if (entity instanceof EntityDragonPart && ((EntityDragonPart)entity).entityDragonObj != null && ((EntityDragonPart)entity).entityDragonObj instanceof EntityLivingBase) {
+				entity = (EntityLivingBase)((EntityDragonPart)entity).entityDragonObj;
+			}
 			movingobjectposition = new MovingObjectPosition(entity);
 		}
 		if (movingobjectposition != null){
@@ -362,14 +364,14 @@ public class EntitySpellProjectile extends Entity{
 		posX += motionX;
 		posY += motionY;
 		posZ += motionZ;
-		/*float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
-		rotationYaw = (float)((Math.atan2(motionX, motionZ) * 180D) / 3.1415927410125732D);
-		for (rotationPitch = (float)((Math.atan2(motionY, f) * 180D) / 3.1415927410125732D); rotationPitch - prevRotationPitch < -180F; prevRotationPitch -= 360F) { }
+		float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+		rotationYaw = (float)(Math.atan2(motionX, motionZ));
+		for (rotationPitch = (float)(Math.atan2(motionY, f)); rotationPitch - prevRotationPitch < -180F; prevRotationPitch -= 360F) { }
 		for (; rotationPitch - prevRotationPitch >= 180F; prevRotationPitch += 360F) { }
 		for (; rotationYaw - prevRotationYaw < -180F; prevRotationYaw -= 360F) { }
 		for (; rotationYaw - prevRotationYaw >= 180F; prevRotationYaw += 360F) { }
 		rotationPitch = prevRotationPitch + (rotationPitch - prevRotationPitch) * 0.2F;
-		rotationYaw = prevRotationYaw + (rotationYaw - prevRotationYaw) * 0.2F;*/
+		rotationYaw = prevRotationYaw + (rotationYaw - prevRotationYaw) * 0.2F;
 		float f1 = 0.95F;
 		if (isInWater()){
 			for (int k = 0; k < 4; k++){
@@ -508,6 +510,14 @@ public class EntitySpellProjectile extends Entity{
 
 	public void setNumPierces(int pierces){
 		this.dataWatcher.updateObject(DW_PIERCE_COUNT, pierces);
+	}
+
+	public boolean isHoming(){
+		return this.dataWatcher.getWatchableObjectByte(DW_HOMING) != 0;
+	}
+
+	public void setHoming(int homing){
+		this.dataWatcher.updateObject(DW_HOMING, (byte)homing);
 	}
 
 	@SideOnly(Side.CLIENT)

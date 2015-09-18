@@ -26,7 +26,7 @@ public class EntityAirGuardian extends AM2Boss{
 
 	public EntityAirGuardian(World par1World){
 		super(par1World);
-		this.setSize(1.0f, 2.0f);
+		this.setSize(0.6f, 2.5f);
 	}
 
 	@Override

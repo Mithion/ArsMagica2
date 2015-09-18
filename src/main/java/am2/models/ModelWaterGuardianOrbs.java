@@ -75,7 +75,7 @@ public class ModelWaterGuardianOrbs extends ModelBiped{
 		GL11.glPushMatrix();
 
 		if (entity != null)
-			GL11.glRotatef(entity.ticksExisted, 0, 1, 0);
+			GL11.glRotatef(f2, 0, 1, 0);
 
 		ornament4.render(f5);
 		ornament2.render(f5);

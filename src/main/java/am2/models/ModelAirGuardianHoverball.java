@@ -31,13 +31,16 @@ public class ModelAirGuardianHoverball extends ModelBase{
 	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		if (entity != null){
-			Ball1.rotateAngleX = (float)Math.toRadians(((EntityAirSled)entity).getRotation());
-			Ball1.rotateAngleY = (float)-Math.toRadians(-((EntityAirSled)entity).getRotation());
-			Ball1.rotateAngleZ = (float)-Math.toRadians(-((EntityAirSled)entity).getRotation());
+			Ball1.rotateAngleX = (float)Math.toRadians(((EntityAirSled)entity).getRotation() + (f2 - entity.ticksExisted)) + 0.7853982F;
+			Ball1.rotateAngleY = (float)-Math.toRadians(-((EntityAirSled)entity).getRotation() - (f2 - entity.ticksExisted));
+			Ball1.rotateAngleZ = (float)-Math.toRadians(-((EntityAirSled)entity).getRotation() - (f2 - entity.ticksExisted));
 
-			Ball2.rotateAngleX = (float)-Math.toRadians(((EntityAirSled)entity).getRotation());
-			Ball2.rotateAngleY = (float)Math.toRadians(((EntityAirSled)entity).getRotation());
-			Ball1.rotateAngleZ = (float)Math.toRadians(-((EntityAirSled)entity).getRotation());
+			Ball2.rotateAngleX = (float)-Math.toRadians(((EntityAirSled)entity).getRotation() + (f2 - entity.ticksExisted));
+			Ball2.rotateAngleY = (float)Math.toRadians(((EntityAirSled)entity).getRotation() + (f2 - entity.ticksExisted));
+			Ball2.rotateAngleZ = (float)Math.toRadians(-((EntityAirSled)entity).getRotation() - (f2 - entity.ticksExisted));
+		}else{
+			setRotation(Ball1, 0, 0, 0);
+			setRotation(Ball2, 0.7853982F, 0.7853982F, 0);
 		}
 		Ball1.render(f5);
 		Ball2.render(f5);
