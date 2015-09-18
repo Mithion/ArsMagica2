@@ -2,6 +2,7 @@ package am2.blocks;
 
 import am2.AMCore;
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntityKeystoneRecepticle;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.items.ItemKeystone;
@@ -52,7 +53,7 @@ public class BlockKeystoneReceptacle extends AMSpecialRenderPoweredBlock{
 
 
 		if (par5EntityPlayer.isSneaking()){
-			if (!par1World.isRemote && KeystoneUtilities.instance.canPlayerAccess(receptacle, par5EntityPlayer)){
+			if (!par1World.isRemote && KeystoneUtilities.instance.canPlayerAccess(receptacle, par5EntityPlayer, KeystoneAccessType.USE)){
 				FMLNetworkHandler.openGui(par5EntityPlayer, AMCore.instance, ArsMagicaGuiIdList.GUI_KEYSTONE_LOCKABLE, par1World, x, y, z);
 			}
 		}else{
