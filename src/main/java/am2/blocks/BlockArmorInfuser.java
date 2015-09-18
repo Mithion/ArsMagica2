@@ -1,7 +1,8 @@
 package am2.blocks;
 
 import am2.AMCore;
-import am2.api.blocks.IKeystoneLockable;
+// import am2.api.blocks.IKeystoneLockable;
+// import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntityArmorImbuer;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.texture.ResourceManager;
@@ -85,12 +86,16 @@ public class BlockArmorInfuser extends PoweredBlock{
 			return true;
 		}
 		if (!par1World.isRemote){
+			super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
+			FMLNetworkHandler.openGui(par5EntityPlayer, AMCore.instance, ArsMagicaGuiIdList.GUI_ARMOR_INFUSION, par1World, par2, par3, par4);
+			/*
 			if (KeystoneUtilities.HandleKeystoneRecovery(par5EntityPlayer, ((IKeystoneLockable)par1World.getTileEntity(par2, par3, par4))))
 				return true;
-			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)par1World.getTileEntity(par2, par3, par4), par5EntityPlayer)){
+			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)par1World.getTileEntity(par2, par3, par4), par5EntityPlayer, KeystoneAccessType.USE)){
 				super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
 				FMLNetworkHandler.openGui(par5EntityPlayer, AMCore.instance, ArsMagicaGuiIdList.GUI_ARMOR_INFUSION, par1World, par2, par3, par4);
 			}
+			*/
 		}
 		return true;
 	}
