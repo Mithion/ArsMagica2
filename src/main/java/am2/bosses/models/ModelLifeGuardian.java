@@ -182,8 +182,8 @@ public class ModelLifeGuardian extends ModelBase{
 		setRotation(Shape24, 0F, 0F, 0F);
 	}
 
-	public void setAngles(Entity e, float f5){
-		float angle = (e.ticksExisted + f5) * 0.05f;
+	public void setAngles(Entity e, float f, float f1, float f2, float f3, float f4, float f5){
+		float angle = (f2 + f5) * 0.05f;
 		setRotation(Shape21, 0, 0, angle);
 		setRotation(Shape22, 0, 0, angle);
 		setRotation(Shape23, angle, 0, 0);
@@ -194,9 +194,9 @@ public class ModelLifeGuardian extends ModelBase{
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		super.render(entity, f, f1, f2, f3, f4, f5);
 
-		setAngles(entity, f5);
+		setAngles(entity, f, f1, f2, f3, f4, f5);
 
-		float angle = (entity.ticksExisted + f5) * 2;
+		float angle = (f2 + f5) * 2;
 
 		//bottom bits
 		//Shape1.render(f5);
@@ -204,6 +204,7 @@ public class ModelLifeGuardian extends ModelBase{
 		//main body
 		GL11.glPushMatrix();
 		GL11.glRotatef(angle, 0, 1, 0);
+		GL11.glTranslatef(0, (float)Math.sin(f2 / 15f) / 10f, 0);
 		Shape3.render(f5);
 		Shape4.render(f5);
 		Shape5.render(f5);

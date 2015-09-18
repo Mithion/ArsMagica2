@@ -15,6 +15,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.HashMap;
 
 public class BuffList implements IBuffHelper{
@@ -65,8 +66,11 @@ public class BuffList implements IBuffHelper{
 	private static final HashMap<Integer, BuffEffect> utilityBuffs = new HashMap<Integer, BuffEffect>();
 	private static final ArrayList<ArsMagicaPotion> arsMagicaPotions = new ArrayList<ArsMagicaPotion>();
 	private static ArrayList<Integer> dispelBlacklist;
+	
 
 	public static final BuffList instance = new BuffList();
+
+	private static HashMap<Integer, Potion> ourInitialPotionAllocations;
 
 	private BuffList(){
 
@@ -78,12 +82,36 @@ public class BuffList implements IBuffHelper{
 		index = AMCore.config.getConfigurablePotionID(configID, index);
 
 		FMLLog.info("Ars Magica 2 >> Potion %s is ID %d", name, index);
+		
+		if (Potion.potionTypes[index] != null){
+			FMLLog.severe("Ars Magica 2 >> Warning: Potion index %d is already occupied by potion %s. Check your config files for clashes.", index, Potion.potionTypes[index].getName());
+		}
 
 		ArsMagicaPotion potion = new ArsMagicaPotion(index, isBadEffect, 0x000000);
 		potion.setPotionName(name);
 		potion._setIconIndex(iconCol, IIconRow);
 		classesForBuffID.put(index, buffEffectClass);
 		arsMagicaPotions.add(potion);
+		ourInitialPotionAllocations.put(index, potion);
+		
+		return potion;
+	}
+
+	private static ManaPotion createManaPotion(int index, String name, int IIconRow, int iconCol, boolean isBadEffect, int colour){
+		String configID = name.replace(" ", "").toLowerCase().trim();
+		index = AMCore.config.getConfigurablePotionID(configID, index);
+		
+		FMLLog.info("Ars Magica 2 >> Potion %s is ID %d", name, index);
+		
+		if (Potion.potionTypes[index] != null){
+			FMLLog.severe("Ars Magica 2 >> Warning: Potion index %d is already occupied by potion %s. Check your config files for clashes.", index, Potion.potionTypes[index].getName());
+		}
+		
+		ManaPotion potion = new ManaPotion(index, isBadEffect, colour);
+		potion.setPotionName(name);
+		potion._setIconIndex(iconCol, IIconRow);
+		ourInitialPotionAllocations.put(index, potion);
+		
 		return potion;
 	}
 
@@ -101,6 +129,7 @@ public class BuffList implements IBuffHelper{
 		dispelBlacklist = new ArrayList<Integer>();
 		particlesForBuffID = new HashMap<Integer, Integer>();
 		classesForBuffID = new HashMap<Integer, Class>();
+		ourInitialPotionAllocations = new HashMap<Integer, Potion>();
 
 		try{
 			extendPotionsArray();
@@ -113,6 +142,15 @@ public class BuffList implements IBuffHelper{
 		}catch (Throwable t){
 			FMLLog.severe("Ars Magica >> Buffs failed to initialize!  This will make the game very unstable!");
 			t.printStackTrace();
+		}
+	}
+
+	public static void postInit(){
+		// potion clash detection
+		for (Map.Entry<Integer, Potion> entry : ourInitialPotionAllocations.entrySet()){
+			if (Potion.potionTypes[entry.getKey()] != entry.getValue()){
+				FMLLog.severe("Ars Magica 2 >> Error: my potion, %s, at index %d has been over-written by another potion, %s. You have a conflict in your configuration files.", entry.getValue().getName(), entry.getKey(), Potion.potionTypes[entry.getKey()].getName());
+			}
 		}
 	}
 
@@ -141,18 +179,21 @@ public class BuffList implements IBuffHelper{
 		fury = createAMPotion(potionDefaultOffset + 21, "Fury", 1, 6, false, BuffEffectFury.class);
 		scrambleSynapses = createAMPotion(potionDefaultOffset + 22, "Scramble Synapses", 1, 7, true, BuffEffectScrambleSynapses.class);
 		illumination = createAMPotion(potionDefaultOffset + 23, "Illuminated", 1, 0, false, BuffEffectIllumination.class);
+		
+		greaterManaPotion = createManaPotion(potionDefaultOffset + 24, "Greater Mana Restoration", 0, 1, false, 0x40c6be);
+		// greaterManaPotion = new ManaPotion(potionDefaultOffset + 24, false, 0x40c6be);
+		// greaterManaPotion.setPotionName("Greater Mana Restoration");
+		// greaterManaPotion._setIconIndex(0, 1);
 
-		greaterManaPotion = new ManaPotion(potionDefaultOffset + 24, false, 0x40c6be);
-		greaterManaPotion.setPotionName("Greater Mana Restoration");
-		greaterManaPotion._setIconIndex(0, 1);
+		epicManaPotion = createManaPotion(potionDefaultOffset + 25, "Epic Mana Restoration", 0, 1, false, 0xFF00FF);
+		// epicManaPotion = new ManaPotion(potionDefaultOffset + 25, false, 0xFF00FF);
+		// epicManaPotion.setPotionName("Epic Mana Restoration");
+		// epicManaPotion._setIconIndex(0, 1);
 
-		epicManaPotion = new ManaPotion(potionDefaultOffset + 25, false, 0xFF00FF);
-		epicManaPotion.setPotionName("Epic Mana Restoration");
-		epicManaPotion._setIconIndex(0, 1);
-
-		legendaryManaPotion = new ManaPotion(potionDefaultOffset + 26, false, 0xFFFF00);
-		legendaryManaPotion.setPotionName("Legendary Mana Restoration");
-		legendaryManaPotion._setIconIndex(0, 1);
+		legendaryManaPotion = createManaPotion(potionDefaultOffset + 26, "Legendary Mana Restoration", 0, 1, false, 0xFFFF00);
+		// legendaryManaPotion = new ManaPotion(potionDefaultOffset + 26, false, 0xFFFF00);
+		// legendaryManaPotion.setPotionName("Legendary Mana Restoration");
+		// legendaryManaPotion._setIconIndex(0, 1);
 
 		gravityWell = createAMPotion(potionDefaultOffset + 27, "Gravity Well", 0, 6, true, BuffEffectGravityWell.class);
 		levitation = createAMPotion(potionDefaultOffset + 28, "Levitation", 0, 7, false, BuffEffectLevitation.class);

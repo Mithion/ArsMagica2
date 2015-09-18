@@ -28,7 +28,7 @@ public class EntityWinterGuardian extends AM2Boss{
 
 	public EntityWinterGuardian(World par1World){
 		super(par1World);
-		this.setSize(1.0f, 2.0f);
+		this.setSize(1.25f, 3.25f);
 		hasRightArm = true;
 		hasLeftArm = true;
 	}

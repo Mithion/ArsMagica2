@@ -7,6 +7,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
+import org.lwjgl.opengl.GL11;
 import thehippomaster.AnimationAPI.IAnimatedEntity;
 import thehippomaster.AnimationAPI.client.Animator;
 
@@ -77,9 +78,9 @@ public class ModelEnderGuardian extends ModelBase{
 		SpineMiddleTop.setRotationPoint(-1F, 4F, 2F);
 		SpineTop.setRotationPoint(-1F, 1F, 2F);
 
-		LeftWingLower.setRotationPoint(3F, 0F, 1F);
-		LeftWingUpper.setRotationPoint(10F, 0F, 0F);
-		LeftWing.setRotationPoint(-1F, 2F, 0F);
+		LeftWingLower.setRotationPoint(3F, 0F, 3F);
+		LeftWingUpper.setRotationPoint(-10F, 0F, 0F);
+		LeftWing.setRotationPoint(-15F, 2F, 2F);
 
 		RightWingLower.setRotationPoint(-3F, 0F, 3F);
 		RightWingUpper.setRotationPoint(10F, 0F, 0F);
@@ -103,11 +104,11 @@ public class ModelEnderGuardian extends ModelBase{
 		SpineMiddleBottom.addBox(0F, 0F, 0F, 2, 2, 1);
 		SpineMiddleTop.addBox(0F, 0F, 0F, 2, 2, 1);
 		SpineTop.addBox(0F, 0F, 0F, 2, 2, 1);
-		LeftWingLower.addBox(0F, 0F, 0F, 10, 2, 2);
+		LeftWingLower.addBox(-10F, 0F, 0F, 10, 2, 2);
 		RightWingLower.addBox(0F, 0F, 0F, 10, 2, 2);
-		LeftWingUpper.addBox(0F, 0F, 0F, 14, 2, 2);
+		LeftWingUpper.addBox(-14F, 0F, 0F, 14, 2, 2);
 		RightWingUpper.addBox(0F, 0F, 0F, 14, 2, 2);
-		LeftWing.addBox(0F, 0F, 0F, 15, 20, 0);
+		LeftWing.addBox(-15F, 0F, 0F, 15, 20, 0);
 		RightWing.addBox(0F, 0F, 0F, 15, 20, 0);
 		Tail.addBox(0F, 0F, 0F, 2, 16, 2);
 	}
@@ -200,11 +201,11 @@ public class ModelEnderGuardian extends ModelBase{
 		setRotation(SpineMiddleTop, 0F, 0F, 0F);
 		setRotation(SpineTop, 0F, 0F, 0F);
 
-		setRotation(LeftWingLower, -0.7F, -1F, 0F);
+		setRotation(LeftWingLower, 0.7F, -4.14F, 0F);
 		setRotation(RightWingLower, 0.7F, 4.14F, 0F);
-		setRotation(LeftWingUpper, 0.5F, 1.2F, 0F);
+		setRotation(LeftWingUpper, -0.5F, 1.2F, 0F);
 		setRotation(RightWingUpper, -0.5F, -1.2F, 0F);
-		setRotation(LeftWing, 0F, 0F, 0F);
+		setRotation(LeftWing, 0F, 3.1415926F, 0F);
 		setRotation(RightWing, 0F, 0F, 0F);
 
 		setRotation(Tail, 0.5585054F, 0F, 0F);
@@ -260,25 +261,33 @@ public class ModelEnderGuardian extends ModelBase{
 	}
 
 	private void flapWings(EntityEnderGuardian entity, float f, float f1, float f2, float f3, float f4, float f5){
-		float angle = MathHelper.sin((entity.getWingFlapTime() + f5) * entity.getWingFlapSpeed()) / 3 * 2;
+		float angle = MathHelper.sin((entity.getWingFlapTime() + f2 - entity.ticksExisted + f5) * entity.getWingFlapSpeed()) / 3 * 2;
 		float halfangle = angle * 1.5f;
 
-		setOffsetRotation(LeftWingLower, -angle, -angle, 0);
+		setOffsetRotation(LeftWingLower, angle, -angle, 0);
 		setOffsetRotation(LeftWingUpper, 0, -halfangle, 0);
 		setOffsetRotation(RightWingLower, angle, angle, 0);
 		setOffsetRotation(RightWingUpper, 0, halfangle, 0);
+		GL11.glTranslatef(0, MathHelper.sin((entity.getWingFlapTime() + f2 - entity.ticksExisted + f5) * entity.getWingFlapSpeed()) / 8, 0);
 	}
 
 	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5){
 		super.render(entity, f, f1, f2, f3, f4, f5);
+		GL11.glEnable(GL11.GL_NORMALIZE);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 		animate((IAnimatedEntity)entity, f, f1, f2, f3, f4, f5);
+		GL11.glPushMatrix();
 
 		if (((EntityEnderGuardian)entity).shouldFlapWings())
 			flapWings((EntityEnderGuardian)entity, f, f1, f2, f3, f4, f5);
 
 		Body.render(f5);
+		GL11.glPopMatrix();
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glColor4f(1, 1, 1, 1);
 	}
 
 	private void setAngles(){

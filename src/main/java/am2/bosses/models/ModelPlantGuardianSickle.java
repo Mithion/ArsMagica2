@@ -63,7 +63,7 @@ public class ModelPlantGuardianSickle extends ModelBase{
 		if (spin){
 			GL11.glRotatef(-entity.rotationYaw, 0, 1, 0);
 
-			float rotation = (entity.ticksExisted * 36) % 360;
+			float rotation = (f2 * 36) % 360;
 			GL11.glRotatef(rotation, 1, 0, 0);
 		}
 

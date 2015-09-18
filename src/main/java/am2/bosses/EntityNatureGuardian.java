@@ -34,7 +34,7 @@ public class EntityNatureGuardian extends AM2Boss{
 
 	public EntityNatureGuardian(World par1World){
 		super(par1World);
-		this.setSize(2.0f, 5.0f);
+		this.setSize(1.65f, 4.75f);
 		hasSickle = true;
 	}
 
