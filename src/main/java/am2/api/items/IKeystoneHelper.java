@@ -1,6 +1,7 @@
 package am2.api.items;
 
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.items.KeystoneAccessType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -26,7 +27,8 @@ public interface IKeystoneHelper{
 	 *
 	 * @param inventory The inventory the player is trying to access
 	 * @param player    The player attempting the access check
+	 * @param accessMode The operation which you're trying to carry out - this determines the error message if you lack the requisite keystone.
 	 * @return True if the conditions are met, otherwise false
 	 */
-	public boolean canPlayerAccess(IKeystoneLockable inventory, EntityPlayer player);
+	public boolean canPlayerAccess(IKeystoneLockable inventory, EntityPlayer player, KeystoneAccessType accessMode);
 }
