@@ -2,6 +2,7 @@ package am2.blocks;
 
 import am2.AMCore;
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntityCalefactor;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.texture.ResourceManager;
@@ -39,7 +40,7 @@ public class BlockCalefactor extends AMSpecialRenderPoweredBlock{
 		if (!par1World.isRemote){
 			if (KeystoneUtilities.HandleKeystoneRecovery(par5EntityPlayer, ((IKeystoneLockable)par1World.getTileEntity(par2, par3, par4))))
 				return true;
-			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)par1World.getTileEntity(par2, par3, par4), par5EntityPlayer)){
+			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)par1World.getTileEntity(par2, par3, par4), par5EntityPlayer, KeystoneAccessType.USE)){
 				super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
 				FMLNetworkHandler.openGui(par5EntityPlayer, AMCore.instance, ArsMagicaGuiIdList.GUI_CALEFACTOR, par1World, par2, par3, par4);
 			}
@@ -89,7 +90,7 @@ public class BlockCalefactor extends AMSpecialRenderPoweredBlock{
 	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z){
 		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(x, y, z);
-		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player)) return false;
+		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player, KeystoneAccessType.BREAK)) return false;
 
 		return super.removedByPlayer(world, player, x, y, z);
 	}

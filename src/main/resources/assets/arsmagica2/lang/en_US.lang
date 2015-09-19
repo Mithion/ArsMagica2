@@ -507,6 +507,9 @@ am2.tooltip.disconnectPower=All power sources to this block were disconnected.
 am2.tooltip.noPriIn=Input Markers cannot have a priority level set.
 am2.tooltip.priSet=Priority level changed to %s.
 am2.tooltip.priority=Priority: %s
+am2.tooltip.noKeyPresent=There is no keystone lock present here.
+am2.tooltip.wrongKeystoneUse=You do not have the right keystone to use this block.
+am2.tooltip.wrongKeystoneBreak=You do not have the right keystone to break this block.
 
 key.activateAffinityAbility=Affinity Ability
 

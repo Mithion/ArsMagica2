@@ -3,6 +3,7 @@ package am2.blocks;
 import am2.AMCore;
 import am2.blocks.tileentities.TileEntityParticleEmitter;
 import am2.items.ItemsCommonProxy;
+import am2.items.ItemCrystalWrench;
 import am2.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,6 +18,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -39,6 +41,28 @@ public class BlockParticleEmitter extends AMBlockContainer{
 	@Override
 	public boolean isOpaqueCube(){
 		return false;
+	}
+
+	@Override
+	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z){
+		TileEntityParticleEmitter tile = (TileEntityParticleEmitter)world.getTileEntity(x, y, z);
+		if(tile != null && !tile.getShow())
+			return false;
+		
+		return super.removedByPlayer(world, player, x, y, z);
+	}
+
+	@Override
+	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion){
+	  TileEntity te = world.getTileEntity(x, y, z);
+	  TileEntityParticleEmitter te2 = null;
+	  if (te instanceof TileEntityParticleEmitter)
+	    te2 = (TileEntityParticleEmitter)te;
+	  if (te2 == null)
+	    super.onBlockExploded(world, x, y, z, explosion);
+	  if (te2 != null && te2.getShow())
+	    super.onBlockExploded(world, x, y, z, explosion);
+	  // do not explode the block if it's invisible
 	}
 
 	@Override
@@ -111,21 +135,30 @@ public class BlockParticleEmitter extends AMBlockContainer{
 		if (par1World.isRemote){
 			TileEntity te = par1World.getTileEntity(par2, par3, par4);
 			if (te != null && te instanceof TileEntityParticleEmitter){
-				if (par5EntityPlayer.inventory.getCurrentItem() != null && par5EntityPlayer.inventory.getCurrentItem().getItem() == ItemsCommonProxy.crystalWrench){
-					if (AMCore.proxy.cwCopyLoc == null){
-						par5EntityPlayer.addChatMessage(new ChatComponentText("Settings Copied."));
-						AMCore.proxy.cwCopyLoc = new NBTTagCompound();
-						((TileEntityParticleEmitter)te).writeSettingsToNBT(AMCore.proxy.cwCopyLoc);
-					}else{
-						((TileEntityParticleEmitter)te).readSettingsFromNBT(AMCore.proxy.cwCopyLoc);
-						((TileEntityParticleEmitter)te).syncWithServer();
-						AMCore.proxy.cwCopyLoc = null;
-					}
-				}else{
+			      if (par5EntityPlayer.inventory.getCurrentItem() != null && par5EntityPlayer.inventory.getCurrentItem().getItem() == ItemsCommonProxy.crystalWrench){
+				      if (ItemCrystalWrench.getMode(par5EntityPlayer.inventory.getCurrentItem()) == 0){
 					AMCore.proxy.openParticleBlockGUI(par1World, par5EntityPlayer, (TileEntityParticleEmitter)te);
-				}
+				      }
+				      else{
+					      if (AMCore.proxy.cwCopyLoc == null){
+						      par5EntityPlayer.addChatMessage(new ChatComponentText("Settings Copied."));
+						      AMCore.proxy.cwCopyLoc = new NBTTagCompound();
+						      ((TileEntityParticleEmitter)te).writeSettingsToNBT(AMCore.proxy.cwCopyLoc);
+					      }else{
+						      par5EntityPlayer.addChatMessage(new ChatComponentText("Settings Applied."));
+						      ((TileEntityParticleEmitter)te).readSettingsFromNBT(AMCore.proxy.cwCopyLoc);
+						      ((TileEntityParticleEmitter)te).syncWithServer();
+						      AMCore.proxy.cwCopyLoc = null;
+					      }
+				      }
+				      return true;
+			      }
+			      else{
+				AMCore.proxy.openParticleBlockGUI(par1World, par5EntityPlayer, (TileEntityParticleEmitter)te);
+				      return true;
+			      }
 			}
 		}
-		return true;
+		return false;
 	}
 }

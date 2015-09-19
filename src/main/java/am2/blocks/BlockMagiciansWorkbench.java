@@ -2,6 +2,7 @@ package am2.blocks;
 
 import am2.AMCore;
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntityMagiciansWorkbench;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.items.ItemsCommonProxy;
@@ -82,7 +83,7 @@ public class BlockMagiciansWorkbench extends AMSpecialRenderBlockContainer{
 			if (KeystoneUtilities.HandleKeystoneRecovery(player, (IKeystoneLockable)te))
 				return true;
 
-			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)te, player)){
+			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)te, player, KeystoneAccessType.USE)){
 
 				super.onBlockActivated(world, x, y, z, player, par6, par7, par8, par9);
 
@@ -114,6 +115,20 @@ public class BlockMagiciansWorkbench extends AMSpecialRenderBlockContainer{
 	@Override
 	public void registerBlockIcons(IIconRegister par1IconRegister){
 		this.blockIcon = ResourceManager.RegisterTexture("plankWitchwood", par1IconRegister);
+	}
+
+	@Override
+	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player){
+	  TileEntityMagiciansWorkbench receptacle = (TileEntityMagiciansWorkbench)world.getTileEntity(x, y, z);
+	  if (receptacle == null)
+	    return;
+	  if (KeystoneUtilities.instance.canPlayerAccess(receptacle, player, KeystoneAccessType.BREAK)){
+	    for (int i = receptacle.getSizeInventory() - 3; i < receptacle.getSizeInventory(); i++){
+	      receptacle.decrStackSize(i, 9001);
+	      // arbitrary number, just in case rune stack sizes increase in the future
+	      // yes, it's hard-coded; yes, it's also less computationally intensive than a stack size lookup
+	    }
+	  }
 	}
 
 	@Override
@@ -154,13 +169,27 @@ public class BlockMagiciansWorkbench extends AMSpecialRenderBlockContainer{
 				world.spawnEntityInWorld(entityitem);
 			}while (true);
 		}
+
+		if(workbench.getUpgradeStatus(TileEntityMagiciansWorkbench.UPG_CRAFT)){
+			float f = rand.nextFloat() * 0.8F + 0.1F;
+			float f1 = rand.nextFloat() * 0.8F + 0.1F;
+			float f2 = rand.nextFloat() * 0.8F + 0.1F;
+			ItemStack newItem = new ItemStack(ItemsCommonProxy.workbenchUpgrade, 1);
+			EntityItem entityitem = new EntityItem(world, i + f, j + f1, k + f2, newItem);
+			float f3 = 0.05F;
+			entityitem.motionX = (float)rand.nextGaussian() * f3;
+			entityitem.motionY = (float)rand.nextGaussian() * f3 + 0.2F;
+			entityitem.motionZ = (float)rand.nextGaussian() * f3;
+			world.spawnEntityInWorld(entityitem);
+		}
+		
 		super.breakBlock(world, i, j, k, par5, metadata);
 	}
 
 	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z){
 		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(x, y, z);
-		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player)) return false;
+		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player, KeystoneAccessType.BREAK)) return false;
 
 		return super.removedByPlayer(world, player, x, y, z);
 	}

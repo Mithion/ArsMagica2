@@ -2,6 +2,7 @@ package am2.blocks;
 
 import am2.AMCore;
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntityKeystoneRecepticle;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.items.ItemKeystone;
@@ -16,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class BlockKeystoneReceptacle extends AMSpecialRenderPoweredBlock{
@@ -51,7 +53,7 @@ public class BlockKeystoneReceptacle extends AMSpecialRenderPoweredBlock{
 
 
 		if (par5EntityPlayer.isSneaking()){
-			if (!par1World.isRemote && KeystoneUtilities.instance.canPlayerAccess(receptacle, par5EntityPlayer)){
+			if (!par1World.isRemote && KeystoneUtilities.instance.canPlayerAccess(receptacle, par5EntityPlayer, KeystoneAccessType.USE)){
 				FMLNetworkHandler.openGui(par5EntityPlayer, AMCore.instance, ArsMagicaGuiIdList.GUI_KEYSTONE_LOCKABLE, par1World, x, y, z);
 			}
 		}else{
@@ -104,7 +106,7 @@ public class BlockKeystoneReceptacle extends AMSpecialRenderPoweredBlock{
 		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(x, y, z);
 		if (KeystoneUtilities.instance.getKeyFromRunes(lockable.getRunesInKey()) != 0){
 			if (!world.isRemote)
-				player.addChatMessage(new ChatComponentText("am2.tooltip.clearKey"));
+				player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.clearKey")));
 			return false;
 		}
 

@@ -9,6 +9,7 @@ import am2.armor.infusions.GenericImbuement;
 import am2.blocks.BlockCrystalMarker;
 import am2.blocks.BlocksCommonProxy;
 import am2.blocks.tileentities.TileEntityCrystalMarker;
+import am2.blocks.tileentities.TileEntityParticleEmitter;
 import am2.buffs.BuffList;
 import am2.entities.EntityShadowHelper;
 import am2.guis.AMGuiHelper;
@@ -33,6 +34,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Facing;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.MouseEvent;
@@ -42,6 +44,7 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
@@ -326,6 +329,23 @@ public class AMClientEventHandler{
 	public void onEntityJoinWorld(EntityJoinWorldEvent event){
 		if (event.entity instanceof EntityShadowHelper){
 			((EntityShadowHelper)event.entity).onJoinWorld(event.world);
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerInteract(PlayerInteractEvent event){
+		if(event.face == -1){
+			return;
+		}
+		
+		Block block = event.world.getBlock(event.x + Facing.offsetsXForSide[event.face], event.y + Facing.offsetsYForSide[event.face], event.z + Facing.offsetsZForSide[event.face]);
+		
+		if (block == BlocksCommonProxy.particleEmitter){
+			TileEntity te = event.world.getTileEntity(event.x + Facing.offsetsXForSide[event.face], event.y + Facing.offsetsYForSide[event.face], event.z + Facing.offsetsZForSide[event.face]);
+			
+			if (te != null && te instanceof TileEntityParticleEmitter && !((TileEntityParticleEmitter)te).getShow()){
+				event.setCanceled(true);
+		  }
 		}
 	}
 }

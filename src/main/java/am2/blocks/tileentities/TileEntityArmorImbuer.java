@@ -1,6 +1,6 @@
 package am2.blocks.tileentities;
 
-import am2.api.blocks.IKeystoneLockable;
+// import am2.api.blocks.IKeystoneLockable;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.power.PowerTypes;
 import am2.armor.ArmorHelper;
@@ -15,7 +15,8 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraftforge.common.util.Constants;
 
-public class TileEntityArmorImbuer extends TileEntityAMPower implements IInventory, IKeystoneLockable, IMultiblockStructureController{
+// public class TileEntityArmorImbuer extends TileEntityAMPower implements IInventory, IKeystoneLockable, IMultiblockStructureController{
+public class TileEntityArmorImbuer extends TileEntityAMPower implements IInventory, IMultiblockStructureController{
 
 	private ItemStack[] inventory;
 	private MultiblockStructureDefinition def;
@@ -41,6 +42,7 @@ public class TileEntityArmorImbuer extends TileEntityAMPower implements IInvento
 		return 10;
 	}
 
+	/*
 	@Override
 	public ItemStack[] getRunesInKey(){
 		return new ItemStack[]{
@@ -49,6 +51,7 @@ public class TileEntityArmorImbuer extends TileEntityAMPower implements IInvento
 				inventory[3]
 		};
 	}
+	*/
 
 	@Override
 	public Packet getDescriptionPacket(){
@@ -63,6 +66,7 @@ public class TileEntityArmorImbuer extends TileEntityAMPower implements IInvento
 		this.readFromNBT(pkt.func_148857_g());
 	}
 
+	/*
 	@Override
 	public boolean keystoneMustBeHeld(){
 		return false;
@@ -72,6 +76,7 @@ public class TileEntityArmorImbuer extends TileEntityAMPower implements IInvento
 	public boolean keystoneMustBeInActionBar(){
 		return false;
 	}
+	*/
 
 	@Override
 	public int getSizeInventory(){
