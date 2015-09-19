@@ -191,7 +191,9 @@ public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss, IEnti
 
 		if (parts != null && parts[0] != null && parts[0].field_146032_b == "defaultBody"){
 			parts[0].setPosition(this.posX, this.posY, this.posZ);
-			parts[0].setVelocity(this.motionX, this.motionY, this.motionZ);
+			if (worldObj.isRemote){
+			      parts[0].setVelocity(this.motionX, this.motionY, this.motionZ);
+			}
 			if (!parts[0].addedToChunk){
 				this.worldObj.spawnEntityInWorld(parts[0]);
 			}
