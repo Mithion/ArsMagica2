@@ -1065,7 +1065,7 @@
 	  turns red.  To switch it back, simply repeat the sneak right click to change the crystal back to purple.  If you have a stored location, it will need to be cleared first before the mode can be switched (which is 
 	  also done by sneak right-clicking a non-powered block).
 	  !p 
-	  The crystal wrench can also be used to show hidden particle emitters, and can copy their settings by right clicking.  The settings can then be pasted to another emitter by right clicking.  
+	  The crystal wrench can also be used to show hidden particle emitters, and can copy their settings by right clicking when in unlink mode.  The settings can then be pasted to another emitter by right clicking.  
 	  Each time you "paste" settings, you will need to copy them again if you wish to paste to additional emitters.</desc>
       <relatedEntries>obelisk,mana_battery</relatedEntries>
     </item>
@@ -2165,7 +2165,7 @@
     </block>
     <block id="particleEmitter" unlocked="true">
       <name>Particle Emitter</name>
-      <desc>Purely a decoration block, the particle emitter can be used to create a magical feel in any area.  The emitter can be customized by right clicking it, and it can be hidden.  If hidden, simply holding a crystal wrench while near it will cause it to be visible again.  Right clicking a particle emitter with a crystal wrench will cause its settings to be copied.  Right clicking another particle emitter will copy those settings to the second emitter.</desc>
+      <desc>Purely a decoration block, the particle emitter can be used to create a magical feel in any area.  The emitter can be customized by right clicking it, and it can be hidden.  If hidden, simply holding a crystal wrench while near it will cause it to be visible again.  Right clicking a particle emitter with a crystal wrench in unlink mode will cause its settings to be copied.  Right clicking another particle emitter while also in unlink mode will copy those settings to the second emitter.</desc>
       <relatedEntries></relatedEntries>
     </block>
     <block id="aum">

@@ -2,6 +2,7 @@ package am2.blocks;
 
 import am2.AMCore;
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntitySeerStone;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.texture.ResourceManager;
@@ -130,7 +131,7 @@ public class BlockSeerStone extends AMSpecialRenderPoweredBlock{
 			return true;
 		}
 
-		if (!KeystoneUtilities.instance.canPlayerAccess(sste, par5EntityPlayer)){
+		if (!KeystoneUtilities.instance.canPlayerAccess(sste, par5EntityPlayer, KeystoneAccessType.USE)){
 			return true;
 		}
 
@@ -153,7 +154,7 @@ public class BlockSeerStone extends AMSpecialRenderPoweredBlock{
 	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z){
 		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(x, y, z);
-		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player)) return false;
+		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player, KeystoneAccessType.BREAK)) return false;
 
 		return super.removedByPlayer(world, player, x, y, z);
 	}

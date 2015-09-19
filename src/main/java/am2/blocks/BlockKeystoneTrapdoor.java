@@ -2,6 +2,7 @@ package am2.blocks;
 
 import am2.AMCore;
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntityKeystoneDoor;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.texture.ResourceManager;
@@ -37,7 +38,7 @@ public class BlockKeystoneTrapdoor extends BlockTrapDoor implements ITileEntityP
 		if (!world.isRemote){
 			if (KeystoneUtilities.HandleKeystoneRecovery(player, (IKeystoneLockable)te))
 				return true;
-			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)te, player)){
+			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)te, player, KeystoneAccessType.USE)){
 				if (player.isSneaking()){
 					FMLNetworkHandler.openGui(player, AMCore.instance, ArsMagicaGuiIdList.GUI_KEYSTONE_LOCKABLE, world, x, y, z);
 				}else{
@@ -53,7 +54,7 @@ public class BlockKeystoneTrapdoor extends BlockTrapDoor implements ITileEntityP
 	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z){
 		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(x, y, z);
-		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player)) return false;
+		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player, KeystoneAccessType.BREAK)) return false;
 
 		return super.removedByPlayer(world, player, x, y, z);
 	}
