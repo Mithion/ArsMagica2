@@ -33,6 +33,9 @@ public class Dispel implements ISpellComponent{
 
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+		if (world.isRemote){
+			return false;
+		}
 
 		if (!(target instanceof EntityLivingBase) || target instanceof IBossDisplayData) return false;
 
