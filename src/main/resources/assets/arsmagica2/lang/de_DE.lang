@@ -142,6 +142,9 @@ tile.arsmagica2:witchwoodSingleSlab.name=Hexholzstufe
 tile.arsmagica2:stairsWitchwood.name=Hexholztreppe
 tile.arsmagica2:liquidEssence.name=Flüssige Essenz
 
+#fluids
+fluid.liquidEssence=Flüssige Essenz
+
 #entities
 entity.arsmagica2.EarthElemental.name=Erdelementar
 entity.arsmagica2.MobFireElemental.name=Feuerelementar
