@@ -22,8 +22,9 @@ group= "am2" // http://maven.apache.org/guides/mini/guide-naming-conventions.htm
 archivesBaseName = "AM2"
 
 minecraft {
-    version = "1.7.10-10.13.0.1180"
-    assetDir = "eclipse/assets"
+    version = "1.7.10-10.13.4.1492-1.7.10"
+    runDir = "run"
+    //mappings = "stable_12"  //uncomment this line to use newest Forge mappings. Needs a lot of rework.
 }
 
 jar {
