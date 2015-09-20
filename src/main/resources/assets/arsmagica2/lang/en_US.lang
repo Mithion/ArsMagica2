@@ -235,6 +235,7 @@ tile.arsmagica2:keystoneDoor.name=Keystone Door
 tile.arsmagica2:otherworld_aura.name=Otherworld Aura
 tile.arsmagica2:magetorch.name=Mage Light
 tile.arsmagica2:spell_sealed_door.name=Spell-Sealed Door
+tile.arsmagica2:liquidEssence.name=Liquid Etherium
 
 #entities
 entity.arsmagica2.EarthElemental.name=Earth Elemental
