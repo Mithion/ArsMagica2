@@ -41,6 +41,7 @@ import net.minecraft.command.ServerCommandManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.BiomeManager;
@@ -210,11 +211,11 @@ public class AMCore{
 		serverCommandManager.registerCommand(new GiveSkillPoints());
 		serverCommandManager.registerCommand(new TakeSkillPoints());
 		serverCommandManager.registerCommand(new ClearKnownSpellParts());
-		serverCommandManager.registerCommand(new ConfigureAMUICommand());
 		serverCommandManager.registerCommand(new Explosions());
 		serverCommandManager.registerCommand(new DumpNBT());
 		serverCommandManager.registerCommand(new Respec());
 		serverCommandManager.registerCommand(new UnlockCompendiumEntry());
+		ClientCommandHandler.instance.registerCommand(new ConfigureAMUICommand());
 	}
 
 	@EventHandler

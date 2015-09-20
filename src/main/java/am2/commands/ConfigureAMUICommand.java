@@ -1,9 +1,9 @@
 package am2.commands;
 
-import am2.AMCore;
+import am2.guis.GuiHudCustomization;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayerMP;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +39,11 @@ public class ConfigureAMUICommand extends CommandBase{
 
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring){
-		EntityPlayerMP player = getCommandSenderAsPlayer(icommandsender);
-		AMCore.proxy.guiManager.showUICustomizationScreen(player);
+		new Thread(){
+			public void run(){
+				Minecraft.getMinecraft().displayGuiScreen(new GuiHudCustomization());
+			}
+		}.start();
 	}
 
 }
