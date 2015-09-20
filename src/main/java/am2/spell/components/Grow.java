@@ -111,6 +111,21 @@ public class Grow implements ISpellComponent{
 		if (world.rand.nextInt(10) < 8)
 			return true;
 
+		// EoD: Apply vanilla bonemeal effect to growables. See ItemDye.applyBonemeal()
+		if (block instanceof IGrowable){
+			IGrowable igrowable = (IGrowable)block;
+			//FMLLog.getLogger().info("Grow component found IGrowable");
+
+			if (igrowable.func_149851_a(world, blockx, blocky, blockz, world.isRemote)){
+				if (!world.isRemote){
+					if (igrowable.func_149852_a(world, world.rand, blockx, blocky, blockz)){
+						igrowable.func_149853_b(world, world.rand, blockx, blocky, blockz);
+					}
+				}
+				return true;
+			}
+		}
+
 		if (!world.isRemote){
 			blocky++;
 			if (world.getBlock(blockx, blocky, blockz) == Blocks.air){
