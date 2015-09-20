@@ -23,7 +23,7 @@ archivesBaseName = "AM2"
 
 minecraft {
     version = "1.7.10-10.13.0.1180"
-    assetDir = "eclipse/assets"
+    runDir = "run"
 }
 
 jar {
