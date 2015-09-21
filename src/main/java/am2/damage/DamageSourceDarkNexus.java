@@ -5,7 +5,7 @@ import net.minecraft.util.DamageSource;
 public class DamageSourceDarkNexus extends DamageSource{
 
 	protected DamageSourceDarkNexus(){
-		super("DarkNexus");
+		super("am2.darkNexus");
 	}
 
 }
