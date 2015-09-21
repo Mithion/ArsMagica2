@@ -62,7 +62,7 @@ public class Dispel implements ISpellComponent{
 				magnitudeLeft -= magnitudeCost;
 				effectsToRemove.add(potionID);
 
-				if (pe instanceof BuffEffect){
+				if (pe instanceof BuffEffect && !world.isRemote){
 					((BuffEffect)pe).stopEffect((EntityLivingBase)target);
 				}
 			}
@@ -72,7 +72,9 @@ public class Dispel implements ISpellComponent{
 			return false;
 		}
 
-		removePotionEffects((EntityLivingBase)target, effectsToRemove);
+		if (!world.isRemote){
+			removePotionEffects((EntityLivingBase)target, effectsToRemove);
+		}
 
 		//TODO:
 		/*if (ExtendedProperties.For((EntityLivingBase)target).getNumSummons() > 0){
