@@ -171,7 +171,9 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 	}
 
 	private void sendCookUpdateToClients(){
-		AMNetHandler.INSTANCE.sendObeliskUpdate(this, new AMDataWriter().add(PK_BURNTIME_CHANGE).add(this.burnTimeRemaining).generate());
+		if (!worldObj.isRemote){
+			AMNetHandler.INSTANCE.sendObeliskUpdate(this, new AMDataWriter().add(PK_BURNTIME_CHANGE).add(this.burnTimeRemaining).generate());
+		}
 	}
 
 	public void handlePacket(byte[] data){
