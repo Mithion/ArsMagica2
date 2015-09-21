@@ -1,14 +1,23 @@
 package am2.commands;
 
-import am2.AMCore;
+import am2.guis.GuiHudCustomization;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayerMP;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigureAMUICommand extends CommandBase{
+
+	private static boolean showGUI = false;
+
+	public static void showIfQueued(){
+		if (showGUI){
+			Minecraft.getMinecraft().displayGuiScreen(new GuiHudCustomization());
+			showGUI = false;
+		}
+	}
 
 	@Override
 	public String getCommandName(){
@@ -39,8 +48,7 @@ public class ConfigureAMUICommand extends CommandBase{
 
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring){
-		EntityPlayerMP player = getCommandSenderAsPlayer(icommandsender);
-		AMCore.proxy.guiManager.showUICustomizationScreen(player);
+		showGUI = true;
 	}
 
 }

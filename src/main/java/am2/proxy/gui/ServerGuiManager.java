@@ -158,9 +158,4 @@ public class ServerGuiManager implements IGuiHandler{
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z){
 		return getServerGuiElement(ID, player, world, x, y, z);
 	}
-
-	public void showUICustomizationScreen(EntityPlayerMP player){
-		if (!player.worldObj.isRemote)
-			AMNetHandler.INSTANCE.sendPacketToClientPlayer(player, AMPacketIDs.SHOW_UI_CUSTOMIZATION, new byte[0]);
-	}
 }
