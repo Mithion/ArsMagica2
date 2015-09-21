@@ -10,6 +10,15 @@ import java.util.List;
 
 public class ConfigureAMUICommand extends CommandBase{
 
+	private static boolean showGUI = false;
+
+	public static void showIfQueued(){
+		if (showGUI){
+			Minecraft.getMinecraft().displayGuiScreen(new GuiHudCustomization());
+			showGUI = false;
+		}
+	}
+
 	@Override
 	public String getCommandName(){
 		return "amuicfg";
@@ -39,11 +48,7 @@ public class ConfigureAMUICommand extends CommandBase{
 
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring){
-		new Thread(){
-			public void run(){
-				Minecraft.getMinecraft().displayGuiScreen(new GuiHudCustomization());
-			}
-		}.start();
+		showGUI = true;
 	}
 
 }
