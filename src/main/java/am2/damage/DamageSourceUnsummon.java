@@ -6,5 +6,6 @@ public class DamageSourceUnsummon extends DamageSource{
 
 	public DamageSourceUnsummon(){
 		super("am2.backfire");
+		this.setDamageAllowedInCreativeMode();
 	}
 }
