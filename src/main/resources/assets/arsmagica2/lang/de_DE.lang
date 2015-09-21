@@ -52,9 +52,9 @@ item.arsmagica2:crystal_wrench.name=Kristallschraubenschlüssel
 item.arsmagica2:ArcaneCompendium.name=Arkanes Kompendium
 item.arsmagica2:wakebloom.name=Wachblüte
 item.arsmagica2:crystal_phylactery.name=Kristallphylakterion
-item.arsmagica2:liquidEssenceBucket.name=Eimer mit flüssiger Essenz
+item.arsmagica2:liquidEssenceBucket.name=Eimer mit flüssigem Etherium
 item.arsmagica2:nature_scythe.name=Sense des Naturwächters
-item.arsmagica2:mana_boost_potion.name=Infundierter Essenztrank
+item.arsmagica2:mana_boost_potion.name=Etherium getränkter Trank
 item.arsmagica2:evilBook.name=Böse aussehendes Buch
 item.arsmagica2:woodenLeg.name=Holzbein
 item.arsmagica2:cowhorn.name=Höllenkuhhorn
@@ -96,7 +96,7 @@ item.arsmagica2:unknownRune.name=Unbekannte Rune
 
 #blocks
 tile.arsmagica2:essence_refiner.name=Essenzraffinierer
-tile.arsmagica2:essenceconduit.name=Essenzleitung
+tile.arsmagica2:essenceconduit.name=Etheriumleiter
 tile.arsmagica2:blockcaster.name=Zaubermaschine
 tile.arsmagica2:crystalpillar.name=Kristallsäule
 tile.arsmagica2:calefactor.name=Kalefaktor
@@ -140,10 +140,10 @@ tile.arsmagica2:gold_inlay.name=Goldintarsie
 tile.arsmagica2:planksWitchwood.name=Hexholzplanken
 tile.arsmagica2:witchwoodSingleSlab.name=Hexholzstufe
 tile.arsmagica2:stairsWitchwood.name=Hexholztreppe
-tile.arsmagica2:liquidEssence.name=Flüssige Essenz
+tile.arsmagica2:liquidEssence.name=Flüssiges Etherium
 
 #fluids
-fluid.liquidEssence=Flüssige Essenz
+fluid.liquidEssence=Flüssiges Etherium
 
 #entities
 entity.arsmagica2.EarthElemental.name=Erdelementar
