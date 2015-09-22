@@ -35,7 +35,7 @@ public class SpellRecipeManager{
 		recipe = event.recipeItems;
 
 		if (recipe == null){
-			AMCore.log.info("Component %s has been registered with no craftable recipe - is this intentional?  If so, return a 0-length array for recipe.", SkillManager.instance.getDisplayName(part));
+			AMCore.log.info(String.format("Component %s has been registered with no craftable recipe - is this intentional?  If so, return a 0-length array for recipe.", SkillManager.instance.getDisplayName(part)));
 			return;
 		}
 		if (recipe.length == 0){
@@ -89,7 +89,7 @@ public class SpellRecipeManager{
 			try{
 				ids[i] = Integer.parseInt(split[i]);
 			}catch (NumberFormatException nex){
-				AMCore.log.warn("Invalid power type ID while parsing value %s", s);
+				AMCore.log.warn(String.format("Invalid power type ID while parsing value %s", s));
 				ids[i] = 0;
 			}
 		}
@@ -175,7 +175,7 @@ public class SpellRecipeManager{
 
 		if (safeCopy.size() > 0){
 			ISpellPart part = safeCopy.values().iterator().next();
-			AMCore.log.info("Matched Spell Component: %s", part.getClass().toString());
+			AMCore.log.info(String.format("Matched Spell Component: %s", part.getClass().toString()));
 			return part;
 		}
 

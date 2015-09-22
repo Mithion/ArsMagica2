@@ -39,7 +39,7 @@ public class SpellTextureHelper{
 			if (resources.size() == 0){
 				AMCore.log.error("No spell IIcons found?!?");
 			}else{
-				AMCore.log.info("Located %d spell IIcons", resources.size());
+				AMCore.log.info(String.format("Located %d spell IIcons", resources.size()));
 			}
 			icons = new IIcon[resources.size()];
 			int count = 0;

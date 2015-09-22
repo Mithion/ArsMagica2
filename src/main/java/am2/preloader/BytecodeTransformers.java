@@ -290,7 +290,7 @@ public class BytecodeTransformers implements IClassTransformer{
 		cr.accept(cn, 0);
 
 		for (MethodNode mn : cn.methods){
-			AMCore.log.debug("%s %s", mn.name, mn.desc);
+			AMCore.log.debug(String.format("%s %s", mn.name, mn.desc));
 			if (mn.name.equals("b_") && mn.desc.equals("(Luf;)V")){ //travelToDimension
 				AbstractInsnNode target = null;
 				AMCore.log.debug("Core: Located target method " + mn.name + mn.desc);
@@ -398,7 +398,7 @@ public class BytecodeTransformers implements IClassTransformer{
 	private void debugPrintInsns(MethodNode mn){
 		Iterator<AbstractInsnNode> it = mn.instructions.iterator();
 
-		AMCore.log.debug("Core: Beginning dump of Insns for %s %s", mn.name, mn.desc);
+		AMCore.log.debug(String.format("Core: Beginning dump of Insns for %s %s", mn.name, mn.desc));
 
 		AMCore.log.debug("================================================================================");
 		AMCore.log.log(Level.INFO, "");

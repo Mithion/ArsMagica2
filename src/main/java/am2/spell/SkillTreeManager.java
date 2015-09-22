@@ -386,7 +386,7 @@ public class SkillTreeManager implements ISkillTreeManager{
 			SkillTreeEntry entry = getSkillTreeEntry(SkillManager.instance.getSkill(i));
 			if (entry != null){
 				entry.enabled = false;
-				AMCore.log.info("Disabling %s as per server configs", SkillManager.instance.getSkillName(entry.registeredItem));
+				AMCore.log.info(String.format("Disabling %s as per server configs", SkillManager.instance.getSkillName(entry.registeredItem)));
 			}else{
 				AMCore.log.warn("Could not disable skill ID %d as per server configs!");
 			}

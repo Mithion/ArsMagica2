@@ -58,21 +58,21 @@ public class PowerNodeRegistry{
 
 		if (powerNodes.containsKey(chunk)){
 			nodeList = powerNodes.get(chunk);
-			AMCore.log.trace("Located Power Node list for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
+			AMCore.log.trace(String.format("Located Power Node list for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos));
 		}else{
 			AMCore.log.trace("Node list not found.  Checking cache/files for prior data");
 			NBTTagCompound compound = PowerNodeCache.instance.getNBTForChunk(world, chunk);
 			nodeList = new HashMap<AMVector3, PowerNodeEntry>();
 			if (compound == null || !compound.hasKey("AM2PowerData")){
 				powerNodes.put(chunk, nodeList);
-				AMCore.log.trace("Prior node list not found.  Created Power Node list for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
+				AMCore.log.trace(String.format("Prior node list not found.  Created Power Node list for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos));
 			}else{
 				LoadChunkFromNBT(chunk, compound);
 				nodeList = powerNodes.get(chunk);
 				//sanity check
 				if (nodeList == null)
 					nodeList = new HashMap<AMVector3, PowerNodeEntry>();
-				AMCore.log.trace("Loaded power data for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
+				AMCore.log.trace(String.format("Loaded power data for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos));
 			}
 		}
 
@@ -85,7 +85,7 @@ public class PowerNodeRegistry{
 		PowerNodeEntry pnd = new PowerNodeEntry();
 
 		nodeList.put(nodeLoc, pnd);
-		AMCore.log.trace("Successfully registered power node at {%d, %d, %d}", ((TileEntity)node).xCoord, ((TileEntity)node).yCoord, ((TileEntity)node).zCoord);
+		AMCore.log.trace(String.format("Successfully registered power node at {%d, %d, %d}", ((TileEntity)node).xCoord, ((TileEntity)node).yCoord, ((TileEntity)node).zCoord));
 
 		return pnd;
 	}
@@ -169,13 +169,13 @@ public class PowerNodeRegistry{
 			nodeList = powerNodes.get(chunk);
 			nodeList.remove(location);
 
-			AMCore.log.trace("Successfully removed a node from chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
+			AMCore.log.trace(String.format("Successfully removed a node from chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos));
 			if (nodeList.size() == 0){
 				powerNodes.remove(chunk);
 				AMCore.log.trace("No more nodes exist in chunk.  Removing tracking data for chunk.");
 			}
 		}else{
-			AMCore.log.error("Power Node removal requested in a non-tracked chunk (%d, %d)!", chunk.chunkXPos, chunk.chunkZPos);
+			AMCore.log.error(String.format("Power Node removal requested in a non-tracked chunk (%d, %d)!", chunk.chunkXPos, chunk.chunkZPos));
 		}
 	}
 
@@ -339,11 +339,11 @@ public class PowerNodeRegistry{
 		}
 
 		if (deadNodesRemoved > 0)
-			AMCore.log.trace("Removed %d dead power nodes", deadNodesRemoved);
+			AMCore.log.trace(String.format("Removed %d dead power nodes", deadNodesRemoved));
 
 		IPowerNode[] nodeArray = nodes.toArray(new IPowerNode[nodes.size()]);
 
-		AMCore.log.trace("Located %d nearby power providers", nodeArray.length);
+		AMCore.log.trace(String.format("Located %d nearby power providers", nodeArray.length));
 
 		return nodeArray;
 	}
@@ -405,7 +405,7 @@ public class PowerNodeRegistry{
 			powerNodeTagList.appendTag(nodeCompound);
 		}
 
-		AMCore.log.trace("Saved %d power node entries", powerNodeTagList.tagCount());
+		AMCore.log.trace(String.format("Saved %d power node entries", powerNodeTagList.tagCount()));
 
 		compound.setTag("AM2PowerData", powerNodeTagList);
 	}
@@ -424,7 +424,7 @@ public class PowerNodeRegistry{
 			chunkPowerData.put(nodeLocation, pnd);
 		}
 
-		AMCore.log.trace("Loaded %d power node entries", chunkPowerData.size());
+		AMCore.log.trace(String.format("Loaded %d power node entries", chunkPowerData.size()));
 
 		powerNodes.put(chunk, chunkPowerData);
 	}

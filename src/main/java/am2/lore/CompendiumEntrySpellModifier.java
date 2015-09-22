@@ -39,7 +39,7 @@ public class CompendiumEntrySpellModifier extends CompendiumEntry{
 						SpellModifiers modifier = Enum.valueOf(SpellModifiers.class, s);
 						list.add(modifier);
 					}catch (Throwable t){
-						AMCore.log.debug("Compendium Parsing Error - No modifiable constant exists with the name '%s'", s);
+						AMCore.log.debug(String.format("Compendium Parsing Error - No modifiable constant exists with the name '%s'", s));
 					}
 				}
 				this.modifies = list.toArray(new SpellModifiers[list.size()]);

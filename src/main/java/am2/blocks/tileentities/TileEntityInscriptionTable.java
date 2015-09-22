@@ -649,7 +649,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				recipeItems = event.recipeItems;
 
 				if (recipeItems == null){
-					AMCore.log.error("Unable to write recipe to book.  Recipe items are null for part %d!", part.getID());
+					AMCore.log.error(String.format("Unable to write recipe to book.  Recipe items are null for part %d!", part.getID()));
 					return bookstack;
 				}
 				for (int i = 0; i < recipeItems.length; ++i){
