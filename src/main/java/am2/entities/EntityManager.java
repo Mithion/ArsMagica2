@@ -8,7 +8,6 @@ import am2.entities.models.ModelBattleChicken;
 import am2.entities.models.ModelHecate;
 import am2.entities.renderers.*;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -206,7 +205,7 @@ public class EntityManager implements IEntityManager{
 
 	private void initSpawnsForBiomeTypes(SpawnListEntry spawnListEntry, EnumCreatureType creatureType, Type[] types, Type[] exclusions){
 		if (spawnListEntry.itemWeight == 0){
-			FMLLog.info("Ars Magica 2 >> Skipping spawn list entry for %s (as type %s), as the weight is set to 0.  This can be changed in config.", spawnListEntry.entityClass.getName(), creatureType.toString());
+			AMCore.log.info("Skipping spawn list entry for %s (as type %s), as the weight is set to 0.  This can be changed in config.", spawnListEntry.entityClass.getName(), creatureType.toString());
 			return;
 		}
 		for (Type type : types){

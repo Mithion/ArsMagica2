@@ -55,11 +55,11 @@ public class PowerNodeEntry{
 			return 0f;
 		ArrayList<LinkedList<AMVector3>> paths = nodePaths.get(type);
 		if (paths == null || paths.size() == 0){
-			//FMLLog.info("No Paths!");
+			//AMCore.log.info("No Paths!");
 			return 0;
 		}
 
-		//FMLLog.info("Path Exists");
+		//AMCore.log.info("Path Exists");
 
 		if (powerAmounts.containsKey(type) && powerAmounts.get(type) + amount > capacity){
 			amount = capacity - powerAmounts.get(type);
@@ -192,7 +192,7 @@ public class PowerNodeEntry{
 			//append the list of paths to the entry in the power path list
 			powerPathEntry.setTag("nodePaths", pathsForType);
 
-			//FMLLog.info("Ars Magica 2 >> Saved %d node paths for %s etherium.", nodePaths.get(type).size(), type.name());
+			//AMCore.log.info("Saved %d node paths for %s etherium.", nodePaths.get(type).size(), type.name());
 
 			//append this entry in the power path list to the list of power path entries
 			powerPathList.appendTag(powerPathEntry);
@@ -264,7 +264,7 @@ public class PowerNodeEntry{
 					//register the list of paths and power type
 					nodePaths.put(type, pathsList);
 
-					//	FMLLog.info("Ars Magica 2 >> Loaded %d node paths for %s etherium.", pathsList.size(), type.name());
+					//	AMCore.log.info("Loaded %d node paths for %s etherium.", pathsList.size(), type.name());
 				}
 			}
 		}

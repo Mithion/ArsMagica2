@@ -8,7 +8,6 @@ import am2.armor.*;
 import am2.blocks.BlocksCommonProxy;
 import am2.blocks.tileentities.flickers.FlickerOperatorRegistry;
 import am2.enchantments.AMEnchantmentHelper;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -180,7 +179,7 @@ public class ItemsCommonProxy{
 
 	public void InstantiateItems(){
 
-		FMLLog.finer("Ars Magica >> Instantiating Items");
+		AMCore.log.trace("Instantiating Items");
 
 		itemOre = (ItemOre)new ItemOre().setUnlocalizedAndTextureName("arsmagica2:itemOre").setCreativeTab(itemTab);
 		essence = (ItemEssence)new ItemEssence().setUnlocalizedAndTextureName("arsmagica2:essence").setCreativeTab(itemTab);
@@ -1035,7 +1034,7 @@ public class ItemsCommonProxy{
 				if (recipeItems != null){
 					GameRegistry.addRecipe(new ItemStack(flickerFocus, 1, i), recipeItems);
 				}else{
-					FMLLog.info("Ars Magica 2 >> Flicker operator %s was registered with no recipe.  It is un-craftable.  This may have been intentional.", func.getClass().getSimpleName());
+					AMCore.log.info("Flicker operator %s was registered with no recipe.  It is un-craftable.  This may have been intentional.", func.getClass().getSimpleName());
 				}
 			}
 		}

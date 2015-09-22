@@ -1,6 +1,6 @@
 package am2.network;
 
-import cpw.mods.fml.common.FMLLog;
+import am2.AMCore;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -29,7 +29,7 @@ public class AMDataReader{
 			try{
 				ID = dataStream.readByte();
 			}catch (IOException e){
-				FMLLog.severe("AMDataReader (getID): " + e.toString());
+				AMCore.log.error("AMDataReader (getID): " + e.toString());
 				e.printStackTrace();
 			}
 		}
@@ -40,7 +40,7 @@ public class AMDataReader{
 		try{
 			value = dataStream.readInt();
 		}catch (IOException e){
-			FMLLog.severe("AMDataReader (getInt): " + e.toString());
+			AMCore.log.error("AMDataReader (getInt): " + e.toString());
 			e.printStackTrace();
 		}
 		return value;
@@ -51,7 +51,7 @@ public class AMDataReader{
 		try{
 			value = dataStream.readFloat();
 		}catch (IOException e){
-			FMLLog.severe("AMDataReader (getFloat): " + e.toString());
+			AMCore.log.error("AMDataReader (getFloat): " + e.toString());
 			e.printStackTrace();
 		}
 		return value;
@@ -62,7 +62,7 @@ public class AMDataReader{
 		try{
 			value = dataStream.readDouble();
 		}catch (IOException e){
-			FMLLog.severe("AMDataReader (getDouble): " + e.toString());
+			AMCore.log.error("AMDataReader (getDouble): " + e.toString());
 			e.printStackTrace();
 		}
 		return value;
@@ -73,7 +73,7 @@ public class AMDataReader{
 		try{
 			value = dataStream.readBoolean();
 		}catch (IOException e){
-			FMLLog.severe("AMDataReader (getBoolean): " + e.toString());
+			AMCore.log.error("AMDataReader (getBoolean): " + e.toString());
 			e.printStackTrace();
 		}
 		return value;
@@ -84,7 +84,7 @@ public class AMDataReader{
 		try{
 			value = dataStream.readUTF();
 		}catch (IOException e){
-			FMLLog.severe("AMDataReader (getString): " + e.toString());
+			AMCore.log.error("AMDataReader (getString): " + e.toString());
 			e.printStackTrace();
 		}
 		return value;
@@ -95,7 +95,7 @@ public class AMDataReader{
 		try{
 			value = dataStream.readByte();
 		}catch (IOException e){
-			FMLLog.severe("AMDataReader (getByte): " + e.toString());
+			AMCore.log.error("AMDataReader (getByte): " + e.toString());
 			e.printStackTrace();
 		}
 		return value;
@@ -106,7 +106,7 @@ public class AMDataReader{
 		try{
 			value = dataStream.readShort();
 		}catch (IOException e){
-			FMLLog.severe("AMDataReader (getShort): " + e.toString());
+			AMCore.log.error("AMDataReader (getShort): " + e.toString());
 			e.printStackTrace();
 		}
 		return value;
@@ -117,7 +117,7 @@ public class AMDataReader{
 		try{
 			value = dataStream.readLong();
 		}catch (IOException e){
-			FMLLog.severe("AMDataReader (getLong): " + e.toString());
+			AMCore.log.error("AMDataReader (getLong): " + e.toString());
 			e.printStackTrace();
 		}
 		return value;
@@ -132,7 +132,7 @@ public class AMDataReader{
 			ByteBuf buf = Unpooled.copiedBuffer(bytes);
 			data = ByteBufUtils.readTag(buf);
 		}catch (IOException e){
-			FMLLog.severe("AMDataReader (getNBTTagCompound): " + e.toString());
+			AMCore.log.error("AMDataReader (getNBTTagCompound): " + e.toString());
 			e.printStackTrace();
 		}
 		return data;
@@ -144,7 +144,7 @@ public class AMDataReader{
 			remaining = new byte[dataStream.available()];
 			dataStream.read(remaining);
 		}catch (IOException e){
-			FMLLog.severe("AMDataReader (getRemainingBytes): " + e.toString());
+			AMCore.log.error("AMDataReader (getRemainingBytes): " + e.toString());
 			e.printStackTrace();
 		}
 
@@ -165,7 +165,7 @@ public class AMDataReader{
 				arr[i] = dataStream.readInt();
 			return arr;
 		}catch (IOException e){
-			FMLLog.severe("AMDataReader (getIntArray): " + e.toString());
+			AMCore.log.error("AMDataReader (getIntArray): " + e.toString());
 			e.printStackTrace();
 		}
 

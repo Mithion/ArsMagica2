@@ -1,7 +1,7 @@
 package am2.api.power;
 
+import am2.AMCore;
 import am2.api.ArsMagicaApi;
-import cpw.mods.fml.common.FMLLog;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -34,10 +34,10 @@ public final class PowerTypes{
 
 	public static void RegisterPowerType(int id, String name, String chatColor){
 		if (getByID(id) == NONE){
-			FMLLog.info("Ars Magica 2 >> Attempted to register power type %s with ID of %d, but that ID is already taken!  The type was NOT registered!", name, id);
+			AMCore.log.info("Attempted to register power type %s with ID of %d, but that ID is already taken!  The type was NOT registered!", name, id);
 		}else{
 			allPowerTypes.add(new PowerTypes(id, name, chatColor));
-			FMLLog.info("Ars Magica 2 >> Registered new power type %s with ID %d", name, id);
+			AMCore.log.info("Registered new power type %s with ID %d", name, id);
 		}
 	}
 

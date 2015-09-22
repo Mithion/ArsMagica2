@@ -231,7 +231,7 @@ public class ClientTickHandler{
 				}else if (this.mouseWheelValue < 0 && props.TK_Distance > 0.3){
 					props.TK_Distance -= 0.5f;
 				}
-				FMLLog.info("TK Distance: %.2f", props.TK_Distance);
+				AMCore.log.debug("TK Distance: %.2f", props.TK_Distance);
 				props.syncTKDistance();
 			}else if (stack.getItem() instanceof ItemSpellBook && Minecraft.getMinecraft().thePlayer.isSneaking()){
 				ItemSpellBook isb = (ItemSpellBook)stack.getItem();

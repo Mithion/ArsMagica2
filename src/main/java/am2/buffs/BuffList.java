@@ -5,7 +5,6 @@ import am2.api.potion.IBuffHelper;
 import am2.particles.AMParticle;
 import am2.particles.ParticleLiveForBuffDuration;
 import am2.texture.ResourceManager;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.potion.Potion;
@@ -81,10 +80,10 @@ public class BuffList implements IBuffHelper{
 		String configID = name.replace(" ", "").toLowerCase().trim();
 		index = AMCore.config.getConfigurablePotionID(configID, index);
 
-		FMLLog.info("Ars Magica 2 >> Potion %s is ID %d", name, index);
+		AMCore.log.info("Potion %s is ID %d", name, index);
 		
 		if (Potion.potionTypes[index] != null){
-			FMLLog.severe("Ars Magica 2 >> Warning: Potion index %d is already occupied by potion %s. Check your config files for clashes.", index, Potion.potionTypes[index].getName());
+			AMCore.log.error("Warning: Potion index %d is already occupied by potion %s. Check your config files for clashes.", index, Potion.potionTypes[index].getName());
 		}
 
 		ArsMagicaPotion potion = new ArsMagicaPotion(index, isBadEffect, 0x000000);
@@ -101,10 +100,10 @@ public class BuffList implements IBuffHelper{
 		String configID = name.replace(" ", "").toLowerCase().trim();
 		index = AMCore.config.getConfigurablePotionID(configID, index);
 		
-		FMLLog.info("Ars Magica 2 >> Potion %s is ID %d", name, index);
+		AMCore.log.info("Potion %s is ID %d", name, index);
 		
 		if (Potion.potionTypes[index] != null){
-			FMLLog.severe("Ars Magica 2 >> Warning: Potion index %d is already occupied by potion %s. Check your config files for clashes.", index, Potion.potionTypes[index].getName());
+			AMCore.log.error("Warning: Potion index %d is already occupied by potion %s. Check your config files for clashes.", index, Potion.potionTypes[index].getName());
 		}
 		
 		ManaPotion potion = new ManaPotion(index, isBadEffect, colour);
@@ -140,7 +139,7 @@ public class BuffList implements IBuffHelper{
 				particlesForBuffID.put(i, 0);
 			}
 		}catch (Throwable t){
-			FMLLog.severe("Ars Magica >> Buffs failed to initialize!  This will make the game very unstable!");
+			AMCore.log.error("Buffs failed to initialize!  This will make the game very unstable!");
 			t.printStackTrace();
 		}
 	}
@@ -149,7 +148,7 @@ public class BuffList implements IBuffHelper{
 		// potion clash detection
 		for (Map.Entry<Integer, Potion> entry : ourInitialPotionAllocations.entrySet()){
 			if (Potion.potionTypes[entry.getKey()] != entry.getValue()){
-				FMLLog.severe("Ars Magica 2 >> Error: my potion, %s, at index %d has been over-written by another potion, %s. You have a conflict in your configuration files.", entry.getValue().getName(), entry.getKey(), Potion.potionTypes[entry.getKey()].getName());
+				AMCore.log.error("My potion, %s, at index %d has been over-written by another potion, %s. You have a conflict in your configuration files.", entry.getValue().getName(), entry.getKey(), Potion.potionTypes[entry.getKey()].getName());
 			}
 		}
 	}
@@ -257,8 +256,8 @@ public class BuffList implements IBuffHelper{
 	}
 
 	private static void extendPotionsArray() throws Exception{
-		FMLLog.info("Ars Magica >> Extending Potions Array");
-		FMLLog.info("Ars Magica >> injecting potions starting from index " + Potion.potionTypes.length);
+		AMCore.log.info("Extending potions array");
+		AMCore.log.info("Injecting potions starting from index " + Potion.potionTypes.length);
 		potionDefaultOffset = Potion.potionTypes.length;
 		setPotionArrayLength(255);
 	}
@@ -311,13 +310,13 @@ public class BuffList implements IBuffHelper{
 			BuffEffect p = (BuffEffect)buffMaker.newInstance(duration, amplifier);
 			return p;
 		}catch (InstantiationException e){
-			FMLLog.severe("Could not create potion: " + e.getMessage());
+			AMCore.log.error("Could not create potion: " + e.getMessage());
 		}catch (IllegalAccessException e){
-			FMLLog.severe("Could not create potion: " + e.getMessage());
+			AMCore.log.error("Could not create potion: " + e.getMessage());
 		}catch (IllegalArgumentException e){
-			FMLLog.severe("Could not create potion: " + e.getMessage());
+			AMCore.log.error("Could not create potion: " + e.getMessage());
 		}catch (InvocationTargetException e){
-			FMLLog.severe("Could not create potion: " + e.getMessage());
+			AMCore.log.error("Could not create potion: " + e.getMessage());
 		}
 		return null;
 	}
@@ -344,9 +343,9 @@ public class BuffList implements IBuffHelper{
 	@Override
 	public void addDispelExclusion(int id){
 		if (dispelBlacklist.contains(id)){
-			FMLLog.info("Ars Magica 2 >> id %d was already on the dispel blacklist; skipping.", id);
+			AMCore.log.info("Id %d was already on the dispel blacklist; skipping.", id);
 		}else{
-			FMLLog.info("Ars Magica 2 >> added %d to the dispel blacklist.", id);
+			AMCore.log.info("Added %d to the dispel blacklist.", id);
 			dispelBlacklist.add(id);
 		}
 	}

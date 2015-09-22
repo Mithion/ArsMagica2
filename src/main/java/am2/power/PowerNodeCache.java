@@ -95,7 +95,7 @@ public class PowerNodeCache{
 		if (dataCompound == null){
 			File file = getFileFromChunk(world, chunk, true);
 			if (file == null || (!file.canWrite() && !file.setWritable(true)) || (!file.canRead() && !file.setReadable(true))){
-				FMLLog.severe("Ars Magica 2 >> Unable to obtain file handle!  The power system data for the chunk at %d, %d will NOT be saved!  To fix this, make sure you have read/write access to the Minecraft instance folder.", chunk.chunkXPos, chunk.chunkZPos);
+				AMCore.log.error("Unable to obtain file handle!  The power system data for the chunk at %d, %d will NOT be saved!  To fix this, make sure you have read/write access to the Minecraft instance folder.", chunk.chunkXPos, chunk.chunkZPos);
 				return;
 			}
 			try{
@@ -113,7 +113,7 @@ public class PowerNodeCache{
 		if (flushImmediate){
 			File file = getFileFromChunk(world, chunk, true);
 			if (file == null || (!file.canWrite() && !file.setWritable(true)) || (!file.canRead() && !file.setReadable(true))){
-				FMLLog.severe("Ars Magica 2 >> Unable to obtain file handle!  The power system data for the chunk at %d, %d will NOT be saved!  To fix this, make sure you have read/write access to the Minecraft instance folder.", chunk.chunkXPos, chunk.chunkZPos);
+				AMCore.log.error("Unable to obtain file handle!  The power system data for the chunk at %d, %d will NOT be saved!  To fix this, make sure you have read/write access to the Minecraft instance folder.", chunk.chunkXPos, chunk.chunkZPos);
 				return;
 			}
 			try{
@@ -137,7 +137,7 @@ public class PowerNodeCache{
 				return null;
 			}
 			if ((!file.canRead() && !file.setReadable(true))){
-				FMLLog.severe("Ars Magica 2 >> Unable to obtain readable file handle!  The power system data for the chunk at %d, %d will NOT be saved!  To fix this, make sure you have read access to the Minecraft instance folder.", chunk.chunkXPos, chunk.chunkZPos);
+				AMCore.log.error("Unable to obtain readable file handle!  The power system data for the chunk at %d, %d will NOT be saved!  To fix this, make sure you have read access to the Minecraft instance folder.", chunk.chunkXPos, chunk.chunkZPos);
 				return null;
 			}
 
@@ -211,7 +211,7 @@ public class PowerNodeCache{
 		if (world.isRemote)
 			return;
 
-		FMLLog.finer("Ars Magica 2 >> Saving all cached power data for DIM %d to disk", world.provider.dimensionId);
+		AMCore.log.trace("Saving all cached power data for DIM %d to disk", world.provider.dimensionId);
 
 		//cached data to file
 		Iterator<RegionCoordinates> it = dataCache.keySet().iterator();

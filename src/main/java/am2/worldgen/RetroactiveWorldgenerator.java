@@ -31,7 +31,7 @@ public class RetroactiveWorldgenerator{
 
 			deferredChunkGeneration.put(dimensionID, chunks);
 
-			FMLLog.info("Ars Magica 2 >> Retro-genned %d chunks, %d left to generate.", count, chunks.size());
+			AMCore.log.info("Retro-genned %d chunks, %d left to generate.", count, chunks.size());
 		}
 	}
 }

@@ -28,7 +28,6 @@ import am2.spell.SpellHelper;
 import am2.spell.SpellUtils;
 import am2.spell.modifiers.Colour;
 import am2.utility.MathUtilities;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -156,8 +155,8 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 				break;
 			}
 		}catch (Throwable t){
-			FMLLog.severe("Ars Magica >> Client Packet Failed to Handle!");
-			FMLLog.severe("Ars Magica >> Packet Type: " + packetID);
+			AMCore.log.error("Client Packet Failed to Handle!");
+			AMCore.log.error("Packet Type: " + packetID);
 			t.printStackTrace();
 		}finally{
 			try{
@@ -375,10 +374,10 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 
 		AMCore.config.setManaCap(manaCap);
 
-		FMLLog.info("Ars Magica 2 >> Received player login packet.");
-		FMLLog.info("Secondary tree cap: %d", skillTreeLock);
-		FMLLog.info("Disabled skills: %d", disabledSkills.length);
-		FMLLog.info("Mana cap: %.2f", manaCap);
+		AMCore.log.info("Received player login packet.");
+		AMCore.log.debug("Secondary tree cap: %d", skillTreeLock);
+		AMCore.log.debug("Disabled skills: %d", disabledSkills.length);
+		AMCore.log.debug("Mana cap: %.2f", manaCap);
 
 		SkillTreeManager.instance.disableAllSkillsIn(disabledSkills);
 	}
@@ -406,7 +405,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		if (ent == null || !(ent instanceof EntityPlayer)) return;
 
 		if (!SkillData.For((EntityPlayer)ent).handlePacketData(data)){
-			FMLLog.severe("Ars Magica >> Critical Error Handling Spell Knowledge Sync Packet!");
+			AMCore.log.error("Critical Error Handling Spell Knowledge Sync Packet!");
 		}
 	}
 
@@ -418,7 +417,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		if (ent == null || !(ent instanceof EntityPlayer)) return;
 
 		if (!AffinityData.For(ent).handlePacketData(data)){
-			FMLLog.severe("Ars Magica >> Critical Error Handling Affinity Sync Packet!");
+			AMCore.log.error("Critical Error Handling Affinity Sync Packet!");
 		}
 	}
 
@@ -502,7 +501,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		if (ent == null) return;
 
 		if (!ExtendedProperties.For(ent).handleDataPacket(data)){
-			FMLLog.severe("Ars Magica >> Critical Error Handling Sync Packet!");
+			AMCore.log.error("Critical Error Handling Sync Packet!");
 		}
 	}
 

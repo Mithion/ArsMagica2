@@ -1,9 +1,9 @@
 package am2.configuration;
 
+import am2.AMCore;
 import am2.api.math.AMVector2;
 import am2.particles.AMParticle;
 import am2.particles.ParticleController;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.potion.Potion;
@@ -337,7 +337,7 @@ public class AMConfig extends Configuration{
 			try{
 				worldgenBlacklist[count] = Integer.parseInt(s.trim());
 			}catch (Throwable t){
-				FMLLog.info("Ars Magica >> Malformed item in worldgen blacklist (%s).  Skipping.", s);
+				AMCore.log.info("Malformed item in worldgen blacklist (%s).  Skipping.", s);
 				t.printStackTrace();
 				worldgenBlacklist[count] = -1;
 			}finally{
@@ -357,7 +357,7 @@ public class AMConfig extends Configuration{
 			try{
 				appropriationMobBlacklist[count] = Class.forName(s);
 			}catch (Throwable t){
-				FMLLog.info("Ars Magica >> Malformed item in appropriation entity blacklist (%s).  Skipping.", s);
+				AMCore.log.info("Malformed item in appropriation entity blacklist (%s).  Skipping.", s);
 				t.printStackTrace();
 				appropriationMobBlacklist[count] = null;
 			}finally{
@@ -787,8 +787,8 @@ public class AMConfig extends Configuration{
 		int val = getNextFreePotionID();
 		
 		if(val == -1 && !hasKey(CATEGORY_POTIONS, id)){
-		      FMLLog.severe("Ars Magica >> Cannot find a free potion ID for the %s effect. This will cause severe problems!", id);
-		      FMLLog.severe("Effect %s has been assigned to a default of potion ID 1 (movement speed). Erroneous behaviour *will* result.", id);
+		      AMCore.log.error("Cannot find a free potion ID for the %s effect. This will cause severe problems!", id);
+		      AMCore.log.error("Effect %s has been assigned to a default of potion ID 1 (movement speed). Erroneous behaviour *will* result.", id);
 		      val = 1;
 		}
 		Property prop = get(CATEGORY_POTIONS, id, val);

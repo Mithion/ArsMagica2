@@ -1,12 +1,12 @@
 package am2.lore;
 
+import am2.AMCore;
 import am2.api.SkillTreeEntry;
 import am2.api.spell.enums.SpellModifiers;
 import am2.guis.GuiArcaneCompendium;
 import am2.items.ItemsCommonProxy;
 import am2.spell.SkillManager;
 import am2.spell.SkillTreeManager;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
@@ -39,7 +39,7 @@ public class CompendiumEntrySpellShape extends CompendiumEntry{
 						SpellModifiers modifier = Enum.valueOf(SpellModifiers.class, s);
 						list.add(modifier);
 					}catch (Throwable t){
-						FMLLog.fine("Ars Magica 2 >> Compendium Parsing Error - No modifiable constant exists with the name '%s'", s);
+						AMCore.log.debug("Compendium Parsing Error - No modifiable constant exists with the name '%s'", s);
 					}
 				}
 				this.modifiedBy = list.toArray(new SpellModifiers[list.size()]);

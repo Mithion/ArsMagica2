@@ -89,16 +89,16 @@ public class OBJModel{
 			br.close();
 			stream.close();
 		}catch (Throwable t){
-			FMLLog.severe("Error reading OBJ File Data!");
+			AMCore.log.error("Error reading OBJ File Data!");
 			return false;
 		}
 
 		if (parseOBJFileLines(lines)){
-			/*FMLLog.info("Ars Magica >> Loaded Model " + path);
-			FMLLog.info("Vertices: " + vertices.length);
-			FMLLog.info("Texture Coords: " + textureCoords.length);
-			FMLLog.info("Normals: " + normals.length);
-			FMLLog.info("Faces: " + faces.length);*/
+			/*AMCore.log.info("Loaded Model " + path);
+			AMCore.log.info("Vertices: " + vertices.length);
+			AMCore.log.info("Texture Coords: " + textureCoords.length);
+			AMCore.log.info("Normals: " + normals.length);
+			AMCore.log.info("Faces: " + faces.length);*/
 
 			return true;
 		}else{

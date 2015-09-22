@@ -1,5 +1,6 @@
 package am2.power;
 
+import am2.AMCore;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
 import am2.api.power.PowerTypes;
@@ -57,21 +58,21 @@ public class PowerNodeRegistry{
 
 		if (powerNodes.containsKey(chunk)){
 			nodeList = powerNodes.get(chunk);
-			FMLLog.finer("Ars Magica 2 >> Located Power Node list for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
+			AMCore.log.trace("Located Power Node list for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
 		}else{
-			FMLLog.finer("Ars Magica 2 >> Node list not found.  Checking cache/files for prior data");
+			AMCore.log.trace("Node list not found.  Checking cache/files for prior data");
 			NBTTagCompound compound = PowerNodeCache.instance.getNBTForChunk(world, chunk);
 			nodeList = new HashMap<AMVector3, PowerNodeEntry>();
 			if (compound == null || !compound.hasKey("AM2PowerData")){
 				powerNodes.put(chunk, nodeList);
-				FMLLog.finer("Ars Magica 2 >> Prior node list not found.  Created Power Node list for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
+				AMCore.log.trace("Prior node list not found.  Created Power Node list for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
 			}else{
 				LoadChunkFromNBT(chunk, compound);
 				nodeList = powerNodes.get(chunk);
 				//sanity check
 				if (nodeList == null)
 					nodeList = new HashMap<AMVector3, PowerNodeEntry>();
-				FMLLog.finer("Ars Magica 2 >> Loaded power data for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
+				AMCore.log.trace("Loaded power data for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
 			}
 		}
 
@@ -84,7 +85,7 @@ public class PowerNodeRegistry{
 		PowerNodeEntry pnd = new PowerNodeEntry();
 
 		nodeList.put(nodeLoc, pnd);
-		FMLLog.finer("Ars Magica 2 >> Successfully registered power node at {%d, %d, %d}", ((TileEntity)node).xCoord, ((TileEntity)node).yCoord, ((TileEntity)node).zCoord);
+		AMCore.log.trace("Successfully registered power node at {%d, %d, %d}", ((TileEntity)node).xCoord, ((TileEntity)node).yCoord, ((TileEntity)node).zCoord);
 
 		return pnd;
 	}
@@ -168,13 +169,13 @@ public class PowerNodeRegistry{
 			nodeList = powerNodes.get(chunk);
 			nodeList.remove(location);
 
-			FMLLog.finer("Ars Magica 2 >> Successfully removed a node from chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
+			AMCore.log.trace("Successfully removed a node from chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
 			if (nodeList.size() == 0){
 				powerNodes.remove(chunk);
-				FMLLog.finer("Ars Magica 2 >> No more nodes exist in chunk.  Removing tracking data for chunk.");
+				AMCore.log.trace("No more nodes exist in chunk.  Removing tracking data for chunk.");
 			}
 		}else{
-			FMLLog.severe("Ars Magica 2 >> Power Node removal requested in a non-tracked chunk (%d, %d)!", chunk.chunkXPos, chunk.chunkZPos);
+			AMCore.log.error("Power Node removal requested in a non-tracked chunk (%d, %d)!", chunk.chunkXPos, chunk.chunkZPos);
 		}
 	}
 
@@ -338,11 +339,11 @@ public class PowerNodeRegistry{
 		}
 
 		if (deadNodesRemoved > 0)
-			FMLLog.finer("Ars Magica 2 >> Removed %d dead power nodes", deadNodesRemoved);
+			AMCore.log.trace("Removed %d dead power nodes", deadNodesRemoved);
 
 		IPowerNode[] nodeArray = nodes.toArray(new IPowerNode[nodes.size()]);
 
-		FMLLog.finer("Ars Magica 2 >> Located %d nearby power providers", nodeArray.length);
+		AMCore.log.trace("Located %d nearby power providers", nodeArray.length);
 
 		return nodeArray;
 	}
@@ -404,7 +405,7 @@ public class PowerNodeRegistry{
 			powerNodeTagList.appendTag(nodeCompound);
 		}
 
-		FMLLog.finer("Ars Magica 2 >> Saved %d power node entries", powerNodeTagList.tagCount());
+		AMCore.log.trace("Saved %d power node entries", powerNodeTagList.tagCount());
 
 		compound.setTag("AM2PowerData", powerNodeTagList);
 	}
@@ -423,7 +424,7 @@ public class PowerNodeRegistry{
 			chunkPowerData.put(nodeLocation, pnd);
 		}
 
-		FMLLog.finer("Ars Magica 2 >> Loaded %d power node entries", chunkPowerData.size());
+		AMCore.log.trace("Loaded %d power node entries", chunkPowerData.size());
 
 		powerNodes.put(chunk, chunkPowerData);
 	}

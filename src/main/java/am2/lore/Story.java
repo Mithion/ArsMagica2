@@ -2,7 +2,6 @@ package am2.lore;
 
 import am2.AMCore;
 import am2.utility.InventoryUtilities;
-import cpw.mods.fml.common.FMLLog;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -82,7 +81,7 @@ public class Story{
 	private String readResource(){
 		InputStream stream = getResourceAsStream(resourceName);
 		if (stream == null){
-			FMLLog.info("Ars Magica >> Missing Resource '" + resourceName + "'");
+			AMCore.log.info("Missing Resource '" + resourceName + "'");
 			return "";
 		}
 
@@ -120,7 +119,7 @@ public class Story{
 			br.close();
 			stream.close();
 		}catch (Throwable t){
-			FMLLog.severe("Error reading JRN File Data!");
+			AMCore.log.error("Error reading JRN File Data!");
 			return "";
 		}
 

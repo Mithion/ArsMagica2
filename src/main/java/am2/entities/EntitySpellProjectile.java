@@ -14,7 +14,6 @@ import am2.particles.ParticleHoldPosition;
 import am2.spell.SpellHelper;
 import am2.spell.SpellUtils;
 import am2.spell.modifiers.Colour;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -248,8 +247,8 @@ public class EntitySpellProjectile extends Entity{
 
 			}else{
 				EntityLivingBase homingTarget = getHomingEntity();
-				//FMLLog.info("%.2f, %.2f, %.2f", posX, posY, posZ);
-				FMLLog.info("Homing Target: " + getHomingEntity());
+				//AMCore.log.info("%.2f, %.2f, %.2f", posX, posY, posZ);
+				AMCore.log.trace("Homing Target: " + getHomingEntity());
 				if (homingTarget != null && new AMVector3(this).distanceSqTo(new AMVector3(homingTarget)) > 2){
 					this.moveTowards(homingTarget, 60, 60);
 				}

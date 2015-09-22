@@ -1,7 +1,7 @@
 package am2.entities;
 
+import am2.AMCore;
 import com.google.common.collect.ArrayListMultimap;
-import cpw.mods.fml.common.FMLLog;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -20,9 +20,9 @@ public class SpawnBlacklists{
 		try{
 			clazz = Class.forName(entityClass);
 			blacklistedDimensionSpawns.put(dimensionID, clazz);
-			FMLLog.info("Ars Magica 2 >> Blacklisted %s from spawning in dimension %d.", entityClass, dimensionID);
+			AMCore.log.info("Blacklisted %s from spawning in dimension %d.", entityClass, dimensionID);
 		}catch (ClassNotFoundException e){
-			FMLLog.info("Ars Magica 2 >> Unable to parse class name %s from IMC!  This needs to be corrected by the other mod author!", entityClass);
+			AMCore.log.info("Unable to parse class name %s from IMC!  This needs to be corrected by the other mod author!", entityClass);
 		}
 	}
 
@@ -31,9 +31,9 @@ public class SpawnBlacklists{
 		try{
 			clazz = Class.forName(entityClass);
 			blacklistedBiomeSpawns.put(biomeID, clazz);
-			FMLLog.info("Ars Magica 2 >> Blacklisted %s from spawning in biome %d.", entityClass, biomeID);
+			AMCore.log.info("Blacklisted %s from spawning in biome %d.", entityClass, biomeID);
 		}catch (ClassNotFoundException e){
-			FMLLog.info("Ars Magica 2 >> Unable to parse class name %s from IMC!  This needs to be corrected by the other mod author!", entityClass);
+			AMCore.log.info("Unable to parse class name %s from IMC!  This needs to be corrected by the other mod author!", entityClass);
 		}
 	}
 

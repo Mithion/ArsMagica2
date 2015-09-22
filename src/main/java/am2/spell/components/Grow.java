@@ -114,7 +114,7 @@ public class Grow implements ISpellComponent{
 		// EoD: Apply vanilla bonemeal effect to growables. See ItemDye.applyBonemeal()
 		if (block instanceof IGrowable){
 			IGrowable igrowable = (IGrowable)block;
-			//FMLLog.getLogger().info("Grow component found IGrowable");
+			//AMCore.log.getLogger().info("Grow component found IGrowable");
 
 			if (igrowable.func_149851_a(world, blockx, blocky, blockz, world.isRemote)){
 				if (!world.isRemote){

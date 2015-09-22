@@ -24,7 +24,7 @@ public class AM2PoolGen{
 			world.setBlockToAir(x, y + 1, z - 1);
 			world.setBlockToAir(x - 1, y + 1, z - 1);
 
-			//FMLLog.info("Generated pool at: %d %d %d", x, y ,z);
+			//AMCore.log.info("Generated pool at: %d %d %d", x, y ,z);
 		}
 	}
 

@@ -1,6 +1,6 @@
 package am2.lore;
 
-import cpw.mods.fml.common.FMLLog;
+import am2.AMCore;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class StoryManager{
 		try{
 			stories.add(new Story(resourceFileName));
 		}catch (Exception ex){
-			FMLLog.info(ex.getMessage());
+			AMCore.log.info(ex.getMessage());
 		}
 	}
 

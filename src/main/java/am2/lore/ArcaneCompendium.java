@@ -9,7 +9,6 @@ import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
 import am2.proxy.tick.ClientTickHandler;
 import am2.utility.WebRequestUtils;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -84,7 +83,7 @@ public class ArcaneCompendium implements ILoreHelper{
 			if (!file.exists())
 				file.mkdirs();
 		}catch (Throwable t){
-			FMLLog.severe("Ars Magica 2 >> Could not create save location!");
+			AMCore.log.error("Could not create save location!");
 			t.printStackTrace();
 		}
 	}
@@ -117,7 +116,7 @@ public class ArcaneCompendium implements ILoreHelper{
 
 				writer.close();
 			}catch (IOException e){
-				FMLLog.severe("Ars Magica 2 >> Compendium unlock state failed to save!");
+				AMCore.log.error("Compendium unlock state failed to save!");
 				e.printStackTrace();
 			}
 
@@ -140,7 +139,7 @@ public class ArcaneCompendium implements ILoreHelper{
 
 				File file = new File(saveFileLocation + File.separatorChar + getWorldName() + ".txt");
 				if (!file.exists()){
-					FMLLog.info("Ars Magica 2 >> Compendium unlock state not found to load.  Assuming it hasn't been created yet.");
+					AMCore.log.info("Compendium unlock state not found to load.  Assuming it hasn't been created yet.");
 					return;
 				}
 				BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -159,7 +158,7 @@ public class ArcaneCompendium implements ILoreHelper{
 
 				reader.close();
 			}catch (IOException e){
-				FMLLog.severe("Ars Magica 2 >> Compendium unlock state failed to load!");
+				AMCore.log.error("Compendium unlock state failed to load!");
 				e.printStackTrace();
 			}
 		}
@@ -171,7 +170,7 @@ public class ArcaneCompendium implements ILoreHelper{
 
 	public void init(Language lang){
 		if (lang == null){
-			FMLLog.severe("Ars Magica 2 >> Got a current language of NULL from Minecraft?!?  The compendium cannot load!");
+			AMCore.log.error("Got a current language of NULL from Minecraft?!?  The compendium cannot load!");
 			return;
 		}
 		MCVersion = (String)ReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), "field_110447_Z", "launchedVersion");
@@ -186,7 +185,7 @@ public class ArcaneCompendium implements ILoreHelper{
 		if (AMCore.config.allowVersionChecks())
 			checkForModUpdates();
 		else
-			FMLLog.info("Ars Magica 2 >> Skipping version check due to config");
+			AMCore.log.info("Skipping version check due to config");
 
 		//load the version of the compendium only
 		loadDocumentVersion(lang);
@@ -195,12 +194,12 @@ public class ArcaneCompendium implements ILoreHelper{
 		if (AMCore.config.allowCompendiumUpdates())
 			updateCompendium(lang);
 		else
-			FMLLog.info("Ars Magica 2 >> Skipping Compendium auto-update due to config");
+			AMCore.log.info("Skipping Compendium auto-update due to config");
 
 		//get the compendium stream again, either from an updated version or the default packaged one
 		InputStream stream = getCompendium(lang);
 		if (stream == null){
-			FMLLog.severe("Ars Magica 2 >> Unable to load the Arcane Compendium!");
+			AMCore.log.error("Unable to load the Arcane Compendium!");
 			return;
 		}
 		//load the entire document
@@ -236,13 +235,13 @@ public class ArcaneCompendium implements ILoreHelper{
 
 						//we have the data, save it to the local repository
 						saveCompendiumData(compendiumData, compendiumFileName);
-						FMLLog.info("Ars Magica 2 >> Updated Compendium");
+						AMCore.log.info("Updated Compendium");
 						return true;
 					}
 				}
 			}
 		}catch (Throwable t){
-			FMLLog.warning("Ars Magica 2 >> Unable to update the compendium!");
+			AMCore.log.warn("Unable to update the compendium!");
 			t.printStackTrace();
 		}
 		return false;
@@ -250,7 +249,7 @@ public class ArcaneCompendium implements ILoreHelper{
 
 	private void checkForModUpdates(){
 		try{
-			FMLLog.info("Ars Magica 2 >> Checking Version.  MC Version: %s", MCVersion);
+			AMCore.log.info("Checking Version.  MC Version: %s", MCVersion);
 			this.latestModVersion = this.modVersion;
 			String txt = WebRequestUtils.sendPost("http://arcanacraft.qorconcept.com/mc/AM2Versioning.txt", new HashMap<String, String>());
 			String[] lines = txt.replace("\r\n", "\n").split("\n");
@@ -261,13 +260,13 @@ public class ArcaneCompendium implements ILoreHelper{
 				if (!MCVersion.startsWith(sections[0].trim()))
 					continue;
 				if (versionCompare(sections[1], this.latestModVersion) > 0){
-					FMLLog.info("Ars Magica 2 >> An update is available.  Version %s is released, detected local version of %s.", this.modVersion, sections[1]);
+					AMCore.log.info("An update is available.  Version %s is released, detected local version of %s.", this.modVersion, sections[1]);
 					this.latestModVersion = sections[1];
 					this.latestDownloadLink = sections.length >= 3 ? sections[2] : "";
 					this.latestPatchNotesLink = sections.length >= 4 ? sections[3] : "";
 					modUpdateAvailable = true;
 				}else{
-					FMLLog.info("Ars Magica 2 >> You are running the latest version of AM2.  Latest Released Version: %s.  Your Version: %s.", this.latestModVersion, this.modVersion);
+					AMCore.log.info("You are running the latest version of AM2.  Latest Released Version: %s.  Your Version: %s.", this.latestModVersion, this.modVersion);
 				}
 			}
 
@@ -451,9 +450,9 @@ public class ArcaneCompendium implements ILoreHelper{
 				if (f.exists())
 					return new FileInputStream(f);
 			}catch (Throwable t){
-				FMLLog.finer("Ars Magica 2 >> An error occurred when trying to create an inputstream from the updated compendium.  Reverting to default.");
+				AMCore.log.trace("An error occurred when trying to create an inputstream from the updated compendium.  Reverting to default.");
 			}
-			FMLLog.info("Ars Magica 2 >> No updated compendium found.  Using packaged compendium.");
+			AMCore.log.info("No updated compendium found.  Using packaged compendium.");
 		}
 		return getPackagedCompendium(lang);
 	}
@@ -466,7 +465,7 @@ public class ArcaneCompendium implements ILoreHelper{
 		}catch (IOException e){
 		}finally{
 			if (resource == null){
-				FMLLog.info("Ars Magica 2 >> Unable to find localized compendium.  Defaulting to en_US");
+				AMCore.log.info("Unable to find localized compendium.  Defaulting to en_US");
 				rLoc = new ResourceLocation("arsmagica2", "docs/ArcaneCompendium_en_US.xml");
 				try{
 					resource = Minecraft.getMinecraft().getResourceManager().getResource(rLoc);
@@ -545,7 +544,7 @@ public class ArcaneCompendium implements ILoreHelper{
 				entry = getEntry(key.split("@")[0]);
 			}
 			if (entry == null){
-				FMLLog.warning("Ars Magica 2 >> Attempted to unlock a compendium entry for a non-existant key: " + key);
+				AMCore.log.warn("Attempted to unlock a compendium entry for a non-existant key: " + key);
 				if (verbose){
 					String message = String.format(StatCollector.translateToLocal("am2.tooltip.compEntryNotFound"), key);
 					Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(message));
@@ -634,19 +633,19 @@ public class ArcaneCompendium implements ILoreHelper{
 	@Override
 	public void AddCompenidumEntry(Object entryItem, String entryKey, String entryName, String entryDesc, String parent, boolean allowReplace, String... relatedKeys){
 		if (entryItem == null){
-			FMLLog.warning("Ars Magica 2 >> Null entry item passed.  Cannot add Compendium Entry with key %s.", entryKey);
+			AMCore.log.warn("Null entry item passed.  Cannot add Compendium Entry with key %s.", entryKey);
 			return;
 		}
 
 		CompendiumEntry existingEntry = getEntry(entryKey);
 		if (existingEntry != null && !allowReplace){
-			FMLLog.warning("Ars Magica 2 >> Compendium entry with key %s exists, and allowReplace is false.  The entry was not added.", entryKey);
+			AMCore.log.warn("Compendium entry with key %s exists, and allowReplace is false.  The entry was not added.", entryKey);
 			return;
 		}
 
 		CompendiumEntry parentEntry = parent == null ? null : getEntry(parent);
 		if (parent != null && parentEntry == null){
-			FMLLog.warning("Ars Magica 2 >> The parent ID %s was not found.  Entry %s will be added with no parent.", parent, entryKey);
+			AMCore.log.warn("The parent ID %s was not found.  Entry %s will be added with no parent.", parent, entryKey);
 		}
 
 		CompendiumEntry newEntry = null;
@@ -680,6 +679,6 @@ public class ArcaneCompendium implements ILoreHelper{
 		}
 
 		this.compendium.put(entryKey, newEntry);
-		FMLLog.fine("Ars Magica 2 >> Successfully added compendium entry %s", entryKey);
+		AMCore.log.debug("Successfully added compendium entry %s", entryKey);
 	}
 }

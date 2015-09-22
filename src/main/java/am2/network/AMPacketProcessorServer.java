@@ -114,8 +114,8 @@ public class AMPacketProcessorServer{
 				break;
 			}
 		}catch (Throwable t){
-			FMLLog.severe("Ars Magica >> Server Packet Failed to Handle!");
-			FMLLog.severe("Ars Magica >> Packet Type: " + packetID);
+			AMCore.log.error("Server Packet Failed to Handle!");
+			AMCore.log.error("Packet Type: " + packetID);
 			t.printStackTrace();
 		}finally{
 			try{

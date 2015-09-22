@@ -3,7 +3,6 @@ package am2.blocks.tileentities;
 import am2.AMCore;
 import am2.blocks.BlocksCommonProxy;
 import am2.particles.AMParticle;
-import cpw.mods.fml.common.FMLLog;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -146,7 +145,7 @@ public class TileEntityEverstone extends TileEntity{
 		super.readFromNBT(par1nbtTagCompound);
 		if (par1nbtTagCompound.hasKey("facade")){
 			this.facade = Block.getBlockFromName(par1nbtTagCompound.getString("facade"));
-			FMLLog.info("Facade: " + par1nbtTagCompound.getString("facade"));
+			AMCore.log.debug("Facade: " + par1nbtTagCompound.getString("facade"));
 			this.facadeMeta = par1nbtTagCompound.getInteger("facadeMeta");
 		}
 		this.poweredFromEverstone = par1nbtTagCompound.getBoolean("poweredFromEverstone");
