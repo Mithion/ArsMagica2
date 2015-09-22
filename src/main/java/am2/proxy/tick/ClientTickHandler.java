@@ -11,6 +11,7 @@ import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.armor.ArmorHelper;
 import am2.armor.infusions.GenericImbuement;
 import am2.bosses.BossSpawnHelper;
+import am2.commands.ConfigureAMUICommand;
 import am2.guis.AMGuiHelper;
 import am2.guis.AMIngameGUI;
 import am2.guis.GuiHudCustomization;
@@ -288,6 +289,7 @@ public class ClientTickHandler{
 
 		if (Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().theWorld != null && (Minecraft.getMinecraft().inGameHasFocus || guiScreen instanceof GuiHudCustomization)){
 			this.inGameGui.renderGameOverlay();
+			ConfigureAMUICommand.showIfQueued();
 		}
 	}
 

@@ -235,6 +235,10 @@ tile.arsmagica2:keystoneDoor.name=Keystone Door
 tile.arsmagica2:otherworld_aura.name=Otherworld Aura
 tile.arsmagica2:magetorch.name=Mage Light
 tile.arsmagica2:spell_sealed_door.name=Spell-Sealed Door
+tile.arsmagica2:liquidEssence.name=Liquid Etherium
+
+#fluids
+fluid.liquidEssence=Liquid Etherium
 
 #entities
 entity.arsmagica2.EarthElemental.name=Earth Elemental
@@ -626,12 +630,17 @@ am2.gui.flicker_powerperop=Etherium per operation: %s
 am2.gui.flicker_optime=Op time: %s seconds
 
 #death messages
-am2.death.fire=%s went up in flames.
-am2.death.wind=%s was blown away.
-am2.death.frost=%s was frozen solid.
-am2.death.lightning=%s was electrocuted.
-am2.death.backfire=%s's spell backfired.
-am2.death.wtfboom=%s hit the cactus too hard, then blew up swimming in lava.
+death.attack.am2.fire=%1$s went up in flames because of %2$s
+death.attack.am2.wind=%1$s was blown away by %2$s
+death.attack.am2.frost=%1$s was frozen solid by %2$s
+death.attack.am2.lightning=%1$s was electrocuted by %2$s
+death.attack.am2.darkNexus=%s's life force was consumed
+death.attack.am2.darkNexus.player=%1$s's life force was consumed whilst fighting %2$s
+death.attack.am2.backfire=%s's spell backfired
+death.attack.am2.backfire.player=%1$s's spell backfired whilst fighting %2$s
+death.attack.am2.wtfboom=%s hit the cactus too hard, then blew up swimming in lava
+death.attack.am2.wtfboom.player=%1$s hit the cactus too hard, then blew up swimming in lava because of %2$s
+death.attack.am2.holy=%1$s saw the true light of %2$s and disintegrated on the spot
 
 #npc messages
 am2.npc.partyjoin=I have your back!

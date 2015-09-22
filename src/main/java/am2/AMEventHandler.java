@@ -25,6 +25,7 @@ import am2.playerextensions.SkillData;
 import am2.utility.*;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
@@ -140,7 +141,7 @@ public class AMEventHandler{
 		}
 	}
 
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onEntityDeath(LivingDeathEvent event){
 		String s = EnchantmentSoulbound.class.getName();
 		EntityLivingBase soonToBeDead = event.entityLiving;

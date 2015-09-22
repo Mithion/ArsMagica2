@@ -2,6 +2,7 @@ package am2.utility;
 
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.items.IKeystoneHelper;
+import am2.api.items.KeystoneAccessType;
 import am2.items.ItemKeystone;
 import am2.items.ItemRune;
 import am2.items.ItemsCommonProxy;
@@ -10,10 +11,17 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
 
 public class KeystoneUtilities implements IKeystoneHelper{
+  
+	// constants to pass to the canPlayerAccess() function to say what you're trying to do
+	// please use these by reference instead of hard-coded numbers
+	public static final int MODE_NONE = 0;
+	public static final int MODE_USE = 1;
+	public static final int MODE_BREAK = 2;
 
 	public static final KeystoneUtilities instance = new KeystoneUtilities();
 
@@ -29,7 +37,7 @@ public class KeystoneUtilities implements IKeystoneHelper{
 				}
 				player.addChatMessage(new ChatComponentText(combo));
 			}else{
-				player.addChatMessage(new ChatComponentText("No Key Present."));
+				player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.noKeyPresent")));
 			}
 			ExtendedProperties.For(player).isRecoveringKeystone = false;
 			return true;
@@ -75,7 +83,7 @@ public class KeystoneUtilities implements IKeystoneHelper{
 
 
 	@Override
-	public boolean canPlayerAccess(IKeystoneLockable inventory, EntityPlayer player){
+	public boolean canPlayerAccess(IKeystoneLockable inventory, EntityPlayer player, KeystoneAccessType accessMode){
 		ItemStack[] runes = inventory.getRunesInKey();
 		long key = getKeyFromRunes(runes);
 
@@ -104,6 +112,12 @@ public class KeystoneUtilities implements IKeystoneHelper{
 			}
 		}
 
+		if (accessMode == KeystoneAccessType.USE){
+			player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.wrongKeystoneUse")));
+		}
+		else if (accessMode == KeystoneAccessType.BREAK){
+			player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.wrongKeystoneBreak")));
+		}
 		return false;
 	}
 

@@ -140,6 +140,10 @@ tile.arsmagica2:gold_inlay.name=Goldintarsie
 tile.arsmagica2:planksWitchwood.name=Hexholzplanken
 tile.arsmagica2:witchwoodSingleSlab.name=Hexholzstufe
 tile.arsmagica2:stairsWitchwood.name=Hexholztreppe
+tile.arsmagica2:liquidEssence.name=Flüssige Essenz
+
+#fluids
+fluid.liquidEssence=Flüssige Essenz
 
 #entities
 entity.arsmagica2.EarthElemental.name=Erdelementar

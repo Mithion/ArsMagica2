@@ -106,9 +106,6 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 			case AMPacketIDs.SYNC_SPELL_KNOWLEDGE:
 				handleSyncSpellKnowledge(remaining);
 				break;
-			case AMPacketIDs.SHOW_UI_CUSTOMIZATION:
-				openUICustomization();
-				break;
 			case AMPacketIDs.ENTITY_ACTION_UPDATE:
 				handleEntityActionUpdate(remaining, player);
 				break;
