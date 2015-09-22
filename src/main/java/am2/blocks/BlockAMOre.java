@@ -23,7 +23,7 @@ public class BlockAMOre extends BlockOre{
 	@SideOnly(Side.CLIENT)
 	private IIcon[] icons;
 	@SideOnly(Side.CLIENT)
-	private String[] textures;
+	private String[] textures = new String[]{"orevinteum", "orechimerite", "orebluetopaz", "oremoonstone", "oresunstone", "oreblockmoonstone", "oreblockvinteum", "oreblockbluetopaz", "oreblocksunstone", "oreblockchimerite"};
 
 	public static final int META_VINTEUM_ORE = 0;
 	public static final int META_CHIMERITE_ORE = 1;
@@ -43,8 +43,6 @@ public class BlockAMOre extends BlockOre{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister par1IconRegister){
-		textures = new String[]{"orevinteum", "orechimerite", "orebluetopaz", "oremoonstone", "oresunstone", "oreblockmoonstone", "oreblockvinteum", "oreblockbluetopaz", "oreblocksunstone", "oreblockchimerite"};
-
 		icons = new IIcon[textures.length];
 
 		int count = 0;
@@ -69,7 +67,7 @@ public class BlockAMOre extends BlockOre{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List){
-		for (int i = 0; i < icons.length; ++i){
+		for (int i = 0; i < textures.length; ++i){
 			par3List.add(new ItemStack(this, 1, i));
 		}
 	}
