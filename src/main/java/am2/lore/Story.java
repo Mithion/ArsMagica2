@@ -1,6 +1,7 @@
 package am2.lore;
 
 import am2.AMCore;
+import am2.LogHelper;
 import am2.utility.InventoryUtilities;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -81,7 +82,7 @@ public class Story{
 	private String readResource(){
 		InputStream stream = getResourceAsStream(resourceName);
 		if (stream == null){
-			AMCore.log.info("Missing Resource '" + resourceName + "'");
+			LogHelper.info("Missing Resource '" + resourceName + "'");
 			return "";
 		}
 
@@ -119,7 +120,7 @@ public class Story{
 			br.close();
 			stream.close();
 		}catch (Throwable t){
-			AMCore.log.error("Error reading JRN File Data!");
+			LogHelper.error("Error reading JRN File Data!");
 			return "";
 		}
 

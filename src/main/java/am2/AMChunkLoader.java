@@ -32,7 +32,7 @@ public class AMChunkLoader implements LoadingCallback{
 
 	private void cacheTicket(TicketIdentifier identifier, Ticket ticket){
 		if (tickets.containsKey(identifier)){
-			AMCore.log.warn("Attempted to register duplicate tickets for the same world - this shouldn't really happen.");
+			LogHelper.warn("Attempted to register duplicate tickets for the same world - this shouldn't really happen.");
 			return;
 		}
 		tickets.put(identifier, ticket);
@@ -54,7 +54,7 @@ public class AMChunkLoader implements LoadingCallback{
 	public void requestStaticChunkLoad(Class clazz, int x, int y, int z, World world){
 		Ticket ticket = requestTicket(x, y, z, world);
 		if (ticket == null){
-			AMCore.log.warn(String.format("Unable to get a ticket for chunk loading!  The chunk identified by %d, %d is *not* loaded!", x, z));
+			LogHelper.warn("Unable to get a ticket for chunk loading!  The chunk identified by %d, %d is *not* loaded!", x, z);
 			return;
 		}
 
@@ -69,7 +69,7 @@ public class AMChunkLoader implements LoadingCallback{
 	public void releaseStaticChunkLoad(Class clazz, int x, int y, int z, World world){
 		Ticket ticket = getTicket(new TicketIdentifier(x, y, z, world.provider.dimensionId));
 		if (ticket == null){
-			AMCore.log.warn("No ticket for specified location.  No chunk to unload!");
+			LogHelper.warn("No ticket for specified location.  No chunk to unload!");
 			return;
 		}
 
@@ -87,7 +87,7 @@ public class AMChunkLoader implements LoadingCallback{
 			try{
 				clazz = Class.forName(clazzName);
 			}catch (ClassNotFoundException e){
-				AMCore.log.info(String.format("Cached class not found (%s) when attempting to load a chunk loading ticket.  This ticket will be discarded, and the chunk may not be loaded.  Block Coords: %d, %d", clazzName, coords[0], coords[2]));
+				LogHelper.info("Cached class not found (%s) when attempting to load a chunk loading ticket.  This ticket will be discarded, and the chunk may not be loaded.  Block Coords: %d, %d", clazzName, coords[0], coords[2]);
 				ForgeChunkManager.releaseTicket(ticket);
 				continue;
 			}
@@ -96,7 +96,7 @@ public class AMChunkLoader implements LoadingCallback{
 				ChunkCoordIntPair pair = new ChunkCoordIntPair(coords[0] >> 4, coords[2] >> 4);
 				ForgeChunkManager.forceChunk(ticket, pair);
 			}else{
-				AMCore.log.info(String.format("Either no tile entity was found or it did not match the cached class.  This chunk loading ticket will be discarded, and the chunk may not be loaded.  Block Coords: %d, %d", coords[0], coords[2]));
+				LogHelper.info("Either no tile entity was found or it did not match the cached class.  This chunk loading ticket will be discarded, and the chunk may not be loaded.  Block Coords: %d, %d", coords[0], coords[2]);
 				ForgeChunkManager.releaseTicket(ticket);
 			}
 		}

@@ -1,6 +1,6 @@
 package am2.network;
 
-import am2.AMCore;
+import am2.LogHelper;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -24,7 +24,7 @@ public class AMDataWriter{
 		try{
 			data.writeInt(Integer.valueOf(value));
 		}catch (IOException e){
-			AMCore.log.error("AMDataWriter: " + e.getMessage());
+			LogHelper.error("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
@@ -33,7 +33,7 @@ public class AMDataWriter{
 		try{
 			data.writeBoolean(value);
 		}catch (IOException e){
-			AMCore.log.error(e.getMessage());
+			LogHelper.error(e.getMessage());
 		}
 		return this;
 	}
@@ -42,7 +42,7 @@ public class AMDataWriter{
 		try{
 			data.writeByte(value);
 		}catch (IOException e){
-			AMCore.log.error("AMDataWriter: " + e.getMessage());
+			LogHelper.error("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
@@ -51,7 +51,7 @@ public class AMDataWriter{
 		try{
 			data.writeUTF(value);
 		}catch (IOException e){
-			AMCore.log.error("AMDataWriter: " + e.getMessage());
+			LogHelper.error("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
@@ -60,7 +60,7 @@ public class AMDataWriter{
 		try{
 			data.writeShort(value);
 		}catch (IOException e){
-			AMCore.log.error("AMDataWriter: " + e.getMessage());
+			LogHelper.error("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
@@ -69,7 +69,7 @@ public class AMDataWriter{
 		try{
 			data.writeDouble(value);
 		}catch (IOException e){
-			AMCore.log.error("AMDataWriter: " + e.getMessage());
+			LogHelper.error("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
@@ -78,7 +78,7 @@ public class AMDataWriter{
 		try{
 			data.writeFloat(value);
 		}catch (IOException e){
-			AMCore.log.error("AMDataWriter: " + e.getMessage());
+			LogHelper.error("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
@@ -87,7 +87,7 @@ public class AMDataWriter{
 		try{
 			data.writeLong(value);
 		}catch (IOException e){
-			AMCore.log.error("AMDataWriter: " + e.getMessage());
+			LogHelper.error("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
@@ -96,7 +96,7 @@ public class AMDataWriter{
 		try{
 			data.write(value);
 		}catch (IOException e){
-			AMCore.log.error("AMDataWriter: " + e.getMessage());
+			LogHelper.error("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
@@ -107,7 +107,7 @@ public class AMDataWriter{
 			for (int i = 0; i < value.length; ++i)
 				data.writeInt(Integer.valueOf(value[i]));
 		}catch (IOException e){
-			AMCore.log.error("AMDataWriter: " + e.getMessage());
+			LogHelper.error("AMDataWriter: " + e.getMessage());
 		}
 		return this;
 	}
@@ -120,7 +120,7 @@ public class AMDataWriter{
 			data.writeInt(arr.length);
 			data.write(arr);
 		}catch (IOException ex){
-			AMCore.log.error("AMDataWriter: " + ex.getMessage());
+			LogHelper.error("AMDataWriter: " + ex.getMessage());
 		}
 		return this;
 	}

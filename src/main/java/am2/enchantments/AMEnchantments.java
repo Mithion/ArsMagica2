@@ -1,6 +1,7 @@
 package am2.enchantments;
 
 import am2.AMCore;
+import am2.LogHelper;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -37,15 +38,15 @@ public class AMEnchantments{
 			throw new ArrayIndexOutOfBoundsException("All enchantment IDs are in use...can't find a free one to take!");
 		}
 
-		AMCore.log.info(String.format("Attempting to set enchantment %s to ID %d (configured currently as %d)", configID, enchID, start_value));
+		LogHelper.info("Attempting to set enchantment %s to ID %d (configured currently as %d)", configID, enchID, start_value);
 		AMCore.config.updateConfigurableEnchantmentID(configID, enchID);
 
 		try{
 			T ench = (T)enchantmentClass.getConstructor(int.class, int.class).newInstance(enchID, weight);
-			AMCore.log.info("Successfully registered enchanment!");
+			LogHelper.info("Successfully registered enchanment!");
 			return ench;
 		}catch (Throwable t){
-			AMCore.log.error(String.format("Failed to register enchantment %s!", configID));
+			LogHelper.error("Failed to register enchantment %s!", configID);
 			t.printStackTrace();
 		}
 		return null;

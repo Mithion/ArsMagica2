@@ -1,6 +1,6 @@
 package am2.api.power;
 
-import am2.AMCore;
+import am2.LogHelper;
 import am2.api.ArsMagicaApi;
 
 import java.security.InvalidParameterException;
@@ -34,10 +34,10 @@ public final class PowerTypes{
 
 	public static void RegisterPowerType(int id, String name, String chatColor){
 		if (getByID(id) == NONE){
-			AMCore.log.info(String.format("Attempted to register power type %s with ID of %d, but that ID is already taken!  The type was NOT registered!", name, id));
+			LogHelper.info("Attempted to register power type %s with ID of %d, but that ID is already taken!  The type was NOT registered!", name, id);
 		}else{
 			allPowerTypes.add(new PowerTypes(id, name, chatColor));
-			AMCore.log.info(String.format("Registered new power type %s with ID %d", name, id));
+			LogHelper.info("Registered new power type %s with ID %d", name, id);
 		}
 	}
 

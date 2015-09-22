@@ -1,6 +1,7 @@
 package am2.network;
 
 import am2.AMCore;
+import am2.LogHelper;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
 import am2.blocks.tileentities.TileEntityArmorImbuer;
@@ -18,7 +19,6 @@ import am2.playerextensions.ExtendedProperties;
 import am2.playerextensions.SkillData;
 import am2.power.PowerNodeRegistry;
 import am2.spell.SpellUtils;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -114,8 +114,8 @@ public class AMPacketProcessorServer{
 				break;
 			}
 		}catch (Throwable t){
-			AMCore.log.error("Server Packet Failed to Handle!");
-			AMCore.log.error("Packet Type: " + packetID);
+			LogHelper.error("Server Packet Failed to Handle!");
+			LogHelper.error("Packet Type: " + packetID);
 			t.printStackTrace();
 		}finally{
 			try{

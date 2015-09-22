@@ -1,12 +1,11 @@
 package am2.spell;
 
-import am2.AMCore;
+import am2.LogHelper;
 import am2.api.events.SpellRecipeItemsEvent;
 import am2.api.power.PowerTypes;
 import am2.api.spell.component.interfaces.ISpellPart;
 import am2.items.ItemEssence;
 import am2.items.ItemsCommonProxy;
-import cpw.mods.fml.common.FMLLog;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPotion;
@@ -35,7 +34,7 @@ public class SpellRecipeManager{
 		recipe = event.recipeItems;
 
 		if (recipe == null){
-			AMCore.log.info(String.format("Component %s has been registered with no craftable recipe - is this intentional?  If so, return a 0-length array for recipe.", SkillManager.instance.getDisplayName(part)));
+			LogHelper.info("Component %s has been registered with no craftable recipe - is this intentional?  If so, return a 0-length array for recipe.", SkillManager.instance.getDisplayName(part));
 			return;
 		}
 		if (recipe.length == 0){
@@ -50,7 +49,7 @@ public class SpellRecipeManager{
 			}else if (o instanceof String){
 				if (((String)o).toLowerCase().startsWith("e:")){
 					if (i == recipe.length - 1 || !(recipe[i + 1] instanceof Integer)){
-						AMCore.log.warn("Error registering recipe.  Power must be declared in Integer pairs (type flags, quantity)).");
+						LogHelper.warn("Error registering recipe.  Power must be declared in Integer pairs (type flags, quantity)).");
 						return;
 					}
 
@@ -89,7 +88,7 @@ public class SpellRecipeManager{
 			try{
 				ids[i] = Integer.parseInt(split[i]);
 			}catch (NumberFormatException nex){
-				AMCore.log.warn(String.format("Invalid power type ID while parsing value %s", s));
+				LogHelper.warn("Invalid power type ID while parsing value %s", s);
 				ids[i] = 0;
 			}
 		}
@@ -170,12 +169,12 @@ public class SpellRecipeManager{
 				sb.append(SkillManager.instance.getSkillName(part) + " ");
 			}
 			sb.append("- this should be corrected as soon as possible!");
-			AMCore.log.warn(sb.toString());
+			LogHelper.warn(sb.toString());
 		}
 
 		if (safeCopy.size() > 0){
 			ISpellPart part = safeCopy.values().iterator().next();
-			AMCore.log.info(String.format("Matched Spell Component: %s", part.getClass().toString()));
+			LogHelper.info("Matched Spell Component: %s", part.getClass().toString());
 			return part;
 		}
 

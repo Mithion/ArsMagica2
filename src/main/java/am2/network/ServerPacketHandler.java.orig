@@ -126,8 +126,8 @@ public class ServerPacketHandler implements IPacketHandler, ITinyPacketHandler{
 >>>>>>> ac0deb53c7e9b193e2c951fe7694d47dd0669a9e
 			}
 		}catch (Throwable t){
-			AMCore.log.error("Server Packet Failed to Handle!");
-			AMCore.log.error("Packet Type: " + packetID);
+			LogHelper.error("Server Packet Failed to Handle!");
+			LogHelper.error("Packet Type: " + packetID);
 			t.printStackTrace();
 		}
 

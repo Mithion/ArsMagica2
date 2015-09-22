@@ -1,6 +1,7 @@
 package am2.buffs;
 
 import am2.AMCore;
+import am2.LogHelper;
 import am2.api.potion.IBuffHelper;
 import am2.particles.AMParticle;
 import am2.particles.ParticleLiveForBuffDuration;
@@ -14,8 +15,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 public class BuffList implements IBuffHelper{
 	//buff "potions"
@@ -80,10 +81,10 @@ public class BuffList implements IBuffHelper{
 		String configID = name.replace(" ", "").toLowerCase().trim();
 		index = AMCore.config.getConfigurablePotionID(configID, index);
 
-		AMCore.log.info(String.format("Potion %s is ID %d", name, index));
+		LogHelper.info("Potion %s is ID %d", name, index);
 		
 		if (Potion.potionTypes[index] != null){
-			AMCore.log.error(String.format("Warning: Potion index %d is already occupied by potion %s. Check your config files for clashes.", index, Potion.potionTypes[index].getName()));
+			LogHelper.error("Warning: Potion index %d is already occupied by potion %s. Check your config files for clashes.", index, Potion.potionTypes[index].getName());
 		}
 
 		ArsMagicaPotion potion = new ArsMagicaPotion(index, isBadEffect, 0x000000);
@@ -100,10 +101,10 @@ public class BuffList implements IBuffHelper{
 		String configID = name.replace(" ", "").toLowerCase().trim();
 		index = AMCore.config.getConfigurablePotionID(configID, index);
 		
-		AMCore.log.info(String.format("Potion %s is ID %d", name, index));
+		LogHelper.info("Potion %s is ID %d", name, index);
 		
 		if (Potion.potionTypes[index] != null){
-			AMCore.log.error(String.format("Warning: Potion index %d is already occupied by potion %s. Check your config files for clashes.", index, Potion.potionTypes[index].getName()));
+			LogHelper.warn("Warning: Potion index %d is already occupied by potion %s. Check your config files for clashes.", index, Potion.potionTypes[index].getName());
 		}
 		
 		ManaPotion potion = new ManaPotion(index, isBadEffect, colour);
@@ -139,7 +140,7 @@ public class BuffList implements IBuffHelper{
 				particlesForBuffID.put(i, 0);
 			}
 		}catch (Throwable t){
-			AMCore.log.error("Buffs failed to initialize!  This will make the game very unstable!");
+			LogHelper.error("Buffs failed to initialize!  This will make the game very unstable!");
 			t.printStackTrace();
 		}
 	}
@@ -148,7 +149,7 @@ public class BuffList implements IBuffHelper{
 		// potion clash detection
 		for (Map.Entry<Integer, Potion> entry : ourInitialPotionAllocations.entrySet()){
 			if (Potion.potionTypes[entry.getKey()] != entry.getValue()){
-				AMCore.log.error(String.format("My potion, %s, at index %d has been over-written by another potion, %s. You have a conflict in your configuration files.", entry.getValue().getName(), entry.getKey(), Potion.potionTypes[entry.getKey()].getName()));
+				LogHelper.warn("My potion, %s, at index %d has been over-written by another potion, %s. You have a conflict in your configuration files.", entry.getValue().getName(), entry.getKey(), Potion.potionTypes[entry.getKey()].getName());
 			}
 		}
 	}
@@ -256,8 +257,8 @@ public class BuffList implements IBuffHelper{
 	}
 
 	private static void extendPotionsArray() throws Exception{
-		AMCore.log.info("Extending potions array");
-		AMCore.log.info("Injecting potions starting from index " + Potion.potionTypes.length);
+		LogHelper.info("Extending potions array");
+		LogHelper.info("Injecting potions starting from index " + Potion.potionTypes.length);
 		potionDefaultOffset = Potion.potionTypes.length;
 		setPotionArrayLength(255);
 	}
@@ -310,13 +311,13 @@ public class BuffList implements IBuffHelper{
 			BuffEffect p = (BuffEffect)buffMaker.newInstance(duration, amplifier);
 			return p;
 		}catch (InstantiationException e){
-			AMCore.log.error("Could not create potion: " + e.getMessage());
+			LogHelper.error("Could not create potion: " + e.getMessage());
 		}catch (IllegalAccessException e){
-			AMCore.log.error("Could not create potion: " + e.getMessage());
+			LogHelper.error("Could not create potion: " + e.getMessage());
 		}catch (IllegalArgumentException e){
-			AMCore.log.error("Could not create potion: " + e.getMessage());
+			LogHelper.error("Could not create potion: " + e.getMessage());
 		}catch (InvocationTargetException e){
-			AMCore.log.error("Could not create potion: " + e.getMessage());
+			LogHelper.error("Could not create potion: " + e.getMessage());
 		}
 		return null;
 	}
@@ -343,9 +344,9 @@ public class BuffList implements IBuffHelper{
 	@Override
 	public void addDispelExclusion(int id){
 		if (dispelBlacklist.contains(id)){
-			AMCore.log.info(String.format("Id %d was already on the dispel blacklist; skipping.", id));
+			LogHelper.info("Id %d was already on the dispel blacklist; skipping.", id);
 		}else{
-			AMCore.log.info(String.format("Added %d to the dispel blacklist.", id));
+			LogHelper.info("Added %d to the dispel blacklist.", id);
 			dispelBlacklist.add(id);
 		}
 	}

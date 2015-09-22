@@ -1,6 +1,7 @@
 package am2.blocks.tileentities;
 
 import am2.AMCore;
+import am2.LogHelper;
 import am2.api.events.SpellRecipeItemsEvent;
 import am2.api.power.PowerTypes;
 import am2.api.spell.component.interfaces.*;
@@ -639,7 +640,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			for (ISpellPart part : allRecipeItems){
 
 				if (part == null){
-					AMCore.log.error("Unable to write recipe to book.  Recipe part is null!");
+					LogHelper.error("Unable to write recipe to book.  Recipe part is null!");
 					return bookstack;
 				}
 
@@ -649,7 +650,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				recipeItems = event.recipeItems;
 
 				if (recipeItems == null){
-					AMCore.log.error(String.format("Unable to write recipe to book.  Recipe items are null for part %d!", part.getID()));
+					LogHelper.error("Unable to write recipe to book.  Recipe items are null for part %d!", part.getID());
 					return bookstack;
 				}
 				for (int i = 0; i < recipeItems.length; ++i){

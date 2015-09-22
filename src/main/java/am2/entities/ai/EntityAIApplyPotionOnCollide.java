@@ -1,6 +1,6 @@
 package am2.entities.ai;
 
-import am2.AMCore;
+import am2.LogHelper;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -104,9 +104,9 @@ public class EntityAIApplyPotionOnCollide extends EntityAIBase{
 				try{
 					ctor = (Constructor<PotionEffect>)_template.getClass().getConstructor(int.class, int.class, int.class);
 				}catch (NoSuchMethodException e1){
-					AMCore.log.trace(String.format("Entity AI Potion On Collide Error {0}", e1.getStackTrace().toString()));
+					LogHelper.trace("Entity AI Potion On Collide Error {0}", e1.getStackTrace().toString());
 				}catch (SecurityException e1){
-					AMCore.log.trace(String.format("Entity AI Potion On Collide Error {0}", e1.getStackTrace().toString()));
+					LogHelper.trace("Entity AI Potion On Collide Error {0}", e1.getStackTrace().toString());
 				}
 				if (ctor != null){
 					PotionEffect pe;
@@ -114,13 +114,13 @@ public class EntityAIApplyPotionOnCollide extends EntityAIBase{
 						pe = ctor.newInstance(_template.getPotionID(), _template.getDuration(), _template.getAmplifier());
 						this.entityTarget.addPotionEffect(pe);
 					}catch (InstantiationException e){
-						AMCore.log.trace(String.format("Entity AI Potion On Collide Error {0}", e.getStackTrace().toString()));
+						LogHelper.trace("Entity AI Potion On Collide Error {0}", e.getStackTrace().toString());
 					}catch (IllegalAccessException e){
-						AMCore.log.trace(String.format("Entity AI Potion On Collide Error {0}", e.getStackTrace().toString()));
+						LogHelper.trace("Entity AI Potion On Collide Error {0}", e.getStackTrace().toString());
 					}catch (IllegalArgumentException e){
-						AMCore.log.trace(String.format("Entity AI Potion On Collide Error {0}", e.getStackTrace().toString()));
+						LogHelper.trace("Entity AI Potion On Collide Error {0}", e.getStackTrace().toString());
 					}catch (InvocationTargetException e){
-						AMCore.log.trace(String.format("Entity AI Potion On Collide Error {0}", e.getStackTrace().toString()));
+						LogHelper.trace("Entity AI Potion On Collide Error {0}", e.getStackTrace().toString());
 					}
 				}
 			}
