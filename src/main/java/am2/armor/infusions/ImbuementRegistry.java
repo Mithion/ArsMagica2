@@ -27,7 +27,7 @@ public class ImbuementRegistry implements IImbuementRegistry{
 	@Override
 	public void registerImbuement(IArmorImbuement imbuementInstance){
 		registeredImbuements.put(imbuementInstance.getID(), imbuementInstance);
-		AMCore.log.info("Registered imbuement: %s", imbuementInstance.getID());
+		AMCore.log.info(String.format("Registered imbuement: %s", imbuementInstance.getID()));
 	}
 
 	@Override

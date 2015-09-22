@@ -375,9 +375,9 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		AMCore.config.setManaCap(manaCap);
 
 		AMCore.log.info("Received player login packet.");
-		AMCore.log.debug("Secondary tree cap: %d", skillTreeLock);
-		AMCore.log.debug("Disabled skills: %d", disabledSkills.length);
-		AMCore.log.debug("Mana cap: %.2f", manaCap);
+		AMCore.log.debug(String.format("Secondary tree cap: %d", skillTreeLock));
+		AMCore.log.debug(String.format("Disabled skills: %d", disabledSkills.length));
+		AMCore.log.debug(String.format("Mana cap: %.2f", manaCap));
 
 		SkillTreeManager.instance.disableAllSkillsIn(disabledSkills);
 	}

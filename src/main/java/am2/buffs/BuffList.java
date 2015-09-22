@@ -80,10 +80,10 @@ public class BuffList implements IBuffHelper{
 		String configID = name.replace(" ", "").toLowerCase().trim();
 		index = AMCore.config.getConfigurablePotionID(configID, index);
 
-		AMCore.log.info("Potion %s is ID %d", name, index);
+		AMCore.log.info(String.format("Potion %s is ID %d", name, index));
 		
 		if (Potion.potionTypes[index] != null){
-			AMCore.log.error("Warning: Potion index %d is already occupied by potion %s. Check your config files for clashes.", index, Potion.potionTypes[index].getName());
+			AMCore.log.error(String.format("Warning: Potion index %d is already occupied by potion %s. Check your config files for clashes.", index, Potion.potionTypes[index].getName()));
 		}
 
 		ArsMagicaPotion potion = new ArsMagicaPotion(index, isBadEffect, 0x000000);
@@ -100,10 +100,10 @@ public class BuffList implements IBuffHelper{
 		String configID = name.replace(" ", "").toLowerCase().trim();
 		index = AMCore.config.getConfigurablePotionID(configID, index);
 		
-		AMCore.log.info("Potion %s is ID %d", name, index);
+		AMCore.log.info(String.format("Potion %s is ID %d", name, index));
 		
 		if (Potion.potionTypes[index] != null){
-			AMCore.log.error("Warning: Potion index %d is already occupied by potion %s. Check your config files for clashes.", index, Potion.potionTypes[index].getName());
+			AMCore.log.error(String.format("Warning: Potion index %d is already occupied by potion %s. Check your config files for clashes.", index, Potion.potionTypes[index].getName()));
 		}
 		
 		ManaPotion potion = new ManaPotion(index, isBadEffect, colour);
@@ -148,7 +148,7 @@ public class BuffList implements IBuffHelper{
 		// potion clash detection
 		for (Map.Entry<Integer, Potion> entry : ourInitialPotionAllocations.entrySet()){
 			if (Potion.potionTypes[entry.getKey()] != entry.getValue()){
-				AMCore.log.error("My potion, %s, at index %d has been over-written by another potion, %s. You have a conflict in your configuration files.", entry.getValue().getName(), entry.getKey(), Potion.potionTypes[entry.getKey()].getName());
+				AMCore.log.error(String.format("My potion, %s, at index %d has been over-written by another potion, %s. You have a conflict in your configuration files.", entry.getValue().getName(), entry.getKey(), Potion.potionTypes[entry.getKey()].getName()));
 			}
 		}
 	}
@@ -343,9 +343,9 @@ public class BuffList implements IBuffHelper{
 	@Override
 	public void addDispelExclusion(int id){
 		if (dispelBlacklist.contains(id)){
-			AMCore.log.info("Id %d was already on the dispel blacklist; skipping.", id);
+			AMCore.log.info(String.format("Id %d was already on the dispel blacklist; skipping.", id));
 		}else{
-			AMCore.log.info("Added %d to the dispel blacklist.", id);
+			AMCore.log.info(String.format("Added %d to the dispel blacklist.", id));
 			dispelBlacklist.add(id);
 		}
 	}

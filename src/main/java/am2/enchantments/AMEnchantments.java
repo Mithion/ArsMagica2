@@ -37,7 +37,7 @@ public class AMEnchantments{
 			throw new ArrayIndexOutOfBoundsException("All enchantment IDs are in use...can't find a free one to take!");
 		}
 
-		AMCore.log.info("Attempting to set enchantment %s to ID %d (configured currently as %d)", configID, enchID, start_value);
+		AMCore.log.info(String.format("Attempting to set enchantment %s to ID %d (configured currently as %d)", configID, enchID, start_value));
 		AMCore.config.updateConfigurableEnchantmentID(configID, enchID);
 
 		try{
@@ -45,7 +45,7 @@ public class AMEnchantments{
 			AMCore.log.info("Successfully registered enchanment!");
 			return ench;
 		}catch (Throwable t){
-			AMCore.log.error("Failed to register enchantment %s!", configID);
+			AMCore.log.error(String.format("Failed to register enchantment %s!", configID));
 			t.printStackTrace();
 		}
 		return null;

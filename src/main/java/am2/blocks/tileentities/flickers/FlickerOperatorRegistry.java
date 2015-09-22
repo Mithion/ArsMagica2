@@ -18,11 +18,11 @@ public class FlickerOperatorRegistry implements IFlickerRegistry{
 	@Override
 	public boolean registerFlickerOperator(IFlickerFunctionality singleton, int mask){
 		if (registeredOperators.containsKey(mask)){
-			AMCore.log.warn("An addon attempted to register a flicker operator (%s) with a mask (%d) that is already in use.  The operator was NOT registered!", singleton.getClass().getName(), mask);
+			AMCore.log.warn(String.format("An addon attempted to register a flicker operator (%s) with a mask (%d) that is already in use.  The operator was NOT registered!", singleton.getClass().getName(), mask));
 			return false;
 		}
 		registeredOperators.put(mask, singleton);
-		AMCore.log.debug("Registered Flicker operator %s to mask %d", singleton.getClass().getName(), mask);
+		AMCore.log.debug(String.format("Registered Flicker operator %s to mask %d", singleton.getClass().getName(), mask));
 		return true;
 	}
 

@@ -264,7 +264,7 @@ public class PowerNodeEntry{
 					//register the list of paths and power type
 					nodePaths.put(type, pathsList);
 
-					//	AMCore.log.info("Loaded %d node paths for %s etherium.", pathsList.size(), type.name());
+					//	AMCore.log.info(String.format("Loaded %d node paths for %s etherium.", pathsList.size(), type.name()));
 				}
 			}
 		}

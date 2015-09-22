@@ -205,7 +205,7 @@ public class EntityManager implements IEntityManager{
 
 	private void initSpawnsForBiomeTypes(SpawnListEntry spawnListEntry, EnumCreatureType creatureType, Type[] types, Type[] exclusions){
 		if (spawnListEntry.itemWeight == 0){
-			AMCore.log.info("Skipping spawn list entry for %s (as type %s), as the weight is set to 0.  This can be changed in config.", spawnListEntry.entityClass.getName(), creatureType.toString());
+			AMCore.log.info(String.format("Skipping spawn list entry for %s (as type %s), as the weight is set to 0.  This can be changed in config.", spawnListEntry.entityClass.getName(), creatureType.toString()));
 			return;
 		}
 		for (Type type : types){

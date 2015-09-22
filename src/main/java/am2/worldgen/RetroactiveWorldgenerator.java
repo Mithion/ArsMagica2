@@ -31,7 +31,7 @@ public class RetroactiveWorldgenerator{
 
 			deferredChunkGeneration.put(dimensionID, chunks);
 
-			AMCore.log.info("Retro-genned %d chunks, %d left to generate.", count, chunks.size());
+			AMCore.log.info(String.format("Retro-genned %d chunks, %d left to generate.", count, chunks.size()));
 		}
 	}
 }

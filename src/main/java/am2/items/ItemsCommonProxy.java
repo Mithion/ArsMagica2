@@ -1034,7 +1034,7 @@ public class ItemsCommonProxy{
 				if (recipeItems != null){
 					GameRegistry.addRecipe(new ItemStack(flickerFocus, 1, i), recipeItems);
 				}else{
-					AMCore.log.info("Flicker operator %s was registered with no recipe.  It is un-craftable.  This may have been intentional.", func.getClass().getSimpleName());
+					AMCore.log.info(String.format("Flicker operator %s was registered with no recipe.  It is un-craftable.  This may have been intentional.", func.getClass().getSimpleName()));
 				}
 			}
 		}

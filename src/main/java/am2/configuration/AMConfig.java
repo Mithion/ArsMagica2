@@ -337,7 +337,7 @@ public class AMConfig extends Configuration{
 			try{
 				worldgenBlacklist[count] = Integer.parseInt(s.trim());
 			}catch (Throwable t){
-				AMCore.log.info("Malformed item in worldgen blacklist (%s).  Skipping.", s);
+				AMCore.log.info(String.format("Malformed item in worldgen blacklist (%s).  Skipping.", s));
 				t.printStackTrace();
 				worldgenBlacklist[count] = -1;
 			}finally{
@@ -357,7 +357,7 @@ public class AMConfig extends Configuration{
 			try{
 				appropriationMobBlacklist[count] = Class.forName(s);
 			}catch (Throwable t){
-				AMCore.log.info("Malformed item in appropriation entity blacklist (%s).  Skipping.", s);
+				AMCore.log.info(String.format("Malformed item in appropriation entity blacklist (%s).  Skipping.", s));
 				t.printStackTrace();
 				appropriationMobBlacklist[count] = null;
 			}finally{

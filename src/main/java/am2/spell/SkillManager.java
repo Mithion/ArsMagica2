@@ -98,7 +98,7 @@ public class SkillManager implements ISpellPartManager{
 
 		if (registeredParts.containsKey(id)){
 			String existing = reversedPartNames.get(id);
-			AMCore.log.info("Attempted to register duplicate spell part name, %s (which would overwrite %s).  The part was NOT registered.", name, existing);
+			AMCore.log.info(String.format("Attempted to register duplicate spell part name, %s (which would overwrite %s).  The part was NOT registered.", name, existing));
 			return -1;
 		}
 

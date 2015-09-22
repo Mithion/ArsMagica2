@@ -249,7 +249,7 @@ public class ArcaneCompendium implements ILoreHelper{
 
 	private void checkForModUpdates(){
 		try{
-			AMCore.log.info("Checking Version.  MC Version: %s", MCVersion);
+			AMCore.log.info(String.format("Checking Version.  MC Version: %s", MCVersion));
 			this.latestModVersion = this.modVersion;
 			String txt = WebRequestUtils.sendPost("http://arcanacraft.qorconcept.com/mc/AM2Versioning.txt", new HashMap<String, String>());
 			String[] lines = txt.replace("\r\n", "\n").split("\n");
@@ -260,13 +260,13 @@ public class ArcaneCompendium implements ILoreHelper{
 				if (!MCVersion.startsWith(sections[0].trim()))
 					continue;
 				if (versionCompare(sections[1], this.latestModVersion) > 0){
-					AMCore.log.info("An update is available.  Version %s is released, detected local version of %s.", this.modVersion, sections[1]);
+					AMCore.log.info(String.format("An update is available.  Version %s is released, detected local version of %s.", this.modVersion, sections[1]));
 					this.latestModVersion = sections[1];
 					this.latestDownloadLink = sections.length >= 3 ? sections[2] : "";
 					this.latestPatchNotesLink = sections.length >= 4 ? sections[3] : "";
 					modUpdateAvailable = true;
 				}else{
-					AMCore.log.info("You are running the latest version of AM2.  Latest Released Version: %s.  Your Version: %s.", this.latestModVersion, this.modVersion);
+					AMCore.log.info(String.format("You are running the latest version of AM2.  Latest Released Version: %s.  Your Version: %s.", this.latestModVersion, this.modVersion));
 				}
 			}
 
@@ -633,19 +633,19 @@ public class ArcaneCompendium implements ILoreHelper{
 	@Override
 	public void AddCompenidumEntry(Object entryItem, String entryKey, String entryName, String entryDesc, String parent, boolean allowReplace, String... relatedKeys){
 		if (entryItem == null){
-			AMCore.log.warn("Null entry item passed.  Cannot add Compendium Entry with key %s.", entryKey);
+			AMCore.log.warn(String.format("Null entry item passed.  Cannot add Compendium Entry with key %s.", entryKey));
 			return;
 		}
 
 		CompendiumEntry existingEntry = getEntry(entryKey);
 		if (existingEntry != null && !allowReplace){
-			AMCore.log.warn("Compendium entry with key %s exists, and allowReplace is false.  The entry was not added.", entryKey);
+			AMCore.log.warn(String.format("Compendium entry with key %s exists, and allowReplace is false.  The entry was not added.", entryKey));
 			return;
 		}
 
 		CompendiumEntry parentEntry = parent == null ? null : getEntry(parent);
 		if (parent != null && parentEntry == null){
-			AMCore.log.warn("The parent ID %s was not found.  Entry %s will be added with no parent.", parent, entryKey);
+			AMCore.log.warn(String.format("The parent ID %s was not found.  Entry %s will be added with no parent.", parent, entryKey));
 		}
 
 		CompendiumEntry newEntry = null;
@@ -679,6 +679,6 @@ public class ArcaneCompendium implements ILoreHelper{
 		}
 
 		this.compendium.put(entryKey, newEntry);
-		AMCore.log.debug("Successfully added compendium entry %s", entryKey);
+		AMCore.log.debug(String.format("Successfully added compendium entry %s", entryKey));
 	}
 }

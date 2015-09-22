@@ -20,9 +20,9 @@ public class SpawnBlacklists{
 		try{
 			clazz = Class.forName(entityClass);
 			blacklistedDimensionSpawns.put(dimensionID, clazz);
-			AMCore.log.info("Blacklisted %s from spawning in dimension %d.", entityClass, dimensionID);
+			AMCore.log.info(String.format("Blacklisted %s from spawning in dimension %d.", entityClass, dimensionID));
 		}catch (ClassNotFoundException e){
-			AMCore.log.info("Unable to parse class name %s from IMC!  This needs to be corrected by the other mod author!", entityClass);
+			AMCore.log.info(String.format("Unable to parse class name %s from IMC!  This needs to be corrected by the other mod author!", entityClass));
 		}
 	}
 
@@ -31,9 +31,9 @@ public class SpawnBlacklists{
 		try{
 			clazz = Class.forName(entityClass);
 			blacklistedBiomeSpawns.put(biomeID, clazz);
-			AMCore.log.info("Blacklisted %s from spawning in biome %d.", entityClass, biomeID);
+			AMCore.log.info(String.format("Blacklisted %s from spawning in biome %d.", entityClass, biomeID));
 		}catch (ClassNotFoundException e){
-			AMCore.log.info("Unable to parse class name %s from IMC!  This needs to be corrected by the other mod author!", entityClass);
+			AMCore.log.info(String.format("Unable to parse class name %s from IMC!  This needs to be corrected by the other mod author!", entityClass));
 		}
 	}
 
