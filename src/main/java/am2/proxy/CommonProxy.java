@@ -10,7 +10,6 @@ import am2.armor.infusions.*;
 import am2.blocks.BlocksCommonProxy;
 import am2.blocks.tileentities.TileEntityParticleEmitter;
 import am2.buffs.BuffList;
-import am2.commands.ConfigureAMUICommand;
 import am2.enchantments.AMEnchantments;
 import am2.entities.EntityManager;
 import am2.items.ItemsCommonProxy;
@@ -46,7 +45,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.util.ArrayList;
@@ -150,8 +148,6 @@ public class CommonProxy{
 
 		enchantments = new AMEnchantments();
 		enchantments.Init();
-
-		ClientCommandHandler.instance.registerCommand(new ConfigureAMUICommand());
 	}
 
 	public AM2WorldDecorator getWorldGen(){
