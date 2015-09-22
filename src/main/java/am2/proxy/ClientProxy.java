@@ -17,6 +17,7 @@ import am2.blocks.renderers.SimpleBlockRenderHandler;
 import am2.blocks.renderers.TechneBlockRenderHandler;
 import am2.blocks.tileentities.TileEntityParticleEmitter;
 import am2.buffs.BuffList;
+import am2.commands.ConfigureAMUICommand;
 import am2.entities.EntityAirSled;
 import am2.guis.AMGuiHelper;
 import am2.guis.GuiParticleEmitter;
@@ -61,6 +62,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.GL11;
@@ -139,6 +141,8 @@ public class ClientProxy extends CommonProxy{
 
 		MinecraftForgeClient.registerItemRenderer(ItemsCommonProxy.spell, SpellScrollRenderer.instance);
 		MinecraftForgeClient.registerItemRenderer(ItemsCommonProxy.spellBook, SpellScrollRenderer.instance);
+
+		ClientCommandHandler.instance.registerCommand(new ConfigureAMUICommand());
 	}
 
 	@Override
