@@ -217,7 +217,6 @@ public class AMCore{
 		serverCommandManager.registerCommand(new DumpNBT());
 		serverCommandManager.registerCommand(new Respec());
 		serverCommandManager.registerCommand(new UnlockCompendiumEntry());
-		ClientCommandHandler.instance.registerCommand(new ConfigureAMUICommand());
 	}
 
 	@EventHandler
