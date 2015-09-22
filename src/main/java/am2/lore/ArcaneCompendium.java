@@ -1,6 +1,7 @@
 package am2.lore;
 
 import am2.AMCore;
+import am2.LogHelper;
 import am2.api.ILoreHelper;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.component.interfaces.ISpellModifier;
@@ -83,7 +84,7 @@ public class ArcaneCompendium implements ILoreHelper{
 			if (!file.exists())
 				file.mkdirs();
 		}catch (Throwable t){
-			AMCore.log.error("Could not create save location!");
+			LogHelper.error("Could not create save location!");
 			t.printStackTrace();
 		}
 	}
@@ -116,7 +117,7 @@ public class ArcaneCompendium implements ILoreHelper{
 
 				writer.close();
 			}catch (IOException e){
-				AMCore.log.error("Compendium unlock state failed to save!");
+				LogHelper.error("Compendium unlock state failed to save!");
 				e.printStackTrace();
 			}
 
@@ -139,7 +140,7 @@ public class ArcaneCompendium implements ILoreHelper{
 
 				File file = new File(saveFileLocation + File.separatorChar + getWorldName() + ".txt");
 				if (!file.exists()){
-					AMCore.log.info("Compendium unlock state not found to load.  Assuming it hasn't been created yet.");
+					LogHelper.info("Compendium unlock state not found to load.  Assuming it hasn't been created yet.");
 					return;
 				}
 				BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -158,7 +159,7 @@ public class ArcaneCompendium implements ILoreHelper{
 
 				reader.close();
 			}catch (IOException e){
-				AMCore.log.error("Compendium unlock state failed to load!");
+				LogHelper.error("Compendium unlock state failed to load!");
 				e.printStackTrace();
 			}
 		}
@@ -170,7 +171,7 @@ public class ArcaneCompendium implements ILoreHelper{
 
 	public void init(Language lang){
 		if (lang == null){
-			AMCore.log.error("Got a current language of NULL from Minecraft?!?  The compendium cannot load!");
+			LogHelper.error("Got a current language of NULL from Minecraft?!?  The compendium cannot load!");
 			return;
 		}
 		MCVersion = (String)ReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), "field_110447_Z", "launchedVersion");
@@ -185,7 +186,7 @@ public class ArcaneCompendium implements ILoreHelper{
 		if (AMCore.config.allowVersionChecks())
 			checkForModUpdates();
 		else
-			AMCore.log.info("Skipping version check due to config");
+			LogHelper.info("Skipping version check due to config");
 
 		//load the version of the compendium only
 		loadDocumentVersion(lang);
@@ -194,12 +195,12 @@ public class ArcaneCompendium implements ILoreHelper{
 		if (AMCore.config.allowCompendiumUpdates())
 			updateCompendium(lang);
 		else
-			AMCore.log.info("Skipping Compendium auto-update due to config");
+			LogHelper.info("Skipping Compendium auto-update due to config");
 
 		//get the compendium stream again, either from an updated version or the default packaged one
 		InputStream stream = getCompendium(lang);
 		if (stream == null){
-			AMCore.log.error("Unable to load the Arcane Compendium!");
+			LogHelper.error("Unable to load the Arcane Compendium!");
 			return;
 		}
 		//load the entire document
@@ -235,13 +236,13 @@ public class ArcaneCompendium implements ILoreHelper{
 
 						//we have the data, save it to the local repository
 						saveCompendiumData(compendiumData, compendiumFileName);
-						AMCore.log.info("Updated Compendium");
+						LogHelper.info("Updated Compendium");
 						return true;
 					}
 				}
 			}
 		}catch (Throwable t){
-			AMCore.log.warn("Unable to update the compendium!");
+			LogHelper.warn("Unable to update the compendium!");
 			t.printStackTrace();
 		}
 		return false;
@@ -249,7 +250,7 @@ public class ArcaneCompendium implements ILoreHelper{
 
 	private void checkForModUpdates(){
 		try{
-			AMCore.log.info(String.format("Checking Version.  MC Version: %s", MCVersion));
+			LogHelper.info("Checking Version.  MC Version: %s", MCVersion);
 			this.latestModVersion = this.modVersion;
 			String txt = WebRequestUtils.sendPost("http://arcanacraft.qorconcept.com/mc/AM2Versioning.txt", new HashMap<String, String>());
 			String[] lines = txt.replace("\r\n", "\n").split("\n");
@@ -260,13 +261,13 @@ public class ArcaneCompendium implements ILoreHelper{
 				if (!MCVersion.startsWith(sections[0].trim()))
 					continue;
 				if (versionCompare(sections[1], this.latestModVersion) > 0){
-					AMCore.log.info(String.format("An update is available.  Version %s is released, detected local version of %s.", this.modVersion, sections[1]));
+					LogHelper.info("An update is available.  Version %s is released, detected local version of %s.", this.modVersion, sections[1]);
 					this.latestModVersion = sections[1];
 					this.latestDownloadLink = sections.length >= 3 ? sections[2] : "";
 					this.latestPatchNotesLink = sections.length >= 4 ? sections[3] : "";
 					modUpdateAvailable = true;
 				}else{
-					AMCore.log.info(String.format("You are running the latest version of AM2.  Latest Released Version: %s.  Your Version: %s.", this.latestModVersion, this.modVersion));
+					LogHelper.info("You are running the latest version of AM2.  Latest Released Version: %s.  Your Version: %s.", this.latestModVersion, this.modVersion);
 				}
 			}
 
@@ -450,9 +451,9 @@ public class ArcaneCompendium implements ILoreHelper{
 				if (f.exists())
 					return new FileInputStream(f);
 			}catch (Throwable t){
-				AMCore.log.trace("An error occurred when trying to create an inputstream from the updated compendium.  Reverting to default.");
+				LogHelper.trace("An error occurred when trying to create an inputstream from the updated compendium.  Reverting to default.");
 			}
-			AMCore.log.info("No updated compendium found.  Using packaged compendium.");
+			LogHelper.info("No updated compendium found.  Using packaged compendium.");
 		}
 		return getPackagedCompendium(lang);
 	}
@@ -465,7 +466,7 @@ public class ArcaneCompendium implements ILoreHelper{
 		}catch (IOException e){
 		}finally{
 			if (resource == null){
-				AMCore.log.info("Unable to find localized compendium.  Defaulting to en_US");
+				LogHelper.info("Unable to find localized compendium.  Defaulting to en_US");
 				rLoc = new ResourceLocation("arsmagica2", "docs/ArcaneCompendium_en_US.xml");
 				try{
 					resource = Minecraft.getMinecraft().getResourceManager().getResource(rLoc);
@@ -544,7 +545,7 @@ public class ArcaneCompendium implements ILoreHelper{
 				entry = getEntry(key.split("@")[0]);
 			}
 			if (entry == null){
-				AMCore.log.warn("Attempted to unlock a compendium entry for a non-existant key: " + key);
+				LogHelper.warn("Attempted to unlock a compendium entry for a non-existant key: " + key);
 				if (verbose){
 					String message = String.format(StatCollector.translateToLocal("am2.tooltip.compEntryNotFound"), key);
 					Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(message));
@@ -633,19 +634,19 @@ public class ArcaneCompendium implements ILoreHelper{
 	@Override
 	public void AddCompenidumEntry(Object entryItem, String entryKey, String entryName, String entryDesc, String parent, boolean allowReplace, String... relatedKeys){
 		if (entryItem == null){
-			AMCore.log.warn(String.format("Null entry item passed.  Cannot add Compendium Entry with key %s.", entryKey));
+			LogHelper.warn("Null entry item passed.  Cannot add Compendium Entry with key %s.", entryKey);
 			return;
 		}
 
 		CompendiumEntry existingEntry = getEntry(entryKey);
 		if (existingEntry != null && !allowReplace){
-			AMCore.log.warn(String.format("Compendium entry with key %s exists, and allowReplace is false.  The entry was not added.", entryKey));
+			LogHelper.warn("Compendium entry with key %s exists, and allowReplace is false.  The entry was not added.", entryKey);
 			return;
 		}
 
 		CompendiumEntry parentEntry = parent == null ? null : getEntry(parent);
 		if (parent != null && parentEntry == null){
-			AMCore.log.warn(String.format("The parent ID %s was not found.  Entry %s will be added with no parent.", parent, entryKey));
+			LogHelper.warn("The parent ID %s was not found.  Entry %s will be added with no parent.", parent, entryKey);
 		}
 
 		CompendiumEntry newEntry = null;
@@ -679,6 +680,6 @@ public class ArcaneCompendium implements ILoreHelper{
 		}
 
 		this.compendium.put(entryKey, newEntry);
-		AMCore.log.debug(String.format("Successfully added compendium entry %s", entryKey));
+		LogHelper.debug("Successfully added compendium entry %s", entryKey);
 	}
 }

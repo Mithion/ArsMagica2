@@ -1,6 +1,6 @@
 package am2.guis;
 
-import am2.AMCore;
+import am2.LogHelper;
 import am2.buffs.BuffList;
 import am2.playerextensions.ExtendedProperties;
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -646,12 +646,12 @@ public class AMGuiHelper{
 		if (mc.thePlayer != null && mc.theWorld != null && ExtendedProperties.For(mc.thePlayer).shouldReverseInput()){
 			EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
 			if (mc.gameSettings.keyBindLeft.getIsKeyPressed()){
-				AMCore.log.info("Override Left");
+				LogHelper.info("Override Left");
 				player.movementInput.moveStrafe -= 2;
 			}
 
 			if (mc.gameSettings.keyBindRight.getIsKeyPressed()){
-				AMCore.log.info("Override Rights");
+				LogHelper.info("Override Rights");
 				player.movementInput.moveStrafe += 2;
 			}
 

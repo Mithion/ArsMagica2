@@ -1,7 +1,7 @@
 package am2.render3d;
 
 import am2.AMCore;
-import cpw.mods.fml.common.FMLLog;
+import am2.LogHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -89,16 +89,16 @@ public class OBJModel{
 			br.close();
 			stream.close();
 		}catch (Throwable t){
-			AMCore.log.error("Error reading OBJ File Data!");
+			LogHelper.error("Error reading OBJ File Data!");
 			return false;
 		}
 
 		if (parseOBJFileLines(lines)){
 			/*AMCore.log.info("Loaded Model " + path);
-			AMCore.log.info("Vertices: " + vertices.length);
-			AMCore.log.info("Texture Coords: " + textureCoords.length);
-			AMCore.log.info("Normals: " + normals.length);
-			AMCore.log.info("Faces: " + faces.length);*/
+			LogHelper.info("Vertices: " + vertices.length);
+			LogHelper.info("Texture Coords: " + textureCoords.length);
+			LogHelper.info("Normals: " + normals.length);
+			LogHelper.info("Faces: " + faces.length);*/
 
 			return true;
 		}else{

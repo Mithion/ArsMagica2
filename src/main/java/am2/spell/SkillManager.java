@@ -1,13 +1,12 @@
 package am2.spell;
 
-import am2.AMCore;
+import am2.LogHelper;
 import am2.api.spell.ISpellPartManager;
 import am2.api.spell.component.interfaces.*;
 import am2.skills.*;
 import am2.spell.components.*;
 import am2.spell.modifiers.*;
 import am2.spell.shapes.*;
-import cpw.mods.fml.common.FMLLog;
 import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
@@ -98,7 +97,7 @@ public class SkillManager implements ISpellPartManager{
 
 		if (registeredParts.containsKey(id)){
 			String existing = reversedPartNames.get(id);
-			AMCore.log.info(String.format("Attempted to register duplicate spell part name, %s (which would overwrite %s).  The part was NOT registered.", name, existing));
+			LogHelper.info("Attempted to register duplicate spell part name, %s (which would overwrite %s).  The part was NOT registered.", name, existing);
 			return -1;
 		}
 
@@ -162,7 +161,7 @@ public class SkillManager implements ISpellPartManager{
 			if (clazz.isAssignableFrom(entry.getClass()))
 				return id;
 		}
-		AMCore.log.warn("Spell Part not found!");
+		LogHelper.warn("Spell Part not found!");
 		return -1;
 	}
 

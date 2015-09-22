@@ -1,6 +1,7 @@
 package am2.entities;
 
 import am2.AMCore;
+import am2.LogHelper;
 import am2.api.math.AMVector3;
 import am2.api.spell.component.interfaces.ISpellModifier;
 import am2.api.spell.enums.Affinity;
@@ -248,7 +249,7 @@ public class EntitySpellProjectile extends Entity{
 			}else{
 				EntityLivingBase homingTarget = getHomingEntity();
 				//AMCore.log.info("%.2f, %.2f, %.2f", posX, posY, posZ);
-				AMCore.log.trace("Homing Target: " + getHomingEntity());
+				LogHelper.trace("Homing Target: " + getHomingEntity());
 				if (homingTarget != null && new AMVector3(this).distanceSqTo(new AMVector3(homingTarget)) > 2){
 					this.moveTowards(homingTarget, 60, 60);
 				}

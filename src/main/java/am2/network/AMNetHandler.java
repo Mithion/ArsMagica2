@@ -1,6 +1,6 @@
 package am2.network;
 
-import am2.AMCore;
+import am2.LogHelper;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
 import am2.blocks.tileentities.TileEntityArmorImbuer;
@@ -50,7 +50,7 @@ public class AMNetHandler{
 			Channel.register(proc);
 			FMLCommonHandler.instance().bus().register(proc);
 		}else{
-			AMCore.log.info("Redundant call to register channels.");
+			LogHelper.info("Redundant call to register channels.");
 		}
 	}
 

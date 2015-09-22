@@ -1,6 +1,7 @@
 package am2.network;
 
 import am2.AMCore;
+import am2.LogHelper;
 import am2.api.power.IPowerNode;
 import am2.api.spell.component.interfaces.ISpellModifier;
 import am2.api.spell.enums.SpellModifiers;
@@ -155,8 +156,8 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 				break;
 			}
 		}catch (Throwable t){
-			AMCore.log.error("Client Packet Failed to Handle!");
-			AMCore.log.error("Packet Type: " + packetID);
+			LogHelper.error("Client Packet Failed to Handle!");
+			LogHelper.error("Packet Type: " + packetID);
 			t.printStackTrace();
 		}finally{
 			try{
@@ -374,10 +375,10 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 
 		AMCore.config.setManaCap(manaCap);
 
-		AMCore.log.info("Received player login packet.");
-		AMCore.log.debug(String.format("Secondary tree cap: %d", skillTreeLock));
-		AMCore.log.debug(String.format("Disabled skills: %d", disabledSkills.length));
-		AMCore.log.debug(String.format("Mana cap: %.2f", manaCap));
+		LogHelper.info("Received player login packet.");
+		LogHelper.debug("Secondary tree cap: %d", skillTreeLock);
+		LogHelper.debug("Disabled skills: %d", disabledSkills.length);
+		LogHelper.debug("Mana cap: %.2f", manaCap);
 
 		SkillTreeManager.instance.disableAllSkillsIn(disabledSkills);
 	}
@@ -405,7 +406,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		if (ent == null || !(ent instanceof EntityPlayer)) return;
 
 		if (!SkillData.For((EntityPlayer)ent).handlePacketData(data)){
-			AMCore.log.error("Critical Error Handling Spell Knowledge Sync Packet!");
+			LogHelper.error("Critical Error Handling Spell Knowledge Sync Packet!");
 		}
 	}
 
@@ -417,7 +418,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		if (ent == null || !(ent instanceof EntityPlayer)) return;
 
 		if (!AffinityData.For(ent).handlePacketData(data)){
-			AMCore.log.error("Critical Error Handling Affinity Sync Packet!");
+			LogHelper.error("Critical Error Handling Affinity Sync Packet!");
 		}
 	}
 
@@ -501,7 +502,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		if (ent == null) return;
 
 		if (!ExtendedProperties.For(ent).handleDataPacket(data)){
-			AMCore.log.error("Critical Error Handling Sync Packet!");
+			LogHelper.error("Critical Error Handling Sync Packet!");
 		}
 	}
 

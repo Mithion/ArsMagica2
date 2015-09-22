@@ -1,6 +1,6 @@
 package am2.preloader;
 
-import am2.AMCore;
+import am2.LogHelper;
 import net.minecraft.launchwrapper.IClassTransformer;
 import org.apache.logging.log4j.Level;
 import org.objectweb.asm.ClassReader;
@@ -16,7 +16,7 @@ public class BytecodeTransformers implements IClassTransformer{
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] bytes){
 		if (transformedName.equals("am2.armor.ItemMageHood") && AM2PreloaderContainer.foundThaumcraft){
-			AMCore.log.info("Core: Altering definition of " + transformedName + " to be thaumcraft compatible.");
+			LogHelper.info("Core: Altering definition of " + transformedName + " to be thaumcraft compatible.");
 			ClassReader cr = new ClassReader(bytes);
 			ClassNode cn = new ClassNode();
 			cr.accept(cn, 0);
@@ -29,22 +29,22 @@ public class BytecodeTransformers implements IClassTransformer{
 
 			bytes = cw.toByteArray();
 		}else if (transformedName.equals("net.minecraft.client.renderer.EntityRenderer")){
-			AMCore.log.info("Core: Altering definition of " + transformedName);
+			LogHelper.info("Core: Altering definition of " + transformedName);
 			bytes = alterEntityRenderer(bytes);
 		}else if (transformedName.equals("net.minecraft.client.entity.EntityPlayerSP")){
-			AMCore.log.info("Core: Altering definition of " + transformedName);
+			LogHelper.info("Core: Altering definition of " + transformedName);
 			bytes = alterEntityPlayerSP(bytes);
 		}else if (transformedName.equals("net.minecraft.entity.EntityPlayerMP")){
-			AMCore.log.info("Core: Altering definition of " + transformedName);
+			LogHelper.info("Core: Altering definition of " + transformedName);
 			bytes = alterEntityPlayerMP(bytes);
 		}else if (transformedName.equals("net.minecraft.network.NetServerHandler")){
-			AMCore.log.info("Core: Altering definition of " + transformedName);
+			LogHelper.info("Core: Altering definition of " + transformedName);
 			bytes = alterNetServerHandler(bytes);
 		}else if (transformedName.equals("net.minecraft.client.renderer.entity.RendererLivingEntity")){
-			AMCore.log.info("Core: Altering definition of " + transformedName);
+			LogHelper.info("Core: Altering definition of " + transformedName);
 			bytes = alterRendererLivingEntity(bytes);
 		}else if (transformedName.equals("net.minecraft.world.World")){
-			AMCore.log.info("Core: Altering definition of " + transformedName);
+			LogHelper.info("Core: Altering definition of " + transformedName);
 			bytes = alterWorld(bytes);
 		}
 
@@ -59,7 +59,7 @@ public class BytecodeTransformers implements IClassTransformer{
 		for (MethodNode mn : cn.methods){
 			if (mn.name.equals("a") && mn.desc.equals("(Lsv;DDDFF)V")){ //doRenderLiving(EntityLivingBase, double, double, double, float, float)
 				AbstractInsnNode target = null;
-				AMCore.log.debug("Core: Located target method " + mn.name + mn.desc);
+				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
 				Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();
 				while (instructions.hasNext()){
 					AbstractInsnNode node = instructions.next();
@@ -78,7 +78,7 @@ public class BytecodeTransformers implements IClassTransformer{
 
 					mn.instructions.insert(target, aLoad);
 					mn.instructions.insert(aLoad, callout);
-					AMCore.log.debug("Core: Success!  Inserted opcodes!");
+					LogHelper.debug("Core: Success!  Inserted opcodes!");
 					break;
 				}
 			}
@@ -99,18 +99,18 @@ public class BytecodeTransformers implements IClassTransformer{
 			if (mn.name.equals("a") && mn.desc.equals("(FI)V")){ //setupCameraTransform
 				AbstractInsnNode orientCameraNode = null;
 				AbstractInsnNode gluPerspectiveNode = null;
-				AMCore.log.debug("Core: Located target method " + mn.name + mn.desc);
+				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
 				Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();
 				while (instructions.hasNext()){
 					AbstractInsnNode node = instructions.next();
 					if (node instanceof MethodInsnNode){
 						MethodInsnNode method = (MethodInsnNode)node;
 						if (orientCameraNode == null && method.name.equals("g") && method.desc.equals("(F)V")){ //orient camera
-							AMCore.log.debug("Core: Located target method insn node: " + method.name + method.desc);
+							LogHelper.debug("Core: Located target method insn node: " + method.name + method.desc);
 							orientCameraNode = node;
 							continue;
 						}else if (gluPerspectiveNode == null && method.name.equals("gluPerspective") && method.desc.equals("(FFFF)V")){
-							AMCore.log.debug("Core: Located target method insn node: " + method.name + method.desc);
+							LogHelper.debug("Core: Located target method insn node: " + method.name + method.desc);
 							gluPerspectiveNode = node;
 							continue;
 						}
@@ -126,19 +126,19 @@ public class BytecodeTransformers implements IClassTransformer{
 					MethodInsnNode callout = new MethodInsnNode(Opcodes.INVOKESTATIC, "am2/guis/AMGuiHelper", "shiftView", "(F)V");
 					mn.instructions.insert(orientCameraNode, callout);
 					mn.instructions.insert(orientCameraNode, floatset);
-					AMCore.log.debug("Core: Success!  Inserted callout function op (shift)!");
+					LogHelper.debug("Core: Success!  Inserted callout function op (shift)!");
 				}
 				if (gluPerspectiveNode != null){
 					VarInsnNode floatset = new VarInsnNode(Opcodes.FLOAD, 1);
 					MethodInsnNode callout = new MethodInsnNode(Opcodes.INVOKESTATIC, "am2/guis/AMGuiHelper", "flipView", "(F)V");
 					mn.instructions.insert(gluPerspectiveNode, callout);
 					mn.instructions.insert(gluPerspectiveNode, floatset);
-					AMCore.log.debug("Core: Success!  Inserted callout function op (flip)!");
+					LogHelper.debug("Core: Success!  Inserted callout function op (flip)!");
 				}
 
 			}else if (mn.name.equals("b") && mn.desc.equals("(F)V")){ //updateCameraAndRender
 				AbstractInsnNode target = null;
-				AMCore.log.debug("Core: Located target method " + mn.name + mn.desc);
+				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
 				Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();
 				AbstractInsnNode node = null;
 				boolean mouseFound = false;
@@ -156,7 +156,7 @@ public class BytecodeTransformers implements IClassTransformer{
 						if (node instanceof MethodInsnNode){
 							MethodInsnNode method = (MethodInsnNode)node;
 							if (method.name.equals("a") && method.desc.equals("(Ljava/lang/String;)V")){
-								AMCore.log.debug("Core: Located target method insn node: " + method.name + method.desc);
+								LogHelper.debug("Core: Located target method insn node: " + method.name + method.desc);
 								target = node;
 								break;
 							}
@@ -178,7 +178,7 @@ public class BytecodeTransformers implements IClassTransformer{
 					mn.instructions.insert(target, iLoad);
 					mn.instructions.insert(target, fLoad);
 					mn.instructions.insert(target, aLoad);
-					AMCore.log.debug("Core: Success!  Inserted opcodes!");
+					LogHelper.debug("Core: Success!  Inserted opcodes!");
 				}
 			}
 		}
@@ -197,7 +197,7 @@ public class BytecodeTransformers implements IClassTransformer{
 		for (MethodNode mn : cn.methods){
 			if (mn.name.equals("e") && mn.desc.equals("()V")){ //onLivingUpdate
 				AbstractInsnNode target = null;
-				AMCore.log.debug("Core: Located target method " + mn.name + mn.desc);
+				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
 				Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();
 				//look for the line:
 				//this.movementInput.updatePlayerMoveState();
@@ -210,7 +210,7 @@ public class BytecodeTransformers implements IClassTransformer{
 							if (node instanceof MethodInsnNode){
 								MethodInsnNode method = (MethodInsnNode)node;
 								if (method.name.equals("a") && method.desc.equals("()V")){ //updatePlayerMoveState
-									AMCore.log.debug("Core: Located target method insn node: " + method.name + method.desc);
+									LogHelper.debug("Core: Located target method insn node: " + method.name + method.desc);
 									target = node;
 									break;
 								}
@@ -222,7 +222,7 @@ public class BytecodeTransformers implements IClassTransformer{
 				if (target != null){
 					MethodInsnNode callout = new MethodInsnNode(Opcodes.INVOKESTATIC, "am2/guis/AMGuiHelper", "overrideKeyboardInput", "()V");
 					mn.instructions.insert(target, callout);
-					AMCore.log.debug("Core: Success!  Inserted operations!");
+					LogHelper.debug("Core: Success!  Inserted operations!");
 					break;
 				}
 			}
@@ -242,7 +242,7 @@ public class BytecodeTransformers implements IClassTransformer{
 		for (MethodNode mn : cn.methods){
 			if (mn.name.equals("a") && mn.desc.equals("(Lsa;Ljava/lang/String;FF)V")){ //playSoundAtEntity
 				AbstractInsnNode target = null;
-				AMCore.log.debug("Core: Located target method " + mn.name + mn.desc);
+				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
 				Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();
 				while (instructions.hasNext()){
 					AbstractInsnNode node = instructions.next();
@@ -256,7 +256,7 @@ public class BytecodeTransformers implements IClassTransformer{
 								((FieldInsnNode)node).name.equals("name") &&
 								((FieldInsnNode)node).desc.equals("Ljava/lang/String;") &&
 								((FieldInsnNode)node).owner.equals("net/minecraftforge/event/entity/PlaySoundAtEntityEvent")){
-							AMCore.log.debug("Core: Located target method insn node: " + ((FieldInsnNode)node).name + ((FieldInsnNode)node).desc);
+							LogHelper.debug("Core: Located target method insn node: " + ((FieldInsnNode)node).name + ((FieldInsnNode)node).desc);
 							target = potentialMatch;
 							break;
 						}
@@ -272,7 +272,7 @@ public class BytecodeTransformers implements IClassTransformer{
 					mn.instructions.insertBefore(target, fload4);
 					mn.instructions.insertBefore(target, callout);
 					mn.instructions.insertBefore(target, fstore4);
-					AMCore.log.debug("Core: Success!  Inserted operations!");
+					LogHelper.debug("Core: Success!  Inserted operations!");
 					break;
 				}
 			}
@@ -290,10 +290,10 @@ public class BytecodeTransformers implements IClassTransformer{
 		cr.accept(cn, 0);
 
 		for (MethodNode mn : cn.methods){
-			AMCore.log.debug(String.format("%s %s", mn.name, mn.desc));
+			LogHelper.debug("%s %s", mn.name, mn.desc);
 			if (mn.name.equals("b_") && mn.desc.equals("(Luf;)V")){ //travelToDimension
 				AbstractInsnNode target = null;
-				AMCore.log.debug("Core: Located target method " + mn.name + mn.desc);
+				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
 				Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();
 				//look for the line:
 				//this.worldObj.removeEntity(this)
@@ -328,7 +328,7 @@ public class BytecodeTransformers implements IClassTransformer{
 					mn.instructions.insertBefore(target, aLoad);
 					mn.instructions.insertBefore(target, callout);
 
-					AMCore.log.debug("Core: Success!  Inserted opcodes!");
+					LogHelper.debug("Core: Success!  Inserted opcodes!");
 				}
 			}
 		}
@@ -344,7 +344,7 @@ public class BytecodeTransformers implements IClassTransformer{
 		for (MethodNode mn : cn.methods){
 			if (mn.name.equals("a") && mn.desc.equals("(Leu;)V")){ //handleFlying
 				AbstractInsnNode target = null;
-				AMCore.log.debug("Core: Located target method " + mn.name + mn.desc);
+				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
 				Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();
 
 				//look for the line:
@@ -379,7 +379,7 @@ public class BytecodeTransformers implements IClassTransformer{
 					mn.instructions.insert(target, ldc);
 					mn.instructions.insert(ldc, dstore13);
 
-					AMCore.log.debug("Core: Success!  Inserted opcodes!");
+					LogHelper.debug("Core: Success!  Inserted opcodes!");
 				}
 			}
 		}
@@ -398,28 +398,28 @@ public class BytecodeTransformers implements IClassTransformer{
 	private void debugPrintInsns(MethodNode mn){
 		Iterator<AbstractInsnNode> it = mn.instructions.iterator();
 
-		AMCore.log.debug(String.format("Core: Beginning dump of Insns for %s %s", mn.name, mn.desc));
+		LogHelper.debug("Core: Beginning dump of Insns for %s %s", mn.name, mn.desc);
 
-		AMCore.log.debug("================================================================================");
-		AMCore.log.log(Level.INFO, "");
+		LogHelper.debug("================================================================================");
+		LogHelper.log(Level.INFO, "");
 
 		while (it.hasNext()){
 			AbstractInsnNode node = it.next();
 			String className = node.toString().split("@")[0];
 			className = className.substring(className.lastIndexOf(".") + 1);
 			if (node instanceof VarInsnNode){
-				AMCore.log.log(Level.INFO, opcodeToString(node.getOpcode()) + " " + ((VarInsnNode)node).var);
+				LogHelper.log(Level.INFO, opcodeToString(node.getOpcode()) + " " + ((VarInsnNode)node).var);
 			}else if (node instanceof FieldInsnNode){
-				AMCore.log.log(Level.INFO, opcodeToString(node.getOpcode()) + " " + ((FieldInsnNode)node).owner + "/" + ((FieldInsnNode)node).name + " (" + ((FieldInsnNode)node).desc + ")");
+				LogHelper.log(Level.INFO, opcodeToString(node.getOpcode()) + " " + ((FieldInsnNode)node).owner + "/" + ((FieldInsnNode)node).name + " (" + ((FieldInsnNode)node).desc + ")");
 			}else if (node instanceof MethodInsnNode){
-				AMCore.log.log(Level.INFO, opcodeToString(node.getOpcode()) + " " + ((MethodInsnNode)node).owner + "/" + ((MethodInsnNode)node).name + " " + ((MethodInsnNode)node).desc);
+				LogHelper.log(Level.INFO, opcodeToString(node.getOpcode()) + " " + ((MethodInsnNode)node).owner + "/" + ((MethodInsnNode)node).name + " " + ((MethodInsnNode)node).desc);
 			}else{
-				AMCore.log.log(Level.INFO, className + " >> " + opcodeToString(node.getOpcode()));
+				LogHelper.log(Level.INFO, className + " >> " + opcodeToString(node.getOpcode()));
 			}
 		}
 
-		AMCore.log.debug("================================================================================");
-		AMCore.log.debug("Core: End");
+		LogHelper.debug("================================================================================");
+		LogHelper.debug("Core: End");
 	}
 
 	private String opcodeToString(int opcode){

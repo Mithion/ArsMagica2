@@ -1,6 +1,6 @@
 package am2.interop;
 
-import am2.AMCore;
+import am2.LogHelper;
 import am2.blocks.BlocksCommonProxy;
 import am2.entities.EntityManager;
 import am2.items.ItemsCommonProxy;
@@ -11,7 +11,7 @@ import thaumcraft.api.aspects.AspectList;
 
 public class TC4Interop{
 	public static void initialize(){
-		AMCore.log.info("Initializing Thaumcraft Compatibility");
+		LogHelper.info("Initializing Thaumcraft Compatibility");
 		initTCAspects();
 		initPortableHoleBlacklists();
 	}

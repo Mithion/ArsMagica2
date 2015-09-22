@@ -1,8 +1,8 @@
 package am2.spell;
 
 import am2.AMCore;
+import am2.LogHelper;
 import am2.texture.ResourceManager;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -37,9 +37,9 @@ public class SpellTextureHelper{
 		try{
 			resources = getResourceListing();
 			if (resources.size() == 0){
-				AMCore.log.error("No spell IIcons found?!?");
+				LogHelper.error("No spell IIcons found?!?");
 			}else{
-				AMCore.log.info(String.format("Located %d spell IIcons", resources.size()));
+				LogHelper.info("Located %d spell IIcons", resources.size());
 			}
 			icons = new IIcon[resources.size()];
 			int count = 0;
@@ -62,7 +62,7 @@ public class SpellTextureHelper{
 			if (jar.getProtocol() == "jar"){
 				String path = jar.toString().replace("jar:", "").replace("file:", "").replace("!/am2/AMCore.class", "").replace('/', File.separatorChar);
 				path = URLDecoder.decode(path, "UTF-8");
-				AMCore.log.debug(path);
+				LogHelper.debug(path);
 				JarFile jarFile = new JarFile(path);
 				Enumeration<JarEntry> entries = jarFile.entries();
 				while (entries.hasMoreElements()){

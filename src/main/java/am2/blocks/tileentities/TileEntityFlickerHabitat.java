@@ -1,6 +1,6 @@
 package am2.blocks.tileentities;
 
-import am2.AMCore;
+import am2.LogHelper;
 import am2.api.math.AMVector3;
 import am2.api.spell.enums.Affinity;
 import am2.blocks.BlocksCommonProxy;
@@ -205,9 +205,9 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	public void AddMarkerLocationIn(AMVector3 markerLocation){
 		if (!inList.contains(markerLocation)){
 			inList.add(markerLocation);
-			AMCore.log.trace("In Link Created");
+			LogHelper.trace("In Link Created");
 		}else{
-			AMCore.log.trace("Link Already Exists");
+			LogHelper.trace("Link Already Exists");
 		}
 	}
 
@@ -228,9 +228,9 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 		if (!outList.get(priority).contains(markerLocation)){
 			outList.get(priority).add(markerLocation);
-			AMCore.log.trace("Out Link Create");
+			LogHelper.trace("Out Link Create");
 		}else{
-			AMCore.log.trace("Link Already Exists");
+			LogHelper.trace("Link Already Exists");
 		}
 	}
 
@@ -323,7 +323,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 			ArrayList<AMVector3> locationsInPriority = new ArrayList<AMVector3>();
 			//does the current compound tag contain the values we're looking for?
 			if (!priorityCompound.hasKey("priority") || !priorityCompound.hasKey("vectors")){
-				AMCore.log.warn("Malformed save data for flicker item transport controller - cannot process records.");
+				LogHelper.warn("Malformed save data for flicker item transport controller - cannot process records.");
 				continue;
 			}
 			//get the priority from the compound

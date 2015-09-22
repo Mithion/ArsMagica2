@@ -1,6 +1,6 @@
 package am2.lore;
 
-import am2.AMCore;
+import am2.LogHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class StoryManager{
 		try{
 			stories.add(new Story(resourceFileName));
 		}catch (Exception ex){
-			AMCore.log.info(ex.getMessage());
+			LogHelper.info(ex.getMessage());
 		}
 	}
 

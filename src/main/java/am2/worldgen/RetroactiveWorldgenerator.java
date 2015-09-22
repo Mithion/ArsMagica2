@@ -1,7 +1,7 @@
 package am2.worldgen;
 
 import am2.AMCore;
-import cpw.mods.fml.common.FMLLog;
+import am2.LogHelper;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 
@@ -31,7 +31,7 @@ public class RetroactiveWorldgenerator{
 
 			deferredChunkGeneration.put(dimensionID, chunks);
 
-			AMCore.log.info(String.format("Retro-genned %d chunks, %d left to generate.", count, chunks.size()));
+			LogHelper.info("Retro-genned %d chunks, %d left to generate.", count, chunks.size());
 		}
 	}
 }

@@ -2,6 +2,7 @@ package am2.proxy.tick;
 
 import am2.AMCore;
 import am2.EntityItemWatcher;
+import am2.LogHelper;
 import am2.MeteorSpawnHelper;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
@@ -29,7 +30,6 @@ import am2.spell.SpellUtils;
 import am2.spell.components.Telekinesis;
 import am2.utility.DimensionUtilities;
 import am2.worldgen.RetroactiveWorldgenerator;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -231,7 +231,7 @@ public class ClientTickHandler{
 				}else if (this.mouseWheelValue < 0 && props.TK_Distance > 0.3){
 					props.TK_Distance -= 0.5f;
 				}
-				AMCore.log.debug(String.format("TK Distance: %.2f", props.TK_Distance));
+				LogHelper.debug("TK Distance: %.2f", props.TK_Distance);
 				props.syncTKDistance();
 			}else if (stack.getItem() instanceof ItemSpellBook && Minecraft.getMinecraft().thePlayer.isSneaking()){
 				ItemSpellBook isb = (ItemSpellBook)stack.getItem();

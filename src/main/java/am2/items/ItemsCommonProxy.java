@@ -2,6 +2,7 @@ package am2.items;
 
 import am2.AMCore;
 import am2.AMCreativeTab;
+import am2.LogHelper;
 import am2.api.flickers.IFlickerFunctionality;
 import am2.api.spell.enums.Affinity;
 import am2.armor.*;
@@ -179,7 +180,7 @@ public class ItemsCommonProxy{
 
 	public void InstantiateItems(){
 
-		AMCore.log.trace("Instantiating Items");
+		LogHelper.trace("Instantiating Items");
 
 		itemOre = (ItemOre)new ItemOre().setUnlocalizedAndTextureName("arsmagica2:itemOre").setCreativeTab(itemTab);
 		essence = (ItemEssence)new ItemEssence().setUnlocalizedAndTextureName("arsmagica2:essence").setCreativeTab(itemTab);
@@ -1034,7 +1035,7 @@ public class ItemsCommonProxy{
 				if (recipeItems != null){
 					GameRegistry.addRecipe(new ItemStack(flickerFocus, 1, i), recipeItems);
 				}else{
-					AMCore.log.info(String.format("Flicker operator %s was registered with no recipe.  It is un-craftable.  This may have been intentional.", func.getClass().getSimpleName()));
+					LogHelper.info("Flicker operator %s was registered with no recipe.  It is un-craftable.  This may have been intentional.", func.getClass().getSimpleName());
 				}
 			}
 		}

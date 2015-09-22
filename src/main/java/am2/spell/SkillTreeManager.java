@@ -1,12 +1,12 @@
 package am2.spell;
 
 import am2.AMCore;
+import am2.LogHelper;
 import am2.api.SkillTreeEntry;
 import am2.api.spell.ISkillTreeManager;
 import am2.api.spell.component.interfaces.ISkillTreeEntry;
 import am2.api.spell.enums.SkillPointTypes;
 import am2.api.spell.enums.SkillTrees;
-import cpw.mods.fml.common.FMLLog;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -344,7 +344,7 @@ public class SkillTreeManager implements ISkillTreeManager{
 		for (Integer i : partIDs){
 			ISkillTreeEntry part = SkillManager.instance.getSkill(i);
 			if (getSkillTreeEntry(part) == null){
-				AMCore.log.warn("Unregistered spell part in skill trees: " + part.toString());
+				LogHelper.warn("Unregistered spell part in skill trees: " + part.toString());
 			}
 		}
 	}
@@ -386,9 +386,9 @@ public class SkillTreeManager implements ISkillTreeManager{
 			SkillTreeEntry entry = getSkillTreeEntry(SkillManager.instance.getSkill(i));
 			if (entry != null){
 				entry.enabled = false;
-				AMCore.log.info(String.format("Disabling %s as per server configs", SkillManager.instance.getSkillName(entry.registeredItem)));
+				LogHelper.info("Disabling %s as per server configs", SkillManager.instance.getSkillName(entry.registeredItem));
 			}else{
-				AMCore.log.warn("Could not disable skill ID %d as per server configs!");
+				LogHelper.warn("Could not disable skill ID %d as per server configs!");
 			}
 		}
 	}

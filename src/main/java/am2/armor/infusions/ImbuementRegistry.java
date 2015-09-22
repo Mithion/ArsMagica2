@@ -1,6 +1,6 @@
 package am2.armor.infusions;
 
-import am2.AMCore;
+import am2.LogHelper;
 import am2.api.items.armor.IArmorImbuement;
 import am2.api.items.armor.IImbuementRegistry;
 import am2.api.items.armor.ImbuementTiers;
@@ -27,7 +27,7 @@ public class ImbuementRegistry implements IImbuementRegistry{
 	@Override
 	public void registerImbuement(IArmorImbuement imbuementInstance){
 		registeredImbuements.put(imbuementInstance.getID(), imbuementInstance);
-		AMCore.log.info(String.format("Registered imbuement: %s", imbuementInstance.getID()));
+		LogHelper.info("Registered imbuement: %s", imbuementInstance.getID());
 	}
 
 	@Override

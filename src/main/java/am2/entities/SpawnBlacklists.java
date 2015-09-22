@@ -1,6 +1,6 @@
 package am2.entities;
 
-import am2.AMCore;
+import am2.LogHelper;
 import com.google.common.collect.ArrayListMultimap;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
@@ -20,9 +20,9 @@ public class SpawnBlacklists{
 		try{
 			clazz = Class.forName(entityClass);
 			blacklistedDimensionSpawns.put(dimensionID, clazz);
-			AMCore.log.info(String.format("Blacklisted %s from spawning in dimension %d.", entityClass, dimensionID));
+			LogHelper.info("Blacklisted %s from spawning in dimension %d.", entityClass, dimensionID);
 		}catch (ClassNotFoundException e){
-			AMCore.log.info(String.format("Unable to parse class name %s from IMC!  This needs to be corrected by the other mod author!", entityClass));
+			LogHelper.info("Unable to parse class name %s from IMC!  This needs to be corrected by the other mod author!", entityClass);
 		}
 	}
 
@@ -31,9 +31,9 @@ public class SpawnBlacklists{
 		try{
 			clazz = Class.forName(entityClass);
 			blacklistedBiomeSpawns.put(biomeID, clazz);
-			AMCore.log.info(String.format("Blacklisted %s from spawning in biome %d.", entityClass, biomeID));
+			LogHelper.info("Blacklisted %s from spawning in biome %d.", entityClass, biomeID);
 		}catch (ClassNotFoundException e){
-			AMCore.log.info(String.format("Unable to parse class name %s from IMC!  This needs to be corrected by the other mod author!", entityClass));
+			LogHelper.info("Unable to parse class name %s from IMC!  This needs to be corrected by the other mod author!", entityClass);
 		}
 	}
 

@@ -1,6 +1,7 @@
 package am2.playerextensions;
 
 import am2.AMCore;
+import am2.LogHelper;
 import am2.api.ISkillData;
 import am2.api.SkillTreeEntry;
 import am2.api.events.SkillLearnedEvent;
@@ -17,7 +18,6 @@ import am2.network.AMNetHandler;
 import am2.network.AMPacketIDs;
 import am2.spell.SkillManager;
 import am2.spell.SkillTreeManager;
-import cpw.mods.fml.common.FMLLog;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -585,7 +585,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 	}
 
 	public void respec(){
-		AMCore.log.info(String.format("Respeccing %s", player.getCommandSenderName()));
+		LogHelper.info("Respeccing %s", player.getCommandSenderName());
 
 		int[] addPoints = new int[4];
 		addPoints[0] = this.spellPoints[0];
