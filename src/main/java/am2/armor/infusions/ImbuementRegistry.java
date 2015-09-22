@@ -1,10 +1,10 @@
 package am2.armor.infusions;
 
+import am2.AMCore;
 import am2.api.items.armor.IArmorImbuement;
 import am2.api.items.armor.IImbuementRegistry;
 import am2.api.items.armor.ImbuementTiers;
 import am2.armor.ArmorHelper;
-import cpw.mods.fml.common.FMLLog;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class ImbuementRegistry implements IImbuementRegistry{
 	@Override
 	public void registerImbuement(IArmorImbuement imbuementInstance){
 		registeredImbuements.put(imbuementInstance.getID(), imbuementInstance);
-		FMLLog.info("Ars Magica 2 >> Registered imbuement: %s", imbuementInstance.getID());
+		AMCore.log.info("Registered imbuement: %s", imbuementInstance.getID());
 	}
 
 	@Override

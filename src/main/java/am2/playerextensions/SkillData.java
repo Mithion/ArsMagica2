@@ -585,7 +585,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 	}
 
 	public void respec(){
-		FMLLog.info("Respeccing %s", player.getCommandSenderName());
+		AMCore.log.info("Respeccing %s", player.getCommandSenderName());
 
 		int[] addPoints = new int[4];
 		addPoints[0] = this.spellPoints[0];

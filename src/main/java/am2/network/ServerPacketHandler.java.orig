@@ -28,7 +28,6 @@ import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
 import am2.playerextensions.SkillData;
 import am2.spell.SpellUtils;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.ITinyPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -127,8 +126,8 @@ public class ServerPacketHandler implements IPacketHandler, ITinyPacketHandler{
 >>>>>>> ac0deb53c7e9b193e2c951fe7694d47dd0669a9e
 			}
 		}catch (Throwable t){
-			FMLLog.severe("Ars Magica >> Server Packet Failed to Handle!");
-			FMLLog.severe("Ars Magica >> Packet Type: " + packetID);
+			AMCore.log.error("Server Packet Failed to Handle!");
+			AMCore.log.error("Packet Type: " + packetID);
 			t.printStackTrace();
 		}
 

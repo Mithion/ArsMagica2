@@ -1,7 +1,6 @@
 package am2.enchantments;
 
 import am2.AMCore;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -38,15 +37,15 @@ public class AMEnchantments{
 			throw new ArrayIndexOutOfBoundsException("All enchantment IDs are in use...can't find a free one to take!");
 		}
 
-		FMLLog.info("Ars Magica 2 >> Attempting to set enchantment %s to ID %d (configured currently as %d)", configID, enchID, start_value);
+		AMCore.log.info("Attempting to set enchantment %s to ID %d (configured currently as %d)", configID, enchID, start_value);
 		AMCore.config.updateConfigurableEnchantmentID(configID, enchID);
 
 		try{
 			T ench = (T)enchantmentClass.getConstructor(int.class, int.class).newInstance(enchID, weight);
-			FMLLog.info("Ars Magica 2 >> Successfully registered enchanment!");
+			AMCore.log.info("Successfully registered enchanment!");
 			return ench;
 		}catch (Throwable t){
-			FMLLog.info("Ars Magica 2 >> Failed to register enchantment %s!", configID);
+			AMCore.log.error("Failed to register enchantment %s!", configID);
 			t.printStackTrace();
 		}
 		return null;

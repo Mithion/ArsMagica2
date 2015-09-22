@@ -344,7 +344,7 @@ public class SkillTreeManager implements ISkillTreeManager{
 		for (Integer i : partIDs){
 			ISkillTreeEntry part = SkillManager.instance.getSkill(i);
 			if (getSkillTreeEntry(part) == null){
-				FMLLog.info("Ars Magica 2 >> Unregistered spell part in skill trees: " + part.toString());
+				AMCore.log.warn("Unregistered spell part in skill trees: " + part.toString());
 			}
 		}
 	}
@@ -386,9 +386,9 @@ public class SkillTreeManager implements ISkillTreeManager{
 			SkillTreeEntry entry = getSkillTreeEntry(SkillManager.instance.getSkill(i));
 			if (entry != null){
 				entry.enabled = false;
-				FMLLog.info("Ars Magica 2 >> Disabling %s as per server configs", SkillManager.instance.getSkillName(entry.registeredItem));
+				AMCore.log.info("Disabling %s as per server configs", SkillManager.instance.getSkillName(entry.registeredItem));
 			}else{
-				FMLLog.warning("Ars Magica 2 >> could not disable skill ID %d as per server configs!");
+				AMCore.log.warn("Could not disable skill ID %d as per server configs!");
 			}
 		}
 	}

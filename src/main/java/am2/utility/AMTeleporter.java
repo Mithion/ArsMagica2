@@ -36,7 +36,7 @@ public class AMTeleporter extends Teleporter{
 			MinecraftServer.getServer().getConfigurationManager().transferPlayerToDimension((EntityPlayerMP)entity, world.provider.dimensionId, this);
 		}
 
-		//FMLLog.info("Teleported to dim " + world.provider.dimensionId + ": " + teleportPos.x + "/" + teleportPos.y + "/" + teleportPos.z);
+		//AMCore.log.info("Teleported to dim " + world.provider.dimensionId + ": " + teleportPos.x + "/" + teleportPos.y + "/" + teleportPos.z);
 	}
 
 	@Override

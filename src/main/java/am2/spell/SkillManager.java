@@ -1,5 +1,6 @@
 package am2.spell;
 
+import am2.AMCore;
 import am2.api.spell.ISpellPartManager;
 import am2.api.spell.component.interfaces.*;
 import am2.skills.*;
@@ -97,7 +98,7 @@ public class SkillManager implements ISpellPartManager{
 
 		if (registeredParts.containsKey(id)){
 			String existing = reversedPartNames.get(id);
-			FMLLog.info("Ars Magica >> Attempted to register duplicate spell part name, %s (which would overwrite %s).  The part was NOT registered.", name, existing);
+			AMCore.log.info("Attempted to register duplicate spell part name, %s (which would overwrite %s).  The part was NOT registered.", name, existing);
 			return -1;
 		}
 
@@ -161,7 +162,7 @@ public class SkillManager implements ISpellPartManager{
 			if (clazz.isAssignableFrom(entry.getClass()))
 				return id;
 		}
-		FMLLog.info("Ars Magica >> Spell Part not found!");
+		AMCore.log.warn("Spell Part not found!");
 		return -1;
 	}
 

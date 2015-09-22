@@ -1,5 +1,6 @@
 package am2.blocks.tileentities;
 
+import am2.AMCore;
 import am2.api.math.AMVector3;
 import am2.api.spell.enums.Affinity;
 import am2.blocks.BlocksCommonProxy;
@@ -7,7 +8,6 @@ import am2.blocks.tileentities.flickers.FlickerOperatorRegistry;
 import am2.blocks.tileentities.flickers.TileEntityFlickerControllerBase;
 import am2.items.ItemFlickerJar;
 import am2.items.ItemsCommonProxy;
-import cpw.mods.fml.common.FMLLog;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -205,9 +205,9 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	public void AddMarkerLocationIn(AMVector3 markerLocation){
 		if (!inList.contains(markerLocation)){
 			inList.add(markerLocation);
-			FMLLog.info("In Link Created");
+			AMCore.log.trace("In Link Created");
 		}else{
-			FMLLog.info("Link Already Exists");
+			AMCore.log.trace("Link Already Exists");
 		}
 	}
 
@@ -228,9 +228,9 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 		if (!outList.get(priority).contains(markerLocation)){
 			outList.get(priority).add(markerLocation);
-			FMLLog.finer("Out Link Create");
+			AMCore.log.trace("Out Link Create");
 		}else{
-			FMLLog.finer("Link Already Exists");
+			AMCore.log.trace("Link Already Exists");
 		}
 	}
 
@@ -323,7 +323,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 			ArrayList<AMVector3> locationsInPriority = new ArrayList<AMVector3>();
 			//does the current compound tag contain the values we're looking for?
 			if (!priorityCompound.hasKey("priority") || !priorityCompound.hasKey("vectors")){
-				FMLLog.info("Malformed save data for flicker item transport controller - cannot process records.");
+				AMCore.log.warn("Malformed save data for flicker item transport controller - cannot process records.");
 				continue;
 			}
 			//get the priority from the compound

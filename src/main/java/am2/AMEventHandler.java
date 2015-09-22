@@ -23,7 +23,6 @@ import am2.playerextensions.ExtendedProperties;
 import am2.playerextensions.RiftStorage;
 import am2.playerextensions.SkillData;
 import am2.utility.*;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -315,10 +314,6 @@ public class AMEventHandler{
 			ent.fallDistance = 0;
 			event.setCanceled(true);
 			return;
-		}
-
-		if (ent instanceof EntityPlayer){
-			FMLLog.info("%.2f", ent.fallDistance);
 		}
 	}
 

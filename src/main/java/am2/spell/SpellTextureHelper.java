@@ -37,9 +37,9 @@ public class SpellTextureHelper{
 		try{
 			resources = getResourceListing();
 			if (resources.size() == 0){
-				FMLLog.severe("Ars Magica 2 >> No spell IIcons found?!?");
+				AMCore.log.error("No spell IIcons found?!?");
 			}else{
-				FMLLog.info("Ars Magica 2 >> Located %d spell IIcons", resources.size());
+				AMCore.log.info("Located %d spell IIcons", resources.size());
 			}
 			icons = new IIcon[resources.size()];
 			int count = 0;
@@ -62,7 +62,7 @@ public class SpellTextureHelper{
 			if (jar.getProtocol() == "jar"){
 				String path = jar.toString().replace("jar:", "").replace("file:", "").replace("!/am2/AMCore.class", "").replace('/', File.separatorChar);
 				path = URLDecoder.decode(path, "UTF-8");
-				FMLLog.info(path);
+				AMCore.log.debug(path);
 				JarFile jarFile = new JarFile(path);
 				Enumeration<JarEntry> entries = jarFile.entries();
 				while (entries.hasMoreElements()){

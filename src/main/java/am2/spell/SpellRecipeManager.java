@@ -1,5 +1,6 @@
 package am2.spell;
 
+import am2.AMCore;
 import am2.api.events.SpellRecipeItemsEvent;
 import am2.api.power.PowerTypes;
 import am2.api.spell.component.interfaces.ISpellPart;
@@ -34,7 +35,7 @@ public class SpellRecipeManager{
 		recipe = event.recipeItems;
 
 		if (recipe == null){
-			FMLLog.warning("Ars Magica 2 >> Component %s has been registered with no craftable recipe - is this intentional?  If so, return a 0-length array for recipe.", SkillManager.instance.getDisplayName(part));
+			AMCore.log.info("Component %s has been registered with no craftable recipe - is this intentional?  If so, return a 0-length array for recipe.", SkillManager.instance.getDisplayName(part));
 			return;
 		}
 		if (recipe.length == 0){
@@ -49,7 +50,7 @@ public class SpellRecipeManager{
 			}else if (o instanceof String){
 				if (((String)o).toLowerCase().startsWith("e:")){
 					if (i == recipe.length - 1 || !(recipe[i + 1] instanceof Integer)){
-						FMLLog.severe("Ars Magica >> Error registering recipe.  Power must be declared in Integer pairs (type flags, quantity)).");
+						AMCore.log.warn("Error registering recipe.  Power must be declared in Integer pairs (type flags, quantity)).");
 						return;
 					}
 
@@ -88,7 +89,7 @@ public class SpellRecipeManager{
 			try{
 				ids[i] = Integer.parseInt(split[i]);
 			}catch (NumberFormatException nex){
-				FMLLog.severe("Ars Magic >> Invalid power type ID while parsing value %s", s);
+				AMCore.log.warn("Invalid power type ID while parsing value %s", s);
 				ids[i] = 0;
 			}
 		}
@@ -169,12 +170,12 @@ public class SpellRecipeManager{
 				sb.append(SkillManager.instance.getSkillName(part) + " ");
 			}
 			sb.append("- this should be corrected as soon as possible!");
-			FMLLog.warning(sb.toString());
+			AMCore.log.warn(sb.toString());
 		}
 
 		if (safeCopy.size() > 0){
 			ISpellPart part = safeCopy.values().iterator().next();
-			FMLLog.info("Ars Magica 2 >> Matched Spell Component: %s", part.getClass().toString());
+			AMCore.log.info("Matched Spell Component: %s", part.getClass().toString());
 			return part;
 		}
 

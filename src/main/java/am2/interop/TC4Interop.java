@@ -1,9 +1,9 @@
 package am2.interop;
 
+import am2.AMCore;
 import am2.blocks.BlocksCommonProxy;
 import am2.entities.EntityManager;
 import am2.items.ItemsCommonProxy;
-import cpw.mods.fml.common.FMLLog;
 import net.minecraft.item.ItemStack;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
@@ -11,7 +11,7 @@ import thaumcraft.api.aspects.AspectList;
 
 public class TC4Interop{
 	public static void initialize(){
-		FMLLog.info("Ars Magica 2 >> Initializing Thaumcraft Compatibility");
+		AMCore.log.info("Initializing Thaumcraft Compatibility");
 		initTCAspects();
 		initPortableHoleBlacklists();
 	}

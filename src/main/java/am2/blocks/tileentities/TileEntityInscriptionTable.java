@@ -21,7 +21,6 @@ import am2.spell.SpellRecipeManager;
 import am2.spell.SpellUtils;
 import am2.spell.SpellValidator;
 import am2.utility.KeyValuePair;
-import cpw.mods.fml.common.FMLLog;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -640,7 +639,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			for (ISpellPart part : allRecipeItems){
 
 				if (part == null){
-					FMLLog.severe("Ars Magica 2 >> Unable to write recipe to book.  Recipe part is null!");
+					AMCore.log.error("Unable to write recipe to book.  Recipe part is null!");
 					return bookstack;
 				}
 
@@ -650,7 +649,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				recipeItems = event.recipeItems;
 
 				if (recipeItems == null){
-					FMLLog.severe("Ars Magica 2 >> Unable to write recipe to book.  Recipe items are null for part %d!", part.getID());
+					AMCore.log.error("Unable to write recipe to book.  Recipe items are null for part %d!", part.getID());
 					return bookstack;
 				}
 				for (int i = 0; i < recipeItems.length; ++i){
