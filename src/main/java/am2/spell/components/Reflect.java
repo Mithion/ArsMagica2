@@ -7,6 +7,7 @@ import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
 import am2.buffs.BuffEffectSpellReflect;
 import am2.buffs.BuffList;
+import am2.blocks.BlocksCommonProxy;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleHoldPosition;
@@ -92,7 +93,7 @@ public class Reflect implements ISpellComponent{
 				new ItemStack(ItemsCommonProxy.rune, 1, ItemsCommonProxy.rune.META_WHITE),
 				Blocks.glass,
 				Blocks.iron_block,
-				"logWood"
+				BlocksCommonProxy.witchwoodLog
 		};
 	}
 
