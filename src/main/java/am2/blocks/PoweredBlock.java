@@ -40,7 +40,7 @@ public abstract class PoweredBlock extends AMBlockContainer{
 	@Override
 	public void breakBlock(World par1World, int par2, int par3, int par4, Block par5, int par6){
 		TileEntity myTE = par1World.getTileEntity(par2, par3, par4);
-		if (myTE != null && myTE instanceof TileEntityAMPower){
+		if (myTE != null && myTE instanceof TileEntityAMPower && PowerNodeRegistry.For(par1World).hasDataForChunk(par1World.getChunkFromBlockCoords(myTE.xCoord, myTE.zCoord))){
 			((TileEntityAMPower)myTE).onDeath(par1World);
 		}
 		super.breakBlock(par1World, par2, par3, par4, par5, par6);

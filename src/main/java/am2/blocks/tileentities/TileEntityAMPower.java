@@ -39,6 +39,14 @@ public abstract class TileEntityAMPower extends TileEntity implements IPowerNode
 	}
 
 	@Override
+	public void invalidate(){
+		if (worldObj != null && PowerNodeRegistry.For(this.worldObj).hasDataForChunk(this.worldObj.getChunkFromBlockCoords(xCoord, zCoord))){
+			onDeath(this.worldObj);
+		}
+		super.invalidate();
+	}
+
+	@Override
 	public void updateEntity(){
 		if (!worldObj.isRemote && this.canRequestPower() && tickCounter++ >= getRequestInterval()){
 			tickCounter = 0;
