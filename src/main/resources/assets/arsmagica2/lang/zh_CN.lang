@@ -250,6 +250,7 @@ entity.arsmagica2.MobMageVillager.name=巫师村民
 entity.arsmagica2.MobManaCreeper.name=魔力爬行者
 entity.arsmagica2.MobManaElemental.name=魔力元素
 entity.arsmagica2.MobWaterElemental.name=水之元素
+entity.arsmagica2.RiftStorage.name=断裂术
 
 #spells
 am2.spell.validate.compMiss=至少需要一种复合物作为施法材料.

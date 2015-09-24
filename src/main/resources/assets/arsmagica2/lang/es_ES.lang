@@ -254,6 +254,7 @@ entity.arsmagica2.MobMageVillager.name=Mago Aldeano
 entity.arsmagica2.MobManaCreeper.name=Creeper de Maná
 entity.arsmagica2.MobManaElemental.name=Elemental de Maná
 entity.arsmagica2.MobWaterElemental.name=Elemental de Agua
+entity.arsmagica2.RiftStorage.name=Grieta
 
 #spells
 am2.spell.validate.compMiss=Se requiere al menos un componente.

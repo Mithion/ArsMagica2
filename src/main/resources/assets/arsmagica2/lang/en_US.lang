@@ -267,6 +267,7 @@ entity.arsmagica2.MobMageVillager.name=Mage Villager
 entity.arsmagica2.MobManaCreeper.name=Mana Creeper
 entity.arsmagica2.MobManaElemental.name=Mana Elemental
 entity.arsmagica2.MobWaterElemental.name=Water Elemental
+entity.arsmagica2.RiftStorage.name=Rift
 
 #spells
 am2.spell.validate.compMiss=At least one component is needed.
