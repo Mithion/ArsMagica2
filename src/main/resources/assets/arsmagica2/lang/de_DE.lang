@@ -69,6 +69,7 @@ item.arsmagica2:enderEssence.name=Enderessenz
 item.arsmagica2:pureEssence.name=Pure Essenz
 item.arsmagica2:highEssenceCore.name=Hoch-Essenzkern
 item.arsmagica2:baseEssenceCore.name=Basis-Essenzkern
+item.arsmagica2:unknownEssence.name=Unbekannte Essenz
 item.arsmagica2:vinteumDust.name=Vinteumstaub
 item.arsmagica2:arcaneCompound.name=Arkane Verbindung
 item.arsmagica2:arcaneAsh.name=Arkane Asche
@@ -222,6 +223,10 @@ tile.arsmagica2:inertSpawner.name=Inerter Spawner
 tile.arsmagica2:brokenLink.name=Unterbrochene Energieverbindung
 tile.arsmagica2:arcane_deconstructor.name=Arkaner Dekonstruktor
 tile.arsmagica2:flicker_lure.name=Flickerköder
+tile.arsmagica2:liquidEssence.name=Flüssiges Ätherium
+
+#fluids
+fluid.liquidEssence=Flüssiges Ätherium
 
 #entities
 entity.arsmagica2.EarthElemental.name=Erdelementar
