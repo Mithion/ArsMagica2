@@ -262,20 +262,20 @@ public class BlocksCommonProxy{
 								Character.valueOf('P'), "plankWood",
 								Character.valueOf('O'), Blocks.obsidian,
 								Character.valueOf('A'), "arcaneAsh",
-								Character.valueOf('D'), Items.diamond
+								Character.valueOf('D'), "gemDiamond"
 						}));
 
 		//essence conduit
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(essenceConduit, 1), new Object[]{
 				" C ", " S ", "SSS",
-				Character.valueOf('S'), Blocks.stone,
+				Character.valueOf('S'), "stone",
 				Character.valueOf('C'), "gemChimerite"
 		}));
 
 		//summoner
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(summoner, 1), new Object[]{
 				"GVG", "GOG", "OOO",
-				Character.valueOf('G'), Items.gold_ingot,
+				Character.valueOf('G'), "ingotGold",
 				Character.valueOf('O'), Blocks.obsidian,
 				Character.valueOf('V'), "dustVinteum"
 		}));
@@ -286,8 +286,8 @@ public class BlocksCommonProxy{
 				"SRS",
 				"SVS",
 				Character.valueOf('L'), new ItemStack(Items.dye, 1, 4), //lapis
-				Character.valueOf('S'), Blocks.stone,
-				Character.valueOf('R'), Items.redstone,
+				Character.valueOf('S'), "stone",
+				Character.valueOf('R'), "dustRedstone",
 				Character.valueOf('V'), "dustVinteum"
 		}));
 
@@ -309,12 +309,12 @@ public class BlocksCommonProxy{
 				Character.valueOf('V'), "dustVinteum"
 		}));
 
-		GameRegistry.addRecipe(new ItemStack(seerStone, 1), new Object[]{
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(seerStone, 1), new Object[]{
 				" E ", "SRS",
-				Character.valueOf('S'), Blocks.stone, //stone wall
+				Character.valueOf('S'), "stone", //stone wall
 				Character.valueOf('E'), Items.ender_eye,
-				Character.valueOf('R'), Items.redstone
-		});
+				Character.valueOf('R'), "dustRedstone"
+		}));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(keystoneChest), new Object[]{
 				"WRW", "WVW", "WRW",
@@ -333,35 +333,35 @@ public class BlocksCommonProxy{
 				"SPS", " S ", "CVC",
 				Character.valueOf('S'), Blocks.stonebrick,
 				Character.valueOf('C'), Items.coal,
-				Character.valueOf('P'), Blocks.glass,
+				Character.valueOf('P'), "blockGlassColorless",
 				Character.valueOf('V'), "gemBlueTopaz"
 		}));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockArcaneReconstructor), new Object[]{
 				"SWS", "VDV", "SOS",
-				Character.valueOf('S'), Blocks.stone,
+				Character.valueOf('S'), "stone",
 				Character.valueOf('V'), "dustVinteum",
-				Character.valueOf('D'), Items.diamond,
+				Character.valueOf('D'), "gemDiamond",
 				Character.valueOf('W'), BlocksCommonProxy.magicWall,
 				Character.valueOf('O'), Blocks.obsidian
 		}));
 
-		GameRegistry.addRecipe(new ItemStack(arcaneDeconstructor), new Object[]{
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(arcaneDeconstructor), new Object[]{
 				"IGR",
 				"WDW",
 				"WWW",
 				Character.valueOf('I'), ItemsCommonProxy.itemFocus,
-				Character.valueOf('G'), Blocks.glass,
+				Character.valueOf('G'), "blockGlassColorless",
 				Character.valueOf('R'), new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_PURE),
 				Character.valueOf('W'), witchwoodPlanks,
 				Character.valueOf('D'), ItemsCommonProxy.deficitCrystal
-		});
+		}));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(flickerLure), new Object[]{
 				"CIV",
 				"SSS",
 				Character.valueOf('C'), "gemChimerite",
-				Character.valueOf('I'), Items.iron_ingot,
+				Character.valueOf('I'), "ingotIron",
 				Character.valueOf('V'), "dustVinteum",
 				Character.valueOf('S'), Blocks.stonebrick
 		}));
@@ -378,21 +378,21 @@ public class BlocksCommonProxy{
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(magicWall, 16, 0), new Object[]{
 				"VSV",
 				Character.valueOf('V'), "dustVinteum",
-				Character.valueOf('S'), Blocks.stone
+				Character.valueOf('S'), "stone"
 		}));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(craftingAltar), new Object[]{
 				"V",
 				"S",
 				Character.valueOf('V'), "dustVinteum",
-				Character.valueOf('S'), Blocks.stone
+				Character.valueOf('S'), "stone"
 		}));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(vinteumTorch, 4), new Object[]{
 				"V",
 				"S",
 				Character.valueOf('V'), "dustVinteum",
-				Character.valueOf('S'), Items.stick
+				Character.valueOf('S'), "stickWood"
 		}));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(inscriptionTable, new Object[]{
@@ -418,7 +418,7 @@ public class BlocksCommonProxy{
 				"RRR",
 				"RVR",
 				"RRR",
-				Character.valueOf('R'), Items.redstone,
+				Character.valueOf('R'), "dustRedstone",
 				Character.valueOf('V'), "dustVinteum"
 		}));
 
@@ -426,17 +426,17 @@ public class BlocksCommonProxy{
 				"III",
 				"IVI",
 				"III",
-				Character.valueOf('I'), Items.iron_ingot,
+				Character.valueOf('I'), "ingotIron",
 				Character.valueOf('V'), "arcaneAsh"
 		}));
 
-		GameRegistry.addRecipe(new ItemStack(goldInlay, 4, 0), new Object[]{
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(goldInlay, 4, 0), new Object[]{
 				"GGG",
 				"GVG",
 				"GGG",
-				Character.valueOf('G'), Items.gold_ingot,
+				Character.valueOf('G'), "ingotGold",
 				Character.valueOf('V'), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_PURIFIEDVINTEUM)
-		});
+		}));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(particleEmitter), new Object[]{
 				" C ",
@@ -468,7 +468,7 @@ public class BlocksCommonProxy{
 				"CSC",
 				" B ",
 				Character.valueOf('C'), "gemChimerite",
-				Character.valueOf('S'), Blocks.stone,
+				Character.valueOf('S'), "stone",
 				Character.valueOf('B'), "gemBlueTopaz"
 		}));
 
@@ -476,12 +476,12 @@ public class BlocksCommonProxy{
 				"COC",
 				"SWS",
 				"LHL",
-				Character.valueOf('C'), Blocks.crafting_table,
+				Character.valueOf('C'), "craftingTableWood",
 				Character.valueOf('O'), new ItemStack(Blocks.carpet),
 				Character.valueOf('W'), "logWood",
 				Character.valueOf('S'), "slabWood",
 				Character.valueOf('L'), "plankWood",
-				Character.valueOf('H'), Blocks.chest
+				Character.valueOf('H'), "chestWood"
 		}));
 
 		GameRegistry.addRecipe(new ItemStack(slipstreamGenerator), new Object[]{
@@ -498,7 +498,7 @@ public class BlocksCommonProxy{
 				"IDI",
 				"DBD",
 				"IDI",
-				Character.valueOf('I'), Items.iron_ingot,
+				Character.valueOf('I'), "ingotIron",
 				Character.valueOf('D'), "dustVinteum",
 				Character.valueOf('B'), new ItemStack(AMOres, 1, AMOres.META_CHIMERITE_BLOCK)
 		}));
@@ -605,7 +605,7 @@ public class BlocksCommonProxy{
 				"SCS",
 				"VSV",
 				Character.valueOf('V'), "dustVinteum",
-				Character.valueOf('S'), Blocks.stone,
+				Character.valueOf('S'), "stone",
 				Character.valueOf('C'), new ItemStack(Blocks.stonebrick, 1, 3)
 		}));
 
@@ -648,6 +648,9 @@ public class BlocksCommonProxy{
 		OreDictionary.registerOre("blockChimerite", new ItemStack(AMOres, 1, AMOres.META_CHIMERITE_BLOCK));
 		OreDictionary.registerOre("blockMoonstone", new ItemStack(AMOres, 1, AMOres.META_MOONSTONE_BLOCK));
 		OreDictionary.registerOre("blockSunstone", new ItemStack(AMOres, 1, AMOres.META_SUNSTONE_BLOCK));
+
+		OreDictionary.registerOre("chestWood", new ItemStack(Blocks.chest));
+		OreDictionary.registerOre("craftingTableWood", new ItemStack(Blocks.crafting_table));
 
 		GameRegistry.addRecipe(new ItemStack(illusionBlock, illusionBlock.GetCraftingQuantity(), 0), illusionBlock.GetRecipeComponents(false));
 		GameRegistry.addRecipe(new ItemStack(illusionBlock, illusionBlock.GetCraftingQuantity(), 1), illusionBlock.GetRecipeComponents(true));
