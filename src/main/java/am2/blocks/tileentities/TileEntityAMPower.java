@@ -34,15 +34,9 @@ public abstract class TileEntityAMPower extends TileEntity implements IPowerNode
 		return false;
 	}
 
-	public void onDeath(World world){
-		PowerNodeRegistry.For(this.worldObj).removePowerNode(this);
-	}
-
 	@Override
 	public void invalidate(){
-		if (worldObj != null && PowerNodeRegistry.For(this.worldObj).hasDataForChunk(this.worldObj.getChunkFromBlockCoords(xCoord, zCoord))){
-			onDeath(this.worldObj);
-		}
+		PowerNodeRegistry.For(this.worldObj).removePowerNode(this);
 		super.invalidate();
 	}
 
