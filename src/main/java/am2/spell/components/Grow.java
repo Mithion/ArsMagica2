@@ -126,20 +126,34 @@ public class Grow implements ISpellComponent{
 			}
 		}
 
-		if (!world.isRemote){
-			blocky++;
-			if (world.getBlock(blockx, blocky, blockz) == Blocks.air){
-				if (world.getBlock(blockx, blocky - 1, blockz) == Blocks.water){
-					world.setBlock(blockx, blocky, blockz, BlocksCommonProxy.wakebloom);
-				}else if ((Blocks.tallgrass.canBlockStay(world, blockx, blocky, blockz) || Blocks.deadbush.canBlockStay(world, blockx, blocky, blockz)) && world.getBlock(blockx, blocky - 1, blockz) != Blocks.dirt && world.getBlock(blockx, blocky - 1, blockz) != Blocks.farmland){
-					if (random.nextInt(10) > 6){
-						if ((Blocks.tallgrass.canBlockStay(world, blockx, blocky, blockz)))
-							world.setBlock(blockx, blocky, blockz, Blocks.tallgrass, 1, 2);
-					}
-					return true;
+		//If the spell is executed in water, check if we have space for a wakebloom above
+		if (block == Blocks.water){
+			if (world.getBlock(blockx, blocky + 1, blockz) == Blocks.air){
+				if (!world.isRemote){
+					world.setBlock(blockx, blocky + 1, blockz, BlocksCommonProxy.wakebloom);
 				}
+				return true;
 			}
-			return false;
+		}
+
+		//EoD: If there is already tallgrass present, let's grow it further.
+		if (block == Blocks.tallgrass){
+			if (Blocks.tallgrass.canBlockStay(world, blockx, blocky + 1, blockz)){
+				if (!world.isRemote && random.nextInt(10) > 6){
+					world.setBlock(blockx, blocky, blockz, Blocks.tallgrass, 1, 2);
+				}
+				return true;
+			}
+		}
+
+		//EoD: If there is already deadbush present, let's revitalize it. This works only on podzol in vanilla MC.
+		if (block == Blocks.deadbush){
+			if (Blocks.tallgrass.canBlockStay(world, blockx, blocky, blockz)){
+				if (!world.isRemote && random.nextInt(10) > 6){
+					world.setBlock(blockx, blocky, blockz, Blocks.tallgrass, 1, 2);
+				}
+				return true;
+			}
 		}
 
 		return true;
