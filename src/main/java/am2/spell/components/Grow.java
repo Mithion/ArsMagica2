@@ -4,6 +4,7 @@ import am2.AMCore;
 import am2.api.ArsMagicaApi;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
+import am2.blocks.AMFlower;
 import am2.blocks.BlocksCommonProxy;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
@@ -22,12 +23,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Random;
+
 
 public class Grow implements ISpellComponent{
 
 	private final Random random = new Random();
+	private final static ArrayList<AMFlower> growableAMflowers = new ArrayList<AMFlower>(Arrays.asList(
+			BlocksCommonProxy.cerublossom, BlocksCommonProxy.desertNova, BlocksCommonProxy.wakebloom, BlocksCommonProxy.aum, BlocksCommonProxy.tarmaRoot));
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
@@ -47,6 +54,23 @@ public class Grow implements ISpellComponent{
 			return true;
 		}
 
+		//EoD: Spawn AM2 flowers with 3% chance. This has to be the first one in the list to override all others
+		if (random.nextInt(100) < 3 && block.isNormalCube() &&
+				(world.getBlock(blockx, blocky + 1, blockz).isAir(null, 0, 0, 0) || world.getBlock(blockx, blocky + 1, blockz) == Blocks.tallgrass)){
+			// shuffle the flower list every time we want to try to find one.
+			Collections.shuffle(growableAMflowers);
+
+			for (AMFlower flower : growableAMflowers){
+				if (flower.canBlockStay(world, blockx, blocky + 1, blockz)){
+					if (!world.isRemote){
+						world.setBlock(blockx, blocky + 1, blockz, flower, 0, 2);
+					}
+					return true;
+				}
+			}
+			// We did not find a flower or we have been executed on the wrong block. Either way, we continue
+		}
+
 		//Grow huge mushrooms 10% of the time.
 		if (block instanceof BlockMushroom){
 			if (!world.isRemote && random.nextInt(10) < 1){
@@ -56,10 +80,11 @@ public class Grow implements ISpellComponent{
 			return true;
 		}
 
-		//If the spell is executed in water, check if we have space for a wakebloom above and create one 10% of the time.
+
+		//If the spell is executed in water, check if we have space for a wakebloom above and create one 3% of the time.
 		if (block == Blocks.water){
 			if (world.getBlock(blockx, blocky + 1, blockz) == Blocks.air){
-				if (!world.isRemote && random.nextInt(10) < 1){
+				if (!world.isRemote && random.nextInt(100) < 3){
 					world.setBlock(blockx, blocky + 1, blockz, BlocksCommonProxy.wakebloom);
 				}
 				return true;
