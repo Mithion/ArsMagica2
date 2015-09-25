@@ -55,24 +55,6 @@ public class Grow implements ISpellComponent{
 			return true;
 		}
 
-		if (world.rand.nextInt(10) < 8)
-			return true;
-
-		// EoD: Apply vanilla bonemeal effect to growables. See ItemDye.applyBonemeal()
-		if (block instanceof IGrowable){
-			IGrowable igrowable = (IGrowable)block;
-			//AMCore.log.getLogger().info("Grow component found IGrowable");
-
-			if (igrowable.func_149851_a(world, blockx, blocky, blockz, world.isRemote)){
-				if (!world.isRemote){
-					if (igrowable.func_149852_a(world, world.rand, blockx, blocky, blockz)){
-						igrowable.func_149853_b(world, world.rand, blockx, blocky, blockz);
-					}
-				}
-				return true;
-			}
-		}
-
 		//If the spell is executed in water, check if we have space for a wakebloom above
 		if (block == Blocks.water){
 			if (world.getBlock(blockx, blocky + 1, blockz) == Blocks.air){
@@ -98,6 +80,25 @@ public class Grow implements ISpellComponent{
 			if (Blocks.tallgrass.canBlockStay(world, blockx, blocky, blockz)){
 				if (!world.isRemote && random.nextInt(10) > 6){
 					world.setBlock(blockx, blocky, blockz, Blocks.tallgrass, 1, 2);
+				}
+				return true;
+			}
+		}
+
+		if (world.rand.nextInt(10) < 8)
+			return true;
+
+		// EoD: Apply vanilla bonemeal effect to growables. This is the generic grow section.
+		//      See ItemDye.applyBonemeal().
+		if (block instanceof IGrowable){
+			IGrowable igrowable = (IGrowable)block;
+			//AMCore.log.getLogger().info("Grow component found IGrowable");
+
+			if (igrowable.func_149851_a(world, blockx, blocky, blockz, world.isRemote)){
+				if (!world.isRemote){
+					if (igrowable.func_149852_a(world, world.rand, blockx, blocky, blockz)){
+						igrowable.func_149853_b(world, world.rand, blockx, blocky, blockz);
+					}
 				}
 				return true;
 			}
