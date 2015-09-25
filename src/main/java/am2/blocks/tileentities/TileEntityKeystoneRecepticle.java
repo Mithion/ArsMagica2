@@ -124,14 +124,14 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 	}
 
 	@Override
-	public void onDeath(World world){
+	public void invalidate(){
 		AMCore.instance.proxy.blocks.removeKeystonePortal(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 
-		if (!world.isRemote){
+		if (!worldObj.isRemote){
 			AMChunkLoader.INSTANCE.releaseStaticChunkLoad(this.getClass(), this.xCoord, this.yCoord, this.zCoord, this.worldObj);
 		}
 
-		super.onDeath(world);
+		super.invalidate();
 	}
 
 	public void setActive(long key){

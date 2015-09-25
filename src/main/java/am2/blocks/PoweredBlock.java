@@ -36,16 +36,6 @@ public abstract class PoweredBlock extends AMBlockContainer{
 		return StatCollector.translateToLocal("am2.gui.powerType" + type.name());
 	}
 
-
-	@Override
-	public void breakBlock(World par1World, int par2, int par3, int par4, Block par5, int par6){
-		TileEntity myTE = par1World.getTileEntity(par2, par3, par4);
-		if (myTE != null && myTE instanceof TileEntityAMPower){
-			((TileEntityAMPower)myTE).onDeath(par1World);
-		}
-		super.breakBlock(par1World, par2, par3, par4, par5, par6);
-	}
-
 	@Override
 	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
 		super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
