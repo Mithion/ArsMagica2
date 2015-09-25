@@ -47,62 +47,9 @@ public class Grow implements ISpellComponent{
 			return true;
 		}
 
-		if (block == Blocks.sapling){
-			if (!world.isRemote){
-				((BlockSapling)Blocks.sapling).func_149878_d(world, blockx, blocky, blockz, world.rand);
-			}
-
-			return true;
-		}
-
 		if (block == Blocks.brown_mushroom || block == Blocks.red_mushroom){
 			if (!world.isRemote){
 				((BlockMushroom)block).func_149884_c(world, blockx, blocky, blockz, world.rand);
-			}
-
-			return true;
-		}
-
-		if (block == Blocks.melon_stem || block == Blocks.pumpkin_stem){
-			if (world.getBlockMetadata(blockx, blocky, blockz) == 7){
-				return false;
-			}
-
-			if (!world.isRemote){
-				((BlockStem)block).func_149874_m(world, blockx, blocky, blockz);
-			}
-
-			return true;
-		}
-
-		if (block instanceof BlockCrops){
-			if (world.getBlockMetadata(blockx, blocky, blockz) == 7){
-				return false;
-			}
-
-			if (!world.isRemote){
-				((BlockCrops)block).func_149863_m(world, blockx, blocky, blockz);
-			}
-
-			return true;
-		}
-
-		if (block == Blocks.cocoa){
-			if (!world.isRemote){
-				int meta = world.getBlockMetadata(blockx, blocky, blockz);
-				int direction = BlockDirectional.getDirection(meta);
-				int something = BlockCocoa.func_149987_c(meta);
-
-				if (something >= 2){
-					return false;
-				}else{
-					if (!world.isRemote){
-						++something;
-						world.setBlockMetadataWithNotify(blockx, blocky, blockz, something << 2 | direction, 2);
-					}
-
-					return true;
-				}
 			}
 
 			return true;
