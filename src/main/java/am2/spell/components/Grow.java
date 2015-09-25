@@ -47,55 +47,54 @@ public class Grow implements ISpellComponent{
 			return true;
 		}
 
-		if (block == Blocks.brown_mushroom || block == Blocks.red_mushroom){
-			if (!world.isRemote){
+		//Grow huge mushrooms 10% of the time.
+		if (block instanceof BlockMushroom){
+			if (!world.isRemote && random.nextInt(10) < 1){
 				((BlockMushroom)block).func_149884_c(world, blockx, blocky, blockz, world.rand);
 			}
 
 			return true;
 		}
 
-		//If the spell is executed in water, check if we have space for a wakebloom above
+		//If the spell is executed in water, check if we have space for a wakebloom above and create one 10% of the time.
 		if (block == Blocks.water){
 			if (world.getBlock(blockx, blocky + 1, blockz) == Blocks.air){
-				if (!world.isRemote){
+				if (!world.isRemote && random.nextInt(10) < 1){
 					world.setBlock(blockx, blocky + 1, blockz, BlocksCommonProxy.wakebloom);
 				}
 				return true;
 			}
 		}
 
-		//EoD: If there is already tallgrass present, let's grow it further.
+		//EoD: If there is already tallgrass present, let's grow it further 20% of the time.
 		if (block == Blocks.tallgrass){
 			if (Blocks.tallgrass.canBlockStay(world, blockx, blocky + 1, blockz)){
-				if (!world.isRemote && random.nextInt(10) > 6){
+				if (!world.isRemote && random.nextInt(10) < 2){
 					world.setBlock(blockx, blocky, blockz, Blocks.tallgrass, 1, 2);
 				}
 				return true;
 			}
 		}
 
-		//EoD: If there is already deadbush present, let's revitalize it. This works only on podzol in vanilla MC.
+		//EoD: If there is already deadbush present, let's revitalize it 20% of the time.
+		//     This works only on podzol in vanilla MC.
 		if (block == Blocks.deadbush){
 			if (Blocks.tallgrass.canBlockStay(world, blockx, blocky, blockz)){
-				if (!world.isRemote && random.nextInt(10) > 6){
+				if (!world.isRemote && random.nextInt(10) < 2){
 					world.setBlock(blockx, blocky, blockz, Blocks.tallgrass, 1, 2);
 				}
 				return true;
 			}
 		}
 
-		if (world.rand.nextInt(10) < 8)
-			return true;
-
-		// EoD: Apply vanilla bonemeal effect to growables. This is the generic grow section.
+		// EoD: Apply vanilla bonemeal effect to growables 30% of the time. This is the generic grow section.
 		//      See ItemDye.applyBonemeal().
 		if (block instanceof IGrowable){
 			IGrowable igrowable = (IGrowable)block;
 			//AMCore.log.getLogger().info("Grow component found IGrowable");
 
 			if (igrowable.func_149851_a(world, blockx, blocky, blockz, world.isRemote)){
-				if (!world.isRemote){
+				if (!world.isRemote && random.nextInt(10) < 3){
 					if (igrowable.func_149852_a(world, world.rand, blockx, blocky, blockz)){
 						igrowable.func_149853_b(world, world.rand, blockx, blocky, blockz);
 					}
