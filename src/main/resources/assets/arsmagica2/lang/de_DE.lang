@@ -255,6 +255,7 @@ entity.arsmagica2.MobMageVillager.name=Magier-Dorfbewohner
 entity.arsmagica2.MobManaCreeper.name=Manacreeper
 entity.arsmagica2.MobManaElemental.name=Manaelementar
 entity.arsmagica2.MobWaterElemental.name=Wasserelementar
+entity.arsmagica2.RiftStorage.name=Spalt
 
 #spells
 am2.spell.validate.compMiss=Mindestens eine Komponente wird benötigt.

@@ -250,6 +250,7 @@ entity.arsmagica2.MobMageVillager.name=Маг-житель
 entity.arsmagica2.MobManaCreeper.name=Крипер маны
 entity.arsmagica2.MobManaElemental.name=Элементаль маны
 entity.arsmagica2.MobWaterElemental.name=Элементаль воды
+entity.arsmagica2.RiftStorage.name=Разрыв
 
 #spells
 am2.spell.validate.compMiss=Необходим по крайней мере один компонент.

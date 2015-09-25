@@ -198,6 +198,7 @@ entity.arsmagica2.MobMageVillager.name=Tovenaarsdorpeling
 entity.arsmagica2.MobManaCreeper.name=Mana Creeper
 entity.arsmagica2.MobManaElemental.name=Manaelementair
 entity.arsmagica2.MobWaterElemental.name=Waterelementair
+entity.arsmagica2.RiftStorage.name=Rift
 
 #spells
 am2.spell.validate.compMiss=Ten minste een component nodig.
