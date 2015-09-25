@@ -957,14 +957,14 @@ public class ItemsCommonProxy{
 				Character.valueOf('S'), "slimeball",
 				Character.valueOf('A'), Items.golden_shovel
 		}));
-		GameRegistry.addRecipe(new ItemStack(bindingCatalyst, 1, bindingCatalyst.META_SWORD), new Object[]{
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bindingCatalyst, 1, bindingCatalyst.META_SWORD), new Object[]{
 				"SVS",
 				"SAS",
 				"SVS",
 				Character.valueOf('V'), new ItemStack(itemOre, 1, itemOre.META_PURIFIEDVINTEUM),
 				Character.valueOf('S'), "slimeball",
 				Character.valueOf('A'), Items.golden_sword
-		});
+		}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bindingCatalyst, 1, bindingCatalyst.META_HOE), new Object[]{
 				"SVS",
 				"SAS",
