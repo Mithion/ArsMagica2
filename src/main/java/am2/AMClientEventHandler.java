@@ -26,6 +26,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -329,6 +330,9 @@ public class AMClientEventHandler{
 	public void onEntityJoinWorld(EntityJoinWorldEvent event){
 		if (event.entity instanceof EntityShadowHelper){
 			((EntityShadowHelper)event.entity).onJoinWorld(event.world);
+		}
+		if (event.entity instanceof EntityLivingBase && ((EntityLivingBase)event.entity).isPotionActive(BuffList.temporalAnchor.id)){
+			((EntityLivingBase)event.entity).removePotionEffect(BuffList.temporalAnchor.id);
 		}
 	}
 	
