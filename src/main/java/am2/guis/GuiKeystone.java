@@ -151,7 +151,7 @@ public class GuiKeystone extends GuiContainer{
 				int[] metas = new int[InventoryKeyStone.inventorySize];
 				for (int i = 0; i < InventoryKeyStone.inventorySize; ++i){
 					ItemStack stack = this.keystoneInventory.getStackInSlot(i);
-					metas[i] = stack != null ? stack.getItemDamage() : -1;
+					metas[i] = stack != null ? stack.getMetadata() : -1;
 				}
 				AMDataWriter writer = new AMDataWriter();
 				writer.add(true);
@@ -271,8 +271,8 @@ public class GuiKeystone extends GuiContainer{
 	}
 
 	@Override
-	protected void mouseMovedOrUp(int par1, int par2, int par3){
-		super.mouseMovedOrUp(par1, par2, par3);
+	protected void mouseReleased(int par1, int par2, int par3){
+		super.mouseReleased(par1, par2, par3);
 		for (Object button : this.buttonList){
 			((GuiButton)button).mouseReleased(par1, par2);
 		}
@@ -385,7 +385,7 @@ public class GuiKeystone extends GuiContainer{
 			lines.add(combo.name);
 			lines.add("\2477\247o" + StatCollector.translateToLocal("am2.gui.keystoneComboClick"));
 			lines.add("\2477\247o" + StatCollector.translateToLocal("am2.gui.keystoneComboClick2") + "\247r");
-			AMGuiHelper.drawHoveringText(lines, par1 - 25, par2 + 18, Minecraft.getMinecraft().fontRenderer, this.xSize, this.ySize);
+			AMGuiHelper.drawHoveringText(lines, par1 - 25, par2 + 18, Minecraft.getMinecraft().fontRendererObj, this.xSize, this.ySize);
 		}
 	}
 

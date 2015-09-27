@@ -127,7 +127,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 		if (this.calefactorItemStacks[0] == null){
 			return false;
 		}else{
-			ItemStack var1 = FurnaceRecipes.smelting().getSmeltingResult(this.calefactorItemStacks[0]);
+			ItemStack var1 = FurnaceRecipes.instance().getSmeltingResult(this.calefactorItemStacks[0]);
 			if (var1 == null) return false;
 			if (this.calefactorItemStacks[1] == null) return true;
 			if (!this.calefactorItemStacks[1].isItemEqual(var1)) return false;
@@ -138,7 +138,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 
 	public void smeltItem(){
 		if (this.canSmelt()){
-			ItemStack var1 = FurnaceRecipes.smelting().getSmeltingResult(this.calefactorItemStacks[0]);
+			ItemStack var1 = FurnaceRecipes.instance().getSmeltingResult(this.calefactorItemStacks[0]);
 
 			ItemStack smeltStack = var1.copy();
 
@@ -408,11 +408,11 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	}
 
 	@Override
-	public void openInventory(){
+	public void openChest(){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeChest(){
 	}
 
 	@Override
@@ -448,7 +448,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean isCustomInventoryName(){
 		return false;
 	}
 
@@ -458,7 +458,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int var1){
+	public int[] getSlotsForFace(int var1){
 		return new int[]{0, 1, 5};
 	}
 

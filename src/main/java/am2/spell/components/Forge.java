@@ -99,7 +99,7 @@ public class Forge implements ISpellComponent{
 		}
 
 		int meta = world.getBlockMetadata(x, y, z);
-		ItemStack smelted = FurnaceRecipes.smelting().getSmeltingResult(new ItemStack(block, 1, meta));
+		ItemStack smelted = FurnaceRecipes.instance().getSmeltingResult(new ItemStack(block, 1, meta));
 		if (smelted == null){
 			return false;
 		}
@@ -107,7 +107,7 @@ public class Forge implements ISpellComponent{
 			if (ItemIsBlock(smelted.getItem())){
 				world.setBlock(x, y, z, ((ItemBlock)smelted.getItem()).blockInstance);
 			}else{
-				entity.entityDropItem(new ItemStack(smelted.getItem(), 1, smelted.getItemDamage()), 0);
+				entity.entityDropItem(new ItemStack(smelted.getItem(), 1, smelted.getMetadata()), 0);
 				world.setBlock(x, y, z, Blocks.air);
 			}
 		}
@@ -127,7 +127,7 @@ public class Forge implements ISpellComponent{
 		}
 
 		int meta = world.getBlockMetadata(x, y, z);
-		ItemStack smelted = FurnaceRecipes.smelting().getSmeltingResult(new ItemStack(block, 1, meta));
+		ItemStack smelted = FurnaceRecipes.instance().getSmeltingResult(new ItemStack(block, 1, meta));
 		if (smelted == null){
 			return false;
 		}

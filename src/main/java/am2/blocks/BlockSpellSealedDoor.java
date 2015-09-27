@@ -43,7 +43,7 @@ public class BlockSpellSealedDoor extends BlockDoor implements ITileEntityProvid
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister register){
+	public void registerIcons(IIconRegister register){
 		this.upperIcons = new IIcon[4];
 		this.lowerIcons = new IIcon[2];
 		this.upperIcons[0] = ResourceManager.RegisterTexture("keystone_door_upper", register);
@@ -172,7 +172,7 @@ public class BlockSpellSealedDoor extends BlockDoor implements ITileEntityProvid
 				i1 = itemstack.stackSize;
 			}
 			itemstack.stackSize -= i1;
-			ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
+			ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getMetadata());
 			newItem.setTagCompound(itemstack.getTagCompound());
 			EntityItem entityitem = new EntityItem(world, i + f, j + f1, k + f2, newItem);
 			float f3 = 0.05F;

@@ -29,7 +29,7 @@ public class KeystoneChestRenderer extends TileEntitySpecialRenderer{
 	private void renderKeystoneChestAt(TileEntityKeystoneChest chest, double d, double d1, double d2, float var8){
 		int i = 0;
 
-		if (chest.getWorldObj() != null){
+		if (chest.getWorld() != null){
 			i = chest.getBlockMetadata() & 3;
 		}
 		int j = 0;

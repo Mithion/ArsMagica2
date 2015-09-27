@@ -24,7 +24,7 @@ public class ItemManaPotionBundle extends ArsMagicaItem{
 
 	public ItemManaPotionBundle(){
 		super();
-		this.setMaxDamage(0);
+		this.setMaxDurability(0);
 		this.setMaxStackSize(1);
 	}
 
@@ -98,23 +98,23 @@ public class ItemManaPotionBundle extends ArsMagicaItem{
 
 
 	@Override
-	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
-		Item potion = getPotion(par1ItemStack.getItemDamage());
+	public ItemStack onItemUseFinish(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
+		Item potion = getPotion(par1ItemStack.getMetadata());
 		if (potion == ItemsCommonProxy.lesserManaPotion){
-			ItemsCommonProxy.lesserManaPotion.onEaten(par1ItemStack, par2World, par3EntityPlayer);
+			ItemsCommonProxy.lesserManaPotion.onItemUseFinish(par1ItemStack, par2World, par3EntityPlayer);
 		}else if (potion == ItemsCommonProxy.standardManaPotion){
-			ItemsCommonProxy.standardManaPotion.onEaten(par1ItemStack, par2World, par3EntityPlayer);
+			ItemsCommonProxy.standardManaPotion.onItemUseFinish(par1ItemStack, par2World, par3EntityPlayer);
 		}else if (potion == ItemsCommonProxy.greaterManaPotion){
-			ItemsCommonProxy.greaterManaPotion.onEaten(par1ItemStack, par2World, par3EntityPlayer);
+			ItemsCommonProxy.greaterManaPotion.onItemUseFinish(par1ItemStack, par2World, par3EntityPlayer);
 		}else if (potion == ItemsCommonProxy.epicManaPotion){
-			ItemsCommonProxy.epicManaPotion.onEaten(par1ItemStack, par2World, par3EntityPlayer);
+			ItemsCommonProxy.epicManaPotion.onItemUseFinish(par1ItemStack, par2World, par3EntityPlayer);
 		}else if (potion == ItemsCommonProxy.legendaryManaPotion){
-			ItemsCommonProxy.legendaryManaPotion.onEaten(par1ItemStack, par2World, par3EntityPlayer);
+			ItemsCommonProxy.legendaryManaPotion.onItemUseFinish(par1ItemStack, par2World, par3EntityPlayer);
 		}
 
-		par1ItemStack.setItemDamage(((par1ItemStack.getItemDamage() >> 8) << 8) + getUses(par1ItemStack.getItemDamage()) - 1);
+		par1ItemStack.setMetadata(((par1ItemStack.getMetadata() >> 8) << 8) + getUses(par1ItemStack.getMetadata()) - 1);
 
-		if (getUses(par1ItemStack.getItemDamage()) == 0){
+		if (getUses(par1ItemStack.getMetadata()) == 0){
 			giveOrDropItem(par3EntityPlayer, new ItemStack(Items.string));
 			par3EntityPlayer.inventory.setInventorySlotContents(par3EntityPlayer.inventory.currentItem, null);
 		}
@@ -132,7 +132,7 @@ public class ItemManaPotionBundle extends ArsMagicaItem{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4){
-		Item potion = getPotion(par1ItemStack.getItemDamage());
+		Item potion = getPotion(par1ItemStack.getMetadata());
 		if (potion == ItemsCommonProxy.lesserManaPotion){
 			par3List.add("Lesser Mana Restoration");
 		}else if (potion == ItemsCommonProxy.standardManaPotion){
@@ -144,7 +144,7 @@ public class ItemManaPotionBundle extends ArsMagicaItem{
 		}else if (potion == ItemsCommonProxy.legendaryManaPotion){
 			par3List.add("Legendary Mana Restoration");
 		}
-		par3List.add("" + getUses(par1ItemStack.getItemDamage()) + " " + StatCollector.translateToLocal("am2.tooltip.uses") + ".");
+		par3List.add("" + getUses(par1ItemStack.getMetadata()) + " " + StatCollector.translateToLocal("am2.tooltip.uses") + ".");
 	}
 
 	@Override
@@ -159,7 +159,7 @@ public class ItemManaPotionBundle extends ArsMagicaItem{
 
 	@Override
 	public String getItemStackDisplayName(ItemStack par1ItemStack){
-		Item potion = getPotion(par1ItemStack.getItemDamage());
+		Item potion = getPotion(par1ItemStack.getMetadata());
 		if (potion == ItemsCommonProxy.lesserManaPotion){
 			return String.format("%s %s", StatCollector.translateToLocal("item.arsmagica2:mana_potion_lesser.name"), StatCollector.translateToLocal("item.arsmagica2:potionBundle.name"));
 		}else if (potion == ItemsCommonProxy.standardManaPotion){

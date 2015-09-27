@@ -103,7 +103,7 @@ public class ContainerSummoner extends AM2Container{
 					Slot focusSlot = (Slot)inventorySlots.get(b);
 					if (focusSlot.getHasStack()) continue;
 
-					focusSlot.putStack(new ItemStack(stack.getItem(), 1, stack.getItemDamage()));
+					focusSlot.putStack(new ItemStack(stack.getItem(), 1, stack.getMetadata()));
 					focusSlot.onSlotChanged();
 					stack.stackSize--;
 					if (stack.stackSize == 0){
@@ -117,7 +117,7 @@ public class ContainerSummoner extends AM2Container{
 			Slot scrollSlot = (Slot)inventorySlots.get(3);
 			if (scrollSlot.getHasStack()) return false;
 
-			ItemStack castStack = new ItemStack(stack.getItem(), 1, stack.getItemDamage());
+			ItemStack castStack = new ItemStack(stack.getItem(), 1, stack.getMetadata());
 			if (stack.hasTagCompound()){
 				castStack.setTagCompound((NBTTagCompound)stack.stackTagCompound.copy());
 			}

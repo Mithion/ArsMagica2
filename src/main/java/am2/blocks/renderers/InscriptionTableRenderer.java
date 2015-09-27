@@ -22,7 +22,7 @@ public class InscriptionTableRenderer extends TileEntitySpecialRenderer{
 	public void renderAModelAt(TileEntityInscriptionTable tile, double d, double d1, double d2, float f){
 		int i = 0;
 
-		if (tile.getWorldObj() != null){
+		if (tile.getWorld() != null){
 			i = tile.getBlockMetadata();
 		}
 		int j = (i & ~0x8) * 90;

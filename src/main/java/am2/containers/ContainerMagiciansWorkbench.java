@@ -36,7 +36,7 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 
 	public ContainerMagiciansWorkbench(InventoryPlayer playerInventory, TileEntityMagiciansWorkbench tileEntity){
 		workbenchInventory = tileEntity;
-		workbenchInventory.openInventory();
+		workbenchInventory.openChest();
 
 		world = playerInventory.player.worldObj;
 
@@ -152,7 +152,7 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 
 	@Override
 	public void onContainerClosed(EntityPlayer par1EntityPlayer){
-		workbenchInventory.closeInventory();
+		workbenchInventory.closeChest();
 		super.onContainerClosed(par1EntityPlayer);
 	}
 
@@ -215,7 +215,7 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 		RememberedRecipe recipe = this.workbenchInventory.getRememberedRecipeItems().get(recipeIndex);
 		for (ItemStack stack : recipe.components){
 			if (stack == null) continue;
-			ImmutablePair<Item, Integer> pair = new ImmutablePair<Item, Integer>(stack.getItem(), stack.getItemDamage());
+			ImmutablePair<Item, Integer> pair = new ImmutablePair<Item, Integer>(stack.getItem(), stack.getMetadata());
 			if (componentCount.containsKey(pair)){
 				int amt = componentCount.get(pair);
 				amt++;
@@ -288,7 +288,7 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 			for (ItemStack stack : recipe.components){
 				Slot slot = this.getSlot(10 + count);
 				if (stack != null){
-					slot.putStack(new ItemStack(stack.getItem(), 1, stack.getItemDamage()));
+					slot.putStack(new ItemStack(stack.getItem(), 1, stack.getMetadata()));
 				}else{
 					slot.putStack(null);
 				}
@@ -301,7 +301,7 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 			for (ItemStack stack : recipe.components){
 				Slot slot = this.getSlot(count);
 				if (stack != null){
-					slot.putStack(new ItemStack(stack.getItem(), 1, stack.getItemDamage()));
+					slot.putStack(new ItemStack(stack.getItem(), 1, stack.getMetadata()));
 				}else{
 					slot.putStack(null);
 				}

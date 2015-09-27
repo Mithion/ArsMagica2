@@ -64,7 +64,7 @@ public class TileEntityKeystoneChest extends TileEntity implements IInventory, I
 	}
 
 	@Override
-	public void openInventory(){
+	public void openChest(){
 		if (this.numPlayersUsing < 0){
 			this.numPlayersUsing = 0;
 		}
@@ -74,7 +74,7 @@ public class TileEntityKeystoneChest extends TileEntity implements IInventory, I
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeChest(){
 		if (this.getBlockType() != null && this.getBlockType() instanceof BlockKeystoneChest){
 			--this.numPlayersUsing;
 			this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1, this.numPlayersUsing);
@@ -177,7 +177,7 @@ public class TileEntityKeystoneChest extends TileEntity implements IInventory, I
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean isCustomInventoryName(){
 		return false;
 	}
 

@@ -22,7 +22,7 @@ public class ItemBoundHoe extends ItemHoe implements IBoundItem{
 
 	public ItemBoundHoe(ToolMaterial par2ToolMaterial){
 		super(par2ToolMaterial);
-		this.setMaxDamage(0);
+		this.setMaxDurability(0);
 	}
 
 	public ItemBoundHoe setUnlocalizedAndTextureName(String name){
@@ -88,7 +88,7 @@ public class ItemBoundHoe extends ItemHoe implements IBoundItem{
 			}else{
 				props.deductMana(this.maintainCost());
 			}
-			if (par1ItemStack.getItemDamage() > 0)
+			if (par1ItemStack.getMetadata() > 0)
 				par1ItemStack.damageItem(-1, (EntityLivingBase)par3Entity);
 		}
 	}

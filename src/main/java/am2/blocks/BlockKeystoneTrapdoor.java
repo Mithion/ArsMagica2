@@ -60,7 +60,7 @@ public class BlockKeystoneTrapdoor extends BlockTrapDoor implements ITileEntityP
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 		this.blockIcon = ResourceManager.RegisterTexture("keystone_trapdoor", par1IconRegister);
 	}
 

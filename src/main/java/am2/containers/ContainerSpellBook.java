@@ -107,7 +107,7 @@ public class ContainerSpellBook extends Container{
 						Slot scrollSlot = (Slot)inventorySlots.get(n);
 						if (scrollSlot.getHasStack()) continue;
 
-						ItemStack newStack = new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage());
+						ItemStack newStack = new ItemStack(itemstack1.getItem(), 1, itemstack1.getMetadata());
 						newStack.setTagCompound(itemstack1.getTagCompound());
 
 						scrollSlot.putStack(newStack);
@@ -130,7 +130,7 @@ public class ContainerSpellBook extends Container{
 						Slot scrollSlot = (Slot)inventorySlots.get(n);
 						if (scrollSlot.getHasStack()) continue;
 
-						ItemStack newStack = new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage());
+						ItemStack newStack = new ItemStack(itemstack1.getItem(), 1, itemstack1.getMetadata());
 						newStack.setTagCompound(itemstack1.getTagCompound());
 
 						scrollSlot.putStack(newStack);
@@ -185,7 +185,7 @@ public class ContainerSpellBook extends Container{
 					var7 = (Slot)this.inventorySlots.get(var6);
 					var8 = var7.getStack();
 
-					if (var8 != null && var8.itemID == par1ItemStack.itemID && (!par1ItemStack.getHasSubtypes() || par1ItemStack.getItemDamage() == var8.getItemDamage()) && ItemStack.areItemStacksEqual(par1ItemStack, var8))
+					if (var8 != null && var8.itemID == par1ItemStack.itemID && (!par1ItemStack.getHasSubtypes() || par1ItemStack.getMetadata() == var8.getMetadata()) && ItemStack.areItemStacksEqual(par1ItemStack, var8))
 					{
 						int var9 = var8.stackSize + par1ItemStack.stackSize;
 

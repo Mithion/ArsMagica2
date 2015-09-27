@@ -45,7 +45,7 @@ public class IllEffectsManager{
 		}
 
 		IIllEffect chosenBadThing = getWeightedBadthing(possibleBadThings);
-		Map<EntityPlayer, Object> affected = chosenBadThing.ApplyIllEffect(te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord);
+		Map<EntityPlayer, Object> affected = chosenBadThing.ApplyIllEffect(te.getWorld(), te.xCoord, te.yCoord, te.zCoord);
 	}
 
 	private IIllEffect getWeightedBadthing(HashMap<IIllEffect, Integer> possibilities){

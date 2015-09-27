@@ -36,7 +36,7 @@ public class ItemOre extends ArsMagicaItem{
 
 	@Override
 	public boolean isPotionIngredient(ItemStack stack){
-		switch (stack.getItemDamage()){
+		switch (stack.getMetadata()){
 		case META_VINTEUMDUST:
 		case META_ARCANEASH:
 		case META_PURIFIEDVINTEUM:
@@ -47,7 +47,7 @@ public class ItemOre extends ArsMagicaItem{
 
 	@Override
 	public String getItemStackDisplayName(ItemStack par1ItemStack){
-		int meta = par1ItemStack.getItemDamage();
+		int meta = par1ItemStack.getMetadata();
 		switch (meta){
 		case META_VINTEUMDUST:
 			return StatCollector.translateToLocal("item.arsmagica2:vinteumDust.name");
@@ -93,7 +93,7 @@ public class ItemOre extends ArsMagicaItem{
 
 	@Override
 	public String getPotionEffect(ItemStack stack){
-		switch (stack.getItemDamage()){
+		switch (stack.getMetadata()){
 		case META_VINTEUMDUST:
 			return "+0+1+2-3&4-4+13";
 		case META_ARCANEASH:

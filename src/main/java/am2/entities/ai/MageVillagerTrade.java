@@ -55,7 +55,7 @@ public class MageVillagerTrade implements IVillageTradeHandler{
 
 			choice = pickRandomWeightedItem(random, weightedRandomChoices);
 
-			if (choice.getItemDamage() == 11){ //pure essence
+			if (choice.getMetadata() == 11){ //pure essence
 				min = 11;
 				max = 16;
 			}else if (choice.getItem() == ItemsCommonProxy.itemOre){

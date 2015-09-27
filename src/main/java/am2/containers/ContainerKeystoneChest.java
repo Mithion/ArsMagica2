@@ -19,7 +19,7 @@ public class ContainerKeystoneChest extends AM2Container{
 
 	public ContainerKeystoneChest(InventoryPlayer inventoryplayer, TileEntityKeystoneChest tileEntityChest){
 		chest = tileEntityChest;
-		chest.openInventory();
+		chest.openChest();
 		//chest inventory slots
 		for (int j = 0; j < 3; ++j){
 			for (int i = 0; i < 9; ++i){
@@ -96,7 +96,7 @@ public class ContainerKeystoneChest extends AM2Container{
 
 	@Override
 	public void onContainerClosed(EntityPlayer par1EntityPlayer){
-		chest.closeInventory();
+		chest.closeChest();
 		super.onContainerClosed(par1EntityPlayer);
 	}
 

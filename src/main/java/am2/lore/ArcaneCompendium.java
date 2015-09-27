@@ -593,8 +593,8 @@ public class ArcaneCompendium implements ILoreHelper{
 		}
 
 		//append meta specific search if needed
-		if (stack.getItemDamage() > -1)
-			itemID += "@" + stack.getItemDamage();
+		if (stack.getMetadata() > -1)
+			itemID += "@" + stack.getMetadata();
 
 		//search based on our constructed ID
 		entry = getEntry(itemID);

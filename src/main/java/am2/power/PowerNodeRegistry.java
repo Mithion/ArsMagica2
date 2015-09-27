@@ -53,7 +53,7 @@ public class PowerNodeRegistry{
 		ChunkCoordIntPair chunk = getChunkFromNode(node);
 		HashMap<AMVector3, PowerNodeEntry> nodeList;
 		TileEntity te = ((TileEntity)node);
-		World world = te.getWorldObj();
+		World world = te.getWorld();
 
 		if (powerNodes.containsKey(chunk)){
 			nodeList = powerNodes.get(chunk);
@@ -134,7 +134,7 @@ public class PowerNodeRegistry{
 
 		for (PowerTypes type : typesProvided){
 			LinkedList<AMVector3> powerPath = new LinkedList<AMVector3>();
-			PowerNodePathfinder pathfinder = new PowerNodePathfinder(((TileEntity)powerSource).getWorldObj(), sourceLocation, destLocation, type);
+			PowerNodePathfinder pathfinder = new PowerNodePathfinder(((TileEntity)powerSource).getWorld(), sourceLocation, destLocation, type);
 			List<AMVector3> path = pathfinder.compute(sourceLocation);
 			if (path == null)
 				continue;
@@ -185,7 +185,7 @@ public class PowerNodeRegistry{
 			return 0;
 		}
 
-		float requested = data.requestPower(((TileEntity)destination).getWorldObj(), type, amount, destination.getCapacity());
+		float requested = data.requestPower(((TileEntity)destination).getWorld(), type, amount, destination.getCapacity());
 
 		return requested;
 	}
@@ -375,11 +375,11 @@ public class PowerNodeRegistry{
 
 	private ChunkCoordIntPair getChunkFromNode(IPowerNode node){
 		TileEntity te = (TileEntity)node;
-		if (te.getWorldObj() == null)
+		if (te.getWorld() == null)
 			return null;
-		if (!te.getWorldObj().checkChunksExist(te.xCoord, 0, te.zCoord, te.xCoord, te.getWorldObj().getActualHeight(), te.zCoord))
+		if (!te.getWorld().checkChunksExist(te.xCoord, 0, te.zCoord, te.xCoord, te.getWorld().getActualHeight(), te.zCoord))
 			return new ChunkCoordIntPair(te.xCoord >> 4, te.zCoord >> 4);
-		return te.getWorldObj().getChunkFromBlockCoords(te.xCoord, te.zCoord).getChunkCoordIntPair();
+		return te.getWorld().getChunkFromBlockCoords(te.xCoord, te.zCoord).getChunkCoordIntPair();
 	}
 
 	private ChunkCoordIntPair getChunkFromPosition(World world, AMVector3 location){

@@ -30,7 +30,7 @@ public class BlockWizardsChalk extends AMSpecialRenderBlock{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 		blockIcons = new IIcon[16];
 
 		for (int i = 0; i < 16; ++i)

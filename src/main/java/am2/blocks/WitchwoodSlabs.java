@@ -23,7 +23,7 @@ public class WitchwoodSlabs extends BlockWoodSlab{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister IIconRegister){
+	public void registerIcons(IIconRegister IIconRegister){
 		this.blockIcon = ResourceManager.RegisterTexture("plankWitchwood", IIconRegister);
 	}
 

@@ -118,9 +118,9 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 
 	public void onEntityBlocked(EntityLivingBase entity){
 		if (this.worldObj.isRemote){
-			if (PowerNodeRegistry.For(getWorldObj()).checkPower(this, PowerTypes.DARK, 50)){
+			if (PowerNodeRegistry.For(getWorld()).checkPower(this, PowerTypes.DARK, 50)){
 				entity.attackEntityFrom(DamageSource.magic, 5);
-				PowerNodeRegistry.For(getWorldObj()).consumePower(this, PowerTypes.DARK, 50);
+				PowerNodeRegistry.For(getWorld()).consumePower(this, PowerTypes.DARK, 50);
 			}
 		}
 	}
@@ -193,11 +193,11 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 	}
 
 	@Override
-	public void openInventory(){
+	public void openChest(){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeChest(){
 	}
 
 	@Override
@@ -250,7 +250,7 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean isCustomInventoryName(){
 		return false;
 	}
 

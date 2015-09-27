@@ -27,7 +27,7 @@ public class ItemBoundAxe extends ItemAxe implements IBoundItem{
 
 	public ItemBoundAxe(ToolMaterial par2ToolMaterial){
 		super(par2ToolMaterial);
-		this.setMaxDamage(0);
+		this.setMaxDurability(0);
 	}
 
 	public ItemBoundAxe setUnlocalizedAndTextureName(String name){
@@ -101,7 +101,7 @@ public class ItemBoundAxe extends ItemAxe implements IBoundItem{
 			}else{
 				props.deductMana(this.maintainCost());
 			}
-			if (par1ItemStack.getItemDamage() > 0)
+			if (par1ItemStack.getMetadata() > 0)
 				par1ItemStack.damageItem(-1, (EntityLivingBase)par3Entity);
 		}
 	}

@@ -21,7 +21,7 @@ public class ItemFlickerJar extends ArsMagicaItem{
 
 	public ItemFlickerJar(){
 		super();
-		this.setMaxDamage(0);
+		this.setMaxDurability(0);
 		setHasSubtypes(true);
 	}
 
@@ -43,7 +43,7 @@ public class ItemFlickerJar extends ArsMagicaItem{
 
 	@Override
 	public IIcon getIcon(ItemStack stack, int pass){
-		if (stack.getItemDamage() == 0)
+		if (stack.getMetadata() == 0)
 			return itemIcon;
 
 		if (pass == 0)
@@ -54,7 +54,7 @@ public class ItemFlickerJar extends ArsMagicaItem{
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack){
-		int meta = stack.getItemDamage();
+		int meta = stack.getMetadata();
 		String baseName = StatCollector.translateToLocal("am2.item.flickerJar");
 		if (meta == 0)
 			return String.format(StatCollector.translateToLocal("item.arsmagica2:flickerJar.name"), StatCollector.translateToLocal("am2.tooltip.empty"));
@@ -71,8 +71,8 @@ public class ItemFlickerJar extends ArsMagicaItem{
 
 	@Override
 	public int getColorFromItemStack(ItemStack stack, int pass){
-		if (stack.getItemDamage() > 0 && pass == 0){
-			int meta = stack.getItemDamage();
+		if (stack.getMetadata() > 0 && pass == 0){
+			int meta = stack.getMetadata();
 			Affinity aff = Affinity.values()[meta];
 			return aff.color;
 		}else{
@@ -81,7 +81,7 @@ public class ItemFlickerJar extends ArsMagicaItem{
 	}
 
 	public void setFlickerJarTypeFromFlicker(ItemStack stack, EntityFlicker flick){
-		stack.setItemDamage(flick.getFlickerAffinity().ID);
+		stack.setMetadata(flick.getFlickerAffinity().ID);
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class ItemFlickerJar extends ArsMagicaItem{
 		if (stack == null)
 			return 0;
 		if (stack.getItem() instanceof ItemFlickerJar){
-			Affinity aff = Affinity.getByID(stack.getItemDamage());
+			Affinity aff = Affinity.getByID(stack.getMetadata());
 			if (aff != null){
 				return aff.getAffinityMask();
 			}

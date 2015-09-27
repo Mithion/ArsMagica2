@@ -192,16 +192,16 @@ public class AMNetHandler{
 
 	public void syncPowerPaths(IPowerNode node, EntityPlayerMP player){
 		AMDataWriter writer = new AMDataWriter();
-		if (((TileEntity)node).getWorldObj().isRemote){
+		if (((TileEntity)node).getWorld().isRemote){
 			writer.add((byte)0);
-			writer.add(((TileEntity)node).getWorldObj().provider.dimensionId);
+			writer.add(((TileEntity)node).getWorld().provider.dimensionId);
 			writer.add(((TileEntity)node).xCoord);
 			writer.add(((TileEntity)node).yCoord);
 			writer.add(((TileEntity)node).zCoord);
 
 			sendPacketToServer(AMPacketIDs.REQUEST_PWR_PATHS, writer.generate());
 		}else{
-			NBTTagCompound compound = PowerNodeRegistry.For(((TileEntity)node).getWorldObj()).getDataCompoundForNode(node);
+			NBTTagCompound compound = PowerNodeRegistry.For(((TileEntity)node).getWorld()).getDataCompoundForNode(node);
 			if (compound != null){
 				writer.add((byte)0);
 				writer.add(compound);
@@ -277,7 +277,7 @@ public class AMNetHandler{
 		writer.add(calefactor.yCoord);
 		writer.add(calefactor.zCoord);
 		writer.add(data);
-		sendPacketToAllClientsNear(calefactor.getWorldObj().provider.dimensionId, calefactor.xCoord, calefactor.yCoord, calefactor.zCoord, 32, AMPacketIDs.CALEFACTOR_DATA, writer.generate());
+		sendPacketToAllClientsNear(calefactor.getWorld().provider.dimensionId, calefactor.xCoord, calefactor.yCoord, calefactor.zCoord, 32, AMPacketIDs.CALEFACTOR_DATA, writer.generate());
 	}
 
 	public void sendObeliskUpdate(TileEntityObelisk obelisk, byte[] data){
@@ -286,7 +286,7 @@ public class AMNetHandler{
 		writer.add(obelisk.yCoord);
 		writer.add(obelisk.zCoord);
 		writer.add(data);
-		sendPacketToAllClientsNear(obelisk.getWorldObj().provider.dimensionId, obelisk.xCoord, obelisk.yCoord, obelisk.zCoord, 32, AMPacketIDs.OBELISK_DATA, writer.generate());
+		sendPacketToAllClientsNear(obelisk.getWorld().provider.dimensionId, obelisk.xCoord, obelisk.yCoord, obelisk.zCoord, 32, AMPacketIDs.OBELISK_DATA, writer.generate());
 	}
 
 	public void sendAffinityActivate(){

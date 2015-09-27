@@ -278,7 +278,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		if (inscriptionTableItemStacks[index] == null) return false;
 		if (inscriptionTableItemStacks[index].getItem() == null) return false;
 		if (inscriptionTableItemStacks[index].getItem() != item) return false;
-		if (meta > -1 && inscriptionTableItemStacks[index].getItemDamage() != meta) return false;
+		if (meta > -1 && inscriptionTableItemStacks[index].getMetadata() != meta) return false;
 
 		return true;
 	}
@@ -293,11 +293,11 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	}
 
 	@Override
-	public void openInventory(){
+	public void openChest(){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeChest(){
 	}
 
 	@Override
@@ -352,7 +352,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean isCustomInventoryName(){
 		return false;
 	}
 
@@ -783,7 +783,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			for (ItemStack stack : componentRecipeList){
 				recipeData[idx++] = Item.getIdFromItem(stack.getItem());
 				recipeData[idx++] = stack.stackSize;
-				recipeData[idx++] = stack.getItemDamage();
+				recipeData[idx++] = stack.getMetadata();
 			}
 
 
@@ -947,7 +947,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			writer.add(player.getEntityId());
 			AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.INSCRIPTION_TABLE_UPDATE, writer.generate());
 		}
-		stack.setItemDamage(0);
+		stack.setMetadata(0);
 		stack.func_135074_t();
 	}
 

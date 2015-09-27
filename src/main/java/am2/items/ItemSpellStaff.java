@@ -47,7 +47,7 @@ public class ItemSpellStaff extends ArsMagicaItem{
 
 	public ItemSpellStaff(int charge, int castingMode){
 		super();
-		this.setMaxDamage(charge);
+		this.setMaxDurability(charge);
 		this.maxCharge = charge;
 		this.maxStackSize = 1;
 		this.castingMode = castingMode;
@@ -107,7 +107,7 @@ public class ItemSpellStaff extends ArsMagicaItem{
 		/*}else{
 			if (this.isMagiTechStaff())
 				return 0x5798cb;
-			switch(stack.getItemDamage()){
+			switch(stack.getMetadata()){
 			case 1: //purple
 				return 0xa718bc;
 			case 2: //cyan

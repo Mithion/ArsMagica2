@@ -39,7 +39,7 @@ public class BlockKeystoneDoor extends BlockDoor implements ITileEntityProvider{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister register){
+	public void registerIcons(IIconRegister register){
 		this.upperIcons = new IIcon[4];
 		this.lowerIcons = new IIcon[2];
 		this.upperIcons[0] = ResourceManager.RegisterTexture("keystone_door_upper", register);

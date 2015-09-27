@@ -72,11 +72,11 @@ public class InventoryEssenceBag implements IInventory{
 	}
 
 	@Override
-	public void openInventory(){
+	public void openChest(){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeChest(){
 	}
 
 	public ItemStack[] GetInventoryContents(){
@@ -95,7 +95,7 @@ public class InventoryEssenceBag implements IInventory{
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean isCustomInventoryName(){
 		return false;
 	}
 

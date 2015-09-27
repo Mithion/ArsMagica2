@@ -55,7 +55,7 @@ public abstract class BlockGroundRune extends AMBlockContainer{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 		this.blockIcon = ResourceManager.RegisterTexture(GetRuneTexture(), par1IconRegister);
 	}
 

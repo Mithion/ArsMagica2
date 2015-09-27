@@ -34,7 +34,7 @@ public class AMArmor extends ItemArmor implements ISpecialArmor{
 		material = enumarmormaterial;
 		armorType = par4;
 		damageReduceAmount = 0;
-		setMaxDamage(enumarmormaterial.func_40576_a(par4));
+		setMaxDurability(enumarmormaterial.func_40576_a(par4));
 		maxStackSize = 1;
 		damageReduction = enumarmormaterial.getDamageReductionAmount(par4);
 		infusionCost = enumarmormaterial.getInfusionCost();
@@ -52,7 +52,7 @@ public class AMArmor extends ItemArmor implements ISpecialArmor{
 		return material.getEnchantability();
 	}
 
-	static int[] getMaxDamageArray(){
+	static int[] getMaxDurabilityArray(){
 		return maxDamageArray;
 	}
 

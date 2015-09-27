@@ -31,7 +31,7 @@ public class BlockInertSpawner extends PoweredBlock{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 	}
 
 	@Override

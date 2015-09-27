@@ -38,7 +38,7 @@ public class SlotOneItemTypeOnly extends Slot{
 	public boolean isItemValid(ItemStack par1ItemStack){
 		if (meta == -1)
 			return par1ItemStack != null && par1ItemStack.getItem() != null && par1ItemStack.getItem() == this.item;
-		return par1ItemStack != null && par1ItemStack.getItem() != null && par1ItemStack.getItem() == this.item && par1ItemStack.getItemDamage() == meta;
+		return par1ItemStack != null && par1ItemStack.getItem() != null && par1ItemStack.getItem() == this.item && par1ItemStack.getMetadata() == meta;
 	}
 
 }

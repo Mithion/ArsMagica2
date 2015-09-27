@@ -116,7 +116,7 @@ public class ItemKeystone extends ArsMagicaItem{
 			if (stack == null){
 				itemStack.stackTagCompound.setInteger("keystonemeta" + i, -1);
 			}else{
-				itemStack.stackTagCompound.setInteger("keystonemeta" + i, stack.getItemDamage());
+				itemStack.stackTagCompound.setInteger("keystonemeta" + i, stack.getMetadata());
 			}
 		}
 	}

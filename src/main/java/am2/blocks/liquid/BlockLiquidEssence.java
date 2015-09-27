@@ -27,7 +27,7 @@ public class BlockLiquidEssence extends BlockFluidClassic{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 		icons = new IIcon[2];
 
 		icons[0] = ResourceManager.RegisterTexture("liquidEssenceStill", par1IconRegister);

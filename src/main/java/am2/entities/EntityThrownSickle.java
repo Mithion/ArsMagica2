@@ -277,7 +277,7 @@ public class EntityThrownSickle extends EntityLiving{
 	}
 
 	@Override
-	public ItemStack[] getLastActiveItems(){
+	public ItemStack[] getInventory(){
 		return new ItemStack[0];
 	}
 

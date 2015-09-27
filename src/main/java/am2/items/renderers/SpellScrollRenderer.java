@@ -244,7 +244,7 @@ public class SpellScrollRenderer implements IItemRenderer{
 
 		float f = 1.0F;
 		GL11.glColor3f(f, f, f);
-		this.modelBipedMain.onGround = 0.0F;
+		this.modelBipedMain.swingProgress = 0.0F;
 		this.modelBipedMain.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, player);
 		this.modelBipedMain.bipedRightArm.render(0.0625F);
 

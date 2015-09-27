@@ -87,7 +87,7 @@ public class Summon implements ISpellComponent{
 	}
 
 	public void setSummonType(ItemStack stack, ItemStack phylacteryStack){
-		if (phylacteryStack.getItemDamage() == ItemsCommonProxy.crystalPhylactery.META_FULL && phylacteryStack.getItem() instanceof ItemCrystalPhylactery){
+		if (phylacteryStack.getMetadata() == ItemsCommonProxy.crystalPhylactery.META_FULL && phylacteryStack.getItem() instanceof ItemCrystalPhylactery){
 			if (!stack.hasTagCompound())
 				stack.setTagCompound(new NBTTagCompound());
 

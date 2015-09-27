@@ -105,7 +105,7 @@ public class ContainerCalefactor extends AM2Container{
 				Slot focusSlot = (Slot)inventorySlots.get(b);
 				if (focusSlot.getHasStack()) continue;
 
-				focusSlot.putStack(new ItemStack(stack.getItem(), 1, stack.getItemDamage()));
+				focusSlot.putStack(new ItemStack(stack.getItem(), 1, stack.getMetadata()));
 				focusSlot.onSlotChanged();
 				stack.stackSize--;
 				if (stack.stackSize == 0){
@@ -114,7 +114,7 @@ public class ContainerCalefactor extends AM2Container{
 				}
 				return true;
 			}
-		}else if (FurnaceRecipes.smelting().getSmeltingResult(stack) != null){
+		}else if (FurnaceRecipes.instance().getSmeltingResult(stack) != null){
 			Slot focusSlot = (Slot)inventorySlots.get(0);
 			boolean b = mergeItemStack(stack, 0, 1, false);
 			if (stack.stackSize == 0){

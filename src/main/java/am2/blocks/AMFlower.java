@@ -19,13 +19,13 @@ public class AMFlower extends BlockFlower{
 	}
 
 	public AMFlower setUnlocalizedNameAndID(String name){
-		setBlockName(name);
-		setBlockTextureName(name);
+		setUnlocalizedName(name);
+		setTextureName(name);
 		return this;
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister register){
+	public void registerIcons(IIconRegister register){
 		this.blockIcon = ResourceManager.RegisterTexture(this.textureName, register);
 	}
 

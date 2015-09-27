@@ -34,7 +34,7 @@ public class RenderUtilities{
 	public static void drawTextInWorldAtOffset(String text, double x, double y, double z, int color){
 		Tessellator t = Tessellator.instance;
 
-		FontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;
+		FontRenderer fontrenderer = Minecraft.getMinecraft().fontRendererObj;
 		float f = 1.6F;
 		float f1 = 0.016666668F * f;
 		GL11.glPushMatrix();

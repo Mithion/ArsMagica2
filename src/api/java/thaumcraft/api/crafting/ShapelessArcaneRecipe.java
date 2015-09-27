@@ -127,7 +127,7 @@ public class ShapelessArcaneRecipe implements IArcaneRecipe
     {
         return (target.getItem() == input.getItem() &&
         		(!target.hasTagCompound() || ItemStack.areItemStackTagsEqual(target, input)) &&
-        		(target.getItemDamage() == OreDictionary.WILDCARD_VALUE || target.getItemDamage() == input.getItemDamage()));
+        		(target.getMetadata() == OreDictionary.WILDCARD_VALUE || target.getMetadata() == input.getMetadata()));
     }
 
     /**

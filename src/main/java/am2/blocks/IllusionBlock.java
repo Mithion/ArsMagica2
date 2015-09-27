@@ -59,7 +59,7 @@ public class IllusionBlock extends AMBlock{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister){
+	public void registerIcons(IIconRegister iconRegister){
 		revealedIcon = ResourceManager.RegisterTexture("illusionBlockRevealed", iconRegister);
 	}
 
@@ -157,7 +157,7 @@ public class IllusionBlock extends AMBlock{
 		}
 
 		//ethereal blocks are always passable, indicated by the 4th bit of meta
-		if (stack.getItemDamage() == 1){
+		if (stack.getMetadata() == 1){
 			meta |= 0x8;
 		}
 

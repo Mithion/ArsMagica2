@@ -110,7 +110,7 @@ public class BlockBrokenPowerLink extends BlockContainer{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister IIconRegister){
+	public void registerIcons(IIconRegister IIconRegister){
 		this.blockIcon = ResourceManager.RegisterTexture("BrokenNodeBlock", IIconRegister);
 	}
 

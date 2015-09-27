@@ -26,7 +26,7 @@ public class ObeliskFuelHelper implements IObeliskFuelHelper{
 			return 0;
 
 		for (ItemStack possibleFuel : validFuels.keySet()){
-			if (stack.getItem() == possibleFuel.getItem() && (possibleFuel.getItemDamage() == Short.MAX_VALUE || possibleFuel.getItemDamage() == stack.getItemDamage()))
+			if (stack.getItem() == possibleFuel.getItem() && (possibleFuel.getMetadata() == Short.MAX_VALUE || possibleFuel.getMetadata() == stack.getMetadata()))
 				return validFuels.get(possibleFuel);
 		}
 		return 0;

@@ -103,11 +103,11 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements IInvent
 	}
 
 	@Override
-	public void openInventory(){
+	public void openChest(){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeChest(){
 	}
 
 	@Override
@@ -116,12 +116,12 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements IInvent
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean isCustomInventoryName(){
 		return false;
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_){
+	public int[] getSlotsForFace(int p_94128_1_){
 		return new int[]{0};
 	}
 

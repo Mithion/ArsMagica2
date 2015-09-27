@@ -88,7 +88,7 @@ public class VinteumTorch extends BlockTorch{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister IIconRegister){
+	public void registerIcons(IIconRegister IIconRegister){
 		this.blockIcon = ResourceManager.RegisterTexture("arsmagica2:vinteumTorch", IIconRegister);
 	}
 }

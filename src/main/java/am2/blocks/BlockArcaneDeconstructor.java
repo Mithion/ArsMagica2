@@ -45,7 +45,7 @@ public class BlockArcaneDeconstructor extends PoweredBlock{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 		icons = new IIcon[4];
 		icons[0] = ResourceManager.RegisterTexture("deconstruction_table_bottom", par1IconRegister);
 		icons[1] = ResourceManager.RegisterTexture("deconstruction_table_top", par1IconRegister);
@@ -147,7 +147,7 @@ public class BlockArcaneDeconstructor extends PoweredBlock{
 					i1 = itemstack.stackSize;
 				}
 				itemstack.stackSize -= i1;
-				ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
+				ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getMetadata());
 				newItem.setTagCompound(itemstack.getTagCompound());
 				EntityItem entityitem = new EntityItem(world, i + f, j + f1, k + f2, newItem);
 				float f3 = 0.05F;

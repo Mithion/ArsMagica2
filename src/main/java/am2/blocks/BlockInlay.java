@@ -51,7 +51,7 @@ public class BlockInlay extends BlockRailBase{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister IIconRegister){
+	public void registerIcons(IIconRegister IIconRegister){
 		String[] textures = new String[]{"Inlay_Straight_Redstone", "Inlay_Straight_Iron", "Inlay_Straight_Gold", "Inlay_Corner_Redstone", "Inlay_Corner_Iron", "Inlay_Corner_Gold"};
 
 		icons = new IIcon[textures.length];

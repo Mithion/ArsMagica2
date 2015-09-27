@@ -73,7 +73,7 @@ public class WitchwoodSapling extends BlockFlower{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 		this.blockIcon = ResourceManager.RegisterTexture("witchwoodSapling", par1IconRegister);
 	}
 

@@ -47,7 +47,7 @@ public class BlockLectern extends AMSpecialRenderBlockContainer{
 					float f = rand.nextFloat() * 0.8F + 0.1F;
 					float f1 = rand.nextFloat() * 0.8F + 0.1F;
 					float f2 = rand.nextFloat() * 0.8F + 0.1F;
-					ItemStack newItem = new ItemStack(te.getStack().getItem(), 1, te.getStack().getItemDamage());
+					ItemStack newItem = new ItemStack(te.getStack().getItem(), 1, te.getStack().getMetadata());
 					if (te.getStack().stackTagCompound != null)
 						newItem.setTagCompound((NBTTagCompound)te.getStack().stackTagCompound.copy());
 					EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, newItem);
@@ -87,7 +87,7 @@ public class BlockLectern extends AMSpecialRenderBlockContainer{
 				float f = rand.nextFloat() * 0.8F + 0.1F;
 				float f1 = rand.nextFloat() * 0.8F + 0.1F;
 				float f2 = rand.nextFloat() * 0.8F + 0.1F;
-				ItemStack newItem = new ItemStack(te.getStack().getItem(), 1, te.getStack().getItemDamage());
+				ItemStack newItem = new ItemStack(te.getStack().getItem(), 1, te.getStack().getMetadata());
 				if (te.getStack().stackTagCompound != null)
 					newItem.setTagCompound((NBTTagCompound)te.getStack().stackTagCompound.copy());
 				EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, newItem);
@@ -133,7 +133,7 @@ public class BlockLectern extends AMSpecialRenderBlockContainer{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 		this.blockIcon = ResourceManager.RegisterTexture("Witchwood", par1IconRegister);
 	}
 

@@ -39,7 +39,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem{
 	public ItemCrystalPhylactery(){
 		super();
 		spawnableEntities = new HashMap<String, Integer>();
-		setMaxDamage(0);
+		setMaxDurability(0);
 		setMaxStackSize(1);
 	}
 
@@ -81,13 +81,13 @@ public class ItemCrystalPhylactery extends ArsMagicaItem{
 				if (pct > 100) pct = 100;
 				stack.stackTagCompound.setFloat("PercentFilled", pct);
 				if (pct == 100)
-					stack.setItemDamage(META_FULL);
+					stack.setMetadata(META_FULL);
 				else if (pct > 50)
-					stack.setItemDamage(META_HALF);
+					stack.setMetadata(META_HALF);
 				else if (pct > 25)
-					stack.setItemDamage(META_QUARTER);
+					stack.setMetadata(META_QUARTER);
 				else
-					stack.setItemDamage(META_EMPTY);
+					stack.setMetadata(META_EMPTY);
 
 			}
 		}
@@ -103,13 +103,13 @@ public class ItemCrystalPhylactery extends ArsMagicaItem{
 				if (pct > 100) pct = 100;
 				stack.stackTagCompound.setFloat("PercentFilled", pct);
 				if (pct == 100)
-					stack.setItemDamage(META_FULL);
+					stack.setMetadata(META_FULL);
 				else if (pct > 50)
-					stack.setItemDamage(META_HALF);
+					stack.setMetadata(META_HALF);
 				else if (pct > 25)
-					stack.setItemDamage(META_QUARTER);
+					stack.setMetadata(META_QUARTER);
 				else
-					stack.setItemDamage(META_EMPTY);
+					stack.setMetadata(META_EMPTY);
 
 			}
 		}
@@ -119,7 +119,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem{
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack par1ItemStack, int pass){
 		if (pass == 1) return false;
-		return par1ItemStack.getItemDamage() == META_FULL;
+		return par1ItemStack.getMetadata() == META_FULL;
 	}
 
 	public void setSpawnClass(ItemStack stack, Class clazz){
@@ -134,7 +134,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem{
 
 	public boolean canStore(ItemStack stack, EntityLiving entity){
 		if (entity instanceof IBossDisplayData) return false;
-		if (stack.getItemDamage() == META_FULL)
+		if (stack.getMetadata() == META_FULL)
 			return false;
 		if (!stack.hasTagCompound())
 			return true;
@@ -146,7 +146,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem{
 	}
 
 	public boolean isFull(ItemStack stack){
-		return stack.getItemDamage() == META_FULL;
+		return stack.getMetadata() == META_FULL;
 	}
 
 	@Override

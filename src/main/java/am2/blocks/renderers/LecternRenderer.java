@@ -48,12 +48,12 @@ public class LecternRenderer extends TileEntitySpecialRenderer{
 
 	public void renderTileEntityArchmagePodiumAt(TileEntityLectern podium, double d, double d1, double d2, float f1){
 		int meta = 0;
-		if (podium.getWorldObj() != null)
-			meta = podium.getWorldObj().getBlockMetadata(podium.xCoord, podium.yCoord, podium.zCoord) - 1;
+		if (podium.getWorld() != null)
+			meta = podium.getWorld().getBlockMetadata(podium.xCoord, podium.yCoord, podium.zCoord) - 1;
 
 		int i = 0;
 
-		if (podium.getWorldObj() != null){
+		if (podium.getWorld() != null){
 			i = podium.getBlockMetadata();
 		}
 		int j = i * 90;

@@ -112,7 +112,7 @@ public class BlockSummoner extends AMSpecialRenderPoweredBlock{
 					i1 = itemstack.stackSize;
 				}
 				itemstack.stackSize -= i1;
-				ItemStack newStack = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
+				ItemStack newStack = new ItemStack(itemstack.getItem(), i1, itemstack.getMetadata());
 				if (itemstack.hasTagCompound()){
 					newStack.setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
 				}
@@ -136,7 +136,7 @@ public class BlockSummoner extends AMSpecialRenderPoweredBlock{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 		this.blockIcon = ResourceManager.RegisterTexture("essence_refiner_side", par1IconRegister);
 	}
 }

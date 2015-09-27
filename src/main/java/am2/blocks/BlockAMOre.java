@@ -42,7 +42,7 @@ public class BlockAMOre extends BlockOre{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 		icons = new IIcon[textures.length];
 
 		int count = 0;

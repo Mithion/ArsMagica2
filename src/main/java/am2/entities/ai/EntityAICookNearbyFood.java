@@ -49,7 +49,7 @@ public class EntityAICookNearbyFood extends EntityAIBase{
 					entityHost.getDataWatcher().updateObject(19, inanimate.getEntityId());
 				}
 			}else{
-				ItemStack smelted = FurnaceRecipes.smelting().getSmeltingResult(((EntityItem)inanimate).getEntityItem());
+				ItemStack smelted = FurnaceRecipes.instance().getSmeltingResult(((EntityItem)inanimate).getEntityItem());
 
 				timeSpentCooking = 0;
 				ExtendedProperties.For(entityHost).setInanimateTarget(null);

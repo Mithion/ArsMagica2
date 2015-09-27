@@ -24,13 +24,13 @@ public class ItemBindingCatalyst extends ArsMagicaItem{
 
 	public ItemBindingCatalyst(){
 		super();
-		this.setMaxDamage(0);
+		this.setMaxDurability(0);
 		this.setHasSubtypes(true);
 	}
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack){
-		int meta = stack.getItemDamage();
+		int meta = stack.getMetadata();
 
 		String baseName = StatCollector.translateToLocal("item.arsmagica2:bindingCatalyst.name");
 

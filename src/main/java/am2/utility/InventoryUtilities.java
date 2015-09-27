@@ -76,7 +76,7 @@ public class InventoryUtilities{
 		if (inventory instanceof ISidedInventory){
 			ItemStack stack = toMerge.splitStack(Math.min(toMerge.stackSize, quantity));
 			ISidedInventory sidedInventory = (ISidedInventory)inventory;
-			int[] slots = sidedInventory.getAccessibleSlotsFromSide(side);
+			int[] slots = sidedInventory.getSlotsForFace(side);
 			boolean flag = false;
 
 			for (int i = 0; i < slots.length && stack != null && stack.stackSize > 0; ++i){
@@ -156,7 +156,7 @@ public class InventoryUtilities{
 		if (inventory instanceof ISidedInventory){
 			ISidedInventory sidedInventory = (ISidedInventory)inventory;
 			int qtyFound = 0;
-			int[] slots = sidedInventory.getAccessibleSlotsFromSide(side);
+			int[] slots = sidedInventory.getSlotsForFace(side);
 
 			for (int i = 0; i < slots.length; i++){
 				ItemStack inventoryStack = inventory.getStackInSlot(slots[i]);
@@ -232,7 +232,7 @@ public class InventoryUtilities{
 	public static boolean inventoryHasRoomFor(IInventory inventory, ItemStack stack, int qty, int side){
 		if (inventory instanceof ISidedInventory){
 			ISidedInventory sidedInventory = (ISidedInventory)inventory;
-			int[] slots = sidedInventory.getAccessibleSlotsFromSide(side);
+			int[] slots = sidedInventory.getSlotsForFace(side);
 
 			for (int i = 0; i < slots.length; i++){
 				ItemStack invStack = inventory.getStackInSlot(slots[i]);
@@ -265,7 +265,7 @@ public class InventoryUtilities{
 	public static int getInventorySlotIndexFor(IInventory inventory, Item item, int metadata){
 		for (int i = 0; i < inventory.getSizeInventory(); ++i){
 			ItemStack stack = inventory.getStackInSlot(i);
-			if (stack != null && stack.getItem() == item && (stack.getItemDamage() == metadata || metadata == Short.MAX_VALUE))
+			if (stack != null && stack.getItem() == item && (stack.getMetadata() == metadata || metadata == Short.MAX_VALUE))
 				return i;
 		}
 		return -1;
@@ -305,7 +305,7 @@ public class InventoryUtilities{
 		if (inventory instanceof ISidedInventory){
 			int totalCount = 0;
 			ISidedInventory sidedInventory = (ISidedInventory)inventory;
-			int[] slots = sidedInventory.getAccessibleSlotsFromSide(side);
+			int[] slots = sidedInventory.getSlotsForFace(side);
 
 			for (int i = 0; i < slots.length; i++){
 				ItemStack invStack = inventory.getStackInSlot(slots[i]);
@@ -341,7 +341,7 @@ public class InventoryUtilities{
 	public static GetFirstStackStartingFromSlotResult getFirstStackStartingFromSlot(IInventory inventory, ItemStack itemStack, int slot, int side){
 		if (inventory instanceof ISidedInventory){
 			ISidedInventory sidededInventory = (ISidedInventory)inventory;
-			int[] slots = sidededInventory.getAccessibleSlotsFromSide(side);
+			int[] slots = sidededInventory.getSlotsForFace(side);
 
 			for (int i = slot; i < slots.length; i++){
 				itemStack = inventory.getStackInSlot(slots[i]);
@@ -372,7 +372,7 @@ public class InventoryUtilities{
 	}
 
 	public static ItemStack replaceItem(ItemStack originalStack, Item newItem){
-		ItemStack stack = new ItemStack(newItem, originalStack.stackSize, originalStack.getItemDamage());
+		ItemStack stack = new ItemStack(newItem, originalStack.stackSize, originalStack.getMetadata());
 		if (originalStack.hasTagCompound())
 			stack.setTagCompound(originalStack.getTagCompound());
 		return stack;
@@ -385,9 +385,9 @@ public class InventoryUtilities{
 		if (a.getItem() != b.getItem())
 			return false;
 
-		if (allowAnyMeta && !(a.getItemDamage() == b.getItemDamage() || a.getItemDamage() == AMCore.ANY_META || b.getItemDamage() == AMCore.ANY_META)){
+		if (allowAnyMeta && !(a.getMetadata() == b.getMetadata() || a.getMetadata() == AMCore.ANY_META || b.getMetadata() == AMCore.ANY_META)){
 			return false;
-		}else if (matchMeta && a.getItemDamage() != b.getItemDamage()){
+		}else if (matchMeta && a.getMetadata() != b.getMetadata()){
 			return false;
 		}
 

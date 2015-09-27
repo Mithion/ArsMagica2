@@ -27,7 +27,7 @@ public class ItemLostJournal extends ItemEditableBook{
 
 	public ItemLostJournal(){
 		super();
-		setMaxDamage(0);
+		setMaxDurability(0);
 		setMaxStackSize(1);
 	}
 

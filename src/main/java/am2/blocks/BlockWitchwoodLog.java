@@ -60,7 +60,7 @@ public class BlockWitchwoodLog extends BlockLog{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 		tree_side = ResourceManager.RegisterTexture("Witchwood", par1IconRegister);
 		tree_top = ResourceManager.RegisterTexture("WitchwoodTop", par1IconRegister);
 	}

@@ -58,7 +58,7 @@ public class GuiFlickerHabitat extends GuiContainer{
 
 		if (stack == null) return;
 
-		IFlickerFunctionality func = FlickerOperatorRegistry.instance.getOperatorForMask(stack.getItemDamage());
+		IFlickerFunctionality func = FlickerOperatorRegistry.instance.getOperatorForMask(stack.getMetadata());
 
 		if (func == null)
 			return;
@@ -85,7 +85,7 @@ public class GuiFlickerHabitat extends GuiContainer{
 
 		yPos += 12;
 
-		boolean powered = PowerNodeRegistry.For(flickerHabitat.getWorldObj()).checkPower(flickerHabitat, func.PowerPerOperation());
+		boolean powered = PowerNodeRegistry.For(flickerHabitat.getWorld()).checkPower(flickerHabitat, func.PowerPerOperation());
 
 		if (yPos > 40)
 			yPos += 27;

@@ -117,7 +117,7 @@ public class EntityWhirlwind extends EntityFlying{
 	}
 
 	@Override
-	public ItemStack[] getLastActiveItems(){
+	public ItemStack[] getInventory(){
 		return new ItemStack[0];
 	}
 

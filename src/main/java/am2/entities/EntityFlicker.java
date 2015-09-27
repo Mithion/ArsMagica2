@@ -292,7 +292,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 	protected boolean interact(EntityPlayer player){
 		ItemStack stack = player.getCurrentEquippedItem();
 		if (stack != null && stack.getItem() == ItemsCommonProxy.flickerJar && !this.isDead){
-			if (stack.getItemDamage() == 0){
+			if (stack.getMetadata() == 0){
 				if (!worldObj.isRemote){
 					setDead();
 					InventoryUtilities.decrementStackQuantity(player.inventory, player.inventory.currentItem, 1);
@@ -300,7 +300,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 					ItemsCommonProxy.flickerJar.setFlickerJarTypeFromFlicker(newStack, this);
 					if (!InventoryUtilities.mergeIntoInventory(player.inventory, newStack)){
 						if (!worldObj.isRemote)
-							player.dropItem(newStack.getItem(), newStack.getItemDamage());
+							player.dropItem(newStack.getItem(), newStack.getMetadata());
 					}
 				}
 				return true;

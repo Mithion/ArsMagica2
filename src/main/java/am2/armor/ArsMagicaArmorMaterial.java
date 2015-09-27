@@ -74,7 +74,7 @@ public enum ArsMagicaArmorMaterial{
 	}
 
 	public int func_40576_a(int i){
-		return AMArmor.getMaxDamageArray()[i] * maxDamageFactor;
+		return AMArmor.getMaxDurabilityArray()[i] * maxDamageFactor;
 	}
 
 	public int getDamageReductionAmount(int i){

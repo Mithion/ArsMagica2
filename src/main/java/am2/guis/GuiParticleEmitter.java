@@ -44,7 +44,7 @@ public class GuiParticleEmitter extends GuiScreen{
 	public GuiParticleEmitter(TileEntityParticleEmitter target){
 		this.mc = Minecraft.getMinecraft();
 		this.parent = this.mc.currentScreen;
-		this.fontRendererObj = Minecraft.getMinecraft().fontRenderer;
+		this.fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
 		ScaledResolution scaledresolution = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 		this.width = scaledresolution.getScaledWidth();
 		this.height = scaledresolution.getScaledHeight();
@@ -216,11 +216,11 @@ public class GuiParticleEmitter extends GuiScreen{
 	}
 
 	@Override
-	protected void mouseMovedOrUp(int par1, int par2, int par3){
+	protected void mouseReleased(int par1, int par2, int par3){
 		if (activeButton != null && activeButton instanceof GuiSlideControl && par3 != 0){
 			actionPerformed(activeButton);
 		}else{
-			super.mouseMovedOrUp(par1, par2, par3);
+			super.mouseReleased(par1, par2, par3);
 		}
 	}
 

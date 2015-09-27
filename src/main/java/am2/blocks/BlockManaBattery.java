@@ -42,8 +42,8 @@ public class BlockManaBattery extends PoweredBlock{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
-		super.registerBlockIcons(par1IconRegister);
+	public void registerIcons(IIconRegister par1IconRegister){
+		super.registerIcons(par1IconRegister);
 		frameIcon = ResourceManager.RegisterTexture("mana_battery_frame", par1IconRegister);
 	}
 
@@ -142,7 +142,7 @@ public class BlockManaBattery extends PoweredBlock{
 			int dmg = (int)((PowerNodeRegistry.For(world).getPower(te, te.getPowerType()) / te.getCapacity()) * 100);
 			if (dmg == 0) dmg = 1;
 			ItemStack stack = new ItemStack(this);
-			stack.damageItem(stack.getMaxDamage() - dmg, new EntityDummyCaster(world));
+			stack.damageItem(stack.getMaxDurability() - dmg, new EntityDummyCaster(world));
 			stack.stackTagCompound = new NBTTagCompound();
 			stack.stackTagCompound.setFloat("mana_battery_charge", PowerNodeRegistry.For(world).getPower(te, te.getPowerType()));
 			stack.stackTagCompound.setInteger("mana_battery_powertype", te.getPowerType().ID());

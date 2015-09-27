@@ -63,7 +63,7 @@ public class EntityAIChestDeposit extends EntityAIBase{
 		}else{
 			IInventory inventory = (IInventory)te;
 			if (!isDepositing)
-				inventory.openInventory();
+				inventory.openChest();
 
 			isDepositing = true;
 			depositCounter++;
@@ -94,7 +94,7 @@ public class EntityAIChestDeposit extends EntityAIBase{
 
 
 			if (depositCounter > 10 && (InventoryUtilities.isInventoryEmpty(host.getInventory()) || !InventoryUtilities.canMergeHappen(host.getInventory(), inventory))){
-				inventory.closeInventory();
+				inventory.closeChest();
 				resetTask();
 			}
 		}

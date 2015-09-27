@@ -63,7 +63,7 @@ public class BlockMageLight extends AMSpecialRenderBlock{
 				ArrayList<ItemStack> ores = OreDictionary.getOres(id);
 				for (ItemStack stack : ores){
 					if (stack.getItem() == Items.dye){
-						world.setBlockMetadataWithNotify(x, y, z, player.getCurrentEquippedItem().getItemDamage() % 15, 2);
+						world.setBlockMetadataWithNotify(x, y, z, player.getCurrentEquippedItem().getMetadata() % 15, 2);
 						break;
 					}
 				}

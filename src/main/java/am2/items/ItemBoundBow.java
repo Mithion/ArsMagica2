@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 public class ItemBoundBow extends ItemBow implements IBoundItem{
 
 	public ItemBoundBow(){
-		this.setMaxDamage(0);
+		this.setMaxDurability(0);
 	}
 
 	public ItemBoundBow setUnlocalizedAndTextureName(String name){
@@ -87,7 +87,7 @@ public class ItemBoundBow extends ItemBow implements IBoundItem{
 			}else{
 				props.deductMana(this.maintainCost());
 			}
-			if (par1ItemStack.getItemDamage() > 0)
+			if (par1ItemStack.getMetadata() > 0)
 				par1ItemStack.damageItem(-1, (EntityLivingBase)par3Entity);
 		}
 	}

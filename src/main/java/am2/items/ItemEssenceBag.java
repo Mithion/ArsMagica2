@@ -18,7 +18,7 @@ public class ItemEssenceBag extends ArsMagicaItem{
 	public ItemEssenceBag(){
 		super();
 		setMaxStackSize(1);
-		setMaxDamage(0);
+		setMaxDurability(0);
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class ItemEssenceBag extends ArsMagicaItem{
 				continue;
 			}else{
 				itemStack.stackTagCompound.setInteger("essencebagstacksize" + i, stack.stackSize);
-				itemStack.stackTagCompound.setInteger("essencebagmeta" + i, stack.getItemDamage());
+				itemStack.stackTagCompound.setInteger("essencebagmeta" + i, stack.getMetadata());
 			}
 		}
 	}
@@ -70,7 +70,7 @@ public class ItemEssenceBag extends ArsMagicaItem{
 				continue;
 			}else{
 				itemStack.stackTagCompound.setInteger("essencebagstacksize" + i, stack.stackSize);
-				itemStack.stackTagCompound.setInteger("essencebagmeta" + i, stack.getItemDamage());
+				itemStack.stackTagCompound.setInteger("essencebagmeta" + i, stack.getMetadata());
 			}
 		}
 	}

@@ -131,7 +131,7 @@ public class ItemManaPotion extends ArsMagicaItem{
 	}
 
 	@Override
-	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
+	public ItemStack onItemUseFinish(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
 		par1ItemStack = new ItemStack(Items.glass_bottle);
 		ExtendedProperties.For(par3EntityPlayer).setCurrentMana(ExtendedProperties.For(par3EntityPlayer).getCurrentMana() + getManaRestored());
 		ExtendedProperties.For(par3EntityPlayer).forceSync();

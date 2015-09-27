@@ -360,7 +360,7 @@ public class GuiArcaneCompendium extends GuiScreen{
 		forcedMetas = new HashMap<Item, Integer>();
 
 		if (entry != null){
-			lines = splitStringToLines(Minecraft.getMinecraft().fontRenderer, entry.getDescription(entryName), lineWidth, maxLines);
+			lines = splitStringToLines(Minecraft.getMinecraft().fontRendererObj, entry.getDescription(entryName), lineWidth, maxLines);
 			numPages = lines.size() - 1;
 			entry.setIsNew(false);
 		}else{
@@ -478,7 +478,7 @@ public class GuiArcaneCompendium extends GuiScreen{
 				Block block = item.blockInstance;
 
 				String name = block.getUnlocalizedName().replace("arsmagica2:", "").replace("tile.", "");
-				String metaname = name + "@" + stackTip.getItemDamage();
+				String metaname = name + "@" + stackTip.getMetadata();
 				String searchName = metaname;
 				CompendiumEntry entry = ArcaneCompendium.instance.getEntry(metaname);
 				if (entry == null){
@@ -489,14 +489,14 @@ public class GuiArcaneCompendium extends GuiScreen{
 					newGuiToDisplay = entry.getCompendiumGui(searchName);
 				}
 			}else if (stackTip.getItem() == ItemsCommonProxy.spell_component){
-				String name = SkillManager.instance.getSkillName(SkillManager.instance.getSkill(stackTip.getItemDamage()));
+				String name = SkillManager.instance.getSkillName(SkillManager.instance.getSkill(stackTip.getMetadata()));
 				CompendiumEntry entry = ArcaneCompendium.instance.getEntry(name);
 				if (entry != null){
-					newGuiToDisplay = new GuiArcaneCompendium(name, stackTip.getItem(), stackTip.getItemDamage());
+					newGuiToDisplay = new GuiArcaneCompendium(name, stackTip.getItem(), stackTip.getMetadata());
 				}
 			}else{
 				String name = stackTip.getItem().getUnlocalizedName().replace("item.", "").replace("arsmagica2:", "");
-				String metaname = name + "@" + stackTip.getItemDamage();
+				String metaname = name + "@" + stackTip.getMetadata();
 				String searchName = metaname;
 				CompendiumEntry entry = ArcaneCompendium.instance.getEntry(metaname);
 				if (entry == null){
@@ -536,13 +536,13 @@ public class GuiArcaneCompendium extends GuiScreen{
 	}
 
 	@Override
-	protected void mouseMovedOrUp(int par1, int par2, int par3){
+	protected void mouseReleased(int par1, int par2, int par3){
 		if (isDragging){
 			if (par3 == 1){
 				isDragging = false;
 			}
 		}
-		super.mouseMovedOrUp(par1, par2, par3);
+		super.mouseReleased(par1, par2, par3);
 	}
 
 	@Override
@@ -898,21 +898,21 @@ public class GuiArcaneCompendium extends GuiScreen{
 				ItemBlock item = (ItemBlock)stack.getItem();
 				Block block = item.blockInstance;
 				String name = block.getUnlocalizedName().replace("arsmagica2:", "").replace("tile.", "");
-				String metaname = name + "@" + stack.getItemDamage();
+				String metaname = name + "@" + stack.getMetadata();
 				entry = ArcaneCompendium.instance.getEntry(metaname);
 				if (entry == null)
 					entry = ArcaneCompendium.instance.getEntry(name);
 			}else{
 				if (stack.getItem() == ItemsCommonProxy.spell_component){
 					list.clear();
-					ISkillTreeEntry skill = SkillManager.instance.getSkill(stack.getItemDamage());
+					ISkillTreeEntry skill = SkillManager.instance.getSkill(stack.getMetadata());
 					if (skill == null)
 						return;
 					list.add(SkillManager.instance.getDisplayName(skill));
 					entry = ArcaneCompendium.instance.getEntry(SkillManager.instance.getSkillName(skill));
 				}else{
 					String name = stack.getItem().getUnlocalizedName().replace("item.", "").replace("arsmagica2:", "");
-					String metaname = name + "@" + stack.getItemDamage();
+					String metaname = name + "@" + stack.getMetadata();
 					entry = ArcaneCompendium.instance.getEntry(metaname);
 					if (entry == null)
 						entry = ArcaneCompendium.instance.getEntry(name);
@@ -1322,7 +1322,7 @@ public class GuiArcaneCompendium extends GuiScreen{
 		GL11.glPopMatrix();
 	}
 
-	public static ArrayList<String> splitStringToLines(FontRenderer fontRenderer, String string, int lineWidth, int maxLines){
+	public static ArrayList<String> splitStringToLines(FontRenderer fontRendererObj, String string, int lineWidth, int maxLines){
 		ArrayList<String> toReturn = new ArrayList<String>();
 		int numLines = 0;
 		int len = 0;
@@ -1332,7 +1332,7 @@ public class GuiArcaneCompendium extends GuiScreen{
 		String curLine = "";
 		for (String s : words){
 			s = s.trim();
-			int wordWidth = fontRenderer.getStringWidth(s + " ");
+			int wordWidth = fontRendererObj.getStringWidth(s + " ");
 			if (s.equals(ArcaneCompendium.KEYWORD_NEWPAGE)){
 				sb.append(curLine);
 				curLine = "";

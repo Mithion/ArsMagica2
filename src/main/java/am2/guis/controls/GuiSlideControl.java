@@ -98,7 +98,7 @@ public class GuiSlideControl extends GuiButton{
 	@Override
 	public void drawButton(Minecraft par1Minecraft, int par2, int par3){
 		if (this.visible){
-			FontRenderer fontrenderer = par1Minecraft.fontRenderer;
+			FontRenderer fontrenderer = par1Minecraft.fontRendererObj;
 			par1Minecraft.renderEngine.bindTexture(buttonImage);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.dragging = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;

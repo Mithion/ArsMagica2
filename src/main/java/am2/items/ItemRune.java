@@ -63,12 +63,12 @@ public class ItemRune extends ArsMagicaItem{
 		super();
 		this.keyIndex = i;
 		this.setHasSubtypes(true);
-		this.setMaxDamage(0);
+		this.setMaxDurability(0);
 	}
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack){
-		int meta = stack.getItemDamage();
+		int meta = stack.getMetadata();
 		switch (meta){
 		case META_BROWN:
 			return StatCollector.translateToLocal("item.arsmagica2:brownRune.name");
@@ -115,7 +115,7 @@ public class ItemRune extends ArsMagicaItem{
 	}
 
 	public int getKeyIndex(ItemStack stack){
-		return getKeyIndex(stack.getItemDamage());
+		return getKeyIndex(stack.getMetadata());
 	}
 
 	public int getKeyIndex(int meta){
@@ -178,7 +178,7 @@ public class ItemRune extends ArsMagicaItem{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack par1ItemStack){
-		return par1ItemStack.getItemDamage() > 16;
+		return par1ItemStack.getMetadata() > 16;
 	}
 
 	@Override
@@ -205,7 +205,7 @@ public class ItemRune extends ArsMagicaItem{
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player){
-		int meta = stack.getItemDamage();
+		int meta = stack.getMetadata();
 
 
 		if (meta == META_INF_ORB_BLUE){

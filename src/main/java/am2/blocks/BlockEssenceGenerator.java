@@ -120,7 +120,7 @@ public class BlockEssenceGenerator extends AMSpecialRenderPoweredBlock{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 	}
 
 	@Override
@@ -150,7 +150,7 @@ public class BlockEssenceGenerator extends AMSpecialRenderPoweredBlock{
 					i1 = itemstack.stackSize;
 				}
 				itemstack.stackSize -= i1;
-				ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
+				ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getMetadata());
 				newItem.setTagCompound(itemstack.getTagCompound());
 				EntityItem entityitem = new EntityItem(par1World, par2 + f, par3 + f1, par4 + f2, newItem);
 				float f3 = 0.05F;

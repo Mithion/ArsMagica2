@@ -65,7 +65,7 @@ public class BlockOtherworldAura extends PoweredBlock{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister reg){
+	public void registerIcons(IIconRegister reg){
 		//intentionally do nothing
 	}
 

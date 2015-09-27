@@ -67,7 +67,7 @@ public class GuiButtonVariableDims extends GuiButton{
 		}
 
 		if (isMousedOver && this.hoverTextLines.size() > 0){
-			drawHoveringText(hoverTextLines, par2, par3, Minecraft.getMinecraft().fontRenderer);
+			drawHoveringText(hoverTextLines, par2, par3, Minecraft.getMinecraft().fontRendererObj);
 		}
 	}
 
