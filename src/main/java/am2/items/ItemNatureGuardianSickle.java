@@ -31,7 +31,7 @@ public class ItemNatureGuardianSickle extends ArsMagicaItem{
 	@Override
 	public Multimap getItemAttributeModifiers(){
 		Multimap multimap = super.getItemAttributeModifiers();
-		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", 7, 0));
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Weapon modifier", 7, 0));
 		return multimap;
 	}
 
@@ -61,7 +61,7 @@ public class ItemNatureGuardianSickle extends ArsMagicaItem{
 					if (nextBlock instanceof BlockLeaves){
 						if (ForgeEventFactory.doPlayerHarvestCheck(DummyEntityPlayer.fromEntityLiving(par7EntityLivingBase), nextBlock, true))
 							if (!par2World.isRemote)
-								par2World.func_147478_e(par4 + i, par5 + j, par6 + k, true);
+								par2World.canSnowAt(par4 + i, par5 + j, par6 + k, true);
 						ExtendedProperties.For(par7EntityLivingBase).deductMana(5f);
 					}
 				}

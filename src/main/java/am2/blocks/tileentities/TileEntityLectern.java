@@ -52,7 +52,7 @@ public class TileEntityLectern extends TileEntityEnchantmentTable{
 	public void updateEntity(){
 		if (worldObj.isRemote){
 			updateBookRender();
-			if (tooltipStack != null && field_145926_a % 2 == 0){
+			if (tooltipStack != null && tickCount % 2 == 0){
 				AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "sparkle", xCoord + 0.5 + ((rand.nextDouble() * 0.2) - 0.1), yCoord + 1, zCoord + 0.5 + ((rand.nextDouble() * 0.2) - 0.1));
 				if (particle != null){
 					particle.AddParticleController(new ParticleMoveOnHeading(particle, rand.nextDouble() * 360, -45 - rand.nextInt(90), 0.05f, 1, false));
@@ -77,12 +77,12 @@ public class TileEntityLectern extends TileEntityEnchantmentTable{
 				increasing = true;
 		}
 
-		this.field_145927_n = this.field_145930_m;
-		this.field_145925_p = this.field_145928_o;
+		this.bookSpreadPrev = this.bookSpread;
+		this.bookRotationPrev = this.bookRotation;
 
-		this.field_145930_m += 0.1F;
+		this.bookSpread += 0.1F;
 
-		if (this.field_145930_m < 0.5F || rand.nextInt(40) == 0){
+		if (this.bookSpread < 0.5F || rand.nextInt(40) == 0){
 			float f1 = this.field_145932_k;
 
 			do{
@@ -91,12 +91,12 @@ public class TileEntityLectern extends TileEntityEnchantmentTable{
 			while (f1 == this.field_145932_k);
 		}
 
-		while (this.field_145928_o >= (float)Math.PI){
-			this.field_145928_o -= ((float)Math.PI * 2F);
+		while (this.bookRotation >= (float)Math.PI){
+			this.bookRotation -= ((float)Math.PI * 2F);
 		}
 
-		while (this.field_145928_o < -(float)Math.PI){
-			this.field_145928_o += ((float)Math.PI * 2F);
+		while (this.bookRotation < -(float)Math.PI){
+			this.bookRotation += ((float)Math.PI * 2F);
 		}
 
 		while (this.field_145924_q >= (float)Math.PI){
@@ -109,7 +109,7 @@ public class TileEntityLectern extends TileEntityEnchantmentTable{
 
 		float f2;
 
-		for (f2 = this.field_145924_q - this.field_145928_o; f2 >= (float)Math.PI; f2 -= ((float)Math.PI * 2F)){
+		for (f2 = this.field_145924_q - this.bookRotation; f2 >= (float)Math.PI; f2 -= ((float)Math.PI * 2F)){
 			;
 		}
 
@@ -117,19 +117,19 @@ public class TileEntityLectern extends TileEntityEnchantmentTable{
 			f2 += ((float)Math.PI * 2F);
 		}
 
-		this.field_145928_o += f2 * 0.4F;
+		this.bookRotation += f2 * 0.4F;
 
-		if (this.field_145930_m < 0.0F){
-			this.field_145930_m = 0.0F;
+		if (this.bookSpread < 0.0F){
+			this.bookSpread = 0.0F;
 		}
 
-		if (this.field_145930_m > 1.0F){
-			this.field_145930_m = 1.0F;
+		if (this.bookSpread > 1.0F){
+			this.bookSpread = 1.0F;
 		}
 
-		++this.field_145926_a;
-		this.field_145931_j = this.field_145933_i;
-		float f = (this.field_145932_k - this.field_145933_i) * 0.4F;
+		++this.tickCount;
+		this.pageFlipPrev = this.pageFlip;
+		float f = (this.field_145932_k - this.pageFlip) * 0.4F;
 		float f3 = 0.2F;
 
 		if (f < -f3){
@@ -141,7 +141,7 @@ public class TileEntityLectern extends TileEntityEnchantmentTable{
 		}
 
 		this.field_145929_l += (f - this.field_145929_l) * 0.9F;
-		this.field_145933_i += this.field_145929_l;
+		this.pageFlip += this.field_145929_l;
 
 		//TODO:
 			/*this.bookSpreadPrev = this.bookSpread;
@@ -246,7 +246,7 @@ public class TileEntityLectern extends TileEntityEnchantmentTable{
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	private ArrayList<Item> getValidItems(){

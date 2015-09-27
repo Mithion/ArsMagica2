@@ -73,7 +73,7 @@ public class SetAffinityCommand extends CommandBase{
 		AffinityData.For(player).setAffinityAndDepth(enumAffinity, depth);
 		AffinityData.For(player).forceSync();
 
-		func_152373_a(var1, this, "Setting " + player.getCommandSenderName() + "'s " + affinity + " affinity level to " + depth, new Object[0]);
+		notifyOperators(var1, this, "Setting " + player.getCommandSenderName() + "'s " + affinity + " affinity level to " + depth, new Object[0]);
 
 	}
 

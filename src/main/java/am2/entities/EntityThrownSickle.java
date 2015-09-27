@@ -228,7 +228,7 @@ public class EntityThrownSickle extends EntityLiving{
 						if (nextBlock instanceof BlockLeaves || nextBlock instanceof BlockFlower || nextBlock instanceof BlockCrops){
 							if (ForgeEventFactory.doPlayerHarvestCheck(DummyEntityPlayer.fromEntityLiving(getThrowingEntity()), nextBlock, true))
 								if (!worldObj.isRemote)
-									worldObj.func_147478_e(movingobjectposition.blockX + i, movingobjectposition.blockY + j, movingobjectposition.blockZ + k, true);
+									worldObj.canSnowAt(movingobjectposition.blockX + i, movingobjectposition.blockY + j, movingobjectposition.blockZ + k, true);
 						}
 					}
 				}

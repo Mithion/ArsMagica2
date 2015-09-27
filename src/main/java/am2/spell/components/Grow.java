@@ -69,7 +69,7 @@ public class Grow implements ISpellComponent{
 		//Grow huge mushrooms 10% of the time.
 		if (block instanceof BlockMushroom){
 			if (!world.isRemote && random.nextInt(10) < 1){
-				((BlockMushroom)block).func_149884_c(world, blockx, blocky, blockz, world.rand);
+				((BlockMushroom)block).fertilizeMushroom(world, blockx, blocky, blockz, world.rand);
 			}
 
 			return true;
@@ -113,10 +113,10 @@ public class Grow implements ISpellComponent{
 			IGrowable igrowable = (IGrowable)block;
 			//AMCore.log.getLogger().info("Grow component found IGrowable");
 
-			if (igrowable.func_149851_a(world, blockx, blocky, blockz, world.isRemote)){
+			if (igrowable.canFertilize(world, blockx, blocky, blockz, world.isRemote)){
 				if (!world.isRemote && random.nextInt(10) < 3){
-					if (igrowable.func_149852_a(world, world.rand, blockx, blocky, blockz)){
-						igrowable.func_149853_b(world, world.rand, blockx, blocky, blockz);
+					if (igrowable.shouldFertilize(world, world.rand, blockx, blocky, blockz)){
+						igrowable.fertilize(world, world.rand, blockx, blocky, blockz);
 					}
 				}
 				return true;

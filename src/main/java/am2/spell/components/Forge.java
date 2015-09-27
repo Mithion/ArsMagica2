@@ -105,7 +105,7 @@ public class Forge implements ISpellComponent{
 		}
 		if (!world.isRemote){
 			if (ItemIsBlock(smelted.getItem())){
-				world.setBlock(x, y, z, ((ItemBlock)smelted.getItem()).field_150939_a);
+				world.setBlock(x, y, z, ((ItemBlock)smelted.getItem()).blockInstance);
 			}else{
 				entity.entityDropItem(new ItemStack(smelted.getItem(), 1, smelted.getItemDamage()), 0);
 				world.setBlock(x, y, z, Blocks.air);

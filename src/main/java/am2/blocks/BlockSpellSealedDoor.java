@@ -129,12 +129,12 @@ public class BlockSpellSealedDoor extends BlockDoor implements ITileEntityProvid
 	}
 
 	@Override
-	public boolean canBlockStay(World p_149718_1_, int p_149718_2_, int p_149718_3_, int p_149718_4_){
+	public boolean canBlockStay(World worldIn, int x, int y, int z){
 		return true;
 	}
 
 	@Override
-	public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_){
+	public void onNeighborBlockChange(World worldIn, int x, int y, int z, Block neighbor){
 		//intentionally left blank
 	}
 
@@ -224,12 +224,12 @@ public class BlockSpellSealedDoor extends BlockDoor implements ITileEntityProvid
 	}
 
 	@Override
-	public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_){
+	public Item getItem(World worldIn, int x, int y, int z){
 		return ItemsCommonProxy.itemKeystoneDoor;
 	}
 
 	@Override
-	public int getDamageValue(World p_149643_1_, int p_149643_2_, int p_149643_3_, int p_149643_4_){
+	public int getDamageValue(World worldIn, int x, int y, int z){
 		return ItemsCommonProxy.itemKeystoneDoor.SPELL_SEALED_DOOR;
 	}
 
@@ -260,7 +260,7 @@ public class BlockSpellSealedDoor extends BlockDoor implements ITileEntityProvid
 	}
 
 	public void setDoorState(World world, int x, int y, int z, EntityPlayer player, boolean open){
-		int i1 = this.func_150012_g(world, x, y, z);
+		int i1 = this.getFullMetadata(world, x, y, z);
 		int j1 = i1 & 7;
 		j1 ^= 4;
 

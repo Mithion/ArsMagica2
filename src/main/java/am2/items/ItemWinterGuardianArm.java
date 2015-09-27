@@ -30,7 +30,7 @@ public class ItemWinterGuardianArm extends ArsMagicaItem{
 	@Override
 	public Multimap getItemAttributeModifiers(){
 		Multimap multimap = super.getItemAttributeModifiers();
-		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", 6, 0));
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Weapon modifier", 6, 0));
 		return multimap;
 	}
 

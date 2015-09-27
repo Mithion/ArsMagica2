@@ -126,7 +126,7 @@ public class LecternRenderer extends TileEntitySpecialRenderer{
 			float rH = 90f;
 			float oH = 0f;
 			GL11.glPushMatrix();
-			GL11.glRotatef(podium.field_145926_a % 360, 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(podium.tickCount % 360, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(var6.nextFloat() * 180, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(var6.nextFloat() * -180, 1.0F, 0.0F, 0.0F);
 			tessellator.startDrawing(6);
@@ -163,11 +163,11 @@ public class LecternRenderer extends TileEntitySpecialRenderer{
 	private void RenderBook(TileEntityLectern p_147539_1_, double p_147539_2_, double p_147539_4_, double p_147539_6_, float p_147539_8_, int meta){
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float)p_147539_2_ + 0.5F, (float)p_147539_4_ + 0.75F, (float)p_147539_6_ + 0.5F);
-		float var9 = (float)p_147539_1_.field_145926_a + p_147539_8_;
+		float var9 = (float)p_147539_1_.tickCount + p_147539_8_;
 		GL11.glTranslatef(0.0F, 0.1F + MathHelper.sin(var9 * 0.01F) * 0.01F, 0.0F);
 		float f2;
 
-		for (f2 = p_147539_1_.field_145928_o - p_147539_1_.field_145925_p; f2 >= (float)Math.PI; f2 -= ((float)Math.PI * 2F)){
+		for (f2 = p_147539_1_.bookRotation - p_147539_1_.bookRotationPrev; f2 >= (float)Math.PI; f2 -= ((float)Math.PI * 2F)){
 			;
 		}
 
@@ -175,7 +175,7 @@ public class LecternRenderer extends TileEntitySpecialRenderer{
 			f2 += ((float)Math.PI * 2F);
 		}
 
-		float var11 = p_147539_1_.field_145925_p + f2 * p_147539_8_;
+		float var11 = p_147539_1_.bookRotationPrev + f2 * p_147539_8_;
 		//GL11.glRotatef(-var11 * 180.0F / (float)Math.PI, 0.0F, 1.0F, 0.0F);
 		if (meta == 1 || meta == 3)
 			GL11.glRotatef(-90 * meta, 0.0F, 1.0F, 0.0F);
@@ -186,8 +186,8 @@ public class LecternRenderer extends TileEntitySpecialRenderer{
 		GL11.glRotatef(80.0F, 0.0F, 0.0F, 1.0F);
 		//GL11.glRotatef(-9, 0, 0, 1);
 		bindTexture(book);
-		float var12 = p_147539_1_.field_145931_j + (p_147539_1_.field_145933_i - p_147539_1_.field_145931_j) * p_147539_8_ + 0.25F;
-		float var13 = p_147539_1_.field_145931_j + (p_147539_1_.field_145933_i - p_147539_1_.field_145931_j) * p_147539_8_ + 0.75F;
+		float var12 = p_147539_1_.pageFlipPrev + (p_147539_1_.pageFlip - p_147539_1_.pageFlipPrev) * p_147539_8_ + 0.25F;
+		float var13 = p_147539_1_.pageFlipPrev + (p_147539_1_.pageFlip - p_147539_1_.pageFlipPrev) * p_147539_8_ + 0.75F;
 		var12 = (var12 - MathHelper.truncateDoubleToInt(var12)) * 1.6F - 0.3F;
 		var13 = (var13 - MathHelper.truncateDoubleToInt(var13)) * 1.6F - 0.3F;
 
@@ -207,7 +207,7 @@ public class LecternRenderer extends TileEntitySpecialRenderer{
 			var13 = 1.0F;
 		}
 
-		float var14 = p_147539_1_.field_145927_n + (p_147539_1_.field_145930_m - p_147539_1_.field_145927_n) * p_147539_8_;
+		float var14 = p_147539_1_.bookSpreadPrev + (p_147539_1_.bookSpread - p_147539_1_.bookSpreadPrev) * p_147539_8_;
 		this.enchantmentBook.setRotationAngles(var9, var12, var13, 1f, 0.0F, 0.0625F, (Entity)null);
 		this.enchantmentBook.coverRight.render(0.0625F);
 		this.enchantmentBook.coverLeft.render(0.0625F);
@@ -222,11 +222,11 @@ public class LecternRenderer extends TileEntitySpecialRenderer{
 	/*
 	 * GL11.glPushMatrix();
         GL11.glTranslatef((float)p_147539_2_ + 0.5F, (float)p_147539_4_ + 0.75F, (float)p_147539_6_ + 0.5F);
-        float f1 = (float)p_147539_1_.field_145926_a + p_147539_8_;
+        float f1 = (float)p_147539_1_.tickCount + p_147539_8_;
         GL11.glTranslatef(0.0F, 0.1F + MathHelper.sin(f1 * 0.1F) * 0.01F, 0.0F);
         float f2;
 
-        for (f2 = p_147539_1_.field_145928_o - p_147539_1_.field_145925_p; f2 >= (float)Math.PI; f2 -= ((float)Math.PI * 2F))
+        for (f2 = p_147539_1_.bookRotation - p_147539_1_.bookRotationPrev; f2 >= (float)Math.PI; f2 -= ((float)Math.PI * 2F))
         {
             ;
         }
@@ -236,12 +236,12 @@ public class LecternRenderer extends TileEntitySpecialRenderer{
             f2 += ((float)Math.PI * 2F);
         }
 
-        float f3 = p_147539_1_.field_145925_p + f2 * p_147539_8_;
+        float f3 = p_147539_1_.bookRotationPrev + f2 * p_147539_8_;
         GL11.glRotatef(-f3 * 180.0F / (float)Math.PI, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(80.0F, 0.0F, 0.0F, 1.0F);
         this.bindTexture(book);
-        float f4 = p_147539_1_.field_145931_j + (p_147539_1_.field_145933_i - p_147539_1_.field_145931_j) * p_147539_8_ + 0.25F;
-        float f5 = p_147539_1_.field_145931_j + (p_147539_1_.field_145933_i - p_147539_1_.field_145931_j) * p_147539_8_ + 0.75F;
+        float f4 = p_147539_1_.pageFlipPrev + (p_147539_1_.pageFlip - p_147539_1_.pageFlipPrev) * p_147539_8_ + 0.25F;
+        float f5 = p_147539_1_.pageFlipPrev + (p_147539_1_.pageFlip - p_147539_1_.pageFlipPrev) * p_147539_8_ + 0.75F;
         f4 = (f4 - (float)MathHelper.truncateDoubleToInt((double)f4)) * 1.6F - 0.3F;
         f5 = (f5 - (float)MathHelper.truncateDoubleToInt((double)f5)) * 1.6F - 0.3F;
 
@@ -265,7 +265,7 @@ public class LecternRenderer extends TileEntitySpecialRenderer{
             f5 = 1.0F;
         }
 
-        float f6 = p_147539_1_.field_145927_n + (p_147539_1_.field_145930_m - p_147539_1_.field_145927_n) * p_147539_8_;
+        float f6 = p_147539_1_.bookSpreadPrev + (p_147539_1_.bookSpread - p_147539_1_.bookSpreadPrev) * p_147539_8_;
         GL11.glEnable(GL11.GL_CULL_FACE);
         this.enchantmentBook.render((Entity)null, f1, f4, f5, f6, 0.0F, 0.0625F);
         GL11.glPopMatrix();

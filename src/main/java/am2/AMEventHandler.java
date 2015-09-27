@@ -679,7 +679,7 @@ public class AMEventHandler{
 			if (event.entityPlayer.worldObj.isRemote &&
 					item.getUnlocalizedName() != null && (
 					AMCore.proxy.items.getArsMagicaItems().contains(item)) ||
-					(item instanceof ItemBlock && AMCore.proxy.blocks.getArsMagicaBlocks().contains(((ItemBlock)item).field_150939_a))){
+					(item instanceof ItemBlock && AMCore.proxy.blocks.getArsMagicaBlocks().contains(((ItemBlock)item).blockInstance))){
 				AMNetHandler.INSTANCE.sendCompendiumUnlockPacket((EntityPlayerMP)event.entityPlayer, item.getUnlocalizedName().replace("item.", "").replace("arsmagica2:", "").replace("tile.", "") + ((meta > -1) ? "@" + meta : ""), false);
 			}
 		}

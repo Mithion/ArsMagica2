@@ -53,7 +53,7 @@ public class SetSkillKnown extends CommandBase{
 		ISkillTreeEntry entry = SkillManager.instance.getSkill(skill);
 		SkillData.For(player).learn(entry);
 
-		func_152373_a(var1, this, "Unlocking " + skill + " for " + player.getCommandSenderName(), new Object[0]);
+		notifyOperators(var1, this, "Unlocking " + skill + " for " + player.getCommandSenderName(), new Object[0]);
 	}
 
 	@Override

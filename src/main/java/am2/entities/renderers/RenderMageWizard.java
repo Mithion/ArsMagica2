@@ -18,19 +18,19 @@ import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderMageWizard extends RenderLiving{
-	private ModelWitch field_82414_a;
+	private ModelWitch witchModel;
 
 	private static final ResourceLocation rLoc = new ResourceLocation("arsmagica2", ResourceManager.getMobTexturePath("light_mages/wizard_villager3.png"));
 
 	public RenderMageWizard(){
 		super(new ModelWitch(0.0F), 0.5F);
-		this.field_82414_a = (ModelWitch)this.mainModel;
+		this.witchModel = (ModelWitch)this.mainModel;
 	}
 
 	public void func_82412_a(EntityMageVillager par1EntityMageVillager, double par2, double par4, double par6, float par8, float par9){
 		ItemStack itemstack = par1EntityMageVillager.getHeldItem();
 
-		this.field_82414_a.field_82900_g = itemstack != null;
+		this.witchModel.field_82900_g = itemstack != null;
 		super.doRender(par1EntityMageVillager, par2, par4, par6, par8, par9);
 	}
 
@@ -51,7 +51,7 @@ public class RenderMageWizard extends RenderLiving{
 				GL11.glScalef(f2, f2, f2);
 			}
 
-			this.field_82414_a.villagerNose.postRender(0.0625F);
+			this.witchModel.villagerNose.postRender(0.0625F);
 			GL11.glTranslatef(-0.0625F, 0.53125F, 0.21875F);
 
 			if (itemstack.getItem() instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(itemstack.getItem()).getRenderType())){

@@ -63,7 +63,7 @@ public class TileEntityArmorImbuer extends TileEntityAMPower implements IInvento
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	/*

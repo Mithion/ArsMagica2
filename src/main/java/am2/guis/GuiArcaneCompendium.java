@@ -475,7 +475,7 @@ public class GuiArcaneCompendium extends GuiScreen{
 			GuiArcaneCompendium newGuiToDisplay = null;
 			if (stackTip.getItem() instanceof ItemBlock){
 				ItemBlock item = (ItemBlock)stackTip.getItem();
-				Block block = item.field_150939_a;
+				Block block = item.blockInstance;
 
 				String name = block.getUnlocalizedName().replace("arsmagica2:", "").replace("tile.", "");
 				String metaname = name + "@" + stackTip.getItemDamage();
@@ -896,7 +896,7 @@ public class GuiArcaneCompendium extends GuiScreen{
 			CompendiumEntry entry;
 			if (stack.getItem() instanceof ItemBlock){
 				ItemBlock item = (ItemBlock)stack.getItem();
-				Block block = item.field_150939_a;
+				Block block = item.blockInstance;
 				String name = block.getUnlocalizedName().replace("arsmagica2:", "").replace("tile.", "");
 				String metaname = name + "@" + stack.getItemDamage();
 				entry = ArcaneCompendium.instance.getEntry(metaname);

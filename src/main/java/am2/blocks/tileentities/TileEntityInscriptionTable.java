@@ -464,7 +464,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.parseTagCompound(pkt.func_148857_g());
+		this.parseTagCompound(pkt.getNbtCompound());
 	}
 
 	private void sendDataToServer(){

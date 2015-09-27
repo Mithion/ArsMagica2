@@ -62,7 +62,7 @@ public class FlickerOperatorProgeny implements IFlickerFunctionality{
 					count = 0;
 					for (EntityAnimal animal : creatures){
 						if (!animal.isChild()){
-							animal.func_146082_f(null);
+							animal.setInLove(null);
 							count++;
 							if (count == 2)
 								break;

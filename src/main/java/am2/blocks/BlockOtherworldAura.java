@@ -47,7 +47,7 @@ public class BlockOtherworldAura extends PoweredBlock{
 	}
 
 	@Override
-	public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_, int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_, List p_149743_6_, Entity p_149743_7_){
+	public void addCollisionBoxesToList(World worldIn, int x, int y, int z, AxisAlignedBB mask, List list, Entity collider){
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class BlockOtherworldAura extends PoweredBlock{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister p_149651_1_){
+	public void registerBlockIcons(IIconRegister reg){
 		//intentionally do nothing
 	}
 

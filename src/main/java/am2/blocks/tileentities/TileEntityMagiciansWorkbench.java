@@ -287,7 +287,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	public void setRecipeLocked(int index, boolean locked){

@@ -17,9 +17,9 @@ public class EntityAIKnockbackOnCollide extends EntityAIBase{
 	 * An amount of decrementing ticks that allows the entity to attack once the tick reaches 0.
 	 */
 	int attackTick;
-	float field_75440_e;
-	boolean field_75437_f;
-	PathEntity field_75438_g;
+	float speedTowardsTarget;
+	boolean longMemory;
+	PathEntity entityPathEntity;
 	Class classTarget;
 	private int field_75445_i;
 	private int attackStrength;
@@ -34,8 +34,8 @@ public class EntityAIKnockbackOnCollide extends EntityAIBase{
 		this.attackTick = 0;
 		this.attacker = par1EntityLiving;
 		this.worldObj = par1EntityLiving.worldObj;
-		this.field_75440_e = par2;
-		this.field_75437_f = par3;
+		this.speedTowardsTarget = par2;
+		this.longMemory = par3;
 	}
 
 	/**
@@ -50,8 +50,8 @@ public class EntityAIKnockbackOnCollide extends EntityAIBase{
 			return false;
 		}else{
 			this.entityTarget = var1;
-			this.field_75438_g = this.attacker.getNavigator().getPathToEntityLiving(this.entityTarget);
-			return this.field_75438_g != null;
+			this.entityPathEntity = this.attacker.getNavigator().getPathToEntityLiving(this.entityTarget);
+			return this.entityPathEntity != null;
 		}
 	}
 
@@ -60,14 +60,14 @@ public class EntityAIKnockbackOnCollide extends EntityAIBase{
 	 */
 	public boolean continueExecuting(){
 		EntityLivingBase var1 = this.attacker.getAttackTarget();
-		return var1 == null ? false : (!this.entityTarget.isEntityAlive() ? false : (!this.field_75437_f ? !this.attacker.getNavigator().noPath() : this.attacker.isWithinHomeDistance(MathHelper.floor_double(this.entityTarget.posX), MathHelper.floor_double(this.entityTarget.posY), MathHelper.floor_double(this.entityTarget.posZ))));
+		return var1 == null ? false : (!this.entityTarget.isEntityAlive() ? false : (!this.longMemory ? !this.attacker.getNavigator().noPath() : this.attacker.isWithinHomeDistance(MathHelper.floor_double(this.entityTarget.posX), MathHelper.floor_double(this.entityTarget.posY), MathHelper.floor_double(this.entityTarget.posZ))));
 	}
 
 	/**
 	 * Execute a one shot task or start executing a continuous task
 	 */
 	public void startExecuting(){
-		this.attacker.getNavigator().setPath(this.field_75438_g, this.field_75440_e);
+		this.attacker.getNavigator().setPath(this.entityPathEntity, this.speedTowardsTarget);
 		this.field_75445_i = 0;
 	}
 
@@ -85,9 +85,9 @@ public class EntityAIKnockbackOnCollide extends EntityAIBase{
 	public void updateTask(){
 		this.attacker.getLookHelper().setLookPositionWithEntity(this.entityTarget, 30.0F, 30.0F);
 
-		if ((this.field_75437_f || this.attacker.getEntitySenses().canSee(this.entityTarget)) && --this.field_75445_i <= 0){
+		if ((this.longMemory || this.attacker.getEntitySenses().canSee(this.entityTarget)) && --this.field_75445_i <= 0){
 			this.field_75445_i = 4 + this.attacker.getRNG().nextInt(7);
-			this.attacker.getNavigator().tryMoveToEntityLiving(this.entityTarget, this.field_75440_e);
+			this.attacker.getNavigator().tryMoveToEntityLiving(this.entityTarget, this.speedTowardsTarget);
 		}
 
 		this.attackTick = Math.max(this.attackTick - 1, 0);

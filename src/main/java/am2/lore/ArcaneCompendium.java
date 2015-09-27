@@ -516,7 +516,7 @@ public class ArcaneCompendium implements ILoreHelper{
 		if (entry.isLocked()){
 			entry.setIsLocked(false);
 			if (ExtendedProperties.For(Minecraft.getMinecraft().thePlayer).getMagicLevel() > 0)
-				Minecraft.getMinecraft().guiAchievement.func_146256_a(compendiumData);
+				Minecraft.getMinecraft().guiAchievement.displayAchievement(compendiumData);
 
 			saveUnlockData();
 		}

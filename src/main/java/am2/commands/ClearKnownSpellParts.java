@@ -39,6 +39,6 @@ public class ClearKnownSpellParts extends CommandBase{
 
 		SkillData.For(player).clearAllKnowledge();
 
-		func_152373_a(icommandsender, this, "Cleared " + player.getCommandSenderName() + "'s known spell shapes, components, and modifiers.", new Object[0]);
+		notifyOperators(icommandsender, this, "Cleared " + player.getCommandSenderName() + "'s known spell shapes, components, and modifiers.", new Object[0]);
 	}
 }

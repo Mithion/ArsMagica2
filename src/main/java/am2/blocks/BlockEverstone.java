@@ -111,7 +111,7 @@ public class BlockEverstone extends PoweredBlock{
 				}
 			}else if (player.getHeldItem().getItem() instanceof ItemBlock){
 				ItemBlock itemblock = (ItemBlock)player.getHeldItem().getItem();
-				block = itemblock.field_150939_a;
+				block = itemblock.blockInstance;
 				if (block.isOpaqueCube()){
 					meta = itemblock.getMetadata(player.getHeldItem().getItemDamage());
 				}

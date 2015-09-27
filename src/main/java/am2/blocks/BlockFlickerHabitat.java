@@ -94,10 +94,10 @@ public class BlockFlickerHabitat extends PoweredBlock{
 						if (habCount == 1){
 							hab.setUpgrade(true, direction);
 						}else{
-							world.func_147480_a(x, y, z, true);
+							world.breakBlock(x, y, z, true);
 						}
 					}else{
-						world.func_147480_a(x, y, z, true);
+						world.breakBlock(x, y, z, true);
 					}
 				}
 			}
@@ -124,16 +124,16 @@ public class BlockFlickerHabitat extends PoweredBlock{
 							habCount++;
 							if (habCount == 1){
 							}else{
-								world.func_147480_a(x, y, z, true);
+								world.breakBlock(x, y, z, true);
 							}
 						}else{
-							world.func_147480_a(x, y, z, true);
+							world.breakBlock(x, y, z, true);
 						}
 					}
 				}
 
 				if (habCount == 0){
-					world.func_147480_a(x, y, z, true);
+					world.breakBlock(x, y, z, true);
 				}
 			}else{
 				hab.scanForNearbyUpgrades();
@@ -177,7 +177,7 @@ public class BlockFlickerHabitat extends PoweredBlock{
 					TileEntityFlickerHabitat upgHab = (TileEntityFlickerHabitat)te;
 
 					if (upgHab.isUpgrade()){
-						world.func_147480_a(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ, true);
+						world.breakBlock(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ, true);
 						world.setTileEntity(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ, null);
 					}
 				}
@@ -189,7 +189,7 @@ public class BlockFlickerHabitat extends PoweredBlock{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister p_149651_1_){
+	public void registerBlockIcons(IIconRegister reg){
 		//intentionally do nothing
 	}
 

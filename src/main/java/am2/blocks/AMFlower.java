@@ -30,12 +30,12 @@ public class AMFlower extends BlockFlower{
 	}
 
 	@Override
-	public IIcon getIcon(IBlockAccess p_149673_1_, int p_149673_2_, int p_149673_3_, int p_149673_4_, int p_149673_5_){
+	public IIcon getIcon(IBlockAccess worldIn, int x, int y, int z, int side){
 		return this.blockIcon;
 	}
 
 	@Override
-	public IIcon getIcon(int p_149691_1_, int p_149691_2_){
+	public IIcon getIcon(int side, int meta){
 		return blockIcon;
 	}
 

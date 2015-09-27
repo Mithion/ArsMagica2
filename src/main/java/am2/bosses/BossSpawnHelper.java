@@ -339,7 +339,7 @@ public class BossSpawnHelper{
 					for (int j = 0; j <= 4; ++j){
 						for (int k = -10; k <= 10; ++k){
 							if (world.getBlock(x + i, y + j, z + k) != Blocks.bedrock)
-								world.func_147478_e(x + i, y + j, z + k, true);
+								world.canSnowAt(x + i, y + j, z + k, true);
 						}
 					}
 				}

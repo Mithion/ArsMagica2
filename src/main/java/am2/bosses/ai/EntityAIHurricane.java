@@ -55,7 +55,7 @@ public class EntityAIHurricane extends EntityAIBase{
 				for (int x = -1; x <= 1; ++x){
 					for (int z = -1; z <= 1; ++z){
 						while (!host.worldObj.canBlockSeeTheSky((int)host.posX + x, y, (int)host.posZ + z) && host.worldObj.getBlock((int)host.posX + x, y, (int)host.posZ + z) != Blocks.bedrock){
-							host.worldObj.func_147478_e((int)host.posX + x, y++, (int)host.posZ + z, true);
+							host.worldObj.canSnowAt((int)host.posX + x, y++, (int)host.posZ + z, true);
 						}
 						y = (int)host.posY + 2;
 					}

@@ -45,6 +45,6 @@ public class UnlockAugmentedCastingCommand extends CommandBase{
 		SkillData.For(player).learn(SkillManager.instance.getSkill("AugmentedCasting").getID() + SkillManager.TALENT_OFFSET, 3);
 		SkillData.For(player).forceSync();
 
-		func_152373_a(var1, this, "Unlocking augmented casting for " + player.getCommandSenderName(), new Object[0]);
+		notifyOperators(var1, this, "Unlocking augmented casting for " + player.getCommandSenderName(), new Object[0]);
 	}
 }

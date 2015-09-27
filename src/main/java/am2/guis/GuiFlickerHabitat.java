@@ -48,8 +48,8 @@ public class GuiFlickerHabitat extends GuiContainer{
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_){
-		super.drawGuiContainerForegroundLayer(p_146979_1_, p_146979_2_);
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
+		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

@@ -410,7 +410,7 @@ public class BlockCrystalMarker extends BlockContainer{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister p_149651_1_){
+	public void registerBlockIcons(IIconRegister reg){
 		//intentionally left blank
 	}
 }
