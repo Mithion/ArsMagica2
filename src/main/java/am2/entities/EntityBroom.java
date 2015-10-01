@@ -200,7 +200,7 @@ public class EntityBroom extends EntityCreature{
 	}
 
 	private void dropInventoryItems(){
-		EntityBroomInventory inventory = this.getInventory();
+		EntityBroomInventory inventory = this.getBroomInventory();
 		for (int i = 0; i < inventory.getSizeInventory(); ++i){
 			ItemStack stack = inventory.getStackInSlot(i);
 			if (stack == null) continue;
@@ -212,7 +212,7 @@ public class EntityBroom extends EntityCreature{
 		return chestLocation;
 	}
 
-	public EntityBroomInventory getInventory(){
+	public EntityBroomInventory getBroomInventory(){
 		return inventory;
 	}
 
