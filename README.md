@@ -8,6 +8,48 @@ Ars Magica 2 Bug Tracker
 * [Unofficial Wiki](http://am2.wikia.com/wiki/Ars_Magica_2_Wiki)
 * [How to Report a Bug Properly](http://pastebin.com/29r0Nhe0)
 
+### Code Style Guidelines
+If you are interested in contributing to the project, you must follow the coding style guidelines.
+There is a settings file for IDEA [here] (https://github.com/Mithion/ArsMagica2/blob/master/.idea/codeStyleSettings.xml)
+It is part of the repo, and will be downloaded automatically.
+
+The general gist of it is:
+* Conditional blocks and their opening braces go on the same line with no space between the closing bracket and the opening brace (1)
+	* This is the same for classes/methods
+* Else if / else blocks go on the same line as the closing brace for the previous conditional (2)
+	* No spaces between the braces and else
+* Single line if statements should be braceless (3)
+* Casts should not have spaces between the type and the variable (4)
+* Look at existing files for further examples and formatting - just try to match our style!  It makes it easier to read and consistent :)
+
+(1) Example:
+```
+if (distance_to_entity < 2f){ 
+
+}
+```
+
+(2) Example:
+```
+if (distance_to_entity < 2f){
+
+}else{
+
+}
+```
+
+(3) Example:
+```
+if (entitySenses.canSee(entity))
+	this.target = entity;
+```
+
+(4) Example:
+```
+((EntityLivingBase)entity).posX = 5;
+```
+
+
 ### License
 This mod is open sourced under the Creative Commons 3.0 Attribution Non-Commercial License
 https://creativecommons.org/licenses/by-nc/3.0/legalcode
