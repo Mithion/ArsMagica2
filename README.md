@@ -8,6 +8,10 @@ Ars Magica 2 Bug Tracker
 * [Unofficial Wiki](http://am2.wikia.com/wiki/Ars_Magica_2_Wiki)
 * [How to Report a Bug Properly](http://pastebin.com/29r0Nhe0)
 
+### Commit structure
+Make sure to keep your commits limited to one issue.  If you try to do too much in a single commit, you will be asked to split it out.
+The reason for this is that if there is an issue with a commit requiring a rollback, this can be done without undoing all the other work.
+
 ### Code Style Guidelines
 If you are interested in contributing to the project, you must follow the coding style guidelines.
 There is a settings file for IDEA [here] (https://github.com/Mithion/ArsMagica2/blob/master/.idea/codeStyleSettings.xml)
