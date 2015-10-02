@@ -41,11 +41,6 @@ public class Grow implements ISpellComponent{
 
 		Block block = world.getBlock(blockx, blocky, blockz);
 
-		if (block == Blocks.farmland){
-			blocky++;
-			block = world.getBlock(blockx, blocky, blockz);
-		}
-
 		BonemealEvent event = new BonemealEvent(DummyEntityPlayer.fromEntityLiving(caster), world, block, blockx, blocky, blockz);
 		if (MinecraftForge.EVENT_BUS.post(event)){
 			return false;
