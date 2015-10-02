@@ -70,9 +70,14 @@ public class GuiArmorImbuer extends GuiContainer{
 		GL11.glColor3f(1, 1, 1);
 		hoveredID = null;
 		if (stack != null){
+			int armorType = -1;
+			if ( stack.getItem() instanceof ItemArmor) {
+				armorType = ((ItemArmor)stack.getItem()).armorType;
+			}
+
 			mc.renderEngine.bindTexture(background_bw);
 			for (ImbuementTiers tier : ImbuementTiers.values()){
-				IArmorImbuement[] infusions = ImbuementRegistry.instance.getImbuementsForTier(tier, ((ItemArmor)stack.getItem()).armorType);
+				IArmorImbuement[] infusions = ImbuementRegistry.instance.getImbuementsForTier(tier, armorType);
 				for (IArmorImbuement infusion : infusions){
 					drawInfusionIconAt(drawX, drawY, infusion.getIconIndex());
 
@@ -94,7 +99,7 @@ public class GuiArmorImbuer extends GuiContainer{
 			int highestSelectedTier = 0;
 			mc.renderEngine.bindTexture(background);
 			for (ImbuementTiers tier : ImbuementTiers.values()){
-				IArmorImbuement[] infusions = ImbuementRegistry.instance.getImbuementsForTier(tier, ((ItemArmor)stack.getItem()).armorType);
+				IArmorImbuement[] infusions = ImbuementRegistry.instance.getImbuementsForTier(tier, armorType);
 				IArmorImbuement[] existingInfusions = ArmorHelper.getInfusionsOnArmor(stack);
 				IArmorImbuement tierInfusion = null;
 
