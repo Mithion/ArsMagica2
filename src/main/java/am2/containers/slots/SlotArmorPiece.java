@@ -2,7 +2,6 @@ package am2.containers.slots;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 
 public class SlotArmorPiece extends Slot{
@@ -24,7 +23,7 @@ public class SlotArmorPiece extends Slot{
 
 	@Override
 	public boolean isItemValid(ItemStack par1ItemStack){
-		return par1ItemStack.getItem() instanceof ItemArmor && ((ItemArmor)par1ItemStack.getItem()).armorType == armorIndex;
+		return par1ItemStack.getItem().isValidArmor(null, armorIndex, null);
 	}
 
 }
