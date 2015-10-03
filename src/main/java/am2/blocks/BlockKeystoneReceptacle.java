@@ -114,7 +114,7 @@ public class BlockKeystoneReceptacle extends AMSpecialRenderPoweredBlock{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 		this.blockIcon = ResourceManager.RegisterTexture("custom/KeystoneReceptacle.png", par1IconRegister);
 	}
 }

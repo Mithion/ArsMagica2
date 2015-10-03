@@ -212,8 +212,8 @@ public class GuiHudCustomization extends GuiScreen{
 	}
 
 	@Override
-	protected void mouseMovedOrUp(int par1, int par2, int par3){
-		super.mouseMovedOrUp(par1, par2, par3);
+	protected void mouseReleased(int par1, int par2, int par3){
+		super.mouseReleased(par1, par2, par3);
 		if (par3 == 1 || par3 == 0)
 			dragTarget = null;
 	}

@@ -46,7 +46,7 @@ public class SlotSpecifiedItemsOnly extends Slot{
 	@Override
 	public boolean isItemValid(ItemStack par1ItemStack){
 		for (CompoundKey c : this.acceptedItems){
-			if (c.item == par1ItemStack.getItem() && (c.meta == -1 || c.meta == par1ItemStack.getItemDamage())){
+			if (c.item == par1ItemStack.getItem() && (c.meta == -1 || c.meta == par1ItemStack.getMetadata())){
 				return true;
 			}
 		}

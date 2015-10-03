@@ -27,7 +27,7 @@ public class ItemFlickerFocus extends ArsMagicaItem{
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack){
-		int meta = stack.getItemDamage();
+		int meta = stack.getMetadata();
 		IFlickerFunctionality operator = FlickerOperatorRegistry.instance.getOperatorForMask(meta);
 		return String.format(StatCollector.translateToLocal("item.arsmagica2:FlickerFocusPrefix"), StatCollector.translateToLocal("item.arsmagica2:" + operator.getClass().getSimpleName() + ".name"));
 	}

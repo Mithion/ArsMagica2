@@ -113,7 +113,7 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 		deductSaplingFromNearbyChest(worldObj, habitat);
 		ItemBlock block = (ItemBlock)sapling.getItem();
 
-		worldObj.setBlock((int)plantLoc.x, (int)plantLoc.y, (int)plantLoc.z, block.field_150939_a, block.getMetadata(sapling.getItemDamage()), 3);
+		worldObj.setBlock((int)plantLoc.x, (int)plantLoc.y, (int)plantLoc.z, block.blockInstance, block.getMetadata(sapling.getMetadata()), 3);
 	}
 
 	private AMVector3 getPlantLocation(World worldObj, IFlickerController habitat, ItemStack sapling){
@@ -129,7 +129,7 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 			offset = new AMVector3(reader.getInt(), te.yCoord - radius_vert, reader.getInt());
 		}
 
-		Block treeBlock = ((ItemBlock)sapling.getItem()).field_150939_a;
+		Block treeBlock = ((ItemBlock)sapling.getItem()).blockInstance;
 
 		for (int i = (int)offset.x; i <= te.xCoord + radius_horiz; i += 2){
 			for (int k = (int)offset.z; k <= te.zCoord + radius_horiz; k += 2){

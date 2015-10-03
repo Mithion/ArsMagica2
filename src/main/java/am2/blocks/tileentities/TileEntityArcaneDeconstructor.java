@@ -131,7 +131,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 						ItemStack stack = objectToItemStack(o);
 						if (stack != null){
 							if (stack.getItem() == ItemsCommonProxy.bindingCatalyst){
-								stack.setItemDamage(((Binding)SkillManager.instance.getSkill("Binding")).getBindingType(checkStack));
+								stack.setMetadata(((Binding)SkillManager.instance.getSkill("Binding")).getBindingType(checkStack));
 							}
 							recipeItems.add(stack.copy());
 						}
@@ -179,7 +179,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 								ItemStack stack = objectToItemStack(o);
 								if (stack != null){
 									if (stack.getItem() == ItemsCommonProxy.bindingCatalyst){
-										stack.setItemDamage(((Binding)SkillManager.instance.getSkill("Binding")).getBindingType(checkStack));
+										stack.setMetadata(((Binding)SkillManager.instance.getSkill("Binding")).getBindingType(checkStack));
 									}
 									recipeItems.add(stack.copy());
 								}
@@ -197,7 +197,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 				return false;
 			Object[] recipeParts = RecipeUtilities.getRecipeItems(recipe);
 			if (recipeParts != null && checkStack != null && recipe.getRecipeOutput() != null){
-				if (recipe.getRecipeOutput().getItem() == checkStack.getItem() && recipe.getRecipeOutput().getItemDamage() == checkStack.getItemDamage() && recipe.getRecipeOutput().stackSize > 1)
+				if (recipe.getRecipeOutput().getItem() == checkStack.getItem() && recipe.getRecipeOutput().getMetadata() == checkStack.getMetadata() && recipe.getRecipeOutput().stackSize > 1)
 					return false;
 
 				for (Object o : recipeParts){
@@ -320,7 +320,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean isCustomInventoryName(){
 		return false;
 	}
 
@@ -338,11 +338,11 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 	}
 
 	@Override
-	public void openInventory(){
+	public void openChest(){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeChest(){
 	}
 
 	@Override
@@ -351,7 +351,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int var1){
+	public int[] getSlotsForFace(int var1){
 		return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 	}
 

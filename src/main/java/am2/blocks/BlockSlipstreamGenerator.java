@@ -19,7 +19,7 @@ public class BlockSlipstreamGenerator extends PoweredBlock{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 		this.blockIcon = ResourceManager.RegisterTexture("slipstreamGenerator", par1IconRegister);
 	}
 

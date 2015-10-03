@@ -19,9 +19,9 @@ public class ItemManaCake extends ItemFood{
 	}
 
 	@Override
-	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
+	public ItemStack onItemUseFinish(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
 		par3EntityPlayer.addPotionEffect(new BuffEffectManaRegen(600, 0));
-		return super.onEaten(par1ItemStack, par2World, par3EntityPlayer);
+		return super.onItemUseFinish(par1ItemStack, par2World, par3EntityPlayer);
 	}
 
 }

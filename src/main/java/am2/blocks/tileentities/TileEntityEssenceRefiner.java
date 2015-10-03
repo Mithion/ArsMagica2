@@ -139,7 +139,7 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
@@ -264,11 +264,11 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 	}
 
 	@Override
-	public void openInventory(){
+	public void openChest(){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeChest(){
 	}
 
 	@Override
@@ -283,7 +283,7 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean isCustomInventoryName(){
 		return false;
 	}
 
@@ -331,7 +331,7 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int side){
+	public int[] getSlotsForFace(int side){
 		return new int[]{5};
 	}
 

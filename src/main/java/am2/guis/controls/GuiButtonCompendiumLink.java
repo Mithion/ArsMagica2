@@ -8,7 +8,7 @@ import net.minecraft.client.gui.GuiButton;
 import org.lwjgl.opengl.GL11;
 
 public class GuiButtonCompendiumLink extends GuiButton{
-	private final FontRenderer fontRenderer;
+	private final FontRenderer fontRendererObj;
 	private final String entryID;
 	private final String category;
 	private final int pageNum;
@@ -16,9 +16,9 @@ public class GuiButtonCompendiumLink extends GuiButton{
 	private boolean isNewItem = false;
 	private boolean displayOnAllPages = false;
 
-	public GuiButtonCompendiumLink(int id, int xPos, int yPos, FontRenderer fontRenderer, String text, String entryID, String category, boolean hasSubItems, int pageNum){
-		super(id, xPos, yPos, fontRenderer.getStringWidth(text), 10, text);
-		this.fontRenderer = fontRenderer;
+	public GuiButtonCompendiumLink(int id, int xPos, int yPos, FontRenderer fontRendererObj, String text, String entryID, String category, boolean hasSubItems, int pageNum){
+		super(id, xPos, yPos, fontRendererObj.getStringWidth(text), 10, text);
+		this.fontRendererObj = fontRendererObj;
 		this.entryID = entryID;
 		this.category = category;
 		this.hasSubItems = hasSubItems;
@@ -72,7 +72,7 @@ public class GuiButtonCompendiumLink extends GuiButton{
 			}
 
 			GL11.glDisable(GL11.GL_LIGHTING);
-			fontRenderer.drawString(this.displayString, xPosition, yPosition, textColor);
+			fontRendererObj.drawString(this.displayString, xPosition, yPosition, textColor);
 			if (isNewItem){
 				GL11.glColor4f(1, 1, 1, 1);
 				AMGuiHelper.instance.DrawIconAtXY(AMGuiIcons.newEntry, xPosition - 6, yPosition + 2, this.zLevel, 5, 5, true);

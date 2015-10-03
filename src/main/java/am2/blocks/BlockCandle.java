@@ -55,6 +55,6 @@ public class BlockCandle extends AMSpecialRenderBlockContainer{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 	}
 }

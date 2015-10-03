@@ -17,7 +17,7 @@ public class EntityAITargetNearbyInanimateSmeltable extends EntityAITargetNearby
 		if (super.isSuitableTarget(target)){
 			if (target instanceof EntityItem){
 				if (((EntityItem)target).getEntityItem().stackSize > 1) return false;
-				ItemStack smelted = FurnaceRecipes.smelting().getSmeltingResult(((EntityItem)target).getEntityItem());
+				ItemStack smelted = FurnaceRecipes.instance().getSmeltingResult(((EntityItem)target).getEntityItem());
 				return smelted != null;
 			}
 		}

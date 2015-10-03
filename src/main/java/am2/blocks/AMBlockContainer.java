@@ -12,8 +12,8 @@ public abstract class AMBlockContainer extends BlockContainer{
 	}
 
 	public AMBlockContainer setUnlocalizedNameAndID(String name){
-		setBlockTextureName(name);
-		setBlockName(name);
+		setTextureName(name);
+		setUnlocalizedName(name);
 		return this;
 	}
 

@@ -189,7 +189,7 @@ public class GuiMagiciansWorkbench extends GuiContainer{
 		if (stack != null){
 			GL11.glPushMatrix();
 			GL11.glDisable(GL11.GL_LIGHTING);
-			itemRender.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, stack, x, y);
+			itemRender.renderItemIntoGUI(mc.fontRendererObj, mc.renderEngine, stack, x, y);
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glPopMatrix();
 		}

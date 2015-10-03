@@ -161,7 +161,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
@@ -465,11 +465,11 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	}
 
 	@Override
-	public void openInventory(){
+	public void openChest(){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeChest(){
 	}
 
 	@Override
@@ -526,7 +526,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean isCustomInventoryName(){
 		return false;
 	}
 

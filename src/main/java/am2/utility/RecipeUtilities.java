@@ -59,7 +59,7 @@ public class RecipeUtilities{
 				if (recipe instanceof IRecipe){
 					ItemStack output = ((IRecipe)recipe).getRecipeOutput();
 					if (output == null) continue;
-					if (output.getItem() == item.getItem() && (output.getItemDamage() == Short.MAX_VALUE || output.getItemDamage() == item.getItemDamage())){
+					if (output.getItem() == item.getItem() && (output.getMetadata() == Short.MAX_VALUE || output.getMetadata() == item.getMetadata())){
 						possibleRecipes.add(recipe);
 					}
 				}
@@ -67,7 +67,7 @@ public class RecipeUtilities{
 
 			if (possibleRecipes.size() > 0){
 				for (Object recipe : possibleRecipes){
-					if (((IRecipe)recipe).getRecipeOutput().getItemDamage() == item.getItemDamage()){
+					if (((IRecipe)recipe).getRecipeOutput().getMetadata() == item.getMetadata()){
 						return (IRecipe)recipe;
 					}
 				}

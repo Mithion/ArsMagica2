@@ -26,7 +26,7 @@ public class ItemFocusBasic extends Item  implements IWandFocus {
         super();
         maxStackSize = 1;
         canRepair=false;
-        this.setMaxDamage(0);
+        this.setMaxDurability(0);
     }
 	
 	public IIcon IIcon;

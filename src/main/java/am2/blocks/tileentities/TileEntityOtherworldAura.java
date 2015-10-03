@@ -146,7 +146,7 @@ public class TileEntityOtherworldAura extends TileEntityAMPower{
 						return;
 					}
 
-					if (next.getItem() == ItemsCommonProxy.essence && next.getItemDamage() > ItemsCommonProxy.essence.META_MAX){
+					if (next.getItem() == ItemsCommonProxy.essence && next.getMetadata() > ItemsCommonProxy.essence.META_MAX){
 						if (!this.helper.hasSearchLocation())
 							this.helper.setSearchLocationAndItem(new AMVector3(1, 1, 1), next);
 						delayCounter = 100;

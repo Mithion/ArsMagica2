@@ -26,7 +26,7 @@ public class KeystoneReceptacleRenderer extends TileEntitySpecialRenderer{
 	public void renderAModelAt(TileEntityKeystoneRecepticle tile, double d, double d1, double d2, float f){
 		int i = 0;
 
-		if (tile.getWorldObj() != null){
+		if (tile.getWorld() != null){
 			i = tile.getBlockMetadata() + 1;
 		}
 		int j = 0;

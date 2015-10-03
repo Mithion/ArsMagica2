@@ -13,7 +13,7 @@ public class OreItem extends ItemBlock{
 
 	public OreItem(Block block){
 		super(block);
-		setMaxDamage(0);
+		setMaxDurability(0);
 		setHasSubtypes(true);
 	}
 
@@ -24,6 +24,6 @@ public class OreItem extends ItemBlock{
 
 	@Override
 	public String getUnlocalizedName(ItemStack par1ItemStack){
-		return super.getUnlocalizedName() + "." + par1ItemStack.getItemDamage();
+		return super.getUnlocalizedName() + "." + par1ItemStack.getMetadata();
 	}
 }

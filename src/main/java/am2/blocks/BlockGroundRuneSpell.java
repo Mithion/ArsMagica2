@@ -33,7 +33,7 @@ public class BlockGroundRuneSpell extends BlockGroundRune{
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void registerBlockIcons(IIconRegister iconRegister){
+	public void registerIcons(IIconRegister iconRegister){
 		this.icons = new IIcon[textureNames.length];
 
 		for (int i = 0; i < textureNames.length; ++i){

@@ -53,7 +53,7 @@ public class GuiSpellImageButton extends GuiButtonVariableDims{
 			if (isMousedOver){
 				GL11.glColor4f(0.6f, 0.6f, 0.6f, 1.0f);
 				if (this.hoverTextLines.size() > 0){
-					drawHoveringText(hoverTextLines, par2, par3, Minecraft.getMinecraft().fontRenderer);
+					drawHoveringText(hoverTextLines, par2, par3, Minecraft.getMinecraft().fontRendererObj);
 				}
 			}
 

@@ -208,7 +208,7 @@ public class BossSpawnHelper{
 		if (y < 150) return;
 		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1));
 		if (itemsInRange.size() != 1) return;
-		if (itemsInRange.get(0).getEntityItem().getItem() != ItemsCommonProxy.essence || itemsInRange.get(0).getEntityItem().getItemDamage() != ItemsCommonProxy.essence.META_AIR)
+		if (itemsInRange.get(0).getEntityItem().getItem() != ItemsCommonProxy.essence || itemsInRange.get(0).getEntityItem().getMetadata() != ItemsCommonProxy.essence.META_AIR)
 			return;
 
 		itemsInRange.get(0).setDead();
@@ -220,7 +220,7 @@ public class BossSpawnHelper{
 	private void checkForArcaneGuardianSpawn(World world, int x, int y, int z){
 		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1));
 		if (itemsInRange.size() != 1) return;
-		if (itemsInRange.get(0).getEntityItem().getItem() != ItemsCommonProxy.essence || itemsInRange.get(0).getEntityItem().getItemDamage() != ItemsCommonProxy.essence.META_ARCANE)
+		if (itemsInRange.get(0).getEntityItem().getItem() != ItemsCommonProxy.essence || itemsInRange.get(0).getEntityItem().getMetadata() != ItemsCommonProxy.essence.META_ARCANE)
 			return;
 		boolean hasStructure = false;
 		TileEntityLectern lectern = null;
@@ -273,9 +273,9 @@ public class BossSpawnHelper{
 			if (item.isDead) continue;
 			if (item.getEntityItem().getItem() == Items.emerald)
 				hasEmerald = true;
-			else if (item.getEntityItem().getItem() == ItemsCommonProxy.itemOre && item.getEntityItem().getItemDamage() == ItemsCommonProxy.itemOre.META_BLUETOPAZ)
+			else if (item.getEntityItem().getItem() == ItemsCommonProxy.itemOre && item.getEntityItem().getMetadata() == ItemsCommonProxy.itemOre.META_BLUETOPAZ)
 				hasTopaz = true;
-			else if (item.getEntityItem().getItem() == ItemsCommonProxy.itemOre && item.getEntityItem().getItemDamage() == ItemsCommonProxy.itemOre.META_CHIMERITE)
+			else if (item.getEntityItem().getItem() == ItemsCommonProxy.itemOre && item.getEntityItem().getMetadata() == ItemsCommonProxy.itemOre.META_CHIMERITE)
 				hasChimerite = true;
 		}
 
@@ -307,7 +307,7 @@ public class BossSpawnHelper{
 	}
 
 	private void checkForFireGuardianSpawn(EntityItem item, World world, int x, int y, int z){
-		if (item.getEntityItem().getItem() != ItemsCommonProxy.essence || item.getEntityItem().getItemDamage() != ItemsCommonProxy.essence.META_WATER)
+		if (item.getEntityItem().getItem() != ItemsCommonProxy.essence || item.getEntityItem().getMetadata() != ItemsCommonProxy.essence.META_WATER)
 			return;
 		boolean hasStructure = false;
 		boolean hasDimension = world.provider.dimensionId == -1;
@@ -339,7 +339,7 @@ public class BossSpawnHelper{
 					for (int j = 0; j <= 4; ++j){
 						for (int k = -10; k <= 10; ++k){
 							if (world.getBlock(x + i, y + j, z + k) != Blocks.bedrock)
-								world.func_147478_e(x + i, y + j, z + k, true);
+								world.canSnowAt(x + i, y + j, z + k, true);
 						}
 					}
 				}
@@ -423,7 +423,7 @@ public class BossSpawnHelper{
 			if (item.isDead) continue;
 			if (item.getEntityItem().getItem() == Items.ender_eye)
 				hasEyeofEnder = true;
-			else if (item.getEntityItem().getItem() == ItemsCommonProxy.essence && item.getEntityItem().getItemDamage() == ItemsCommonProxy.essence.META_ENDER)
+			else if (item.getEntityItem().getItem() == ItemsCommonProxy.essence && item.getEntityItem().getMetadata() == ItemsCommonProxy.essence.META_ENDER)
 				hasEnderEssence = true;
 		}
 

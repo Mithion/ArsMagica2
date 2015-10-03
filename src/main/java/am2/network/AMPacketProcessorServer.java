@@ -164,7 +164,7 @@ public class AMPacketProcessorServer{
 		TileEntity te = player.worldObj.getTileEntity(x, y, z);
 		if (te != null && te instanceof TileEntityMagiciansWorkbench){
 			((TileEntityMagiciansWorkbench)te).setRecipeLocked(rdr.getInt(), rdr.getBoolean());
-			te.getWorldObj().markBlockForUpdate(te.xCoord, te.yCoord, te.zCoord);
+			te.getWorld().markBlockForUpdate(te.xCoord, te.yCoord, te.zCoord);
 		}
 	}
 

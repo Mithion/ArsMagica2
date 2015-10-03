@@ -13,8 +13,8 @@ public abstract class AMBlock extends Block{
 	}
 
 	public AMBlock setUnlocalizedNameAndID(String name){
-		setBlockTextureName(name);
-		setBlockName(name);
+		setTextureName(name);
+		setUnlocalizedName(name);
 		return this;
 	}
 

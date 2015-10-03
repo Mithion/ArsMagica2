@@ -248,7 +248,7 @@ public class BlockInvisibleUtility extends AMBlock{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 	}
 
 	@Override

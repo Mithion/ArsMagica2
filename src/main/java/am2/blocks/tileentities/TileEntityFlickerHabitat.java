@@ -87,7 +87,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	public Affinity getSelectedAffinity(){
 		if (flickerJar != null){
-			return Affinity.getByID(flickerJar.getItemDamage());
+			return Affinity.getByID(flickerJar.getMetadata());
 		}else{
 			return null;
 		}
@@ -428,7 +428,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 			return ((ItemFlickerJar)flickerJar.getItem()).getColorFromItemStack(flickerJar, 0);
 		else if (this.flickerJar.getItem() == ItemsCommonProxy.flickerFocus){
 			ArrayList<Affinity> affinities = new ArrayList<Affinity>();
-			int meta = this.flickerJar.getItemDamage();
+			int meta = this.flickerJar.getMetadata();
 			for (Affinity aff : Affinity.values()){
 				if (aff == Affinity.NONE)
 					continue;
@@ -534,11 +534,11 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	@Override
-	public void openInventory(){
+	public void openChest(){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeChest(){
 		if (!this.isUpgrade){
 			setOperatorBasedOnFlicker();
 			scanForNearbyUpgrades();
@@ -558,7 +558,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	private void setOperatorBasedOnFlicker(){
 		if (flickerJar != null && flickerJar.getItem() == ItemsCommonProxy.flickerFocus){
-			this.setOperator(FlickerOperatorRegistry.instance.getOperatorForMask(flickerJar.getItemDamage()));
+			this.setOperator(FlickerOperatorRegistry.instance.getOperatorForMask(flickerJar.getMetadata()));
 		}else{
 			this.setOperator(null);
 		}
@@ -579,7 +579,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
@@ -618,7 +618,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean isCustomInventoryName(){
 		return false;
 	}
 

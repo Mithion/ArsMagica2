@@ -104,11 +104,11 @@ public class GuiInscriptionTable extends GuiContainer{
 		super.initGui();
 		searchFieldPosition = new AMVector2(39, 59);
 		searchFieldDimensions = new AMVector2(141, 12);
-		searchBar = new GuiTextField(Minecraft.getMinecraft().fontRenderer, searchFieldPosition.iX, searchFieldPosition.iY, searchFieldDimensions.iX, searchFieldDimensions.iY);
+		searchBar = new GuiTextField(Minecraft.getMinecraft().fontRendererObj, searchFieldPosition.iX, searchFieldPosition.iY, searchFieldDimensions.iX, searchFieldDimensions.iY);
 
 		nameFieldPosition = new AMVector2(39, 93);
 		nameFieldDimensions = new AMVector2(141, 12);
-		nameBar = new GuiTextField(Minecraft.getMinecraft().fontRenderer, nameFieldPosition.iX, nameFieldPosition.iY, nameFieldDimensions.iX, nameFieldDimensions.iY);
+		nameBar = new GuiTextField(Minecraft.getMinecraft().fontRendererObj, nameFieldPosition.iX, nameFieldPosition.iY, nameFieldDimensions.iX, nameFieldDimensions.iY);
 
 
 		int l = (width - xSize) / 2;
@@ -230,8 +230,8 @@ public class GuiInscriptionTable extends GuiContainer{
 	}
 
 	@Override
-	protected void mouseMovedOrUp(int x, int y, int action){
-		super.mouseMovedOrUp(x, y, action);
+	protected void mouseReleased(int x, int y, int action){
+		super.mouseReleased(x, y, action);
 
 		int l = (width - xSize) / 2;
 		int i1 = (height - ySize) / 2;
@@ -354,7 +354,7 @@ public class GuiInscriptionTable extends GuiContainer{
 		if (result.valid){
 			if (((ContainerInscriptionTable)this.inventorySlots).slotHasStack(0)){
 				if (((ContainerInscriptionTable)this.inventorySlots).slotIsBook(0)){
-					Minecraft.getMinecraft().fontRenderer.drawSplitString(StatCollector.translateToLocal("am2.gui.bookOut"), 225, 5, 100, 0xFF7700);
+					Minecraft.getMinecraft().fontRendererObj.drawSplitString(StatCollector.translateToLocal("am2.gui.bookOut"), 225, 5, 100, 0xFF7700);
 				}else{
 					resetSpellButton.visible = true;
 				}
@@ -369,13 +369,13 @@ public class GuiInscriptionTable extends GuiContainer{
 			}else{
 				resetSpellButton.visible = false;
 			}
-			Minecraft.getMinecraft().fontRenderer.drawSplitString(result.message, 225, 5, 100, 0xFF7700);
+			Minecraft.getMinecraft().fontRendererObj.drawSplitString(result.message, 225, 5, 100, 0xFF7700);
 			createSpellButton.enabled = false;
 		}
 
 		if (!dragging){
 			if (hovering){
-				drawHoveringText(label, lastMouseX, lastMouseY, Minecraft.getMinecraft().fontRenderer);
+				drawHoveringText(label, lastMouseX, lastMouseY, Minecraft.getMinecraft().fontRendererObj);
 			}else{
 				hoveredItem = null;
 				hoveredIcon = null;

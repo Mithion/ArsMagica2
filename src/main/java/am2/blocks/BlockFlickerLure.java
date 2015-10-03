@@ -21,7 +21,7 @@ public class BlockFlickerLure extends PoweredBlock{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 		this.blockIcon = ResourceManager.RegisterTexture("flicker_lure", par1IconRegister);
 	}
 }

@@ -53,7 +53,7 @@ public class DummyEntityPlayer extends EntityPlayer{
 	}
 
 	@Override
-	public ChunkCoordinates getPlayerCoordinates(){
+	public ChunkCoordinates getCommandSenderPosition(){
 		return null;
 	}
 

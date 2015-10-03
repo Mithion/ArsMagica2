@@ -38,7 +38,7 @@ public class ItemLiquidEssenceBottle extends ArsMagicaItem{
 	}
 
 	@Override
-	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
+	public ItemStack onItemUseFinish(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
 		par1ItemStack = new ItemStack(Items.glass_bottle);
 		par3EntityPlayer.addPotionEffect(new BuffMaxManaIncrease(6000, 1)); //5 mins
 		return par1ItemStack;

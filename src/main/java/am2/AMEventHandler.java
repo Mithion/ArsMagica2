@@ -78,7 +78,7 @@ public class AMEventHandler{
 			if (stack == null) continue;
 			if (stack.getItem() instanceof ItemPotion){
 				ItemPotion ptn = ((ItemPotion)stack.getItem());
-				List<PotionEffect> fx = ptn.getEffects(stack.getItemDamage());
+				List<PotionEffect> fx = ptn.getEffects(stack.getMetadata());
 				if (fx == null) return;
 				for (PotionEffect pe : fx){
 					if (pe.getPotionID() == BuffList.greaterManaPotion.id){
@@ -674,12 +674,12 @@ public class AMEventHandler{
 			}
 		}else{
 			Item item = event.item.getEntityItem().getItem();
-			int meta = event.item.getEntityItem().getItemDamage();
+			int meta = event.item.getEntityItem().getMetadata();
 
 			if (event.entityPlayer.worldObj.isRemote &&
 					item.getUnlocalizedName() != null && (
 					AMCore.proxy.items.getArsMagicaItems().contains(item)) ||
-					(item instanceof ItemBlock && AMCore.proxy.blocks.getArsMagicaBlocks().contains(((ItemBlock)item).field_150939_a))){
+					(item instanceof ItemBlock && AMCore.proxy.blocks.getArsMagicaBlocks().contains(((ItemBlock)item).blockInstance))){
 				AMNetHandler.INSTANCE.sendCompendiumUnlockPacket((EntityPlayerMP)event.entityPlayer, item.getUnlocalizedName().replace("item.", "").replace("arsmagica2:", "").replace("tile.", "") + ((meta > -1) ? "@" + meta : ""), false);
 			}
 		}

@@ -46,7 +46,7 @@ public class ItemSpellBook extends ArsMagicaItem{
 
 	public ItemSpellBook(){
 		super();
-		this.setMaxDamage(0);
+		this.setMaxDurability(0);
 		this.setMaxStackSize(1);
 	}
 
@@ -122,7 +122,7 @@ public class ItemSpellBook extends ArsMagicaItem{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack par1ItemStack, int renderPass){
-		int meta = par1ItemStack.getItemDamage();
+		int meta = par1ItemStack.getMetadata();
 		if (renderPass == 0){
 			switch (meta){
 			case 0: //brown
@@ -262,7 +262,7 @@ public class ItemSpellBook extends ArsMagicaItem{
 			ItemStack stack = values[i];
 			NBTTagCompound spell = new NBTTagCompound();
 			if (stack != null){
-				spell.setInteger("meta", stack.getItemDamage());
+				spell.setInteger("meta", stack.getMetadata());
 				spell.setInteger("index", i);
 				if (stack.stackTagCompound != null){
 					spell.setTag("data", stack.stackTagCompound);

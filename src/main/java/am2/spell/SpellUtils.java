@@ -435,7 +435,7 @@ public class SpellUtils implements ISpellUtils{
 		for (ItemStack reagentStack : requirements.reagents){
 			reagentList[count++] = Item.getIdFromItem(reagentStack.getItem());
 			reagentList[count++] = reagentStack.stackSize;
-			reagentList[count++] = reagentStack.getItemDamage();
+			reagentList[count++] = reagentStack.getMetadata();
 		}
 
 		stack.stackTagCompound.setIntArray(BaseReagentsIdentifier, reagentList);

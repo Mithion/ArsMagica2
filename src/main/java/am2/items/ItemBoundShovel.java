@@ -27,7 +27,7 @@ public class ItemBoundShovel extends ItemSpade implements IBoundItem{
 
 	public ItemBoundShovel(ToolMaterial par2ToolMaterial){
 		super(par2ToolMaterial);
-		this.setMaxDamage(0);
+		this.setMaxDurability(0);
 	}
 
 	public ItemBoundShovel setUnlocalizedAndTextureName(String name){
@@ -106,7 +106,7 @@ public class ItemBoundShovel extends ItemSpade implements IBoundItem{
 			}else{
 				props.deductMana(this.maintainCost());
 			}
-			if (par1ItemStack.getItemDamage() > 0)
+			if (par1ItemStack.getMetadata() > 0)
 				par1ItemStack.damageItem(-1, (EntityLivingBase)par3Entity);
 		}
 	}

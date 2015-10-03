@@ -40,7 +40,7 @@ public class SpellBase extends ItemSpellBase{
 
 	public SpellBase(){
 		super();
-		this.setMaxDamage(0);
+		this.setMaxDurability(0);
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class SpellBase extends ItemSpellBase{
 	@Override
 	public IIcon getIcon(ItemStack stack, int pass){
 		if (pass == 0){
-			return getIconFromDamage(stack.getItemDamage());
+			return getIconFromDamage(stack.getMetadata());
 		}else{
 			return this.itemIcon;
 		}

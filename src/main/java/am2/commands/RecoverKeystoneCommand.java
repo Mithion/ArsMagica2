@@ -40,7 +40,7 @@ public class RecoverKeystoneCommand extends CommandBase{
 
 		ExtendedProperties.For(player).isRecoveringKeystone = true;
 
-		func_152373_a(icommandsender, this, player.getCommandSenderName() + " is recovering a Keystone combination.", new Object[0]);
+		notifyOperators(icommandsender, this, player.getCommandSenderName() + " is recovering a Keystone combination.", new Object[0]);
 	}
 
 }

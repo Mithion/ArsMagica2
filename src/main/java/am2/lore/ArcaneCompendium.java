@@ -516,7 +516,7 @@ public class ArcaneCompendium implements ILoreHelper{
 		if (entry.isLocked()){
 			entry.setIsLocked(false);
 			if (ExtendedProperties.For(Minecraft.getMinecraft().thePlayer).getMagicLevel() > 0)
-				Minecraft.getMinecraft().guiAchievement.func_146256_a(compendiumData);
+				Minecraft.getMinecraft().guiAchievement.displayAchievement(compendiumData);
 
 			saveUnlockData();
 		}
@@ -593,8 +593,8 @@ public class ArcaneCompendium implements ILoreHelper{
 		}
 
 		//append meta specific search if needed
-		if (stack.getItemDamage() > -1)
-			itemID += "@" + stack.getItemDamage();
+		if (stack.getMetadata() > -1)
+			itemID += "@" + stack.getMetadata();
 
 		//search based on our constructed ID
 		entry = getEntry(itemID);

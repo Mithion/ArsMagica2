@@ -70,17 +70,17 @@ public class AMIngameGUI{
 		if (drawAMHud)
 			RenderContingency(i, j);
 		if (drawAMHud)
-			RenderArsMagicaGUIItems(i, j, mc.fontRenderer);
+			RenderArsMagicaGUIItems(i, j, mc.fontRendererObj);
 		if (drawAMHud)
 			RenderAffinity(i, j);
-		RenderArmorStatus(i, j, mc, mc.fontRenderer);
+		RenderArmorStatus(i, j, mc, mc.fontRendererObj);
 		if (drawAMHud)
 			RenderMagicXP(i, j);
 
 		ItemStack item = mc.thePlayer.getCurrentEquippedItem();
 		if (item != null && item.getItem() instanceof ItemSpellBook){
 
-			RenderSpellBookUI(i, j, mc.fontRenderer, mc.thePlayer.getCurrentEquippedItem());
+			RenderSpellBookUI(i, j, mc.fontRendererObj, mc.thePlayer.getCurrentEquippedItem());
 		}
 
 		GL11.glPopAttrib();
@@ -89,9 +89,9 @@ public class AMIngameGUI{
 		GL11.glColor4f(1, 1, 1, 1);
 	}
 
-	private void RenderArsMagicaGUIItems(int i, int j, FontRenderer fontRenderer){
+	private void RenderArsMagicaGUIItems(int i, int j, FontRenderer fontRendererObj){
 		if (ExtendedProperties.For(mc.thePlayer).getMagicLevel() > 0 || mc.thePlayer.capabilities.isCreativeMode){
-			RenderManaBar(i, j, fontRenderer);
+			RenderManaBar(i, j, fontRendererObj);
 		}
 	}
 
@@ -128,8 +128,8 @@ public class AMIngameGUI{
 				continue;
 			}
 			int d = 12;
-			DrawIconAtXY(((ItemSpellBase)stackItem.getItem()).getIconFromDamageForRenderPass(stackItem.getItemDamage(), 0), "items", IIconX, spellUI_y + 1.5f, d, d, false);
-			DrawIconAtXY(((ItemSpellBase)stackItem.getItem()).getIconFromDamageForRenderPass(stackItem.getItemDamage(), 1), "items", IIconX, spellUI_y + 1.5f, d, d, false);
+			DrawIconAtXY(((ItemSpellBase)stackItem.getItem()).getIconFromDamageForRenderPass(stackItem.getMetadata(), 0), "items", IIconX, spellUI_y + 1.5f, d, d, false);
+			DrawIconAtXY(((ItemSpellBase)stackItem.getItem()).getIconFromDamageForRenderPass(stackItem.getMetadata(), 1), "items", IIconX, spellUI_y + 1.5f, d, d, false);
 		}
 
 		mc.renderEngine.bindTexture(spellbook_ui);
@@ -140,7 +140,7 @@ public class AMIngameGUI{
 		mc.renderEngine.bindTexture(mc_gui);
 	}
 
-	private void RenderManaBar(int i, int j, FontRenderer fontRenderer){
+	private void RenderManaBar(int i, int j, FontRenderer fontRendererObj){
 
 		int barWidth = i / 8;
 
@@ -228,8 +228,8 @@ public class AMIngameGUI{
 
 			String magicLevel = (new StringBuilder()).append("").append(ExtendedProperties.For(mc.thePlayer).getMagicLevel()).toString();
 			AMVector2 magicLevelPos = getShiftedVector(AMCore.config.getLevelPosition(), i, j);
-			magicLevelPos.iX -= Minecraft.getMinecraft().fontRenderer.getStringWidth(magicLevel) / 2;
-			fontRenderer.drawStringWithShadow(magicLevel, magicLevelPos.iX, magicLevelPos.iY, manaBarColor);
+			magicLevelPos.iX -= Minecraft.getMinecraft().fontRendererObj.getStringWidth(magicLevel) / 2;
+			fontRendererObj.drawStringWithShadow(magicLevel, magicLevelPos.iX, magicLevelPos.iY, manaBarColor);
 
 			if (flashTimer > 0){
 				GL11.glColor3f(1.0f, 1.0f, 1.0f);
@@ -241,8 +241,8 @@ public class AMIngameGUI{
 			String burnoutStr = StatCollector.translateToLocal("am2.gui.burnout") + ": " + (int)props.getCurrentFatigue() + "/" + (int)props.getMaxFatigue();
 			AMVector2 manaNumericPos = getShiftedVector(AMCore.config.getManaNumericPosition(), i, j);
 			AMVector2 burnoutNumericPos = getShiftedVector(AMCore.config.getBurnoutNumericPosition(), i, j);
-			fontRenderer.drawString(manaStr, manaNumericPos.iX, manaNumericPos.iY, bonusMana > 0 ? 0xeae31c : 0x2080FF);
-			fontRenderer.drawString(burnoutStr, burnoutNumericPos.iX + 25 - fontRenderer.getStringWidth(burnoutStr), burnoutNumericPos.iY, 0xFF2020);
+			fontRendererObj.drawString(manaStr, manaNumericPos.iX, manaNumericPos.iY, bonusMana > 0 ? 0xeae31c : 0x2080FF);
+			fontRendererObj.drawString(burnoutStr, burnoutNumericPos.iX + 25 - fontRendererObj.getStringWidth(burnoutStr), burnoutNumericPos.iY, 0xFF2020);
 		}
 	}
 
@@ -255,7 +255,7 @@ public class AMIngameGUI{
 			return null;
 	}
 
-	private void RenderArmorStatus(int i, int j, Minecraft mc, FontRenderer fontRenderer){
+	private void RenderArmorStatus(int i, int j, Minecraft mc, FontRenderer fontRendererObj){
 		if (!AMCore.config.showArmorUI())
 			return;
 
@@ -271,8 +271,8 @@ public class AMIngameGUI{
 				ItemStack armor = mc.thePlayer.inventory.armorInventory[3 - slot];
 				float lineweight = 4f;
 				//durability
-				if (armor.isItemDamaged() && armor.getMaxDamage() > 0){
-					float pct = 1 - (float)armor.getItemDamage() / (float)armor.getMaxDamage();
+				if (armor.isItemDamaged() && armor.getMaxDurability() > 0){
+					float pct = 1 - (float)armor.getMetadata() / (float)armor.getMaxDurability();
 					AMGuiHelper.line2d(position.iX, position.iY + 10, position.iX + 10, position.iY + 10, this.zLevel + 100, lineweight, 0);
 
 					int color = (int)(255.0f * (1 - pct)) << 16 | (int)(255.0f * pct) << 8;
@@ -328,9 +328,9 @@ public class AMIngameGUI{
 			if (AMCore.config.getShowNumerics()){
 				String display = String.format("%.2f%%", AffinityData.For(mc.thePlayer).getAffinityDepth(affinity) * 100);
 				if (x < i / 2)
-					Minecraft.getMinecraft().fontRenderer.drawString(display, x + 14, y + 2, affinity.color);
+					Minecraft.getMinecraft().fontRendererObj.drawString(display, x + 14, y + 2, affinity.color);
 				else
-					Minecraft.getMinecraft().fontRenderer.drawString(display, x - 2 - Minecraft.getMinecraft().fontRenderer.getStringWidth(display), y + 2, affinity.color);
+					Minecraft.getMinecraft().fontRendererObj.drawString(display, x - 2 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(display), y + 2, affinity.color);
 			}
 			y += 15;
 		}
@@ -454,7 +454,7 @@ public class AMIngameGUI{
 			if (AMCore.config.getShowNumerics() && (AMCore.config.showXPAlways() || AMGuiHelper.instance.getMagicXPBarAlpha() > 0)){
 				String xpStr = StatCollector.translateToLocal("am2.gui.xp") + ": " + +(int)(props.getMagicXP() * 100) + "/" + (int)(props.getXPToNextLevel() * 100);
 				AMVector2 numericPos = getShiftedVector(AMCore.config.getXPNumericPosition(), i, j);
-				Minecraft.getMinecraft().fontRenderer.drawString(xpStr, numericPos.iX, numericPos.iY, 0x999999);
+				Minecraft.getMinecraft().fontRendererObj.drawString(xpStr, numericPos.iX, numericPos.iY, 0x999999);
 			}
 		}
 	}

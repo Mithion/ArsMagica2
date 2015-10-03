@@ -42,8 +42,8 @@ public class ModelLich extends ModelBiped{
 		float var7;
 		float var8;
 
-		if (this.onGround > -9990.0F){
-			var7 = this.onGround;
+		if (this.swingProgress > -9990.0F){
+			var7 = this.swingProgress;
 			this.bipedBody.rotateAngleY = MathHelper.sin(MathHelper.sqrt_float(var7) * (float)Math.PI * 2.0F) * 0.2F;
 			this.bipedRightArm.rotationPointZ = MathHelper.sin(this.bipedBody.rotateAngleY) * 5.0F;
 			this.bipedRightArm.rotationPointX = -MathHelper.cos(this.bipedBody.rotateAngleY) * 5.0F;
@@ -52,15 +52,15 @@ public class ModelLich extends ModelBiped{
 			this.bipedRightArm.rotateAngleY += this.bipedBody.rotateAngleY;
 			this.bipedLeftArm.rotateAngleY += this.bipedBody.rotateAngleY;
 			this.bipedLeftArm.rotateAngleX += this.bipedBody.rotateAngleY;
-			var7 = 1.0F - this.onGround;
+			var7 = 1.0F - this.swingProgress;
 			var7 *= var7;
 			var7 *= var7;
 			var7 = 1.0F - var7;
 			var8 = MathHelper.sin(var7 * (float)Math.PI);
-			float var9 = MathHelper.sin(this.onGround * (float)Math.PI) * -(this.bipedHead.rotateAngleX - 0.7F) * 0.75F;
+			float var9 = MathHelper.sin(this.swingProgress * (float)Math.PI) * -(this.bipedHead.rotateAngleX - 0.7F) * 0.75F;
 			this.bipedRightArm.rotateAngleX = (float)((double)this.bipedRightArm.rotateAngleX - ((double)var8 * 1.2D + (double)var9));
 			this.bipedRightArm.rotateAngleY += this.bipedBody.rotateAngleY * 2.0F;
-			this.bipedRightArm.rotateAngleZ = MathHelper.sin(this.onGround * (float)Math.PI) * -0.4F;
+			this.bipedRightArm.rotateAngleZ = MathHelper.sin(this.swingProgress * (float)Math.PI) * -0.4F;
 		}
 
 		this.bipedBody.rotateAngleX = 0.0F;

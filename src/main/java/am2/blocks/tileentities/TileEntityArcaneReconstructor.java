@@ -84,7 +84,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
@@ -349,11 +349,11 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 	}
 
 	@Override
-	public void openInventory(){
+	public void openChest(){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeChest(){
 	}
 
 	@Override
@@ -421,7 +421,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean isCustomInventoryName(){
 		return false;
 	}
 
@@ -436,7 +436,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int var1){
+	public int[] getSlotsForFace(int var1){
 		return new int[]{4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
 	}
 

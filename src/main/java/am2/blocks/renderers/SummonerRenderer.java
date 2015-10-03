@@ -23,7 +23,7 @@ public class SummonerRenderer extends TileEntitySpecialRenderer{
 		int i = 2;
 		int y = 0;
 
-		if (tile.getWorldObj() != null){
+		if (tile.getWorld() != null){
 			i = tile.getBlockMetadata() & 3;
 			y = (tile.getBlockMetadata() & 12) >> 2;
 		}

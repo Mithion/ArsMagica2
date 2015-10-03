@@ -29,7 +29,7 @@ public class CrystalMarkerRenderer extends TileEntitySpecialRenderer{
 	public void doRender(TileEntityCrystalMarker tileentity, double x, double y, double z, float partialTicks){
 		int facing = 0;
 
-		if (tileentity.getWorldObj() != null){
+		if (tileentity.getWorld() != null){
 			facing = tileentity.getFacing();
 		}
 
@@ -73,7 +73,7 @@ public class CrystalMarkerRenderer extends TileEntitySpecialRenderer{
 
 		int blockType = 0;
 
-		if (tileentity.getWorldObj() != null){
+		if (tileentity.getWorld() != null){
 			blockType = tileentity.getBlockMetadata();
 		}else{
 			blockType = (int)partialTicks;

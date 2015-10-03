@@ -581,9 +581,9 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 	private void updatePowerRequestData(){
 		ItemStack stack = getNextPlannedItem();
-		if (stack != null && stack.getItem() instanceof ItemEssence && stack.getItemDamage() > ItemEssence.META_MAX){
+		if (stack != null && stack.getItem() instanceof ItemEssence && stack.getMetadata() > ItemEssence.META_MAX){
 			if (switchIsOn()){
-				int flags = stack.getItemDamage() - ItemEssence.META_MAX;
+				int flags = stack.getMetadata() - ItemEssence.META_MAX;
 				setPowerRequests();
 				pickPowerType(stack);
 				if (this.currentMainPowerTypes != PowerTypes.NONE && PowerNodeRegistry.For(this.worldObj).checkPower(this, this.currentMainPowerTypes, 100)){
@@ -617,7 +617,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private void pickPowerType(ItemStack stack){
 		if (this.currentMainPowerTypes != PowerTypes.NONE)
 			return;
-		int flags = stack.getItemDamage() - ItemEssence.META_MAX;
+		int flags = stack.getMetadata() - ItemEssence.META_MAX;
 		PowerTypes highestValid = PowerTypes.NONE;
 		float amt = 0;
 		for (PowerTypes type : PowerTypes.all()){
@@ -792,7 +792,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		List<Entity> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(xCoord - 2, yCoord - 3, zCoord - 2, xCoord + 2, yCoord, zCoord + 2));
 		if (items.size() == 1){
 			EntityItem item = (EntityItem)items.get(0);
-			if (item != null && !item.isDead && item.getEntityItem().getItem() == ItemsCommonProxy.rune && item.getEntityItem().getItemDamage() == ItemsCommonProxy.rune.META_BLANK){
+			if (item != null && !item.isDead && item.getEntityItem().getItem() == ItemsCommonProxy.rune && item.getEntityItem().getMetadata() == ItemsCommonProxy.rune.META_BLANK){
 				item.setDead();
 				setCrafting(true);
 			}
@@ -885,7 +885,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		if (!worldObj.isRemote){
 			this.setCrafting(false);
 			for (ItemStack stack : allAddedItems){
-				if (stack.getItem() == ItemsCommonProxy.essence && stack.getItemDamage() > ItemsCommonProxy.essence.META_MAX)
+				if (stack.getItem() == ItemsCommonProxy.essence && stack.getMetadata() > ItemsCommonProxy.essence.META_MAX)
 					continue;
 				EntityItem eItem = new EntityItem(worldObj);
 				eItem.setPosition(xCoord, yCoord - 1, zCoord);
@@ -903,9 +903,9 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 	private boolean compareItemStacks(ItemStack target, ItemStack input){
 		if (target.getItem() == Items.potionitem && input.getItem() == Items.potionitem){
-			return (target.getItemDamage() & 0xF) == (input.getItemDamage() & 0xF);
+			return (target.getMetadata() & 0xF) == (input.getMetadata() & 0xF);
 		}
-		return target.getItem() == input.getItem() && (target.getItemDamage() == input.getItemDamage() || target.getItemDamage() == Short.MAX_VALUE) && target.stackSize == input.stackSize;
+		return target.getItem() == input.getItem() && (target.getMetadata() == input.getMetadata() || target.getMetadata() == Short.MAX_VALUE) && target.stackSize == input.stackSize;
 	}
 
 	@Override
@@ -1098,7 +1098,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 }

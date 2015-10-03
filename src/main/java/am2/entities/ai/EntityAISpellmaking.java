@@ -48,7 +48,7 @@ public class EntityAISpellmaking extends EntityAIBase{
 		AMVector3 hostLocation = new AMVector3(host);
 
 		ItemStack searchItem = host.getSearchItem();
-		if (searchItem.getItem() == ItemsCommonProxy.essence && searchItem.getItemDamage() > ItemsCommonProxy.essence.META_MAX){
+		if (searchItem.getItem() == ItemsCommonProxy.essence && searchItem.getMetadata() > ItemsCommonProxy.essence.META_MAX){
 			TileEntityCraftingAltar altar = host.getAltarTarget();
 			if (altar.switchIsOn())
 				return;
@@ -74,7 +74,7 @@ public class EntityAISpellmaking extends EntityAIBase{
 					resetTask();
 					return;
 				}
-				((IInventory)te).openInventory();
+				((IInventory)te).openChest();
 				if (!host.worldObj.isRemote)
 					InventoryUtilities.deductFromInventory(((IInventory)te), host.getSearchItem(), 1);
 				host.setHeldItem(host.getSearchItem());
@@ -88,7 +88,7 @@ public class EntityAISpellmaking extends EntityAIBase{
 					resetTask();
 					return;
 				}
-				((IInventory)te).closeInventory();
+				((IInventory)te).closeChest();
 				host.getNavigator().tryMoveToXYZ(dropLocation.x, dropLocation.y, dropLocation.z, MOVE_SPEED);
 			}else if (action_state == 1 && hostLocation.distanceSqTo(dropLocation) < DISTANCE_THRESHOLD){
 				host.getNavigator().clearPathEntity();

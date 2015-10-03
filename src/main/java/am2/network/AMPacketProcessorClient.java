@@ -128,7 +128,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 				handleStarFall(remaining);
 				break;
 			case AMPacketIDs.HIDDEN_COMPONENT_UNLOCK:
-				Minecraft.getMinecraft().guiAchievement.func_146256_a(ArcaneCompendium.componentUnlock);
+				Minecraft.getMinecraft().guiAchievement.displayAchievement(ArcaneCompendium.componentUnlock);
 				break;
 			case AMPacketIDs.SPELL_APPLY_EFFECT:
 				handleSpellApplyEffect(remaining);

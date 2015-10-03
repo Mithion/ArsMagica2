@@ -25,7 +25,7 @@ public class EssenceConduitRenderer extends TileEntitySpecialRenderer{
 
 		int i = 0;
 
-		if (tile.getWorldObj() != null){
+		if (tile.getWorld() != null){
 			i = tile.getBlockMetadata();
 		}
 

@@ -78,7 +78,7 @@ public class ModelManaElemental extends ModelBiped{
 		bipedRightLeg.render(f5);
 		bipedLeftLeg.render(f5);
 		if (entity instanceof EntityManaElemental){
-			((EntityManaElemental)entity).setOnGroudFloat(this.onGround);
+			((EntityManaElemental)entity).setOnGroudFloat(this.swingProgress);
 		}
 	}
 

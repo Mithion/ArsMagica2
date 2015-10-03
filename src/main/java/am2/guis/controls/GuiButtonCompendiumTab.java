@@ -33,7 +33,7 @@ public class GuiButtonCompendiumTab extends GuiButton{
 
 	public GuiButtonCompendiumTab(int id, int xPos, int yPos, String categoryDisplay, String categoryID, IIcon displayIcon){
 		super(id, xPos, yPos, sourceWidth, sourceHeight, categoryDisplay);
-		this.width = displayIcon == null ? Minecraft.getMinecraft().fontRenderer.getStringWidth(categoryDisplay) : 20;
+		this.width = displayIcon == null ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(categoryDisplay) : 20;
 		this.categoryID = categoryID;
 		this.displayIcon = displayIcon;
 	}
@@ -86,7 +86,7 @@ public class GuiButtonCompendiumTab extends GuiButton{
 				par1Minecraft.renderEngine.bindTexture(GuiArcaneCompendium.items);
 				AMGuiHelper.DrawIconAtXY(displayIcon, this.xPosition + (this.width / 3), this.yPosition + 2, this.zLevel, 14, 14, true);
 			}else{
-				Minecraft.getMinecraft().fontRenderer.drawString(this.displayString, this.xPosition + (this.width / 4), this.yPosition + 2, 0x000000);
+				Minecraft.getMinecraft().fontRendererObj.drawString(this.displayString, this.xPosition + (this.width / 4), this.yPosition + 2, 0x000000);
 			}
 			GL11.glEnable(GL11.GL_LIGHTING);
 
@@ -94,7 +94,7 @@ public class GuiButtonCompendiumTab extends GuiButton{
 				List list = new ArrayList<String>();
 				list.add(this.displayString);
 
-				drawHoveringText(list, par2, par3, Minecraft.getMinecraft().fontRenderer);
+				drawHoveringText(list, par2, par3, Minecraft.getMinecraft().fontRendererObj);
 			}
 		}
 	}

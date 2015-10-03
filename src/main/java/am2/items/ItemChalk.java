@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class ItemChalk extends ArsMagicaItem{
 
 	public ItemChalk(){
-		setMaxDamage(50);
+		setMaxDurability(50);
 		setMaxStackSize(1);
 	}
 

@@ -128,7 +128,7 @@ public class ContainerRuneBag extends Container{
 				Slot runeSlot = ((Slot)inventorySlots.get(j));
 				if (runeSlot.getHasStack()) continue;
 
-				ItemStack rune = new ItemStack(ItemsCommonProxy.rune, 1, itemstack1.getItemDamage());
+				ItemStack rune = new ItemStack(ItemsCommonProxy.rune, 1, itemstack1.getMetadata());
 				runeSlot.putStack(rune);
 
 				itemstack1.stackSize--;

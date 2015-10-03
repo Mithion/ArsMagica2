@@ -53,7 +53,7 @@ public class BlockEssenceConduit extends AMSpecialRenderPoweredBlock{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 		this.blockIcon = ResourceManager.RegisterTexture("CasterRuneSide", par1IconRegister);
 	}
 }

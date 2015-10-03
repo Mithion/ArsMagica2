@@ -28,7 +28,7 @@ public class ItemKeystoneDoor extends Item{
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack){
-		switch (stack.getItemDamage()){
+		switch (stack.getMetadata()){
 		case KEYSTONE_DOOR:
 			return StatCollector.translateToLocal("item.arsmagica2:keystoneDoor.name");
 		case SPELL_SEALED_DOOR:
@@ -49,7 +49,7 @@ public class ItemKeystoneDoor extends Item{
 		}else{
 			++par5;
 			Block block;
-			if (par1ItemStack.getItemDamage() == KEYSTONE_DOOR)
+			if (par1ItemStack.getMetadata() == KEYSTONE_DOOR)
 				block = BlocksCommonProxy.keystoneDoor;
 			else
 				block = BlocksCommonProxy.spellSealedDoor;

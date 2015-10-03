@@ -116,7 +116,7 @@ public class ContainerArcaneDeconstructor extends AM2Container{
 				Slot focusSlot = (Slot)inventorySlots.get(b);
 				if (focusSlot.getHasStack()) continue;
 
-				focusSlot.putStack(new ItemStack(stack.getItem(), 1, stack.getItemDamage()));
+				focusSlot.putStack(new ItemStack(stack.getItem(), 1, stack.getMetadata()));
 				focusSlot.onSlotChanged();
 				stack.stackSize--;
 				if (stack.stackSize == 0){

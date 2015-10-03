@@ -52,7 +52,7 @@ public class MeltArmor implements ISpellComponent{
 		for (ItemStack stack : armor){
 			if (stack == null) continue;
 			if (!stack.hasTagCompound() || !stack.stackTagCompound.hasKey(mmpsNBTTagName)){
-				stack.damageItem((int)Math.ceil(stack.getItem().getMaxDamage() * 0.25f), caster);
+				stack.damageItem((int)Math.ceil(stack.getItem().getMaxDurability() * 0.25f), caster);
 			}else{
 				NBTTagCompound subCompound = (NBTTagCompound)stack.stackTagCompound.getTag(mmpsNBTTagName);
 				double charge = stack.stackTagCompound.getDouble(mmpsChargeTagName);

@@ -91,7 +91,7 @@ public class GuiButtonSkillTreeTab extends GuiButton{
 				this.drawTexturedModalRect_Classic(this.xPosition, this.yPosition + this.buttonHeight, this.buttonWidth, v, buttonWidth, 7, buttonWidth, 7);
 
 			if (isMousedOver){
-				drawHoveringText(lines, par2, par3, Minecraft.getMinecraft().fontRenderer);
+				drawHoveringText(lines, par2, par3, Minecraft.getMinecraft().fontRendererObj);
 			}
 
 			GL11.glEnable(GL11.GL_LIGHTING);

@@ -18,7 +18,7 @@ public class ItemSpellPart extends ArsMagicaItem{
 
 	public ItemSpellPart(){
 		super();
-		this.setMaxDamage(0);
+		this.setMaxDurability(0);
 	}
 
 	@Override

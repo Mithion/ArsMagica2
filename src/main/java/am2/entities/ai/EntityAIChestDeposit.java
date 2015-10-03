@@ -27,7 +27,7 @@ public class EntityAIChestDeposit extends EntityAIBase{
 		if (iLoc == null)
 			return false;
 
-		if (InventoryUtilities.isInventoryEmpty(host.getInventory()))
+		if (InventoryUtilities.isInventoryEmpty(host.getBroomInventory()))
 			return false;
 		return !host.isInventoryEmpty() && host.isInventoryFull() || ExtendedProperties.For(host).getInanimateTarget() == null;
 	}
@@ -63,13 +63,13 @@ public class EntityAIChestDeposit extends EntityAIBase{
 		}else{
 			IInventory inventory = (IInventory)te;
 			if (!isDepositing)
-				inventory.openInventory();
+				inventory.openChest();
 
 			isDepositing = true;
 			depositCounter++;
 
 			if (depositCounter > 10){
-				ItemStack mergeStack = InventoryUtilities.getFirstStackInInventory(host.getInventory()).copy();
+				ItemStack mergeStack = InventoryUtilities.getFirstStackInInventory(host.getBroomInventory()).copy();
 				int originalSize = mergeStack.stackSize;
 				if (!InventoryUtilities.mergeIntoInventory(inventory, mergeStack, 1)){
 					if (te instanceof TileEntityChest){
@@ -89,12 +89,12 @@ public class EntityAIChestDeposit extends EntityAIBase{
 						}
 					}
 				}
-				InventoryUtilities.deductFromInventory(host.getInventory(), mergeStack, originalSize - mergeStack.stackSize);
+				InventoryUtilities.deductFromInventory(host.getBroomInventory(), mergeStack, originalSize - mergeStack.stackSize);
 			}
 
 
-			if (depositCounter > 10 && (InventoryUtilities.isInventoryEmpty(host.getInventory()) || !InventoryUtilities.canMergeHappen(host.getInventory(), inventory))){
-				inventory.closeInventory();
+			if (depositCounter > 10 && (InventoryUtilities.isInventoryEmpty(host.getBroomInventory()) || !InventoryUtilities.canMergeHappen(host.getBroomInventory(), inventory))){
+				inventory.closeChest();
 				resetTask();
 			}
 		}

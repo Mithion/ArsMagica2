@@ -186,7 +186,7 @@ public class SpellRecipeManager{
 			return false;
 		}
 
-		int potionMeta = potionStack.getItemDamage();
+		int potionMeta = potionStack.getMetadata();
 
 		String[] potionSections = potionDefinition.split("&");
 
@@ -263,13 +263,13 @@ public class SpellRecipeManager{
 	}
 
 	private boolean compareItemStacks(ItemStack target, ItemStack input){
-		if (target.getItem() == ItemsCommonProxy.essence && target.getItemDamage() > ItemsCommonProxy.essence.META_MAX){
-			int targetMetaMask = target.getItemDamage() - ItemsCommonProxy.essence.META_MAX;
-			int inputMetaMask = input.getItemDamage() - ItemsCommonProxy.essence.META_MAX;
+		if (target.getItem() == ItemsCommonProxy.essence && target.getMetadata() > ItemsCommonProxy.essence.META_MAX){
+			int targetMetaMask = target.getMetadata() - ItemsCommonProxy.essence.META_MAX;
+			int inputMetaMask = input.getMetadata() - ItemsCommonProxy.essence.META_MAX;
 
 			return target.getItem() == input.getItem() && (targetMetaMask & inputMetaMask) != 0;
 		}else{
-			return target.getItem() == input.getItem() && (target.getItemDamage() == input.getItemDamage() || target.getItemDamage() == Short.MAX_VALUE) && target.stackSize >= input.stackSize;
+			return target.getItem() == input.getItem() && (target.getMetadata() == input.getMetadata() || target.getMetadata() == Short.MAX_VALUE) && target.stackSize >= input.stackSize;
 		}
 	}
 }

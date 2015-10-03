@@ -99,7 +99,7 @@ public class ContainerSeerStone extends AM2Container{
 		if (stack.getItem() instanceof ItemFilterFocus){
 			Slot filterSlot = (Slot)inventorySlots.get(1);
 			if (!filterSlot.getHasStack()){
-				filterSlot.putStack(new ItemStack(stack.getItem(), 1, stack.getItemDamage()));
+				filterSlot.putStack(new ItemStack(stack.getItem(), 1, stack.getMetadata()));
 				filterSlot.onSlotChanged();
 				stack.stackSize--;
 				if (stack.stackSize == 0){
@@ -111,7 +111,7 @@ public class ContainerSeerStone extends AM2Container{
 		}else if (stack.getItem() instanceof ISpellFocus){
 			Slot focusSlot = (Slot)inventorySlots.get(0);
 			if (!focusSlot.getHasStack()){
-				focusSlot.putStack(new ItemStack(stack.getItem(), 1, stack.getItemDamage()));
+				focusSlot.putStack(new ItemStack(stack.getItem(), 1, stack.getMetadata()));
 				focusSlot.onSlotChanged();
 				stack.stackSize--;
 				if (stack.stackSize == 0){

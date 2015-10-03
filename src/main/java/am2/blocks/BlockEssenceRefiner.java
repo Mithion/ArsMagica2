@@ -66,7 +66,7 @@ public class BlockEssenceRefiner extends PoweredBlock{
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void registerBlockIcons(IIconRegister iconRegister){
+	public void registerIcons(IIconRegister iconRegister){
 		this.icons = new IIcon[textureNames.length];
 
 		for (int i = 0; i < textureNames.length; ++i){
@@ -178,7 +178,7 @@ public class BlockEssenceRefiner extends PoweredBlock{
 						i1 = itemstack.stackSize;
 					}
 					itemstack.stackSize -= i1;
-					ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
+					ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getMetadata());
 					newItem.setTagCompound(itemstack.getTagCompound());
 					EntityItem entityitem = new EntityItem(world, i + f, j + f1, k + f2, newItem);
 					float f3 = 0.05F;

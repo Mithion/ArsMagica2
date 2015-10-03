@@ -20,7 +20,7 @@ public class MagiciansWorkbenchRenderer extends TileEntitySpecialRenderer{
 	public void renderAModelAt(TileEntityMagiciansWorkbench tile, double d, double d1, double d2, float f){
 		int i = 0;
 
-		if (tile.getWorldObj() != null){
+		if (tile.getWorld() != null){
 			i = tile.getBlockMetadata();
 		}
 		int j = i * 90;

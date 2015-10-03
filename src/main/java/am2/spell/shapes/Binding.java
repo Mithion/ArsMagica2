@@ -97,7 +97,7 @@ public class Binding implements ISpellShape{
 	}
 
 	public void setBindingType(ItemStack craftStack, ItemStack addedBindingCatalyst){
-		SpellUtils.instance.setSpellMetadata(craftStack, "binding_type", "" + addedBindingCatalyst.getItemDamage());
+		SpellUtils.instance.setSpellMetadata(craftStack, "binding_type", "" + addedBindingCatalyst.getMetadata());
 	}
 
 	public int getBindingType(ItemStack spellStack){

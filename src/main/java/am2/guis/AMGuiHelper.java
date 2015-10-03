@@ -269,7 +269,7 @@ public class AMGuiHelper{
 			success = ForgeHooksClient.renderInventoryItem(renderBlocks, Minecraft.getMinecraft().renderEngine, stack, true, zLevel, x + (x * invScale), y + (y * invScale));
 
 			if (!success){
-				itemRenderer.renderItemIntoGUI(Minecraft.getMinecraft().fontRenderer, Minecraft.getMinecraft().renderEngine, stack, (int)(x + (x * invScale)), (int)(y + (y * invScale)));
+				itemRenderer.renderItemIntoGUI(Minecraft.getMinecraft().fontRendererObj, Minecraft.getMinecraft().renderEngine, stack, (int)(x + (x * invScale)), (int)(y + (y * invScale)));
 			}
 
 			GL11.glPopMatrix();
@@ -277,13 +277,13 @@ public class AMGuiHelper{
 			success = ForgeHooksClient.renderInventoryItem(renderBlocks, Minecraft.getMinecraft().renderEngine, stack, true, zLevel, x, y);
 
 			if (!success){
-				itemRenderer.renderItemIntoGUI(Minecraft.getMinecraft().fontRenderer, Minecraft.getMinecraft().renderEngine, stack, (int)x, (int)y);
+				itemRenderer.renderItemIntoGUI(Minecraft.getMinecraft().fontRendererObj, Minecraft.getMinecraft().renderEngine, stack, (int)x, (int)y);
 			}
 		}
 		GL11.glPopAttrib();
 	}
 
-	public static void drawCompendiumText(String text, int x_start, int y_start, int max_width, int start_color, FontRenderer fontRenderer){
+	public static void drawCompendiumText(String text, int x_start, int y_start, int max_width, int start_color, FontRenderer fontRendererObj){
 		int cur_color = start_color;
 		String[] words = text.split(" ");
 		int lineLength = 0;
@@ -295,9 +295,9 @@ public class AMGuiHelper{
 			int linesBefore = 0;
 			int linesAfter = 0;
 
-			int wordLength = fontRenderer.getStringWidth(word.replaceAll("#.", "") + " ");
+			int wordLength = fontRendererObj.getStringWidth(word.replaceAll("#.", "") + " ");
 			if (lineLength + wordLength > max_width){
-				posY += fontRenderer.FONT_HEIGHT;
+				posY += fontRendererObj.FONT_HEIGHT;
 				posX = x_start;
 				lineLength = 0;
 			}
@@ -313,18 +313,18 @@ public class AMGuiHelper{
 			word = word.replace("\n", "");
 
 			if (linesBefore > 0){
-				posY += fontRenderer.FONT_HEIGHT * linesBefore;
+				posY += fontRendererObj.FONT_HEIGHT * linesBefore;
 				posX = x_start;
 				lineLength = 0;
 			}
 
-			cur_color = parseColorAndDraw(word, posX, posY, cur_color, fontRenderer);
+			cur_color = parseColorAndDraw(word, posX, posY, cur_color, fontRendererObj);
 
 			posX += wordLength;
 			lineLength += wordLength;
 
 			if (linesAfter > 0){
-				posY += fontRenderer.FONT_HEIGHT * linesAfter;
+				posY += fontRendererObj.FONT_HEIGHT * linesAfter;
 				posX = x_start;
 				lineLength = 0;
 			}
@@ -481,14 +481,14 @@ public class AMGuiHelper{
 		}
 	}
 
-	private static int parseColorAndDraw(String word, int posX, int posY, int cur_color, FontRenderer fontRenderer){
+	private static int parseColorAndDraw(String word, int posX, int posY, int cur_color, FontRenderer fontRendererObj){
 		int index = word.indexOf("#");
 		int color = cur_color;
 		while (index > -1 && index < word.length() - 1){
 
 			String toRender = word.substring(0, index);
-			fontRenderer.drawString(toRender, posX, posY, color);
-			posX += fontRenderer.getStringWidth(toRender);
+			fontRendererObj.drawString(toRender, posX, posY, color);
+			posX += fontRendererObj.getStringWidth(toRender);
 
 			char nextChar = word.charAt(index + 1);
 			switch (nextChar){
@@ -546,7 +546,7 @@ public class AMGuiHelper{
 			index = word.indexOf("#");
 		}
 
-		fontRenderer.drawString(word, posX, posY, color);
+		fontRendererObj.drawString(word, posX, posY, color);
 
 		return color;
 	}

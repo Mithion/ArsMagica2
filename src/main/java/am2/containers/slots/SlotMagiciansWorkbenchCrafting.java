@@ -137,7 +137,7 @@ public class SlotMagiciansWorkbenchCrafting extends Slot{
 		if (itemstack1.getItem().hasContainerItem(itemstack1)){
 			ItemStack itemstack2 = itemstack1.getItem().getContainerItem(itemstack1);
 
-			if (itemstack2.isItemStackDamageable() && itemstack2.getItemDamage() > itemstack2.getMaxDamage()){
+			if (itemstack2.isItemStackDamageable() && itemstack2.getMetadata() > itemstack2.getMaxDurability()){
 				MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(thePlayer, itemstack2));
 				itemstack2 = null;
 			}

@@ -90,7 +90,7 @@ public class BlockCraftingAltar extends PoweredBlock{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 		blockIcon = ResourceManager.RegisterTexture("CasterRuneSide", par1IconRegister);
 		IIcon = ResourceManager.RegisterTexture("RuneStone", par1IconRegister);
 	}

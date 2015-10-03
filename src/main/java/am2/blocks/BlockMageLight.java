@@ -41,7 +41,7 @@ public class BlockMageLight extends AMSpecialRenderBlock{
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random){
 		int meta = par1World.getBlockMetadata(par2, par3, par4);
-		int color = ItemDye.field_150922_c[meta];
+		int color = ItemDye.dyeColors[meta];
 
 		AMParticle particle = (AMParticle)AMCore.instance.proxy.particleManager.spawn(par1World, "sparkle", par2 + 0.5 + (rand.nextDouble() * 0.2f - 0.1f), par3 + 0.5, par4 + 0.5 + (rand.nextDouble() * 0.2f - 0.1f));
 		if (particle != null){
@@ -63,7 +63,7 @@ public class BlockMageLight extends AMSpecialRenderBlock{
 				ArrayList<ItemStack> ores = OreDictionary.getOres(id);
 				for (ItemStack stack : ores){
 					if (stack.getItem() == Items.dye){
-						world.setBlockMetadataWithNotify(x, y, z, player.getCurrentEquippedItem().getItemDamage() % 15, 2);
+						world.setBlockMetadataWithNotify(x, y, z, player.getCurrentEquippedItem().getMetadata() % 15, 2);
 						break;
 					}
 				}

@@ -28,9 +28,9 @@ public class RecipeArsMagica{
 			if (recipeItems[i] != null && craftingComponents[i] == null)
 				return false;
 			if (recipeItems[i].getItem() != craftingComponents[i].getItem()
-					|| (craftingComponents[i].getItemDamage() != AMCore.ANY_META && recipeItems[i]
-					.getItemDamage() != craftingComponents[i]
-					.getItemDamage())){
+					|| (craftingComponents[i].getMetadata() != AMCore.ANY_META && recipeItems[i]
+					.getMetadata() != craftingComponents[i]
+					.getMetadata())){
 				return false;
 			}
 		}

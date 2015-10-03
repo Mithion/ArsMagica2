@@ -83,7 +83,7 @@ public class Recall implements ISpellComponent, IRitualInteraction{
 
 		boolean hasVinteumDust = false;
 		for (ItemStack stack : ritualRunes){
-			if (stack.getItem() == ItemsCommonProxy.itemOre && stack.getItemDamage() == ItemsCommonProxy.itemOre.META_VINTEUMDUST){
+			if (stack.getItem() == ItemsCommonProxy.itemOre && stack.getMetadata() == ItemsCommonProxy.itemOre.META_VINTEUMDUST){
 				hasVinteumDust = true;
 				break;
 			}
@@ -105,7 +105,7 @@ public class Recall implements ISpellComponent, IRitualInteraction{
 		}else if (hasVinteumDust){
 			ArrayList<ItemStack> copy = new ArrayList<ItemStack>();
 			for (ItemStack stack : ritualRunes){
-				if (stack.getItem() == ItemsCommonProxy.rune && stack.getItemDamage() <= 16){
+				if (stack.getItem() == ItemsCommonProxy.rune && stack.getMetadata() <= 16){
 					copy.add(stack);
 				}
 			}

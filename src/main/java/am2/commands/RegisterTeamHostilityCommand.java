@@ -26,7 +26,7 @@ public class RegisterTeamHostilityCommand extends CommandBase{
 		AMCore.instance.proxy.teamHostility.put(astring[0], astring[1]);
 		AMCore.instance.proxy.teamHostility.put(astring[1], astring[0]);
 
-		func_152373_a(icommandsender, this, String.format("Teams %s and %s are now marked as hostile to each other.", astring[0], astring[1]), new Object[0]);
+		notifyOperators(icommandsender, this, String.format("Teams %s and %s are now marked as hostile to each other.", astring[0], astring[1]), new Object[0]);
 	}
 
 	@Override

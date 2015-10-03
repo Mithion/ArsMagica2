@@ -151,7 +151,7 @@ public class ContainerKeystone extends Container{
 							Slot runeSlot = (Slot)inventorySlots.get(n);
 							if (runeSlot.getHasStack()) continue;
 
-							runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage()));
+							runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getMetadata()));
 							runeSlot.onSlotChanged();
 							itemstack1.stackSize--;
 							if (itemstack1.stackSize == 0){
@@ -165,7 +165,7 @@ public class ContainerKeystone extends Container{
 							Slot runeSlot = (Slot)inventorySlots.get(n);
 							if (runeSlot.getHasStack()) continue;
 
-							runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage()));
+							runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getMetadata()));
 							runeSlot.onSlotChanged();
 							itemstack1.stackSize--;
 							if (itemstack1.stackSize == 0){
@@ -186,7 +186,7 @@ public class ContainerKeystone extends Container{
 						Slot runeSlot = (Slot)inventorySlots.get(n);
 						if (runeSlot.getHasStack()) continue;
 
-						runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage()));
+						runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getMetadata()));
 						runeSlot.onSlotChanged();
 						itemstack1.stackSize--;
 						if (itemstack1.stackSize == 0){
@@ -206,7 +206,7 @@ public class ContainerKeystone extends Container{
 						Slot runeSlot = (Slot)inventorySlots.get(n);
 						if (runeSlot.getHasStack()) continue;
 
-						runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage()));
+						runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getMetadata()));
 						runeSlot.onSlotChanged();
 						itemstack1.stackSize--;
 						if (itemstack1.stackSize == 0){
@@ -242,7 +242,7 @@ public class ContainerKeystone extends Container{
 
 		for (int c = 0; c < InventoryKeyStone.inventorySize; ++c){
 			ItemStack stack = keyStoneInventory.getStackInSlot(c);
-			curMeta[c] = stack != null ? stack.getItemDamage() : -1;
+			curMeta[c] = stack != null ? stack.getMetadata() : -1;
 		}
 
 		for (int i = 0; i < savedCombos; ++i){
@@ -284,7 +284,7 @@ public class ContainerKeystone extends Container{
 
 			ItemStack stack = searchInventory.getStackInSlot(inventoryIndex);
 
-			if (stack != null && stack.getItemDamage() == combo.metas[matchIndex]){
+			if (stack != null && stack.getMetadata() == combo.metas[matchIndex]){
 				swapInventorySlots(keyStoneInventory, searchInventory, matchIndex, inventoryIndex);
 				matchIndex++;
 				searchIndex = matchIndex;
@@ -331,7 +331,7 @@ public class ContainerKeystone extends Container{
 		for (int i = 0; i < keyStoneInventory.getSizeInventory(); ++i){
 			ItemStack stack = keyStoneInventory.getStackInSlot(i);
 			if (stack == null) continue;
-			int meta = stack.getItemDamage();
+			int meta = stack.getMetadata();
 			if (invQuantities.containsKey(meta)){
 				int qty = invQuantities.get(meta);
 				invQuantities.put(meta, ++qty);
@@ -344,7 +344,7 @@ public class ContainerKeystone extends Container{
 			for (int i = 0; i < runeBag.getSizeInventory(); ++i){
 				ItemStack stack = runeBag.getStackInSlot(i);
 				if (stack == null) continue;
-				int meta = stack.getItemDamage();
+				int meta = stack.getMetadata();
 				if (invQuantities.containsKey(meta)){
 					int qty = invQuantities.get(meta);
 					invQuantities.put(meta, ++qty);

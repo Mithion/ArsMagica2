@@ -63,7 +63,7 @@ public class FillManaBarCommand extends CommandBase{
 		ExtendedProperties.For(player).setCurrentMana(ExtendedProperties.For(player).getMaxMana());
 		ExtendedProperties.For(player).forceSync();
 
-		func_152373_a(sender, this, "Filling " + player.getCommandSenderName() + "'s mana.", new Object[0]);
+		notifyOperators(sender, this, "Filling " + player.getCommandSenderName() + "'s mana.", new Object[0]);
 	}
 
 	@Override

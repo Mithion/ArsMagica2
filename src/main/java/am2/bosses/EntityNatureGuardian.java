@@ -124,7 +124,7 @@ public class EntityNatureGuardian extends AM2Boss{
 	}
 
 	@Override
-	public ItemStack[] getLastActiveItems(){
+	public ItemStack[] getInventory(){
 		return new ItemStack[0];
 	}
 

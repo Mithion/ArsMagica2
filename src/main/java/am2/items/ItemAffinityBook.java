@@ -38,7 +38,7 @@ public class ItemAffinityBook extends ArsMagicaItem{
 
 	public ItemAffinityBook(){
 		super();
-		setMaxDamage(0);
+		setMaxDurability(0);
 		setMaxStackSize(16);
 		this.setHasSubtypes(true);
 	}
@@ -49,7 +49,7 @@ public class ItemAffinityBook extends ArsMagicaItem{
 
 	@Override
 	public String getItemStackDisplayName(ItemStack par1ItemStack){
-		Affinity affinity = Affinity.getByID(par1ItemStack.getItemDamage());
+		Affinity affinity = Affinity.getByID(par1ItemStack.getMetadata());
 		if (affinity == null) return StatCollector.translateToLocal("item.arsmagica2:affinityTome.name");
 
 		return StatCollector.translateToLocal("item.arsmagica2:affinityTome.name") + ": " + affinity.toString();
@@ -102,14 +102,14 @@ public class ItemAffinityBook extends ArsMagicaItem{
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
 
-		if (par1ItemStack.getItemDamage() == META_GENERAL){
+		if (par1ItemStack.getMetadata() == META_GENERAL){
 			AffinityData data = AffinityData.For(par3EntityPlayer);
 			data.setLocked(false);
 			for (Affinity aff : Affinity.values()){
 				data.setAffinityAndDepth(aff, data.getAffinityDepth(aff) - 20);
 			}
 		}else{
-			AffinityData.For(par3EntityPlayer).incrementAffinity(Affinity.getByID(par1ItemStack.getItemDamage()), 20);
+			AffinityData.For(par3EntityPlayer).incrementAffinity(Affinity.getByID(par1ItemStack.getMetadata()), 20);
 		}
 
 		if (!par2World.isRemote)

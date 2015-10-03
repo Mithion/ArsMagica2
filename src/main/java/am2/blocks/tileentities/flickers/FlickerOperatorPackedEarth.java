@@ -54,7 +54,7 @@ public class FlickerOperatorPackedEarth implements IFlickerFunctionality{
 					if (inventoryIndex > -1){
 						ItemStack stack = ((IInventory)te).getStackInSlot(inventoryIndex);
 						InventoryUtilities.decrementStackQuantity((IInventory)te, inventoryIndex, 1);
-						worldObj.setBlock(effectX, effectY, effectZ, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+						worldObj.setBlock(effectX, effectY, effectZ, Block.getBlockFromItem(stack.getItem()), stack.getMetadata(), 2);
 						actionPerformed = true;
 					}
 				}

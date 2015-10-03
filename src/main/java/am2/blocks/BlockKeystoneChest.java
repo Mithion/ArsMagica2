@@ -117,7 +117,7 @@ public class BlockKeystoneChest extends AMSpecialRenderBlockContainer{
 						i1 = itemstack.stackSize;
 					}
 					itemstack.stackSize -= i1;
-					ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
+					ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getMetadata());
 					newItem.setTagCompound(itemstack.getTagCompound());
 					EntityItem entityitem = new EntityItem(world, i + f, j + f1, k + f2, newItem);
 					float f3 = 0.05F;
@@ -186,6 +186,6 @@ public class BlockKeystoneChest extends AMSpecialRenderBlockContainer{
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 	}
 }

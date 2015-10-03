@@ -133,7 +133,7 @@ public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss, IEnti
 				for (int i = -1; i <= 1; ++i){
 					for (int j = 0; j < 3; ++j){
 						for (int k = -1; k <= 1; ++k){
-							worldObj.func_147478_e(i, j, k, true);
+							worldObj.canSnowAt(i, j, k, true);
 						}
 					}
 				}

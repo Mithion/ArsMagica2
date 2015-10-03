@@ -179,14 +179,14 @@ public class AMClientEventHandler{
 				event.toolTip.add(StatCollector.translateToLocal("am2.tooltip.shiftForDetails"));
 			}
 		}else if (stack.getItem() instanceof ItemBlock){
-			if (((ItemBlock)stack.getItem()).field_150939_a == BlocksCommonProxy.manaBattery){
+			if (((ItemBlock)stack.getItem()).blockInstance == BlocksCommonProxy.manaBattery){
 				if (stack.hasTagCompound()){
 					NBTTagList list = stack.stackTagCompound.getTagList("Lore", Constants.NBT.TAG_COMPOUND);
 					if (list != null){
 						for (int i = 0; i < list.tagCount(); ++i){
 							NBTBase tag = list.getCompoundTagAt(i);
 							if (tag instanceof NBTTagString){
-								event.toolTip.add((((NBTTagString)tag).func_150285_a_()));
+								event.toolTip.add((((NBTTagString)tag).getString()));
 							}
 						}
 					}

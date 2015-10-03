@@ -39,7 +39,7 @@ public class ItemRuneBag extends Item{
 				itemStack.stackTagCompound.removeTag("runebagmeta" + i);
 				continue;
 			}else{
-				itemStack.stackTagCompound.setInteger("runebagmeta" + i, stack.getItemDamage());
+				itemStack.stackTagCompound.setInteger("runebagmeta" + i, stack.getMetadata());
 			}
 		}
 	}
@@ -58,7 +58,7 @@ public class ItemRuneBag extends Item{
 			if (stack == null){
 				continue;
 			}else{
-				itemStack.stackTagCompound.setInteger("runebagmeta" + i, stack.getItemDamage());
+				itemStack.stackTagCompound.setInteger("runebagmeta" + i, stack.getMetadata());
 			}
 		}
 	}

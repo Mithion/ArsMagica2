@@ -102,7 +102,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 	}
 
 	@Override
-	public void openInventory(){
+	public void openChest(){
 		if (this.numPlayersUsing < 0){
 			this.numPlayersUsing = 0;
 		}
@@ -112,7 +112,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeChest(){
 		if (this.getBlockType() != null && this.getBlockType() instanceof BlockMagiciansWorkbench){
 			--this.numPlayersUsing;
 			this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1, this.numPlayersUsing);
@@ -227,7 +227,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean isCustomInventoryName(){
 		return false;
 	}
 
@@ -287,7 +287,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	public void setRecipeLocked(int index, boolean locked){
@@ -423,7 +423,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int var1){
+	public int[] getSlotsForFace(int var1){
 		int[] slots = new int[getStorageSize()];
 		for (int i = 0; i < slots.length; ++i){
 			slots[i] = i + getStorageStart();

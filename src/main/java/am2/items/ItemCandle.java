@@ -29,7 +29,7 @@ public class ItemCandle extends ArsMagicaItem{
 	public ItemCandle(){
 		super();
 		setMaxStackSize(1);
-		setMaxDamage(18000); //15 minutes (20 * 60 * 15)
+		setMaxDurability(18000); //15 minutes (20 * 60 * 15)
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class ItemCandle extends ArsMagicaItem{
 
 			Block block = world.getBlock(x, y, z);
 			if (block == null || block.isReplaceable(world, x, y, z)){
-				int newMeta = (int)Math.ceil(stack.getItemDamage() / 1200);
+				int newMeta = (int)Math.ceil(stack.getMetadata() / 1200);
 				world.setBlock(x, y, z, BlocksCommonProxy.candle, newMeta, 2);
 				if (!player.capabilities.isCreativeMode)
 					player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
@@ -147,7 +147,7 @@ public class ItemCandle extends ArsMagicaItem{
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int indexInInventory, boolean isCurrentlyHeld){
 		if (isCurrentlyHeld && entity instanceof EntityPlayer){
-			if (!world.isRemote && stack.hasTagCompound() && stack.getItemDamage() % 40 == 0){
+			if (!world.isRemote && stack.hasTagCompound() && stack.getMetadata() % 40 == 0){
 				search((EntityPlayer)entity, stack, world,
 						(int)Math.round(entity.posX),
 						(int)Math.round(entity.posY),
@@ -156,7 +156,7 @@ public class ItemCandle extends ArsMagicaItem{
 						stack.stackTagCompound.getInteger("search_meta"));
 			}
 			stack.damageItem(1, (EntityPlayer)entity);
-			if (!world.isRemote && stack.getItemDamage() >= this.getMaxDamage())
+			if (!world.isRemote && stack.getMetadata() >= this.getMaxDurability())
 				((EntityPlayer)entity).inventory.setInventorySlotContents(indexInInventory, null);
 			if (!world.isRemote && AMCore.config.candlesAreRovingLights() &&
 					world.isAirBlock((int)Math.round(entity.posX), (int)Math.round(entity.posY), (int)Math.round(entity.posZ)) &&

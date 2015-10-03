@@ -115,8 +115,8 @@ public class ThaumcraftApi {
 	 */
 	public static void addSmeltingBonus(ItemStack in, ItemStack out) {
 		smeltingBonus.put(
-				Arrays.asList(in.getItem(),in.getItemDamage()), 
-				new ItemStack(out.getItem(),0,out.getItemDamage()));
+				Arrays.asList(in.getItem(),in.getMetadata()), 
+				new ItemStack(out.getItem(),0,out.getMetadata()));
 	}
 	
 	/**
@@ -126,7 +126,7 @@ public class ThaumcraftApi {
 	 * Stacksize should be 0 unless you want to guarantee that at least 1 item is always produced.
 	 */
 	public static void addSmeltingBonus(String in, ItemStack out) {
-		smeltingBonus.put(	in, new ItemStack(out.getItem(),0,out.getItemDamage()));
+		smeltingBonus.put(	in, new ItemStack(out.getItem(),0,out.getMetadata()));
 	}
 	
 	/**
@@ -135,7 +135,7 @@ public class ThaumcraftApi {
 	 * @return the The bonus item that can be produced
 	 */
 	public static ItemStack getSmeltingBonus(ItemStack in) {
-		ItemStack out = smeltingBonus.get(Arrays.asList(in.getItem(),in.getItemDamage()));
+		ItemStack out = smeltingBonus.get(Arrays.asList(in.getItem(),in.getMetadata()));
 		if (out==null) {
 			out = smeltingBonus.get(Arrays.asList(in.getItem(),OreDictionary.WILDCARD_VALUE));
 		}
@@ -265,7 +265,7 @@ public class ThaumcraftApi {
 	private static HashMap<int[],Object[]> keyCache = new HashMap<int[],Object[]>();
 	
 	public static Object[] getCraftingRecipeKey(EntityPlayer player, ItemStack stack) {
-		int[] key = new int[] {Item.getIdFromItem(stack.getItem()),stack.getItemDamage()};
+		int[] key = new int[] {Item.getIdFromItem(stack.getItem()),stack.getMetadata()};
 		if (keyCache.containsKey(key)) {
 			if (keyCache.get(key)==null) return null;
 			if (ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), (String)(keyCache.get(key))[0]))
@@ -328,7 +328,7 @@ public class ThaumcraftApi {
 	public static void registerObjectTag(ItemStack item, AspectList aspects) {
 		if (aspects==null) aspects=new AspectList();
 		try {
-		objectTags.put(Arrays.asList(item.getItem(),item.getItemDamage()), aspects);
+		objectTags.put(Arrays.asList(item.getItem(),item.getMetadata()), aspects);
 		} catch (Exception e) {}
 	}	
 	
@@ -358,7 +358,7 @@ public class ThaumcraftApi {
 		if (ores!=null && ores.size()>0) {
 			for (ItemStack ore:ores) {
 				try {
-				objectTags.put(Arrays.asList(ore.getItem(), ore.getItemDamage()), aspects);
+				objectTags.put(Arrays.asList(ore.getItem(), ore.getMetadata()), aspects);
 				} catch (Exception e) {}
 			}
 		}
@@ -373,8 +373,8 @@ public class ThaumcraftApi {
 	 * @param aspects A ObjectTags object of the associated aspects
 	 */
 	public static void registerComplexObjectTag(ItemStack item, AspectList aspects ) {
-		if (!exists(item.getItem(),item.getItemDamage())) {
-			AspectList tmp = ThaumcraftApiHelper.generateTags(item.getItem(), item.getItemDamage());
+		if (!exists(item.getItem(),item.getMetadata())) {
+			AspectList tmp = ThaumcraftApiHelper.generateTags(item.getItem(), item.getMetadata());
 			if (tmp != null && tmp.size()>0) {
 				for(Aspect tag:tmp.getAspects()) {
 					aspects.add(tag, tmp.getAmount(tag));

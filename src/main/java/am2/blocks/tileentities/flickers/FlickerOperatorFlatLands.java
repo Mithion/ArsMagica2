@@ -54,7 +54,7 @@ public class FlickerOperatorFlatLands implements IFlickerFunctionality{
 							block.dropBlockAsItem(worldObj, effectX, effectY, effectZ, meta, 0);
 							if (!worldObj.isRemote)
 								worldObj.playAuxSFX(2001, effectX, effectY, effectZ, Block.getIdFromBlock(block) + (worldObj.getBlockMetadata(effectX, effectY, effectZ) << 12));
-							worldObj.func_147478_e(effectX, effectY, effectZ, true);
+							worldObj.canSnowAt(effectX, effectY, effectZ, true);
 							actionPerformed = true;
 						}
 					}

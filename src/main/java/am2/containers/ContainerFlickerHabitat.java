@@ -45,7 +45,7 @@ public class ContainerFlickerHabitat extends AM2Container{
 	@Override
 	public void onContainerClosed(EntityPlayer par1EntityPlayer){
 		super.onContainerClosed(par1EntityPlayer);
-		this.habitat.closeInventory();
+		this.habitat.closeChest();
 		this.habitat.updateOperator(habitat.getStackInSlot(0));
 	}
 

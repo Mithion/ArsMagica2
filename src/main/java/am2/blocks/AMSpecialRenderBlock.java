@@ -15,7 +15,7 @@ public abstract class AMSpecialRenderBlock extends AMBlock{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void registerIcons(IIconRegister par1IconRegister){
 	}
 
 	@Override

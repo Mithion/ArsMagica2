@@ -64,7 +64,7 @@ public class AMSpawnEgg extends ArsMagicaItem{
 
 	@Override
 	public boolean hasEffect(ItemStack stack, int pass){
-		return pass == 0 && stack.getItemDamage() > 8;
+		return pass == 0 && stack.getMetadata() > 8;
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class AMSpawnEgg extends ArsMagicaItem{
 	@Override
 	public String getItemStackDisplayName(ItemStack stack){
 		String s = ("" + StatCollector.translateToLocal(Items.spawn_egg.getUnlocalizedName() + ".name")).trim();
-		String s1 = getSpawnStringFromMeta(stack.getItemDamage());
+		String s1 = getSpawnStringFromMeta(stack.getMetadata());
 
 		if (s1 != null){
 			s = s + " " + s1;
@@ -100,7 +100,7 @@ public class AMSpawnEgg extends ArsMagicaItem{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack stack, int pass){
-		return colorPairs.get(stack.getItemDamage()).colors[pass];
+		return colorPairs.get(stack.getMetadata()).colors[pass];
 	}
 
 	private static Class getSpawnClassFromMeta(int meta){
@@ -225,7 +225,7 @@ public class AMSpawnEgg extends ArsMagicaItem{
 				d0 = 0.5D;
 			}
 
-			Entity entity = spawnCreature(par3World, par1ItemStack.getItemDamage(), par4 + 0.5D, par5 + d0, par6 + 0.5D);
+			Entity entity = spawnCreature(par3World, par1ItemStack.getMetadata(), par4 + 0.5D, par5 + d0, par6 + 0.5D);
 
 			if (entity != null){
 				if (entity instanceof EntityLiving && par1ItemStack.hasDisplayName()){
@@ -247,7 +247,7 @@ public class AMSpawnEgg extends ArsMagicaItem{
 
 		if (mop != null && mop.typeOfHit == MovingObjectType.ENTITY && !par2World.isRemote){
 
-			Entity entity = spawnCreature(par2World, par1ItemStack.getItemDamage(), mop.entityHit.posX, mop.entityHit.posY, mop.entityHit.posZ);
+			Entity entity = spawnCreature(par2World, par1ItemStack.getMetadata(), mop.entityHit.posX, mop.entityHit.posY, mop.entityHit.posZ);
 
 			if (entity != null){
 				if (entity instanceof EntityLiving && par1ItemStack.hasDisplayName()){
@@ -258,7 +258,7 @@ public class AMSpawnEgg extends ArsMagicaItem{
 					--par1ItemStack.stackSize;
 				}
 
-				if (mop.entityHit instanceof EntityHecate && getSpawnClassFromMeta(par1ItemStack.getItemDamage()) == EntityHecate.class){
+				if (mop.entityHit instanceof EntityHecate && getSpawnClassFromMeta(par1ItemStack.getMetadata()) == EntityHecate.class){
 					((EntityHecate)entity).setChild(true);
 				}
 			}

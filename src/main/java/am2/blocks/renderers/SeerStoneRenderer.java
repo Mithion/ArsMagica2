@@ -28,7 +28,7 @@ public class SeerStoneRenderer extends TileEntitySpecialRenderer{
 	public void renderAModelAt(TileEntitySeerStone tile, double d, double d1, double d2, float f){
 		int i = 0;
 
-		if (tile.getWorldObj() != null){
+		if (tile.getWorld() != null){
 			i = tile.getBlockMetadata();
 		}
 

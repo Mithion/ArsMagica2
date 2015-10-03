@@ -100,7 +100,7 @@ public class Light implements ISpellComponent, IRitualInteraction{
 		}
 
 		for (int i = 0; i < 16; ++i){
-			if (((ItemDye)Items.dye).field_150922_c[i] == color){
+			if (((ItemDye)Items.dye).dyeColors[i] == color){
 				meta = i;
 				break;
 			}

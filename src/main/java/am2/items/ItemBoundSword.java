@@ -20,7 +20,7 @@ public class ItemBoundSword extends ItemSword implements IBoundItem{
 
 	public ItemBoundSword(ToolMaterial par2ToolMaterial){
 		super(par2ToolMaterial);
-		this.setMaxDamage(0);
+		this.setMaxDurability(0);
 	}
 
 	public ItemBoundSword setUnlocalizedAndTextureName(String name){
@@ -96,7 +96,7 @@ public class ItemBoundSword extends ItemSword implements IBoundItem{
 			}else{
 				props.deductMana(this.maintainCost());
 			}
-			if (par1ItemStack.getItemDamage() > 0)
+			if (par1ItemStack.getMetadata() > 0)
 				par1ItemStack.damageItem(-1, (EntityLivingBase)par3Entity);
 		}
 	}

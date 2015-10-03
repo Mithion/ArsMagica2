@@ -64,7 +64,7 @@ public class EssenceGeneratorRenderer extends TileEntitySpecialRenderer{
 
 		int i = 2;
 
-		if (tile.getWorldObj() != null){
+		if (tile.getWorld() != null){
 			i = tile.getBlockMetadata();
 		}
 		int j = i * 90;

@@ -35,7 +35,7 @@ public class RenderEverstone extends TileEntitySpecialRenderer{
 		if (entity.isSolid()){
 
 			Block block = entity.getFacade();
-			itemRenderBlocks.blockAccess = entity.getWorldObj();
+			itemRenderBlocks.blockAccess = entity.getWorld();
 
 
 			if (block == null) block = BlocksCommonProxy.everstone;

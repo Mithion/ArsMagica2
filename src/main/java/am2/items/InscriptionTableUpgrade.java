@@ -21,7 +21,7 @@ public class InscriptionTableUpgrade extends ArsMagicaItem{
 
 	public InscriptionTableUpgrade(){
 		super();
-		setMaxDamage(0);
+		setMaxDurability(0);
 		setMaxStackSize(1);
 		this.setHasSubtypes(true);
 	}
@@ -52,7 +52,7 @@ public class InscriptionTableUpgrade extends ArsMagicaItem{
 
 	@Override
 	public String getItemStackDisplayName(ItemStack p_77653_1_){
-		int meta = p_77653_1_.getItemDamage();
+		int meta = p_77653_1_.getMetadata();
 		switch (meta){
 		case 2:
 			return StatCollector.translateToLocal("item.arsmagica2:inscup_3.name");

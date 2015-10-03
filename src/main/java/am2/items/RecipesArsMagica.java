@@ -68,7 +68,7 @@ public abstract class RecipesArsMagica implements IAMRecipeManager{
 	public RecipeArsMagica recipeFor(ItemStack stack){
 		for (int i = 0; i < RecipeList.size(); ++i){
 			RecipeArsMagica item = itemAt(i);
-			if (item.getOutput().getItem() == stack.getItem() && item.getOutput().getItemDamage() == stack.getItemDamage()){
+			if (item.getOutput().getItem() == stack.getItem() && item.getOutput().getMetadata() == stack.getMetadata()){
 				return item;
 			}
 		}

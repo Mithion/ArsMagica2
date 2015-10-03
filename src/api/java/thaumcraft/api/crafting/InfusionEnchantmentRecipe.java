@@ -73,8 +73,8 @@ public class InfusionEnchantmentRecipe
 			boolean b=false;
 			for (int a=0;a<ii.size();a++) {
 				 i2 = ii.get(a).copy();
-				if (comp.getItemDamage()==OreDictionary.WILDCARD_VALUE) {
-					i2.setItemDamage(OreDictionary.WILDCARD_VALUE);
+				if (comp.getMetadata()==OreDictionary.WILDCARD_VALUE) {
+					i2.setMetadata(OreDictionary.WILDCARD_VALUE);
 				}
 				if (areItemStacksEqual(i2, comp,true)) {
 					ii.remove(a);
@@ -105,7 +105,7 @@ public class InfusionEnchantmentRecipe
 		}
 		else
 			t1=ItemStack.areItemStackTagsEqual(stack0, stack1);		
-        return stack0.getItem() != stack1.getItem() ? false : (stack0.getItemDamage() != stack1.getItemDamage() ? false : (stack0.stackSize > stack0.getMaxStackSize() ? false : t1));
+        return stack0.getItem() != stack1.getItem() ? false : (stack0.getMetadata() != stack1.getMetadata() ? false : (stack0.stackSize > stack0.getMaxStackSize() ? false : t1));
     }
 	
    

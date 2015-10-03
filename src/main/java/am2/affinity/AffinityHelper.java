@@ -280,7 +280,7 @@ public class AffinityHelper{
 
 							if (l >= d0){
 								flag = true;
-								block.velocityToAddToEntity(entity.worldObj, k1, l1, i2, entity, vec3);
+								block.modifyEntityVelocity(entity.worldObj, k1, l1, i2, entity, vec3);
 							}
 						}
 					}

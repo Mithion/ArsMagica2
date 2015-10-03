@@ -178,7 +178,7 @@ public class AMRibbon extends EntityFX{
 	}
 
 	@Override
-	public boolean isInRangeToRender3d(double p_145770_1_, double p_145770_3_, double p_145770_5_){
+	public boolean isInRangeToRender3d(double x, double y, double z){
 		return true;
 	}
 

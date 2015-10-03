@@ -39,12 +39,12 @@ public class ItemEssence extends ArsMagicaItem{
 	public ItemEssence(){
 		super();
 		this.setHasSubtypes(true);
-		this.setMaxDamage(0);
+		this.setMaxDurability(0);
 	}
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack){
-		int meta = stack.getItemDamage();
+		int meta = stack.getMetadata();
 		switch (meta){
 		case 0:
 			return StatCollector.translateToLocal("item.arsmagica2:arcaneEssence.name");
@@ -116,8 +116,8 @@ public class ItemEssence extends ArsMagicaItem{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack par1ItemStack, int par2){
-		if (par1ItemStack.getItemDamage() > META_MAX){
-			int flags = par1ItemStack.getItemDamage() - META_MAX;
+		if (par1ItemStack.getMetadata() > META_MAX){
+			int flags = par1ItemStack.getMetadata() - META_MAX;
 			int color = 0;
 
 			if ((flags & PowerTypes.DARK.ID()) == PowerTypes.DARK.ID()){

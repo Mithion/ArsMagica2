@@ -97,7 +97,7 @@ public class ContainerAstralBarrier extends AM2Container{
 		if (stack.getItem() instanceof ISpellFocus){
 			Slot focusSlot = (Slot)inventorySlots.get(3);
 			if (!focusSlot.getHasStack()){
-				focusSlot.putStack(new ItemStack(stack.getItem(), 1, stack.getItemDamage()));
+				focusSlot.putStack(new ItemStack(stack.getItem(), 1, stack.getMetadata()));
 				focusSlot.onSlotChanged();
 				stack.stackSize--;
 				if (stack.stackSize == 0){

@@ -41,7 +41,7 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 	public void updateOperator(ItemStack stack){
 		if (stack == null || stack.getItem() != ItemsCommonProxy.flickerFocus)
 			return;
-		operator = FlickerOperatorRegistry.instance.getOperatorForMask(stack.getItemDamage());
+		operator = FlickerOperatorRegistry.instance.getOperatorForMask(stack.getMetadata());
 	}
 
 	public void scanForNearbyUpgrades(){

@@ -61,8 +61,8 @@ public class Disarm implements ISpellComponent{
 			if (!world.isRemote){
 				EntityItem item = new EntityItem(world);
 				ItemStack dropstack = ((EntityMob)target).getHeldItem().copy();
-				if (dropstack.getMaxDamage() > 0)
-					dropstack.setItemDamage((int)Math.floor(dropstack.getMaxDamage() * (0.8f + (world.rand.nextFloat() * 0.19f))));
+				if (dropstack.getMaxDurability() > 0)
+					dropstack.setMetadata((int)Math.floor(dropstack.getMaxDurability() * (0.8f + (world.rand.nextFloat() * 0.19f))));
 				item.setEntityItemStack(dropstack);
 				item.setPosition(target.posX, target.posY, target.posZ);
 				world.spawnEntityInWorld(item);

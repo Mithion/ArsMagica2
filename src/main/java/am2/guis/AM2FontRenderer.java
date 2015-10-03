@@ -405,11 +405,11 @@ public class AM2FontRenderer{
 
 				++i;
 			}else{
-				j = ChatAllowedCharacters.allowedCharacters[c0];
+				j = ChatAllowedCharacters.allowedCharactersArray[c0];
 
 				if (this.randomStyle && j > 0){
 					do{
-						k = this.fontRandom.nextInt(ChatAllowedCharacters.allowedCharacters.length);
+						k = this.fontRandom.nextInt(ChatAllowedCharacters.allowedCharactersArray.length);
 					}
 					while (this.charWidth[j + 32] != this.charWidth[k + 32]);
 
@@ -571,7 +571,7 @@ public class AM2FontRenderer{
 		}else if (par1 == 32){
 			return 4;
 		}else{
-			int i = ChatAllowedCharacters.allowedCharacters[par1];
+			int i = ChatAllowedCharacters.allowedCharactersArray[par1];
 
 			if (i >= 0 && !this.unicodeFlag){
 				return this.charWidth[i + 32];
