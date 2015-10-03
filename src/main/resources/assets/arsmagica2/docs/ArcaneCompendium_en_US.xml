@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <compendium>
-  <version>1.0.3</version>
+  <version>1.0.4</version>
   <shapes zeroItemText="You don't know any shapes yet, and aren't eligible to learn any!">
     <shape id="Projectile">
       <name>Projectile</name>
@@ -129,6 +129,7 @@
       <name>Blind</name>
       <desc>Having a fireball to throw at dark mages is great.  Making it so they also can't see to retaliate is better.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+      <relatedEntries>rituals_overview</relatedEntries>
     </component>
     <component id="Freeze">
       <name>Freeze</name>
@@ -1178,7 +1179,7 @@
       <desc>Warding Candles, when held, are moving sources of light.  They can also be #9attuned#0 to a specific block by #9sneaking and right clicking on the block while holding the candle#0.  This will cause the candle flame to turn blue when within 15 blocks of the specified block, and red when within 5 blocks.  A warding candle will burn for 15 minutes, but is put out when not equipped.
 			!d
 			Warding candles are also used in #5Rituals#0, and are placed down as part of the layout.  A Warding Candle that has been attuned cannot be used in a ritual.</desc>
-      <relatedEntries></relatedEntries>
+      <relatedEntries>rituals_overview</relatedEntries>
     </item>
     <item id="flicker_jar">
       <name>Flicker Jar</name>
@@ -1278,7 +1279,7 @@
     <item id="wizardChalk">
       <name>Wizard's Chalk</name>
       <desc>Wizard's Chalk is used to create #9Rituals#0 by drawing the correct shapes on the ground.</desc>
-      <relatedEntries>corruption,purification,hourglass</relatedEntries>
+      <relatedEntries>corruption,purification,hourglass,rituals_overview</relatedEntries>
     </item>
     <item id="playerjournal">
       <name>Journal</name>
