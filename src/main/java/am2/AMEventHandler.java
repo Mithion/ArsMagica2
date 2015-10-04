@@ -53,6 +53,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.event.brewing.PotionBrewedEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
@@ -636,6 +637,13 @@ public class AMEventHandler{
 				event.source.getSourceOfDamage() instanceof EntityLivingBase &&
 				((EntityLivingBase)event.source.getSourceOfDamage()).isPotionActive(BuffList.shrink))
 			event.ammount /= 2;
+	}
+
+	@SubscribeEvent
+	public void onEntityJoinWorld(EntityJoinWorldEvent event){
+		if (event.entity instanceof EntityLivingBase && ((EntityLivingBase)event.entity).isPotionActive(BuffList.temporalAnchor.id)){
+			((EntityLivingBase)event.entity).removePotionEffect(BuffList.temporalAnchor.id);
+		}
 	}
 
 	@SubscribeEvent
