@@ -17,10 +17,10 @@ public class BlockTarmaRoot extends AMFlower{
 		return EnumPlantType.Cave;
 	}
 
+	//EoD: restrict Tarma Roots growth by the blocks in canPlaceBlockOn()
 	@Override
-	public boolean canBlockStay(World par1World, int par2, int par3, int par4){
-		Block block = par1World.getBlock(par2, par3 - 1, par4);
-		return block == Blocks.stone || block == Blocks.cobblestone;
+	public boolean canBlockStay(World worldIn, int x, int y, int z){
+		return canPlaceBlockOn(worldIn.getBlock(x, y - 1, z)) && super.canBlockStay(worldIn, x, y, z);
 	}
 
 	@Override
