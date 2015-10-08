@@ -13,12 +13,11 @@ import java.lang.reflect.Field;
 import java.util.Iterator;
 
 public class BytecodeTransformers implements IClassTransformer{
-
-	private String PotionEffect_class = "net.minecraft.potion.PotionEffect";
-	private String PotionEffect_class_obf = "rw";
 	
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] bytes){
+		boolean is_obfuscated = !AM2PreloaderContainer.isDevEnvironment;
+		
 		if (transformedName.equals("am2.armor.ItemMageHood") && AM2PreloaderContainer.foundThaumcraft){
 			LogHelper.info("Core: Altering definition of " + transformedName + " to be thaumcraft compatible.");
 			ClassReader cr = new ClassReader(bytes);
@@ -48,22 +47,19 @@ public class BytecodeTransformers implements IClassTransformer{
 			LogHelper.info("Core: Altering definition of " + transformedName);
 			bytes = alterRendererLivingEntity(bytes);
 		}else if (transformedName.equals("net.minecraft.world.World")){
-			LogHelper.info("Core: Altering definition of " + transformedName);
-			bytes = alterWorld(bytes);
+			LogHelper.info("Core: Altering definition of " + transformedName + ", " + (is_obfuscated ? " (obfuscated)" : "(not obfuscated)"));
+			bytes = alterWorld(bytes, is_obfuscated);
 		}else if (transformedName.equals("net.minecraft.potion.PotionEffect") && !AM2PreloaderContainer.foundDragonAPI){
 			// DragonAPI already has its own way to handle potion list ID extension
 			// you get horrible crashes when the two extensions are applied at the same time
 			// also, there's no sense in duplicating effort, so we'll do nothing in that situation
-			boolean is_obfuscated = transformedName == name ? false : true;
 			LogHelper.info("Core: Altering definition of " + transformedName + ", " + (is_obfuscated ? " (obfuscated)" : "(not obfuscated)"));
 			bytes = alterPotionEffect(bytes, is_obfuscated);
 		}else if (transformedName.equals("net.minecraft.network.play.server.S1DPacketEntityEffect") && !AM2PreloaderContainer.foundDragonAPI){
-			boolean is_obfuscated = transformedName == name ? false : true;
 			LogHelper.info("Core: Altering definition of " + transformedName + ", " + (is_obfuscated ? " (obfuscated)" : "(not obfuscated)"));
 			String passedname = name.replace(".", "/");
 			bytes = alterS1DPacketEntityEffect(bytes, is_obfuscated, passedname);
 		}else if (transformedName.equals("net.minecraft.client.network.NetHandlerPlayClient") && !AM2PreloaderContainer.foundDragonAPI){
-		  boolean is_obfuscated = transformedName == name ? false : true;
 		  LogHelper.info("Core: Altering definition of " + transformedName + ", " + (is_obfuscated ? " (obfuscated)" : "(not obfuscated)"));
 		  bytes = alterNetHandlerPlayClient(bytes, is_obfuscated);
 		}
@@ -254,13 +250,31 @@ public class BytecodeTransformers implements IClassTransformer{
 		return cw.toByteArray();
 	}
 
-	private byte[] alterWorld(byte[] bytes){
+	private byte[] alterWorld(byte[] bytes, boolean is_obfuscated){
 		ClassReader cr = new ClassReader(bytes);
 		ClassNode cn = new ClassNode();
 		cr.accept(cn, 0);
+		
+		// Minecraft r1.7.10:
+		// net.minecraft.world.World.java = ahb.class
+
+		// World.playSoundAtEntity = ahb.a
+		// MCP mapping: ahb/a (Lsa;Ljava/lang/String;FF)V net/minecraft/world/World/func_72956_a (Lnet/minecraft/entity/Entity;Ljava/lang/String;FF)V
+		
+	      obf_deobf_pair method1_name = new obf_deobf_pair();
+	      method1_name.setVal("playSoundAtEntity", false);
+	      method1_name.setVal("a", true);
+
+	      obf_deobf_pair method1_desc = new obf_deobf_pair();
+	      method1_desc.setVal("(Lnet/minecraft/entity/Entity;Ljava/lang/String;FF)V", false);
+	      method1_desc.setVal("(Lsa;Ljava/lang/String;FF)V", true);
+
+	      obf_deobf_pair method1_replacement_desc = new obf_deobf_pair();
+	      method1_replacement_desc.setVal("(Lnet/minecraft/entity/Entity;F)F", false);
+	      method1_replacement_desc.setVal("(Lsa;F)F", true);
 
 		for (MethodNode mn : cn.methods){
-			if (mn.name.equals("a") && mn.desc.equals("(Lsa;Ljava/lang/String;FF)V")){ //playSoundAtEntity
+			if (mn.name.equals(method1_name.getVal(is_obfuscated)) && mn.desc.equals(method1_desc.getVal(is_obfuscated))){
 				AbstractInsnNode target = null;
 				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
 				Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();
@@ -286,7 +300,7 @@ public class BytecodeTransformers implements IClassTransformer{
 				if (target != null){
 					VarInsnNode aload1 = new VarInsnNode(Opcodes.ALOAD, 1);
 					VarInsnNode fload4 = new VarInsnNode(Opcodes.FLOAD, 4);
-					MethodInsnNode callout = new MethodInsnNode(Opcodes.INVOKESTATIC, "am2/utility/EntityUtilities", "modifySoundPitch", "(Lsa;F)F");
+					MethodInsnNode callout = new MethodInsnNode(Opcodes.INVOKESTATIC, "am2/utility/EntityUtilities", "modifySoundPitch", method1_replacement_desc.getVal(is_obfuscated));
 					VarInsnNode fstore4 = new VarInsnNode(Opcodes.FSTORE, 4);
 					mn.instructions.insertBefore(target, aload1);
 					mn.instructions.insertBefore(target, fload4);
