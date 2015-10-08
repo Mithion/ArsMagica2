@@ -32,20 +32,34 @@ public class BytecodeTransformers implements IClassTransformer{
 
 			bytes = cw.toByteArray();
 		}else if (transformedName.equals("net.minecraft.client.renderer.EntityRenderer")){
-			LogHelper.info("Core: Altering definition of " + transformedName);
-			bytes = alterEntityRenderer(bytes);
+			LogHelper.info("Core: Altering definition of " + transformedName + ", " + (is_obfuscated ? " (obfuscated)" : "(not obfuscated)"));
+			bytes = alterEntityRenderer(bytes, is_obfuscated);
 		}else if (transformedName.equals("net.minecraft.client.entity.EntityPlayerSP")){
-			LogHelper.info("Core: Altering definition of " + transformedName);
-			bytes = alterEntityPlayerSP(bytes);
+			LogHelper.info("Core: Altering definition of " + transformedName + ", " + (is_obfuscated ? " (obfuscated)" : "(not obfuscated)"));
+			bytes = alterEntityPlayerSP(bytes, is_obfuscated);
+
+		/*
+		// this part is actually no longer necessary
+		// it was used to handle storing the player's information on dimension transfers
+		// but we take care of that now in the event handler
+		// (it's actually a stroke of good luck that this code was never updated to 1.7.10 and never activated in a dev environment)
+		// (otherwise, I'd most likely not have been able to implement the fix for soulbound items in the End)
+		
 		}else if (transformedName.equals("net.minecraft.entity.EntityPlayerMP")){
-			LogHelper.info("Core: Altering definition of " + transformedName);
-			bytes = alterEntityPlayerMP(bytes);
-		}else if (transformedName.equals("net.minecraft.network.NetServerHandler")){
-			LogHelper.info("Core: Altering definition of " + transformedName);
-			bytes = alterNetServerHandler(bytes);
+			LogHelper.info("Core: Altering definition of " + transformedName + ", " + (is_obfuscated ? " (obfuscated)" : "(not obfuscated)"));
+			bytes = alterEntityPlayerMP(bytes, is_obfuscated);
+		*/
+
+		// MC r1.6.4: NetServerHandler.handleFlying, ka/a
+		// MC r1.7.10, NetHandlerPlayServer.processPlayer, nh/a
+		// }else if (transformedName.equals("net.minecraft.network.NetServerHandler")){
+		}else if (transformedName.equals("net.minecraft.network.NetHandlerPlayServer")){
+			LogHelper.info("Core: Altering definition of " + transformedName + ", " + (is_obfuscated ? " (obfuscated)" : "(not obfuscated)"));
+			// bytes = alterNetServerHandler(bytes);
+			bytes = alterNetHandlerPlayServer(bytes, is_obfuscated);
 		}else if (transformedName.equals("net.minecraft.client.renderer.entity.RendererLivingEntity")){
-			LogHelper.info("Core: Altering definition of " + transformedName);
-			bytes = alterRendererLivingEntity(bytes);
+			LogHelper.info("Core: Altering definition of " + transformedName + ", " + (is_obfuscated ? " (obfuscated)" : "(not obfuscated)"));
+			bytes = alterRendererLivingEntity(bytes, is_obfuscated);
 		}else if (transformedName.equals("net.minecraft.world.World")){
 			LogHelper.info("Core: Altering definition of " + transformedName + ", " + (is_obfuscated ? " (obfuscated)" : "(not obfuscated)"));
 			bytes = alterWorld(bytes, is_obfuscated);
@@ -67,13 +81,41 @@ public class BytecodeTransformers implements IClassTransformer{
 		return bytes;
 	}
 
-	private byte[] alterRendererLivingEntity(byte[] bytes){
+	private byte[] alterRendererLivingEntity(byte[] bytes, boolean is_obfuscated){
 		ClassReader cr = new ClassReader(bytes);
 		ClassNode cn = new ClassNode();
 		cr.accept(cn, 0);
+		// Minecraft r1.7.10:
+		// net.minecraft.client.renderer.entity.RendererLivingEntity.java = boh.class
+		
+		// RendererLivingEntity.doRender = boh.a
+		// MCP mapping: boh/a (Lsv;DDDFF)V net/minecraft/client/renderer/entity/RendererLivingEntity/func_76986_a (Lnet/minecraft/entity/EntityLivingBase;DDDFF)V
+		
+		// RendererLivingEntity.renderLivingAt = boh.a
+		// MCP mapping: boh/a (Lsv;DDD)V net/minecraft/client/renderer/entity/RendererLivingEntity/func_77039_a (Lnet/minecraft/entity/EntityLivingBase;DDD)V
+
+		obf_deobf_pair method1_name = new obf_deobf_pair();
+		method1_name.setVal("doRender", false);
+		method1_name.setVal("a", true);
+
+		obf_deobf_pair method1_desc = new obf_deobf_pair();
+		method1_desc.setVal("(Lnet/minecraft/entity/EntityLivingBase;DDDFF)V", false);
+		method1_desc.setVal("(Lsv;DDDFF)V", true);
+
+		obf_deobf_pair method1_searchinstruction_function = new obf_deobf_pair();
+		method1_searchinstruction_function.setVal("renderLivingAt", false);
+		method1_searchinstruction_function.setVal("a", true);
+
+		obf_deobf_pair method1_searchinstruction_desc = new obf_deobf_pair();
+		method1_searchinstruction_desc.setVal("(Lnet/minecraft/entity/EntityLivingBase;DDD)V", false);
+		method1_searchinstruction_desc.setVal("(Lsv;DDD)V", true);
+		
+		obf_deobf_pair method1_replaceinstruction_desc = new obf_deobf_pair();
+		method1_replaceinstruction_desc.setVal("(Lnet/minecraft/entity/EntityLivingBase;)V", false);
+		method1_replaceinstruction_desc.setVal("(Lsv;)V", true);
 
 		for (MethodNode mn : cn.methods){
-			if (mn.name.equals("a") && mn.desc.equals("(Lsv;DDDFF)V")){ //doRenderLiving(EntityLivingBase, double, double, double, float, float)
+			if (mn.name.equals(method1_name.getVal(is_obfuscated)) && mn.desc.equals(method1_desc.getVal(is_obfuscated))){
 				AbstractInsnNode target = null;
 				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
 				Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();
@@ -81,7 +123,7 @@ public class BytecodeTransformers implements IClassTransformer{
 					AbstractInsnNode node = instructions.next();
 					if (node instanceof MethodInsnNode){
 						MethodInsnNode method = (MethodInsnNode)node;
-						if (method.name.equals("a") && method.desc.equals("(Lsv;DDD)V")){ //renderLivingAt(EntityLivingBase, double, double, double)
+						if (method.name.equals(method1_searchinstruction_function.getVal(is_obfuscated)) && method.desc.equals(method1_searchinstruction_desc.getVal(is_obfuscated))){ //renderLivingAt(EntityLivingBase, double, double, double)
 							target = node;
 							break;
 						}
@@ -90,7 +132,7 @@ public class BytecodeTransformers implements IClassTransformer{
 
 				if (target != null){
 					VarInsnNode aLoad = new VarInsnNode(Opcodes.ALOAD, 1);
-					MethodInsnNode callout = new MethodInsnNode(Opcodes.INVOKESTATIC, "am2/utility/RenderUtilities", "setupShrinkRender", "(Lnet/minecraft/entity/EntityLivingBase;)V");
+					MethodInsnNode callout = new MethodInsnNode(Opcodes.INVOKESTATIC, "am2/utility/RenderUtilities", "setupShrinkRender", method1_replaceinstruction_desc.getVal(is_obfuscated));
 
 					mn.instructions.insert(target, aLoad);
 					mn.instructions.insert(aLoad, callout);
@@ -205,13 +247,31 @@ public class BytecodeTransformers implements IClassTransformer{
 		return cw.toByteArray();
 	}
 
-	private byte[] alterEntityPlayerSP(byte[] bytes){
+	private byte[] alterEntityPlayerSP(byte[] bytes, boolean is_obfuscated){
 		ClassReader cr = new ClassReader(bytes);
 		ClassNode cn = new ClassNode();
 		cr.accept(cn, 0);
 
+		// Minecraft r1.7.10: net.minecraft.client.entity.EntityPlayerSP.java = blk.class
+
+		// EntityPlayerSP.onLivingUpdate() = blk/e
+		// MCP mapping: blk/e ()V net/minecraft/client/entity/EntityPlayerSP/func_70636_d ()V
+		obf_deobf_pair method1_name = new obf_deobf_pair();
+		method1_name.setVal("onLivingUpdate", false);
+		method1_name.setVal("e", true);
+
+		String method1_desc = "()V";
+
+		// MovementInput.updatePlayerMoveState() = bli/a
+		// note that we don't need the class name, it's referencing an internal variable
+		obf_deobf_pair method1_searchinstruction = new obf_deobf_pair();
+		method1_searchinstruction.setVal("updatePlayerMoveState", false);
+		method1_searchinstruction.setVal("a", true);
+
+		String searchinstruction_desc = "()V";
+
 		for (MethodNode mn : cn.methods){
-			if (mn.name.equals("e") && mn.desc.equals("()V")){ //onLivingUpdate
+			if (mn.name.equals(method1_name.getVal(is_obfuscated)) && mn.desc.equals(method1_desc)){ //onLivingUpdate
 				AbstractInsnNode target = null;
 				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
 				Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();
@@ -225,7 +285,7 @@ public class BytecodeTransformers implements IClassTransformer{
 							node = instructions.next();
 							if (node instanceof MethodInsnNode){
 								MethodInsnNode method = (MethodInsnNode)node;
-								if (method.name.equals("a") && method.desc.equals("()V")){ //updatePlayerMoveState
+								if (method.name.equals(method1_searchinstruction.getVal(is_obfuscated)) && method.desc.equals(searchinstruction_desc)){ //updatePlayerMoveState
 									LogHelper.debug("Core: Located target method insn node: " + method.name + method.desc);
 									target = node;
 									break;
@@ -246,7 +306,6 @@ public class BytecodeTransformers implements IClassTransformer{
 
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 		cn.accept(cw);
-
 		return cw.toByteArray();
 	}
 
@@ -290,7 +349,7 @@ public class BytecodeTransformers implements IClassTransformer{
 								((FieldInsnNode)node).name.equals("name") &&
 								((FieldInsnNode)node).desc.equals("Ljava/lang/String;") &&
 								((FieldInsnNode)node).owner.equals("net/minecraftforge/event/entity/PlaySoundAtEntityEvent")){
-							LogHelper.debug("Core: Located target method insn node: " + ((FieldInsnNode)node).name + ((FieldInsnNode)node).desc);
+							LogHelper.debug("Core: Located target method insn node: " + ((FieldInsnNode)node).name + ", " + ((FieldInsnNode)node).desc);
 							target = potentialMatch;
 							break;
 						}
@@ -318,6 +377,9 @@ public class BytecodeTransformers implements IClassTransformer{
 		return cw.toByteArray();
 	}
 
+	// this function is no longer necessary in 1.7.10, since our event handler seems to handle dimension transfers properly
+	// the commented out code has been left here for future reference, in case the current event handler approach fails in the future
+	/*
 	private byte[] alterEntityPlayerMP(byte[] bytes){
 		ClassReader cr = new ClassReader(bytes);
 		ClassNode cn = new ClassNode();
@@ -369,29 +431,68 @@ public class BytecodeTransformers implements IClassTransformer{
 
 		return bytes;
 	}
+	*/
 
-	private byte[] alterNetServerHandler(byte[] bytes){
+	private byte[] alterNetHandlerPlayServer(byte[] bytes, boolean is_obfuscated){
 		ClassReader cr = new ClassReader(bytes);
 		ClassNode cn = new ClassNode();
 		cr.accept(cn, 0);
 
+		// Minecraft r1.6.4: NetServerHandler.java = ka.class
+		// Minecraft r1.7.10: net.minecraft.network.NetHandlerPlayServer.java = nh.class
+
+		// NetHandlerPlayServer.processPlayer(C03PacketPlayer), nh.a(jd)
+		// MCP mapping: nh/a (Ljd;)V net/minecraft/network/NetHandlerPlayServer/func_147347_a (Lnet/minecraft/network/play/client/C03PacketPlayer;)V
+
+		obf_deobf_pair method1_name = new obf_deobf_pair();
+		method1_name.setVal("processPlayer", false);
+		method1_name.setVal("a", true);
+
+		obf_deobf_pair method1_desc = new obf_deobf_pair();
+		method1_desc.setVal("(Lnet/minecraft/network/play/client/C03PacketPlayer;)V", false);
+		method1_desc.setVal("(Ljd;)V", true);
+
+		// in MC r1.6.4, this was a GETFIELD
+		// fetching Packet10Flying.stance and Packet10Flying.yPosition
+		// in MC r1.7.10, these are no longer public variables and we now have to call their access wrapper functions
+		// INVOKEVIRTUAL in both cases
+		// net/minecraft/network/play/client/C03PacketPlayer/func_149471_f = jd/f
+		// net/minecraft/network/play/client/C03PacketPlayer/func_149467_d = jd/d
+		// both have description ()D
+
+		obf_deobf_pair method1_searchinstruction_class = new obf_deobf_pair();
+		method1_searchinstruction_class.setVal("net/minecraft/network/play/client/C03PacketPlayer", false);
+		method1_searchinstruction_class.setVal("jd", true);
+		
+		obf_deobf_pair method1_searchinstruction_function1 = new obf_deobf_pair();
+		method1_searchinstruction_function1.setVal("func_149471_f", false);
+		method1_searchinstruction_function1.setVal("f", true);
+
+		obf_deobf_pair method1_searchinstruction_function2 = new obf_deobf_pair();
+		method1_searchinstruction_function2.setVal("func_149467_d", false);
+		method1_searchinstruction_function2.setVal("d", true);
+
+		String method1_searchinstructions_desc = "()D";
+		
 		for (MethodNode mn : cn.methods){
-			if (mn.name.equals("a") && mn.desc.equals("(Leu;)V")){ //handleFlying
+			if (mn.name.equals(method1_name.getVal(is_obfuscated)) && mn.desc.equals(method1_desc.getVal(is_obfuscated))){ //processPlayer
 				AbstractInsnNode target = null;
 				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
 				Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();
 
 				//look for the line:
-				//d4 = par1Packet10Flying.stance - par1Packet10Flying.yPosition;
+				// d4 = p_147347_1_.func_149471_f() - p_147347_1_.func_149467_d();
+				// p_147347_1_ = C03PacketPlayer
+				//in MC r1.6.4, d4 = par1Packet10Flying.stance - par1Packet10Flying.yPosition;
 				while (instructions.hasNext()){
 					AbstractInsnNode node = instructions.next();
 					if (node instanceof VarInsnNode && ((VarInsnNode)node).var == 1 && ((VarInsnNode)node).getOpcode() == Opcodes.ALOAD){ //ALOAD 1
 						node = instructions.next();
-						if (node instanceof FieldInsnNode && matchFieldNode((FieldInsnNode)node, Opcodes.GETFIELD, "eu", "d", "D")){ //GETFIELD net/minecraft/network/packet/Packet10Flying.stance
+						if (node instanceof MethodInsnNode && matchMethodNode((MethodInsnNode)node, Opcodes.INVOKEVIRTUAL, method1_searchinstruction_class.getVal(is_obfuscated), method1_searchinstruction_function1.getVal(is_obfuscated), method1_searchinstructions_desc)){
 							node = instructions.next();
 							if (node instanceof VarInsnNode && ((VarInsnNode)node).var == 1 && ((VarInsnNode)node).getOpcode() == Opcodes.ALOAD){ //ALOAD 1
 								node = instructions.next();
-								if (node instanceof FieldInsnNode && matchFieldNode((FieldInsnNode)node, Opcodes.GETFIELD, "eu", "b", "D")){ //GETFIELD net/minecraft/network/packet/Packet10Flying.yPosition
+								if (node instanceof MethodInsnNode && matchMethodNode((MethodInsnNode)node, Opcodes.INVOKEVIRTUAL, method1_searchinstruction_class.getVal(is_obfuscated), method1_searchinstruction_function2.getVal(is_obfuscated), method1_searchinstructions_desc)){
 									node = instructions.next();
 									if (node instanceof InsnNode && ((InsnNode)node).getOpcode() == Opcodes.DSUB){ //DSUB
 										node = instructions.next();
@@ -910,6 +1011,12 @@ public class BytecodeTransformers implements IClassTransformer{
 	}
 
 	private boolean matchFieldNode(FieldInsnNode node, int opcode, String owner, String name, String desc){
+		if (node.getOpcode() == opcode && node.owner.equals(owner) && node.name.equals(name) && node.desc.equals(desc))
+			return true;
+		return false;
+	}
+
+	private boolean matchMethodNode(MethodInsnNode node, int opcode, String owner, String name, String desc){
 		if (node.getOpcode() == opcode && node.owner.equals(owner) && node.name.equals(name) && node.desc.equals(desc))
 			return true;
 		return false;

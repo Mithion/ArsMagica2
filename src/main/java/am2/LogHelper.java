@@ -37,7 +37,7 @@ public class LogHelper{
 	      // this is a rather hacky way of turning on debug output if we're in a dev environment, but with the redeeming feature that it actually works
 	      // (the default logging level seems to be INFO)
 		if(AM2PreloaderContainer.isDevEnvironment){
-			info("AM2 Debug: " + format, data);
+			log(Level.INFO, "AM2 Debug: " + format, data);
 		}
 		else{
 			log(Level.DEBUG, format, data);
