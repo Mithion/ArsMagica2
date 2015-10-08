@@ -19,6 +19,7 @@ public class AM2PreloaderContainer extends DummyModContainer implements IFMLLoad
 
 	public static boolean foundThaumcraft = false;
 	public static boolean foundOptifine = false;
+	public static boolean foundDragonAPI = false;
 
 	public AM2PreloaderContainer(){
 
@@ -94,6 +95,9 @@ public class AM2PreloaderContainer extends DummyModContainer implements IFMLLoad
 				}else if (f.getName().toLowerCase().contains("optifine")){
 					LogHelper.info("Core: Located Optifine");
 					foundOptifine = true;
+				}else if (f.getName().toLowerCase().contains("dragonapi")){
+					LogHelper.info("Core: Located DragonAPI");
+					foundDragonAPI = true;
 				}
 			}
 		}
