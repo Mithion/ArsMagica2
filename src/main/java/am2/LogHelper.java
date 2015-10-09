@@ -32,10 +32,10 @@ public class LogHelper{
 	public static void debug(String format, Object... data){
 	      // Log4j 1.x allowed you to set the logging level easily
 	      // Log4j 2.x removed this in favour of some kind of stupidly convoluted method
-	      // you can either use yet another config file (which is not portable)
+	      // you can either use yet another config file (which is not easily portable)
 	      // or call some kind of horrible arcane function chain (which is not documented)
 	      // this is a rather hacky way of turning on debug output if we're in a dev environment, but with the redeeming feature that it actually works
-	      // (the default logging level seems to be INFO)
+	      // (the default logging level seems to be INFO and I can't change it easily through code)
 		if(AM2PreloaderContainer.isDevEnvironment){
 			log(Level.INFO, "AM2 Debug: " + format, data);
 		}

@@ -148,13 +148,63 @@ public class BytecodeTransformers implements IClassTransformer{
 		return cw.toByteArray();
 	}
 
-	private byte[] alterEntityRenderer(byte[] bytes){
+	private byte[] alterEntityRenderer(byte[] bytes, boolean is_obfuscated){
 		ClassReader cr = new ClassReader(bytes);
 		ClassNode cn = new ClassNode();
 		cr.accept(cn, 0);
 
+		// Minecraft r1.7.10:
+		// net.minecraft.client.renderer.EntityRenderer.java = blt.class
+		
+		// method 1:
+		// EntityRenderer.setupCameraTransform = blt.a
+		// MCP mapping: blt/a (FI)V net/minecraft/client/renderer/EntityRenderer/func_78479_a (FI)V
+		obf_deobf_pair method1_name = new obf_deobf_pair();
+		method1_name.setVal("setupCameraTransform", false);
+		method1_name.setVal("a", true);
+		
+		String method1_desc = "(FI)V";
+		// search for this function call:
+		// EntityRenderer.orientCamera = blt.g
+		// MCP mapping: blt/g (F)V net/minecraft/client/renderer/EntityRenderer/func_78475_f (F)V
+
+		obf_deobf_pair method1_searchinstruction_function = new obf_deobf_pair();
+		method1_searchinstruction_function.setVal("orientCamera", false);
+		method1_searchinstruction_function.setVal("g", true);
+
+		String method1_searchinstruction_desc = "(F)V";
+		// we are also searching for gluPerspective, description (FFFF)V, but this is a GL function call and is not obfuscated.
+
+		// method 2:
+		// EntityRenderer.updateCameraAndRender = blt.b
+		// MCP mapping: MD: blt/b (F)V net/minecraft/client/renderer/EntityRenderer/func_78480_b (F)V
+		obf_deobf_pair method2_name = new obf_deobf_pair();
+		method2_name.setVal("updateCameraAndRender", false);
+		method2_name.setVal("b", true);
+		
+		String method2_desc = "(F)V";
+		
+		// search for this function call:
+		// net.minecraft.profiler.Profiler.startSection = qi.a
+		// MCP mapping: MD: qi/a (Ljava/lang/String;)V net/minecraft/profiler/Profiler/func_76320_a (Ljava/lang/String;)V
+		obf_deobf_pair method2_searchinstruction_class = new obf_deobf_pair();
+		method2_searchinstruction_class.setVal("net/minecraft/profiler/Profiler", false);
+		method2_searchinstruction_class.setVal("qi", true);
+
+		obf_deobf_pair method2_searchinstruction_function = new obf_deobf_pair();
+		method2_searchinstruction_function.setVal("startSection", false);
+		method2_searchinstruction_function.setVal("a", true);
+
+		String method2_searchinstruction_desc = "(Ljava/lang/String;)V";
+
+		// we will be inserting a call to am2.guis.AMGuiHelper.overrideMouseInput()
+		// description (Lnet/minecraft/client/renderer/EntityRenderer;FZ)Z
+		obf_deobf_pair method2_insertinstruction_desc = new obf_deobf_pair();
+		method2_insertinstruction_desc.setVal("(Lnet/minecraft/client/renderer/EntityRenderer;FZ)Z", false);
+		method2_insertinstruction_desc.setVal("(Lblt;FZ)Z", true);
+
 		for (MethodNode mn : cn.methods){
-			if (mn.name.equals("a") && mn.desc.equals("(FI)V")){ //setupCameraTransform
+			if (mn.name.equals(method1_name.getVal(is_obfuscated)) && mn.desc.equals(method1_desc)){ // setupCameraTransform
 				AbstractInsnNode orientCameraNode = null;
 				AbstractInsnNode gluPerspectiveNode = null;
 				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
@@ -163,7 +213,7 @@ public class BytecodeTransformers implements IClassTransformer{
 					AbstractInsnNode node = instructions.next();
 					if (node instanceof MethodInsnNode){
 						MethodInsnNode method = (MethodInsnNode)node;
-						if (orientCameraNode == null && method.name.equals("g") && method.desc.equals("(F)V")){ //orient camera
+						if (orientCameraNode == null && method.name.equals(method1_searchinstruction_function.getVal(is_obfuscated)) && method.desc.equals(method1_searchinstruction_desc)){ //orientCamera
 							LogHelper.debug("Core: Located target method insn node: " + method.name + method.desc);
 							orientCameraNode = node;
 							continue;
@@ -194,7 +244,7 @@ public class BytecodeTransformers implements IClassTransformer{
 					LogHelper.debug("Core: Success!  Inserted callout function op (flip)!");
 				}
 
-			}else if (mn.name.equals("b") && mn.desc.equals("(F)V")){ //updateCameraAndRender
+			}else if (mn.name.equals(method2_name.getVal(is_obfuscated)) && mn.desc.equals(method2_desc)){  //updateCameraAndRender
 				AbstractInsnNode target = null;
 				LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
 				Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();
@@ -213,8 +263,8 @@ public class BytecodeTransformers implements IClassTransformer{
 					}else{
 						if (node instanceof MethodInsnNode){
 							MethodInsnNode method = (MethodInsnNode)node;
-							if (method.name.equals("a") && method.desc.equals("(Ljava/lang/String;)V")){
-								LogHelper.debug("Core: Located target method insn node: " + method.name + method.desc);
+							if (method.owner.equals(method2_searchinstruction_class.getVal(is_obfuscated)) && method.name.equals(method2_searchinstruction_function.getVal(is_obfuscated)) && method.desc.equals(method2_searchinstruction_desc)){
+								LogHelper.debug("Core: Located target method insn node: " + method.owner + "." + method.name + ", " + method.desc);
 								target = node;
 								break;
 							}
@@ -228,7 +278,7 @@ public class BytecodeTransformers implements IClassTransformer{
 					VarInsnNode aLoad = new VarInsnNode(Opcodes.ALOAD, 0);
 					VarInsnNode fLoad = new VarInsnNode(Opcodes.FLOAD, 1);
 					VarInsnNode iLoad = new VarInsnNode(Opcodes.ILOAD, iRegister);
-					MethodInsnNode callout = new MethodInsnNode(Opcodes.INVOKESTATIC, "am2/guis/AMGuiHelper", "overrideMouseInput", "(Lnet/minecraft/client/renderer/EntityRenderer;FZ)Z");
+					MethodInsnNode callout = new MethodInsnNode(Opcodes.INVOKESTATIC, "am2/guis/AMGuiHelper", "overrideMouseInput", method2_insertinstruction_desc.getVal(is_obfuscated));
 					VarInsnNode iStore = new VarInsnNode(Opcodes.ISTORE, iRegister);
 
 					mn.instructions.insert(target, iStore);
@@ -378,6 +428,7 @@ public class BytecodeTransformers implements IClassTransformer{
 	}
 
 	// this function is no longer necessary in 1.7.10, since our event handler seems to handle dimension transfers properly
+	// (in fact, it never actually triggered in 1.7.10 - the variable and function names were never updated)
 	// the commented out code has been left here for future reference, in case the current event handler approach fails in the future
 	/*
 	private byte[] alterEntityPlayerMP(byte[] bytes){
