@@ -1110,12 +1110,12 @@ public class BytecodeTransformers implements IClassTransformer{
 	      
 	      // change from writeByte to writeInt
 	      String method2_searchinstruction_function = "writeByte";
-	      String method2_searchinstruction_desc = "(I)Lio/netty/buffer/ByteBuf";
+	      String method2_searchinstruction_desc = "(I)Lio/netty/buffer/ByteBuf;";
 	      
 	      // replacement class is the same
 	      // so is the instruction, but we'll leave it as being explicitly defined just in case
 	      String method2_replaceinstruction_function = "writeInt";
-	      String method2_replaceinstruction_desc = "(I)Lio/netty/buffer/ByteBuf";
+	      String method2_replaceinstruction_desc = "(I)Lio/netty/buffer/ByteBuf;";
 
 	      
 	      for (MethodNode mn : cn.methods){
