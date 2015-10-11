@@ -60,6 +60,9 @@ public class AMKeyBindings{
 				shapeGroup = SpellUtils.instance.cycleShapeGroup(curItem);
 			}else{
 				ItemStack spellStack = ((ItemSpellBook)curItem.getItem()).GetActiveItemStack(curItem);
+				if (spellStack == null){
+					return;
+				}
 				shapeGroup = SpellUtils.instance.cycleShapeGroup(spellStack);
 				((ItemSpellBook)curItem.getItem()).replaceAciveItemStack(curItem, spellStack);
 			}
