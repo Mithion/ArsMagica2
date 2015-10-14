@@ -4,6 +4,7 @@ import am2.AMCore;
 import am2.entities.EntityDryad;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
 import java.util.Random;
@@ -43,8 +44,16 @@ public class BiomeWitchwoodForest extends BiomeGenBase{
 		return 0x6699ff;
 	}
 
+	/*
 	@Override
 	public WorldGenerator getRandomWorldGenForGrass(Random rand){
 		return rand.nextDouble() > 0.9f ? hugeTree : smallTree;
+	}
+	*/
+	
+	@Override
+	public WorldGenAbstractTree func_150567_a(Random p_150567_1_)
+	{
+	  return (WorldGenAbstractTree)(p_150567_1_.nextInt(10) == 0 ? hugeTree : smallTree);
 	}
 }

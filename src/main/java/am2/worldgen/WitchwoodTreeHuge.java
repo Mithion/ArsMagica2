@@ -6,12 +6,12 @@ import net.minecraft.block.BlockSapling;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Random;
 
-public class WitchwoodTreeHuge extends WorldGenerator{
+public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 	/**
 	 * Contains three sets of two values that provide complimentary indices for a given 'major' index - 1 and 2 for 0, 0
 	 * and 2 for 1, and 0 and 1 for 2.
