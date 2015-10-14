@@ -43,13 +43,6 @@ public class BiomeWitchwoodForest extends BiomeGenBase{
 	public int getSkyColorByTemp(float par1){
 		return 0x6699ff;
 	}
-
-	/*
-	@Override
-	public WorldGenerator getRandomWorldGenForGrass(Random rand){
-		return rand.nextDouble() > 0.9f ? hugeTree : smallTree;
-	}
-	*/
 	
 	@Override
 	public WorldGenAbstractTree func_150567_a(Random p_150567_1_)
