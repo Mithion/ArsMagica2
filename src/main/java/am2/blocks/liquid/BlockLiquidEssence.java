@@ -3,7 +3,9 @@ package am2.blocks.liquid;
 import am2.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -16,9 +18,10 @@ public class BlockLiquidEssence extends BlockFluidClassic{
 	private IIcon[] icons;
 
 	public static final Fluid liquidEssenceFluid = new FluidEssence();
+	public static final Material liquidEssenceMaterial = new MaterialLiquid(MapColor.iceColor);
 
 	public BlockLiquidEssence(){
-		super(liquidEssenceFluid, Material.water);
+		super(liquidEssenceFluid, liquidEssenceMaterial);
 	}
 
 	@Override
