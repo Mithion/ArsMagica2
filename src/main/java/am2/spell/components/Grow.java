@@ -56,7 +56,7 @@ public class Grow implements ISpellComponent{
 			Collections.shuffle(growableAMflowers);
 
 			for (AMFlower flower : growableAMflowers){
-				if (flower.canBlockStay(world, blockx, blocky + 1, blockz)){
+				if (flower.canGrowOn(world, blockx, blocky + 1, blockz)){
 					if (!world.isRemote){
 						world.setBlock(blockx, blocky + 1, blockz, flower, 0, 2);
 					}

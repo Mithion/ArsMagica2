@@ -27,4 +27,10 @@ public class BlockTarmaRoot extends AMFlower{
 	protected boolean canPlaceBlockOn(Block block){
 		return block == Blocks.stone || block == Blocks.cobblestone;
 	}
+
+	//EoD: Tarmas should only grow in dark places
+	@Override
+	public boolean canGrowOn(World worldIn, int x, int y, int z) {
+		return canBlockStay(worldIn, x, y, z) && worldIn.getFullBlockLightValue(x, y, z) < 4;
+	}
 }
