@@ -24,4 +24,9 @@ public class ItemArcaneCompendium extends ArsMagicaItem{
 		return false;
 	}
 
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister par1IconRegister){
+		this.itemIcon = ResourceManager.RegisterTexture("arcanecompendium", par1IconRegister);
+	}
 }
