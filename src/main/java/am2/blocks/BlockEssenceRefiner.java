@@ -27,7 +27,6 @@ import java.util.Random;
 
 public class BlockEssenceRefiner extends PoweredBlock{
 
-	private Random essenceRefinerRand;
 	private static boolean keepRefinerInventory = false;
 
 	@SideOnly(Side.CLIENT)
@@ -36,7 +35,6 @@ public class BlockEssenceRefiner extends PoweredBlock{
 
 	public BlockEssenceRefiner(){
 		super(Material.wood);
-		essenceRefinerRand = new Random();
 		setHardness(2.0f);
 	}
 
@@ -166,14 +164,14 @@ public class BlockEssenceRefiner extends PoweredBlock{
 				if (itemstack == null){
 					continue;
 				}
-				float f = essenceRefinerRand.nextFloat() * 0.8F + 0.1F;
-				float f1 = essenceRefinerRand.nextFloat() * 0.8F + 0.1F;
-				float f2 = essenceRefinerRand.nextFloat() * 0.8F + 0.1F;
+				float f = world.rand.nextFloat() * 0.8F + 0.1F;
+				float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
+				float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
 				do{
 					if (itemstack.stackSize <= 0){
 						break;
 					}
-					int i1 = essenceRefinerRand.nextInt(21) + 10;
+					int i1 = world.rand.nextInt(21) + 10;
 					if (i1 > itemstack.stackSize){
 						i1 = itemstack.stackSize;
 					}
@@ -182,9 +180,9 @@ public class BlockEssenceRefiner extends PoweredBlock{
 					newItem.setTagCompound(itemstack.getTagCompound());
 					EntityItem entityitem = new EntityItem(world, i + f, j + f1, k + f2, newItem);
 					float f3 = 0.05F;
-					entityitem.motionX = (float)essenceRefinerRand.nextGaussian() * f3;
-					entityitem.motionY = (float)essenceRefinerRand.nextGaussian() * f3 + 0.2F;
-					entityitem.motionZ = (float)essenceRefinerRand.nextGaussian() * f3;
+					entityitem.motionX = (float)world.rand.nextGaussian() * f3;
+					entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
+					entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
 					world.spawnEntityInWorld(entityitem);
 				}while (true);
 			}

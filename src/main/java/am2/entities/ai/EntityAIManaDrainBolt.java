@@ -123,10 +123,14 @@ public class EntityAIManaDrainBolt extends EntityAIBase{
 	 */
 	private void doRangedAttack(){
 		//43% chance to "miss"
-		Random rand = new Random();
 		int chanceToMiss = entityHost.isPotionActive(Potion.moveSpeed) ? 10 : 43;
-		if (rand.nextInt(100) < chanceToMiss){
-			AMCore.instance.proxy.particleManager.BoltFromPointToPoint(worldObj, entityHost.posX, entityHost.posY + entityHost.getEyeHeight(), entityHost.posZ, attackTarget.posX + rand.nextFloat() - 0.5f, attackTarget.posY + attackTarget.getEyeHeight() + rand.nextFloat() - 0.5f, attackTarget.posZ + rand.nextFloat() - 0.5f, 2, -1);
+		if (worldObj.rand.nextInt(100) < chanceToMiss){
+			AMCore.instance.proxy.particleManager.BoltFromPointToPoint(worldObj,
+					entityHost.posX, entityHost.posY + entityHost.getEyeHeight(),
+					entityHost.posZ, attackTarget.posX + worldObj.rand.nextFloat() - 0.5f,
+					attackTarget.posY + attackTarget.getEyeHeight() + worldObj.rand.nextFloat() - 0.5f,
+					attackTarget.posZ + worldObj.rand.nextFloat() - 0.5f,
+					2, -1);
 		}else{
 			AMCore.instance.proxy.particleManager.BoltFromEntityToEntity(worldObj, entityHost, entityHost, attackTarget, this.damage, 2, -1);
 			float manaDrained = this.manaDrainedPerCasterLevel * ExtendedProperties.For(attackTarget).getMagicLevel();

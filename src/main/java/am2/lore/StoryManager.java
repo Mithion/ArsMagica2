@@ -8,13 +8,12 @@ import java.util.Random;
 
 public class StoryManager{
 	private ArrayList<Story> stories;
-	private Random rand;
+	private static final Random rand = new Random();
 
 	public static StoryManager INSTANCE = new StoryManager();
 
 	private StoryManager(){
 		stories = new ArrayList<Story>();
-		rand = new Random();
 	}
 
 	public void AddStory(String resourceFileName) throws IOException{

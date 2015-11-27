@@ -53,8 +53,6 @@ public class Blink implements ISpellComponent{
 
 		double d = motionX, d1 = motionY, d2 = motionZ;
 
-		Random rand = new Random();
-
 		float f2 = MathHelper.sqrt_double(d * d + d1 * d1 + d2 * d2);
 		d /= f2;
 		d1 /= f2;
@@ -234,8 +232,6 @@ public class Blink implements ISpellComponent{
 			newY = target.posY + motionY;
 
 		}
-
-		Random rnd = new Random();
 
 		if (world.isRemote && astralBarrierBlocked && coordsValid){
 			ExtendedProperties.For((EntityLivingBase)target).astralBarrierBlocked = true;

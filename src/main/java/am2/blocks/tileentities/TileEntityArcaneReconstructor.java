@@ -46,8 +46,6 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 	private final AMVector3 middleRingRotationSpeeds;
 	private final AMVector3 innerRingRotationSpeeds;
 
-	private final Random rand;
-
 	private static final int SLOT_ACTIVE = 3;
 
 	public TileEntityArcaneReconstructor(){
@@ -60,10 +58,9 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 		middleRingRotation = new AMVector3(0, 0, 0);
 		innerRingRotation = new AMVector3(0, 0, 0);
 
-		rand = new Random();
-		outerRingRotationSpeeds = new AMVector3(rand.nextDouble() * 4 - 2, rand.nextDouble() * 4 - 2, rand.nextDouble() * 4 - 2);
-		middleRingRotationSpeeds = new AMVector3(rand.nextDouble() * 4 - 2, rand.nextDouble() * 4 - 2, rand.nextDouble() * 4 - 2);
-		innerRingRotationSpeeds = new AMVector3(rand.nextDouble() * 4 - 2, rand.nextDouble() * 4 - 2, rand.nextDouble() * 4 - 2);
+		outerRingRotationSpeeds = new AMVector3(worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2);
+		middleRingRotationSpeeds = new AMVector3(worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2);
+		innerRingRotationSpeeds = new AMVector3(worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2);
 
 	}
 
@@ -101,7 +98,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 		if (worldObj.isRemote){
 			updateRotations();
 			if (shouldRenderItemStack()){
-				AMParticle p = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "sparkle2", xCoord + 0.2 + (rand.nextDouble() * 0.6), yCoord + 0.4, zCoord + 0.2 + (rand.nextDouble() * 0.6));
+				AMParticle p = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "sparkle2", xCoord + 0.2 + (worldObj.rand.nextDouble() * 0.6), yCoord + 0.4, zCoord + 0.2 + (worldObj.rand.nextDouble() * 0.6));
 				if (p != null){
 					p.AddParticleController(new ParticleFloatUpward(p, 0.0f, 0.02f, 1, false));
 					p.setIgnoreMaxAge(true);

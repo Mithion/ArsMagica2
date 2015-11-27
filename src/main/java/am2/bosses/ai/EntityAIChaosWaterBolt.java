@@ -13,7 +13,6 @@ import java.util.Random;
 public class EntityAIChaosWaterBolt extends EntityAIBase{
 	private final EntityWaterGuardian host;
 	private int cooldownTicks = 0;
-	private final Random rand;
 
 	private static final ItemStack castStack = createDummyStack();
 
@@ -26,7 +25,6 @@ public class EntityAIChaosWaterBolt extends EntityAIBase{
 	public EntityAIChaosWaterBolt(EntityWaterGuardian host){
 		this.host = host;
 		this.setMutexBits(1);
-		rand = new Random();
 	}
 
 	@Override
@@ -51,7 +49,7 @@ public class EntityAIChaosWaterBolt extends EntityAIBase{
 			host.setCurrentAction(BossActions.CASTING);
 
 		if (!host.worldObj.isRemote && host.getCurrentAction() == BossActions.CASTING){
-			float yaw = rand.nextFloat() * 360;
+			float yaw = host.worldObj.rand.nextFloat() * 360;
 			host.rotationYaw = yaw;
 			host.prevRotationYaw = yaw;
 			SpellHelper.instance.applyStackStage(castStack, host, host, host.posX, host.posY, host.posZ, 0, host.worldObj, false, false, 0);

@@ -129,7 +129,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	private SpriteRenderInfo GetWeightedRandomAnimation(){
 		currentAnimation.reset(false);
 
-		int randomNumber = new Random().nextInt(100);
+		int randomNumber = worldObj.rand.nextInt(100);
 		int index = 0;
 
 		SpriteRenderInfo current = animations.get(0);

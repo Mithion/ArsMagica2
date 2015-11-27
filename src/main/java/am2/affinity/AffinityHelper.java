@@ -44,8 +44,6 @@ import java.util.Random;
 
 public class AffinityHelper{
 
-	private final Random rand = new Random();
-
 	@SubscribeEvent
 	public void onEntityLivingBase(LivingUpdateEvent event){
 		EntityLivingBase ent = event.entityLiving;
@@ -138,10 +136,10 @@ public class AffinityHelper{
 				}
 			}
 
-			if (waterDepth > 0.4 && rand.nextInt(20) < 4)
+			if (waterDepth > 0.4 && ent.worldObj.rand.nextInt(20) < 4)
 				ent.setAir(ent.getAir() + 1);
 
-			if (!ent.worldObj.isRemote && rand.nextInt(100) < 5){
+			if (!ent.worldObj.isRemote && ent.worldObj.rand.nextInt(100) < 5){
 				ent.setAir(ent.getAir() + 1);
 				byte[] data = new AMDataWriter().add(ent.getEntityId()).add(ent.getAir()).generate();
 				AMNetHandler.INSTANCE.sendPacketToClientPlayer((EntityPlayerMP)ent, AMPacketIDs.SYNC_AIR_CHANGE, data);
@@ -164,11 +162,11 @@ public class AffinityHelper{
 
 		if (ent.worldObj.isRaining() && !ent.worldObj.isRemote && ent.worldObj.getBiomeGenForCoords((int)Math.floor(ent.posX), (int)Math.floor(ent.posZ)).canSpawnLightningBolt()){
 			float airDepth = affinityData.getAffinityDepth(Affinity.AIR);
-			if (airDepth > 0.5f && airDepth < 0.85f && !ent.worldObj.isRemote && rand.nextInt(100) < 10){
+			if (airDepth > 0.5f && airDepth < 0.85f && !ent.worldObj.isRemote && ent.worldObj.rand.nextInt(100) < 10){
 				if (!ent.isSneaking() && !ent.isPotionActive(BuffList.gravityWell) && !ent.isInsideOfMaterial(Material.water) && ent.isWet()){
-					double velX = rand.nextDouble() - 0.5;
-					double velY = rand.nextDouble() - 0.5;
-					double velZ = rand.nextDouble() - 0.5;
+					double velX = ent.worldObj.rand.nextDouble() - 0.5;
+					double velY = ent.worldObj.rand.nextDouble() - 0.5;
+					double velZ = ent.worldObj.rand.nextDouble() - 0.5;
 					ent.addVelocity(velX, velY, velZ);
 					AMNetHandler.INSTANCE.sendVelocityAddPacket(ent.worldObj, ent, velX, velY, velZ);
 				}
@@ -223,7 +221,7 @@ public class AffinityHelper{
 				AMCore.proxy.particleManager.BoltFromEntityToPoint(ent.worldObj, ent, ent.posX - 2 + ent.getRNG().nextDouble() * 4, ent.posY + ent.getEyeHeight() - 2 + ent.getRNG().nextDouble() * 4, ent.posZ - 2 + ent.getRNG().nextDouble() * 4);
 			}else{
 				if (ent.getRNG().nextDouble() < 0.4f)
-					ent.worldObj.playSoundAtEntity(ent, "arsmagica2:misc.event.mana_shield_block", 1.0f, rand.nextFloat() + 0.5f);
+					ent.worldObj.playSoundAtEntity(ent, "arsmagica2:misc.event.mana_shield_block", 1.0f, ent.worldObj.rand.nextFloat() + 0.5f);
 			}
 		}
 	}
@@ -437,7 +435,7 @@ public class AffinityHelper{
 		if (event.caster instanceof EntityPlayer && event.castResult == SpellCastResult.SUCCESS){
 			float affinityDepth = AffinityData.For(event.caster).getAffinityDepth(Affinity.ARCANE);
 			if (affinityDepth > 0.4f){
-				if (rand.nextInt(100) < 5 && !event.caster.worldObj.isRemote){
+				if (event.caster.worldObj.rand.nextInt(100) < 5 && !event.caster.worldObj.isRemote){
 					event.caster.addPotionEffect(new BuffEffectClarity(140, 0));
 				}
 			}

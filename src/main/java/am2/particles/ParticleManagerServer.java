@@ -23,7 +23,6 @@ public class ParticleManagerServer{
 	public static final byte PKT_ARC_PT_PT = 58;
 	public static final byte PKT_ARC_PT_ENT = 57;
 	public static final byte PKT_ARC_ENT_ENT = 56;
-	private final Random rand = new Random();
 
 	public Object spawn(World world, String name, double x, double y, double z){
 		return null;

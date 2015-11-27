@@ -189,7 +189,6 @@ public class ItemCrystalPhylactery extends ArsMagicaItem{
 	}
 
 	public void getSpawnableEntities(World world){
-		Random random = new Random();
 		for (Object clazz : EntityList.classToStringMapping.keySet()){
 			if (EntityCreature.class.isAssignableFrom((Class)clazz)){
 				try{
@@ -209,7 +208,7 @@ public class ItemCrystalPhylactery extends ArsMagicaItem{
 						}
 						if (!found){
 							//no spawn egg...pick random color?
-							color = random.nextInt();
+							color = world.rand.nextInt();
 						}
 						spawnableEntities.put((String)EntityList.classToStringMapping.get(clazz), color);
 					}

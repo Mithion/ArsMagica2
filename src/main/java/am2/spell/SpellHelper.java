@@ -45,10 +45,7 @@ public class SpellHelper{
 
 	public static final SpellHelper instance = new SpellHelper();
 
-	private final Random rand;
-
 	private SpellHelper(){
-		rand = new Random();
 	}
 
 	public SpellCastResult applyStageToGround(ItemStack stack, EntityLivingBase caster, World world, int blockX, int blockY, int blockZ, int blockFace, double impactX, double impactY, double impactZ, int stage, boolean consumeMBR){
@@ -81,7 +78,7 @@ public class SpellHelper{
 							}
 						}
 					}
-					component.spawnParticles(world, blockX, blockY, blockZ, caster, caster, rand, color);
+					component.spawnParticles(world, blockX, blockY, blockZ, caster, caster, world.rand, color);
 				}
 				if (consumeMBR)
 					SpellUtils.instance.doAffinityShift(caster, component, stageShape);
@@ -118,7 +115,7 @@ public class SpellHelper{
 							}
 						}
 					}
-					component.spawnParticles(world, target.posX, target.posY + target.getEyeHeight(), target.posZ, caster, target, rand, color);
+					component.spawnParticles(world, target.posX, target.posY + target.getEyeHeight(), target.posZ, caster, target, world.rand, color);
 				}
 				if (shiftAffinityAndXP)
 					SpellUtils.instance.doAffinityShift(caster, component, stageShape);

@@ -67,11 +67,8 @@ import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class AMEventHandler{
-
-	private final Random rand = new Random();
 
 	@SubscribeEvent
 	public void onPotionBrewed(PotionBrewedEvent brewEvent){
@@ -226,8 +223,6 @@ public class AMEventHandler{
 			double yVelocity = 0;
 			double xVelocity = 0;
 			double zVelocity = 0;
-
-			Random rand = new Random();
 
 			Vec3 vec = event.entityLiving.getLookVec().normalize();
 			switch (event.entityLiving.getActivePotionEffect(BuffList.leap).getAmplifier() + 1){
@@ -569,8 +564,14 @@ public class AMEventHandler{
 				ExtendedProperties.For(event.entityLiving).deductMana(event.ammount * 100f);
 				ExtendedProperties.For(event.entityLiving).forceSync();
 				for (int i = 0; i < Math.min(event.ammount, 5 * AMCore.config.getGFXLevel()); ++i)
-					AMCore.proxy.particleManager.BoltFromPointToPoint(event.entityLiving.worldObj, event.entityLiving.posX, event.entityLiving.posY + rand.nextFloat() * event.entityLiving.getEyeHeight(), event.entityLiving.posZ, event.entityLiving.posX - 1 + rand.nextFloat() * 2, event.entityLiving.posY - 1 + rand.nextFloat() * 2, event.entityLiving.posZ - 1 + rand.nextFloat() * 2, 6, -1);
-				event.entityLiving.worldObj.playSoundAtEntity(event.entityLiving, "arsmagica2:misc.event.mana_shield_block", 1.0f, rand.nextFloat() + 0.5f);
+					AMCore.proxy.particleManager.BoltFromPointToPoint(event.entityLiving.worldObj,
+							event.entityLiving.posX,
+							event.entityLiving.posY + event.entityLiving.worldObj.rand.nextFloat() * event.entityLiving.getEyeHeight(),
+							event.entityLiving.posZ,
+							event.entityLiving.posX - 1 + event.entityLiving.worldObj.rand.nextFloat() * 2,
+							event.entityLiving.posY - 1 + event.entityLiving.worldObj.rand.nextFloat() * 2,
+							event.entityLiving.posZ - 1 + event.entityLiving.worldObj.rand.nextFloat() * 2, 6, -1);
+				event.entityLiving.worldObj.playSoundAtEntity(event.entityLiving, "arsmagica2:misc.event.mana_shield_block", 1.0f, event.entityLiving.worldObj.rand.nextFloat() + 0.5f);
 				event.setCanceled(true);
 				return;
 			}
@@ -594,8 +595,14 @@ public class AMEventHandler{
 			ExtendedProperties.For(event.entityLiving).deductMana(manaToTake);
 			ExtendedProperties.For(event.entityLiving).forceSync();
 			for (int i = 0; i < Math.min(event.ammount, 5 * AMCore.config.getGFXLevel()); ++i)
-				AMCore.proxy.particleManager.BoltFromPointToPoint(event.entityLiving.worldObj, event.entityLiving.posX, event.entityLiving.posY + rand.nextFloat() * event.entityLiving.getEyeHeight(), event.entityLiving.posZ, event.entityLiving.posX - 1 + rand.nextFloat() * 2, event.entityLiving.posY + event.entityLiving.getEyeHeight() - 1 + rand.nextFloat() * 2, event.entityLiving.posZ - 1 + rand.nextFloat() * 2, 6, -1);
-			event.entityLiving.worldObj.playSoundAtEntity(event.entityLiving, "arsmagica2:misc.event.mana_shield_block", 1.0f, rand.nextFloat() + 0.5f);
+				AMCore.proxy.particleManager.BoltFromPointToPoint(event.entityLiving.worldObj,
+						event.entityLiving.posX,
+						event.entityLiving.posY + event.entityLiving.worldObj.rand.nextFloat() * event.entityLiving.getEyeHeight(),
+						event.entityLiving.posZ,
+						event.entityLiving.posX - 1 + event.entityLiving.worldObj.rand.nextFloat() * 2,
+						event.entityLiving.posY + event.entityLiving.getEyeHeight() - 1 + event.entityLiving.worldObj.rand.nextFloat() * 2,
+						event.entityLiving.posZ - 1 + event.entityLiving.worldObj.rand.nextFloat() * 2, 6, -1);
+			event.entityLiving.worldObj.playSoundAtEntity(event.entityLiving, "arsmagica2:misc.event.mana_shield_block", 1.0f, event.entityLiving.worldObj.rand.nextFloat() + 0.5f);
 			if (event.ammount <= 0){
 				event.setCanceled(true);
 				return;

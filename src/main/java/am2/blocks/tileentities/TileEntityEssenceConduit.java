@@ -18,16 +18,15 @@ public class TileEntityEssenceConduit extends TileEntityAMPower{
 
 	public TileEntityEssenceConduit(){
 		super(1);
-		Random rand = new Random();
-		rotationX = rand.nextInt(360);
-		rotationY = rand.nextInt(360);
-		rotationZ = rand.nextInt(360);
+		rotationX = worldObj.rand.nextInt(360);
+		rotationY = worldObj.rand.nextInt(360);
+		rotationZ = worldObj.rand.nextInt(360);
 
 		redstonePowered = false;
 
-		rotationIncrementX = rand.nextFloat() * 0.002f + 0.005f;
-		rotationIncrementY = rand.nextFloat() * 0.002f + 0.005f;
-		rotationIncrementZ = rand.nextFloat() * 0.002f + 0.005f;
+		rotationIncrementX = worldObj.rand.nextFloat() * 0.002f + 0.005f;
+		rotationIncrementY = worldObj.rand.nextFloat() * 0.002f + 0.005f;
+		rotationIncrementZ = worldObj.rand.nextFloat() * 0.002f + 0.005f;
 
 	}
 

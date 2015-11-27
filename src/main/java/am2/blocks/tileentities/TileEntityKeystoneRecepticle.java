@@ -36,7 +36,6 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 
 	private boolean isActive;
 	private long key;
-	private final Random rand;
 	private final int boltType = 2;
 	private int surroundingCheckTicks = 20;
 
@@ -50,7 +49,6 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 	public TileEntityKeystoneRecepticle(){
 		super(250000);
 		this.isActive = false;
-		this.rand = new Random();
 		inventory = new ItemStack[getSizeInventory()];
 		initMultiblock();
 	}

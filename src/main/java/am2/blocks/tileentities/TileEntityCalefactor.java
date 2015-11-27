@@ -44,12 +44,10 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	public TileEntityCalefactor(){
 		super(100);
 
-		Random rand = new Random();
-
 		calefactorItemStacks = new ItemStack[getSizeInventory()];
-		rotationStepX = rand.nextFloat() * 0.03f - 0.015f;
-		rotationStepY = rand.nextFloat() * 0.03f - 0.015f;
-		rotationStepZ = rand.nextFloat() * 0.03f - 0.015f;
+		rotationStepX = worldObj.rand.nextFloat() * 0.03f - 0.015f;
+		rotationStepY = worldObj.rand.nextFloat() * 0.03f - 0.015f;
+		rotationStepZ = worldObj.rand.nextFloat() * 0.03f - 0.015f;
 
 		isCooking = false;
 	}

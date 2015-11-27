@@ -39,8 +39,6 @@ public class TileEntityParticleEmitter extends TileEntity{
 	private int showTicks = 0;
 	boolean forceShow;
 
-	private Random random = new Random();
-
 	public TileEntityParticleEmitter(){
 		particleType = 0;
 		particleQuantity = 1;
@@ -53,7 +51,7 @@ public class TileEntityParticleEmitter extends TileEntity{
 		randomColor = false;
 		show = true;
 		forceShow = false;
-		fullUpdateDelayTicks = random.nextInt(40);
+		fullUpdateDelayTicks = worldObj.rand.nextInt(40);
 	}
 
 	@Override
@@ -88,9 +86,9 @@ public class TileEntityParticleEmitter extends TileEntity{
 
 	private void doSpawn(){
 		if (!hasReceivedFullUpdate) return;
-		double x = randomzieCoord(xCoord + 0.5);
-		double y = randomzieCoord(yCoord + 0.5);
-		double z = randomzieCoord(zCoord + 0.5);
+		double x = randomizeCoord(xCoord + 0.5);
+		double y = randomizeCoord(yCoord + 0.5);
+		double z = randomizeCoord(zCoord + 0.5);
 		AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, AMParticle.particleTypes[particleType], x, y, z);
 		if (particle != null){
 			particle.AddParticleController(AMCore.proxy.particleManager.createDefaultParticleController(particleBehaviour, particle, new AMVector3(x, y, z), speed, worldObj.getBlockMetadata(xCoord, yCoord, zCoord)));
@@ -102,13 +100,13 @@ public class TileEntityParticleEmitter extends TileEntity{
 				if (!randomColor)
 					particle.setRGBColorF(((particleColor >> 16) & 0xFF) / 255f, ((particleColor >> 8) & 0xFF) / 255f, (particleColor & 0xFF) / 255f);
 				else
-					particle.setRGBColorF(random.nextFloat(), random.nextFloat(), random.nextFloat());
+					particle.setRGBColorF(worldObj.rand.nextFloat(), worldObj.rand.nextFloat(), worldObj.rand.nextFloat());
 			}
 		}
 	}
 
-	private double randomzieCoord(double base){
-		return base + random.nextDouble() - 0.5;
+	private double randomizeCoord(double base){
+		return base + worldObj.rand.nextDouble() - 0.5;
 	}
 
 	@Override

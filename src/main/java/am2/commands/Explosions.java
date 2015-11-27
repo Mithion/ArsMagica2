@@ -25,17 +25,16 @@ public class Explosions extends CommandBase{
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring){
 		EntityPlayer player = getCommandSenderAsPlayer(icommandsender);
-		Random rand = new Random();
 
 		if (player.getCommandSenderName().equals("Moridrex") || player.getCommandSenderName().equals("Mithion")){
-			if (rand.nextInt(10) < 5 || !player.worldObj.canBlockSeeTheSky((int)player.posX, (int)player.posY, (int)player.posZ)){
+			if (player.worldObj.rand.nextInt(10) < 5 || !player.worldObj.canBlockSeeTheSky((int)player.posX, (int)player.posY, (int)player.posZ)){
 				Explosion explosion = player.worldObj.newExplosion(null, player.posX, player.posY, player.posZ, 10, true, true);
 				player.attackEntityFrom(DamageSource.setExplosionSource(explosion), 5000);
 			}else{
 				if (!player.worldObj.isRemote){
 					for (int i = 0; i < 25; ++i){
 						EntityCreeper creeper = new EntityCreeper(player.worldObj);
-						creeper.setPosition(player.posX + rand.nextInt(4) - 2, player.posY + 20, player.posZ + rand.nextInt(4) - 2);
+						creeper.setPosition(player.posX + player.worldObj.rand.nextInt(4) - 2, player.posY + 20, player.posZ + player.worldObj.rand.nextInt(4) - 2);
 						player.worldObj.spawnEntityInWorld(creeper);
 					}
 				}

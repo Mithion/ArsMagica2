@@ -130,7 +130,6 @@ public class BlockEssenceGenerator extends AMSpecialRenderPoweredBlock{
 			super.breakBlock(par1World, par2, par3, par4, par5, par6);
 			return;
 		}
-		Random rand = new Random();
 		TileEntityObelisk obelisk = getTileEntity(par1World, par2, par3, par4);
 		if (obelisk == null) return;
 		for (int l = 0; l < obelisk.getSizeInventory(); l++){
@@ -138,14 +137,14 @@ public class BlockEssenceGenerator extends AMSpecialRenderPoweredBlock{
 			if (itemstack == null){
 				continue;
 			}
-			float f = rand.nextFloat() * 0.8F + 0.1F;
-			float f1 = rand.nextFloat() * 0.8F + 0.1F;
-			float f2 = rand.nextFloat() * 0.8F + 0.1F;
+			float f = par1World.rand.nextFloat() * 0.8F + 0.1F;
+			float f1 = par1World.rand.nextFloat() * 0.8F + 0.1F;
+			float f2 = par1World.rand.nextFloat() * 0.8F + 0.1F;
 			do{
 				if (itemstack.stackSize <= 0){
 					break;
 				}
-				int i1 = rand.nextInt(21) + 10;
+				int i1 = par1World.rand.nextInt(21) + 10;
 				if (i1 > itemstack.stackSize){
 					i1 = itemstack.stackSize;
 				}
@@ -154,9 +153,9 @@ public class BlockEssenceGenerator extends AMSpecialRenderPoweredBlock{
 				newItem.setTagCompound(itemstack.getTagCompound());
 				EntityItem entityitem = new EntityItem(par1World, par2 + f, par3 + f1, par4 + f2, newItem);
 				float f3 = 0.05F;
-				entityitem.motionX = (float)rand.nextGaussian() * f3;
-				entityitem.motionY = (float)rand.nextGaussian() * f3 + 0.2F;
-				entityitem.motionZ = (float)rand.nextGaussian() * f3;
+				entityitem.motionX = (float)par1World.rand.nextGaussian() * f3;
+				entityitem.motionY = (float)par1World.rand.nextGaussian() * f3 + 0.2F;
+				entityitem.motionZ = (float)par1World.rand.nextGaussian() * f3;
 				par1World.spawnEntityInWorld(entityitem);
 			}while (true);
 		}

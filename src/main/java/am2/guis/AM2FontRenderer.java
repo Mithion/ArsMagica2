@@ -27,7 +27,7 @@ public class AM2FontRenderer{
 	 * the height in pixels of default text
 	 */
 	public int FONT_HEIGHT = 10;
-	public Random fontRandom = new Random();
+	public static final Random fontRandom = new Random();
 
 	/**
 	 * Array of the start/end column (in upper/lower nibble) for every glyph in the /font directory.

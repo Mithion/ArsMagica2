@@ -134,11 +134,10 @@ public class BlockManaBattery extends PoweredBlock{
 
 	private void destroy(World world, int i, int j, int k){
 		TileEntityManaBattery te = getTileEntity(world, i, j, k);
-		Random rand = new Random();
 		if (te != null && !world.isRemote){
-			float f = rand.nextFloat() * 0.8F + 0.1F;
-			float f1 = rand.nextFloat() * 0.8F + 0.1F;
-			float f2 = rand.nextFloat() * 0.8F + 0.1F;
+			float f = world.rand.nextFloat() * 0.8F + 0.1F;
+			float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
+			float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
 			int dmg = (int)((PowerNodeRegistry.For(world).getPower(te, te.getPowerType()) / te.getCapacity()) * 100);
 			if (dmg == 0) dmg = 1;
 			ItemStack stack = new ItemStack(this);
@@ -158,9 +157,9 @@ public class BlockManaBattery extends PoweredBlock{
 
 			EntityItem entityitem = new EntityItem(world, i + f, j + f1, k + f2, stack);
 			float f3 = 0.05F;
-			entityitem.motionX = (float)rand.nextGaussian() * f3;
-			entityitem.motionY = (float)rand.nextGaussian() * f3 + 0.2F;
-			entityitem.motionZ = (float)rand.nextGaussian() * f3;
+			entityitem.motionX = (float)world.rand.nextGaussian() * f3;
+			entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
+			entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
 			world.spawnEntityInWorld(entityitem);
 		}
 	}

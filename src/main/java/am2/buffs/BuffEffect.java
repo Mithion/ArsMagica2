@@ -11,14 +11,12 @@ import java.util.Random;
 public abstract class BuffEffect extends PotionEffect{
 	protected boolean InitialApplication;
 	protected boolean HasNotified;
-	protected Random rand;
 	private static float maxExtendDuration = 900; //30 seconds
 
 	public BuffEffect(int buffID, int duration, int amplifier){
 		super(buffID, duration, amplifier > 0 ? amplifier - 1 : amplifier);
 		InitialApplication = true;
 		HasNotified = ((duration / 20) > 5) ? false : true; //disable notification for effects that last less than 5 seconds
-		rand = new Random();
 	}
 
 	public static boolean SetAmplifier(PotionEffect pe, int amplifier){

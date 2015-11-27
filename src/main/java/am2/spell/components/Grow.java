@@ -32,7 +32,6 @@ import java.util.Random;
 
 public class Grow implements ISpellComponent{
 
-	private final Random random = new Random();
 	private final static ArrayList<AMFlower> growableAMflowers = new ArrayList<AMFlower>(Arrays.asList(
 			BlocksCommonProxy.cerublossom, BlocksCommonProxy.desertNova, BlocksCommonProxy.wakebloom, BlocksCommonProxy.aum, BlocksCommonProxy.tarmaRoot));
 
@@ -50,7 +49,7 @@ public class Grow implements ISpellComponent{
 		}
 
 		//EoD: Spawn AM2 flowers with 3% chance. This has to be the first one in the list to override all others
-		if (random.nextInt(100) < 3 && block.isNormalCube() &&
+		if (world.rand.nextInt(100) < 3 && block.isNormalCube() &&
 				(world.getBlock(blockx, blocky + 1, blockz).isAir(null, 0, 0, 0) || world.getBlock(blockx, blocky + 1, blockz) == Blocks.tallgrass)){
 			// shuffle the flower list every time we want to try to find one.
 			Collections.shuffle(growableAMflowers);
@@ -68,7 +67,7 @@ public class Grow implements ISpellComponent{
 
 		//Grow huge mushrooms 10% of the time.
 		if (block instanceof BlockMushroom){
-			if (!world.isRemote && random.nextInt(10) < 1){
+			if (!world.isRemote && world.rand.nextInt(10) < 1){
 				((BlockMushroom)block).func_149884_c(world, blockx, blocky, blockz, world.rand);
 			}
 
@@ -79,7 +78,7 @@ public class Grow implements ISpellComponent{
 		//If the spell is executed in water, check if we have space for a wakebloom above and create one 3% of the time.
 		if (block == Blocks.water){
 			if (world.getBlock(blockx, blocky + 1, blockz) == Blocks.air){
-				if (!world.isRemote && random.nextInt(100) < 3){
+				if (!world.isRemote && world.rand.nextInt(100) < 3){
 					world.setBlock(blockx, blocky + 1, blockz, BlocksCommonProxy.wakebloom);
 				}
 				return true;
@@ -89,7 +88,7 @@ public class Grow implements ISpellComponent{
 		//EoD: If there is already tallgrass present, let's grow it further 20% of the time.
 		if (block == Blocks.tallgrass){
 			if (Blocks.tallgrass.canBlockStay(world, blockx, blocky + 1, blockz)){
-				if (!world.isRemote && random.nextInt(10) < 2){
+				if (!world.isRemote && world.rand.nextInt(10) < 2){
 					world.setBlock(blockx, blocky, blockz, Blocks.tallgrass, 1, 2);
 				}
 				return true;
@@ -100,7 +99,7 @@ public class Grow implements ISpellComponent{
 		//     This works only on podzol in vanilla MC.
 		if (block == Blocks.deadbush){
 			if (Blocks.tallgrass.canBlockStay(world, blockx, blocky, blockz)){
-				if (!world.isRemote && random.nextInt(10) < 2){
+				if (!world.isRemote && world.rand.nextInt(10) < 2){
 					world.setBlock(blockx, blocky, blockz, Blocks.tallgrass, 1, 2);
 				}
 				return true;
@@ -114,7 +113,7 @@ public class Grow implements ISpellComponent{
 			//AMCore.log.getLogger().info("Grow component found IGrowable");
 
 			if (igrowable.func_149851_a(world, blockx, blocky, blockz, world.isRemote)){
-				if (!world.isRemote && random.nextInt(10) < 3){
+				if (!world.isRemote && world.rand.nextInt(10) < 3){
 					if (igrowable.func_149852_a(world, world.rand, blockx, blocky, blockz)){
 						igrowable.func_149853_b(world, world.rand, blockx, blocky, blockz);
 					}
