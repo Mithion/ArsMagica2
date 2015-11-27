@@ -98,7 +98,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 	}
 
 	@Override
-	protected boolean canTriggerWalking(){
+	public boolean canTriggerWalking(){
 		return false;
 	}
 

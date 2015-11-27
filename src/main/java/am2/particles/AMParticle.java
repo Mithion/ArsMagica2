@@ -95,7 +95,7 @@ public class AMParticle extends EntityFX{
 	}
 
 	@Override
-	protected boolean canTriggerWalking(){
+	public boolean canTriggerWalking() {
 		return false;
 	}
 
