@@ -37,7 +37,6 @@ import net.minecraftforge.common.MinecraftForge;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
 
 public class ExtendedProperties implements IExtendedProperties, IExtendedEntityProperties{
 	private EntityLivingBase entity;
@@ -990,7 +989,7 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 
 		updateFlags = 0;
 
-		ticksToSync = new Random().nextInt(syncTickDelay);
+		ticksToSync = world.rand.nextInt(syncTickDelay);
 
 		hasInitialized = true;
 	}
@@ -1037,9 +1036,20 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 			burnout *= 0.75f;
 		this.setCurrentFatigue(currentFatigue + burnout);
 	}
-
+	
+	@Override
+	public String toString() {
+		try {
+			return hashCode() + " " + entity;
+		} catch(Exception exception) {
+			return hashCode() + " (error)";
+		}
+	}
+	
 	public void handleExtendedPropertySync(){
-		if (!this.getHasDoneFullSync()) this.setFullSync();
+		if (!entity.worldObj.isRemote && !this.getHasDoneFullSync()) {
+			this.setFullSync();
+		}
 
 		if (!entity.worldObj.isRemote && this.getHasUpdate()){
 			byte[] data = this.getUpdateData();
