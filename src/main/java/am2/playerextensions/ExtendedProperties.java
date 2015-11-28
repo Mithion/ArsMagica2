@@ -1220,9 +1220,9 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 
 		prevShrinkPct = shrinkPct;
 		if (shrunk && shrinkPct < 1f){
-			shrinkPct += 0.002f;
+			shrinkPct = Math.min(1f, shrinkPct + 0.002f);
 		}else if (!shrunk && shrinkPct > 0f){
-			shrinkPct -= 0.002f;
+			shrinkPct = Math.max(0f, shrinkPct - 0.002f);
 		}
 	}
 
