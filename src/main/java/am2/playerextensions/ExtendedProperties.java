@@ -414,29 +414,17 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 		return this.prevShrinkPct;
 	}
 
+	public void setShrinkPct(float pct){
+		this.prevShrinkPct = this.shrinkPct;
+		this.shrinkPct = pct;
+	}
+
 	public boolean shouldReverseInput(){
 		return getFlipRotation() > 0 || this.entity.isPotionActive(BuffList.scrambleSynapses.id);
 	}
 
 	public AMVector2 getOriginalSize(){
 		return this.originalSize;
-	}
-
-	public void overrideEyeHeight(){
-		if (SkillTreeManager.instance.isSkillDisabled(SkillManager.instance.getSkill("Shrink")))
-			return;
-
-		if (entity instanceof EntityPlayer){
-			float baseEyeHeight = ((EntityPlayer)entity).getDefaultEyeHeight();
-			float baseYOffset = entity.worldObj.isRemote ? (entity == AMCore.proxy.getLocalPlayer() ? 1.62f : 0) : 0;
-			if (entity.isPotionActive(BuffList.shrink)){
-				((EntityPlayer)entity).eyeHeight = baseEyeHeight / 2;
-				entity.yOffset = baseYOffset / 2;
-			}else{
-				((EntityPlayer)entity).eyeHeight = baseEyeHeight;
-				entity.yOffset = baseYOffset;
-			}
-		}
 	}
 
 	public boolean getCanHeal(){
@@ -1204,26 +1192,6 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 			flipRotation += 15;
 		else if (!flipped && flipRotation > 0)
 			flipRotation -= 15;
-	}
-
-	public void shrinkTick(){
-
-		boolean shrunk = getIsShrunk();
-
-		if (!entity.worldObj.isRemote && shrunk && !entity.isPotionActive(BuffList.shrink)){
-			setIsShrunk(false);
-			return;
-		}else if (!entity.worldObj.isRemote && !shrunk && entity.isPotionActive(BuffList.shrink)){
-			setIsShrunk(true);
-			return;
-		}
-
-		prevShrinkPct = shrinkPct;
-		if (shrunk && shrinkPct < 1f){
-			shrinkPct = Math.min(1f, shrinkPct + 0.002f);
-		}else if (!shrunk && shrinkPct > 0f){
-			shrinkPct = Math.max(0f, shrinkPct - 0.002f);
-		}
 	}
 
 	public void cleanupManaLinks(){

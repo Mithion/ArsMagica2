@@ -332,8 +332,6 @@ public class AMEventHandler{
 		//archmage armor effects & infusion
 		if (ent instanceof EntityPlayer){
 
-			extendedProperties.overrideEyeHeight();
-
 			if (ent.worldObj.isRemote){
 				int divisor = ExtendedProperties.For(ent).getAuraDelay() > 0 ? ExtendedProperties.For(ent).getAuraDelay() : 1;
 				if (ent.ticksExisted % divisor == 0)
