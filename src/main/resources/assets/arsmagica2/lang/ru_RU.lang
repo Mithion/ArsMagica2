@@ -374,7 +374,7 @@ am2.spell.targetnonsolid=Цель: Нетвёрдые блоки
 am2.spell.velocityadded=Добавление скорости
 
 am2.spell.affinitygains=Сродство даёт усиление
-am2.spell.augmentedcasting=Augmented Casting
+am2.spell.augmentedcasting=Улучшенное литьё
 am2.spell.extrasummon=Дополнительный призыв
 am2.spell.magebandi=Поиск маны I
 am2.spell.magebandii=Поиск маны II
@@ -604,56 +604,56 @@ am2.npc.partyrefuse=Вы должны стать более сильным, пр
 #affinity effect descriptions
 
 ##air
-am2.affinity.agile=Agile
-am2.affinity.lightasafeather=Light as a Feather
+am2.affinity.agile=Проворство
+am2.affinity.lightasafeather=Перо это свет
 
 ##arcane
-am2.affinity.clearcaster=Clearcaster
-am2.affinity.magicweakness=Magic Weakness
-am2.affinity.onewithmagic=Magical Focus
+am2.affinity.clearcaster=Чистая аура
+am2.affinity.magicweakness=Магическая слабость
+am2.affinity.onewithmagic=Сфокусирование магии
 
 ##earth
-am2.affinity.solidbones=Solid Bones
-am2.affinity.stoneskin=Stone Skin
+am2.affinity.solidbones=Твёрдые Кости
+am2.affinity.stoneskin=Каменная Кожа
 
 ##ender
-am2.affinity.darkvision=Darkvision
-am2.affinity.poisonresistance=Resistant to Poison
-am2.affinity.sunlightweakness=Weakness to Sunlight
-am2.affinity.waterweakness=Weakness to Water
+am2.affinity.darkvision=Темновидиние
+am2.affinity.poisonresistance=Устойчивость к яду
+am2.affinity.sunlightweakness=Устойчивость к солнечному свету
+am2.affinity.waterweakness=Устойчивость к воде
 
 ##fire
-am2.affinity.firepunch=Fire Punch
-am2.affinity.fireresistance=Resistant to Fire
-am2.affinity.waterweakness=Weakness to Water
+am2.affinity.firepunch=Огненный шлепок
+am2.affinity.fireresistance=Слабость к Огню
+am2.affinity.waterweakness=Слабость к воде
 
 ##ice
-am2.affinity.coldblooded=Cold Blooded
-am2.affinity.lavafreeze=Frozen Footsteps (Lava)
-am2.affinity.waterfreeze=Frozen Footsteps (Water)
+am2.affinity.coldblooded=Окровлённый холод
+am2.affinity.lavafreeze=Замороженные Шаги (Лава)
+am2.affinity.waterfreeze=Замороженные шаги (Вода)
 
 ##life
-am2.affinity.fasthealing=Fast Healing
-am2.affinity.pacifist=Pacifist
+am2.affinity.fasthealing=Быстрое лечение
+am2.affinity.pacifist=Пацифист
 
 ##water
-am2.affinity.antiendermen=Endermen-Repellant
-am2.affinity.expandedlungs=Expanded Lungs
-am2.affinity.fireweakness=Fire Weakness
-am2.affinity.fluidity=Fluidity
-am2.affinity.swiftswim=Swift Swimmer
+am2.affinity.antiendermen=Эндерман-откидывание
+am2.affinity.expandedlungs=Расширенная лёгкость
+am2.affinity.fireweakness=Слабость к огню
+am2.affinity.fluidity=Текучесть
+am2.affinity.swiftswim=Быстрое лето
 
 ##nature
-am2.affinity.harvester=Harvester
-am2.affinity.photosynthesis=Photosynthesis
-am2.affinity.rooted=Rooted
-am2.affinity.thorns=Thorns Aura
+am2.affinity.harvester=Комбайн
+am2.affinity.photosynthesis=Фотосинтез
+am2.affinity.rooted=Коренноый
+am2.affinity.thorns=Шыпастая аура
 
 ##lightning
-am2.affinity.fulmination=Fulmination
-am2.affinity.reflexes=Lightning Reflexes
-am2.affinity.shortcircuit=Short Circuit
-am2.affinity.thunderpunch=Thunderpunch
+am2.affinity.fulmination=Инициированный врзыр
+am2.affinity.reflexes=Рефлекты света
+am2.affinity.shortcircuit=Короткая схема
+am2.affinity.thunderpunch=Громовой шлепок
 
 
 #achievements
