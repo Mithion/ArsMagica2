@@ -40,9 +40,11 @@ public abstract class BuffEffect extends PotionEffect{
 	}
 
 	//Effect that is performed on intermediate ticks
+	@Override
 	public void performEffect(EntityLivingBase entityliving){
 	}
 
+	@Override
 	public void combine(PotionEffect potioneffect){
 		//don't combine "potion effects" with other buff effects
 		if (!(potioneffect instanceof BuffEffect)){
@@ -55,6 +57,7 @@ public abstract class BuffEffect extends PotionEffect{
 		}
 	}
 
+	@Override
 	public boolean onUpdate(EntityLivingBase entityliving){
 		//check for if we are for the first time applying the effect
 		if (InitialApplication){
@@ -87,6 +90,7 @@ public abstract class BuffEffect extends PotionEffect{
 
 	protected abstract String spellBuffName();
 
+	@Override
 	public String getEffectName(){
 		return String.format("Spell: %s", spellBuffName());
 	}
