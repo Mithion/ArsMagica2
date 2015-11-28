@@ -26,8 +26,6 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
 
-import java.util.Random;
-
 public class TileEntityArcaneReconstructor extends TileEntityAMPower implements IInventory, ISidedInventory, IKeystoneLockable{
 
 	private ItemStack[] inventory;
@@ -39,6 +37,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 	private final AMVector3 middleRingRotation;
 	private final AMVector3 innerRingRotation;
 	private float rotateOffset = 0;
+	private int deactivationDelayTicks = 0;
 
 	private EntityLiving dummyEntity;
 
@@ -90,13 +89,21 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 			isFirstTick = false;
 		}
 
-		if (PowerNodeRegistry.For(this.worldObj).checkPower(this, this.getRepairCost()) && repairCounter++ % getRepairRate() == 0){
-			if (!queueRepairableItem()){
-				if (performRepair()){
+		if (PowerNodeRegistry.For(this.worldObj).checkPower(this, this.getRepairCost())) {// has enough power
+			if ((repairCounter++ % getRepairRate() == 0) && (!queueRepairableItem())) {// has ticked and already has item queued
+				if (performRepair()){// something to repair
 					if (!worldObj.isRemote){
 						PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerNodeRegistry.For(worldObj).getHighestPowerType(this), this.getRepairCost());
 					}
 				}
+			}
+			deactivationDelayTicks = 0;
+		} else if (!worldObj.isRemote && active){// out of power, on server and active
+			if (deactivationDelayTicks++ > 100) {// 5 seconds
+				deactivationDelayTicks = 0;
+				this.active = false;
+				if (!worldObj.isRemote)
+					worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			}
 		}
 		if (worldObj.isRemote){
@@ -138,9 +145,10 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 
 	private void updateRotations(){
 		if (active){
-			if (ringOffset < 0.5){
+			if (ringOffset < 0.5f){
 				ringOffset += 0.015f;
 			}else{
+				ringOffset = 0.51f;
 				outerRingRotation.add(outerRingRotationSpeeds);
 				middleRingRotation.add(middleRingRotationSpeeds);
 				innerRingRotation.add(innerRingRotationSpeeds);
@@ -166,8 +174,10 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 				innerRingRotation.y = easeCoordinate(innerRingRotation.y, innerRingRotationSpeeds.y);
 				innerRingRotation.z = easeCoordinate(innerRingRotation.z, innerRingRotationSpeeds.z);
 			}else{
-				if (ringOffset > 0){
+				if (ringOffset > 0f){
 					ringOffset -= 0.03f;
+				} else {
+					ringOffset = 0f;
 				}
 			}
 		}
@@ -223,7 +233,14 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 	}
 
 	private boolean queueRepairableItem(){
-		if (inventory[SLOT_ACTIVE] != null) return false;
+		if (inventory[SLOT_ACTIVE] != null) {
+			if (!active) {
+				this.active = true;
+				if (!worldObj.isRemote)
+					worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			}
+			return false;
+		}
 		for (int i = 4; i < 10; ++i){
 			if (itemStackIsValid(inventory[i])){
 				inventory[SLOT_ACTIVE] = inventory[i].copy();
@@ -257,7 +274,6 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 		if (MinecraftForge.EVENT_BUS.post(event)){
 			return true;
 		}
-
 
 		if (inventory[SLOT_ACTIVE].isItemDamaged()){
 			if (!worldObj.isRemote)
@@ -370,6 +386,8 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 				inventory[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
 			}
 		}
+		active = nbttagcompound.getBoolean("ArcaneReconstructorActive");
+		repairCounter = nbttagcompound.getInteger("ArcaneReconstructorRepairCounter");
 	}
 
 	@Override
@@ -387,6 +405,8 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 		}
 
 		nbttagcompound.setTag("ArcaneReconstructorInventory", nbttaglist);
+		nbttagcompound.setBoolean("ArcaneReconstructorActive", active);
+		nbttagcompound.setInteger("ArcaneReconstructorRepairCounter", repairCounter);
 	}
 
 	private int numFociOfType(Class type){
