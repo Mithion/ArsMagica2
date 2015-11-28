@@ -15,23 +15,26 @@ public class TileEntityEssenceConduit extends TileEntityAMPower{
 	private float rotationIncrementX;
 	private float rotationIncrementY;
 	private float rotationIncrementZ;
+	
+	private boolean isFirstTick = false;
 
 	public TileEntityEssenceConduit(){
 		super(1);
-		rotationX = worldObj.rand.nextInt(360);
-		rotationY = worldObj.rand.nextInt(360);
-		rotationZ = worldObj.rand.nextInt(360);
 
 		redstonePowered = false;
-
-		rotationIncrementX = worldObj.rand.nextFloat() * 0.002f + 0.005f;
-		rotationIncrementY = worldObj.rand.nextFloat() * 0.002f + 0.005f;
-		rotationIncrementZ = worldObj.rand.nextFloat() * 0.002f + 0.005f;
-
 	}
 
 	@Override
 	public void updateEntity(){
+		if (isFirstTick) {
+			rotationX = worldObj.rand.nextInt(360);
+			rotationY = worldObj.rand.nextInt(360);
+			rotationZ = worldObj.rand.nextInt(360);
+			rotationIncrementX = worldObj.rand.nextFloat() * 0.002f + 0.005f;
+			rotationIncrementY = worldObj.rand.nextFloat() * 0.002f + 0.005f;
+			rotationIncrementZ = worldObj.rand.nextFloat() * 0.002f + 0.005f;
+			isFirstTick = false;
+		}
 		if (worldObj != null && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)){
 			redstonePowered = true;
 		}else{

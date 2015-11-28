@@ -32,8 +32,6 @@ public class TileEntityParticleEmitter extends TileEntity{
 	private float speed;
 
 	private boolean hasReceivedFullUpdate = false;
-	private int fullUpdateDelayTicks;
-	private int updateCounter = 0;
 
 	private int spawnTicks = 0;
 	private int showTicks = 0;
@@ -51,7 +49,6 @@ public class TileEntityParticleEmitter extends TileEntity{
 		randomColor = false;
 		show = true;
 		forceShow = false;
-		fullUpdateDelayTicks = worldObj.rand.nextInt(40);
 	}
 
 	@Override

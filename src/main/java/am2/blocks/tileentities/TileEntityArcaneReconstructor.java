@@ -42,11 +42,12 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 
 	private EntityLiving dummyEntity;
 
-	private final AMVector3 outerRingRotationSpeeds;
-	private final AMVector3 middleRingRotationSpeeds;
-	private final AMVector3 innerRingRotationSpeeds;
+	private AMVector3 outerRingRotationSpeeds;
+	private AMVector3 middleRingRotationSpeeds;
+	private AMVector3 innerRingRotationSpeeds;
 
 	private static final int SLOT_ACTIVE = 3;
+	private boolean isFirstTick = true;
 
 	public TileEntityArcaneReconstructor(){
 		super(500);
@@ -57,10 +58,6 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 		outerRingRotation = new AMVector3(0, 0, 0);
 		middleRingRotation = new AMVector3(0, 0, 0);
 		innerRingRotation = new AMVector3(0, 0, 0);
-
-		outerRingRotationSpeeds = new AMVector3(worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2);
-		middleRingRotationSpeeds = new AMVector3(worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2);
-		innerRingRotationSpeeds = new AMVector3(worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2);
 
 	}
 
@@ -86,6 +83,13 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 
 	@Override
 	public void updateEntity(){
+		if (isFirstTick) {
+			outerRingRotationSpeeds = new AMVector3(worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2);
+			middleRingRotationSpeeds = new AMVector3(worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2);
+			innerRingRotationSpeeds = new AMVector3(worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2);
+			isFirstTick = false;
+		}
+
 		if (PowerNodeRegistry.For(this.worldObj).checkPower(this, this.getRepairCost()) && repairCounter++ % getRepairRate() == 0){
 			if (!queueRepairableItem()){
 				if (performRepair()){
