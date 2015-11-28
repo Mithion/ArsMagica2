@@ -259,7 +259,7 @@ public class AMClientEventHandler{
 		float shrink = ExtendedProperties.For(event.entityPlayer).getShrinkPct();
 		if (shrink > 0){
 			GL11.glPushMatrix();
-			GL11.glTranslatef(0, -0.5f, 0);
+			GL11.glTranslatef(0, 0 - 0.5f * shrink, 0);
 			GL11.glScalef(1 - 0.5f * shrink, 1 - 0.5f * shrink, 1 - 0.5f * shrink);
 		}
 

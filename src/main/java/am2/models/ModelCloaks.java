@@ -167,8 +167,8 @@ public class ModelCloaks extends ModelBase{
 		GL11.glRotatef(f3, 0.0F, 1.0F, 0.0F);
 		copyRotations(mainModel);
 
-		if (ExtendedProperties.For(player).getShrinkPct() > 0){
-			float pct = ExtendedProperties.For(player).getShrinkPct();
+		float pct = ExtendedProperties.For(player).getShrinkPct();
+		if (pct > 0){
 			float amt = 0.5f * pct;
 			GL11.glTranslatef(0, 1 * 1 - pct, 0);
 			GL11.glScalef(1 - amt, 1 - amt, 1 - amt);

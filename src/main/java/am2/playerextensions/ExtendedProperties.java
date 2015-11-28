@@ -1208,9 +1208,6 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 
 	public void shrinkTick(){
 
-		if (SkillTreeManager.instance.isSkillDisabled(SkillManager.instance.getSkill("Shrink")))
-			return;
-
 		boolean shrunk = getIsShrunk();
 
 		if (!entity.worldObj.isRemote && shrunk && !entity.isPotionActive(BuffList.shrink)){
@@ -1223,9 +1220,9 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 
 		prevShrinkPct = shrinkPct;
 		if (shrunk && shrinkPct < 1f){
-			shrinkPct += 0.05f;
+			shrinkPct += 0.002f;
 		}else if (!shrunk && shrinkPct > 0f){
-			shrinkPct -= 0.05f;
+			shrinkPct -= 0.002f;
 		}
 	}
 
