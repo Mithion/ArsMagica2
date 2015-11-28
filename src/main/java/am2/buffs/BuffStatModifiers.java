@@ -17,15 +17,11 @@ public class BuffStatModifiers{
 		//entangled
 		applyOrRemoveModifiersForBuff(entity, BuffList.entangled.id, new KeyValuePair(SharedMonsterAttributes.movementSpeed, entangled));
 		//frost slow
-		applyOrRemoveModifiersForBuff(entity, BuffList.frostSlowed.id, 0, new KeyValuePair(SharedMonsterAttributes.movementSpeed, frostSlow_Diminished));
-		applyOrRemoveModifiersForBuff(entity, BuffList.frostSlowed.id, 1, new KeyValuePair(SharedMonsterAttributes.movementSpeed, frostSlow_Normal));
-		applyOrRemoveModifiersForBuff(entity, BuffList.frostSlowed.id, 2, new KeyValuePair(SharedMonsterAttributes.movementSpeed, frostSlow_Augmented));
+		applyOrRemoveScalingModifiersForBuff(entity, BuffList.frostSlowed.id, SharedMonsterAttributes.movementSpeed, frostSlow_Diminished, frostSlow_Normal, frostSlow_Augmented);
 		//fury
 		applyOrRemoveModifiersForBuff(entity, BuffList.fury.id, new KeyValuePair(SharedMonsterAttributes.movementSpeed, furyMoveMod), new KeyValuePair(SharedMonsterAttributes.attackDamage, furyDmgMod));
 		//haste
-		applyOrRemoveModifiersForBuff(entity, BuffList.haste.id, 0, new KeyValuePair(SharedMonsterAttributes.movementSpeed, hasteSpeedBoost_Diminished));
-		applyOrRemoveModifiersForBuff(entity, BuffList.haste.id, 1, new KeyValuePair(SharedMonsterAttributes.movementSpeed, hasteSpeedBoost_Normal));
-		applyOrRemoveModifiersForBuff(entity, BuffList.haste.id, 2, new KeyValuePair(SharedMonsterAttributes.movementSpeed, hasteSpeedBoost_Augmented));
+		applyOrRemoveScalingModifiersForBuff(entity, BuffList.haste.id, SharedMonsterAttributes.movementSpeed, hasteSpeedBoost_Diminished, hasteSpeedBoost_Normal, hasteSpeedBoost_Augmented);
 	}
 
 	private void applyOrRemoveModifiersForBuff(EntityLivingBase entity, int buffID, KeyValuePair<IAttribute, AttributeModifier>... modifiers){
@@ -36,12 +32,25 @@ public class BuffStatModifiers{
 		}
 	}
 
-	private void applyOrRemoveModifiersForBuff(EntityLivingBase entity, int buffID, int magnitude, KeyValuePair<IAttribute, AttributeModifier>... modifiers){
-		if (entity.isPotionActive(buffID)){
-			if (entity.getActivePotionEffect(Potion.potionTypes[buffID]).getAmplifier() == magnitude)
-				applyAllModifiers(entity, modifiers);
+	private void applyOrRemoveScalingModifiersForBuff(EntityLivingBase entity, int potionID, IAttribute attribute, AttributeModifier... modifiers){
+		IAttributeInstance inst = entity.getEntityAttribute(attribute);
+		if (inst == null) {
+			return;
+		}
+		AttributeModifier currentModifier = inst.getModifier(modifiers[0].getID());
+		if (entity.isPotionActive(potionID)){
+			int magnitude = entity.getActivePotionEffect(Potion.potionTypes[potionID]).getAmplifier();
+			AttributeModifier modifier = modifiers[Math.min(magnitude, modifiers.length - 1)];
+			if (currentModifier != modifier) {
+				if (currentModifier != null) {
+					inst.removeModifier(currentModifier);
+				}
+				inst.applyModifier(modifier);
+			}
 		}else{
-			clearAllModifiers(entity, modifiers);
+			if (currentModifier != null) {
+				inst.removeModifier(currentModifier);
+			}
 		}
 	}
 
@@ -50,8 +59,13 @@ public class BuffStatModifiers{
 			IAttributeInstance inst = entity.getEntityAttribute(entry.getKey());
 			if (inst == null)
 				continue;
-			if (inst.getModifier(entry.getValue().getID()) == null)
+			AttributeModifier currentModifier = inst.getModifier(entry.getValue().getID());
+			if (currentModifier != entry.getValue()){
+				if (currentModifier != null) {
+					inst.removeModifier(currentModifier);
+				}
 				inst.applyModifier(entry.getValue());
+			}
 		}
 	}
 
@@ -60,7 +74,10 @@ public class BuffStatModifiers{
 			IAttributeInstance inst = entity.getEntityAttribute(entry.getKey());
 			if (inst == null)
 				continue;
-			inst.removeModifier(entry.getValue());
+			AttributeModifier currentModifier = inst.getModifier(entry.getValue().getID());
+			if (currentModifier == entry.getValue()) {
+				inst.removeModifier(currentModifier);
+			}
 		}
 	}
 
