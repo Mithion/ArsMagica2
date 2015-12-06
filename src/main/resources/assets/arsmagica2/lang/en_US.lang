@@ -400,6 +400,9 @@ am2.spell.manaregenii=Mana Regen II
 am2.spell.manaregeniii=Mana Regen III
 am2.spell.spellmotion=Spell Motion
 
+am2.spell.nauseate=Nauseate
+am2.spell.scramblesynapses=Scramble synapses
+
 #tooltips
 am2.tooltip.air_sled=§3Fly through the air with the greatest of ease...§f
 am2.tooltip.approError=Something went wrong restoring the block. This spell was likely a spell from an older version. The stored block has been cleared to prevent a crash, and the spell should work moving forward. Sorry!
