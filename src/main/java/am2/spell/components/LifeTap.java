@@ -56,11 +56,12 @@ public class LifeTap implements ISpellComponent, IRitualInteraction{
 		if (!(target instanceof EntityLivingBase)) return false;
 		if (!world.isRemote){
 			double damage = SpellUtils.instance.getModifiedDouble_Mul(2, stack, caster, target, world, 0, SpellModifiers.DAMAGE);
-			float manaRefunded = (float)(((damage * 0.01)) * ExtendedProperties.For(caster).getMaxMana());
+			ExtendedProperties casterProperties = ExtendedProperties.For(caster);
+			float manaRefunded = (float)(((damage * 0.01)) * casterProperties.getMaxMana());
 
 			if ((caster).attackEntityFrom(DamageSource.outOfWorld, (int)Math.floor(damage))){
-				ExtendedProperties.For(caster).setCurrentMana(Math.min(ExtendedProperties.For(caster).getCurrentMana() + manaRefunded, ExtendedProperties.For(caster).getMaxMana()));
-				ExtendedProperties.For(caster).forceSync();
+				casterProperties.setCurrentMana(casterProperties.getCurrentMana() + manaRefunded);
+				casterProperties.forceSync();
 			}else{
 				return false;
 			}

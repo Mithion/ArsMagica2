@@ -331,7 +331,7 @@ public class AMEventHandler{
 		if (ent instanceof EntityPlayer){
 
 			if (ent.worldObj.isRemote){
-				int divisor = ExtendedProperties.For(ent).getAuraDelay() > 0 ? ExtendedProperties.For(ent).getAuraDelay() : 1;
+				int divisor = extendedProperties.getAuraDelay() > 0 ? extendedProperties.getAuraDelay() : 1;
 				if (ent.ticksExisted % divisor == 0)
 					AMCore.instance.proxy.particleManager.spawnAuraParticles(ent);
 				AMCore.proxy.setViewSettings();
@@ -392,7 +392,7 @@ public class AMEventHandler{
 			}
 		}
 
-		if (extendedProperties.getContingencyType() == ContingencyTypes.FALL && !ent.onGround && extendedProperties.getContingencyEffect() != null && ent.fallDistance >= 4f){
+		if (!ent.onGround && ent.fallDistance >= 4f && extendedProperties.getContingencyType() == ContingencyTypes.FALL && extendedProperties.getContingencyEffect() != null){
 			int distanceToGround = MathUtilities.getDistanceToGround(ent, world);
 			if (distanceToGround < -8 * ent.motionY){
 				extendedProperties.procContingency();

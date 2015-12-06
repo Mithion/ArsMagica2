@@ -427,15 +427,16 @@ public class ParticleManagerClient extends ParticleManagerServer{
 			particleQuantity = AMCore.config.getAuraQuantity();
 			particleSpeed = AMCore.config.getAuraSpeed() / 10;
 		}else{
-			particleIndex = ExtendedProperties.For(ent).getAuraIndex();
-			particleBehaviour = ExtendedProperties.For(ent).getAuraBehaviour();
-			particleScale = ExtendedProperties.For(ent).getAuraScale() / 10;
-			particleAlpha = ExtendedProperties.For(ent).getAuraAlpha();
-			particleDefaultColor = ExtendedProperties.For(ent).getAuraColorDefault();
-			particleRandomColor = ExtendedProperties.For(ent).getAuraColorRandomize();
-			particleColor = ExtendedProperties.For(ent).getAuraColor();
-			particleQuantity = ExtendedProperties.For(ent).getAuraQuantity();
-			particleSpeed = ExtendedProperties.For(ent).getAuraSpeed() / 10;
+			ExtendedProperties entProperties = ExtendedProperties.For(ent);
+			particleIndex        = entProperties.getAuraIndex();
+			particleBehaviour    = entProperties.getAuraBehaviour();
+			particleScale        = entProperties.getAuraScale() / 10;
+			particleAlpha        = entProperties.getAuraAlpha();
+			particleDefaultColor = entProperties.getAuraColorDefault();
+			particleRandomColor  = entProperties.getAuraColorRandomize();
+			particleColor        = entProperties.getAuraColor();
+			particleQuantity     = entProperties.getAuraQuantity();
+			particleSpeed        = entProperties.getAuraSpeed() / 10;
 		}
 
 		if (particleIndex == 31) //fix radiant particle's scaling issues...

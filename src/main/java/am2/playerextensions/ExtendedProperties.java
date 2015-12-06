@@ -1101,9 +1101,10 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 
 		if (ticksSinceLastRegen >= ticksToRegen){
 			//mana regeneration
-			if (getCurrentMana() < getMaxMana()){
+			float actualMaxMana = getMaxMana();
+			if (getCurrentMana() < actualMaxMana){
 				if (entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode){
-					setCurrentMana(getMaxMana());
+					setCurrentMana(actualMaxMana);
 				}else{
 					if (getCurrentMana() < 0){
 						setCurrentMana(0);
@@ -1148,12 +1149,9 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 					}
 
 					//actual mana regen
-					float manaToAdd = (getMaxMana() / regenTicks) * ticksSinceLastRegen;
+					float manaToAdd = (actualMaxMana / regenTicks) * ticksSinceLastRegen;
 
 					setCurrentMana(getCurrentMana() + manaToAdd);
-					if (getCurrentMana() > getMaxMana()){
-						setCurrentMana(getMaxMana());
-					}
 				}
 			}
 			//fatigue decrease
