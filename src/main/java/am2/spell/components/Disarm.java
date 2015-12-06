@@ -45,7 +45,7 @@ public class Disarm implements ISpellComponent{
 		if (target instanceof EntityLightMage || target instanceof EntityDarkMage)
 			return false;
 
-		if (target instanceof EntityPlayer && (!AMCore.config.getDisarmAffectsPlayers() || !MinecraftServer.getServer().isPVPEnabled()))
+		if (target instanceof EntityPlayer && (!AMCore.config.getDisarmAffectsPlayers() || (!world.isRemote && !MinecraftServer.getServer().isPVPEnabled())))
 			return false;
 
 		if (target instanceof EntityPlayer && ((EntityPlayer)target).getHeldItem() != null && !target.worldObj.isRemote){
