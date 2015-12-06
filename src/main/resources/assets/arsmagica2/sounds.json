@@ -519,9 +519,7 @@
 	},
 	"spell.loop.none": {
 	  "category": "ambient",
-	  "sounds": [
-	    "spell/loop/none"
-	  ]
+	  "sounds": []
 	},
 	"spell.loop.water": {
 	  "category": "ambient",
