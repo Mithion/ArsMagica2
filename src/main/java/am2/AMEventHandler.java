@@ -14,7 +14,6 @@ import am2.buffs.BuffEffectTemporalAnchor;
 import am2.buffs.BuffList;
 import am2.buffs.BuffStatModifiers;
 import am2.damage.DamageSources;
-import am2.enchantments.EnchantmentSoulbound;
 import am2.entities.EntityFlicker;
 import am2.items.ItemsCommonProxy;
 import am2.network.AMNetHandler;
@@ -140,7 +139,6 @@ public class AMEventHandler{
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onEntityDeath(LivingDeathEvent event){
-		String s = EnchantmentSoulbound.class.getName();
 		EntityLivingBase soonToBeDead = event.entityLiving;
 		if (soonToBeDead.isPotionActive(BuffList.temporalAnchor.id)){
 			event.setCanceled(true);
@@ -241,6 +239,8 @@ public class AMEventHandler{
 				xVelocity = velocityTarget.motionX * 1.75 * Math.abs(vec.xCoord);
 				zVelocity = velocityTarget.motionZ * 1.75 * Math.abs(vec.zCoord);
 				break;
+			default:
+				break;
 			}
 
 			float maxHorizontalVelocity = 1.45f;
@@ -319,8 +319,6 @@ public class AMEventHandler{
 		EntityLivingBase ent = event.entityLiving;
 
 		World world = ent.worldObj;
-
-		boolean isRemote = world.isRemote;
 
 		BuffStatModifiers.instance.applyStatModifiersBasedOnBuffs(ent);
 
@@ -473,6 +471,8 @@ public class AMEventHandler{
 			case BuffPowerLevel.High:
 				extendedProperties.setFallProtection(45);
 				break;
+			default:
+				break;
 			}
 		}
 
@@ -484,7 +484,10 @@ public class AMEventHandler{
 
 
 		//slowfall/shrink buff
-		if (event.entityLiving.isPotionActive(BuffList.slowfall) || event.entityLiving.isPotionActive(BuffList.shrink) || (!ent.isSneaking() && ent instanceof EntityPlayer && AffinityData.For(ent).getAffinityDepth(Affinity.NATURE) == 1.0f)){
+		// (isSneaking calls DataWatcher which are slow, so we test it late)
+		if ( event.entityLiving.isPotionActive(BuffList.slowfall)
+		  || event.entityLiving.isPotionActive(BuffList.shrink)
+		  || (ent instanceof EntityPlayer && AffinityData.For(ent).getAffinityDepth(Affinity.NATURE) == 1.0f && !ent.isSneaking())){
 			if (!event.entityLiving.onGround && event.entityLiving.motionY < 0.0D){
 				event.entityLiving.motionY *= 0.79999999999999998D;
 			}
@@ -668,7 +671,7 @@ public class AMEventHandler{
 
 	@SubscribeEvent
 	public void onPlayerPickupItem(EntityItemPickupEvent event){
-		if (!(event.entityPlayer instanceof EntityPlayer))
+		if (event.entityPlayer == null)
 			return;
 
 		if (!event.entityPlayer.worldObj.isRemote && ExtendedProperties.For(event.entityPlayer).getMagicLevel() <= 0 && event.item.getEntityItem().getItem() == ItemsCommonProxy.arcaneCompendium){
