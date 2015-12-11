@@ -33,7 +33,7 @@ public class Entangle implements ISpellComponent, IRitualInteraction{
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
 		if (target instanceof EntityLivingBase){
-			int duration = SpellUtils.instance.getModifiedInt_Mul(BuffList.default_buff_duration, stack, caster, target, world, 0, SpellModifiers.DURATION);
+			int duration = 140 + SpellUtils.instance.getModifiedInt_Mul(BuffList.default_buff_duration / 10, stack, caster, target, world, 0, SpellModifiers.DURATION);
 			duration = SpellUtils.instance.modifyDurationBasedOnArmor(caster, duration);
 
 			int x = (int)Math.floor(target.posX);
@@ -58,7 +58,7 @@ public class Entangle implements ISpellComponent, IRitualInteraction{
 
 	@Override
 	public float burnout(EntityLivingBase caster){
-		return ArsMagicaApi.instance.getBurnoutFromMana(manaCost(caster));
+		return ArsMagicaApi.instance.getBurnoutFromMana(manaCost(caster)) * 4;
 	}
 
 	@Override
