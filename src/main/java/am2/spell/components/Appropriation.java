@@ -51,17 +51,25 @@ public class Appropriation implements ISpellComponent{
 			return false;
 
 		ItemStack originalSpellStack = getOriginalSpellStack((EntityPlayer)caster);
-		if (originalSpellStack == null)
+		if (originalSpellStack == null){
 			return false;
+		}
+
+		if (originalSpellStack.stackTagCompound == null){
+			return false;
+		}
 
 		Block block = world.getBlock(blockx, blocky, blockz);
 
-		if (block == null)
+		if (block == null){
 			return false;
+		}
 
-		for (String s : AMCore.config.getAppropriationBlockBlacklist())
-			if (block.getUnlocalizedName() == s)
+		for (String s : AMCore.config.getAppropriationBlockBlacklist()){
+			if (block.getUnlocalizedName() == s){
 				return false;
+			}
+		}
 
 		if (!world.isRemote){
 			if (originalSpellStack.stackTagCompound.hasKey(storageKey)){
@@ -90,12 +98,14 @@ public class Appropriation implements ISpellComponent{
 					}
 				}
 
-				if (world.isAirBlock(blockx, blocky, blockz) || !world.getBlock(blockx, blocky, blockz).getMaterial().isSolid())
+				if (world.isAirBlock(blockx, blocky, blockz) || !world.getBlock(blockx, blocky, blockz).getMaterial().isSolid()){
 					restore((EntityPlayer)caster, world, originalSpellStack, blockx, blocky, blockz, impactX, impactY, impactZ);
+				}
 			}else{
 
-				if (block == null || block.getBlockHardness(world, blockx, blocky, blockz) == -1.0f)
+				if (block == null || block.getBlockHardness(world, blockx, blocky, blockz) == -1.0f){
 					return false;
+				}
 
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString(storageType, "block");
@@ -109,12 +119,11 @@ public class Appropriation implements ISpellComponent{
 					te.writeToNBT(teData);
 					data.setTag("tileEntity", teData);
 
-					//essentially reset the tile entity before destroying the block - this corrects several issues such as inventory items dropping
-					//we don't want this as the inventory items are already saved in the NBT!
+					// remove tile entity first to prevent content dropping which is already saved in the NBT
 					try{
-						world.setTileEntity(blockx, blocky, blockz, te.getClass().newInstance());
-					}catch (Throwable e){
-						e.printStackTrace();
+						world.removeTileEntity(blockx, blocky, blockz);
+					}catch (Throwable exception){
+						exception.printStackTrace();
 					}
 				}
 
