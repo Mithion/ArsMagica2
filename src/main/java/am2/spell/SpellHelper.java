@@ -31,6 +31,7 @@ import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -91,6 +92,10 @@ public class SpellHelper{
 	public SpellCastResult applyStageToEntity(ItemStack stack, EntityLivingBase caster, World world, Entity target, int stage, boolean shiftAffinityAndXP){
 		ISpellShape stageShape = SpellUtils.instance.getShapeForStage(stack, 0);
 		if (stageShape == null) return SpellCastResult.MALFORMED_SPELL_STACK;
+
+		if ((!AMCore.config.getAllowCreativeTargets()) && target instanceof EntityPlayerMP && ((EntityPlayerMP) target).capabilities.isCreativeMode) {
+			return SpellCastResult.EFFECT_FAILED;
+		}
 
 		ISpellComponent[] components = SpellUtils.instance.getComponentsForStage(stack, 0);
 

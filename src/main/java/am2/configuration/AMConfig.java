@@ -76,6 +76,8 @@ public class AMConfig extends Configuration{
 
 	private final String KEY_EnableWitchwoodForest = "Enable_Witchwood_Forests";
 
+	private final String KEY_allowCreativeTargets = "Allow_Creative_Targets";
+
 	/**
 	 * Beta Particles
 	 **/
@@ -174,6 +176,8 @@ public class AMConfig extends Configuration{
 	private int[] worldgenBlacklist;
 	private boolean enableWitchwoodForest;
 	private int witchwoodForestRarity;
+	
+	private boolean allowCreativeTargets;
 
 	private String[] appropriationBlockBlacklist;
 	private Class[] appropriationMobBlacklist;
@@ -291,6 +295,8 @@ public class AMConfig extends Configuration{
 		witchwoodLeafParticles = get(CATEGORY_GENERAL, KEY_witchwoodLeavesFall, true, "Disable this if you experience low FPS in witchwood forests").getBoolean(true);
 		enableWitchwoodForest = get(CATEGORY_GENERAL, KEY_EnableWitchwoodForest, true, "Disable this if you prefer the witchwood forest to not generate").getBoolean(true);
 		witchwoodForestRarity = get(CATEGORY_GENERAL, KEY_WitchwoodForestRarity, 6, "Sets how rare witchwood forests are.  Lower is more rare.").getInt();
+
+		allowCreativeTargets = get(CATEGORY_GENERAL, KEY_allowCreativeTargets, true, "Disable this to prevent spell effects on creative players").getBoolean(true);
 
 		moonstoneMeteorsDestroyTerrain = get(CATEGORY_GENERAL, KEY_moonstoneMeteorsDestroyTerrain, true, "Should moonstone meteors destroy terrain when landing?  Keep in mind they will never land on anything other than grass.").getBoolean(true);
 
@@ -644,6 +650,10 @@ public class AMConfig extends Configuration{
 
 	public int getWitchwoodForestRarity(){
 		return this.witchwoodForestRarity;
+	}
+
+	public boolean getAllowCreativeTargets(){
+		return this.allowCreativeTargets;
 	}
 
 	//====================================================================================
