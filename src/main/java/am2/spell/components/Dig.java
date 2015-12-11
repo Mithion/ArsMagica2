@@ -78,21 +78,21 @@ public class Dig implements ISpellComponent{
 		int miningLevel = 2 + SpellUtils.instance.countModifiers(SpellModifiers.MINING_POWER, stack, 0);
 		if (harvestLevel > miningLevel) return false;
 
-		if (ForgeEventFactory.doPlayerHarvestCheck(DummyEntityPlayer.fromEntityLiving(caster), block, true)){
+		EntityPlayer casterPlayer = DummyEntityPlayer.fromEntityLiving(caster);
+		if (ForgeEventFactory.doPlayerHarvestCheck(casterPlayer, block, true)){
 			float xMana = block.getBlockHardness(world, blockx, blocky, blockz) * hardnessManaFactor;
 			float xBurnout = ArsMagicaApi.instance.getBurnoutFromMana(xMana);
 
 			if (!world.isRemote){
-				EntityPlayerMP casterPlayer = (EntityPlayerMP)DummyEntityPlayer.fromEntityLiving(caster);
-				BreakEvent event = ForgeHooks.onBlockBreakEvent(world, casterPlayer.theItemInWorldManager.getGameType(), casterPlayer, blockx, blocky, blockz);
+				BreakEvent event = ForgeHooks.onBlockBreakEvent(world, ((EntityPlayerMP)casterPlayer).theItemInWorldManager.getGameType(), (EntityPlayerMP)casterPlayer, blockx, blocky, blockz);
 				if (event.isCanceled()){
 					return false;
 				}
-				block.onBlockHarvested(world, blockx, blocky, blockz, meta, DummyEntityPlayer.fromEntityLiving(caster));
-				boolean flag = block.removedByPlayer(world, DummyEntityPlayer.fromEntityLiving(caster), blockx, blocky, blockz, true);
+				block.onBlockHarvested(world, blockx, blocky, blockz, meta, casterPlayer);
+				boolean flag = block.removedByPlayer(world, casterPlayer, blockx, blocky, blockz, true);
 				if(flag){
 					block.onBlockDestroyedByPlayer(world, blockx, blocky, blockz, meta);
-					block.harvestBlock(world, DummyEntityPlayer.fromEntityLiving(caster), blockx, blocky, blockz, meta);
+					block.harvestBlock(world, casterPlayer, blockx, blocky, blockz, meta);
 				}
 
 			}
