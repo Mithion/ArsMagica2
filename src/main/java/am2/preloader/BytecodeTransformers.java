@@ -2,13 +2,12 @@ package am2.preloader;
 
 import am2.LogHelper;
 import net.minecraft.launchwrapper.IClassTransformer;
+
 import org.apache.logging.log4j.Level;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
-import org.objectweb.asm.Type;
-
 import java.lang.reflect.Field;
 import java.util.Iterator;
 
@@ -276,7 +275,7 @@ public class BytecodeTransformers implements IClassTransformer{
 				}
 
 				if (target != null){
-					int iRegister = AM2PreloaderContainer.foundOptifine ? 3 : 2;
+					int iRegister = AM2PreloaderContainer.isOptiFinePresent() ? 3 : 2;
 
 					VarInsnNode aLoad = new VarInsnNode(Opcodes.ALOAD, 0);
 					VarInsnNode fLoad = new VarInsnNode(Opcodes.FLOAD, 1);
@@ -860,7 +859,7 @@ public class BytecodeTransformers implements IClassTransformer{
 	      method3_name.setVal("func_149427_e", false);
 	      method3_name.setVal("e", true);
 	      
-	      String method3_desc = "()B";
+	      // String method3_desc = "()B";
 	      String method3_newdesc = "()I";
 	      
 	      
@@ -1123,7 +1122,6 @@ public class BytecodeTransformers implements IClassTransformer{
 		      if (mn.name.equals(method1_name.getVal(is_obfuscated)) && mn.desc.equals(method1_desc.getVal(is_obfuscated))){
 			      // readPacketData
 			      AbstractInsnNode target = null;
-			      AbstractInsnNode target2 = null;
 			      LogHelper.debug("Core: Located target method " + mn.name + mn.desc);
 			      
 			      Iterator<AbstractInsnNode> instructions = mn.instructions.iterator();

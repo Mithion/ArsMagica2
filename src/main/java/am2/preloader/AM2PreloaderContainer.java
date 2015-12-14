@@ -18,7 +18,8 @@ public class AM2PreloaderContainer extends DummyModContainer implements IFMLLoad
 	private final ModMetadata md = new ModMetadata();
 
 	public static boolean foundThaumcraft = false;
-	public static boolean foundOptifine = false;
+	private static boolean foundOptiFine = false;
+	private static boolean confirmedOptiFine = false;
 	public static boolean foundDragonAPI = false;
 	
 	public static boolean isDevEnvironment = false;
@@ -46,7 +47,7 @@ public class AM2PreloaderContainer extends DummyModContainer implements IFMLLoad
 
 	@Override
 	public String getVersion(){
-		return "0.0.2";
+		return "0.0.3";
 	}
 
 	@Override
@@ -82,6 +83,8 @@ public class AM2PreloaderContainer extends DummyModContainer implements IFMLLoad
 
 	@Override
 	public void injectData(Map<String, Object> data){
+		// This is very crude check for mods presence using filename.
+		// Some mods may refer to others in their name, so we'll to confirm those assumption with class presence check.
 		File loc = (File)data.get("mcLocation");
 
 		LogHelper.trace("MC located at: " + loc.getAbsolutePath());
@@ -89,17 +92,21 @@ public class AM2PreloaderContainer extends DummyModContainer implements IFMLLoad
 
 		File mcFolder = new File(loc.getAbsolutePath() + File.separatorChar + "mods");
 		File[] subfiles = mcFolder.listFiles();
-		for (File f : subfiles){
-			if (f.getName() != null){
-				if (f.getName().toLowerCase().contains("thaumcraft")){
-					LogHelper.info("Core: Located Thaumcraft");
-					foundThaumcraft = true;
-				}else if (f.getName().toLowerCase().contains("optifine")){
-					LogHelper.info("Core: Located Optifine");
-					foundOptifine = true;
-				}else if (f.getName().toLowerCase().contains("dragonapi")){
-					LogHelper.info("Core: Located DragonAPI");
-					foundDragonAPI = true;
+		for (File file : subfiles){
+			String name = file.getName();
+			if (name != null) {
+				name = name.toLowerCase();
+				if (name.endsWith(".jar") || name.endsWith(".zip")){
+					if (name.contains("thaumcraft")){
+						LogHelper.info("Core: Located Thaumcraft in " + file.getName());
+						foundThaumcraft = true;
+					}else if (name.contains("optifine")){
+						LogHelper.info("Core: Located OptiFine in " + file.getName() + ". We'll to confirm that...");
+						foundOptiFine = true;
+					}else if (name.contains("dragonapi")){
+						LogHelper.info("Core: Located DragonAPI in " + file.getName());
+						foundDragonAPI = true;
+					}
 				}
 			}
 		}
@@ -110,4 +117,27 @@ public class AM2PreloaderContainer extends DummyModContainer implements IFMLLoad
 		return null;
 	}
 
+	public static boolean isOptiFinePresent(){
+		if (!confirmedOptiFine && foundOptiFine){
+			// Check presence of OptiFine core classes
+			try{
+				Class.forName("optifine.OptiFineForgeTweaker");
+			}
+			catch (ClassNotFoundException exception1){
+				try{
+					Class.forName("optifine.OptiFineTweaker");
+				}
+				catch (ClassNotFoundException exception2){
+					foundOptiFine = false;
+				}
+			}
+			if (foundOptiFine){
+				LogHelper.info("Core: OptiFine presence has been confirmed.");
+			} else {
+				LogHelper.info("Core: OptiFine doesn't seem to be there actually.");
+			}
+			confirmedOptiFine = true;
+		}
+		return foundOptiFine;
+	}
 }
