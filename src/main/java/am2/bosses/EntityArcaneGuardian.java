@@ -96,13 +96,17 @@ public class EntityArcaneGuardian extends AM2Boss{
 			return super.attackEntityFrom(par1DamageSource, par2);
 		}
 
-		if (checkRuneRetaliation(par1DamageSource))
+		if (checkRuneRetaliation(par1DamageSource)){
 			return super.attackEntityFrom(par1DamageSource, par2);
-		return false;
+		}
+		return super.attackEntityFrom(par1DamageSource, par2 * 0.8F);
 	}
 
 	private boolean checkRuneRetaliation(DamageSource damagesource){
 		Entity source = damagesource.getSourceOfDamage();
+		if (source instanceof EntityArcaneGuardian) {
+			return true;
+		}
 
 		double deltaX = source.posX - this.posX;
 		double deltaZ = source.posZ - this.posZ;
@@ -132,6 +136,7 @@ public class EntityArcaneGuardian extends AM2Boss{
 				source.motionY = vertSpeed;
 
 				source.attackEntityFrom(DamageSource.causeMobDamage(this), 2);
+				return false;
 			}
 		}
 		return true;
