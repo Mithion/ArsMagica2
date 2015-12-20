@@ -610,14 +610,18 @@ public class AMEventHandler{
 			}
 		}
 
-		if (event.source.getSourceOfDamage() instanceof EntityPlayer && ((EntityPlayer)event.source.getSourceOfDamage()).inventory.armorInventory[2] != null && ((EntityPlayer)event.source.getSourceOfDamage()).inventory.armorInventory[2].getItem() == ItemsCommonProxy.earthGuardianArmor && ((EntityPlayer)event.source.getSourceOfDamage()).getCurrentEquippedItem() == null){
+		Entity entitySource = event.source.getSourceOfDamage();
+		if ( entitySource instanceof EntityPlayer
+		  && ((EntityPlayer)entitySource).inventory.armorInventory[2] != null
+		  && ((EntityPlayer)entitySource).inventory.armorInventory[2].getItem() == ItemsCommonProxy.earthGuardianArmor
+		  && ((EntityPlayer)entitySource).getCurrentEquippedItem() == null ){
 			event.ammount += 4;
 
-			double deltaZ = event.entityLiving.posZ - event.source.getSourceOfDamage().posZ;
-			double deltaX = event.entityLiving.posX - event.source.getSourceOfDamage().posX;
+			double deltaZ = event.entityLiving.posZ - entitySource.posZ;
+			double deltaX = event.entityLiving.posX - entitySource.posX;
 			double angle = Math.atan2(deltaZ, deltaX);
-			double speed = ((EntityPlayer)event.source.getSourceOfDamage()).isSprinting() ? 3 : 2;
-			double vertSpeed = ((EntityPlayer)event.source.getSourceOfDamage()).isSprinting() ? 0.5 : 0.325;
+			double speed = ((EntityPlayer)entitySource).isSprinting() ? 3 : 2;
+			double vertSpeed = ((EntityPlayer)entitySource).isSprinting() ? 0.5 : 0.325;
 
 			if (event.entityLiving instanceof EntityPlayer){
 				AMNetHandler.INSTANCE.sendVelocityAddPacket(event.entityLiving.worldObj, event.entityLiving, speed * Math.cos(angle), vertSpeed, speed * Math.sin(angle));
@@ -641,9 +645,8 @@ public class AMEventHandler{
 		if (ent.isPotionActive(BuffList.fury.id))
 			event.ammount /= 2;
 
-		if (event.source.getSourceOfDamage() != null &&
-				event.source.getSourceOfDamage() instanceof EntityLivingBase &&
-				((EntityLivingBase)event.source.getSourceOfDamage()).isPotionActive(BuffList.shrink))
+		if ( entitySource instanceof EntityLivingBase
+		  && ((EntityLivingBase)entitySource).isPotionActive(BuffList.shrink))
 			event.ammount /= 2;
 	}
 
