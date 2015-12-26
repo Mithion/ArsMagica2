@@ -24,8 +24,6 @@ import java.util.Random;
 
 public class Storm implements ISpellComponent{
 
-	private final Random rand = new Random();
-
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		applyEffect(caster, world);
@@ -43,10 +41,10 @@ public class Storm implements ISpellComponent{
 		if (rainStrength > 0.9D){
 			if (!world.isRemote){
 				int xzradius = 50;
-				int random = rand.nextInt(100);
+				int random = world.rand.nextInt(100);
 				if (random < 20){
-					int randPosX = (int)caster.posX + rand.nextInt(xzradius * 2) - xzradius;
-					int randPosZ = (int)caster.posZ + rand.nextInt(xzradius * 2) - xzradius;
+					int randPosX = (int)caster.posX + world.rand.nextInt(xzradius * 2) - xzradius;
+					int randPosZ = (int)caster.posZ + world.rand.nextInt(xzradius * 2) - xzradius;
 					int posY = (int)caster.posY;
 
 					while (!world.canBlockSeeTheSky(randPosX, posY, randPosZ)){
@@ -63,7 +61,7 @@ public class Storm implements ISpellComponent{
 					if (entities.size() <= 0){
 						return;
 					}
-					Entity target = entities.get(rand.nextInt(entities.size()));
+					Entity target = entities.get(world.rand.nextInt(entities.size()));
 					if (target != null && world.canBlockSeeTheSky((int)target.posX, (int)target.posY, (int)target.posZ)){
 						if (caster instanceof EntityPlayer){
 							target.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)caster), 1);

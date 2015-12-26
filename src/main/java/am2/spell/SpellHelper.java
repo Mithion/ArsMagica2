@@ -31,6 +31,7 @@ import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -45,10 +46,7 @@ public class SpellHelper{
 
 	public static final SpellHelper instance = new SpellHelper();
 
-	private final Random rand;
-
 	private SpellHelper(){
-		rand = new Random();
 	}
 
 	public SpellCastResult applyStageToGround(ItemStack stack, EntityLivingBase caster, World world, int blockX, int blockY, int blockZ, int blockFace, double impactX, double impactY, double impactZ, int stage, boolean consumeMBR){
@@ -81,7 +79,7 @@ public class SpellHelper{
 							}
 						}
 					}
-					component.spawnParticles(world, blockX, blockY, blockZ, caster, caster, rand, color);
+					component.spawnParticles(world, blockX, blockY, blockZ, caster, caster, world.rand, color);
 				}
 				if (consumeMBR)
 					SpellUtils.instance.doAffinityShift(caster, component, stageShape);
@@ -94,6 +92,10 @@ public class SpellHelper{
 	public SpellCastResult applyStageToEntity(ItemStack stack, EntityLivingBase caster, World world, Entity target, int stage, boolean shiftAffinityAndXP){
 		ISpellShape stageShape = SpellUtils.instance.getShapeForStage(stack, 0);
 		if (stageShape == null) return SpellCastResult.MALFORMED_SPELL_STACK;
+
+		if ((!AMCore.config.getAllowCreativeTargets()) && target instanceof EntityPlayerMP && ((EntityPlayerMP) target).capabilities.isCreativeMode) {
+			return SpellCastResult.EFFECT_FAILED;
+		}
 
 		ISpellComponent[] components = SpellUtils.instance.getComponentsForStage(stack, 0);
 
@@ -118,7 +120,7 @@ public class SpellHelper{
 							}
 						}
 					}
-					component.spawnParticles(world, target.posX, target.posY + target.getEyeHeight(), target.posZ, caster, target, rand, color);
+					component.spawnParticles(world, target.posX, target.posY + target.getEyeHeight(), target.posZ, caster, target, world.rand, color);
 				}
 				if (shiftAffinityAndXP)
 					SpellUtils.instance.doAffinityShift(caster, component, stageShape);

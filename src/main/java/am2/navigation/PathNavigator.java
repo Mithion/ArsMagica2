@@ -15,7 +15,6 @@ public class PathNavigator{
 	private final EntityLivingBase pathEntity;
 	private int PathUpdateTicks;
 	private Point3D currentLocation;
-	private final Random rand;
 	private Point3D lastLocation;
 	private int ticksStuck;
 	private Point3D longRangeWaypoint;
@@ -29,7 +28,6 @@ public class PathNavigator{
 		currentWaypoint = null;
 		pathData = null;
 		pathIsLongRange = false;
-		rand = new Random();
 	}
 
 	public boolean HasWaypoint(){
@@ -67,9 +65,9 @@ public class PathNavigator{
 		int newX, newY, newZ;
 
 		for (int i = 0; i < 5; ++i){
-			newX = (int)Math.round(pathEntity.posX + (rand.nextDouble() * MaxPathDistance - (MaxPathDistance / 2)));
-			newY = (int)Math.round(pathEntity.posY + (rand.nextDouble() * 8 - (4)));
-			newZ = (int)Math.round(pathEntity.posZ + (rand.nextDouble() * MaxPathDistance - (MaxPathDistance / 2)));
+			newX = (int)Math.round(pathEntity.posX + (world.rand.nextDouble() * MaxPathDistance - (MaxPathDistance / 2)));
+			newY = (int)Math.round(pathEntity.posY + (world.rand.nextDouble() * 8 - (4)));
+			newZ = (int)Math.round(pathEntity.posZ + (world.rand.nextDouble() * MaxPathDistance - (MaxPathDistance / 2)));
 
 			if (world.getBlock(newX, newY, newZ) == Blocks.air && newY > 5){
 				getEntityLocation(world);
@@ -84,9 +82,9 @@ public class PathNavigator{
 		int newX, newY, newZ;
 
 		for (int i = 0; i < 5; ++i){
-			newX = (int)Math.round(pathEntity.posX + (rand.nextDouble() * MaxPathDistance - (MaxPathDistance / 2)));
-			newY = (int)Math.round(minY + (rand.nextDouble() * (maxY - minY)));
-			newZ = (int)Math.round(pathEntity.posZ + (rand.nextDouble() * MaxPathDistance - (MaxPathDistance / 2)));
+			newX = (int)Math.round(pathEntity.posX + (world.rand.nextDouble() * MaxPathDistance - (MaxPathDistance / 2)));
+			newY = (int)Math.round(minY + (world.rand.nextDouble() * (maxY - minY)));
+			newZ = (int)Math.round(pathEntity.posZ + (world.rand.nextDouble() * MaxPathDistance - (MaxPathDistance / 2)));
 
 			if (world.getBlock(newX, newY, newZ) == Blocks.air && newY > 5){
 				getEntityLocation(world);

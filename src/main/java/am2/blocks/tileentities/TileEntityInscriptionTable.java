@@ -57,7 +57,6 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	public static int inkIndex = 3;
 	private EntityPlayer currentPlayerUsing;
 	private int ticksToNextParticle = 20;
-	private final Random rand;
 	private final HashMap<SpellModifiers, Integer> modifierCount;
 	private String currentSpellName;
 	private boolean currentSpellIsReadOnly;
@@ -69,7 +68,6 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	public TileEntityInscriptionTable(){
 		inscriptionTableItemStacks = new ItemStack[getSizeInventory()];
 		currentPlayerUsing = null;
-		rand = new Random();
 		currentSpellName = "";
 		currentRecipe = new ArrayList<ISpellPart>();
 		shapeGroups = new ArrayList<ArrayList<ISpellPart>>();
@@ -216,13 +214,13 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 					effect.setMaxAge(400);
 				}
 
-				if (rand.nextInt(100) > 80){
+				if (worldObj.rand.nextInt(100) > 80){
 					AMParticle smoke = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "smoke", particleX, yCoord + 1.4, particleZ);
 					if (smoke != null){
 						smoke.setParticleScale(0.025f);
 						smoke.AddParticleController(new ParticleFloatUpward(smoke, 0.01f, 0.01f, 1, false));
 						smoke.setIgnoreMaxAge(false);
-						smoke.setMaxAge(20 + rand.nextInt(10));
+						smoke.setMaxAge(20 + worldObj.rand.nextInt(10));
 					}
 				}
 			}
@@ -260,13 +258,13 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 					effect.setMaxAge(400);
 				}
 
-				if (rand.nextInt(100) > 80){
+				if (worldObj.rand.nextInt(100) > 80){
 					AMParticle smoke = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "smoke", particleX, yCoord + 1.4, particleZ);
 					if (smoke != null){
 						smoke.setParticleScale(0.025f);
 						smoke.AddParticleController(new ParticleFloatUpward(smoke, 0.01f, 0.01f, 1, false));
 						smoke.setIgnoreMaxAge(false);
-						smoke.setMaxAge(20 + rand.nextInt(10));
+						smoke.setMaxAge(20 + worldObj.rand.nextInt(10));
 					}
 				}
 			}

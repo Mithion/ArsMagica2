@@ -91,7 +91,6 @@ public class IllusionBlock extends AMBlock{
 		AMVector3 position = new AMVector3(x, y, z);
 		AMVector3 offset = new AMVector3(dir.offsetX, dir.offsetY, dir.offsetZ);
 		int count = 0;
-		boolean found = false;
 
 		while (count++ < SEARCH_MAX_DIST){
 			position = position.add(offset);
@@ -272,7 +271,7 @@ public class IllusionBlock extends AMBlock{
 	 */
 	@Override
 	public void randomDisplayTick(World world, int i, int j, int k, Random random){
-		int meta = world.getBlockMetadata(i, j, k);
+		// int meta = world.getBlockMetadata(i, j, k);
 
 		EntityPlayer closest = world.getClosestPlayer(i, j, k, 5.0);
 		if (closest == null){
@@ -280,19 +279,17 @@ public class IllusionBlock extends AMBlock{
 			return;
 		}else if (closest.isPotionActive(BuffList.trueSight.id)){
 			world.markBlockForUpdate(i, j, k);
-			Random rnd = new Random();
 			if (tickCount++ == 20){
 				this.tickCount = 0;
 				for (int x = 0; x < 10; ++x){
-					double factor = 1;
 					double movement = 2;
 					world.spawnParticle("reddust",
-							i + ((rnd.nextDouble() * 2 - 1) * movement),
-							j + ((rnd.nextDouble() * 2 - 1) * movement),
-							k + ((rnd.nextDouble() * 2 - 1) * movement),
-							rnd.nextDouble() / 4 + 0.75,
+							i + ((random.nextDouble() * 2 - 1) * movement),
+							j + ((random.nextDouble() * 2 - 1) * movement),
+							k + ((random.nextDouble() * 2 - 1) * movement),
+							random.nextDouble() / 4 + 0.75,
 							0.5f,
-							rnd.nextDouble() / 2 + 0.75);
+							random.nextDouble() / 2 + 0.75);
 				}
 			}
 		}else{

@@ -40,7 +40,7 @@ public class EntityBroom extends EntityCreature{
 	}
 
 	@Override
-	protected boolean canTriggerWalking(){
+	public boolean canTriggerWalking(){
 		return false;
 	}
 

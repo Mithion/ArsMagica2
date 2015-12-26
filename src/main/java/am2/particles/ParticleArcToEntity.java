@@ -43,8 +43,8 @@ public class ParticleArcToEntity extends ParticleController{
 				start.y + ((target.posY - start.y) / 3 * 2),
 				start.z + ((target.posZ - start.z) / 3 * 2));
 
-		double offsetX = (rand.nextFloat() * offsetFactor) - halfOffsetFactor;
-		double offsetZ = (rand.nextFloat() * offsetFactor) - halfOffsetFactor;
+		double offsetX = (particle.worldObj.rand.nextFloat() * offsetFactor) - halfOffsetFactor;
+		double offsetZ = (particle.worldObj.rand.nextFloat() * offsetFactor) - halfOffsetFactor;
 
 		AMVector3 offset = new AMVector3(offsetX, 0, offsetZ);
 

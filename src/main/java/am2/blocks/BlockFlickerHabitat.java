@@ -155,18 +155,17 @@ public class BlockFlickerHabitat extends PoweredBlock{
 
 		//if the habitat has a flicker throw it on the ground
 		if (habitat.hasFlicker()){
-			Random rand = new Random();
 			ItemStack stack = habitat.getStackInSlot(0);
 
-			float offsetX = rand.nextFloat() * 0.8F + 0.1F;
-			float offsetY = rand.nextFloat() * 0.8F + 0.1F;
-			float offsetZ = rand.nextFloat() * 0.8F + 0.1F;
+			float offsetX = world.rand.nextFloat() * 0.8F + 0.1F;
+			float offsetY = world.rand.nextFloat() * 0.8F + 0.1F;
+			float offsetZ = world.rand.nextFloat() * 0.8F + 0.1F;
 			float force = 0.05F;
 
 			EntityItem entityItem = new EntityItem(world, x + offsetX, y + offsetY, z + offsetZ, stack);
-			entityItem.motionX = (float)rand.nextGaussian() * force;
-			entityItem.motionY = (float)rand.nextGaussian() * force + 0.2F;
-			entityItem.motionZ = (float)rand.nextGaussian() * force;
+			entityItem.motionX = (float)world.rand.nextGaussian() * force;
+			entityItem.motionY = (float)world.rand.nextGaussian() * force + 0.2F;
+			entityItem.motionZ = (float)world.rand.nextGaussian() * force;
 			world.spawnEntityInWorld(entityItem);
 		}
 

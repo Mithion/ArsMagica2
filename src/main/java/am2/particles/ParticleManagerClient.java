@@ -26,7 +26,6 @@ public class ParticleManagerClient extends ParticleManagerServer{
 	public static final byte PKT_BOLT_PT_PT = 63;
 	public static final byte PKT_BEAM_ENT_ENT = 62;
 	public static final byte PKT_BEAM_PT_PT = 61;
-	private final Random rand = new Random();
 	private final ParticleRenderer particleRenderer;
 
 	public ParticleManagerClient(){
@@ -428,15 +427,16 @@ public class ParticleManagerClient extends ParticleManagerServer{
 			particleQuantity = AMCore.config.getAuraQuantity();
 			particleSpeed = AMCore.config.getAuraSpeed() / 10;
 		}else{
-			particleIndex = ExtendedProperties.For(ent).getAuraIndex();
-			particleBehaviour = ExtendedProperties.For(ent).getAuraBehaviour();
-			particleScale = ExtendedProperties.For(ent).getAuraScale() / 10;
-			particleAlpha = ExtendedProperties.For(ent).getAuraAlpha();
-			particleDefaultColor = ExtendedProperties.For(ent).getAuraColorDefault();
-			particleRandomColor = ExtendedProperties.For(ent).getAuraColorRandomize();
-			particleColor = ExtendedProperties.For(ent).getAuraColor();
-			particleQuantity = ExtendedProperties.For(ent).getAuraQuantity();
-			particleSpeed = ExtendedProperties.For(ent).getAuraSpeed() / 10;
+			ExtendedProperties entProperties = ExtendedProperties.For(ent);
+			particleIndex        = entProperties.getAuraIndex();
+			particleBehaviour    = entProperties.getAuraBehaviour();
+			particleScale        = entProperties.getAuraScale() / 10;
+			particleAlpha        = entProperties.getAuraAlpha();
+			particleDefaultColor = entProperties.getAuraColorDefault();
+			particleRandomColor  = entProperties.getAuraColorRandomize();
+			particleColor        = entProperties.getAuraColor();
+			particleQuantity     = entProperties.getAuraQuantity();
+			particleSpeed        = entProperties.getAuraSpeed() / 10;
 		}
 
 		if (particleIndex == 31) //fix radiant particle's scaling issues...
@@ -446,15 +446,32 @@ public class ParticleManagerClient extends ParticleManagerServer{
 			if (Minecraft.getMinecraft().thePlayer != ent || Minecraft.getMinecraft().gameSettings.thirdPersonView > 0){
 				if (AMParticle.particleTypes[particleIndex].startsWith("lightning_bolts")){
 					int type = Integer.parseInt(new String(new char[]{AMParticle.particleTypes[particleIndex].charAt(AMParticle.particleTypes[particleIndex].length() - 1)}));
-					if (rand.nextInt(100) < 90){
-						BoltFromPointToPoint(ent.worldObj, ent.posX + (rand.nextFloat() - 0.5f), ent.posY + ent.getEyeHeight() - ent.height + (rand.nextFloat() * ent.height), ent.posZ + (rand.nextFloat() - 0.5f), ent.posX + (rand.nextFloat() - 0.5f), ent.posY + ent.getEyeHeight() - ent.height + (rand.nextFloat() * ent.height), ent.posZ + (rand.nextFloat() - 0.5f), type, -1);
+					if (ent.worldObj.rand.nextInt(100) < 90){
+						BoltFromPointToPoint(ent.worldObj,
+								ent.posX + (ent.worldObj.rand.nextFloat() - 0.5f),
+								ent.posY + ent.getEyeHeight() - ent.height + (ent.worldObj.rand.nextFloat() * ent.height),
+								ent.posZ + (ent.worldObj.rand.nextFloat() - 0.5f),
+								ent.posX + (ent.worldObj.rand.nextFloat() - 0.5f),
+								ent.posY + ent.getEyeHeight() - ent.height + (ent.worldObj.rand.nextFloat() * ent.height),
+								ent.posZ + (ent.worldObj.rand.nextFloat() - 0.5f),
+								type, -1);
 					}else{
-						BoltFromPointToPoint(ent.worldObj, ent.posX, ent.posY + ent.getEyeHeight() - 0.4, ent.posZ, ent.posX + (rand.nextFloat() * 10 - 5), ent.posY + (rand.nextFloat() * 10 - 5), ent.posZ + (rand.nextFloat() * 10 - 5), type, -1);
+						BoltFromPointToPoint(ent.worldObj,
+								ent.posX,
+								ent.posY + ent.getEyeHeight() - 0.4,
+								ent.posZ,
+								ent.posX + (ent.worldObj.rand.nextFloat() * 10 - 5),
+								ent.posY + (ent.worldObj.rand.nextFloat() * 10 - 5),
+								ent.posZ + (ent.worldObj.rand.nextFloat() * 10 - 5),
+								type, -1);
 					}
 				}else{
 					int offset = 0;
 					for (int i = 0; i < particleQuantity; ++i){
-						AMParticle effect = spawn(ent.worldObj, AMParticle.particleTypes[particleIndex], ent.posX + (rand.nextFloat() - 0.5f), ent.posY + ent.getEyeHeight() - 0.5f + offset - (rand.nextFloat() * 0.5), ent.posZ + (rand.nextFloat() - 0.5f));
+						AMParticle effect = spawn(ent.worldObj, AMParticle.particleTypes[particleIndex],
+								ent.posX + (ent.worldObj.rand.nextFloat() - 0.5f),
+								ent.posY + ent.getEyeHeight() - 0.5f + offset - (ent.worldObj.rand.nextFloat() * 0.5),
+								ent.posZ + (ent.worldObj.rand.nextFloat() - 0.5f));
 						if (effect != null){
 							effect.setIgnoreMaxAge(false);
 							effect.setMaxAge(40);
@@ -463,7 +480,7 @@ public class ParticleManagerClient extends ParticleManagerServer{
 							effect.noClip = false;
 							if (!particleDefaultColor){
 								if (particleRandomColor){
-									effect.setRGBColorF(rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
+									effect.setRGBColorF(ent.worldObj.rand.nextFloat(), ent.worldObj.rand.nextFloat(), ent.worldObj.rand.nextFloat());
 								}else{
 									effect.setRGBColorI(particleColor);
 								}
@@ -506,7 +523,6 @@ public class ParticleManagerClient extends ParticleManagerServer{
 
 	@Override
 	public void spawnBuffParticles(EntityLivingBase entityliving){
-		Random rand = new Random();
 		World world = entityliving.worldObj;
 
 		if (!world.isRemote) return;
@@ -517,10 +533,14 @@ public class ParticleManagerClient extends ParticleManagerServer{
 				for (int i = -radius; i <= radius; ++i){
 					for (int j = -radius; j <= radius; ++j){
 						for (int k = -radius; k <= radius; ++k){
-							if (entityliving.worldObj.getBlock((int)entityliving.posX + i, (int)entityliving.posY + j, (int)entityliving.posZ + k) == Blocks.air && entityliving.worldObj.getBlockLightValue((int)entityliving.posX + i, (int)entityliving.posY + j, (int)entityliving.posZ + k) <= 7){
-								AMParticle effect = spawn(world, "hr_sparkles_1", (int)entityliving.posX - 1 + i + (rand.nextDouble() * 3), (int)entityliving.posY - 1 + j + (rand.nextDouble() * 3), (int)entityliving.posZ - 1 + k + (rand.nextDouble() * 3));
+							if (entityliving.worldObj.getBlock((int)entityliving.posX + i, (int)entityliving.posY + j, (int)entityliving.posZ + k) == Blocks.air
+							 && entityliving.worldObj.getBlockLightValue((int)entityliving.posX + i, (int)entityliving.posY + j, (int)entityliving.posZ + k) <= 7){
+								AMParticle effect = spawn(world, "hr_sparkles_1",
+										(int)entityliving.posX - 1 + i + (world.rand.nextDouble() * 3),
+										(int)entityliving.posY - 1 + j + (world.rand.nextDouble() * 3),
+										(int)entityliving.posZ - 1 + k + (world.rand.nextDouble() * 3));
 								if (effect != null){
-									effect.setRGBColorF(rand.nextFloat() * 0.4f + 0.3f, 0.6f, rand.nextFloat() * 0.4f + 0.6f);
+									effect.setRGBColorF(world.rand.nextFloat() * 0.4f + 0.3f, 0.6f, world.rand.nextFloat() * 0.4f + 0.6f);
 									effect.setIgnoreMaxAge(false);
 									effect.setMaxAge(40);
 									effect.AddParticleController(new ParticleFloatUpward(effect, 0.01f, 0.01f, 1, false));

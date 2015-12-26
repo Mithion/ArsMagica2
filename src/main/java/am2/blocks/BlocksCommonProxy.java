@@ -621,11 +621,11 @@ public class BlocksCommonProxy{
 		});
 
 		//storage blocks
-		createStorageBlockRecipe(new ItemStack(AMOres, 1, 5), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_MOONSTONE));
-		createStorageBlockRecipe(new ItemStack(AMOres, 1, 6), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_VINTEUMDUST));
-		createStorageBlockRecipe(new ItemStack(AMOres, 1, 7), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_BLUETOPAZ));
-		createStorageBlockRecipe(new ItemStack(AMOres, 1, 8), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_SUNSTONE));
-		createStorageBlockRecipe(new ItemStack(AMOres, 1, 9), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_CHIMERITE));
+		createStorageBlockRecipe(new ItemStack(AMOres, 1, AMOres.META_MOONSTONE_BLOCK), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_MOONSTONE));
+		createStorageBlockRecipe(new ItemStack(AMOres, 1, AMOres.META_VINTEUM_BLOCK), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_VINTEUMDUST));
+		createStorageBlockRecipe(new ItemStack(AMOres, 1, AMOres.META_BLUE_TOPAZ_BLOCK), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_BLUETOPAZ));
+		createStorageBlockRecipe(new ItemStack(AMOres, 1, AMOres.META_SUNSTONE_BLOCK), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_SUNSTONE));
+		createStorageBlockRecipe(new ItemStack(AMOres, 1, AMOres.META_CHIMERITE_BLOCK), new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_CHIMERITE));
 
 		//furnace recipes
 		GameRegistry.addSmelting(new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_ARCANECOMPOUND), new ItemStack(ItemsCommonProxy.itemOre, 2, ItemsCommonProxy.itemOre.META_ARCANEASH), 0);

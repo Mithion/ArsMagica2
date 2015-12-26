@@ -27,7 +27,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import java.util.Random;
 
 public class BlockSpellSealedDoor extends BlockDoor implements ITileEntityProvider{
 
@@ -153,21 +152,20 @@ public class BlockSpellSealedDoor extends BlockDoor implements ITileEntityProvid
 		if (world.getBlock(i, j - 1, k) == BlocksCommonProxy.spellSealedDoor)
 			j--;
 
-		Random rand = new Random();
 		TileEntitySpellSealedDoor door = (TileEntitySpellSealedDoor)world.getTileEntity(i, j, k);
 		if (door == null) return;
 		ItemStack itemstack = door.getStackInSlot(3);
 		if (itemstack == null){
 			return;
 		}
-		float f = rand.nextFloat() * 0.8F + 0.1F;
-		float f1 = rand.nextFloat() * 0.8F + 0.1F;
-		float f2 = rand.nextFloat() * 0.8F + 0.1F;
+		float f = world.rand.nextFloat() * 0.8F + 0.1F;
+		float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
+		float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
 		do{
 			if (itemstack.stackSize <= 0){
 				break;
 			}
-			int i1 = rand.nextInt(21) + 10;
+			int i1 = world.rand.nextInt(21) + 10;
 			if (i1 > itemstack.stackSize){
 				i1 = itemstack.stackSize;
 			}
@@ -176,9 +174,9 @@ public class BlockSpellSealedDoor extends BlockDoor implements ITileEntityProvid
 			newItem.setTagCompound(itemstack.getTagCompound());
 			EntityItem entityitem = new EntityItem(world, i + f, j + f1, k + f2, newItem);
 			float f3 = 0.05F;
-			entityitem.motionX = (float)rand.nextGaussian() * f3;
-			entityitem.motionY = (float)rand.nextGaussian() * f3 + 0.2F;
-			entityitem.motionZ = (float)rand.nextGaussian() * f3;
+			entityitem.motionX = (float)world.rand.nextGaussian() * f3;
+			entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
+			entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
 			world.spawnEntityInWorld(entityitem);
 		}while (true);
 

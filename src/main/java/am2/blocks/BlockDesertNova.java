@@ -8,13 +8,19 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
+import net.minecraftforge.oredict.OreDictionary;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Random;
 
 public class BlockDesertNova extends AMFlower{
+
+	static HashSet<Block> blockSands = null;
 
 	protected BlockDesertNova(){
 		super();
@@ -32,7 +38,20 @@ public class BlockDesertNova extends AMFlower{
 
 	@Override
 	protected boolean canPlaceBlockOn(Block block){
-		return block == Blocks.sand;
+		if (block == Blocks.sand){
+			return true;
+		}
+		if (blockSands == null){// sand is defined by Forge, hence only first call will be 'true'
+			Collection<ItemStack> itemStackSands = OreDictionary.getOres("sand", false);
+			blockSands = new HashSet<Block>(itemStackSands.size());
+			for (ItemStack itemStack : itemStackSands){
+				Block oreBlock = Block.getBlockFromItem(itemStack.getItem());
+				if (oreBlock != Blocks.air){
+					blockSands.add(oreBlock);
+				}
+			}
+		}
+		return blockSands != null && blockSands.contains(block);
 	}
 
 	@Override

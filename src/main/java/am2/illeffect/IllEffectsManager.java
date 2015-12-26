@@ -10,12 +10,11 @@ import java.util.*;
 
 public class IllEffectsManager{
 	private TreeMap<IIllEffect, Integer> DarkNexusBadThings;
-	private Random rand;
 	public static IllEffectsManager instance = new IllEffectsManager();
+	private static Random rand = new Random();
 
 	private IllEffectsManager(){
 		DarkNexusBadThings = new TreeMap<IIllEffect, Integer>();
-		rand = new Random();
 	}
 
 	public void ApplyRandomBadThing(TileEntity te, IllEffectSeverity maxSev, BadThingTypes type){

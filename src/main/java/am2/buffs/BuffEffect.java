@@ -11,14 +11,12 @@ import java.util.Random;
 public abstract class BuffEffect extends PotionEffect{
 	protected boolean InitialApplication;
 	protected boolean HasNotified;
-	protected Random rand;
 	private static float maxExtendDuration = 900; //30 seconds
 
 	public BuffEffect(int buffID, int duration, int amplifier){
 		super(buffID, duration, amplifier > 0 ? amplifier - 1 : amplifier);
 		InitialApplication = true;
 		HasNotified = ((duration / 20) > 5) ? false : true; //disable notification for effects that last less than 5 seconds
-		rand = new Random();
 	}
 
 	public static boolean SetAmplifier(PotionEffect pe, int amplifier){
@@ -42,9 +40,11 @@ public abstract class BuffEffect extends PotionEffect{
 	}
 
 	//Effect that is performed on intermediate ticks
+	@Override
 	public void performEffect(EntityLivingBase entityliving){
 	}
 
+	@Override
 	public void combine(PotionEffect potioneffect){
 		//don't combine "potion effects" with other buff effects
 		if (!(potioneffect instanceof BuffEffect)){
@@ -57,6 +57,7 @@ public abstract class BuffEffect extends PotionEffect{
 		}
 	}
 
+	@Override
 	public boolean onUpdate(EntityLivingBase entityliving){
 		//check for if we are for the first time applying the effect
 		if (InitialApplication){
@@ -89,6 +90,7 @@ public abstract class BuffEffect extends PotionEffect{
 
 	protected abstract String spellBuffName();
 
+	@Override
 	public String getEffectName(){
 		return String.format("Spell: %s", spellBuffName());
 	}

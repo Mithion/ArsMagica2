@@ -76,6 +76,8 @@ public class AMGuiHelper{
 	//=========================================
 
 	public EntityItem dummyItem;
+	
+	private static final Random rand = new Random();
 
 	public void blackoutArmorPiece(int index, int duration){
 		flashTimers[index] = flashDuration;
@@ -471,7 +473,6 @@ public class AMGuiHelper{
 		if (displace < fractalDetail){
 			line2d(src_x, src_y, dst_x, dst_y, zLevel, color);
 		}else{
-			Random rand = new Random();
 			int mid_x = (dst_x + src_x) / 2;
 			int mid_y = (dst_y + src_y) / 2;
 			mid_x += (rand.nextFloat() - 0.5) * displace;

@@ -30,7 +30,6 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 	private static final int maxRadius = 20;
 	private static final int minRadius = 5;
 	private boolean displayAura;
-	private Random rand;
 	private int particleTickCounter;
 
 	public static int keystoneSlot = 0;
@@ -39,7 +38,6 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 		super(250);
 		inventory = new ItemStack[getSizeInventory()];
 		displayAura = false;
-		rand = new Random();
 		particleTickCounter = 0;
 	}
 
@@ -101,13 +99,13 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 					particleTickCounter = 0;
 
 					String particleName = "";
-					AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "sparkle", xCoord + 0.5, yCoord + 0.1 + rand.nextDouble() * 0.5, zCoord + 0.5);
+					AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "sparkle", xCoord + 0.5, yCoord + 0.1 + worldObj.rand.nextDouble() * 0.5, zCoord + 0.5);
 					if (effect != null){
 						effect.setIgnoreMaxAge(false);
 						effect.setMaxAge(100);
 						effect.setParticleScale(0.5f);
-						float color = rand.nextFloat() * 0.2f + 0.8f;
-						effect.AddParticleController(new ParticleOrbitPoint(effect, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 1, false).SetOrbitSpeed(0.005).SetTargetDistance(rand.nextDouble() * 0.6 - 0.3));
+						float color = worldObj.rand.nextFloat() * 0.2f + 0.8f;
+						effect.AddParticleController(new ParticleOrbitPoint(effect, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 1, false).SetOrbitSpeed(0.005).SetTargetDistance(worldObj.rand.nextDouble() * 0.6 - 0.3));
 						effect.AddParticleController(new ParticleHoldPosition(effect, 80, 2, true));
 						effect.AddParticleController(new ParticleFadeOut(effect, 3, false).setFadeSpeed(0.05f));
 					}

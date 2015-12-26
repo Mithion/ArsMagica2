@@ -37,7 +37,6 @@ import net.minecraftforge.common.MinecraftForge;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
 
 public class ExtendedProperties implements IExtendedProperties, IExtendedEntityProperties{
 	private EntityLivingBase entity;
@@ -415,29 +414,17 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 		return this.prevShrinkPct;
 	}
 
+	public void setShrinkPct(float pct){
+		this.prevShrinkPct = this.shrinkPct;
+		this.shrinkPct = pct;
+	}
+
 	public boolean shouldReverseInput(){
 		return getFlipRotation() > 0 || this.entity.isPotionActive(BuffList.scrambleSynapses.id);
 	}
 
 	public AMVector2 getOriginalSize(){
 		return this.originalSize;
-	}
-
-	public void overrideEyeHeight(){
-		if (SkillTreeManager.instance.isSkillDisabled(SkillManager.instance.getSkill("Shrink")))
-			return;
-
-		if (entity instanceof EntityPlayer){
-			float baseEyeHeight = ((EntityPlayer)entity).getDefaultEyeHeight();
-			float baseYOffset = entity.worldObj.isRemote ? (entity == AMCore.proxy.getLocalPlayer() ? 1.62f : 0) : 0;
-			if (entity.isPotionActive(BuffList.shrink)){
-				((EntityPlayer)entity).eyeHeight = baseEyeHeight / 2;
-				entity.yOffset = baseYOffset / 2;
-			}else{
-				((EntityPlayer)entity).eyeHeight = baseEyeHeight;
-				entity.yOffset = baseYOffset;
-			}
-		}
 	}
 
 	public boolean getCanHeal(){
@@ -990,7 +977,7 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 
 		updateFlags = 0;
 
-		ticksToSync = new Random().nextInt(syncTickDelay);
+		ticksToSync = world.rand.nextInt(syncTickDelay);
 
 		hasInitialized = true;
 	}
@@ -1037,9 +1024,20 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 			burnout *= 0.75f;
 		this.setCurrentFatigue(currentFatigue + burnout);
 	}
-
+	
+	@Override
+	public String toString() {
+		try {
+			return hashCode() + " " + entity;
+		} catch(Exception exception) {
+			return hashCode() + " (error)";
+		}
+	}
+	
 	public void handleExtendedPropertySync(){
-		if (!this.getHasDoneFullSync()) this.setFullSync();
+		if (!entity.worldObj.isRemote && !this.getHasDoneFullSync()) {
+			this.setFullSync();
+		}
 
 		if (!entity.worldObj.isRemote && this.getHasUpdate()){
 			byte[] data = this.getUpdateData();
@@ -1103,9 +1101,10 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 
 		if (ticksSinceLastRegen >= ticksToRegen){
 			//mana regeneration
-			if (getCurrentMana() < getMaxMana()){
+			float actualMaxMana = getMaxMana();
+			if (getCurrentMana() < actualMaxMana){
 				if (entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode){
-					setCurrentMana(getMaxMana());
+					setCurrentMana(actualMaxMana);
 				}else{
 					if (getCurrentMana() < 0){
 						setCurrentMana(0);
@@ -1150,12 +1149,9 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 					}
 
 					//actual mana regen
-					float manaToAdd = (getMaxMana() / regenTicks) * ticksSinceLastRegen;
+					float manaToAdd = (actualMaxMana / regenTicks) * ticksSinceLastRegen;
 
 					setCurrentMana(getCurrentMana() + manaToAdd);
-					if (getCurrentMana() > getMaxMana()){
-						setCurrentMana(getMaxMana());
-					}
 				}
 			}
 			//fatigue decrease
@@ -1194,29 +1190,6 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 			flipRotation += 15;
 		else if (!flipped && flipRotation > 0)
 			flipRotation -= 15;
-	}
-
-	public void shrinkTick(){
-
-		if (SkillTreeManager.instance.isSkillDisabled(SkillManager.instance.getSkill("Shrink")))
-			return;
-
-		boolean shrunk = getIsShrunk();
-
-		if (!entity.worldObj.isRemote && shrunk && !entity.isPotionActive(BuffList.shrink)){
-			setIsShrunk(false);
-			return;
-		}else if (!entity.worldObj.isRemote && !shrunk && entity.isPotionActive(BuffList.shrink)){
-			setIsShrunk(true);
-			return;
-		}
-
-		prevShrinkPct = shrinkPct;
-		if (shrunk && shrinkPct < 1f){
-			shrinkPct += 0.05f;
-		}else if (!shrunk && shrinkPct > 0f){
-			shrinkPct -= 0.05f;
-		}
 	}
 
 	public void cleanupManaLinks(){

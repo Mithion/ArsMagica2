@@ -129,7 +129,7 @@ public abstract class AM2Boss extends EntityMob implements IArsMagicaBoss, IEnti
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
 
 		if (par1DamageSource == DamageSource.inWall){
-			if (!worldObj.isRemote){
+			if (!worldObj.isRemote){// dead code? (calling canSnowAt() without using the result) could it be a buggy upgrade to 1.7.10?
 				for (int i = -1; i <= 1; ++i){
 					for (int j = 0; j < 3; ++j){
 						for (int k = -1; k <= 1; ++k){

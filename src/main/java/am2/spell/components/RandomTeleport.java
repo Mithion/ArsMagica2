@@ -23,8 +23,6 @@ import java.util.Random;
 
 public class RandomTeleport implements ISpellComponent{
 
-	private final Random rand = new Random();
-
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		return false;
@@ -40,7 +38,7 @@ public class RandomTeleport implements ISpellComponent{
 		AMVector3 origin = new AMVector3(target);
 		float maxDist = 9;
 		maxDist = (float)SpellUtils.instance.getModifiedDouble_Mul(maxDist, stack, caster, target, world, 0, SpellModifiers.RANGE);
-		origin.add(new AMVector3((rand.nextDouble() - 0.5) * maxDist, (rand.nextDouble() - 0.5) * maxDist, (rand.nextDouble() - 0.5) * maxDist));
+		origin.add(new AMVector3((world.rand.nextDouble() - 0.5) * maxDist, (world.rand.nextDouble() - 0.5) * maxDist, (world.rand.nextDouble() - 0.5) * maxDist));
 		return origin;
 	}
 
@@ -114,7 +112,7 @@ public class RandomTeleport implements ISpellComponent{
 
 	@Override
 	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
-		world.spawnParticle("portal", target.posX + (this.rand.nextDouble() - 0.5D) * target.width, target.posY + this.rand.nextDouble() * target.height - 0.25D, target.posZ + (this.rand.nextDouble() - 0.5D) * target.width, (this.rand.nextDouble() - 0.5D) * 2.0D, -this.rand.nextDouble(), (this.rand.nextDouble() - 0.5D) * 2.0D);
+		world.spawnParticle("portal", target.posX + (rand.nextDouble() - 0.5D) * target.width, target.posY + rand.nextDouble() * target.height - 0.25D, target.posZ + (rand.nextDouble() - 0.5D) * target.width, (rand.nextDouble() - 0.5D) * 2.0D, -rand.nextDouble(), (rand.nextDouble() - 0.5D) * 2.0D);
 	}
 
 	@Override

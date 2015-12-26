@@ -71,9 +71,8 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 		initLocationLists();
 
 		if (worldObj != null && worldObj.isRemote){
-			Random rnd = new Random(System.currentTimeMillis());
-			rotateOffset = rnd.nextFloat() * FULL_CIRCLE - 1;
-			floatOffset = MAX_FLOAT_DOWN + (rnd.nextFloat() * (MAX_FLOAT_UP - MAX_FLOAT_DOWN) + 1);
+			rotateOffset = worldObj.rand.nextFloat() * FULL_CIRCLE - 1;
+			floatOffset = MAX_FLOAT_DOWN + (worldObj.rand.nextFloat() * (MAX_FLOAT_UP - MAX_FLOAT_DOWN) + 1);
 		}
 	}
 

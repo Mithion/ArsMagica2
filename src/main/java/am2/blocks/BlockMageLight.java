@@ -24,8 +24,6 @@ import java.util.Random;
 
 public class BlockMageLight extends AMSpecialRenderBlock{
 
-	private final Random rand = new Random();
-
 	protected BlockMageLight(){
 		super(Material.circuits);
 		setBlockBounds(0.35f, 0.35f, 0.35f, 0.65f, 0.65f, 0.65f);
@@ -39,7 +37,7 @@ public class BlockMageLight extends AMSpecialRenderBlock{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random){
+	public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random rand){
 		int meta = par1World.getBlockMetadata(par2, par3, par4);
 		int color = ItemDye.field_150922_c[meta];
 

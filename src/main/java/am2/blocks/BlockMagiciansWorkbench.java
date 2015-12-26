@@ -138,7 +138,6 @@ public class BlockMagiciansWorkbench extends AMSpecialRenderBlockContainer{
 			super.breakBlock(world, i, j, k, par5, metadata);
 			return;
 		}
-		Random rand = new Random();
 		TileEntityMagiciansWorkbench workbench = (TileEntityMagiciansWorkbench)world.getTileEntity(i, j, k);
 		if (workbench == null || KeystoneUtilities.instance.getKeyFromRunes(workbench.getRunesInKey()) != 0) return;
 
@@ -147,14 +146,14 @@ public class BlockMagiciansWorkbench extends AMSpecialRenderBlockContainer{
 			if (itemstack == null){
 				continue;
 			}
-			float f = rand.nextFloat() * 0.8F + 0.1F;
-			float f1 = rand.nextFloat() * 0.8F + 0.1F;
-			float f2 = rand.nextFloat() * 0.8F + 0.1F;
+			float f = world.rand.nextFloat() * 0.8F + 0.1F;
+			float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
+			float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
 			do{
 				if (itemstack.stackSize <= 0){
 					break;
 				}
-				int i1 = rand.nextInt(21) + 10;
+				int i1 = world.rand.nextInt(21) + 10;
 				if (i1 > itemstack.stackSize){
 					i1 = itemstack.stackSize;
 				}
@@ -163,23 +162,23 @@ public class BlockMagiciansWorkbench extends AMSpecialRenderBlockContainer{
 				newItem.setTagCompound(itemstack.getTagCompound());
 				EntityItem entityitem = new EntityItem(world, i + f, j + f1, k + f2, newItem);
 				float f3 = 0.05F;
-				entityitem.motionX = (float)rand.nextGaussian() * f3;
-				entityitem.motionY = (float)rand.nextGaussian() * f3 + 0.2F;
-				entityitem.motionZ = (float)rand.nextGaussian() * f3;
+				entityitem.motionX = (float)world.rand.nextGaussian() * f3;
+				entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
+				entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
 				world.spawnEntityInWorld(entityitem);
 			}while (true);
 		}
 
 		if(workbench.getUpgradeStatus(TileEntityMagiciansWorkbench.UPG_CRAFT)){
-			float f = rand.nextFloat() * 0.8F + 0.1F;
-			float f1 = rand.nextFloat() * 0.8F + 0.1F;
-			float f2 = rand.nextFloat() * 0.8F + 0.1F;
+			float f = world.rand.nextFloat() * 0.8F + 0.1F;
+			float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
+			float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
 			ItemStack newItem = new ItemStack(ItemsCommonProxy.workbenchUpgrade, 1);
 			EntityItem entityitem = new EntityItem(world, i + f, j + f1, k + f2, newItem);
 			float f3 = 0.05F;
-			entityitem.motionX = (float)rand.nextGaussian() * f3;
-			entityitem.motionY = (float)rand.nextGaussian() * f3 + 0.2F;
-			entityitem.motionZ = (float)rand.nextGaussian() * f3;
+			entityitem.motionX = (float)world.rand.nextGaussian() * f3;
+			entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
+			entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
 			world.spawnEntityInWorld(entityitem);
 		}
 		

@@ -1,28 +1,39 @@
 package am2.spell.components;
 
 import am2.AMCore;
+import am2.api.ArsMagicaApi;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
 import am2.blocks.BlocksCommonProxy;
 import am2.items.ItemSpellBook;
 import am2.particles.AMParticle;
 import am2.particles.ParticleOrbitPoint;
+import am2.playerextensions.ExtendedProperties;
 import am2.spell.SpellUtils;
+import am2.utility.DummyEntityPlayer;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Random;
 
 public class Appropriation implements ISpellComponent{
@@ -51,17 +62,25 @@ public class Appropriation implements ISpellComponent{
 			return false;
 
 		ItemStack originalSpellStack = getOriginalSpellStack((EntityPlayer)caster);
-		if (originalSpellStack == null)
+		if (originalSpellStack == null){
 			return false;
+		}
+
+		if (originalSpellStack.stackTagCompound == null){
+			return false;
+		}
 
 		Block block = world.getBlock(blockx, blocky, blockz);
 
-		if (block == null)
+		if (block == null){
 			return false;
+		}
 
-		for (String s : AMCore.config.getAppropriationBlockBlacklist())
-			if (block.getUnlocalizedName() == s)
+		for (String s : AMCore.config.getAppropriationBlockBlacklist()){
+			if (block.getUnlocalizedName() == s){
 				return false;
+			}
+		}
 
 		if (!world.isRemote){
 			if (originalSpellStack.stackTagCompound.hasKey(storageKey)){
@@ -90,18 +109,95 @@ public class Appropriation implements ISpellComponent{
 					}
 				}
 
-				if (world.isAirBlock(blockx, blocky, blockz) || !world.getBlock(blockx, blocky, blockz).getMaterial().isSolid())
+				if (world.isAirBlock(blockx, blocky, blockz) || !world.getBlock(blockx, blocky, blockz).getMaterial().isSolid()){
+
+					// save current spell
+					NBTTagCompound nbt = null;
+					if (stack.getTagCompound() != null){
+						nbt = (NBTTagCompound)stack.getTagCompound().copy();
+					}
+
+
+					EntityPlayerMP casterPlayer = (EntityPlayerMP)DummyEntityPlayer.fromEntityLiving(caster);
+					world.captureBlockSnapshots = true;
 					restore((EntityPlayer)caster, world, originalSpellStack, blockx, blocky, blockz, impactX, impactY, impactZ);
+					world.captureBlockSnapshots = false;
+
+					// save new spell data
+					NBTTagCompound newNBT = null;
+					if (stack.getTagCompound() != null){
+						newNBT = (NBTTagCompound)stack.getTagCompound().copy();
+					}
+
+					net.minecraftforge.event.world.BlockEvent.PlaceEvent placeEvent = null;
+					List<net.minecraftforge.common.util.BlockSnapshot> blockSnapshots = (List<net.minecraftforge.common.util.BlockSnapshot>) world.capturedBlockSnapshots.clone();
+					world.capturedBlockSnapshots.clear();
+
+					// restore original item data for event
+					if (nbt != null){
+						stack.setTagCompound(nbt);
+					}
+					if (blockSnapshots.size() > 1){
+						placeEvent = ForgeEventFactory.onPlayerMultiBlockPlace(casterPlayer, blockSnapshots, ForgeDirection.UNKNOWN);
+					} else if (blockSnapshots.size() == 1){
+						placeEvent = ForgeEventFactory.onPlayerBlockPlace(casterPlayer, blockSnapshots.get(0), ForgeDirection.UNKNOWN);
+					}
+
+					if (placeEvent != null && (placeEvent.isCanceled())){
+						// revert back all captured blocks
+						for (net.minecraftforge.common.util.BlockSnapshot blocksnapshot : blockSnapshots){
+							world.restoringBlockSnapshots = true;
+							blocksnapshot.restore(true, false);
+							world.restoringBlockSnapshots = false;
+						}
+						return false;
+					} else {
+						// Change the stack to its new content
+						if (nbt != null){
+							stack.setTagCompound(newNBT);
+						}
+
+						for (net.minecraftforge.common.util.BlockSnapshot blocksnapshot : blockSnapshots){
+							int blockX = blocksnapshot.x;
+							int blockY = blocksnapshot.y;
+							int blockZ = blocksnapshot.z;
+							int metadata = world.getBlockMetadata(blockX, blockY, blockZ);
+							int updateFlag = blocksnapshot.flag;
+							Block oldBlock = blocksnapshot.replacedBlock;
+							Block newBlock = world.getBlock(blockX, blockY, blockZ);
+							if (newBlock != null && !(newBlock.hasTileEntity(metadata))){ // Containers get placed automatically
+								newBlock.onBlockAdded(world, blockX, blockY, blockZ);
+							}
+
+							world.markAndNotifyBlock(blockX, blockY, blockZ, null, oldBlock, newBlock, updateFlag);
+						}
+					}
+					world.capturedBlockSnapshots.clear();
+
+					// restore((EntityPlayer)caster, world, originalSpellStack, blockx, blocky, blockz, impactX, impactY, impactZ);
+				}
 			}else{
 
-				if (block == null || block.getBlockHardness(world, blockx, blocky, blockz) == -1.0f)
+				if (block == null || block.getBlockHardness(world, blockx, blocky, blockz) == -1.0f){
 					return false;
+				}
 
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString(storageType, "block");
 				//data.setString("blockName", block.getUnlocalizedName().replace("tile.", ""));
 				data.setInteger("blockID", Block.getIdFromBlock(block));
-				data.setInteger("meta", world.getBlockMetadata(blockx, blocky, blockz));
+				int meta = world.getBlockMetadata(blockx, blocky, blockz);
+				data.setInteger("meta", meta);
+
+				EntityPlayerMP casterPlayer = (EntityPlayerMP)DummyEntityPlayer.fromEntityLiving(caster);
+				if (!ForgeEventFactory.doPlayerHarvestCheck(casterPlayer, block, true)){
+					return false;
+				}
+
+				BreakEvent event = ForgeHooks.onBlockBreakEvent(world, casterPlayer.theItemInWorldManager.getGameType(), casterPlayer, blockx, blocky, blockz);
+				if (event.isCanceled()){
+					return false;
+				}
 
 				TileEntity te = world.getTileEntity(blockx, blocky, blockz);
 				if (te != null){
@@ -109,12 +205,11 @@ public class Appropriation implements ISpellComponent{
 					te.writeToNBT(teData);
 					data.setTag("tileEntity", teData);
 
-					//essentially reset the tile entity before destroying the block - this corrects several issues such as inventory items dropping
-					//we don't want this as the inventory items are already saved in the NBT!
+					// remove tile entity first to prevent content dropping which is already saved in the NBT
 					try{
-						world.setTileEntity(blockx, blocky, blockz, te.getClass().newInstance());
-					}catch (Throwable e){
-						e.printStackTrace();
+						world.removeTileEntity(blockx, blocky, blockz);
+					}catch (Throwable exception){
+						exception.printStackTrace();
 					}
 				}
 

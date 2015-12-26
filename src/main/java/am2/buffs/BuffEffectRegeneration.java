@@ -33,9 +33,12 @@ public class BuffEffectRegeneration extends BuffEffect{
 			if (!world.isRemote){
 				entityliving.heal(1);
 			}else{
-				AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(world, "hr_sparkles_1", entityliving.posX + rand.nextDouble() * entityliving.height - (entityliving.height / 2), entityliving.posY + rand.nextDouble() * entityliving.height - (entityliving.height / 2), entityliving.posZ + rand.nextDouble() * entityliving.height - (entityliving.height / 2));
+				AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(world, "hr_sparkles_1",
+						entityliving.posX + world.rand.nextDouble() * entityliving.height - (entityliving.height / 2),
+						entityliving.posY + world.rand.nextDouble() * entityliving.height - (entityliving.height / 2),
+						entityliving.posZ + world.rand.nextDouble() * entityliving.height - (entityliving.height / 2));
 				if (effect != null){
-					effect.setMaxAge(15 + rand.nextInt(10));
+					effect.setMaxAge(15 + world.rand.nextInt(10));
 					effect.setIgnoreMaxAge(false);
 					effect.AddParticleController(new ParticleFadeOut(effect, 1, true));
 					effect.setRGBColorF(0.15f, 0.92f, 0.37f);

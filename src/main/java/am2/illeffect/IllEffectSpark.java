@@ -24,11 +24,10 @@ public class IllEffectSpark extends IllEffectBase{
 	public Map<EntityPlayer, Object> ApplyIllEffect(World world, int x, int y, int z){
 		HashMap<EntityPlayer, Object> toReturn = new HashMap<EntityPlayer, Object>();
 		if (world.isRemote) return toReturn;
-		Random rand = new Random();
 		List<EntityPlayer> located_players = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x - 3, y - 3, z - 3, x + 3, y + 3, z + 3));
 		EntityPlayer[] players = located_players.toArray(new EntityPlayer[located_players.size()]);
 		if (players.length == 0) return toReturn;
-		EntityPlayer unlucky = players[rand.nextInt(players.length)];
+		EntityPlayer unlucky = players[world.rand.nextInt(players.length)];
 
 		AMCore.instance.proxy.particleManager.BoltFromPointToPoint(world, x, y, z, unlucky.posX, unlucky.posY, unlucky.posZ, 4, -1);
 		unlucky.attackEntityFrom(DamageSource.generic, 1);

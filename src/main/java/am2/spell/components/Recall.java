@@ -62,19 +62,18 @@ public class Recall implements ISpellComponent, IRitualInteraction{
 			return handleRitualReagents(ritualRunes, world, x, y, z, caster, target);
 		}
 
-		if (!ExtendedProperties.For(caster).getMarkSet()){
+		ExtendedProperties casterProperties = ExtendedProperties.For(caster);
+		if (!casterProperties.getMarkSet()){
 			if (caster instanceof EntityPlayer && !world.isRemote)
 				((EntityPlayer)caster).addChatMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.noMark")));
 			return false;
-		}else if (ExtendedProperties.For(caster).getMarkDimension() != caster.dimension){
+		}else if (casterProperties.getMarkDimension() != caster.dimension){
 			if (caster instanceof EntityPlayer && !world.isRemote)
 				((EntityPlayer)caster).addChatMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.diffDimMark")));
 			return false;
 		}
 		if (!world.isRemote){
-			((EntityLivingBase)target).setPositionAndUpdate(ExtendedProperties
-					.For(caster).getMarkX(), ExtendedProperties.For(caster)
-					.getMarkY(), ExtendedProperties.For(caster).getMarkZ());
+			((EntityLivingBase)target).setPositionAndUpdate(casterProperties.getMarkX(), casterProperties.getMarkY(), casterProperties.getMarkZ());
 		}
 		return true;
 	}

@@ -19,14 +19,12 @@ import java.util.Random;
 
 public class Accelerate implements ISpellComponent{
 
-	private final Random rand = new Random();
-
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		if (rand.nextDouble() < 0.5){
+		if (world.rand.nextDouble() < 0.5){
 			Block block = world.getBlock(blockx, blocky, blockz);
 			if (block != Blocks.air){
-				block.updateTick(world, blocky, blocky, blockz, rand);
+				block.updateTick(world, blocky, blocky, blockz, world.rand);
 			}
 		}
 		return true;

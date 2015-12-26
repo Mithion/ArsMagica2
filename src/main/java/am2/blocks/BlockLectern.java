@@ -40,21 +40,20 @@ public class BlockLectern extends AMSpecialRenderBlockContainer{
 		if (te == null){
 			return true;
 		}
-		Random rand = new Random();
 		if (te.hasStack()){
 			if (player.isSneaking()){
 				if (!world.isRemote && ((player instanceof EntityPlayerMP) && ((EntityPlayerMP)player).theItemInWorldManager.getGameType() != GameType.ADVENTURE)){
-					float f = rand.nextFloat() * 0.8F + 0.1F;
-					float f1 = rand.nextFloat() * 0.8F + 0.1F;
-					float f2 = rand.nextFloat() * 0.8F + 0.1F;
+					float f = world.rand.nextFloat() * 0.8F + 0.1F;
+					float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
+					float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
 					ItemStack newItem = new ItemStack(te.getStack().getItem(), 1, te.getStack().getItemDamage());
 					if (te.getStack().stackTagCompound != null)
 						newItem.setTagCompound((NBTTagCompound)te.getStack().stackTagCompound.copy());
 					EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, newItem);
 					float f3 = 0.05F;
-					entityitem.motionX = (float)rand.nextGaussian() * f3;
-					entityitem.motionY = (float)rand.nextGaussian() * f3 + 0.2F;
-					entityitem.motionZ = (float)rand.nextGaussian() * f3;
+					entityitem.motionX = (float)world.rand.nextGaussian() * f3;
+					entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
+					entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
 					world.spawnEntityInWorld(entityitem);
 					te.setStack(null);
 				}
@@ -82,19 +81,18 @@ public class BlockLectern extends AMSpecialRenderBlockContainer{
 			return;
 		}
 		if (!world.isRemote){
-			Random rand = new Random();
 			if (te.hasStack()){
-				float f = rand.nextFloat() * 0.8F + 0.1F;
-				float f1 = rand.nextFloat() * 0.8F + 0.1F;
-				float f2 = rand.nextFloat() * 0.8F + 0.1F;
+				float f = world.rand.nextFloat() * 0.8F + 0.1F;
+				float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
+				float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
 				ItemStack newItem = new ItemStack(te.getStack().getItem(), 1, te.getStack().getItemDamage());
 				if (te.getStack().stackTagCompound != null)
 					newItem.setTagCompound((NBTTagCompound)te.getStack().stackTagCompound.copy());
 				EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, newItem);
 				float f3 = 0.05F;
-				entityitem.motionX = (float)rand.nextGaussian() * f3;
-				entityitem.motionY = (float)rand.nextGaussian() * f3 + 0.2F;
-				entityitem.motionZ = (float)rand.nextGaussian() * f3;
+				entityitem.motionX = (float)world.rand.nextGaussian() * f3;
+				entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
+				entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
 				world.spawnEntityInWorld(entityitem);
 			}
 		}

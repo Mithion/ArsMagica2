@@ -28,13 +28,15 @@ public class ManaDrain implements ISpellComponent{
 		if (!(target instanceof EntityLivingBase)) return false;
 
 		double manaStolen = 250;
-		if (manaStolen > ExtendedProperties.For((EntityLivingBase)target).getCurrentMana()){
-			manaStolen = ExtendedProperties.For((EntityLivingBase)target).getCurrentMana();
+		ExtendedProperties targetProperties = ExtendedProperties.For((EntityLivingBase)target);
+		if (manaStolen > targetProperties.getCurrentMana()){
+			manaStolen = targetProperties.getCurrentMana();
 		}
-		ExtendedProperties.For((EntityLivingBase)target).setCurrentMana((float)(ExtendedProperties.For((EntityLivingBase)target).getCurrentMana() - manaStolen));
-		ExtendedProperties.For((EntityLivingBase)target).forceSync();
-		ExtendedProperties.For(caster).setCurrentMana((float)(ExtendedProperties.For(caster).getCurrentMana() + manaStolen));
-		ExtendedProperties.For(caster).forceSync();
+		targetProperties.setCurrentMana((float)(targetProperties.getCurrentMana() - manaStolen));
+		targetProperties.forceSync();
+		ExtendedProperties casterProperties = ExtendedProperties.For(caster);
+		casterProperties.setCurrentMana((float)(casterProperties.getCurrentMana() + manaStolen));
+		casterProperties.forceSync();
 		return true;
 	}
 

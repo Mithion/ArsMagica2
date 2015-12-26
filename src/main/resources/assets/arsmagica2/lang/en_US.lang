@@ -400,6 +400,9 @@ am2.spell.manaregenii=Mana Regen II
 am2.spell.manaregeniii=Mana Regen III
 am2.spell.spellmotion=Spell Motion
 
+am2.spell.nauseate=Nauseate
+am2.spell.scramblesynapses=Scramble synapses
+
 #tooltips
 am2.tooltip.air_sled=§3Fly through the air with the greatest of ease...§f
 am2.tooltip.approError=Something went wrong restoring the block. This spell was likely a spell from an older version. The stored block has been cleared to prevent a crash, and the spell should work moving forward. Sorry!
@@ -515,7 +518,14 @@ am2.tooltip.wrongWrenchMode=The wrench isn't in the right mode to interact with 
 am2.tooltip.wtrbrth=Water Breathing
 am2.tooltip.wtrwalk=Water Walking
 
-key.activateAffinityAbility=Affinity Ability
+# Control keys
+key.am2.category=ArsMagica2
+key.ActivateAffinityAbility=Activate affinity ability
+key.AuraCustomization=Aura customization
+key.ShapeGroups=Shape groups
+key.SpellBookNext=Spell book, Next
+key.SpellBookPrev=Spell book, Previous
+key.ToggleManaDisplay=Toggle mana display
 
 #guis
 am2.gui.Affinity=Affinity

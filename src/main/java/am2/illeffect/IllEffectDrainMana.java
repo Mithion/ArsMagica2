@@ -24,8 +24,6 @@ public class IllEffectDrainMana extends IllEffectBase{
 		HashMap<EntityPlayer, Object> toReturn = new HashMap<EntityPlayer, Object>();
 		if (world.isRemote) return toReturn;
 
-		Random rand = new Random();
-
 		List<EntityPlayer> located_players = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x - 3, y - 3, z - 3, x + 3, y + 3, z + 3));
 
 		EntityPlayer[] players = located_players.toArray(new EntityPlayer[located_players.size()]);

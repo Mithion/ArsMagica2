@@ -7,7 +7,6 @@ import java.util.Random;
 public abstract class ParticleController{
 
 	protected AMParticle particle;
-	protected Random rand;
 
 	protected int priority;
 	protected boolean exclusive;
@@ -29,7 +28,6 @@ public abstract class ParticleController{
 
 	public ParticleController(AMParticle particleEffect, int priority, boolean exclusive){
 		this.particle = particleEffect;
-		rand = new Random();
 		this.priority = priority;
 		this.exclusive = exclusive;
 		this.killParticleOnFinish = false;

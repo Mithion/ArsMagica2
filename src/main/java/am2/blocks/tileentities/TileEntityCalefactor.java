@@ -32,7 +32,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 
 	private ItemStack calefactorItemStacks[];
 	private float rotationX, rotationY, rotationZ;
-	private final float rotationStepX, rotationStepY, rotationStepZ;
+	private float rotationStepX;
 	private final short baseCookTime = 220; //default to the same as a standard furnace
 	private short timeSpentCooking = 0;
 	private final float basePowerConsumedPerTickCooking = 0.85f;
@@ -40,16 +40,12 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	private boolean isCooking;
 
 	private static final byte PKT_PRG_UPDATE = 1;
+	private boolean isFirstTick = true;
 
 	public TileEntityCalefactor(){
 		super(100);
 
-		Random rand = new Random();
-
 		calefactorItemStacks = new ItemStack[getSizeInventory()];
-		rotationStepX = rand.nextFloat() * 0.03f - 0.015f;
-		rotationStepY = rand.nextFloat() * 0.03f - 0.015f;
-		rotationStepZ = rand.nextFloat() * 0.03f - 0.015f;
 
 		isCooking = false;
 	}
@@ -240,7 +236,10 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	@Override
 	public void updateEntity(){
 		super.updateEntity();
-		boolean didSmeltItem = false;
+		if (isFirstTick) {
+			rotationStepX = worldObj.rand.nextFloat() * 0.03f - 0.015f;
+			isFirstTick = false;
+		}
 
 		if (this.worldObj.isRemote){
 			incrementRotations();
@@ -288,7 +287,6 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 			if (this.timeSpentCooking >= getModifiedCookTime()){
 				if (!this.worldObj.isRemote){
 					this.smeltItem();
-					didSmeltItem = true;
 				}else{
 					worldObj.playSound(xCoord, yCoord, zCoord, "arsmagica2:misc.calefactor.burn", 0.2f, 1.0f, true);
 				}

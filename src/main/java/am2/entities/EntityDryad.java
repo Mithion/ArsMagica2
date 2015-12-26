@@ -37,7 +37,7 @@ public class EntityDryad extends EntityCreature{
 	}
 
 	@Override
-	protected boolean canTriggerWalking(){
+	public boolean canTriggerWalking(){
 		return false;
 	}
 
@@ -64,10 +64,10 @@ public class EntityDryad extends EntityCreature{
 		if (!world.isRemote || world == null){
 			return;
 		}
-		if (new Random().nextInt(100) == 3){
+		if (worldObj.rand.nextInt(100) == 3){
 			AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(world, "hr_sparkles_1", this.posX, this.posY + 2, this.posZ);
 			if (effect != null){
-				effect.AddParticleController(new ParticleOrbitEntity(effect, this, new Random().nextDouble() * 0.2 + 0.2, 1, false));
+				effect.AddParticleController(new ParticleOrbitEntity(effect, this, worldObj.rand.nextDouble() * 0.2 + 0.2, 1, false));
 				effect.setIgnoreMaxAge(false);
 				effect.setRGBColorF(0.1f, 0.8f, 0.1f);
 			}

@@ -211,7 +211,7 @@ public class EntityThrownSickle extends EntityLiving{
 			if (getThrowingEntity() != null && !this.entityHits.contains(movingobjectposition.entityHit.getEntityId())){
 				this.entityHits.add(movingobjectposition.entityHit.getEntityId());
 				if (getThrowingEntity() instanceof EntityPlayer){
-					if (movingobjectposition.entityHit instanceof EntityPlayer && ((!getThrowingEntity().worldObj.isRemote && !MinecraftServer.getServer().isPVPEnabled()) || getThrowingEntity().worldObj.isRemote))
+					if (movingobjectposition.entityHit instanceof EntityPlayer && (getThrowingEntity().worldObj.isRemote || !MinecraftServer.getServer().isPVPEnabled()))
 						return;
 					movingobjectposition.entityHit.attackEntityFrom(DamageSources.causeEntityCactusDamage(getThrowingEntity(), true), 10);
 				}else{

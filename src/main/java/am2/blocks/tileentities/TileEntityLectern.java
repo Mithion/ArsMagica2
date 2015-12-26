@@ -23,7 +23,6 @@ import java.util.Random;
 
 public class TileEntityLectern extends TileEntityEnchantmentTable{
 	private ItemStack stack;
-	private Random rand;
 	private ItemStack tooltipStack;
 	private boolean needsBook;
 	private boolean overPowered;
@@ -32,7 +31,6 @@ public class TileEntityLectern extends TileEntityEnchantmentTable{
 	private boolean increasing = true;
 
 	public TileEntityLectern(){
-		rand = new Random();
 	}
 
 	public void resetParticleAge(){
@@ -53,9 +51,9 @@ public class TileEntityLectern extends TileEntityEnchantmentTable{
 		if (worldObj.isRemote){
 			updateBookRender();
 			if (tooltipStack != null && field_145926_a % 2 == 0){
-				AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "sparkle", xCoord + 0.5 + ((rand.nextDouble() * 0.2) - 0.1), yCoord + 1, zCoord + 0.5 + ((rand.nextDouble() * 0.2) - 0.1));
+				AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "sparkle", xCoord + 0.5 + ((worldObj.rand.nextDouble() * 0.2) - 0.1), yCoord + 1, zCoord + 0.5 + ((worldObj.rand.nextDouble() * 0.2) - 0.1));
 				if (particle != null){
-					particle.AddParticleController(new ParticleMoveOnHeading(particle, rand.nextDouble() * 360, -45 - rand.nextInt(90), 0.05f, 1, false));
+					particle.AddParticleController(new ParticleMoveOnHeading(particle, worldObj.rand.nextDouble() * 360, -45 - worldObj.rand.nextInt(90), 0.05f, 1, false));
 					particle.AddParticleController(new ParticleFadeOut(particle, 2, false).setFadeSpeed(0.05f).setKillParticleOnFinish(true));
 					particle.setIgnoreMaxAge(true);
 					if (getOverpowered()){
@@ -82,11 +80,11 @@ public class TileEntityLectern extends TileEntityEnchantmentTable{
 
 		this.field_145930_m += 0.1F;
 
-		if (this.field_145930_m < 0.5F || rand.nextInt(40) == 0){
+		if (this.field_145930_m < 0.5F || worldObj.rand.nextInt(40) == 0){
 			float f1 = this.field_145932_k;
 
 			do{
-				this.field_145932_k += (float)(rand.nextInt(4) - rand.nextInt(4));
+				this.field_145932_k += (float)(worldObj.rand.nextInt(4) - worldObj.rand.nextInt(4));
 			}
 			while (f1 == this.field_145932_k);
 		}
