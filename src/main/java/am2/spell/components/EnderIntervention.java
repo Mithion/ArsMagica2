@@ -47,7 +47,8 @@ public class EnderIntervention implements ISpellComponent{
 				((EntityPlayer)target).addChatMessage(new ChatComponentText("You are already in the nether."));
 			return false;
 		}else{
-			DimensionUtilities.doDimensionTransfer((EntityLivingBase)target, -1);
+//			DimensionUtilities.doDimensionTransfer((EntityLivingBase)target, -1);
+			AMCore.proxy.addDeferredDimensionTransfer((EntityLivingBase)target, -1);
 		}
 
 		return true;

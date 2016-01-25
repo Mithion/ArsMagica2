@@ -129,7 +129,6 @@ public class ClientTickHandler{
 
 		if (Minecraft.getMinecraft().isIntegratedServerRunning()){
 			MeteorSpawnHelper.instance.tick();
-			applyDeferredDimensionTransfers();
 			applyDeferredPotionEffects();
 		}
 
@@ -331,6 +330,9 @@ public class ClientTickHandler{
 		if (Minecraft.getMinecraft().isIntegratedServerRunning()){
 			if (AMCore.config.retroactiveWorldgen())
 				RetroactiveWorldgenerator.instance.continueRetrogen(event.world);
+		}
+		if (event.phase == TickEvent.Phase.END){
+			applyDeferredDimensionTransfers();
 		}
 	}
 
