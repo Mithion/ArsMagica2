@@ -14,13 +14,17 @@ public class DummyEntityPlayer extends EntityPlayer{
 	private EntityLivingBase trackEntity = null;
 
 	public DummyEntityPlayer(World world){
-		super(world, new GameProfile(UUID.randomUUID(), "dummyplayer"));
+		this(world, "dummyplayer");
+	}
+
+	public DummyEntityPlayer(World world, String localizedName) {
+		super(world, new GameProfile(UUID.randomUUID(), localizedName));
 	}
 
 	public static EntityPlayer fromEntityLiving(EntityLivingBase entity){
 		if (entity instanceof EntityPlayer) return (EntityPlayer)entity;
 
-		DummyEntityPlayer dep = new DummyEntityPlayer(entity.worldObj);
+		DummyEntityPlayer dep = new DummyEntityPlayer(entity.worldObj, entity.getCommandSenderName());
 		dep.setPosition(entity.posX, entity.posY, entity.posZ);
 		dep.setRotation(entity.rotationYaw, entity.rotationPitch);
 		dep.trackEntity = entity;
