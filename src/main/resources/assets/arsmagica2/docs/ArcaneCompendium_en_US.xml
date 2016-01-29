@@ -288,7 +288,7 @@
     </component>
     <component id="Telekinesis">
       <name>Telekinesis</name>
-      <desc>You can use your magic to amplify your brainwaves, giving them physical form.  These waves can be used to pull items and XP towards a point in front of you.  Sneaking and rolling your mouse wheel can change the distance of the point closer or farther away from you.</desc>
+      <desc>You can use your magic to amplify your brainwaves, giving them physical form.  These waves can be used to pull items and XP towards a point in front of you.  Rolling the mouse wheel while using the spell can change the distance of the point closer or farther away from you.</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="HarvestPlants">
