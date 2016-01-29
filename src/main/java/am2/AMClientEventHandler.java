@@ -198,7 +198,7 @@ public class AMClientEventHandler{
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onMouseEvent(MouseEvent event){
-		AMCore.proxy.setMouseDWheel(event.dwheel);
+		event.setCanceled(AMCore.proxy.setMouseDWheel(event.dwheel));
 	}
 
 	@SubscribeEvent
