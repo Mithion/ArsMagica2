@@ -1,379 +1,374 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <compendium>
   <version>1.0.3</version>
-  <shapes zeroItemText="You don't know any shapes yet, and aren't eligible to learn any!">
+  <shapes zeroItemText="Du kennst noch keine Vorlagen! Unwissende sind nicht berechtigt dies zu lernen!">
     <shape id="Projectile">
-      <name>Projectile</name>
-      <desc>You are able to focus your will into a concentrated ball, which you can propel forwards away from you.  The projectile will last for 5 seconds of flight, or until it strikes something.  It will by default pass through water and non-collidable blocks unless you modify it with target non-solid blocks.</desc>
+      <name>Projektil</name>
+      <desc>Du kannst nun deinen Willen zu einem konzentrierten Ball formen, den du von als Geschoss nutzen kannst.</desc>
       <modifiedBy>SPEED,GRAVITY,BOUNCE,DURATION,PIERCING,TARGET_NONSOLID_BLOCKS</modifiedBy>
     </shape>
     <shape id="Channel">
-      <name>Channeled</name>
+      <name>Kanalisiert</name>
       <desc>Through intense concentration, a mage can maintain a flow of magic on themselves.  This is useful for things like Telekinesis, Healing, Attract, and Storm.</desc>
       <modifiedBy></modifiedBy>
     </shape>
     <shape id="Beam">
-      <name>Beam</name>
-      <desc>It isn't much of a mental shift to switch from a channeled spell to a beam.  The amount of strain, however, is another story.  A beam is a much more controlled version of a channeled spell.</desc>
+      <name>Strahl</name>
+      <desc>Es braucht nicht viele Mentale Veränderungen, um von einem Kanalisierten Zauberspruch zu einem Strahl, zu wechseln. Aber die Menge, der Belsatung, ist eine andere Geschichte. Ein Strahl ist eine besser kontrollierbare Version des kanalisierten Zauberspruchs!</desc>
       <modifiedBy>RANGE,TARGET_NONSOLID_BLOCKS</modifiedBy>
     </shape>
     <shape id="Self">
-      <name>Self</name>
-      <desc>One of the simplest forms of magic application is applying the magic to yourself.  The distance is low, and the target is willing.  You only hope you don't accidentally light yourself on fire.</desc>
+      <name>Selbst</name>
+      <desc>Einer der einfachsten Formen, beim Anwenden von Magie, ist das Anwenden von Magie bei sich selber. Die Reichweite ist gering und das Ziel eindeutig. Du solltest nur hoffen, dass du dich nicht ausversehen selbst anzündest.</desc>
       <modifiedBy></modifiedBy>
     </shape>
     <shape id="Touch">
-      <name>Touch</name>
-      <desc>Simply wrap your hand in magic, and reach out.  Touch is a very short range shape; it does not follow the block highlighting.  You need to be almost bumping into a block for touch to apply its effect.</desc>
+      <name>Berührung</name>
+      <desc>Einfach gesagt, verbindet es deine Hand mit Magie. Somit braucht es direkten Kontakt zum Ziel.</desc>
       <modifiedBy>TARGET_NONSOLID_BLOCKS</modifiedBy>
     </shape>
     <shape id="Zone">
       <name>Zone</name>
-      <desc>You have learned to focus your will into an area effect that will persist for a time.  </desc>
+      <desc>Du hast gelernt, deinen Willen auf eine auf einen Wirkungsbereich, der für eine bestimmte Zeit präsent sein wird, zu fokussieren.</desc>
       <modifiedBy>RADIUS,GRAVITY,DURATION</modifiedBy>
     </shape>
     <shape id="AoE">
-      <name>AoE</name>
-      <desc>After charging your spell, you can shape it into a blast that radiates outwards from the spell's origin.  If gravity is applied, AoE will search downwards for blocks to apply to.  This is useful for lowering a hill without changing its natural shape, and many other things.  An AoE spell will not affect the caster.</desc>
+      <name>Wirkungsbereich</name>
+      <desc>Nachdem du deinen Zauberspruch aufgeladen hast, kannst du ihn in einen Stoß formen, der auswärts des Ursprungs ausgestrahl wird und einen Wirkunsbereich erzeugt(Dieser betrifft nicht den eigenen Spieler).</desc>
       <modifiedBy>RADIUS,GRAVITY</modifiedBy>
     </shape>
     <shape id="Chain">
-      <name>Chain</name>
-      <desc>You can shape your magic into a blast that jumps from one target to the next.  Chain by default contains an 8-block built in touch-like component (with an extended range - 8 blocks or so), so there is no need to add additional stages; though you can if you like, projectile for example to start the chain somewhere else.  A chain spell cannot affect the caster.  Chain jump range can be extended by using the #5Range#0 modifier, and the number of jumps can be increased by using #5Procs#0</desc>
+      <name>Reihe</name>
+      <desc>Du kannst deine Magie in einen Stoß formen, der von Ziel zu Ziel springt. Die Sprungweite kann mit den Modifikatoren #5Reichweite#0 erweitert und mit #5Proc#0 erhöht werden.</desc>
       <modifiedBy>RANGE,PROCS</modifiedBy>
     </shape>
     <shape id="Rune">
       <name>Rune</name>
-      <desc>You can create a magically-infused rune on the ground that when triggered can apply powerful buffs...or deadly traps.</desc>
+      <desc>Du kannst eine magische Rune auf den Boden platzieren, die beim auslösen entweder starke Buffs...oder tötliche Fallen erzeugt.</desc>
       <modifiedBy>PROCS,TARGET_NONSOLID_BLOCKS</modifiedBy>
     </shape>
     <shape id="Contingency_Fall">
-      <name>Contingency: Fall</name>
-      <desc>You have figured out a spell shape that triggers when falling the instant before you hit the ground. !d Oh gravity, thou art a heartless... !d You can only have one contingency active at a time.</desc>
+      <name>Vorkehrung: Fall</name>
+      <desc>Du hast herausgefunden, wie man eine Zauberspruch-Vorlage erstellt, die nur etwas tut, wenn man runterfällt. !d Oh Gravitation, du bist so herzlos... !d Du kannst nur eine Vorkehrung zur selben Zeit verwenden.</desc>
       <modifiedBy></modifiedBy>
     </shape>
     <shape id="Contingency_Damage">
-      <name>Contingency: Damage</name>
-      <desc>You have managed to create a spell that triggers only when you get hurt. !d Let's play shot for shot. !d You can only have one contingency active at a time.</desc>
+      <name>Vorkehrung: Schaden</name>
+      <desc>Du hast herausgefunden, wie man einen Zauberspruch erstellt, der erst beschworen wird, wenn du verletzt wirst. !d Lasst uns 'Schuss für Schuss' spielen. !d Du kannst nur eine Vorkehrung zur selben Zeit verwenden.</desc>
       <modifiedBy></modifiedBy>
     </shape>
     <shape id="Contingency_Fire">
-      <name>Contingency: Fire</name>
-      <desc>You've decided you really don't like being on fire anymore.  To that end, you made a spell that will light up when the flames do. !d You can only have one contingency active at a time.</desc>
+      <name>Vorkehrung: Feuer</name>
+      <desc>Du hast dich dazu entschieden, nicht länger brennen zu können. Aus dem Grund hast du einen Zauberspruch, der nur 'aufleuchtet', wenn es das Feuer auch tut. !d Du kannst nur eine Vorkehrung zur selben Zeit verwenden.</desc>
       <modifiedBy></modifiedBy>
     </shape>
     <shape id="Contingency_Health">
-      <name>Contingency: Health</name>
-      <desc>No matter how subtle the wizard, a knife between the shoulder blades will seriously cramp his style.  You think you have found a way to make them regret trying that.  Or need two knives. !d This contingency procs when your health is less than or equal to 25% of maximum.  !d You can only have one contingency active at a time.</desc>
+      <name>Vorkehrung: Gesundheit</name>
+      <desc>Egal wie fein der Zauberer auch ist, ein Messer zwischen den Schulterblättern zerstört echt seinen Stil. Du denkst, du hast einen Weg gefunden, der sie davon abhält das zu tun. Oder man nimmt einfach zwei Messer. !d Diese Vorkehrung wird erst aktiviert, wenn deine Gesundheit 25% oder geringer ist !d Du kannst nur eine Vorkehrung zur selben Zeit verwenden.</desc>
       <modifiedBy></modifiedBy>
     </shape>
     <shape id="Contingency_Death">
-      <name>Contingency: Death</name>
-      <desc>You may get me, but in those few seconds it takes you, I will have all the time I need to ensure you come along for the ride. !d You can only have one contingency active at a time.</desc>
+      <name>Vorkehrung: Tod</name>
+      <desc>Du kriegst mich vielleicht, aber in diesen Paar Sekunden wird es dich kriegen...Und ich habe alle Zeit der Welt, um dir das zu versichern. !d Du kannst nur eine Vorkehrung zur selben Zeit verwenden.</desc>
       <modifiedBy></modifiedBy>
     </shape>
     <shape id="Binding">
-      <name>Binding</name>
-      <desc>You can create solid objects out of nothing!  The binding shape allows you to bind tools to yourself, which drain constant mana while bound, and burst mana when used instead of durability.  Dropping the item with the drop hotkey (default 'q') will instead unbind it.</desc>
+      <name>Bindung</name>
+      <desc>Du kannst solide Objekte aus dem Nichts erschaffen! Die 'Bindung-Vorlage' erlaubt es dir Werkzeuge/Waffen mit dir zu binden. Es verringert die konstante Mana, solange es gebunden ist. Und es verbraucht Mana bei der Verwendung, im Tausch mit Haltbarkeit. Das Droppen des Werkzeugs (standartmäßig mit 'Q') wird die Bindung wieder aufheben.</desc>
       <modifiedBy></modifiedBy>
       <relatedEntries>bindingCatalyst@0,bindingCatalyst@1,bindingCatalyst@2,bindingCatalyst@3,bindingCatalyst@4,bindingCatalyst@5</relatedEntries>
     </shape>
     <shape id="Wall">
-      <name>Wall</name>
-      <desc>You can manifest a wall in front of you.  The wall will run perpendicular to your current direction.  Walls function similarly to zones, but with a different form factor.  Walls also apply their effects more rapidly.</desc>
+      <name>Wand</name>
+      <desc>Du kannst eine Wand vor dir erschaffen, diese ist eigentlich das selbe, wie eine #5Zone#0, allerdings anders im dargestellten Aufbau. Abgesehen davon kann sie ihre Effekte schneller anwenden als die #5Zone#0</desc>
       <modifiedBy>RADIUS,GRAVITY,DURATION</modifiedBy>
     </shape>
     <shape id="Wave">
-      <name>Wave</name>
-      <desc>Project a wave of magic in front of you that rolls forward, applying its effect to everything in its path.</desc>
+      <name>Welle</name>
+      <desc>Erschaffe eine magische Welle, die auf ihrem Weg vorwärts alles mit ihrem Effekt ansteckt(z.B: Feuerschaden).</desc>
       <modifiedBy>RADIUS,DURATION,SPEED,GRAVITY,PIERCING</modifiedBy>
     </shape>
   </shapes>
   <components zeroItemText="You don't know any components yet, and aren't eligible to learn any!">
     <component id="PhysicalDamage">
-      <name>Physical Damage</name>
-      <desc>Often a young mage will begin his training with simple physical force.  More often he will continue that training by smacking his colleagues in the back of the head with more physical force.  Physical damage is one of the weaker damage types, and does not pierce armor.</desc>
+      <name>Physischer Schaden</name>
+      <desc>Oft beginnt das Training eines jungen Magiers mit einfacher physischer Gewalt, wie Boxen. Häufiger geht das Training dann mit mehr psysischer Gewalt weiter.</desc>
       <modifiedBy>DAMAGE</modifiedBy>
     </component>
     <component id="MagicDamage">
-      <name>Magic Damage</name>
-      <desc>Magical damage differs from physical damage in that it bypasses many kinds of armors and attacks the target's aura directly - which can be just as devastating, if not more.  This makes summoned and charmed creatures especially vulnerable, making them take triple damage.</desc>
+      <name>Magieschaden</name>
+      <desc>Magieschaden ist anders als physischer Schaden, in der Tatsache, dass es viele Arten von Rüstung umgeht und somit die Aura des Ziels direkt beschädigt. Was letzten Endes genauso verheerend sein kann, wenn nicht sogar mehr. Dies ist bei beschworen Kreaturen besonders anfällig</desc>
       <modifiedBy>DAMAGE</modifiedBy>
     </component>
     <component id="FrostDamage">
-      <name>Frost Damage</name>
-      <desc>Many underestimate the power that frost can wield.  The creeping chill can bypass many armors, and frost is devstating against the denizens of the nether.  Frost damage also applies a brief slowing effect when it hits.</desc>
+      <name>Frostschaden</name>
+      <desc>Viele unterschätzen die Stärke, die Frost beinhalten kann. Die schleichende Kälte can viele Rüstungen umgehen. Außerdem ist es besonders effiktiv gegen die Bewohner des Nethers.</desc>
       <modifiedBy>DAMAGE,BUFF_POWER</modifiedBy>
     </component>
     <component id="LightningDamage">
-      <name>Lightning Damage</name>
-      <desc>I held my hands in front of me, and with a sharp crack a bolt of brilliant white lightning forked across the sky.  His metal armor acted as a lightning rod, drawing each bolt down into him.  Lightning does an exceptional amount of damage, but carries a hefty mana cost.</desc>
+      <name>Blitzschaden</name>
+      <desc>Ich hield meine Hände vor mir und mit einem lauten Knall kam ein großartiger weißer Blitz den Himmel entlang. Seine eiserne Rüstung war wie ein Blitzableiter, somit drang jeder Blitz in ihn ein. Blitzschaden macht imensen Schaden, dafür kostet es SEHR VIEL Mana.</desc>
       <modifiedBy>DAMAGE</modifiedBy>
     </component>
     <component id="FireDamage">
-      <name>Fire Damage</name>
-      <desc>With a word, I released my will and fire erupted from out in front of me, searing everything in its path.  Fire damage is hard hitting, but many nether mobs are immune to its effects.</desc>
+      <name>Feuerschaden</name>
+      <desc>Mit nur einem Wort lies ich meinem Willen frei und ein Feuer aus dem Nichts war vor mir. Es hat alles gebraten, was im Weg des Feuers war. !l Beachte: Es macht zwar viel Schaden, aber Nether-Mobs sind immun gegen Feuer(schaden).</desc>
       <modifiedBy>DAMAGE</modifiedBy>
     </component>
     <component id="Ignition">
-      <name>Ignition</name>
-      <desc>Many magi see fire as a damaging, destructive force, and that can be true.  But how many hear fire and imagine lighting a stove, campfire or candle?  </desc>
+      <name>Entzündung</name>
+      <desc>Viele Magier sehen Feuer als eine schadene, destruktive macht, was sogar wahr sein kann. Aber wie viele, die das Wort 'Feuer' hören, stellen sich vor, wie man einen Ofen, ein Lagerfeuer oder eine Kerze anzündet?</desc>
       <modifiedBy>DURATION</modifiedBy>
     </component>
     <component id="Forge">
-      <name>Forge</name>
-      <desc>You have gained fine control over fire and can use it to magically smelt blocks where they stand, without charring them to ash.</desc>
-      <modifiedBy></modifiedBy>
-    </component>
-    <component id="Explosion">
-      <name>Explosion</name>
-      <desc>You can push enough energy into your magical spells to cause a violent explosion at the spell's location.</desc>
+      <name>Schmelzen</name>
+      <desc>Du hast nun die feine Kontrolle über Feuer und kannst somit Blöcke, wie sie in ihrer Form da stehen, schmelzen, ohne sie gleich in Asche zu verwandeln..</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="Blind">
-      <name>Blind</name>
-      <desc>Having a fireball to throw at dark mages is great.  Making it so they also can't see to retaliate is better.</desc>
+      <name>Blenden</name>
+      <desc>Einen Feuerball zu haben, den man auf dunkle Magier werfen kann, ist einfach toll. Es zu machen sorgt dafür das sie das Wesentliche nicht sehen können.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
-	  <relatedEntries>rituals_overview</relatedEntries>
     </component>
     <component id="Freeze">
-      <name>Freeze</name>
-      <desc>Eira breathed deeply and opened her eyes.  The caps of the mountains now glistened white with snow and a sublime frost covered everything.  Water had become ice.  Enemies moved at a crawl.  Perfect.</desc>
+      <name>Einfrieren</name>
+      <desc>Eira atmete tief ein und öffnete ihre Augen. Die Spitzen der Berge waren nun weiß, mit Schnee und Frost bedekt. Wasser wurde zu Eis. Nichts hat sich bewegt. Perfekt.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="Knockback">
-      <name>Knockback</name>
-      <desc>Not many mages want to be in melee range.  This allows that situation to be corrected.</desc>
+      <name>Rückstoß</name>
+      <desc>Nicht viele Magier wollen in Reichweite einer Nahkampfattacke sein. Dies erlaubt es dir das auch beizubehalten.</desc>
       <modifiedBy>VELOCITY_ADDED</modifiedBy>
     </component>
     <component id="Storm">
-      <name>Thunderstorm</name>
-      <desc>The clouds darkened, and rain began to fall.  The wind howled, and a flash of lightning streaked across the sky, leaving bright flashes in my vision.  The thunder was deafening.  Lightning struck all around me at each enemy.  The strain of maintaining the storm was immense. </desc>
+      <name>Gewitter</name>
+      <desc>Der Himmel verdunkelte sich und es begann zu regnen. Der Wind heulte und ein Blitz war am Himmel zu sehen. Der Sturm war ohrenbetäubend. Die Blitze schlugen in meine Feinde neben mir ein. Es war eine enorme Belastung für mich, denn der Sturm war imens.</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="AstralDistortion">
-      <name>Astral Distortion</name>
-      <desc>As I tried to step into the void, the warp shimmered and seemed to solidify.  I walked face first into it, much to the amusement of my students.  This effect seemed to prevent my teleportation abilities entirely.  I had to turn this against Endermen as well.</desc>
+      <name>Astrale Verzerrung</name>
+      <desc>Als ich versuchte einen Fuß in die Leere zu setzen, bemerkte ich, dass die Kette schimmerte und sich zu verfestigen scheint. Ich ging mit dem Gesicht vorraus hinein. Ich musst es doch auch gegen die Endermen einsetzen können.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="Fling">
-      <name>Fling</name>
-      <desc>Wind whirled around under the creeper and suddenly all at once blew straight up, sending it skyward.</desc>
+      <name>Werfen</name>
+      <desc>Der Wind wirbelte unter den Creeper und endlich explodierte er. Und er wurde endlich gen Himmel gesendet.</desc>
       <modifiedBy>VELOCITY_ADDED</modifiedBy>
     </component>
     <component id="WateryGrave">
-      <name>Watery Grave</name>
-      <desc>The water seemed to come alive, wrapping tendrils around the light mage and dragging him down into the black, crushing depths.  His friend on the shore could only watch helplessly, for to jump into the water would mean the same fate for him.</desc>
+      <name>Wässernes Grab</name>
+      <desc>Das Wasser wurde anscheinend lebending und wickelte sich um den Lichtmagier und zog ihn runter in die dunklen Tiefen des Meeres.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="Leap">
-      <name>Leap</name>
-      <desc>Gathering wind around me, I propelled myself into the air.  I held the wind close through the jump, releasing it in an upward burst just as I landed, protecting me from the fall.</desc>
+      <name>Sprung</name>
+      <desc>Der Wind umgab mich und ich begann abzuheben. Ich hielt den Wind nahe beim Sprung, um einen Windstoß zu erzeugen, der mich in die Luft beförderte. Beim Landen war der Wind wie ein Kissen, dass mich vor dem Fall schützte.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="Regeneration">
       <name>Regeneration</name>
-      <desc>I wrapped my arm in a healing light, and watched as every injury, down to the last bruise, slowly vanished before my eyes.</desc>
+      <desc>Ich hielt meinen Arm in ein heilendes Licht und ich sah zu, wie jede Verletzung langsam aber sicher vor meinen Augen verschwand.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="Slowfall">
-      <name>Slowfall</name>
-      <desc>Become light as a feather, and fall without fear.</desc>
+      <name>Langsames Fallen</name>
+      <desc>Werde leicht wie eine Feder und habe keine Angst mehr vorm Fallen.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="LifeTap">
-      <name>Life Tap</name>
-      <desc>If a mage is desparate and mana is scarce, he can fuel his spells using his own life force.</desc>
+      <name>Leben anzapfen</name>
+      <desc>Wenn ein Magier verzweifelt ist und ihm das Mana ausgeht, kann er diesen Spruch benutzen um Leben gegen Kraft zu tauschen.</desc>
       <modifiedBy>DAMAGE</modifiedBy>
     </component>
     <component id="Heal">
-      <name>Heal</name>
-      <desc>By greatly increasing the amount of power put into regenerative effects, a mage can knit almost any injury back together.  The effect is taxing, however.</desc>
+      <name>Heilung</name>
+      <desc>Bei schwindender Kraft kann ein Magier sich regenerieren. DAS ist 'erste Hilfe'!</desc>
       <modifiedBy>HEALING</modifiedBy>
     </component>
     <component id="Slow">
-      <name>Slow</name>
-      <desc>By applying the equivalent of a magical ball and chain, a mage can greatly slow the movements of his target.</desc>
+      <name>Verlangsamen</name>
+      <desc>Bei schwindender Kraft kann ein Magier sich regenerieren. Somit kann ein Magier sich selbst wieder zusammenflicken.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="Haste">
-      <name>Haste</name>
-      <desc>Wrapping the target's legs in arcane energy, a mage can greatly increase movement speed.</desc>
+      <name>Eile</name>
+      <desc>Ein Magier kann die Bewegungen deutlich verschnellern, indem er die Beine seines Ziels in arkaner Energie verpackt.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="GravityWell">
-      <name>Gravity Well</name>
-      <desc>You have learned to create a localized gravity well under your target, greatly increasing the speed at which they fall.</desc>
+      <name>Schwerkraftschacht</name>
+      <desc>Du hast herausgefunden, wie man einen Schwerkraftschaft unter einem Ziel beschwört. Dieser erhöht die Fallgeschwindigkeit des Ziels imens.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="LifeDrain">
-      <name>Life Drain</name>
-      <desc>By creating a sinister link with the target's life force, you can siphon it off into your own, bolstering your own health.</desc>
+      <name>Leben Entziehen</name>
+      <desc>Beim Beschwören einer Verbindung zu deines Ziels Lebensquell, kann diese angezapft und für sich selbst verwendet werden.</desc>
       <modifiedBy>DAMAGE</modifiedBy>
     </component>
     <component id="Dispel">
-      <name>Dispel</name>
-      <desc>Creating a localized field of deficit, you can remove a number of effects on your target.  Dispel also wreaks havoc on summoned creatures, banishing them back into the ether.</desc>
+      <name>Vertreiben</name>
+      <desc>Das Erzeugen eines magischen Feldes, kann deinem Ziel einige Effekte vertreiben.  Außerdem vertreibt es beschworene Kreaturen ins Ether..</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="Repel">
-      <name>Repel</name>
-      <desc>You can create a singularity in space, which, as long as you maintain it, will radiate waves of force, pushing enemies and deflecting arrows away from you.</desc>
+      <name>Abstoßen</name>
+      <desc>Du kannst nun eine Singularität ins All schießen, die solange du dich auf sie konzentrierst, ein Kraftfeld erzeugt, das Gegner und Pfeile zurückwirft.</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="SwiftSwim">
-      <name>Swift Swim</name>
-      <desc>By manipulating water currents, you can propel yourself along much more quickly underwater.</desc>
+      <name>Schnelles Schwimmen</name>
+      <desc>Das Manipulieren von Wasserströmen, bringt dich schneller im Wasser vorran.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="Levitate">
-      <name>Levitation</name>
-      <desc>Through practicing air magic, you can now hold yourself suspended in midair.  With small wind currents, you can move slowly about while floating.</desc>
+      <name>Aufsteigen</name>
+      <desc>Das verwenden von Luftmagie, kann dich in die Luft befördern. Mit nur geringen Luftströmen kannst du dich langsam zu Boden gleiten lassen..</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="ManaDrain">
-      <name>Mana Drain</name>
-      <desc>You can create a parasitic bond with the target's aura, draining their mana and boosting your own.</desc>
+      <name>Mana entziehen</name>
+      <desc>Du kannst nun parasitäre Fesseln an der Aura deines Feindes anbringen, diese entziehen dem Ziel Mana und geben es dir.</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="Entangle">
-      <name>Entangle</name>
-      <desc>At your command, vines can burst from the ground and ensnare your target, holding them completely immobile.</desc>
+      <name>Einwickeln</name>
+      <desc>Auf dein Kommando kannst du Ranken beschwören, die dein Ziel fesseln und es bewegungsunfähig machen.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="Flight">
-      <name>Flight</name>
-      <desc>With a word, I rose into the air and mingled with the clouds and sky.  I flew effortlessly, quick and agile.  The skies were mine alone.</desc>
+      <name>Flug</name>
+      <desc>Mit nur einem Wort hob ich ab. Ich fühlte mich schnell und agil. Der Himmel gehörte mir allein.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="Shield">
-      <name>Shield</name>
-      <desc>You can summon arcane energy to shield yourself.  This shield will reduce all damage taken.  This cannot be active at the same time as reflect.</desc>
+      <name>Schild</name>
+      <desc>Du kannst ein Schild aus arkaner Energie erzeugen. Dieses wird deinen Schaden drastisch reduzieren.  Dies kann nicht zur selben Zeit mit #5Reflektieren#0 verwendet werden.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="Reflect">
-      <name>Reflect</name>
-      <desc>You can change the makeup of your shield so that spells will bounce off instead of reducing physical damage.  This cannot be active at the same time as shield.</desc>
+      <name>Reflektieren</name>
+      <desc>Du kannst nun ein Schild kreieren, dass Dinge Abprallen lässt und sie somit keinen Schaden verursachen. Dies kann nicht zur selben Zeit mit #5Schild#0 verwendet werden.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="ChronoAnchor">
-      <name>Chrono Anchor</name>
-      <desc>You can anchor yourself in time.  When the timer runs out, you are transported back to the place you cast this spell, with your health, mana, burnout, and hunger returning to what they were when the spell was first cast.</desc>
+      <name>Chrono-Anker</name>
+      <desc>Du kannst dich zeitweise verankern. Sobald der Timer abläuft, wirst du wieder zurück an diese Stelle mit deiner Gesundheit, deinem Mana, deiner Erschöpfung und Hunger(Speichert die Werte und hält sie sobald der Zauber gesprochen wurde), gebracht.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="Charm">
-      <name>Charm</name>
-      <desc>You can charm creatures into fighting for you, and certain creatures will do special things when charmed.  Charming also causes creatures to breed (if they are capable of doing so by other means).</desc>
+      <name>Charme</name>
+      <desc>Mit deinem Charme kannst du Kreaturen dazu bringen, für dich zu kämpfen und bestimmte Kreaturen tun dann auch bestimmte Sachen. Außerdem kannst du damit Tiere zum paaren bringen.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="Dig">
-      <name>Dig</name>
-      <desc>The ground shatters with a snap of your fingers.  Harder blocks take more mana to break.  Dig starts out equivalent to an Iron pickaxe, but can be upgraded with the use of the #5Mining Power#0 modifier.</desc>
+      <name>Graben</name>
+      <desc>Der Boden fängt mit nur einem Schnips an zu zittern und je härter der Block ist, desto mehr Mana wird benötigt. Kann mit dem Modifikator #5Abbau Stärke#0 auf Diamant verbessert werden.</desc>
       <modifiedBy>MINING_POWER,FORTUNE_LEVEL,SILKTOUCH_LEVEL</modifiedBy>
     </component>
     <component id="Light">
-      <name>Light</name>
-      <desc>You can light up an area with magic.  Lights can be recolored after the fact by right clicking them with a dye.  Forge Ore Dictionary is supported for valid Dyes.</desc>
+      <name>Licht</name>
+      <desc>Du kannst mittels Magie einen Bereich erleuchten.  Rechtklick mit einem Farbstoff, ändert ihre Farbe.  'Forge Ore Directory' übernimmt die meisten Farbstoffe aus anderen Mods.</desc>
       <modifiedBy>COLOR</modifiedBy>
     </component>
     <component id="Disarm">
-      <name>Disarm</name>
-      <desc>Now that you have learned to summon tools to your hand, it was a small step to be able to make others drop what they are holding.</desc>
+      <name>Entwaffnung</name>
+      <desc>Jetzt da du du gelernt hast, Werkzeuge aus dem Nichts in deine Hand zu zaubern, ist es nur noch einen Schritt vom Entwaffnen deiner Gegner entfernt.</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="Rift">
-      <name>Rift Storage</name>
-      <desc>You can tear open a rift in space, granting access to a small dimension to store items in.  The rift lasts for 60 seconds before closing automatically.  More Buff Power modifiers give greater storage access.  Sneak+Right click to close the rift once it is opened.</desc>
+      <name>Spalt</name>
+      <desc>Du kannst nun einen Spalt öffnen, der dir Zugang zu einer Dimension verschafft, in der du deine Sachen lagern kannnst.  Der Spalt bleibt für 60 Sek offen, bis er sich von alleine wieder schließt.  Buff Stärke Modifikatoren erhöhen den Speicherplatz.  Schleichen + Rechtsklick schließt einen offenen Spalt.</desc>
       <modifiedBy>BUFF_POWER</modifiedBy>
     </component>
     <component id="Attract">
-      <name>Attract</name>
-      <desc>You create an area of negative pressure around you, pulling everything living in towards you.</desc>
+      <name>Anziehen</name>
+      <desc>Du kannst nun ein Gebiet mit negativem Druck, um dich herum, erzeugen. Es zieht alles Lebende zu dir</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="Telekinesis">
-      <name>Telekinesis</name>
-      <desc>You can use your magic to amplify your brainwaves, giving them physical form.  These waves can be used to pull items and XP towards a point in front of you.  Sneaking and rolling your mouse wheel can change the distance of the point closer or farther away from you.</desc>
+      <name>Telekinese</name>
+      <desc>Du kannst Magie verwenden, um deinen Gehirnwellen eine physikalische Fähigkeit zu geben.  Diese Ströme können Items und XP zu einem bestimmten Punkt ziehen.  Schleichen und das Rollen, des Mausrads, ändert die Distanz des Punktes.</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="HarvestPlants">
-      <name>Harvest</name>
-      <desc>You can cause all plants, leaves, and flowers to be harvested.</desc>
+      <name>Pflanzen ernten</name>
+      <desc>Du kannst alle Blätter, Pflanzen und Blumen dazu bringen, sich zu ernten.</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="Plow">
-      <name>Plow</name>
-      <desc>You can cause the earth to churn at your command, creating deep furrows ideal for planting.</desc>
+      <name>Pflügen</name>
+      <desc>Du kannst die Erde auf dein Kommando zum aufwühlen bringen. Perkeft um Tiefe Fugen fürs Pflanzen zu machen.</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="CreateWater">
-      <name>Create Water</name>
-      <desc>You can coalesce moisture from the air around into one location, creating water where there was none.  This will not work in the nether.  It can also be used to fill a cauldron.</desc>
+      <name>Wasser kreieren</name>
+      <desc>Du kannst die Feuchtigkeit in der Luft an eine Position setzen. Das erzeugen von Wasser ist ja nun wirklich keine Herausforderung...  Dieser Spruch funktioniert nicht im Nether.  Kessel können damit befüllt werden.</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="Grow">
-      <name>Grow</name>
-      <desc>Pouring energy into plants, equal to months of talking to them, will cause them to grow more rapidly.</desc>
+      <name>Wachsen</name>
+      <desc>Das Leiten von Energie in Pflanzen lässt sie schneller wachsen, als Monate langes reden.</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="BanishRain">
-      <name>Regen Verbannen</name>
-      <desc>Regen Regen, breche ab.  Komme wieder an einem and'ren Tag!  Wer hätte gedacht, dass das die Worte zu diesem Zauber wären?</desc>
+      <name>Regen verbannen</name>
+      <desc>Regen Regen, breche ab.  Komme wieder an einem and'ren Tag!  Wer hätte gedacht, dass das die Worte zu diesem Zauber wären?  Wenn man es mit dem entsprechenden Ritual macht, kann man Regen auch beschwören.  Betrachte die #5Ritual#0 Seite, für weitere Details.</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="WaterBreathing">
-      <name>Water Breathing</name>
-      <desc>You can use your magic to pull oxygen from the water, allowing you to get enough to not drown.</desc>
+      <name>Unterwasseratmung</name>
+      <desc>Du kannst deine Magie dazu verwenden, Sauerstoff aus dem Wasser zu entziehen. dies erlaubt es dir für eine gewisse Zeit nicht zu ertrinken.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="NightVision">
-      <name>Night Vision</name>
-      <desc>Your knowledge of light has allowed you to devise a spell that will let you amplify light levels, effectively letting you see in the dark.</desc>
+      <name>Nachtsicht</name>
+      <desc>Dein Wissen über Licht, erlaubt es dir im Dunklen zu seh'n.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="TrueSight">
-      <name>True Sight</name>
-      <desc>Your magical sight allows you to see things as they really are.  Who knows what beauties...and horrors you will discover.</desc>
+      <name>Wahre Sicht</name>
+      <desc>Deine 'magische Sicht' erlaubt es dir Dinge zu sehen, die du normalerweise nicht siehst. Wer weiß schon wie's wirklich ist? Naja, du auf jeden Fall!</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="Invisibility">
-      <name>Invisibility</name>
-      <desc>You can bend light around yourself to become effectively invisible.</desc>
+      <name>Unsichtbarkeit</name>
+      <desc>Du kannst das Licht um dich herum so brechen, dass du praktisch unsichtbar bist.</desc>
       <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
     </component>
     <component id="RandomTeleport">
-      <name>Random Teleport</name>
-      <desc>You can randomly teleport your target a short distance away.</desc>
+      <name>Zufälliger Teleport</name>
+      <desc>Du kannst dein Ziel, in einem kleinen Radius darum, an einen zufälligen Ort teleportieren.</desc>
       <modifiedBy>RANGE</modifiedBy>
     </component>
     <component id="Blink">
-      <name>Blink</name>
-      <desc>You can teleport a short distance directly forward the way you are facing.  Blink can take you through solid walls, but will make every effort to ensure you don't get stuck in one.</desc>
+      <name>Blenden</name>
+      <desc>Du kannst dich ein kleines Bisschen in die Richtung deines Blickfeldes teleportieren.  Es kann dich auch durch Wände bringen, aber wir versichern dir, dass du in keiner stecken bleibst.</desc>
       <modifiedBy>RANGE</modifiedBy>
     </component>
     <component id="Transplace">
-      <name>Transplace</name>
-      <desc>Your knowledge of teleportation magic has grown.  You can now switch places with your target.</desc>
+      <name>Translokieren</name>
+      <desc>Dein Wissen über Teleportation wurde erweitert. Du kannst nun die Plätze mit deinem Ziel tauschen.</desc>
       <modifiedBy></modifiedBy>
+	  <relatedEntries>rituals_overview,otherworldly_ritual</relatedEntries>
     </component>
     <component id="Mark">
-      <name>Mark</name>
-      <desc>You can magically mark a location, which you can recall to from almost anywhere.</desc>
+      <name>Markieren</name>
+      <desc>Du kannst eine gewisse Position markieren, zu der du jeder Zeit zurückkehren kannst.</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="Recall">
-      <name>Recall</name>
-      <desc>You can tune your teleportation magic to home in on a mark you have left, transporting you or your target back to its location.</desc>
+      <name>Rückruf</name>
+      <desc>Du kannst hiermit an deine markierte Stelle zurückkehren.</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="EnderIntervention">
-      <name>Ender Intervention</name>
+      <name>Ender-Intervention</name>
       <desc>You have mastered teleportation magic, to the level at which you can transcend interdimensional barriers, and can enter the nether from almost anywhere.</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="DivineIntervention">
-      <name>Divine Intervention</name>
-      <desc>You have mastered teleportation magic, to the level at which you can transcend interdimensional barriers, and can enter the overworld from almost anywhere.  If cast when you are already in the overworld, you will be returned to your bed, or to spawn if no bed exists.</desc>
+      <name>Göttliche Intervention</name>
+      <desc>Du bist jetzt Meister der Teleportationsmagie. Somit kannst du interdimensionale Barrieren erzeugen mit denen du von überall die Oberwelt betreten kannst. Bist du schon an der Oberwelt, kehrst du zu deinem Bett oder Spawn zurück.</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="Summon">
@@ -418,7 +413,7 @@
     </component>
     <component id="Drought">
       <name>Drought</name>
-      <desc>You have taken your knowledge of creating water and have reversed the process.  This spell will draw water out of whatever it hits, removing water blocks and turning dirt to sand.</desc>
+      <desc>You have taken your knowledge of creating water and have reversed the process.  This spell will draw water out of whatever it hits, removing water blocks and turning dirt, grass, sandstone and mycelium to sand, withering plants it hits, and stone to cobblestone.</desc>
       <modifiedBy></modifiedBy>
     </component>
     <component id="Plant">
@@ -1048,12 +1043,31 @@
         <desc>By taking a #5bucket of Liquid Etherium#0, a mage can combine it with #5chimerite#0 and #5tarma root#0 in order to create a potion to give a temporary boost to maximum mana.  Unfortunately, the process is minimally efficient and much of the Liquid Etherium is lost along the way.</desc>
         <relatedEntries></relatedEntries>
       </subitem>
+	  <subitem id="mana_martini">
+        <name>Mana Martini</name>
+        <desc>In honour of Mithion's final release of AM2, which happens to be #9version 007#0, you can now make a Mana Martini that, when drank, will give you a 25% reduction in burnout gained from casting spells.</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
       <relatedEntries></relatedEntries>
     </item>
     <item id="crystal_wrench">
       <name>Crystal Wrench</name>
-      <desc>The crystal wrench serves many purposes.  It can be used to direct Etherium through your power network.  To do this, #9right click first on the source of Etherium you want to use#0.  This marks the source block. Then, #9right click on the destination while still holding the wrench#0.  #5Note that there is no need to click on Etherium Conduits along the way - just click on the final block.  The power system will attempt to pathfind through nearby Etherium Conduits automatically#0.  If that fails for any reason, you will be notified.  This will force a pairing, and ensures the Etherium goes where you want it to.  If you #9sneak while right clicking on the source#0, the wrench's crystal will turn green.  This means the crystal wrench is remembering the source block's location, and you can click on several destinations in a row without having to return to the source.  Each destination right clicked on in this state will be paired (if possible) to the remembered source.  !p The crystal wrench can also be used to show hidden particle emitters, and can copy their settings by right clicking.  The settings can then be pasted to another emitter by right clicking.  Each time you "paste" settings, you will need to copy them again if you wish to paste to additional emitters.</desc>
-      <relatedEntries></relatedEntries>
+      <desc>
+	  The crystal wrench serves many purposes.  It can be used to direct Etherium through your power network.  
+	  To do this, #9right click first on the source of Etherium you want to use#0.  This marks the source block. Then, #9right click on the destination while still holding the wrench#0.  
+	  #5Note that there is no need to click on Etherium Conduits along the way - just click on the final block.  The power system will attempt to pathfind through nearby Etherium Conduits automatically#0.  
+	  If that fails for any reason, you will be notified.  This will force a pairing, and ensures the Etherium goes where you want it to.  
+	  !d 
+	  If you #9sneak while right clicking on the source#0, the wrench's crystal will turn green.  This means the crystal wrench is remembering the source block's location, and you can click on several destinations 
+	  in a row without having to return to the source.  Each destination right clicked on in this state will be paired (if possible) to the remembered source.  
+	  !d
+	  You can also disconnect power nodes by #9Sneaking and right clicking#0 on a #5non-powered block#0.  This will switch the wrench's mode from link to unlink.  You can see the change when the crystal on the wrench 
+	  turns red.  To switch it back, simply repeat the sneak right click to change the crystal back to purple.  If you have a stored location, it will need to be cleared first before the mode can be switched (which is 
+	  also done by sneak right-clicking a non-powered block).
+	  !p 
+	  The crystal wrench can also be used to show hidden particle emitters, and can copy their settings by right clicking.  The settings can then be pasted to another emitter by right clicking.  
+	  Each time you "paste" settings, you will need to copy them again if you wish to paste to additional emitters.</desc>
+      <relatedEntries>obelisk,mana_battery</relatedEntries>
     </item>
     <item id="spell_parchment">
       <name>Spell Parchment</name>
@@ -1164,7 +1178,7 @@
       <desc>Warding Candles, when held, are moving sources of light.  They can also be #9attuned#0 to a specific block by #9sneaking and right clicking on the block while holding the candle#0.  This will cause the candle flame to turn blue when within 15 blocks of the specified block, and red when within 5 blocks.  A warding candle will burn for 15 minutes, but is put out when not equipped.
 			!d
 			Warding candles are also used in #5Rituals#0, and are placed down as part of the layout.  A Warding Candle that has been attuned cannot be used in a ritual.</desc>
-      <relatedEntries>rituals_overview</relatedEntries>
+      <relatedEntries></relatedEntries>
     </item>
     <item id="flicker_jar">
       <name>Flicker Jar</name>
@@ -1202,12 +1216,12 @@
       </subitem>
       <subitem id="flickerFocus@3">
         <name>Flicker Focus: Interdiction</name>
-        <desc>Arcane and air flickers working together can create a wall around their habitat if they are provided enough Etherium to do so. By placing this focus in a #9Flicker Habitat#0 and providing it with Etherium a nearly invisible wall is created in a 6 block radius from the #9Flicker Habitat#0.</desc>
+        <desc>Arcane and air flickers working together can create a wall around their habitat if they are provided enough Etherium to do so. By placing this focus in a #9Flicker Habitat#0 and providing it with Etherium a nearly invisible wall is created in a 6 block radius from the #9Flicker Habitat#0.  Modifying this with an #9Ender Flicker Jar#0 will also cause the #9Containment#0 effect to apply. !d Placing #9Ice Flicker Upgrades#0 to this focus will increase the radius of the containment field by one per ice flicker added.</desc>
         <relatedEntries>flickerFocus</relatedEntries>
       </subitem>
       <subitem id="flickerFocus@9">
         <name>Flicker Focus: Containment</name>
-        <desc>Ender and air flickers working in tandem can create a wall surrounding their #9Flicker Habitat#0 provided they have been given the Etherium to do so. Placing this focus in a habitat and providing it with Etherium will create a nearly invisible wall in a 6 block radius from their #9Flicker Habitat#0 that non-player entities can not pass out of.</desc>
+        <desc>Ender and air flickers working in tandem can create a wall surrounding their #9Flicker Habitat#0 provided they have been given the Etherium to do so. Placing this focus in a habitat and providing it with Etherium will create a nearly invisible wall in a 6 block radius from their #9Flicker Habitat#0 that non-player entities can not pass out of.  Modifying this with an #9Arcane Flicker Jar#0 will also cause the #9Interdiction#0 effect to apply. !d Placing #9Ice Flicker Upgrades#0 to this focus will increase the radius of the containment field by one per ice flicker added.</desc>
         <relatedEntries>flickerFocus</relatedEntries>
       </subitem>
       <subitem id="flickerFocus@4">
@@ -1242,7 +1256,7 @@
       </subitem>
       <subitem id="flickerFocus@384">
         <name>Flicker Focus: Felled Oak</name>
-        <desc>The nature flicker contained within this focus will seek out trees within a 6 block radius around their #9Flicker Habitat#0, once they do the lightning flickers will fell the tree one block at a time. These flicker can operate without a source of power but they are much faster when they have a source of Etherium to fuel themselves.</desc>
+        <desc>The nature flicker contained within this focus will seek out trees within a 6 block radius around their #9Flicker Habitat#0, once they do the lightning flickers will fell the tree one block at a time. These flickers can operate without a source of power but they are much faster when they have a source of Etherium to fuel themselves. !d Lightning flickers can be used as augments to make the process faster as well. !d If a nature flicker augment is added, the flickers will also re-plant saplings from an adjacent chest.</desc>
         <relatedEntries>flickerFocus</relatedEntries>
       </subitem>
       <subitem id="flickerFocus@512">
@@ -1252,14 +1266,19 @@
       </subitem>
       <subitem id="flickerFocus@832">
         <name>Flicker Focus: Nature's Bounty</name>
-        <desc>The life, nature and water flickers contained within this focus will work together to help all plants within a 6 block radius grow faster. These hard working flickers will help all nearby plants with or without Etherium but providing them with a source of power will allow them to do their work faster.</desc>
+        <desc>The life, nature and water flickers contained within this focus will work together to help all plants within a 6 block radius grow faster. These hard working flickers will help all nearby plants with or without Etherium but providing them with a source of power will allow them to do their work faster.  When powered, modifying this habitat with a #9Water Flicker Jar#0 will also cause the #9Gentle Rains#0 effect to apply.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+	  <subitem id="flickerFocus@768">
+        <name>Flicker Focus: Fishing</name>
+        <desc>The combination of Water and Nature flickers causes them to be able to find creatures that live in water.  It does require power to maintain the search, however, as the flickers cover a great distance in a short time.  If augmented with adjacent habitats containing lightning flickers, they are able to move even faster, causing them to naturally find fish more often.  Doing so will increase the overall power use. !d The focus requires a 3x3 square of water below it that is also at least 2 blocks deep in order to function.  It will output fish into an adjacent inventory if possible, or drop them as an item if no inventory is present. !d A redstone signal must be provided for the flickers to start working.</desc>
         <relatedEntries>flickerFocus</relatedEntries>
       </subitem>
     </item>
     <item id="wizardChalk">
       <name>Wizard's Chalk</name>
       <desc>Wizard's Chalk is used to create #9Rituals#0 by drawing the correct shapes on the ground.</desc>
-      <relatedEntries>corruption,purification,hourglass,rituals_overview</relatedEntries>
+      <relatedEntries>corruption,purification,hourglass</relatedEntries>
     </item>
     <item id="playerjournal">
       <name>Journal</name>
@@ -1271,6 +1290,26 @@
       <desc>Often noted as the antimatter of magic, Deficit represents a void in the fabric of reality.  You've managed to create a refined, crystallized version of it.  Crystals like these are often used in the unmaking of things.</desc>
       <relatedEntries>essence_refiner,arcane_deconstructor</relatedEntries>
     </item>
+    <item id="inscriptionUpgrades">
+		<name>Inscription Table Upgrades</name>
+		<desc>These upgrades improve the functionality of your #9Inscription Table#0, allowing you to make use of more shape groups.</desc>
+		<subitem id="inscription_upgrade@0">
+			<name>Tier 1 Upgrade</name>
+			<desc></desc>
+			<relatedEntries>inscriptionTable</relatedEntries>
+		</subitem>
+		<subitem id="inscription_upgrade@1">
+			<name>Tier 2 Upgrade</name>
+			<desc></desc>
+			<relatedEntries>inscriptionTable</relatedEntries>
+		</subitem>
+		<subitem id="inscription_upgrade@2">
+			<name>Tier 3 Upgrade</name>
+			<desc></desc>
+			<relatedEntries>inscriptionTable</relatedEntries>
+		</subitem>
+		<relatedEntries>inscriptionTable</relatedEntries>
+	</item>
   </items>
   <structures>
     <structure id="obelisk_structure">
@@ -1281,7 +1320,7 @@
 			The structure depicted here does not have to be built all at once; it can be built in sections.  The #9Wizard's Chalk Circle#0 is a standalone upgrade that when completed, will increase the output of the Obelisk's burn capabilities.  The #9Pillars#0 are another upgrade, and will further increase the output of the Obelisk.  
 			!d
 			If space is a concern however, these upgrades are not required for the Obelisk to function.</desc>
-      <relatedEntries>obelisk,crystal_wrench,spell_staff_magitech,magitechGoggles</relatedEntries>
+      <relatedEntries>obelisk,crystal_wrench,spell_staff_magitech,magitechGoggles,rituals_overview</relatedEntries>
     </structure>
     <structure id="blackaurem_structure">
       <name>Black Aurem</name>
@@ -1293,7 +1332,7 @@
 			Obsidian and Chimerite are on the same level, with Sunstone giving a large bonus to generation.
 			!d
 			Neither the chalk circle or the pillars are required for the Aurem to function.</desc>
-      <relatedEntries>obelisk,ritual_of_corruption,crystal_wrench,spell_staff_magitech</relatedEntries>
+      <relatedEntries>obelisk,corruption,crystal_wrench,spell_staff_magitech</relatedEntries>
     </structure>
     <structure id="celestialprism_structure">
       <name>Celestial Prism</name>
@@ -1303,13 +1342,13 @@
 			To create the Celestial Prism, perform the #9Ritual of Purification#0 on an #9Obelisk#0.  Like the Obelisk, the Celestial Prism can be upgraded by adding certain multiblock configurations around it.  The first of these is the #5Wizard's Chalk Circle#0, and will increase the amount of power generated by the prism.  The second upgrade is the #5Pillars#0, which will further increase the rate at which power is generated.  The pillars can also have specific #5cap upgrades#0, which modify the amount of benefit.  
 			!d
 			The most noticable effect are the #9Moonstone Caps#0, which increase the power by a significant amount, but also switches the prism to charge at night instead of during the day.</desc>
-      <relatedEntries>obelisk,ritual_of_purification,crystal_wrench,spell_staff_magitech</relatedEntries>
+      <relatedEntries>obelisk,rituals_overview,crystal_wrench,spell_staff_magitech</relatedEntries>
     </structure>
     <structure id="gateways">
       <name>Gateway</name>
       <controller>TileEntityKeystoneRecepticle</controller>
       <desc>Gateways are quite efficient at short range, but longer distances require significantly more Etherium.  The maximum range for a Gateway has been tested to be roughly 12km, though an extreme amount of Etherium is required to traverse such a span.  A keystone can be inserted into the Keystone Receptacle in order to lock the gateway to the keystone's rune combination.  Only then by activating another gateway with a matching keystone can one arrive at the keyed gateway.  If the key does not match or no keystone is held at all when the gate is activated, it will be as if the keyed gateway doesn't even exist.  This method can be used to control where you will wind up in the gateway network.</desc>
-      <relatedEntries></relatedEntries>
+      <relatedEntries>rituals_overview</relatedEntries>
     </structure>
     <structure id="craftingAltar">
       <name>Crafting Altar</name>
@@ -1536,6 +1575,13 @@
         <ritualName>hourglass</ritualName>
         <ritualController>Shrink</ritualController>
       </subitem>
+	  <subitem id="call_rain">
+        <name>Hourglass Ritual (Call Rain)</name>
+        <desc>The hourglass ritual can be used to modify the banish rain spell to instead call rain forth.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>BanishRain</ritualController>
+      </subitem>
       <subitem id="recall_to_gateway">
         <name>Recall to Gateway</name>
         <desc>The ringed cross ritual can be used to re-target the Recall spell so you travel to a specified gateway instead of your marked location.  The three runes used need to match a gateway combination.  The chalk and runes will be consumed as part of the teleportation.</desc>
@@ -1549,6 +1595,13 @@
         <relatedEntries>TrueSight,wizardChalk,warding_candle</relatedEntries>
         <ritualName>ringedCross</ritualName>
         <ritualController>Recall</ritualController>
+      </subitem>
+	  <subitem id="otherworldly_ritual">
+        <name>Otherworldly Ritual</name>
+        <desc>The ringed cross ritual can be used to re-activate an #5Inert Spawner#0 in an interesting way.  It causes the spawner to turn into an #5Otherworldly Aura#0!</desc>
+        <relatedEntries>wizardChalk,warding_candle</relatedEntries>
+        <ritualName>ringedCross</ritualName>
+        <ritualController>Transplace</ritualController>
       </subitem>
       <relatedEntries>wizardChalk</relatedEntries>
     </ritual>
@@ -1816,8 +1869,8 @@
       <desc>
 				The Fire Guardian is a living inferno from the depths of
 				the nether. To summon it, create a gold inlay ring in
-				the nether on top of obsidian with lava in the middle. Throw a water
-				essence into the lava and the fire
+				the nether on top of obsidian with a coal block in the middle. Throw a water
+				essence onto the coal and the fire
 				guardian will appear. Be warned though, it does not take kindly to
 				those that try to bring water to its domain. Be prepared
 				for a fight! !l Recommended level: 90
@@ -1836,7 +1889,7 @@
     </boss>
     <boss id="BossEnderGuardian">
       <name>Ender Guardian</name>
-      <desc>Tales are told in hushed whispers of the true guardian of the End.  Of eyes glowing with an abhorrent light, and scaly skin as black as a moonless night.  Alas, the tales of this waking nightmare are vague at best and always shrouded in the veil of speculation.  The truth is, nobody has ever seen the guardian and lived.  The most common tale is that of Magnus Severinus, the Archmage of the Second Era.  At the height of his power, he was rumored to be able to move mountains with a thought, create lush gardens out of the most barren terrain, and create wards that could stop an army cold.  Alas, his most trusted advisor took ill, and her spiteful stepson had taken her place.  Goaded by honeyed words encouraging his power and making him arrogant, he gathered the conclave together and in front of them all, tore open the fabric between worlds, opening a portal to the end that pulsed with a soft purple glow that almost seemed to draw light away from its surroundings.  He stepped in, and summoned the guardian.  He never had time to scream.  A piece of paper, flecked with bits of dark blood, flitted back through the portal and it winked shut.  Upon the paper was the following ritual: !d In the End, around a black aurem, create an inlay of gold.  Light a burning fire on each side of the inlay.  Throw in an Ender Essence and an Eye of Ender to destabilize the aurem and summon the guardian. !d The paper was locked away in magical valuts and forgotten for millenia...until now.</desc>
+      <desc>Tales are told in hushed whispers of the true guardian of the End.  Of eyes glowing with an abhorrent light, and scaly skin as black as a moonless night.  Alas, the tales of this waking nightmare are vague at best and always shrouded in the veil of speculation.  The truth is, nobody has ever seen the guardian and lived.  The most common tale is that of Magnus Severinus, the Archmage of the Second Era.  At the height of his power, he was rumored to be able to move mountains with a thought, create lush gardens out of the most barren terrain, and create wards that could stop an army cold.  Alas, his most trusted advisor took ill, and her spiteful stepson had taken her place.  Goaded by honeyed words encouraging his power and making him arrogant, he gathered the conclave together and in front of them all, tore open the fabric between worlds, opening a portal to the end that pulsed with a soft purple glow that almost seemed to draw light away from its surroundings.  He stepped in, and summoned the guardian.  He never had time to scream.  A piece of paper, flecked with bits of dark blood, flitted back through the portal and it winked shut.  Upon the paper was the following ritual: !d In the End, around a black aurem atop a platform of blackest coal, create an inlay of gold.  Light a burning fire on each side of the inlay.  Throw in an Ender Essence and an Eye of Ender to destabilize the aurem and summon the guardian. !d The paper was locked away in magical valuts and forgotten for millenia...until now.</desc>
       <relatedEntries></relatedEntries>
     </boss>
   </bosses>
@@ -1875,12 +1928,8 @@
 				#5Arcane Ash#0, refines them into a pure representation
 				of their parts, known as #5essences#0. The recipes for
 				specific essences can be found under #9Items -&gt;
-				Essences#0. The essence refiner also requires #2Etherium#0 to function. This can be obtained from a
-				#9Celestial Prism#0, where Light Etherium makes the
-				process quite a bit slower, but there is a chance you
-				will either not consume some of the recipe ingredients,
-				or could get a second essence. Neutral Etherium can
-				also be obtained from an #9Obelisk#0, which has no specific advantages or
+				Essences#0. The essence refiner also requires #2Etherium#0 to function.
+				Neutral Etherium can be obtained from an #9Obelisk#0, which has no specific advantages or
 				drawbacks. Finally, Dark Etherium can be used from a
 				#9Black Aurem#0, which significantly reduces the amount
 				of time it takes to refine the essence. The spinning ring
@@ -2050,19 +2099,17 @@
 			</desc>
       <relatedEntries></relatedEntries>
     </block>
-    <block id="blue_orchid">
-      <name>Blue Orchid</name>
+    <block id="cerublossom">
+      <name>Cerublossom</name>
       <desc>
-				Blue Orchids thrive in lush, green environments. They
+				Cerublossom flowers thrive in lush, green environments. They
 				were one of the first magical plants discovered, being
-				used in potions and salves. The Blue Orchid emits a
+				used in potions and salves. Cerublossom emits a
 				faint sparkling glow of light around it as well, and was
 				used just as much for decoration as an alchemical
 				ingredient. A short while after its discovery, it was
-				also noted that the Blue Orchid could be used as part of
-				the purification process for Vinteum dust. It is said
-				that anywhere a Blue Orchid can grow, Wisps aren't
-				usually far off.
+				also noted that the Cerublossom could be used as part of
+				the purification process for Vinteum dust.
 			</desc>
       <relatedEntries></relatedEntries>
     </block>
@@ -2114,7 +2161,7 @@
     <block id="inscriptionTable">
       <name>Inscription Table</name>
       <desc>Organization is a must for any mage who wants to be successful.  Using this table along with a writable book, you can compose spells of incredible power.  Most mages will lay out what spell parts they know at the top of the table in the Source Region, and will drag shapes and modifiers to the brown squares set aside for Shape Groups, and components to the Spell Grammar section at the bottom to lay out a spell.  Once satisfied with the spell, you can write the spells down in a writable book (you did remember to bring one, didn't you?).  This book can be placed upon a lectern that is part of the Crafting Altar structure, and will guide you through the process needed to make the spell.  The book is worth reading too, as it contains a recap of the spell you will be creating, a materials list, and an affinity breakdown.  See #5Guides -&gt; Your First Spell#0 for more detailed information.</desc>
-      <relatedEntries>altarOfCreation,craftingAltar,magiciansWorkbench,spellComponents101,spell_parchment</relatedEntries>
+      <relatedEntries>altarOfCreation,craftingAltar,magiciansWorkbench,spellComponents101,spell_parchment,inscriptionUpgrades</relatedEntries>
     </block>
     <block id="particleEmitter" unlocked="true">
       <name>Particle Emitter</name>
@@ -2175,7 +2222,7 @@
       <name>Crafting Altar</name>
       <desc>Harnessing the forces of creation, the crafting altar allows mages to work miracles of magic.  This is where you will create all of your spells in AM2.  The crafting altar is a component of a #9multiblock structure#0.
 			</desc>
-      <relatedEntries>runes,yourFirstSpell,gainingMagicLevels,obelisk</relatedEntries>
+      <relatedEntries>runes,yourFirstSpell,gainingMagicLevels,obelisk,otherworldly_aura</relatedEntries>
     </block>
     <block id="magiciansWorkbench">
       <name>Magician's Workbench</name>
@@ -2201,7 +2248,7 @@
       <desc>The Obelisk is a runed block that is used to generate #5Etherium#0 (the power system in Ars Magica 2).  It acts as a magical furnace, and burns Vinteum Dust or Liquid Etherium to generate power.
 			!d
 			It can be altered using #9Rituals#0 to become a #4Black Aurem#0 or a #9Celestial Prism#0.</desc>
-      <relatedEntries>obelisk_structure,blackaurem_structure,celestialprism_structure,essenceAllAround,powerTypes,mana_battery,essence_refiner,essenceconduit,casters,arcanereconstructor,slipstreamGenerator</relatedEntries>
+      <relatedEntries>obelisk_structure,blackaurem_structure,celestialprism_structure,essenceAllAround,powerTypes,mana_battery,essence_refiner,essenceconduit,casters,arcanereconstructor,slipstreamGenerator,crystal_wrench</relatedEntries>
     </block>
     <block id="brokenLink">
       <name>Broken Power Links</name>
@@ -2221,41 +2268,51 @@
     </block>
     <block id="crystalMarker">
       <name>Crystal Markers</name>
-      <desc>Crystal Markers are used to instruct Flickers inside of a Flicker Habitat on how to sort items.</desc>
-      <subitem id="cm_import">
+      <desc>Crystal Markers are used to instruct Flickers inside of a Flicker Habitat on how to sort items.  When wearing #9Magitech Goggles#0, you can see the priority level of the different crystals.  This priority indicates the order in which the flickers will attempt to move items.  Lower priority crystals are tried first.  You can change the priority of any crystal by rght clicking it while holding a #9Magitech's Staff#0.</desc>
+      <subitem id="crystalMarker@0">
         <name>Import Crystal</name>
-        <desc>This crystal instructs the flickers to collect items from the inventory it is attached to and bring it into the item transportation network</desc>
-        <relatedEntries>flickerFocus</relatedEntries>
+        <desc>This crystal instructs the flickers to collect items from the inventory it is attached to and bring it into the item transportation network.  Import crystals cannot have a priority level.</desc>
+        <relatedEntries>flickerFocus,crystal_wrench</relatedEntries>
       </subitem>
-      <subitem id="cm_export">
+      <subitem id="crystalMarker@1">
         <name>Export Crystal</name>
-        <desc>This crystal instructs the flickers that all items in the item transportation network can be exported to the inventory this crystal is attached to</desc>
-        <relatedEntries>flickerFocus</relatedEntries>
+        <desc>This crystal instructs the flickers that all items in the item transportation network can be exported to the inventory this crystal is attached to.</desc>
+        <relatedEntries>flickerFocus,spell_staff_magitech,magitechGoggles,crystal_wrench</relatedEntries>
       </subitem>
-      <subitem id="cm_likeExport">
+      <subitem id="crystalMarker@2">
         <name>Mimic Export Crystal</name>
-        <desc>This crystal instructs the flickers that items maybe exported from the item transportation network to the inventory this crystal is attached to so long as the inventory contains that item already</desc>
-        <relatedEntries>flickerFocus</relatedEntries>
+        <desc>This crystal instructs the flickers that items maybe exported from the item transportation network to the inventory this crystal is attached to so long as the inventory already contains that item.</desc>
+        <relatedEntries>flickerFocus,spell_staff_magitech,magitechGoggles,crystal_wrench</relatedEntries>
       </subitem>
-      <subitem id="cm_setExport">
+      <subitem id="crystalMarker@3">
         <name>Set Export Crystal</name>
-        <desc>This crystal instructs the flickers that items may be exported from the item transportation network to the inventory this crystal is attached to so long as the item has been set through this crystals GUI</desc>
-        <relatedEntries>flickerFocus</relatedEntries>
+        <desc>This crystal instructs the flickers that items may be exported from the item transportation network to the inventory this crystal is attached to so long as the item has been set through this crystal's GUI.</desc>
+        <relatedEntries>flickerFocus,spell_staff_magitech,magitechGoggles,crystal_wrench</relatedEntries>
       </subitem>
-      <subitem id="cm_regulateExport">
+      <subitem id="crystalMarker@4">
         <name>Regulate Export Crystal</name>
-        <desc>This crystal instructs the flickers that items may be exported from the item transportation network to the inventory this crystal is attached to so long as the item has been set through this crystals GUI and the inventory contains less then number of items set in the crystals GUI</desc>
-        <relatedEntries>flickerFocus</relatedEntries>
+        <desc>This crystal instructs the flickers that items may be exported from the item transportation network to the inventory this crystal is attached to so long as the item has been set through this crystal's GUI and the inventory contains less then number of items set in the crystal's GUI.</desc>
+        <relatedEntries>flickerFocus,spell_staff_magitech,magitechGoggles,crystal_wrench</relatedEntries>
       </subitem>
-      <subitem id="cm_regulateMulti">
+      <subitem id="crystalMarker@5">
         <name>Regulate Bidirectional Crystal</name>
-        <desc>This crystal instructs the flickers that they may both import and export from the inventory this crystal is attached to !d Import: !l Flickers will take items from the inventory so long as the item has been added to this crystals GUI and the number of items in the chest is greater then the number set in the GUI !d Export: !l Flickers will put items into the inventory so long as the item has been added to this crystals GUI and the number of items is below the number set in the GUI</desc>
-        <relatedEntries>flickerFocus</relatedEntries>
+        <desc>This crystal instructs the flickers that they may both import and export from the inventory this crystal is attached to !d Import: !l Flickers will take items from the inventory so long as the item has been added to this crystal's GUI and the number of items in the chest is greater then the number set in the GUI !d Export: !l Flickers will put items into the inventory so long as the item has been added to this crystal's GUI and the number of items is below the number set in the GUI.</desc>
+        <relatedEntries>flickerFocus,spell_staff_magitech,magitechGoggles,crystal_wrench</relatedEntries>
       </subitem>
-      <subitem id="cm_setImport">
+      <subitem id="crystalMarker@6">
         <name>Set Import Crystal</name>
-        <desc>This crystal instructs the flickers that they may import items into the item transportation network from the inventory this crystal is attached to so long as the item has been added to this crystals GUI</desc>
-        <relatedEntries>flickerFocus</relatedEntries>
+        <desc>This crystal instructs the flickers that they may import items into the item transportation network from the inventory this crystal is attached to so long as the item has been added to this crystal's GUI.</desc>
+        <relatedEntries>flickerFocus,spell_staff_magitech,magitechGoggles,crystal_wrench</relatedEntries>
+      </subitem>
+	  <subitem id="crystalMarker@7">
+        <name>Final Export Crystal</name>
+        <desc>This crystal instructs the flickers that they should put any items that can't otherwise be placed in the inventory marked by this crystal.  These crystals always have the highest priority number, meaning items will be placed there last.</desc>
+        <relatedEntries>flickerFocus,spell_staff_magitech,magitechGoggles,crystal_wrench</relatedEntries>
+      </subitem>
+	  <subitem id="crystalMarker@8">
+        <name>Spell Export Crystal</name>
+        <desc>This crystal instructs the flickers to watch any crafting altar within 10 blocks. If it is crafting a spell, the flickers will attempt to fetch the next item required for the spell and place it in the inventory marked by this crystal.</desc>
+        <relatedEntries>flickerFocus,spell_staff_magitech,magitechGoggles,crystal_wrench</relatedEntries>
       </subitem>
     </block>
     <block id="keystoneDoors">
@@ -2272,9 +2329,14 @@
         <relatedEntries>keystone, keystoneDoor</relatedEntries>
       </subitem>
     </block>
-    <block id="armor_infuser">
+    <block id="armor_infuser_index">
       <name>Armor Imbuement Table</name>
       <desc>The Armor Imbuement Table can be used to attach special imbuements to any armor in Minecraft.  In order to do this, you first need to have the armor equipped.  Mousing over any armor will display a prompt of "Press SHIFT for more information".  Doing so will show you how much XP has been absorbed into the armor.  Armor gains XP when you do.  See #5Mechanics -&gt; Armor XP Infusion#0 for more information on how it works. !d Once your armor has reached at least level 30, you can apply a Tier I imbuement to it.  Simply equip the armor and activate the Armor Imbuement Table.  Place the armor from the equip slots at the bottom of the UI into the active slot.  Available imbuements will appear in colour, unavailable ones will be grayscale.  You can only apply one tier of imbuement per armor piece, so choose wisely!  !d The tier costs are: !l Tier 1: 30 levels !l Tier 2: 42 levels !l Tier 3: 54 levls !l Tier 4: 66 levels !d Each time you imbue the armor, XP is deducted from it to apply the imbuement.</desc>
+	  <subitem id="armor_infuser">
+		<name>Block Recipe</name>
+		<desc></desc>
+		<relatedEntries></relatedEntries>
+	  </subitem>
       <subitem id="imbuement_burnout_reduction">
         <name>Imbuement:  Burnout Reduction</name>
         <desc>The Burnout Reduction imbuement grants a 150% increase in the rate that your Burnout reduces. The effect is additive for each piece, with a maximum of 600%. !d Available Slots:  Head, Chest, Legs, Boots</desc>
@@ -2408,7 +2470,7 @@
     </block>
 	<block id="flicker_lure">
       <name>Flicker Lure</name>
-      <desc>Flickers aren't normally able to enter our world, but with a little help and incentive, you can make that happen.  Placing this block and powering it with Etherium will cause flickers to be pulled into our world!  The type of flicker will depend on where the lure is.  See the entry on #9Flickers#0 for information on where to find specific ones.</desc>
+      <desc>Flickers aren't normally able to enter our world, but with a little help and incentive, you can make that happen.  Placing this block and powering it with Etherium will allow flickers to be pulled into our world!  When you want them, just apply a redstone signal.  The type of flicker will depend on where the lure is.  See the entry on #9Flickers#0 for information on where to find specific ones.</desc>
       <relatedEntries>Flicker</relatedEntries>
     </block>
 	<block id="arcane_deconstructor">
@@ -2416,6 +2478,16 @@
       <desc>The Arcane Deconstructor, when powerd with #5Dark Etherium#0 can disassemble an item back into its crafting components. !d  Oh yeah, it can also disassemble spells.  You will get most of the items back from a spell, but items such as the initial blank rune or etherium investments, as well as the final spell parchment, will not be refunded. !d The deconstructor will attempt to place items into adjacent inventories if its own is full upon un-crafting.  Any items that cannot be placed are simply ejected into the world.</desc>
       <relatedEntries>chargefocus</relatedEntries>
     </block>
+	<block id="otherworldly_aura">
+      <name>Otherworldly Aura</name>
+      <desc>The Otherworldly Aura is used to automate spell creation.  It summons a shadow copy of whoever created it to complete the spell.  !d To use it, you need the following: !l -Within 10 blocks of the #5Crafting Altar#0 !l -#4Dark#0 or #9Neutral#0 Etherium (have a good amount on hand, interdimensional travel is costly!) !l -One or more block inventories (chest, hopper, etc) within 8 blocks of the Aura.  These inventories are what will be searched for spell reagents. !d The aurem will maintain the shadow for as long as needed, provided it has enough power.  Running out of power will cause the shadow to dissipate, and out of spite for the inconvenience, it may take whatever reagent it is currently carrying!  Only one aura will assist an altar at a time, so multiple auras are not needed. !d To get the aura, perform a #5Ritual of the Cross#0 around an #5Inert Spawner#0 with #5Transplace#0 as the catalyst.</desc>
+      <relatedEntries>rituals_overview,Transplace,corruption_obelisk,inertSpawner</relatedEntries>
+    </block>
+	<block id="inertSpawner">
+		<name>Inert Spawner</name>
+		<desc>You've managed to pick up a monster spawner, but it seems to not be able to spawn anything anymore.  You should look into other applications for this device, or find a way to re-activate it. !d Perhaps #5Dark Etherium#0 and a #5Filled Crystal Phylactery#0 could make it function again...</desc>
+		<relatedEntries>otherworldly_aura,blackaurem_structure,crystal_phylactery</relatedEntries>
+	</block>
   </blocks>
   <mechanics>
     <mechanic id="affinity">
@@ -2467,6 +2539,8 @@
 					Nature affinity gives you additional seeds and saplings when harvesting plants from around the world.  At 50% depth, you will gain the Thorns effect, causing melee attackers to take damage (similar to the armor enchant).  This damage increases at 75% affinity and at full affinity.  At full nature affinity you also slowly regenerate hunger in direct sunlight.  At full nature affinity, you can extend roots into the ground, allowing you to climb certain surfaces like a spider does.
 					!d
 					Nature affinity causes you to move slightly slower due to your roots. At full nature affinity depth, you lose hunger more quickly at night or in dark areas.
+					!d
+					At full nature affinity, you gain the aspect of a leaf on the wind, negating all fall damage and falling more slowly.  You can sneak to fall at normal speed.  This will still cause fall damage to be negated.
 				</desc>
         <relatedEntries></relatedEntries>
       </subitem>
@@ -2511,7 +2585,7 @@
         <desc>
 					Ender affinity gives you poison resistance at 50% depth, and at 75% depth you gain night vision automatically in dark areas.  At full ender affinity, Endermen will not attack you, unless you attack them first.
 					!d
-					Due to your dark nature, your maximum health is reduced in light, and at full ender affinity, it is reduced in water as well.
+					Due to your dark nature, your maximum health is reduced in light, and at higher ender affinity, it is reduced in water as well.  Masters of the ender are rumored to have evolved beyond this weakness.
 				</desc>
         <relatedEntries></relatedEntries>
       </subitem>
@@ -2591,7 +2665,7 @@
       <name>The Ars Magica UI</name>
       <desc>The act of picking up a compendium has unlocked the arcane magics within you.  You now have the AM2 HUD activated.  To configure this UI, at any time, enter the command "#2/amuicfg#0".  This will open a drag and drop configuration interface.  Make your changes and press ESC to save them.</desc>
     </guide>
-    <guide id="spellComponents101" order="4">
+    <guide id="spellComponents101" order="5">
       <name>Spell Components 101</name>
       <desc>Spells are comprised of #4shapes#0, #9components#0, and #2modifiers#0.  Shapes dictate how the spell targets things, Components dictate what the spell does to the things it targets, and Modifiers change certain aspects of spells.  A #4shape#0 can only appear once in a single spell.  Shapes can be chained together to create spell stages, for example, a "Projectile AoE".  Components can be added once per spell stage. As for modifiers, a single aspect of a spell can be modified three times per stage.  What this means is that if you have modifiers that change multiple parts of a spell, they may lock out other ones that modify the same stats if the total stat modifier for the shape is equal to three.  The compendium will only show you the shapes, components, and modifiers you already know, or are eligible to learn.</desc>
     </guide>
@@ -2599,19 +2673,23 @@
       <name>Your First Spell</name>
       <desc>To make a spell, you will first need to create an #5Occulus#0 and unlock at least one spell shape and one component.  You start with three blue skill points to make this possible.  Then, craft a writable book and head over to your #5Inscription Table#0.  Place the book in the inscription table. !d There are three sections of the Inscription Table UI that are of note.  The source region is the large grey square at the top, and will contain all of your known shapes, components, and modifiers.  The Shape Group section is identified by brown squares.  There are multiple brown squares as multiple shape groups can be created.  Finally there is the Spell Grammar section, which is the gray rectangle at the bottom.  !d Create #5Shape Groups#0 by dragging shapes and/or modifiers from the source region to any of the shape groups in the UI.  You can create multiple shape groups in the same spell, three by default.  Each shape group can have up to four shapes/modifiers.  Shape groups cannot contain components. A good way to think about it is that shape groups are different means of targeting things with the spell, then the spell grammar is what the spell actually does. !d Once your shape groups are created, drag the spell parts you want, in order, from the source region to the spell grammar section. The spell grammar section can contain spell shapes, components, and modifiers in addition to the shape groups.  Once your combination is completed, go to your #5Crafting Altar#0 and place your book containing the spell recipe on the lectern.  Throw a #5blank rune#0 into the middle of the crafting altar to begin the process, then follow the book's prompts.  The book itself is worth reading as well, as it contains a recap of what the spell recipe is for, the materials list for the spell and an affinity breakdown of the spell.  Note that certain crafting altars can only craft spells that are so powerful.  Too much power and bad things can happen.  See the entry on the #5Crafting Altar#0 for more information.</desc>
     </guide>
-    <guide id="gainingMagicLevels" order="5">
+	<guide id="aFewSpells" order="4" unlocked="true">
+      <name>A Few Recommended Spells</name>
+      <desc>When starting out, it's recommended to make sure you take at least one #9Shape#0 and one #9Component#0 in the Occulus, lest you find yourself unable to make any spells.  If you do this, you can either go looking in dungeons for #9Infinity Orbs#0, or try to fight a boss or two to get some more.  If you're feeling cheaty, you can also use the /respec command. !p Here are a few sample spells to get you started: !d Basic Defense: !l Projectile + Physical Damage !d Stay Alive: !l Self + Regeneration !d Time to Mine: !l Touch/Projectile + Dig !d Clear Leaves: !l Projectile + Wizard's Autumn !d Fast Travel: !l Self/Projectile + Leap + Slowfall + Haste + Gravity Well</desc>
+    </guide>
+    <guide id="gainingMagicLevels" order="6">
       <name>Gaining Magic Levels</name>
       <desc>You gain magic levels by casting spells.  You don't gain magic XP if the cast isn't successful, and there are diminishing returns on a cooldown, so spamming spells to grind won't get you anywhere.  Casting spells also modifies your affinity.  See #5Mechanics -&gt; Affinity#0 for more information.</desc>
     </guide>
-    <guide id="unlockingPowers" order="6">
+    <guide id="unlockingPowers" order="7">
       <name>Obtaining Skill Points</name>
       <desc>You get skill points primarily by leveling up.  At each even level, you will gain one skill point.  Levels 2-20 award blue skill points, 22-40 award green skill points, and 42-50 award red skill points.  Additional points can be obtained by fighting bosses, trading with villagers, and exploring.  You choose how you want to go about it!  When viewing unlockables in the #5Occulus#0, hovering over the item will display #9text that matches the skill point color needed to unlock it#0.</desc>
     </guide>
-    <guide id="essenceAllAround" order="7">
+    <guide id="essenceAllAround" order="8">
       <name>The Etherium System</name>
       <desc>Ars Magica contains a unique power system called #5Etherium#0.  Etherium is generated from an #5Obelisk#0.  An Obelisk will stream to other powered blocks within a 10 block radius.  To extend the range of the Obelisk, you can place #5Etherium Conduits#0 within the 10 blocks of the obelisk.  Each conduit also projects a radius of 10 blocks in which it can relay power from the obelisk, essentially extending the range in a chain. !d There are multiple types of Etherium.  Different types of Etherium can be generated by other blocks, suck as #9Light Etherium#0 from a #5Celestial Prism#0 or #4Dark Etherium#0 from a #5Black Aurem#0.  All Etherium types have the same transmit rules as the Obelisk, and can be extended by Etherium Conduits.</desc>
     </guide>
-    <guide id="powerTypes" order="8">
+    <guide id="powerTypes" order="9">
       <name>Types of Etherium</name>
       <desc>There are three types of Etherium, by default.  Addons to the mod can register new Etherium types, but the defaults are Light, Neutral, and Dark.  See structures for crafting and variations of each of these.  Each type of Etherium affects machines in a different way, and has advantages and disadvantages.  You will also need all three types of Etherium available for spell crafting, as certain shapes, components, and modifiers can require different types of Etherium.  Certain machines can only run on certain types of Etherium, and some machines require multiple types simultaneously.</desc>
     </guide>
