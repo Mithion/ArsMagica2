@@ -1,0 +1,2615 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<compendium>
+  <version>1.0.4</version>
+  <shapes zeroItemText="Vous ne connaissez aucune forme, et n'êtes pas prêt d'en apprendre une!">
+    <shape id="Projectile">
+      <name>Projectile</name>
+      <desc>Vous êtes capables de concentrer votre volonté en une boule concentrée, que vous pouvez propulser devant vous.  Ce projectile durera pendant 5 secondes de vol, ou jusqu'à ce qu'il atteigne quelque chose.  Il traversera par défaut l'eau et les blocs non-solides sauf si vous le modifiez avec Cibler les blocs non-solides.</desc>
+      <modifiedBy>SPEED,GRAVITY,BOUNCE,DURATION,PIERCING,TARGET_NONSOLID_BLOCKS</modifiedBy>
+    </shape>
+    <shape id="Channel">
+      <name>Canalisé</name>
+      <desc>À travers une intense concentration, un mage peut maintenir un flux de magie à dans lui même.  Cela est utile pour des choses comme Télékinésie, Soin, Attraction et Tempète.</desc>
+      <modifiedBy></modifiedBy>
+    </shape>
+    <shape id="Beam">
+      <name>Rayon</name>
+      <desc>Ce n'est pas un gros effort mental que de passer d'un sort canalisé à un rayon.  La tension, cependant, est une autre histoire.  Un rayon est une version beaucoup plus controlée d'un sort canalisé.</desc>
+      <modifiedBy>RANGE,TARGET_NONSOLID_BLOCKS</modifiedBy>
+    </shape>
+    <shape id="Self">
+      <name>Soi</name>
+      <desc>Une des formes les plus simples d'application de magie est d'appliquer la magie à soi même.  La distance est courte et la cible est consentante.  Vous espérez seulement que vous ne mettrez pas accidentellement feu à vous même.</desc>
+      <modifiedBy></modifiedBy>
+    </shape>
+    <shape id="Touch">
+      <name>Touche</name>
+      <desc>Emballez simplement votre main de magie et avancez la.  Touche est une forme à très courte portée; cela ne suis pas la mise en évidence des blocs.  Vous devez presque coller à un bloc pour y appliquer les effets de Touche.</desc>
+      <modifiedBy>TARGET_NONSOLID_BLOCKS</modifiedBy>
+    </shape>
+    <shape id="Zone">
+      <name>Zone</name>
+      <desc>Vous avez appris à concentrer votre volonté en un effet de zone qui persiste pour un temps.  </desc>
+      <modifiedBy>RADIUS,GRAVITY,DURATION</modifiedBy>
+    </shape>
+    <shape id="AoE">
+      <name>AoE</name>
+      <desc>Après avoir chargé votre sort, vous pouvez le modeler en une décharge qui irradie depuis le point d'origine du sort.  Si Gravité est appliquée, AoE cherchera vers le bas après des blocs sur lesquels s'appliquer.  Ceci est utile pour rapetisser une colline sans changer sa forme naturelle, et bien d'autres choses.  Un sort AoE n'affectera pas l'incantateur.</desc>
+      <modifiedBy>RADIUS,GRAVITY</modifiedBy>
+    </shape>
+    <shape id="Chain">
+      <name>Chaîne</name>
+      <desc>Vous pouvez modeler votre magie en une décharge qui saute de cible en cible.  Chaîne contient par défaut une composante similaire à Touche de 8 blocs (avec une portée étendue - à peu près 8 blocs), donc il n'y a pas besoin d'ajouter des phases supplémentaires; bien que vous pouvez si vous le voulez, faire un projectile par exemple, pour commencer la chaîne ailleurs.  Un sort de Chaîne ne peut pas affecter l'incantateur.  La portée des sauts de la chaîne peut être augmentée par le modificateur #5Portée#0, et le nombre de sauts peut être augmenté par #5Procs#0</desc>
+      <modifiedBy>RANGE,PROCS</modifiedBy>
+    </shape>
+    <shape id="Rune">
+      <name>Rune</name>
+      <desc>Vous pouvez créer une rune infusée de magie qur le sol, qui, quand déclenchée peut appliquer de puissants buffs... ou des pièges mortels.</desc>
+      <modifiedBy>PROCS,TARGET_NONSOLID_BLOCKS</modifiedBy>
+    </shape>
+    <shape id="Contingency_Fall">
+      <name>Contingence: Chute</name>
+      <desc>Vous avez découvert une forme de sort qui s'active en chute libre à l'instant avant que vous ne touchiez le sol. !d Ô gravité, tu n'as pas de coeur... !d Vous ne pouvez avoir qu'une seule contingence active à la fois.</desc>
+      <modifiedBy></modifiedBy>
+    </shape>
+    <shape id="Contingency_Damage">
+      <name>Contingence: Dégat</name>
+      <desc>Vous avez réussi à créer un sort qui ne s'active que quand vous êtes blessé. !d Oeil pour Oeil, Dent pour Dent. !d Vous ne pouvez avoir qu'une seule contigence active à la fois.</desc>
+      <modifiedBy></modifiedBy>
+    </shape>
+    <shape id="Contingency_Fire">
+      <name>Contingencz: Feu</name>
+      <desc>Vous avez décidé que que vous n'aimez plus du tout être en feu.  Dans ce but, vous avez crée un sort qui s'allume en même temps que les flammes. !d Vous ne pouvez avoir qu'une seule contingence active à la fois.</desc>
+      <modifiedBy></modifiedBy>
+    </shape>
+    <shape id="Contingency_Health">
+      <name>Contingence: Santé</name>
+      <desc>Peu importe le sorcier, un couteau entre ses homoplates endommagera sérieusement son style.  Vous pensez avoir trouvé un moyen de leur faire regretter ça.  Ou d'avoir besoin de deux couteaux. !d Cette contingence proc quand votre santé est inférieure ou égale à 25% de son maximum.  !d Vous ne povez avoir qu'une seule contingence active à la fois.</desc>
+      <modifiedBy></modifiedBy>
+    </shape>
+    <shape id="Contingency_Death">
+      <name>Contingence: Mort</name>
+      <desc>Vous m'avez peut être eu, mais pendant les quelques secondes que cela vous a pris, j'ai eu tout le temps de m'assurer que vous mourriez avec moi. !d Vous ne pouvez avoir qu'une seule contingence active à la fois.</desc>
+      <modifiedBy></modifiedBy>
+    </shape>
+    <shape id="Binding">
+      <name>Lien</name>
+      <desc>Vous pouvez créer des objets solides à partir de rien!  La forme Lien vous permet de lier des outils à vous même, qui drainent constamment votre mana quand invoqués, et consomment du mana à la place de durabilité quand utilisés.  Lacher l'objet avec la touche "drop" (par défaut 'a') la désinvoquera à la place.</desc>
+      <modifiedBy></modifiedBy>
+      <relatedEntries>bindingCatalyst@0,bindingCatalyst@1,bindingCatalyst@2,bindingCatalyst@3,bindingCatalyst@4,bindingCatalyst@5</relatedEntries>
+    </shape>
+    <shape id="Wall">
+      <name>Mur</name>
+      <desc>Vous pouvez manifester un mur devant vous.  Le mur sera perpendiculaire à votre direction actuelle.  Les murs fonctionnent similairement aux zone, mais avec une différente forme.  Les murs appliquent aussi leurs effets plus rapidement.</desc>
+      <modifiedBy>RADIUS,GRAVITY,DURATION</modifiedBy>
+    </shape>
+    <shape id="Wave">
+      <name>Vague</name>
+      <desc>Projette une vague de magie devant vous qui roule vers l'avant, appliquant ses effets à tout ce qui se trouve dans son chemin.</desc>
+      <modifiedBy>RADIUS,DURATION,SPEED,GRAVITY,PIERCING</modifiedBy>
+    </shape>
+  </shapes>
+  <components zeroItemText="Vous ne connaissez aucun composant, et n'êtes pas prêts d'en apprendre un!">
+    <component id="PhysicalDamage">
+      <name>Dégat Physique</name>
+      <desc>Souvent, un jeune mage commence son entrainement avec la simple force physique.  Plus souvent il continuera cet entrainement en tapant ses collègues dans l'arrière du crane avec encore plus de force physique.  Le dégat physique est l'une des formes les plus faibles de dégats, et ne traverse pas l'armure.</desc>
+      <modifiedBy>DAMAGE</modifiedBy>
+    </component>
+    <component id="MagicDamage">
+      <name>Dégat Magique</name>
+      <desc>Le dégat magique diffère du dégat physique dans le fait qu'il outrepasse beaucoup de types d'armures et attaque directement l'aura de la cible - ce qui peut être tout aussi dévastateur, si pas plus.  Ceci rend les créatures invoquées et charmées particuliérement vulnérables, leur infligeant le triple des dégats.</desc>
+      <modifiedBy>DAMAGE</modifiedBy>
+    </component>
+    <component id="FrostDamage">
+      <name>Dégat de Givre</name>
+      <desc>Beaucoup sous-estiment la puissance que peut manier le givre.  Le froid glacial peut traverser bien des armures, et le givre est dévastateur contre les habitants des Tréfonds.  Le dégat de Givre applique aussi un bref effet de ralentissement quand il s'applique.</desc>
+      <modifiedBy>DAMAGE,BUFF_POWER</modifiedBy>
+    </component>
+    <component id="LightningDamage">
+      <name>Dégat de Foudre</name>
+      <desc>J'ai mis mes mains devant moi, et avec un craquement sec, un éclair brillant d'électricité éclaira les cieux.  Son armure métallique fit l'effet d'un paratonnerre, attirant chaque éclair sur lui.  La foudre fait une quantité exceptionelle de dégats, mais implique un lourd coût en mana.</desc>
+      <modifiedBy>DAMAGE</modifiedBy>
+    </component>
+    <component id="FireDamage">
+      <name>Dégat de Feu</name>
+      <desc>D'un mot, je relâchai ma volonté et du feu érupta devant moi, carbonisant tout sur son passage.  Le dégat de feu est percutant, mais beaucoup de monstre des Tréfonds sont immunisés contre ses effets.</desc>
+      <modifiedBy>DAMAGE</modifiedBy>
+    </component>
+    <component id="Ignition">
+      <name>Ignition</name>
+      <desc>Beaucoup de mages voient le feu comme une force dangereuse et destructive, et cela peut être vrai.  Mais combien entendent Feu et imaginent allumer un four, un feu de camp ou une chandelle?  </desc>
+      <modifiedBy>DURATION</modifiedBy>
+    </component>
+    <component id="Forge">
+      <name>Forge</name>
+      <desc>Vous avez acquis un contrôle précis sur le feu et pouvez l'utiliser pour fondre magiquement des blocs sur place, sans les réduire en cendres.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="Explosion">
+      <name>Explosion</name>
+      <desc>Vous pouvez mettre assez d'énergie dans vos sorts pour causer une violente explosion à l'endroit du sort.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="Blind">
+      <name>Aveuglement</name>
+      <desc>Pouvoir lancer des boules de feu à des mages sombres est bien.  Le faire sans qu'ils puissent riposter est encore mieux.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+	  <relatedEntries>rituals_overview</relatedEntries>
+    </component>
+    <component id="Freeze">
+      <name>Gel</name>
+      <desc>Eira respira profondément et ouvrit ses yeux.  Les sommets des montagnes brillaient maintenant du blanc de la neige et un sublime givre recouvrait tout.  L'eau était devenue glace.  Les ennemis rampaient.  Parfait.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="Knockback">
+      <name>Répulsion</name>
+      <desc>Peu sont les mages qui aiment être à portée de corps à corps.  Ceci permet de corriger cette situation.</desc>
+      <modifiedBy>VELOCITY_ADDED</modifiedBy>
+    </component>
+    <component id="Storm">
+      <name>Orage</name>
+      <desc>Les nuages s'assombrirent, et il commença à pleuvoir.  Le vent hurla, et un éclair éclaira le ciel, laissant des taches brillantes dans ma vision.  Le tonnerre était assourdissant.  La foudre frappait tout autour de moi sur chaque ennemi.  Le coût de maintenir la tempète était immense. </desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="AstralDistortion">
+      <name>Distortion Astrale</name>
+      <desc>Alors que j'essayais d'entrer dans le néant, la déformation scintilla et sembla se solidifier.  Je marchai tête la première dedans, au grand amusement de mes élèves.  Cet effet sembla empêcher mes capacités de téléportation.  Je me devais de l'essayer contre des Hommes du Néant.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="Fling">
+      <name>Ouragan</name>
+      <desc>Le vent tourbillonna autour du creeper et souffla d'un coup vers le haut, l'envoyant dans les airs.</desc>
+      <modifiedBy>VELOCITY_ADDED</modifiedBy>
+    </component>
+    <component id="WateryGrave">
+      <name>Tombe aquatique</name>
+      <desc>L'eau sembla prendre vie, entourant des tentacules autour du mage  et l'attirant dans les noires et insondables profondeurs.  Son ami sur la berge ne pouvait que regarder impuissant, car sauter dans l'eau signifierait le même sort.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="Leap">
+      <name>Saut</name>
+      <desc>Amassant le vent autour de moi, je me propulsai dans les airs.  Je retint le vent pendant le saut, le relachant en une poussée montante pour me protéger de la chute.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="Regeneration">
+      <name>Régénération</name>
+      <desc>J'entourai mon bras d'une lueur régénérante, et regardai chaque blessure, jusqu'au dernier bleu, disparaître lentement sous mes yeux.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="Slowfall">
+      <name>Chute ralentie</name>
+      <desc>Devenez aussi léger qu'une plume, et tombez sans crainte.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="LifeTap">
+      <name>Incantation vitale</name>
+      <desc>Si un mage est désespéré et à court de mana, il peut alimenter ses sorts en utilisant sa propre force vitale.</desc>
+      <modifiedBy>DAMAGE</modifiedBy>
+    </component>
+    <component id="Heal">
+      <name>Soin</name>
+      <desc>En augmentant fortement la quantité de puissance mise dans des effets régénératifs, un mage peut guérir de presque n'importe quelle blessure.  L'effet est onéreux, cependant.</desc>
+      <modifiedBy>HEALING</modifiedBy>
+    </component>
+    <component id="Slow">
+      <name>Ralentissement</name>
+      <desc>En appliquant l'équivalent magique d'une chaîne et d'un boulet, un mage peut grandement ralentir les mouvments de sa cible.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="Haste">
+      <name>Hâte</name>
+      <desc>Envelopper les jambes de la cible dans de l'énergie arcanique permet à un mage d'augmenter grandement sa vitesse de déplacement.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="GravityWell">
+      <name>Puit Gravitationel</name>
+      <desc>Vous avex appris à créer un puit gravitationel local sous votre cible, augmentant dramatiquement leur vitesse de chute.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="LifeDrain">
+      <name>Drain de Vie</name>
+      <desc>Par la création d'un lien avec la force vitale de la cible, vous pouvez la siphonner dans la votre, augmentant votre propre santé.</desc>
+      <modifiedBy>DAMAGE</modifiedBy>
+    </component>
+    <component id="Dispel">
+      <name>Déflection</name>
+      <desc>En créant un champ local de déficit, vous pouvez retirer un certain nombre d'effets de votre cible.  Déflection est aussi très efficace contre les invocations, les renvoyant dans l'ether.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="Repel">
+      <name>Champ Répulsif</name>
+      <desc>Vous parvenez à créer une singularité dans l'espace, qui, pour autant que vous la mainteniez, irradiera des vagues de forces, repoussant les ennemis et déviant les flèches loin de vous.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="SwiftSwim">
+      <name>Nage Rapide</name>
+      <desc>Par la manipulation des courants aquatiques, vous pouvez vous propulser beaucoup plus vite sous l'eau.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="Levitate">
+      <name>Lévitation</name>
+      <desc>À travers la pratique de l'aéromancie, vous êtes désormais capable de rester suspendu en l'air.  Avec de faibles courants d'air, vous pouvez vous mouvoir lentement tout en flottant.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="ManaDrain">
+      <name>Drain de Mana</name>
+      <desc>Vous pouvez créer un lien parasitique avec l'aura de la cible, drainant leur mana et boostant le votre.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="Entangle">
+      <name>Prison de Ronces</name>
+      <desc>Sur votre ordre, des ronces peuvent jaillir du sol et ligoter votre cible, la maintenant complètement immobile.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="Flight">
+      <name>Vol</name>
+      <desc>D'un mot, je m'élevai dans les airs et cotoyai les nuages et le ciel.  Je volai sans effort, rapide et agile.  Les cieux n'appartenaient qu'a moi.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="Shield">
+      <name>Bouclier</name>
+      <desc>Vous pouvez invoquer de l'énergie arcanique pour vous protéger.  Ce bouclier réduira tous les dégats qui vous sont infligés.  Ceci ne peut être actif en même temps que Réflection.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="Reflect">
+      <name>Réflection</name>
+      <desc>Vous pouvez modifier votre bouclier pour que les sorts rebondissent dessus au lieu d'en réduire les dégats.  Ceci ne peut être actif en même temps que Bouclier.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="ChronoAnchor">
+      <name>Ancre Temporelle</name>
+      <desc>Vous pouvez vous ancrer dans le temps.  Quand le compteur s'arrête, vous êtes transportés à l'endroit où vous aviez lancé le sort, avec votre santé, mana, burnout, et faim à nouveau dans l'état qu'elle étaient quand le sort fut jeté.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="Charm">
+      <name>Charme</name>
+      <desc>Vous pouvez charmer des créatures pour qu'elles se battent pour vous, et certaines créatures feront des choses spéciales lorsque charmées.  Charmer pousse aussi les créatures à se reproduire(si toutefois elles sont capables de se reproduire).</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="Dig">
+      <name>Creuse</name>
+      <desc>Le sol se brise sur un claquement de vos doigts.  Les blocs plus durs prennent plus de mana à creuser.  Creuse commence équivalent à une pioche en fer, mais peut être amélioré avec le modificateur #5Puissance de Minage#0.</desc>
+      <modifiedBy>MINING_POWER,FORTUNE_LEVEL,SILKTOUCH_LEVEL</modifiedBy>
+    </component>
+    <component id="Light">
+      <name>Lumière</name>
+      <desc>Vous pouvez éclairer une zone avec de la magie.  Les lumières peuvent être recolorées après être placées en faisant clic-droit dessus avec une teinture.  Le Forge Ore Dictionary est supporté pour les teintures valides.</desc>
+      <modifiedBy>COLOR</modifiedBy>
+    </component>
+    <component id="Disarm">
+      <name>Désarmement</name>
+      <desc>Maintenant que vous avez appris à invoquer des outils dans votre main, il n'y a qu'un pas pour savoir faire tomber de leurs mains ceux que les autres tiennent.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="Rift">
+      <name>Fissure de stockage</name>
+      <desc>Vous êtes capables d'ouvrir une fissure dans l'espace, vous donnant accès à une petite dimension dans laquelle vous pouvez ranger vos objets.  Lz fissure dure 60 secondes avant de se fermer automatiquement.  Ajouter des modificateurs de puissance d'effet donnent une plus grande capacité de stockage.  Sneak+Clic-Droit  pour fermer la fissure quand elle est ouverte.</desc>
+      <modifiedBy>BUFF_POWER</modifiedBy>
+    </component>
+    <component id="Attract">
+      <name>Attraction</name>
+      <desc>Vous créez une aura de pression négative autour de vous, tirant tout ce qui bouge vers vous.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="Telekinesis">
+      <name>Télékinésie</name>
+      <desc>Vous pouvez utiliser votre magie pour amplifier vos ondes cérébrales, leur donnant une forme physique.  Ces ondes peuvent être utilisées pour attirer des objets et de l'XP vers un point devant vous.  Sneaker et rouler la mollette de votre souris peut changer la distance du point par rapport à vous.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="HarvestPlants">
+      <name>Récolte</name>
+      <desc>Vous pouvez récolter toutes les plantes, feuilles et fleurs.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="Plow">
+      <name>Soc</name>
+      <desc>Vous pouvez faire se retourner la terre à votre commande, créant de profondes tranchées idéales pour la semaison.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="CreateWater">
+      <name>Hydrogénèse</name>
+      <desc>Vous parvenez à condenser l'humidité de l'air en une location, créant de l'eau là où il n'y en avait point.  Ceci ne marchera pas dans les Tréfonds.  Peut aussi être utilisé pour remplir un chaudron.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="Grow">
+      <name>Croissance</name>
+      <desc>Infuser de l'énergie dans les plantes, ce qui équivaut à leur parler pendant des mois, les fera pousser plus rapidement.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="BanishRain">
+      <name>Bannir la pluie</name>
+      <desc>Pluie, Pluie, arrète toi.  Revient un autre jour!  Qui eut cru que que ces mots sont ceux du sort?</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="WaterBreathing">
+      <name>Respiration Aquatique</name>
+      <desc>Vous pouvez user de votre magie pour capturer de l'oxygène dans l'eau, ce qui vous permet d'éviter la noyade.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="NightVision">
+      <name>Vision Nocturne</name>
+      <desc>Votre connaissance de la lumière vous a permit de dévelloper un sort qui vous laisse amplifier les niveaux de lumière, vous laissant voir dans le noir.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="TrueSight">
+      <name>Vision Véridique</name>
+      <desc>Votre vision magique vous permet de voir les choses telles qu'elles le sont vraiment.  Qui sait quelles merveilles...et horreurs vous découvrirez.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="Invisibility">
+      <name>Invisibilité</name>
+      <desc>Vous pouvez distordre la lumière autour de vous pour vous rendre invisible.</desc>
+      <modifiedBy>BUFF_POWER,DURATION</modifiedBy>
+    </component>
+    <component id="RandomTeleport">
+      <name>Téléportation aléatoire</name>
+      <desc>Vous pouvez téléporter aléatoirement votre cible sur une courte distance.</desc>
+      <modifiedBy>RANGE</modifiedBy>
+    </component>
+    <component id="Blink">
+      <name>Blink</name>
+      <desc>Vous pouvez vous téléporter sur une courte distance directement devant vous.  Blink peut vous faire traverser les murs, mais demandera plus d'effort pour s'assurer que vous n'atterrissiez pas dans l'un d'eux.</desc>
+      <modifiedBy>RANGE</modifiedBy>
+    </component>
+    <component id="Transplace">
+      <name>Remplacement</name>
+      <desc>Votre connaissance de la téléportation a grandi.  Vous pouvez désormais changer de place avec votre cible.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="Mark">
+      <name>Marque</name>
+      <desc>Vous pouvez magiquement marquer un lieu, auquel vous pouvez vous téléporter depuis presque n'importe où.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="Recall">
+      <name>Rappel</name>
+      <desc>Vous pouvez accorder votre magie de téléportation sur une marque que vous avez laissée chez vous, vous transportant vous ou votre cible à sa location.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="EnderIntervention">
+      <name>Intervention du Néant</name>
+      <desc>Vous avez maîtrisé la magie de téléportation au point de pouvoir transcender les barrières interdimensionelles, et d'entrer dans les Tréfonds depuis presque n'importe où.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="DivineIntervention">
+      <name>Intervention Divine</name>
+      <desc>Vous avez maîtrisé la magie de téléportation au point de pouvoir transcender les barrières interdimensionelles et de pouvoir entrer dans l'overworld depuis presque n'importe où.  Si lancé quand vous êtes déja dans l'overworld, vous serez ramené à votre lit, ou au spawn si vous n'avez pas de lit.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="Summon">
+      <name>Invocation</name>
+      <desc>Vous avez appris à récolter les âmes des créatures que vous vaincez en combat.  Ces âmes peuvent être utilisées pour créer un sort pour invoquer cette créature pour vous défendre. !d Pour invoquer une créature, craftez d'abord un #5Phylactère de Crystal#0.  Une fois que vous tuez quelque chose en tenant un phylactère vide, ce phylactère sera #9phasé#0 à ce type spécifique de mob.  Tuez assez du même mob et vous remplirez le phylactère. !d Pendant la création du sort, vous pouvez lancer n'importe quel phylactère plein quand le bureau de lecture vous le demande.  Cette étape est ce qui détermine ce que votre sort invoquera. !d Les créatures invoquées ne droppent pas de butin, et pas d'xp, mais peuvent être utilisées normalement, pour la reproduction ou la traite des vaches, ou monter des chevaux.  Les cheaux sont l'exception à la règle des drops, et dropperont selle et armure qui leurs sont données. !l Les créatures dressables comme les loups et les chats sont automatiquement dressés à leur propriétaire quand ils sont invoquée. !d Les Boss ne peuvent pas être emprisonnées dans les phylactère en mode survie/aventure. </desc>
+      <modifiedBy>DURATION</modifiedBy>
+    </component>
+    <component id="Blizzard">
+      <name>Blizzard</name>
+      <desc>Vous avez appris à invoquer un terrifiant blizzard, qui ralentit et fait des dégats toutes les entités dans son rayon.  Blizzard a une AoE intégrée.  Un blizzard ne peut être invoqué à moins de 5 blocs d'un blizzard existant.  Il fait initialement moins de dégats que d'autres attaques, mais est plus sensible aux modificateurs.  Il a également la capacité unique de faire des dégats plus souvent que les attaques normales. Bien que Blizzard blessera toutes les entités dans sa zone, il ne blessera jamais son incantateur.</desc>
+      <modifiedBy>RADIUS,DAMAGE,DURATION</modifiedBy>
+    </component>
+    <component id="Daylight">
+      <name>Aube</name>
+      <desc>Vous avez gagné la capacité de contrôler le temps.  Ce sort fait bouger le temps jusqu'à l'aube.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="FallingStar">
+      <name>Frappe Céleste</name>
+      <desc>Vous pouvez appeler une étoile des cieux and cause la faire frapper toutes les entités dans la zone de détonation.  Cela blessera les cibles alliées mais pas l'incantateur.  Il y a un court délai entre l'incantation et l'impact.  Ce sort ne marchera pas sous terre (l'étoile tombera sur la surface).</desc>
+      <modifiedBy>DAMAGE</modifiedBy>
+    </component>
+    <component id="FireRain">
+      <name>Tempète de Feu</name>
+      <desc>Vous avez appris à invoquer une terrible tempète de flammes, qui fera d'énormes dégats à toutes les entités dans sa zone.  Tempète de Feu a une AoE intégrée.  Une tempète de feu ne peut être invoquée à moins de 5 blocs d'une tempète de feu existante. Il fait initialement moins de dégats que d'autres attaques, mais est plus sensible aux modificateurs.  Il a également la capacité unique de faire des dégats plus souvent que les attaques normales. Bien que Tempète de Feu blessera toutes les entités dans sa zone, elle ne blessera jamais son incantateur.</desc>
+      <modifiedBy>RADIUS,DAMAGE,DURATION</modifiedBy>
+    </component>
+    <component id="ManaLink">
+      <name>Lien de Mana</name>
+      <desc>Vous avez découvert comment lier votre mana avec celui d'une autre entité.  Quand vous lancer ce sort, votre cible pourra utiliser votre mana comme si c'était le sien. !d La cible utilisera son propre mana en premier, puis commencera à utiliser le votre. !d La portée est limitée, mais vous pouvez avoir des modificateurs de portée si vous le désirez.  Si la cible quitte la portée, le lien n'est pas brisé, mais est plutôt temporairement désactivé.  Quand elle retourne dans la portée, le lien sera réactivé et fonctionnera à nouveau.  Pour briser le lien, relancer simplement le sort sur la même cible. !d Vous pouvez lier votre mana à plusieurs entités en même temps, et d'un autre coté, vous pouvez avoir plusieurs liens provenant de plusieurs sources.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="ManaShield">
+      <name>Bouvlier de Mana</name>
+      <desc>Votre cible devient protégée par leur mana disponible, ce qui cause la perte de 250 mana par demi-coeur de dégat absorbé, et empèche la perte de PV.</desc>
+      <modifiedBy>DURATION,BUFF_POWER</modifiedBy>
+    </component>
+    <component id="Moonrise">
+      <name>Crépuscule</name>
+      <desc>Vous avez acquis la capacité de contrôler le temps.  Ce sort fait bouger le temps jusqu'au crépuscule.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="Drought">
+      <name>Sécheresse</name>
+      <desc>Vous avez pris votre connaissance d'hydrogénèse et avez inversé le processus.  Ce sort retirera l'eau de tout ce qu'il touche, enlevant les blocs d'eau et transformant la terre en sable.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="Plant">
+      <name>Semaison</name>
+      <desc>Vous pouvez planter des graines de votre inventaire dans le sol, si les conditions sont réunies pour qu'elles poussent.  Il est recommandé de coupler cet effet avec AoE ou quelque chose de la sorte pour planter plus rapidement.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="Accelerate">
+      <name>Accélération</name>
+      <desc>Ce sort fait ticker plus vite les blocs qu'il touche.  Notez qu'il ne fait pas aller les tile entities plus vite.  Ce sort est meilleur sous forme de rayon, de mur, ou de zone, vu qu'il nécéssite d'être lancé plusieurs fois pour avoir un réel effet.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="Drown">
+      <name>Noyade</name>
+      <desc>Vous pouvez créer de l'eau directement dans les poumons de votre cible, ce qui leur inflige des dégats de noyade.</desc>
+      <modifiedBy>DAMAGE</modifiedBy>
+    </component>
+    <component id="WizardsAutumn">
+      <desc>Vous avez appris à concentrer votre magie de Creuse en une petite zone qui affecte directement les feuillages.  Ce composant a une AoE intégrée qui peut être modifiée avec les modificateurs.  Vous pouvez l'utiliser pour vous débarassez de ces satanées feuilles impossibles à atteindre.</desc>
+      <name>Automne du Sorcier</name>
+      <modifiedBy>RADIUS</modifiedBy>
+    </component>
+    <component id="Fury">
+      <name>Furie</name>
+      <desc>Vous pouvez vous mettre dans une rage indicible, faisant plus de dégats, bougeant extrèmement vite, se régénérant passivement, et creusant à des vitesses inhumaines.  Quand l'effet s'achève, vous êtes laissé à bout de souffle et devez vous reposer.</desc>
+      <modifiedBy>DURATION,BUFF_POWER</modifiedBy>
+    </component>
+    <component id="Appropriation">
+      <name>Appropriation</name>
+      <desc>Vous pouvez vous approprier un bloc ou une entité dans votre sort.  relancer le sort placera ce que vous avez absorbé sur la location ciblée.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="Silence">
+      <name>Silence</name>
+      <desc>Vous pouvez silencer une autre entité, ce qui l'empèche de lancer des sorts pour une courte durée.  Cette période ne peut être ralongée.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+    <component id="Shrink">
+      <name>Rapetissement</name>
+      <desc>Vous pouvez devenir minuscule!  Quand cet effet est actif, vous êtes physiquement plus petit, et pouvez donc passer à travers des trous de 1x1 bloc.  À cause de votre poids léger, vous tomber assez lentement pour que l'atterrissage ne fasse pas mal non plus.  Cependant, tous les dégats que vous infligez sont diminués de moitié.</desc>
+      <modifiedBy>DURATION,BUFF_POWER</modifiedBy>
+    </component>
+    <component id="PlaceBlock">
+      <name>Placement de Bloc</name>
+      <desc>Vous pouvez utiliser ce sort pour placer des blocs!  Peut être très utile quand combinée avec différentes combinaison de formes.  Pour placer un bloc, vous devez définir le sort pour le placer, et vous devez avoir au moins un de ces blocs dans votre inventaire.  Pas de création de bloc ex nihilo, désolé!  Pour définir le bloc à placer, lancez le sort sur un bloc  en sneakant.  Vous devez être en sneak quand le sort est appliqué, donc gardez ça à l'esprit en utilisant quelque chose comme un projectile.  Il est recommandé de ne pas utiliser d'AoE pour définir le bloc, car cela peut le définir comme quelque chose que vous n'attendiez pas (cela s'appliquera à tous les blocs d'une zone, redéfinissant le bloc encore et encore).  Pour voir quel bloc sera placé, placez votre souris au dessus du sort dans votre inventaire et appuyer sur SHIFT.</desc>
+      <modifiedBy></modifiedBy>
+    </component>
+  </components>
+  <modifiers zeroItemText="Vous ne connaissez aucun modificateur, et n'êtes pas prêt d'en apprendre un!">
+    <modifier id="Gravity">
+      <name>Gravité</name>
+      <desc>Amplifie la gravité de certaines formes de sorts.  Les zones et les projectiles seront affectés par gravité.  Les sorts AoE will chercheront plus profondément en s'appliquant sur du terrain à la recherche d'un lieu valide où s'appliquer (ceci est utile dans le sens où cela pousse les sorts à coller au terrain).</desc>
+      <modifies>GRAVITY</modifies>
+    </modifier>
+    <modifier id="Bounce">
+      <name>Rebondissement</name>
+      <desc>Fait rebondir la forme de sort sur les surfaces.</desc>
+      <modifies>BOUNCE</modifies>
+    </modifier>
+    <modifier id="Damage">
+      <name>Dégat</name>
+      <desc>Augmente les dégats faits par les sorts.</desc>
+      <modifies>DAMAGE</modifies>
+    </modifier>
+    <modifier id="Healing">
+      <name>Soin</name>
+      <desc>Augmente les soins faits par les sorts, ou les dégats faits par les sorts de soin aux morts vivants.</desc>
+      <modifies>HEALING</modifies>
+    </modifier>
+    <modifier id="Speed">
+      <name>Vitesse</name>
+      <desc>Améliore les effets de sorts qui modifient la vitesse, et la vitesse des projectiles.</desc>
+      <modifies>SPEED</modifies>
+    </modifier>
+    <modifier id="Duration">
+      <name>Durée</name>
+      <desc>Rallonge la durée de tous les buffs/debuffs, et augmente la durée des zones.</desc>
+      <modifies>DURATION</modifies>
+    </modifier>
+    <modifier id="Range">
+      <name>Portée</name>
+      <desc>Augmente la portée des projectiles et des rayons.</desc>
+      <modifies>RANGE</modifies>
+    </modifier>
+    <modifier id="Radius">
+      <name>Rayon</name>
+      <desc>Augmente le rayon des sorts de zones et d'AoE.</desc>
+      <modifies>RADIUS</modifies>
+    </modifier>
+    <modifier id="RuneProcs">
+      <name>Procs Runiques</name>
+      <desc>Augmente le nombre de fois qu'une rune peut appliquer ses effets avant d'être détruite.</desc>
+      <modifies>PROCS</modifies>
+    </modifier>
+    <modifier id="VelocityAdded">
+      <name>Velocité Ajoutée</name>
+      <desc>Augmente la vélocité ajoutée par les formes de sorts comme #5Ouragan#0.</desc>
+      <modifies>VELOCITY_ADDED</modifies>
+    </modifier>
+    <modifier id="TargetNonSolid">
+      <name>Cibler les blocs non-solides</name>
+      <desc>Permet au sort de toucher les blocs non-solides (l'herbe, la canne à sucre, l'eau, la lave) au lieu de passer à travers.</desc>
+      <modifies>TARGET_NONSOLID_BLOCKS</modifies>
+    </modifier>
+    <modifier id="Lunar">
+      <name>Lunaire</name>
+      <desc>Augmente la puissance de votre sort pendant la nuit.  Plus l'heure en jeu est proche de minuit (à partir du crépuscule), plus le sort fera de dégats et de soin.  Après minuit, alors que l'aube approche, le sort devient plus faible.  La portée, la durée, et le rayon sont tous augmentés si c'est possible sur base de la phase de la lune (plus de puissance en s'approchant de la nouvelle lune).  Plus que Solaire parce que les nuits durent moins longtemps que les jours.</desc>
+      <modifies>DAMAGE,HEALING,RANGE,RADIUS,DURATION</modifies>
+    </modifier>
+    <modifier id="Solar">
+      <name>Solaire</name>
+      <desc>Augmente la puissance de votre sort pendant la nuit.  Plus l'heure en jeu est proche de midi (à partir de l'aube), plus le sort fera de dégats et de soin.  Après midi, alors que le crépuscule approche, le sort devient plus faible.  La portée, la durée, et le rayon sont tous augmentés si c'est possible sur base de la phase de la lune (plus de puissance en s'approchant de la nouvelle lune).</desc>
+      <modifies>DAMAGE,HEALING,RANGE,RADIUS,DURATION</modifies>
+    </modifier>
+    <modifier id="Piercing">
+      <name>Percée</name>
+      <desc>Permet au sort de percer à travers les entités et les blocks.  2 percées sont ajoutées par modificateur, avec un maximum de 6.</desc>
+      <modifies>PIERCING</modifies>
+    </modifier>
+    <modifier id="MiningPower">
+      <name>Puissance de Minage</name>
+      <desc>Vous avez appris à infuser plus de puissance dans vos sorts de minage.  Ceci vous permet de miner des blocs plus dense qui requièreraient normalement une meilleur pioche.  Chaque modificateur ajouté incrémente le sort d'un niveau d'outil.  Le sort de minage de base est au niveau d'une pioche de pierre.</desc>
+      <modifies>MINING_POWER</modifies>
+    </modifier>
+    <modifier id="Prosperity">
+      <name>Prospérité</name>
+      <desc>La fortune vous sourit!  Vos sorts de minage dropperont des minerais supplémentaires, et vos sorts de dégats dropperont du meilleur butin.  Chaque modificateur ajouté est équivalent à un niveau de Fortune/Looting sur le sort.</desc>
+      <modifies>FORTUNE_LEVEL</modifies>
+    </modifier>
+    <modifier id="BuffPower">
+      <name>Puissance de Buff</name>
+      <desc>Vous pouvez mettre plus de puissance dans vos buffs.  Chaque modificateur ajouté augmente le niveau du buff appliqué.  Ceci n'affecte pas la durée.</desc>
+      <modifies>BUFF_POWER</modifies>
+    </modifier>
+    <modifier id="Dismembering">
+      <name>Démembrement</name>
+      <desc>Vous avez décidé que vous aimiez les souvenirs.  À tel point que vous avez découvert comment faire en sorte que vos sorts de dégats laissent certaines parties intactes.  Chaque modificateur ajouté augmente de 5% la chance de dropper un crane en tuant un ennemi.</desc>
+      <modifies>DISMEMBERING_LEVEL</modifies>
+    </modifier>
+    <modifier id="FeatherTouch">
+      <name>Délicatesse</name>
+      <desc>Avec de grands pouvoirs, viennent des biens endommagés.  Vous avec appris à prendre plus de précautions en lancant vos sorts de minage et cassez moins souvent les choses.  Chaque modificateur ajouté est équivalent à un niveau de Silk Touch sur le sort.</desc>
+      <modifies>SILKTOUCH_LEVEL</modifies>
+    </modifier>
+  </modifiers>
+  <talents zeroItemText="Vous ne connaissez aucun talent, et n'êtes pas prêt d'en apprendre un!">
+    <talent id="AffinityGains">
+      <name>Affinité Augmentée</name>
+      <desc>Vous avez décidé que l'alignement élémental est plus important que la connaissance arcanique.  Vous pouvez recevoir un boost dans vos gains d'affinité en échange de moins de gains d'XP magique.  Cet effet est permanent.</desc>
+    </talent>
+    <talent id="AugmentedCasting">
+      <name>Incantation Supérieure</name>
+      <desc>Vous avez découvert comment mettre tout ce que vous avez dans une incantation de sort.  Tous vos sorts sont plus puissants.  Les durées sont plus longues, les rayons plus grands et les dégats sont augmentés.</desc>
+    </talent>
+    <talent id="ExtraSummon">
+      <name>Invovation Supplémentaire</name>
+      <desc>Pourquoi faire les choses vous-même alors que d'autres peuvent les faires à votre place?  Vous pouvez avoir une créature invoquée/charmée ou mage recruté (si vous avez le talent #5Posse du Mage#0) supplémentaire</desc>
+    </talent>
+    <talent id="MageBandI">
+      <name>Posse du Mage I</name>
+      <desc>Vos talents de mage en ont impressioné d'autres et votre réputation vous précède.  Vous pouvez demander d'un Mage de Lumière qu'il vous suive et vous protège.  Ceci compte dans votre total d'invocations.</desc>
+    </talent>
+    <talent id="MageBandII">
+      <name>Posse du Mage II</name>
+      <desc>Vous avez gagné la confiance des mages au point qu'ils acceptent de lier leur mana au votre.  Quand vous vous liez avec un Mage de Lumière, il liera son mana au votre.</desc>
+    </talent>
+    <talent id="ManaRegenI">
+      <name>Boost de Régénération de Mana I</name>
+      <desc>Vous êtes plus en phase avec l'énergie affluant à travers vous.  Votre mana se régénère légèrement plus vite que la normale.</desc>
+    </talent>
+    <talent id="ManaRegenII">
+      <name>Boost de Régénération de Mana II</name>
+      <desc>Vous êtes plus en phase avec l'énergie affluant à travers vous.  Votre mana se régénère plus vite que la normale.  Ceci remplace le bonus donné par Boost de Régénération de Mana I.</desc>
+    </talent>
+    <talent id="ManaRegenIII">
+      <name>Mana Regen Boost III</name>
+      <desc>Vous êtes plus en phase avec l'énergie affluant à travers vous.  Votre mana se régénère beaucoup plus vite que la normale.  Ceci remplace le bonus donné par Boost de Régénération de Mana II.</desc>
+    </talent>
+    <talent id="SpellMotion">
+      <name>Sorts Kynétiques</name>
+      <desc>Vous avez réalisé que l'agilité est la clé.  Dans ce but, vous vous êtes entrainé à vous déplacer à vitesse normale en lancant un sort.</desc>
+    </talent>
+    <talent id="Colour">
+      <name>Couleur</name>
+      <desc>Ce modificateur vous permet de changer la couleur des particules de votre sort.  Vous voulez des boules de feu vertes?  Aucun problème!  La couleur est déterminée par la teinture que vous lancez pendant la fabrication du sort.  N'importe quelle couleur sera acceptée, indépendament de ce que le lettrin demande.</desc>
+    </talent>
+  </talents>
+  <items>
+    <item id="ores">
+      <name>Les minerais d'Ars Magica</name>
+      <desc>Ars Magica ajoute quelques nouveaux minerais dans le jeu, que vous devez récolter et raffiner.</desc>
+      <subitem id="itemOre@0">
+        <name>Poudre de Vinteum</name>
+        <desc>Découvert dans un petit village où un creeper avait explosé un puit vide, le minerai de Vinteum fut rapidement identifié comme une précieuse poudre magique une fois cuit dans un four.</desc>
+        <relatedEntries>ores@0,calefactor,vinteumTorch</relatedEntries>
+      </subitem>
+      <subitem id="itemOre@1">
+        <name>Matière Arcanique</name>
+        <desc>Combinaison de matériaux de différents mondes, la matière arcanique est la ressource de base pour obtenir de la Poussière Arcanique.</desc>
+        <relatedEntries>itemOre@2,calefactor</relatedEntries>
+      </subitem>
+      <subitem id="itemOre@2">
+        <name>Poussière Arcanique</name>
+        <desc>Crée en brulant de la #5Matière Arcanique#0 dans un four, les capacités de stockage d'Etherium de la poussière arcanique en ont fait une pierre angulaire de la machinerie arcanique avancée.</desc>
+        <relatedEntries>itemOre@1,calefactor</relatedEntries>
+      </subitem>
+      <subitem id="itemOre@3">
+        <name>Poudre de Vinteum Purifiée</name>
+        <desc>En y ajoutant de la #5Poussière Arcanique#0 pour renforcer ses propriétés magiques, et en y ajoutant une #5Orchidée Bleue#0 comme catalyste et une #5Nova du désert#0 pour libérer l'instabilité, la poudre de Vinteum peut être mise dans état purifié avec une bien plus grande capacité d'Etherium.</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="itemOre@4">
+        <name>Chimérite</name>
+        <desc>Capable de passer à n'importe quelle couleur et dans un état de changement constant, la Chimérite est utilisée dans les sorts d'altération et d'illusion.</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="itemOre@5">
+        <name>Topaze Bleue</name>
+        <desc>Gemme relativement courante, la topaze bleue est souvent utilisée par les mages comme crystal d'entrée de gamme pour concentrer l'Etherium.</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="itemOre@6">
+        <name>Pierre Solaire</name>
+        <desc>La pierre solaire n'est trouvée que dans les endroits les plus chauds de tout Minecraft et les mondes au-delà.  Nécéssitant une intense chaleur pour se former, mais très peu de pression, on la trouve communément dans les lacs de lave des Tréfonds, mais peut exister dans les lacs de lave de l'overworld également, si vous avez de la chance.</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="itemOre@7">
+        <name>Pierre Lunaire</name>
+        <desc>Si quelqu'un regardait vers le ciel au bon moment de la nuit, il verrait peut être une météorite tomber du ciel.  Ces météorites contiennent le rare minerai de pierre lunaire.  Personne ne sait exactement d'où viennent ces météorites, mais les propriétés magiques de la pierre lunaire surpassent de loin tout ce qu'on peut trouver ailleurs.  Des études ont montré que les météorites tombent de plus en plus souvent à l'approche de la pleine lune, puis diminuent à nouveau quand la pleine lune est passée.</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <relatedEntries>calefactor</relatedEntries>
+    </item>
+    <item id="essence">
+      <name> Les Essences / Le Sac à Essences</name>
+      <desc> Les Essences sont utilisées à la fois comme composant de fabrication et comme réagent pour les sorts.  Les essences élémentales sont droppées par leurs gardiens respectifs, et toutes les essences peuvent être fabriquées avec un #5Raffineur d'Essence#0.</desc>
+      <subitem id="essence@0">
+        <name>Essence Arcanique</name>
+        <desc></desc>
+        <relatedEntries>essence_bag,essence_refiner</relatedEntries>
+      </subitem>
+      <subitem id="essence@1">
+        <name>Essence Tellurique</name>
+        <desc></desc>
+        <relatedEntries>essence_bag,essence_refiner</relatedEntries>
+      </subitem>
+      <subitem id="essence@2">
+        <name>Essence Aérienne</name>
+        <desc></desc>
+        <relatedEntries>essence_bag,essence_refiner</relatedEntries>
+      </subitem>
+      <subitem id="essence@3">
+        <name>Essence Ignique</name>
+        <desc></desc>
+        <relatedEntries>essence_bag,essence_refiner</relatedEntries>
+      </subitem>
+      <subitem id="essence@4">
+        <name>Essence Aquatique</name>
+        <desc></desc>
+        <relatedEntries>essence_bag,essence_refiner</relatedEntries>
+      </subitem>
+      <subitem id="essence@5">
+        <name>Essence Naturelle</name>
+        <desc></desc>
+        <relatedEntries>essence_bag,essence_refiner</relatedEntries>
+      </subitem>
+      <subitem id="essence@6">
+        <name>Essence Glaciale</name>
+        <desc></desc>
+        <relatedEntries>essence_bag,essence_refiner</relatedEntries>
+      </subitem>
+      <subitem id="essence@7">
+        <name>Essence Électrique</name>
+        <desc></desc>
+        <relatedEntries>essence_bag,essence_refiner</relatedEntries>
+      </subitem>
+      <subitem id="essence@8">
+        <name>Essence Vitale</name>
+        <desc></desc>
+        <relatedEntries>essence_bag,essence_refiner</relatedEntries>
+      </subitem>
+      <subitem id="essence@9">
+        <name>Essence Nihilique</name>
+        <desc></desc>
+        <relatedEntries>essence_bag,essence_refiner</relatedEntries>
+      </subitem>
+      <subitem id="essence@10">
+        <name>Essence Pure</name>
+        <desc></desc>
+        <relatedEntries>essence_bag,essence_refiner</relatedEntries>
+      </subitem>
+      <subitem id="essence@11">
+        <name>Coeur d'Essence amélioré</name>
+        <desc></desc>
+        <relatedEntries>essence_bag,essence_refiner</relatedEntries>
+      </subitem>
+      <subitem id="essence@12">
+        <name>Coeur d'Essence Basique</name>
+        <desc></desc>
+        <relatedEntries>essence_bag,essence_refiner</relatedEntries>
+      </subitem>
+      <subitem id="essence@13">
+        <name>Etherium</name>
+        <desc>Ceci représente l'Etherium, l'énergie d'AM2, et sera montré comme part de certaines recettes de sorts.  Quand ceci apparait, assurez vous que votre Autel de Création est relié au bon type d'Etherium (Vérifiez le livre dans le lettrin, et par couleur), et activez le levier sur l'autel.</desc>
+        <relatedEntries>altarOfCreation</relatedEntries>
+      </subitem>
+      <subitem id="essence_bag">
+        <name>Sac à Essences</name>
+        <desc>Le Sac à Essences peut être fabriqué pour avoir plus de place dans l'inventaire pour l'exploration.</desc>
+        <relatedEntries>essence_refiner</relatedEntries>
+      </subitem>
+      <relatedEntries></relatedEntries>
+    </item>
+    <item id="runes">
+      <name>Runes</name>
+      <desc>Les Runes sont les blocs de base des sorts.  Combinées avec plusieurs autres objets dans la bonne combinaison, un parchemin de sort magique peut être crée.</desc>
+      <subitem id="runes@0" unlocked="true">
+        <name>Rune Noire</name>
+        <desc></desc>
+        <relatedEntries>runebag,keystone</relatedEntries>
+      </subitem>
+      <subitem id="runes@1" unlocked="true">
+        <name>Rune Vide</name>
+        <desc></desc>
+        <relatedEntries>runebag,keystone</relatedEntries>
+      </subitem>
+      <subitem id="runes@2" unlocked="true">
+        <name>Rune Bleue</name>
+        <desc></desc>
+        <relatedEntries>runebag,keystone</relatedEntries>
+      </subitem>
+      <subitem id="runes@3" unlocked="true">
+        <name>Rune Brune</name>
+        <desc></desc>
+        <relatedEntries>runebag,keystone</relatedEntries>
+      </subitem>
+      <subitem id="runes@4" unlocked="true">
+        <name>Rune Cyan</name>
+        <desc></desc>
+        <relatedEntries>runebag,keystone</relatedEntries>
+      </subitem>
+      <subitem id="runes@5" unlocked="true">
+        <name>Rune Grise</name>
+        <desc></desc>
+        <relatedEntries>runebag,keystone</relatedEntries>
+      </subitem>
+      <subitem id="runes@6" unlocked="true">
+        <name>Rune Verte</name>
+        <desc></desc>
+        <relatedEntries>runebag,keystone</relatedEntries>
+      </subitem>
+      <subitem id="runes@7" unlocked="true">
+        <name>Rune Bleu Clair</name>
+        <desc></desc>
+        <relatedEntries>runebag,keystone</relatedEntries>
+      </subitem>
+      <subitem id="runes@8" unlocked="true">
+        <name>Rune Gris Clair</name>
+        <desc></desc>
+        <relatedEntries>runebag,keystone</relatedEntries>
+      </subitem>
+      <subitem id="runes@9" unlocked="true">
+        <name>Rune Vert Clair</name>
+        <desc></desc>
+        <relatedEntries>runebag,keystone</relatedEntries>
+      </subitem>
+      <subitem id="runes@10" unlocked="true">
+        <name>Rune Magenta</name>
+        <desc></desc>
+        <relatedEntries>runebag,keystone</relatedEntries>
+      </subitem>
+      <subitem id="runes@11" unlocked="true">
+        <name>Rune Orange</name>
+        <desc></desc>
+        <relatedEntries>runebag,keystone</relatedEntries>
+      </subitem>
+      <subitem id="runes@12" unlocked="true">
+        <name>Rune Rose</name>
+        <desc></desc>
+        <relatedEntries>runebag,keystone</relatedEntries>
+      </subitem>
+      <subitem id="runes@13" unlocked="true">
+        <name>Rune Violette</name>
+        <desc></desc>
+        <relatedEntries>runebag,keystone</relatedEntries>
+      </subitem>
+      <subitem id="runes@14" unlocked="true">
+        <name>Rune Rouge</name>
+        <desc></desc>
+        <relatedEntries>runebag,keystone</relatedEntries>
+      </subitem>
+      <subitem id="runes@15" unlocked="true">
+        <name>Rune Blanche</name>
+        <desc></desc>
+        <relatedEntries>runebag,keystone</relatedEntries>
+      </subitem>
+      <subitem id="runes@16" unlocked="true">
+        <name>Rune Jaune</name>
+        <desc></desc>
+        <relatedEntries>runebag,keystone</relatedEntries>
+      </subitem>
+      <subitem id="runebag" unlocked="true">
+        <name>Sac à Rune</name>
+        <desc>Le Sac à Runes peut contenir quelques runes, ce qui aide à conserver de l'inventaire.  Si vous avec des runes dans un sac, les Cryptolithes pourront interagir avec les runes dans le sac pour modifier leur combinaison.</desc>
+        <relatedEntries>keystone</relatedEntries>
+      </subitem>
+      <relatedEntries>keystone</relatedEntries>
+    </item>
+    <item id="armorMage">
+      <name>Armure de Mage</name>
+      <desc>Version plus avancée des robes simples, l'armure de mage offre plus de durabilité, de recharge et de protection.  L'armure de Mage, à cause des runes incrustées dedans, a une très haute capacité d'enchantement.  Elle peut aussi se réparer toute seule en utilisant le mana de son porteur.  Revêtu d'une armure de mage complète, votre régénération de mana est augmentée et tous vos sorts sont légèrement plus efficaces.</desc>
+      <subitem id="helmet_mage">
+        <name>Chapeau de Mage</name>
+        <desc></desc>
+        <relatedEntries>infusion,armor_xp_infusion</relatedEntries>
+      </subitem>
+      <subitem id="chest_mage">
+        <name>Robes de Mage</name>
+        <desc></desc>
+        <relatedEntries>infusion,armor_xp_infusion</relatedEntries>
+      </subitem>
+      <subitem id="legs_mage">
+        <name>Pantalon de Mage</name>
+        <desc></desc>
+        <relatedEntries>infusion,armor_xp_infusion</relatedEntries>
+      </subitem>
+      <subitem id="boots_mage">
+        <name>Bottes de Mage</name>
+        <desc></desc>
+        <relatedEntries>infusion,armor_xp_infusion</relatedEntries>
+      </subitem>
+      <relatedEntries>infusion,armor_xp_infusion</relatedEntries>
+    </item>
+    <item id="armorBattlemage">
+      <name>Armure de Mage de Combat</name>
+      <desc>Réservées seulement aux mages qui ont démontré leur maîtrise, l'armure de mage de combat offre une bonne quantité de protection.  Elle a une meilleure durabilité que l'armure de mage, mais un moindre taux de réparation et moins d'enchantabilité, de même qu'elle donne des versions inférieures des bonus magiques de l'armure de mage.  L'armure de mage de combat peut aussi absorber de l'XP qui débloquera des sorts protectifs qui viendront en aide à son porteur, drainant de la magie dans l'armure.  La magie s'infusera de retour dans l'armure à partir du mana du porteur.</desc>
+      <subitem id="helmet_battlemage">
+        <name>Casque de Mage de Combat</name>
+        <desc></desc>
+        <relatedEntries>infusion,armor_xp_infusion</relatedEntries>
+      </subitem>
+      <subitem id="chest_battlemage">
+        <name>Plastron de Mage de Combat</name>
+        <desc></desc>
+        <relatedEntries>infusion,armor_xp_infusion</relatedEntries>
+      </subitem>
+      <subitem id="legs_battlemage">
+        <name>Jambières de Mage de Combat</name>
+        <desc></desc>
+        <relatedEntries>infusion,armor_xp_infusion</relatedEntries>
+      </subitem>
+      <subitem id="boots_battlemage">
+        <name>Bottes de Mage de Combat</name>
+        <desc></desc>
+        <relatedEntries>infusion,armor_xp_infusion</relatedEntries>
+      </subitem>
+      <relatedEntries>infusion</relatedEntries>
+    </item>
+    <item id="affinityTomes">
+      <name>Tomes d'Affinité</name>
+      <desc>Les Tomes d'Affinité contiennent des rapports détaillés et des informations amassées par les mages au cours des années d'utilisation d'une affinité.  À l'exception du Tome d'Affinité Générale, ils vous donneront, après lecture, un boost de 10% dans cette affinité spécifique, tout en réduisant votre progression dans les autres affinités de 10%.</desc>
+      <subitem id="affinity_tome@0">
+        <name>Tome d'Affinité: Général</name>
+        <desc>Le tome d'affinité général est spécial dans le fait qu'il peut débloquer un état d'affinité verrouillé.  Il réduira tous les gains d'affinité de 10% sans en booster aucune.</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="affinity_tome@1">
+        <name>Tome d'Affinité: Arcane</name>
+        <desc></desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="affinity_tome@2">
+        <name>Tome d'Affinité: Eau</name>
+        <desc></desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="affinity_tome@3">
+        <name>Tome d'Affinité: Feu</name>
+        <desc></desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="affinity_tome@4">
+        <name>Tome d'Affinité: Terre</name>
+        <desc></desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="affinity_tome@5">
+        <name>Tome d'Affinité: Air</name>
+        <desc></desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="affinity_tome@6">
+        <name>Tome d'Affinité: Foudre</name>
+        <desc></desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="affinity_tome@7">
+        <name>Tome d'Affinité: Glace</name>
+        <desc></desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="affinity_tome@8">
+        <name>Tome d'Affinité: Nature</name>
+        <desc></desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="affinity_tome@9">
+        <name>Tome d'Affinité: Vie</name>
+        <desc></desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="affinity_tome@10">
+        <name>Tome d'Affinité: Néant</name>
+        <desc></desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <relatedEntries></relatedEntries>
+    </item>
+    <item id="foci">
+      <name>Lentilles</name>
+      <desc>Les lentilles sont placées dans des machines spécifiques d'Ars Magica pour modifier leur fonctionnement.</desc>
+      <subitem id="chargefocus">
+        <name>Lentille Charge</name>
+        <desc>
+					Les lentilles de charge sont utilisées pour augmenter le taux auquel les machines d'Ars Magica se chargent.  Dans le #9Caléfacteur#0 et le #9Reconstructeur Arcanique#0, elles augmentent aussi la vitesse d'opération de la machine.
+				</desc>
+        <relatedEntries>summoner,arcanereconstructor,arcane_deconstructor</relatedEntries>
+      </subitem>
+      <subitem id="manafocus">
+        <name>Lentille de Mana</name>
+        <desc>
+					Les lentilles de mana sont utilisées pour diminuer le coût des opérations dans les machines d'AM2.
+				</desc>
+        <relatedEntries>summoner,calefactor</relatedEntries>
+      </subitem>
+      <subitem id="lesserfocus">
+        <name>Lentille Inférieure</name>
+        <desc>
+					Les lentilles inférieures sont utilisées dans diverses machines d'AM2, et les font opérer de manière différente.
+				</desc>
+        <relatedEntries>blockseerstone</relatedEntries>
+      </subitem>
+      <subitem id="standardfocus">
+        <name>Lentille Standard</name>
+        <desc>
+					Les lentilles standard sont utilisées dans diverses machines d'AM2, et les font opérer de manière différente.
+				</desc>
+        <relatedEntries>blockseerstone</relatedEntries>
+      </subitem>
+      <subitem id="greaterfocus">
+        <name>Lentilles Supérieures</name>
+        <desc>
+					Les lentilles supérieures sont utilisées dans diverses machines d'AM2, et les font opérer de manière différente.
+				</desc>
+        <relatedEntries>blockseerstone</relatedEntries>
+      </subitem>
+      <subitem id="item_focus">
+        <name>Lentilles à Objets</name>
+        <desc>
+					Les lentilles à objets sont utilisées dans la #9Pierre Voyante#0, et la font chercher après des objets proches au sol.
+				</desc>
+        <relatedEntries>blockseerstone</relatedEntries>
+      </subitem>
+      <subitem id="player_focus">
+        <name>Lentille de Joueur</name>
+        <desc>
+					Les lentilles de joueur sont utilisées dans la #9Pierre Voyante#0, et la font chercher après des joueurs proches.
+				</desc>
+        <relatedEntries>blockseerstone</relatedEntries>
+      </subitem>
+      <subitem id="monster_focus">
+        <name>Lentille à Monstres</name>
+        <desc>
+					Les lentilles à monstres sont utilisées dans la #9Pierre Voyante#0, et la font chercher après des monstres proches (Zombies, Squelettes, etc).
+				</desc>
+        <relatedEntries>blockseerstone</relatedEntries>
+      </subitem>
+      <subitem id="creature_focus">
+        <name>Lentille à Créatures</name>
+        <desc>
+					Les lentilles à créatures sont utilisées dans la #9Pierre Voyante#0, et la font chercher après des animaux proches (Moutons, Vaches, etc).
+				</desc>
+        <relatedEntries>blockseerstone</relatedEntries>
+      </subitem>
+      <relatedEntries>flicker_lure</relatedEntries>
+    </item>
+    <item id="keystone">
+      <name>Cryptolithe</name>
+      <desc>Les cryptolithes (de "crypto", clé et "lithos", pierre) sont utilisées pour relier les Portails entre eux, en même temps que pour restreindre l'accès aux machines AM2.  L'interface pour ces blocs ne s'ouvrira pas si vous ne tenez pas en main un cryptolithe avec la même combinaison de runes.</desc>
+      <relatedEntries>keystonechest,blockkeystonerecepticle,blockastralbarrier,blockseerstone,keystoneDoors,gateways</relatedEntries>
+    </item>
+    <item id="mana_cake">
+      <name>Cake au Mana</name>
+      <desc>Les Cakes au Mana restaurent à la fois la faim et donnent un boost de régénération de mana.  Et en plus, c'est du cake!</desc>
+      <relatedEntries>mana_potion</relatedEntries>
+    </item>
+    <item id="mana_potion">
+      <name>Potions de Mana</name>
+      <desc>Les potions de mana restaurent du mana instantanément lorsque consommées.  Vous recevez une bouteille vide après en avoir bu une.  Les potions de mana peuvent être groupées en paquet en combinant 3 potions de même type avec de la ficelle.  Le paquet peut être utilisé 3 fois et rendra aussi les bouteilles vides.  La dernière potion bue rendra aussi la ficelle.</desc>
+      <subitem id="mana_potion_lesser">
+        <name>Potion de Mana Inférieure</name>
+        <desc>La potion de mana inférieure est l'équivalent magique d'une tasse de café:  un court boost, mais avec lequel vous ne tiendrez pas toute la journée.  Un usage restaurera 100 mana.</desc>
+        <relatedEntries>mana_cake</relatedEntries>
+      </subitem>
+      <subitem id="mana_potion_standard">
+        <name>Potion de Mana Standard</name>
+        <desc>La potion de mana standard donne une quantité décente de mana par rapport la potion inférieure pour pas trop de coùt matériel.  Un usage restaurera 250 mana.</desc>
+        <relatedEntries>mana_cake</relatedEntries>
+      </subitem>
+      <subitem id="mana_potion_greater">
+        <name>Potion de Mana Supérieure</name>
+        <desc>La potion de mana supérieure se sert de la puissance du #5vinteum#0 combinée avec une #9Awkward Potion#0 dans un alembic pour restaurer une bonne quantité de mana.  Un usage restaurera 2000 mana.  La recette de craft dans l'établi est temporaire jusqu'à ce je comprenne cet alembic buggé.</desc>
+        <relatedEntries>mana_cake</relatedEntries>
+      </subitem>
+      <subitem id="mana_potion_epic">
+        <name>Potion de Mana Épique</name>
+        <desc>La potion de mana épique est créée en combinant de la #5poussière arcanique#0 avec une #9Awkward Potion#0 dans un alembic et restaure 5000 mana par potion. La recette de craft dans l'établi est temporaire jusqu'à ce je comprenne cet alembic buggé .</desc>
+        <relatedEntries>mana_cake</relatedEntries>
+      </subitem>
+      <subitem id="mana_potion_legendary">
+        <name>Potion de Mana Légendaire</name>
+        <desc>La potion de mana légendaire est créée en combinant de la #5poudre de vinteum purifiée#0 avec une #9Awkward Potion#0 dans un alembic.  Une potion restaurera la modeste quantité de 10000 mana!  La recette de craft dans l'établi est temporaire jusqu'à ce je comprenne cet alembic buggé.</desc>
+        <relatedEntries>mana_cake</relatedEntries>
+      </subitem>
+      <subitem id="mana_boost_potion">
+        <name>Potion d'Etherium</name>
+        <desc>En prenant un #5seau d'Etherium liquide#0, un mage peut le combiner avec de la #5chimérite#0 et une #5racine de tarma#0 pour créer une potion qui donne un boost temporaire au mana maximum.  Malheureusement, ce processus est très peu efficace et beaucoup d'Etherium liquide est perdu en chemin.</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <relatedEntries></relatedEntries>
+    </item>
+    <item id="crystal_wrench">
+      <name>Clé de Crystal</name>
+      <desc>La clé de crystal a bien des usages.  Elle peut être utilisée pour rediriger l'Etherium à travers votre réseau énergétique.  Pour cela, #9commencez par clic-droit sur la source d'Etherium que vous voulez utiliser#0.  Ceci marque le bloc source. Puis, #9clic-droit sur la destination tout en maintenant la clé#0.  #5Notez qu'il n'y a pas besoin de cliquer sur les Conduits à Etherium sur le chemin- cliquez simplement sur le bloc final.  Le système cherchera par lui même un chemin à travers les Conduits à Etherium#0.  Si cela échoue pour quelque raison, vous en serez avertis.  Ce processus force une liaison, et assure que l'Etherium va où vous voulez qu'il aille.  Si vous #9sneaker tout en faisant clic-droit sur la source#0, le crystal de la clé deviendra vert.  Cela veut dire que la clé de crystal se souvient de la location de la source, et vous pouvez assigner plusieurs destinations d'affilée sans devoir retourner à la source.  Chaque destination assignée dans ce mode sera liée (si possible) à la source mémorisée.  !p La clé de crystal peut aussi être utilisée pour montrer les émetteurs de particules, et peut enregistrer leurs paramètres en faisant clic-droit.  Les paramètres peuvent ensuite être copiés sur un autre émetteur en faisant clic droit.  chaque fois que vous copier les paramètres, vous devrez les enregistrer à nouveau si vous désirez les copiez sur d'autres émetteurs.</desc>
+      <relatedEntries></relatedEntries>
+    </item>
+    <item id="spell_parchment">
+      <name>Parchemin de Sort</name>
+      <desc>Tout mage qui veut lancer des sorts sans avoir recours à une forme de bâton ou baguette a besoin d'écrire le sort sur quelque chose.  Ceci a fonctionné pendant des milliers d'années, et curieusement, rien de mieux n'as encore été inventé.</desc>
+      <relatedEntries>altarOfCreation,inscriptionTable</relatedEntries>
+    </item>
+    <item id="crystal_phylactery">
+      <name>Phylactère de Crystal</name>
+      <desc>Le Phylactère de Crystal est un ustensile de capture de force vitale.  Un utilisateur magique qui en a un dans son inventaire peut piéger d'infimes fragments des âmes de ses adversaires vaincus.  Une fois le phylactère rempli, il peut l'utiliser comme ingrédient pour un sort d'invocation de cette même créature pour obéir à ses ordres.</desc>
+      <relatedEntries>Summon</relatedEntries>
+    </item>
+    <item id="spell_staff_magitech">
+      <name>Bâton Magitech</name>
+      <desc>Le bâton magitech est une version modifiée d'un bâton de sort qui est en phase avec le mana ambient.  Il peut servir à mesurer les niveaux Etherium dans les blocs qui peuvent en contenir en faisant clic-droit dessus avec le bâton en main.  Il gagne des fonctionnalités supplémentaires si vous avez des #9Lunettes Magitech#0 équipées.  
+			!d
+			Le Bâton Magitech peut aussi servir à récupérer un #9Balai Magique#0.  Faites Simplement cilc-droit sur le balai avec le bâton en main pour le récupérer.</desc>
+      <relatedEntries>magitechGoggles,magic_broom</relatedEntries>
+    </item>
+    <item id="spell_book">
+      <name>Livre de Sorts</name>
+      <desc>Le livre des sorts est un objet utile à avoir, permettant aux mages d'organiser leurs sorts et sauver de la place en même temps.  Le livre de sorts, lorsque équipé, peut être feuilleté avec x/z (touches par défaut), ou en sneakant et en roulant la molette de la souris.  Les livres de sorts peuvent être teints dans une variété de couleurs.  Ils peuvent également être #5enchantés#0 avec d'utiles pouvoirs.</desc>
+      <relatedEntries></relatedEntries>
+    </item>
+    <item id="magic_broom">
+      <name>Balai Magique</name>
+      <desc>Vous avez pris les propriétés magiques de la Poussière Arcanique et les avez combinées avec un balai.  Pourquoi?  Vous n'êtes pas tout à fait sur.  Tout ce que vous savez, c'est que ce balai adore maintenir les sols propres, ramassant tout objet trainant là et les mettant dans son coffre assigné.  Pour placer le balai après l'avoir fabriqué, faites clic-droit sur #5n'importe quel bloc avec un inventaire#0 en ayant le balai équipé.  Il ne fonctionnera pas autrement. Actuellement, le balai ramssera tous ce qu'il trouvera, bien que ce sera configurable dans le futur.
+			!d
+			Le Balai peut être récupéré en faisant clic-droit dessus avec un #9Bâton Magitech#0 dans votre main.</desc>
+      <relatedEntries>spell_staff_magitech</relatedEntries>
+    </item>
+    <item id="nature_scythe">
+      <name>Faux de la Nature</name>
+      <desc>Prise au Gardien de la Nature lui même, cette faux manie un immense pouvoir.  Elle peut enlever les feuillages et les plantes avec une efficacité déconcertante.  Elle peut être lancée comme un boomerang en faisant clic-droit, bien que cela coûte 250 mana de le faire.  Tous les effets sur les plantes s'appliquent au lancer, et les dégats sont augmentés.</desc>
+      <relatedEntries></relatedEntries>
+    </item>
+    <item id="arcane_spellbook">
+      <name>Livre de Sorts Arcanique</name>
+      <desc>Imbué avec les enchantements perdus des anciens mages, le livre de sorts arcanique #9augmente l'efficacité de tous les sorts lancés avec#0.  Les dégats sont augmentés, et les coûts en mana sont diminués.  Les aspects comme la durée et le rayon ne sont pas modifiés.</desc>
+      <relatedEntries></relatedEntries>
+    </item>
+    <item id="winter_arm">
+      <name>Poigne d'Hiver</name>
+      <desc>Pris sur le Gardien Hivernal, ce bras peut servir d'arme contondante.  Il conserve sa fraicheur innaturelle, et ralentit drastiquement et affaiblit tout ce qu'il touche.  Pour 250 mana, il peut être lancé, et rabattra vers vous toute entité qu'elle touche, ce qui applique un ralentissement et un affaiblissement plus puissants.</desc>
+      <relatedEntries></relatedEntries>
+    </item>
+    <item id="air_sled">
+      <name>Luge Aérienne</name>
+      <desc>La luge aérienne vous autorise à prendre les airs avec aise.  Il est légèrement plus rapide que le vol en créatif, mais n'offre pas le même niveau de contrôle.</desc>
+      <relatedEntries></relatedEntries>
+    </item>
+    <item id="earth_armor">
+      <name>Armure Tellurique</name>
+      <desc>L'armure tellurique est la poitrine du Gardien Tellurique.  Elle offre une réduction de dégats non négligeable pour une seule pièce d'armure.  Elle ajoute une quantité modeste de dégats (+4) et de knockback aux attaques à main nue (pas d'item équipé).</desc>
+      <relatedEntries></relatedEntries>
+    </item>
+    <item id="water_orbs">
+      <name>Orbes Aquatiques</name>
+      <desc>Les orbes aquatiques vous permettent de contrôler l'eau inconsciemment.  En les portant (C'est un item de jambes), vous ne serez pas déplacé par les fluides coulants.  Vous aurez également une respiration illimitée sous l'eau.</desc>
+      <relatedEntries></relatedEntries>
+    </item>
+    <item id="fire_ears">
+      <name>Antennes Igniques</name>
+      <desc>Les antennes igniques, lorsque portées, vous rendent immunisé contre le feu et la lave.</desc>
+      <relatedEntries></relatedEntries>
+    </item>
+    <item id="workbenchUpgrade">
+      <name>Amélioration de l'Établi du magicien: Grille</name>
+      <desc>Vous avez découvert un moyen de fabriquer une amélioration pour l'Etabli du Magicien qui fait de la grille secondaire une 3x3 au lieu de 2x2.  Vous n'avez qu'à la fabriquer et à faire clic-droit avec sur un établi pour l'appliquer.  Gardez à l'esprit que les modifications restent fragiles, et se briseront si l'établi est détruit et devront être refaites.</desc>
+      <relatedEntries>magiciansWorkbench</relatedEntries>
+    </item>
+    <item id="bindingcatalysts">
+      <name>Catalyste de Liaison</name>
+      <desc>Les Catalystes de liaison sont utilisés avec la forme #5Lien#0 por déterminer quel type d'outil ou d'arme sera lié.</desc>
+      <subitem id="bindingCatalyst@0">
+        <name>Catalyste de Liaison: Pioche</name>
+        <desc></desc>
+        <relatedEntries>Binding</relatedEntries>
+      </subitem>
+      <subitem id="bindingCatalyst@1">
+        <name>Catalyste de Liaison: Hache</name>
+        <desc></desc>
+        <relatedEntries>Binding</relatedEntries>
+      </subitem>
+      <subitem id="bindingCatalyst@2">
+        <name>Catalyste de Liaison: Épée</name>
+        <desc></desc>
+        <relatedEntries>Binding</relatedEntries>
+      </subitem>
+      <subitem id="bindingCatalyst@3">
+        <name>Catalyste de Liaison: Pelle</name>
+        <desc></desc>
+        <relatedEntries>Binding</relatedEntries>
+      </subitem>
+      <subitem id="bindingCatalyst@4">
+        <name>Catalyste de Liaison: Faux</name>
+        <desc></desc>
+        <relatedEntries>Binding</relatedEntries>
+      </subitem>
+      <subitem id="bindingCatalyst@5">
+        <name>Catalyste de Liaison: Arc</name>
+        <desc>Celui ci n'est pas encore implémenté - Bientôt dans votre Minecraft!</desc>
+        <relatedEntries>Binding</relatedEntries>
+      </subitem>
+      <relatedEntries></relatedEntries>
+    </item>
+    <item id="warding_candle">
+      <name>Bougie Délimitatrice</name>
+      <desc>Les Bougies Délimitatrices, lorsque tenues, sont des sources de lumière mobile.  Elle peuvent aussi être #9phasées#0 à un bloc spécifique en #9faisant sneak + clic-droit sur le bloc en tenant la bougie#0.  Ceci rendra bleue la flamme de la bougie à moins de 15 blocs du bloc spécifiée, et rouge à moins de 5 blocs.  Une bougie délimitatrice brulera pendant 15 minutes, mais ne se consume pas quand elle n'est pas équipée.
+			!d
+			Les Bougies Délimitatrices servent aussi dans des #5Rituels#0, et sont placées comme partie du motif.  Une bougie phasée ne peut être utilisée dans un rituel.</desc>
+      <relatedEntries>rituals_overview</relatedEntries>
+    </item>
+    <item id="flicker_jar">
+      <name>Jarre à Lucioles</name>
+      <desc>Les Jarres à Lucioles servent à attraper les lucioles.  Faites simplement clic-droit sur la luciole et vous la piégerez dans la jarre.  Fastoche, hein?  Amusez vous bien...</desc>
+      <relatedEntries>Flicker</relatedEntries>
+    </item>
+    <item id="enderBoots">
+      <name>Bottes du Néant</name>
+      <desc>Les Bottes du Néant sont un drop rare du #5Gardien Nihilique#0.  En portant ces bottes, #9sneaker et sauter inversera la gravité#0!  Cet effet ne s'appliquera qu'à vous, et vous tomberez vers le haut.  Les dégats de chute normaux s'appliquent.  Vous ne pouvez pas inverser la gravité en l'air.</desc>
+      <relatedEntries></relatedEntries>
+    </item>
+    <item id="lightningcharm">
+      <name>Charme Électrique</name>
+      <desc>Le Charme Électrique est un drop rare du #5Gardien Électrique#0.  Sneaker et faire clic-droit allumera ou éteindra l'objet.  Quand allumé, de l'électricité statique attire automatiquement les objets proches.</desc>
+      <relatedEntries></relatedEntries>
+    </item>
+    <item id="lifeward">
+      <name>Protection Vitale</name>
+      <desc>La Protection Vitale est un drop rare du #5Gardien de Vie#0.  Lorsque dans votre barre d'action, vous générerez lentement un bouclier autour de vous qui absorbera les dégats.  Elle génèrera jusqu'à 20 points de vie supplémentaires.  Les points de vie restent si la protection vitale est retirée de votre inventaire, mais ne se rempliront pas sans elle.</desc>
+      <relatedEntries></relatedEntries>
+    </item>
+    <item id="magitechGoggles">
+      <name>Lunettes Magitech</name>
+      <desc>Les Lunettes Magitech accompagnent le #9Bâton Magitech#0.  Lorsqu'équipées, vous sneaker et clic-droit les blocs énergisés avec un bâton magitech.  Vous pourrez alors voir tous les types d'énergie arrivant dans cette machine, et leurs sources.  Les lunettes vous permettront aussi de voir les liens brisés; où il y avait une connection avant, mais quelque chose s'est détraqué (par exemple, un conduit s'est cassé).  Les blocs à liens brisés ne peuvent pas être cassés à la main, mais peuvent être remplacés par n'importe quel bloc.</desc>
+      <relatedEntries>spell_staff_magitech,brokenLink</relatedEntries>
+    </item>
+    <item id="flickerFocus">
+      <name>Lentille à Luciole</name>
+      <desc>Les Lentilles à Lucioles servent à créer des conditions vivables pour les lucioles dans un #9Habitat à Luciole#0.  Cela leur permettra d'accomplir différentes tâches, chacune d'entre elles est détaillée à droite.</desc>
+      <relatedEntries>flickerHabitat,Flicker,crystalMarker</relatedEntries>
+      <subitem id="flickerFocus@1">
+        <name>Lentille à Luciole: Transport d'objets</name>
+        <desc>Les lucioles d'air contenues dans ce crystal ont été entraînées pour le déplacement d'objet. Placer ceci sur un #9Habitat à Lucioles#0 vous permettra de le connecter avec des #9Crystaux de tâches#0 pour interagir avec des inventaires contenant des objets. Pour lier l'habitat contenant cette lentille avec un #9Crystal de tâche#0 il suffit de clic-droit sur l'#9Habitat a luciole#0, puis de clic-droit sur le #9Crystal de tâche#0. Cette lentille peut être améliorée en utilisant davantage d' #9Habitats à luciole#0 avec des lucioles dedans. Cette lentille peut fonctionner dans accès à l'Etherium, cependant elle est très lente. L'adjonction d'énergie augmente sa vitesse et permet à la lentille d'utiliser des améliorations. !d Arcane: !l Augmente le nombre d'objets que les lucioles peuvent déplacer en une fois. La première luciole d'arcane augmentera ce nombre à 32, luciole d'arcane ajoutera 32 objets à la capacité de transport des lucioles !d Foudre: !l Les lucioles de foudre augmentent la vitesse à laquelle les lucioles déplacent les objets. Ajouter des lucioles de foudre après la première continuera d'augmenter la vitesse, mais à efficacité réduite. La plupart des Magitechniciens considèrent que c'est du gaspillage de mettre plus de 3 lucioles de foudre.</desc>
+        <relatedEntries>flickerFocus,crystalMarker</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@3">
+        <name>Lentille à Luciole: Interdiction</name>
+        <desc>Les lucioles d'arcane et d'air travaillant en tandem peuvent créer un mur autour de leur habitat si elles ont assez d'Eherium pour ce faire. En placant cette lentille dans un #9Habitat à  luciole#0 et en lui donnant de l'Etherium créera mur presque invisible dans un rayon de 6 blocs autour de l'#9Habitat à luciole#0. !d Cet opérateur peut être amélioré avec une #9Luciole du Néant#0 qui appliquera en plus l'effet #5Endiguement#0.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@9">
+        <name>Lentille à Luciole: Endiguement</name>
+        <desc>Les lucioles du Néant et d'air travaillant en tandem peuvent créer un mur autour de leur habitat si elles ont assez d'Eherium pour ce faire.  En placant cette lentille dans un #9Habitat à  luciole#0 et en lui donnant de l'Etherium créera mur presque invisible dans un rayon de 6 blocs autour de l'#9Habitat à luciole#0 dont les entités non-joueur ne peuvent s'échapper. !d Cet opérateur peut être amélioré avec une #9Luciole d' arcane#0 qui appliquera en plus l'effet #5Interdiction#0.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@4">
+        <name>Lentille à Luciole: Terre Battue</name>
+        <desc>Les lucioles de terre, lorsque contenues dans cette lentille peuvent applatir le terrain dans un rayon de 6 blocs autour de leur #9Habitat à luciole#0 en se servant de matériaux contenus dans un inventaire sous leur habitat. Si ces lucioles peuvent opérer sans accès à l'Etherium, elles sont beaucoup plus rapide avec de l'énergie.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@36">
+        <name>Lentille à Luciole: Terrains Plats</name>
+        <desc>Les lucioles de terre et de glace dans cette lentille applatiront une zone d'un rayon de 6 blocs autour de leur #9Habitat à luciole#0. Elles peuvent fonctioner sans énergie mais sont beaucoup plus efficaces quand connectées à une source d'Etherium.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@64">
+        <name>Lentille à Luciole: Progéniture</name>
+        <desc>Les lucioles de vie à l'intérieur de cette lentille peuvent utiliser une source d'Etherium pour faire se reproduire les animaux dans un rayon de 8 blocs.  Cette lentille requière de l'Etherium pour toutes ses opérations.  Le temps d'opération par défaut est de 2000 ticks (100 secondes), mais peut être réduit en placant des habitats supplémentaires adjacents à l'original et en placant des jarres de lucioles de foudre dedans.  Ce n'est pas très utile d'en ajouter plus que 4, étant donné que le minimum est 600 ticks (30 secondes).  Chaque amélioration multiplie la durée précédente par 0.75, donc l'effet est diminué.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@80">
+        <name>Lentille à Luciole: Boucherie</name>
+        <desc>Les lucioles dans cette lentille sont constamment en conflit. La luciole de feu cherche à consumer la vie autour d'elle, alors que la luciole de vie cherche à la défendre. L'équilibre de ce conflit est tel que tous sauf deux animaux d'un même type dans un rayon de 6 blocs autour  d'#9Habitat à luciole#0 contenant cette lentille seront tués. À condition que la luciole de feu ait accès à une source d'Etherium pour accomplir sa sinistre besogne.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@134">
+        <name>Lentille à Luciole: Marées Lunaires</name>
+        <desc>Les trois lucioles dans cette lentille peuvent utiliser leurs pouvoirs combinés pour attirer les météorites de Pierre Lunaire qui atterrissent dans un rayon de 128 blocs autour de leur #9Habitat à luciole#0 pour atterrir à moins de 8 blocs. Accomplir cette tâche nécéssite cependant un peu d'Etherium pour les maintenir sur leur garde et à la recherche de météores.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@144">
+        <name>Lentille à Luciole: Lumière</name>
+        <desc>Les lucioles de feu et de foudre contenues dans cette lentille peuvent exploiter la puissance de la Pierre Solaire utilisée dans la construction de leur lentille pour éclairer une zone de rayon de 16 autour de leur #9Habitat à luciole#0.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@384">
+        <name>Lentille à Luciole: Chêne Abattu</name>
+        <desc>La luciole de nature contenue dans cette lentille cherchera des arbres dans un rayon de 6 blocs autour de son #9Habitat à luciole#0, une fois cela fait, les lucioles de foudre abbateront l'arbre un bloc à la fois. Ces lucioles peuvent opérer sans source d'énergie, mais sont beaucoup plus rapides quand elles ont une source d'Etherium pour s'alimenter.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@512">
+        <name>Lentille à Luciole: Douces Pluies</name>
+        <desc>La luciole d'eau contenue dans cette lentille hydratera le terrain dans un rayon de 6 blocs autour de son #9Habitat à luciole#0.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="flickerFocus@832">
+        <name>Lentille à Luciole: Générosité de la Nature</name>
+        <desc>Les lucioles de vie, de nature et d'eau contenues dans cette lentille travailleront ensembles pour aider toutes les plantes dans un rayon de 6 blocs à grandir plus vite. Ces lucioles travailleuses aideront toutes les plantes proches avec ou sans Etherium mais leur procurer une source d'énergie leur permettra de travailler plus vite.</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+    </item>
+    <item id="wizardChalk">
+      <name>Craie du Sorcier</name>
+      <desc>La Craie du Sorcier sert à créer des #9Rituels#0 en traçant les bonnes figures au sol.</desc>
+      <relatedEntries>corruption,purification,hourglass,rituals_overview</relatedEntries>
+    </item>
+    <item id="playerjournal">
+      <name>Journal</name>
+      <desc>Les Journaux peuvent servir à #9enregistrer vos expériences#0 pour les utiliser plus tard.  Ces expériences peuvent #9ensuite être récupérées en lisant le journal#0.</desc>
+      <relatedEntries />
+    </item>
+	<item id="deficit_crystal">
+      <name>Crystal Déficitaire</name>
+      <desc>Souvent appelé l'antimatière de la magie, le Déficit représente un vide dans le tissu de la réalité.  Vous êtes parvenus à en faire une version raffinée crystallisée.  Les crystaux comme ceux-ci sont souvent utilisés dans la décréation des choses.</desc>
+      <relatedEntries>essence_refiner,arcane_deconstructor</relatedEntries>
+    </item>
+  </items>
+  <structures>
+    <structure id="obelisk_structure">
+      <name>Obélisque</name>
+      <controller>TileEntityObelisk</controller>
+      <desc>L'Obélisque est en quelque sorte un four magique.  Il peut générer de l'Etherium en brulant de la #5Poudre de Vinteum#0 ou de l'#5Etherium Liquide#0 dans un seau.  L'Obélisque génère de  l'#5Etherium Neutre#0.
+			!d
+			La structure illustrée ici n'a pas besoin d'être construite en une fois; elle peut être constuite par sections.  Le #9Cercle de Craie du Sorcier#0 est une amélioration à part, qui quand complétée, augmentera le débit sortant des capacités de crémation de l'Obélisque.  Les #9Pilliers#0 sont une autre amélioration, et augmenteront encore plus le débit de l'Obélisque.  
+			!d
+			Si la place est un souci, cependant, ces améliorations ne sont pas nécéssaires au fonctionnement de l'Obélisque.</desc>
+      <relatedEntries>obelisk,crystal_wrench,spell_staff_magitech,magitechGoggles</relatedEntries>
+    </structure>
+    <structure id="blackaurem_structure">
+      <name>Aurem Noir</name>
+      <controller>TileEntityBlackAurem</controller>
+      <desc>Construction sinistre, l'Aurem Noir attire lentement mais inéluctablement les créatures vivantes à proximité vers son centre.  En atteignant le centre, des éclairs d'obscurité pure éclatent et arrachent la force vitale des créatures. L'Aurem Noir génère de l'#4Etherium Sombre#0.  Les Mobs tués par l'Aurem Noir ne droppent ni XP, ni butin.
+			!d
+			L'Aurem Noir est créé en performant le #9Rituel de Corruption#0 sur un #9Obélisque#0.  Comme l'Obélisque, l'Aurem Noir peut être amélioré en ajoutant certaines structures multi-blocs autour.  La première d'entre elles est le #5Cercle de Craie du Sorcier#0, et elle augmentera la quantité d'énergie générée par chaque mob consumé par l'Aurem.  La seconde amélioration sont les #5Pilliers#0, qui augmentent encore plus la génération d'énergie.  Les pilliers peuvent aussi avoir des #5améliorations de sommets#0 spécifiques, qui modifient la quantité de bénéfice.
+			!d
+			L'obsidienne et la chimérite sont au même niveau, et la Pierre Solaire donne un grand bonus de génération.
+			!d
+			Ni le cercle de craie ni les pilliers ne sont nécéssaires au fonctionnement de l'Aurem.</desc>
+      <relatedEntries>obelisk,ritual_of_corruption,crystal_wrench,spell_staff_magitech</relatedEntries>
+    </structure>
+    <structure id="celestialprism_structure">
+      <name>Prisme Céleste</name>
+      <controller>TileEntityCelestialPrism</controller>
+      <desc>Le Prisme Céleste est une forme purifiée de l'Obélisque qui génère de l'#9Etherium Clair#0.  Il génère cette énergie lentement, mais passivement.  Il ne nécéssite rien de plus que la lumière du jour pour générer de l'énergie.  Vous saurez qu'il est en train de générer quand des runes de pouvoirs commencent à flotter autour du crystal.
+			!d
+			Pour créer le Prisme Céleste, performez le #9Rituel de Purification#0 sur un #9Obélisque#0.  Comme l'Obélisque, le Prisme Céleste peut être amélioré en ajoutant certaines structures multi-blocs autour.  La première d'entre elles est le #5Cercle de Craie du Sorcier#0, et elle augmentera la quantité d'énergie générée par le prisme.  La seconde amélioration sont les #5Pilliers#0, qui augmentent encore plus la génération d'énergie.  Les pilliers peuvent aussi avoir des #5améliorations de sommets#0 spécifiques, qui modifient la quantité de bénéfice.  
+			!d
+			L'effet le plus remarquable est celui des #9Sommets en Pierre Lunaire#0, qui augmentent la puissance d'une quantité non négligeable, mais aussi change le prisme pour fonctionner la nuit au lieu du jour.</desc>
+      <relatedEntries>obelisk,ritual_of_purification,crystal_wrench,spell_staff_magitech</relatedEntries>
+    </structure>
+    <structure id="gateways">
+      <name>Portail</name>
+      <controller>TileEntityKeystoneRecepticle</controller>
+      <desc>Les portails sont assez efficaces à courte portée, mais des distances plus grandes demandent beaucoup plus d'Etherium.  La portée maximale d'un portail a été testée jusqu'à environ 12km, bien qu'une quantité extrème d'Etherium est nécéssaire pour traverser une telle étendue.  Un cryptolithe peut être inséré dans le réceptacle à cryptolithe in order pour verrouiller le portail sur la combinaison runique du cryptolithe.  Seulement en activant un autre portail avec la même combinaison de cryptolithe peut-on arriver au portail crypté.  Si la clé ne correspond pas, ou si aucun cryptolithe n'est tenu quand le portail est activé, ce sera comme si le portail crypté n'existe même pas.  Cette méthode peut servir à contrôler ou vous atterrirez dans le réseau de portails.</desc>
+      <relatedEntries></relatedEntries>
+    </structure>
+    <structure id="craftingAltar">
+      <name>Autel de Création</name>
+      <controller>TileEntityCraftingAltar</controller>
+      <desc>
+			Maîtrisant les forces de la création, l'autel de création permet aux mages de travailler les miracles de la magie.  C'est ici que vous créerez tous vos sorts dans Ars Magica.  La structure est améliorable en 2 principaux groupes, les sommets et le matériau.  Les deux groupes augmentent individuellement la puissance disponible de l'autel et permettent d'y concevoir des sorts plus puissants.  Les principaux blocs, par ordre de puissance, sont les suivants:
+			!l
+			Planches en Bois (+1 Effet)
+			!l
+			Briques de Pierre (+1 Effet)
+			!l
+			Grès (+1 Effet)
+			!l
+			Briques (+2 Effets)
+			!l
+			Bois Magique (+2 Effets)
+			!l
+			Briques des Tréfonds (+3 Effets)
+			!l
+			Quartz des Tréfonds (+3 Effets)
+			!l
+			!l
+			Pour les sommets (5 au total dans la structure), la progression est la suivante:
+			!l
+			Verre (+1 Effet)
+			!l
+			Blocs de Charbon (+2 Effets)
+			!l
+			Blocs de Redstone (+3 Effets)
+			!l
+			Blocs de Fer (+4 Effets)
+			!l
+			Blocs de Lapis (+5 Effets)
+			!l
+			Blocs d'Or (+6 Effets)
+			!l
+			Blocs de Diamant (+7 Effets)
+			!l
+			Blocs d'émeraude (+8 Effets)
+			!l
+			Blocs de Pierre Lunaire (+9 Effets)
+			!l
+			Blocs de Pierre Solaire (+10 Effets)
+			!l
+			!l
+			Ceux ci s'additionnent cumulativement, donc par exemple, des planches en bois et du verre signifieraient un maximum de 2 effets, là où des briques de pierre et des sommets en redstone would donneraient un maximum de 4 effets dans un sort.  Le nombre maximum d'effets que vous pouvez actuellement avoir sur un sort est 13.
+			</desc>
+      <relatedEntries></relatedEntries>
+    </structure>
+    <structure id="inlays_structure">
+      <name>Anneaux de Marquage</name>
+      <desc>Les anneaux de marquage sont créés en plaçant des blocs de marquage en un anneau de 3x3 sans bloc au centre.  Tous les blocs doivent être à la même hauteur (coordonnée Y), et doivent tous être du même type de bloc de marquage.  Vous saurez que ça fonctionne quand des runes apparaîtront sur les blocs.</desc>
+      <relatedEntries></relatedEntries>
+    </structure>
+    <ritual id="rituals_overview">
+      <name>Rituels</name>
+      <desc>Les Rituels sont créés en utilisant de la Craie du Sorcier et des Bougies Délimitatrices.  Les arranger dans le motif correct vous permet de faire de la magie vraiment puissante.  !d Les Rituels nécéssiteront d'habitude de jeter des objets au sol pour s'accomplir.  Ces objets peuvent être jetés n'importe où dans le cercle de craie du sorcier.  !d Une fois votre rituel tracé, et vos objets jetés dedans, vous devrez lancer le bon sort pour activer le rituel.  Les réagents dependent du sort lancé, et l'ordre à de l'importance.  Par exemple, en lançant des runes pour faire un Rappel vers un portail avec un rituel, l'ordre des runes est la combinaison du cryptolithe. !d  Le sort doit cibler le bloc exactement au centre du rituel, à la même hauteur que la craie et les bougies.  C'est d'habitude un bloc placé au centre, ou une entité se tenant au mileu.  !d  Si ça ne marche pas, assurez vous que vous êtes au mileu de la craie, que le motif est correct, et que vous avez les bons réagents pour le bon rituel!</desc>
+      <relatedEntries>wizardChalk,warding_candle</relatedEntries>
+      <subitem id="purification">
+        <name>Rituel de Purification</name>
+        <desc>Le rituel de Purification sert à purifier un obélisque en un prisme céleste.</desc>
+        <relatedEntries>obelisk,wizardChalk,warding_candle</relatedEntries>
+        <ritualName>purification</ritualName>
+        <ritualController>Light</ritualController>
+      </subitem>
+      <subitem id="corruption_prism">
+        <name>Rituel de Corruption (Obélisque)</name>
+        <desc>Le Rituel de Corruption sert à corrompre un Obélisque into a Black Aurem.</desc>
+        <relatedEntries>obelisk,wizardChalk,warding_candle</relatedEntries>
+        <ritualName>corruption</ritualName>
+        <ritualController>FireDamage</ritualController>
+      </subitem>
+      <subitem id="corruption_obelisk">
+        <name>Rituel de Corruption (Spawner à Monstres)</name>
+        <desc>Le Rituel de Corruption peut être utilisé pour ramasser un Spawner à Monstres pour servir plus tard.  Le rituel retire les capacités de spawn du spawner, donc elles devront être remises par quelque moyen.  Faille ou Incantation Vitale peuvent aussi être utilisés, donc chaque arbre de spécialisation peut performer ce rituel.  Les réagents sont les mêmes pour les trois options de sorts.</desc>
+        <relatedEntries>Rift,LifeTap,wizardChalk,warding_candle</relatedEntries>
+        <ritualName>corruption</ritualName>
+        <ritualController>AstralDistortion</ritualController>
+      </subitem>
+      <subitem id="extend_blind">
+        <name>Rituel du Sablier (Aveuglement)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Blind</ritualController>
+      </subitem>
+      <subitem id="extend_charm">
+        <name>Rituel du Sablier (Charme)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Charm</ritualController>
+      </subitem>
+      <subitem id="extend_entangle">
+        <name>Rituel du Sablier (Prison de Ronces)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Entangle</ritualController>
+      </subitem>
+      <subitem id="extend_flight">
+        <name>Rituel du Sablier (Vol)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Flight</ritualController>
+      </subitem>
+      <subitem id="extend_freeze">
+        <name>Rituel du Sablier (Gel)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Freeze</ritualController>
+      </subitem>
+      <subitem id="extend_fury">
+        <name>Rituel du Sablier (Furie)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Fury</ritualController>
+      </subitem>
+      <subitem id="extend_gravitywell">
+        <name>Rituel du Sablier (Puit Gravitationel)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>GravityWell</ritualController>
+      </subitem>
+      <subitem id="extend_haste">
+        <name>Rituel du Sablier (Hâte)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Haste</ritualController>
+      </subitem>
+      <subitem id="extend_invisibility">
+        <name>Rituel du Sablier (Invisibilité)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Invisibility</ritualController>
+      </subitem>
+      <subitem id="extend_leap">
+        <name>Rituel du Sablier (Saut)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Leap</ritualController>
+      </subitem>
+      <subitem id="extend_levitation">
+        <name>Rituel du Sablier (Lévitation)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Levitate</ritualController>
+      </subitem>
+      <subitem id="extend_manashield">
+        <name>Rituel du Sablier (Bouclier de Mana)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>ManaShield</ritualController>
+      </subitem>
+      <subitem id="extend_nightvision">
+        <name>Rituel du Sablier (Vision Nocturne)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>NightVision</ritualController>
+      </subitem>
+      <subitem id="extend_shield">
+        <name>Rituel du Sablier (Bouclier)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Shield</ritualController>
+      </subitem>
+      <subitem id="extend_slow">
+        <name>Rituel du Sablier (Ralentissement)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Slow</ritualController>
+      </subitem>
+      <subitem id="extend_slowfall">
+        <name>Rituel du Sablier (Chute Ralentie)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Slowfall</ritualController>
+      </subitem>
+      <subitem id="extend_swiftswim">
+        <name>Rituel du Sablier (Nage Rapide)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>SwiftSwim</ritualController>
+      </subitem>
+      <subitem id="extend_truesight">
+        <name>Rituel du Sablier (Vision Véridique)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>TrueSight</ritualController>
+      </subitem>
+      <subitem id="extend_waterbreathing">
+        <name>Rituel du Sablier (Respiration Aquatique)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>WaterBreathing</ritualController>
+      </subitem>
+      <subitem id="extend_waterygrave">
+        <name>Rituel du Sablier (Tombe Aquatique)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>WateryGrave</ritualController>
+      </subitem>
+      <subitem id="extend_shrink">
+        <name>Rituel du Sablier (Rapetissement)</name>
+        <desc>Le rituel du sablier sert à étendre la durée d'un buff significativement.  Il ajoute 180 secondes plus 180 secondes additionelles pour chaque modificateur de Puissance de Buff inclu dans la même étape du sort que le buff.</desc>
+        <relatedEntries>wizardChalk</relatedEntries>
+        <ritualName>hourglass</ritualName>
+        <ritualController>Shrink</ritualController>
+      </subitem>
+      <subitem id="recall_to_gateway">
+        <name>Rappel vers un Portail</name>
+        <desc>Le rituel à croix cerclée peut être utilisé pour recibler le sort de Rappel pour que vous voyagiez vers un portail spécifié au lieu de votre location marquée.  Les trois runes utilisées doivent correspondre à la combinaison du cryprolithe.  La craie et les runes seront consommées par la téléportation.</desc>
+        <relatedEntries>wizardChalk,warding_candle</relatedEntries>
+        <ritualName>ringedCross</ritualName>
+        <ritualController>Recall</ritualController>
+      </subitem>
+      <subitem id="recall_other">
+        <name>Rappel d'un Autre</name>
+        <desc>Le rituel à croix cerclée peut servir à recibler le sort de Rappel pour amener un autre joueur à vous.  La combinaison peut être obtenue par le joueur en utilisant le sort de Vision Véridique, et peut varier en longueur selon le joueur.  Faites attention en divulquant votre combinaison de joueur, car elle peut servir à vous cibler individuellement.  Ce Rappel marche aussi à travers les dimensions.</desc>
+        <relatedEntries>TrueSight,wizardChalk,warding_candle</relatedEntries>
+        <ritualName>ringedCross</ritualName>
+        <ritualController>Recall</ritualController>
+      </subitem>
+      <relatedEntries>wizardChalk</relatedEntries>
+    </ritual>
+  </structures>
+  <mobs>
+    <mob id="MobHecate">
+      <name>Hécate</name>
+      <desc>L'Hécate est un esprit malfaisant des Tréfonds.  Occasionellement, les barrières entre les Tréfonds et l'Overworld peuvent faiblir, permettant aux Hécates de spawner dans l'Overworld.  L'Hécate est un assassin - elle bouge extrèmement vite et peut se rendre invisible brièvement en attaquant.  Elles font beaucoup de dégats, mais ne sont heureusement pas très résistantes.  On raconte que si vous bougez assez lentement et calmement, vous pouvez rester indétecté par elles pour aussi longtemps que vous n'allez pas trop près d'elles.</desc>
+      <relatedEntries></relatedEntries>
+    </mob>
+    <mob id="MobManaElemental">
+      <name>Élémental de Mana</name>
+      <desc>
+				L'Élémental de Mana est un assemblage de fragments de Vinteum
+				maintenus ensembles par des éclairs d'Etherium. Ce sont de grandes
+				créatures, atteignant souvent 3m de hauteur. Ils attaquent avec
+				des éclairs de mana brut qui éclatent, faisant des dégats mineurs
+				mais volant du mana, et retourne à l'élémental, le soignant
+				sur base de la quantité de mana volé. Ils sont hautement
+				résistants aux dégats physiques. Si tout le mana est drainé
+				de l'élémental, il mourra.
+			</desc>
+      <relatedEntries></relatedEntries>
+    </mob>
+    <mob id="MobManaCreeper">
+      <name>Creeper de Mana</name>
+      <desc>
+				Le creeper de mana est une variante du creeper normal, mais
+				au lieu d'une violente explosion, le creeper de mana
+				se désintègre en un vortex de mana, qui draine le
+				mana de tout à proximité. Le vortex grandit le plus longtemps
+				il vit, mais heureusement aucun d'entre eux ne dure plus
+				que quelques secondes. Le vortex draine plus de mana si vous
+				en avez plus, donc il est toujours une menace pour même
+				les mages les plus puissants.
+			</desc>
+      <relatedEntries></relatedEntries>
+    </mob>
+    <mob id="MobLightMage">
+      <name>Mage Clair</name>
+      <desc>
+				Les Mages Clairs font partie du Conseil Blanc. Ce sont
+				de puissants mages qui se sont dévoués aux 
+				forces de la lumière. Ils soigneront les joueurs proches
+				et les aideront en combat contre les divers ennemis qui
+				infestent le monde de Minecraft. Ils ont un dégout
+				particulier envers les Mages Sombres.
+			</desc>
+      <relatedEntries></relatedEntries>
+    </mob>
+    <mob id="MobDarkMage">
+      <name>Mage Sombre</name>
+      <desc>
+				Les Mages Sombres font partie de la Cour Noire. Ce sont de sinistres
+				sorciers capables de terribles actes de magie.
+				Ces actes ont un prix cependant, et les mages sombres
+				sont des êtres haïs et corrompus. Ils attaqueront tous les
+				vivants à l'exception des morts-vivants (qui techniquement ne sont pas
+				"vivants" de toute façon) et les creepers. Ils feront tout leur
+				leur possible pour combattre un Mage Clair.
+			</desc>
+      <relatedEntries></relatedEntries>
+    </mob>
+    <mob id="MobFireElemental">
+      <name>Élémental Ignique</name>
+      <desc>
+				Les élémentaux de feu sont des êtres de flammes pures. Ils sont
+				destructifs et mettent le feu à tout sur leur passage. Les
+				Élémentaux de Feu se trouvent seulement dans les Tréfonds.
+			</desc>
+      <relatedEntries></relatedEntries>
+    </mob>
+    <mob id="MobWaterElemental">
+      <name>Élémental Aquatique</name>
+      <desc>
+				Les élémentaux d'eau sont des êtres d'eau pure. On les
+				trouve partout où l'eau est abondante. Ils attaquent en
+				groupes, usant de l'eau pour pousser et tirer leur cible. Ils
+				peuvent infliger Tombe Aquatique à leurs cibles, ce qui
+				tirera les insoupçonneux vers les profondeurs insondables.
+			</desc>
+      <relatedEntries></relatedEntries>
+    </mob>
+    <mob id="EarthElemental">
+      <name>Élémental Tellurique</name>
+      <desc>
+				Les élémentaux de terre se trouvent dormants au plus profond des grottes.
+				Ils sont passifs par nature, et présentent une extrème
+				résistance aux dégats physiques. Combinée avec une large
+				quantité de PV, quiconque apprenant à invoquer pourrait conjurer
+				un véritable tank. Leurs attaques forcent la cible à se
+				se concentrer sur eux et ils essayeront de sauter de cible en
+				cible.
+			</desc>
+      <relatedEntries></relatedEntries>
+    </mob>
+    <mob id="MobDryad">
+      <name>Driade</name>
+      <desc>
+				Les Driades sont des créatures pacifiques souvent trouvées dans les forêts et
+				les plaines. Elle peuvent être appatées avec une pousse d'arbre et feront
+				périodiquement pousser les plantes proches plus vite.
+			</desc>
+      <relatedEntries></relatedEntries>
+    </mob>
+    <mob id="MobDarkling">
+      <name>Sombrelin</name>
+      <desc>Les Sombrelins sont de petites créatures ressemblant à des chiens qui se trouvent dans les Tréfonds.  Leur corps devient moins visible durant la nuit, devenant presque invisible vers minuit.  Quand l'aube approche, les Sombrelins commenceront à apparaître graduellement à nouveau jusqu'à devenir entièrement visibles pendant le jour.</desc>
+      <relatedEntries></relatedEntries>
+    </mob>
+    <mob id="HellCow">
+      <name>Vache des Enfers</name>
+      <desc>Meuh? Meu meu meu, meu meu meu meu.  Meu.  Meu meu meu meu meu, meu meu meuh?  Meuh!  Meu meu meu meu meu - meu meu meu. !d 1.) Meuh meu meu meu !d 2.) Meu, meu meuh meu meu. !d 3.) Meuh! !d Meu, meu meu meuh, meu meu meuh.  Meuh meu meu meu meu meu.  Meuh, meuh!</desc>
+      <relatedEntries></relatedEntries>
+    </mob>
+    <mob id="Flicker">
+      <name>Lucioles</name>
+      <desc>Les Lucioles sont des élémentaux inférieurs des différents plans élémentaux qui se croisent dans notre monde.  Leur lien magique est ténu au mieux at best et elles sont connues pour "Clignoter" en alternance entre leur plan et le notre.  Elles sont le point de départ de l'automatisation d'#5Ars Magica#0. 
+	  !d
+			Les lucioles sont timides par nature et retourneront dans leur dimension si attaquées, ou si elles se sentent menacées.  Leur donner un soupçon de magie sous la forme #5d'un quelconque effet persistant#0 les rend plus à l'aise et moins promptes à la fuite.  #5Les lucioles peuvent être capturées dans une Jarre à Lucioles#0.
+			!d
+			Il y a un type de luciole pour chaque affinité.  Les lucioles de chaque affinité se comporteront différemment.  Par exemple, les lucioles d'air tendent à aimer rester au dessus du sol, alors que les lucioles de terre préfèrent rester bas.
+			!d
+			Les lucioles de chque affinité peuvent être trouvées près des régions du monde qui leurs rappellent leur affinité.			</desc>
+      <subitem id="waterflicker">
+        <name>Lucioles d'Eau</name>
+        <desc>#5Les lucioles d'eau#0 se trouvent dans des zones à prédominance aquatique, comme les marais, les rivières, et les océans.</desc>
+      </subitem>
+      <subitem id="airflicker">
+        <name>Lucioles d'Air</name>
+        <desc>#5Les lucioles d'air#0 se trouvent partout qui ne soit pas sous terre, et volent en hauteur dans le ciel (~25 blocs au dessus du sol).</desc>
+      </subitem>
+      <subitem id="earthflicker">
+        <name>Luciole de Terre</name>
+        <desc>#5Les lucioles de terre#0 peuvent être trouvées partout, mais préfèrent les lieux sous terre.  Elles resteront proches du sol.</desc>
+      </subitem>
+      <subitem id="fireflicker">
+        <name>Luciole de Feu</name>
+        <desc>#5Les lucioles de feu#0 se trouvent dans le nether..</desc>
+      </subitem>
+      <subitem id="lightningflicker">
+        <name>Luciole de Foudre</name>
+        <desc>#5Les lucioles de foudre#0 se trouvent sur les plages et dans le ciel au dessus des océans, où les tempètes aiment se former.  Elles peuvent être trouvées partout si le temps est à la tempète.</desc>
+      </subitem>
+      <subitem id="natureflicker">
+        <name>Luciole de Nature</name>
+        <desc>#5Les lucioles de nature#0 se trouvent dans les forêts.</desc>
+      </subitem>
+      <subitem id="iceflicker">
+        <name>Luciole de Glace</name>
+        <desc>#5Les lucioles de glace#0 peuvent être trouvées dans les endroits froid, comme les Taigas.</desc>
+      </subitem>
+      <subitem id="arcaneflicker">
+        <name>Luciole d'Arcane</name>
+        <desc>#5les lucioles d'arcane#0 se trouvent dans les lieux magiques.  Elles aiment beaucoup les forêts de bois magique.</desc>
+      </subitem>
+      <subitem id="lifeflicker">
+        <name>Luciole de Vie</name>
+        <desc>#5Les lucioles de vie#0 se trouvent partout.  Toute luciole qui spawne a une chance d'être une luciole de vie.</desc>
+      </subitem>
+      <subitem id="enderflicker">
+        <name>Luciole du Néant</name>
+        <desc>#5Les lucioles du néant#0 se trouvent dans le Néant.  Occasionellement, un enderman se téléportant peut ouvrir une faille assez large pour le passage de quelques lucioles.</desc>
+      </subitem>
+      <subitem id="xycraftflicker">
+        <name>Luciole XyCraft</name>
+        <desc>#5Les lucioles XyCraft#0 sont implémentées, mais ne font encore rien.</desc>
+      </subitem>
+      <relatedEntries>flicker_jar,flickerFocus,flickerHabitat,crystalMarkers</relatedEntries>
+    </mob>
+  </mobs>
+  <bosses>
+    <boss id="BossNatureGuardian">
+      <name>Gardien de la Nature</name>
+      <desc>Le Gardien de la Nature est un opposant redoutable.  Possédant une faux mortelle et la dextérité pour la manier, seuls les plus puissants ou les plus fous iraient à sa recherche. Les rares individus qui ont survécu à une rencontre disent qu'il est aussi dangereux à distance qu'au corps à corps, si pas plus. !l Niveau Recommandé: 60 !p On raconte qu'il semble défendre les servants de la nature quand assez sont tués en succession.  La nature peut être impitoyable, mais elle ne tolérera pas de massacre. !d  Avertissement: !l C'est un boss très difficile capable de tuer même les joueurs les mieux équippés. </desc>
+      <relatedEntries></relatedEntries>
+    </boss>
+    <boss id="BossEarthGuardian">
+      <name>Gardien Tellurique</name>
+      <desc>
+				Formé à partir d'un rocher, le Gardien Tellurique est
+				un opposant dur à cuire qui peut encaisser une quantité incroyable
+				de dégats physiques. Avec des attaques tourbillonantes et la force
+				de la terre elle même, préparez vous à un sacré combat. !l
+				Niveau Recommandé: 25 !p Pour invoquer le Gardien Tellurique,
+				construisez d'abord une plateforme d'obsidienne de 3x3 avec une brique
+				de pierre taillée au centre. Au dessus de l'obsidienne, placez
+				un cercle de marquage en fer. De chaque côté, au même niveau
+				que les marquages, placez une torche de Vinteum. Puis lancez une
+				topaz bleue, un émeraude, et une chimérite sur la brique. !d En étant
+				invoqué, le Gardien Tellurique détruira un grand volume
+				de blocs environnants, donc il serait sage de
+				l'invoquer ailleurs que dans votre sous sol.
+			</desc>
+      <relatedEntries></relatedEntries>
+    </boss>
+    <boss id="BossWaterGuardian">
+      <name>Gardien Aquatique</name>
+      <desc>
+				Le Gardien Aquatique est un être unique. Il est toujours dans
+				un état liquide, ce qui lui permet de dévier les attaques
+				occasionellement. Il est également fourbe, créant des
+				copies de lui même et attaquant par derrière ceux qui sont
+				trompés par les leures. !l Niveau Recommandé: 10 !p Le
+				gardien aquatique peut être invoqué en créant un cercle
+				de marquage en redstone dans n'importe quel biome à prédominance aquatique.
+				Ensuite, quand il pleut, lancez un bateau et un seau d'eau
+				dans le cercle en hommage aux nombreux navires perdus en mer.
+			</desc>
+      <relatedEntries></relatedEntries>
+    </boss>
+    <boss id="BossWinterGuardian">
+      <name>Gardien Hivernal</name>
+      <desc>
+				Le Gardien Hivernal est vraiment l'incarnation de son
+				nom. Entouré de vents froids qui sappent la force
+				de tous ceux qui s'en approchent, le Gardien Hivernal écrase
+				ses ennemis givrés et les brise avec des frappes puissantes.
+				!p Pour invoquer le Gardien Hivernal, cherchez un endroit
+				dans les griffes de l'hiver. Placez un cercle de marquage en or
+				au sol et construisez une efigie du Gardien Hivernal au
+				centre, de la glace au dessus de deux blocs de topaze bleue. puis créez
+				3 bonhommes de neige à proximité pour alimenter l'invocation. !d
+				Avertissement: !l C'est un boss très difficile capable de tuer
+				même les joueurs le mieux équippés.
+			</desc>
+      <relatedEntries></relatedEntries>
+    </boss>
+    <boss id="BossArcaneGuardian">
+      <name>Gardien Arcanique</name>
+      <desc>
+				Un mage des anciens temps, le Gardien Arcanique a accès
+				à tout un panel de sorts. Des attaques au buffs en passant par
+				les debuffs, preparez vous à un duel magique qui mettra à l'épreuve
+				vos connaissances des contresorts. Protégé par un puissant glyphe,
+				le Gardien Arcanique a autant de tours contre les opposants aux 
+				corps à corps qu'il en a contre les attaquants à distance. !l Niveau Recommandé: 45 !p Pour
+				invoquer le Gardien Arcanique, construisez d'abord un Autel
+				de Connaissance. L'autel se compose de 2 pilliers de bibliothèques, de 3
+				de haut, avec un lettrin au sol entre les pilliers
+				contenant un Compendium Arcanique. Placez un cercle de
+				marquage en fer directement en face de la structure, et lancez une
+				Essence Arcanique directement au milieu du cercle pour
+				commencer le rituel.
+			</desc>
+      <relatedEntries></relatedEntries>
+    </boss>
+    <boss id="BossAirGuardian">
+      <name>Gardien Aérien</name>
+      <desc>
+				Le Gardien Aérien est un être de vent, et fait un usage massif
+				d'attaques basées sur la répulsion. Il serait insensé d'aller
+				en combat avec un sans quelque sorte de protection contre
+				les chutes. Le Gardien Aérien est un puissant incantateur
+				à distance, mais il a besoin de beaucoup de concentration pour finir
+				certains de ses sorts... !l Niveau Recommandé: 35 !p Pour
+				invoquer le Gardien Aérien, montez bien au dessus des nuages
+				et construisez une plateforme (y 150 ou plus haut). Placez un cercle
+				de marquage en or sur la plateforme et lancez y une Essence Aérienne.
+			</desc>
+      <relatedEntries></relatedEntries>
+    </boss>
+    <boss id="BossFireGuardian">
+      <name>Gardien Ignique</name>
+      <desc>
+				Le Gardien Ignique est une fournaise vivantes des profondeurs des
+				Tréfonds. Pour l'invoquer, placez un cercle de marquage en or
+				dans les Tréfonds au dessus d'obsidienne avec de la lave au mileu. Lancez une essence
+				aquatique dans la lave et le gardien
+				ignique apparaîtra. Soyez avertis, cependant, il n'est pas accueillant envers
+				ceux qui tenteraient d'amener de l'eau dans son domaine. Préparez
+				vous à un combat! !l Niveau Recommandé: 90
+			</desc>
+      <relatedEntries></relatedEntries>
+    </boss>
+    <boss id="BossLifeGuardian">
+      <name>Gardien de Vie</name>
+      <desc>Le Gardien de Vie préfère généralement ne pas interférer dans l'ordre naturel des choses, et n'intervient pas à moins qu'un véritable sacrilège soit commis contre la vie.  Heureusement (ou malheureusement, selon votre point de vue) pour vous, vous avez découvert un moyen de commettre un tel acte.  Créez un anneau de 5x5 en craie du sorcier, et placez une bougie délimitatrice au milieu de chaque coté, à l'extérieur de l'anneau (4 bougies au total).  Le cercle aidera à concentrer, et à contenir le fait.  Puis, pendant une nuit de pleine lune, sacrifiez un enfant villageois dans le cercle.  Cela devrait suffir à énerver le gardien de vie assez pour qu'il agisse. !d Monstre que vous êtes. !p Le gardien de vie n'attaque pas beaucoup par lui même, bien qu'il puisse décider de vous secouer un petit peu.  Il préfère généralement laisser les autres combattre pour lui, les infusants de son incommensurable puissance.  En retour, les autres donneront souvent leur vie pour protéger le gardien.  Le Gardien de Vie est un différent type de combat que les autres gardiens.  !d Niveau Recommandé: 50</desc>
+      <relatedEntries></relatedEntries>
+    </boss>
+    <boss id="BossLightningGuardian">
+      <name>Gardien Électrique</name>
+      <desc>Le Gardien Électrique est aussi imprévisible qu'il est puissant.  Il peut lancer des éclairs à une portée extrème, et est connu pour détraquer les synapses des cerveaux des créatures vivantes.  Il est aussi occasionellement capable de répliquer un effet similaire à la télékinésie en utilisant des quantités massives d'électricité statique, ce qui laisse ses infortunées victimes vulnérables à bien d'autres effets. !d Pour invoquer le Gardien Électrique, placez un #5cercle de marquage en or#0 et placez une batterie à mana au centre.  Puis, placez 2 barres de fer au dessus pour faire un paratonnerre.  !d  Enfin, attendez une tempète. !d Ce gardien est capable de faire une grande quantité de dégats en peu de temps.  Assurez vous d'être bien protégé.  Niveau Recommandé: 70</desc>
+      <relatedEntries></relatedEntries>
+    </boss>
+    <boss id="BossEnderGuardian">
+      <name>Gardien Nihilique</name>
+      <desc>Des légendes sont racontées à voix basse à propos du vrai gardien du Néant.  D'yeux brillants d'une lueur haineuse, et d'une peau écaillée aussi noire qu'une nuit sans lune.  Hélas, les légendes de ce cauchemar vivant sont vagues au mieux et toujours emballées dans le voile de la spéculation.  La vérité est que nul n'a jamais vu le gardien Nihilique et survécu.  La légende la plus commune est celle Magnus Severinus, l'Archimage de la Seconde Ère.  Au sommet de sa puissance, on dit qu'il était capable de déplacer des montagnes d'une seule pensée, de créer de luxurieux jardins sur les terrains les plus désolés, et de créer des barrères qui pouvaient arrêter net une armée.  Hélas, sa conseillère la plus intime tomba malade, et son malveillant beau-fils avait pris sa place.  Guidé par ses mots mielleux encouragant son pouvoir et le rendant arrogant, il rassembla le conclave et devant eux tous, déchira le tissu qui sépare les mondes, ouvrant un portail vers le Néant qui pulsait d'une douce lueur pourpre qui semblait presque repousser la lumière à proximité.  Il entra, et invoqua le gardien.  Il n'eut jamais le temps de hurler.  Un morceau de papier, taché de sang noir, resortit du portail et celui ci se referma.  Sur le papier était inscrit le rituel suivant: !d Dans le Néant, autour d'un aurem noir, placer un marquage d'or.  Allumer un feu de chaque coté du marquage.  Lancez y une Essence Nihilique et un Oeil du Néant pour déstabiliser l'aurem et invoquer le gardien. !d Le papier fut enfermé dans des coffres-forts magiques et oublié pendant des millénaires...jusqu'à aujourd'hui.</desc>
+      <relatedEntries></relatedEntries>
+    </boss>
+  </bosses>
+  <blocks>
+    <block id="illusionBlocks">
+      <name>Blocs Illusoires</name>
+      <desc>
+			Les Blocs Illusoires sont si réalistes que votre cerveau ne vous permettra pas de les traverser par instinct de préservation et bon sens.  Seulement avec la vision véridique pouvez vous vous convaincre que l'illusion n'est pas réelle, et passer de l'autre coté.
+			!l
+			"C'est tout?"
+			!l
+			"Non. C'est un mur."
+			!l
+			"Il pourrait être factice."
+			!l
+			"Tu n'es pas très doué pour regarder les choses, n'est ce pas?"
+			!l
+			"Je suis doué pour regarder les murs. Regarde, j'en ai trouvé un autre."
+			</desc>
+      <subitem id="illusionBlock@0">
+        <name>Bloc Illusoire</name>
+        <desc>Les blocs illusoires standards ressembleront et fonctionneront comme des blocs solides sauf si l'entité tentant de les traverser a #9Vision Véridique#0 actif.</desc>
+        <relatedEntries>illusionBlock@1,everstone</relatedEntries>
+      </subitem>
+      <subitem id="illusionBlock@1">
+        <name>Bloc Illusoire Étheré</name>
+        <desc>Les blocs illusoires étherés ressembleront à des blocs solides, mais n'importe quoi passera au travers.  Il émettront toujours des particules si vous avez #9Vision Véridique#0 actif.  Les Blocs Illusoires Étherés ne changeront pas leur apparence à cause de Vision Véridique.</desc>
+        <relatedEntries>illusionBlock@0,everstone</relatedEntries>
+      </subitem>
+      <relatedEntries></relatedEntries>
+    </block>
+    <block id="essence_refiner">
+      <name>Raffineur d'Essence</name>
+      <desc>
+				Le Raffineur d'Essence prend des objets de tous les jours, et en utilisant de la
+				#5Poussière Arcanique#0, les raffine en une pure représentation
+				de ce qui les compose, aussi appelés #5essences#0. La recette pour
+				des essences spécifiques peut être trouvée sous #9Objets -&gt;
+				Essences#0. Le raffineur d'essence requiert aussi de l'#2Etherium#0 pour fonctionner. Celui ci peut s'obtenir dans un
+				#9Obélisque#0 dont l'Etherium Neutre n'a pas d'avantages ou d'inconvénients
+				spécifiques. Aussi, de l'Etherium Sombre peut être utilisé depuis un
+				#9Aurem Noir#0, ce qui réduira significativement la quantité de
+				temps qu'il faut pour raffiner l'essence. Le cercle tournant
+				sur l'interface passera du bleu au pourpre à mesure que
+				le processus de raffinage progresse et s'achève.
+				Un cercle rouge clignotant indique qu'il n'y a pas assez d'Etherium pour
+				continuee, et que le processus s'est mis en pause.
+			</desc>
+      <relatedEntries>essence</relatedEntries>
+    </block>
+    <block id="essenceconduit">
+      <name>Conduit à Etherium</name>
+      <desc>
+				Infusé avec des poudres pour diriger l'Etherium à travers 
+				l'air, le Conduit à Etherium commença à être utilisé massivement presque 
+				immédiatement après son invention.  Ils peuvent également servir à 
+				transférer de l'Etherium sur de plus longues distances que la portée 
+				directe des appareils de génération d'Etherium.  Chacun a une 
+				portée de 10 blocs, et peut former des chaînes pour transporter l'Etherium 
+				à jusqu'à 100 blocs de l'origine.
+			</desc>
+      <relatedEntries></relatedEntries>
+    </block>
+    <block id="casters">
+      <name>Incantateur</name>
+      <desc>
+				Un sort n'est rien de plus que de l'essence dirigée. La volonté
+				d'un utilisateur de magie définit ce que l'essence fait, et si
+				ils ont assez de capacité d'essence, la magie s'écoulera
+				de leurs mains. L'incantateur a été conçu pour répliquer cette
+				propriété, convertissant de l'essence pure en une décharge de magie
+				qui est dirigée à travers une lentille à sort (ainsi qu'occasionellement
+				une lentille à mana) et modelée via les instructions
+				sur un parchemin de sort. À cause de l'extrème coût en essence
+				de certains sorts, les crystaux internes sont équippés
+				d'un emplacement pour une lentille de charge qui fait augmenter
+				subtantiellementla quantité d'essence entrante.
+				Alternativement, une lentille de mana peut être insérée
+				dans les mêmes emplacements, rendant le transfert interne
+				d'essence beaucoup plus efficace.
+			</desc>
+      <subitem id="casterRune">
+        <name>Rune d'Incantation</name>
+        <desc>La Rune d'Incantation fonctionne de la même façon qu'un #5Incantateur#0, à un détail près:  La rune d'incantation ne requière pas de signal de redstone pour fonctionnner, et s'active plutôt quand on marche dessus.  Elle lancera le sort directement sur ce qui l'a activée.</desc>
+        <relatedEntries>foci</relatedEntries>
+      </subitem>
+      <subitem id="blockcaster">
+        <name>Incantateur</name>
+        <desc></desc>
+        <relatedEntries>foci</relatedEntries>
+      </subitem>
+      <relatedEntries>foci</relatedEntries>
+    </block>
+    <block id="blockseerstone">
+      <name>Pierre Voyante</name>
+      <desc>
+				Fonctionnant sur un principe similaire à la Barrière Astrale,
+				la Pierre Voyante utilise une aura d'Etherium projetée à travers
+				une lentille de sort pour détecter les objets proches. Elle peut être
+				contrôlée en concentrant l'Etherium sur un type particulier
+				d'objet, et la fréquence de résonance de l'Etherium peut
+				être modifiée avec une combinaison de runes. Sans
+				combinaisone de runes, la fréquence de résonance fluctue
+				imprévisiblement et ne peut être évitée. La pierre voyante,
+				cependant, est faite pour une approche plus subtile, laissant
+				l'objet continuer, mais émettant un faible signal qui
+				active souvent de bien plus puissantes défenses. En se faufilant
+				tout près et en activant la pierre, on peut même (à condition
+				d'avoir la bonne clé) faire inverser le mode de détection de
+				la pierre, détectant ceux avec la combinaison
+				de cryptolithe correspondante.
+				!d
+				Différentes #5Lentilles#0 peuvent être utilisées dans la pierre voyante.  #5Les lentilles, 
+				Inférieures, Standard et Supérieures#0 changent la distance de détection de 
+				la pierre (5, 10, or 15 blocs respectivement), alors que #5les lentilles 
+				à Objets, Joueurs, Montres ou Créatures#0 peuvent
+				changer ce que cherche la pierre voyante.  Sans une lentille de
+			    ciblage et une lentille de distance, la pierre voyante ne fonctionnera pas.
+				!d
+				Un cryptolithe est 
+				recherchée dans le cas d'un joueur.  Si le joueur a un
+				cryptolithe dans son inventaire, correspondant à la combinaison de runes
+				dans la pierre voyante, la pierre voyante l'ignorera et ne
+				s'activera pas.
+			</desc>
+      <relatedEntries>lesserfocus,standardfocus,greaterfocus,item_focus,player_focus,monster_focus,creature_focus,keystone,foci</relatedEntries>
+    </block>
+    <block id="blockastralbarrier">
+      <name>Barrière Astrale</name>
+      <desc>
+				En parcourant le vide, on doit connaître les barrières.
+				Projetant une aura d'Etherium à travers une lentille de sort, ces
+				barrières résonnent à une fréquence magique spécifique,
+				définie par un cryptolithe. Sans la cryptolithe
+				correspondante, ces barrières déstabiliseront votre magie
+				et vous jetteront hors du vide. En l'absence de cryptolithe
+				dans la barrière astrale, sa fréquence magique
+				fluctuera imprévisiblement, et aucune quantité de cryptolithe ne
+				pourra vous protéger de ses effets. Plusieurs raids de mages sombres
+				ont été déjoués et plusieurs mages de lumières ont été
+				capturés à cause de leur échec à repérer la barrière à
+				temps.
+				!d
+				Différentes #5Lentilles#0 peuvent être utilisées dans la Barrière Astrale.  #5Les lentilles 
+				Inférieures, Standards et Supérieures#0 changent la distance de 
+				la barrière, à 5, 10, ou 15 blocs respectivement. Sans
+				une lentille de distance, la Barrière ne fonctionnera pas.
+				!d
+				La barrière empêchera la téléportation dans sa zone, y compris
+				les perles du néant, blink, marque/rappel, et les hommes du Néant.
+			</desc>
+      <relatedEntries>lesserfocus,standardfocus,greaterfocus,keystone,foci</relatedEntries>
+    </block>
+    <block id="blockkeystonerecepticle">
+      <name>Réceptacle à Cryptolithe</name>
+      <desc>
+				Tous les mages ne sont pas capables de parcourir le vide comme moyen
+				de transport. Encore moins sont volontaires. Le vide est détectable,
+				blocable. Les portails furent développés par les Mages Sombres
+				au début de la guerre, et leur permirent de prendre mains campements
+				de mages de lumière par surprise, car ils utilisent des chemins
+				alternatifs pour transporter vers la destination. Les Barrières
+				Astrales étaient ineffectives pour stopper l'arrivée des
+				Mages Sombres, et le portail de destination ne requièrait aucune énergie
+				pour lui même. Les Mages de Lumière en détruisirent autant qu'ils pouvaient
+				en trouver, mais les Mages Sombres n'en avaient besoin que d'un. Le seul espoir
+				fut quand un jeune Mage de Lumière du nom de Damien
+				Callitri découvrit que les portails pouvaient être verrouillés
+				si un cryptolithe était inséré dans un défaut dans la conception
+				juste au bon endroit dans le méchanisme du portail,
+				et que celà causerait le portail d'envoyer les Mages
+				Sombres à un autre portail (ou nulle part si aucun autre portail
+				non verrouillé n'existe). Ceci mit complètement fin
+				aux raids, et permit aux Mages Blancs de renverser la balance
+				en leur faveur, vu qu'ils pouvaient utiliser les portails
+				pour retourner à leur portail à cryptolithe. Le défaut de
+				conception devint connu par une blaque comme "Réceptacle à Cryptolithe"
+				parmi les Mages Blancs.
+			</desc>
+      <relatedEntries>keystone,gateways</relatedEntries>
+    </block>
+    <block id="ores@0">
+      <name>Minerai de Vinteum</name>
+      <desc>
+				Le Vinteum fut découvert au cours d'une bataille enragée entre
+				Mages de la Lumière et Mages Sombres quand un éclair d'arcane
+				toucha un éclair nihilique. L'explosion résultante
+				créa un cratère de plusieurs mètres de profondeur, où un minerai
+				bleu étincelant brillait dans la lmière de l'après midi. Il ne
+				semble pas avoir des propriétés magiques par lui même, mais
+				soumis à de la chaleur, il devient une fine poudre avec une
+				capacité exceptionelle de condution d'Etherium. En temps que tel, il est
+				largement utilisé dans les appareils magiques dans le monde entier.
+			</desc>
+      <relatedEntries>itemOre@0,vinteumTorch,warding_candle</relatedEntries>
+    </block>
+    <block id="mana_battery">
+      <name>Batterie à Mana</name>
+      <desc>
+				Allant plus loin avec la capacité de la poudre de Vinteum à conduire
+				l'Etherium, un petit groupe de brillants mages fabriqua un cadre
+				en fer et en or capable de contenir de massives quantités
+				d'Etherium. Les Batteries à Mana fourniront
+				toujours de l'énergie aux instruments connectés, mais ils peuvent
+				aussi demander de l'Etherium au réseau
+				quand on leur donne un signal de redstone.
+			</desc>
+      <relatedEntries></relatedEntries>
+    </block>
+    <block id="blue_orchid">
+      <name>Orchidée Bleue</name>
+      <desc>
+				Les Orchidées Bleues prospèrent dans les environnement luxuriants et verdoyants. Elles
+				furent parmi les premères plantes magiques découvertes, servant
+				dans les potions et les onguents. L'Orchidée Bleue émet une
+				lueur ténue et clignotante autour d'elle, et était
+				utilisée autant comme décoration que comme ingrédient
+				alchimique. Peu après sa découverte, il fut
+				aussi noté que l'Orchidée Bleue pouvait servir dans le
+				processus de purification de la poudre de Vinteum. On dit
+				que partout où une Orchidée Bleue peut pousser, les Lucioles
+				ne sont généralement pas loin.
+			</desc>
+      <relatedEntries></relatedEntries>
+    </block>
+    <block id="desert_nova">
+      <name>Nova du Désert</name>
+      <desc>
+				Les Novas du Désert poussent dans des conditions arides. Elles doivent leur nom
+				aux petites décharges de magie qu'lles émettent périodiquement.
+				La Nova a d'extraordinaires propriétés magiques pour
+				une plante du désert, et est très recherchée. C'est l'une des
+				deux plantes servant à la purification de la poudre
+				de Vinteum.
+			</desc>
+      <relatedEntries></relatedEntries>
+    </block>
+    <block id="keystonechest">
+      <name>Coffre à Cryptolithe</name>
+      <desc>Le coffre à cryptolithe fut conçu comme un moyen facile d'avoir un coffre scellé magiquement.  Quand un cryptolithe est inséré dans l'emplacement interne, pour l'ouvrir, il faut avoir un cryptolithe correspondant en main.  En insérant le cryptolithe dans le verrou extérieur*, le coffre peut être ouvert.  Si il n'y a pas de cryptolithe, le coffre s'ouvre normalement.
+			!l
+			!l
+			* Faites juste clic-droit sur le coffre avec le cryptolithe en main.</desc>
+      <relatedEntries>keystone</relatedEntries>
+    </block>
+    <block id="magicWall">
+      <name>Mur Magique</name>
+      <desc>Un des premiers essais de bloc illusoire, le mur magique n'était pas vraiment capable de se fondre dans son environnement.  Ou même de regarder au travers.  Son utilité, cependant, fut juste  après s'être fait critiqué par le maître mage Leonidus pour nos efforts, en le regardant marcher tête la première dedans.  C'est là qu'on a su que la partie bloquage était correcte.  Mais quand la boule de feu qu'il lança dessus REBONDIT et mis feu à sa barbe, nous savions que c'était à garder.</desc>
+      <relatedEntries></relatedEntries>
+    </block>
+    <block id="arcanereconstructor">
+      <name>Reconstructeur Arcanique</name>
+      <desc>La magie peut, avec la bonne influence, faire n'importe quoi.  En dirigeant l'Etherium dans les points faibles d'objets autrement ordinaires, l'Etherium se solidifiera pour réparer les dégats, le rendant comme neuf.</desc>
+      <relatedEntries>chargefocus,arcane_deconstructor</relatedEntries>
+    </block>
+    <block id="lectern">
+      <name>Lettrin</name>
+      <desc>Un indispensable pour n'importe quel mage organisé, le Lettrin est idéal pour ranger des livres, des compendiums, et des thaumonomicons pour un accès facile.  Le livre y reste bien en place et peut être lu sans avoir à l'enlever du Lettrin.  C'est également une part importante de l'Autel de Création, étant donné que la création de sort demande de l'organisation.</desc>
+      <relatedEntries></relatedEntries>
+    </block>
+    <block id="occulus" unlocked="true">
+      <name>Occulus</name>
+      <desc>Un portail vers les étoiles, l'Occulus vous montre le plus profond de vous même.  C'est ici que vous pouvez dépenser vos points de compétence pour débloquer de nouvelles formes, composants, et modificateurs.  Il y a 3 types de points de compétence, qui peuvent être obtenus en trouvant des Orbes d'Infini dans les donjons, les autres structures, et les Rituels d'Invocation.  Les compétences, quand apprenables, brilleront de la couleur du point de compétence correspondant qui sert à les débloquer.  Les points de compétences les plus courants sont les Bleus, suivis par les Verts, et enfin les Rouges.</desc>
+      <relatedEntries>inscriptionTable,lectern,unlockingPowers</relatedEntries>
+    </block>
+    <block id="calefactor">
+      <name>Caléfacteur</name>
+      <desc>Un four magique, le caléfacteur peut produire de la poudre de Vinteum quand il cuit, en plus de l'item qui est cuit.  Si alimenté en Etherium Clair, Neutre ou Sombre, le caléfacteur peut doubler les minerais.  Il a toujours une faible chance de doubler la nourriture.</desc>
+      <relatedEntries>foci,manafocus,chargefocus</relatedEntries>
+    </block>
+    <block id="inscriptionTable">
+      <name>Table d'Inscription</name>
+      <desc>L'organisation est indispensable pour tout mage avide de succès.  En utilisant cette table avec un livre vierge, vous pouvez composer des sorts d'une puissance incroyable.  La plupart des mages placent les parties de sorts qu'ils connaissent en haut de la table dans la Région Source, et placent les formes et les modificateurs dans les carrés bruns mis de coté pour les groupes de formes, et de composants dans la section de Grammaire de Sort au bas de la table pour écrire un sort.  Une fois satisfait de votre sort, vous pouvez l'inscrire dans un livre vierge (vous en avez bien ammené un, n'est ce pas?).  Ce livre peut être placé dans le lettrin d'un Autel de Création, et vous guidera à travers la création du sort.  Le livre vaut aussi le coup d'être lu, car il contient un récapitulatif du sort qu'il décrit, une liste d'ingrédients, et une analyse des affinités.  Voir #5Guides -&gt; Votre Premier Sort#0 pour plus d'informations.</desc>
+      <relatedEntries>altarOfCreation,craftingAltar,magiciansWorkbench,spellComponents101,spell_parchment</relatedEntries>
+    </block>
+    <block id="particleEmitter" unlocked="true">
+      <name>Émetteur de Particules</name>
+      <desc>Bloc purement décoratif, l'émetteur de particules peut servir à créer une ambiance magique dans un endroit.  L'émetteur peut être personalisé en faisant clic-droit dessus, et il peut être caché.  Si il est caché, il suffit de tenir une clé de crystal en main pour le rendre visible à nouveau.  Faire clic-droit sur un émetteur de particules copiera ses paramètres.  Faire clic-droit sur un autre émetteur de particules appliquera ces paramètres sur le second émetteur.</desc>
+      <relatedEntries></relatedEntries>
+    </block>
+    <block id="aum">
+      <name>Aum</name>
+      <desc>Une fleur aux propriétés curatives, l'Aum est un composant dans beaucoup de sorts.  On ne les trouve qu'à la base des Arbres Magiques.</desc>
+      <relatedEntries></relatedEntries>
+    </block>
+    <block id="tarmaroot">
+      <name>Racine de Tarma</name>
+      <desc>Plus légères qu'il n'y parait, les racines de Tarma poussent dans les caves et autres endroits sombres.  Ce sont des ingrédients dans les sorts, et les essences aériennes.</desc>
+      <relatedEntries></relatedEntries>
+    </block>
+    <block id="wakebloom">
+      <name>Fleur d'Aube</name>
+      <desc>Poussant à la surface de l'eau dans les climats chauds, les fleurs d'aube servent fréquemment dans les sorts aquatiques en même temps qu'elles sont un ingrédient des essences aquatiques.</desc>
+      <relatedEntries></relatedEntries>
+    </block>
+    <block id="summoner">
+      <name>Invocateur</name>
+      <desc>L'Invocateur emmène l'Etherium un pas plus loin et l'utilise pour invoquer des créatures à votre service sur réception d'un signal de redstone.  Il a un copieux coût d'invocation, en plus d'un coût de maitien pour maintenir l'invocation en vie.  Si le signal de redstone s'étient ou si l'énergie se tarit, la créature se désinvoquera.  Quand la créature est désinvoquée ou tuée, il y a un court délai avant de pouvoir l'invoquer à nouveau.  Notez que l'invocateur requière un sort d'invocation, et pas un phylactère de crystal rempli.</desc>
+      <relatedEntries>crystal_phylactery,chargefocus,manafocus,foci</relatedEntries>
+    </block>
+    <block id="inlays">
+      <name>Marquages</name>
+      <desc>Les marquages sont des runes qui servent à la fois comme décoration et à l'invocation de Boss quand placés selon le bon motif (voir Structures).  Il y a quelques différents types de marquages.</desc>
+      <subitem id="redstone_inlay">
+        <name>Marquage en Redstone</name>
+        <desc>Les marquages en redstone sont les plus basiques.  Ils servent à invoquer des boss, et peuvent aussi servir de rails.  Ils accéléreront un wagonnet quand il passe au dessus d'eux.  Prenez garde en tournant trop vite, car le wagonnet peut complètement quitter la voie.</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="iron_inlay">
+        <name>Marquage en Fer</name>
+        <desc>Les marquages en fer sont les marquages intermédiaires.  Ils servent à invoquer des boss, et peuvent aussi servir de rails.  Quand un wagonnet touche un marquage en fer, il changera de direction.  Un peu d'inertie est conservée, mais pas toute.</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="gold_inlay">
+        <name>Marquage en Or</name>
+        <desc>Les marquages en or sont les plus avancés.  Ils servent à invoquer les plus puissants des boss.  Ils peuvent aussi servir de rails.  Quand un wagonnet touche un marquage en or, il tentera de se téléporter sur le prochain marquage en or dans la direction vers laquelle il va dans une zone de 8 blocs.  Ceci peut transporter le wagonnet (et son passager) à travers les obstacles solides, car il s'agit bien de téléportation.  Il y a un court délai avant qu'un wagonnet puisse se téléporter à nouveau après s'être téléporté.</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <relatedEntries></relatedEntries>
+    </block>
+    <block id="stonebricksmooth@3" unlocked="true">
+      <name>Blocs de Pierre Sculptée</name>
+      <desc>Vous pouvez créer des blocs de pierre sculptée dont vous avez besoin en craftant de la pierre taillée dans une grille de 2x2.</desc>
+      <relatedEntries></relatedEntries>
+    </block>
+    <block id="saplingWitchwood">
+      <name>Pousse d'Arbre Magique</name>
+      <desc>Les pousses d'arbre magiques s'obtiennent parfois en cassant les feuilles d'un arbre magique.  Elles peuvent être plantées, mais ont cependant besoin d'une source d'Etherium liquide à moins d'1 bloc et en dessous (x/z +/- 1, y-1).  Au plus de source d'Etherium liquide (maximum 8), au plus vite la pousse poussera.  Même avec 8, cependant, le temps de pousse peut être considérable.  Une fois que la pousse a grandi en un arbre maqique, des aums peuvent apparaître à proximité.</desc>
+      <relatedEntries></relatedEntries>
+    </block>
+    <block id="altarOfCreation">
+      <name>Autel de Création</name>
+      <desc>Manipulant les forces de la création, l'autel de création permet aux mages de travailler les miracles de la magie.  C'est ici que vous créerez tous vos sorts dans AM2.  L'autel de création fait partie d'une #9structure multiblock#0.
+			</desc>
+      <relatedEntries>runes,yourFirstSpell,gainingMagicLevels,obelisk</relatedEntries>
+    </block>
+    <block id="magiciansWorkbench">
+      <name>Établi du Magicien</name>
+      <desc>L'Établi du Magicien est né du besoin des mages de fabriquer un grand nombre d'objets.  Cependant, un mage en particulier en eu assez de vider la grille de craft chaque fois qu'il avait oublié un sous-composant, et de devoir aller à un coffre, généralement laissant tomber des objets en chemin.  Cette table #5a plusieurs grilles de craft#0 que vous pouvez utiliser simultanément pour fabriquer des objets.  Elle se souvient également les recettes récemment (les 8 plus récents) et peut restaurer cette recette sur la grille de craft en cliquant sur un bouton, à condition que les composants soient dans le #5stockage interne#0.  Il y a une amélioration que vous pouvez que vous pouvez fabriquer qui augmentera la taille de la seconde grille de 2x2 vers 3x3.</desc>
+      <relatedEntries>workbenchUpgrade</relatedEntries>
+    </block>
+    <block id="everstone" unlocked="true">
+      <name>Pierre de Toujours</name>
+      <desc>La Pierre de Toujours est un bloc infusé de magie qui peut mimiquer les autres blocs comme les #5Blocks Illusoires#0.  Cependant, lorsque cassée, la Pierre de Toujours#9 ne droppera pas, mais deviendra plutôt incorporelle pour un bref instant#0.  Après cela, elle se resolidifiera et retournera à son état normal.  Quand elle se solidifie, la pierre de toujours peut être traversée comme si elle n'était pas là.  Pour en faire un bloc mimique, faites simplement clic-droit sur la pierre de toujours avec le bloc désiré en main.  Si elle n'est pas déja en train de mimiquer un bloc, elle adoptera les propriétés du nouveau bloc.  Pour retirer le masque, faites simplement clic-droit sur la Pierre de Toujours avec une #5Clé de Crystal#0.  Clic-droit sur une Pierre de Toujours qui n'est pas déja en train de mimiquer une texture la fera dropper et vous pourrez la récupérer.</desc>
+      <relatedEntries>illusionBlock@0,illusionBlock@1</relatedEntries>
+    </block>
+    <block id="vinteumTorch">
+      <name>Torches de Vinteum</name>
+      <desc>Les Torches de Vinteum sont simples à fabriquer, et brillent avec à peu près le même éclat que les torches normales.  Elles sont justes une alternative esthétique.</desc>
+      <relatedEntries>ores</relatedEntries>
+    </block>
+    <block id="slipstreamGenerator">
+      <name>Générateur de Courants</name>
+      <desc>Vous êtes parvenu à créer un appareil qui projette un coussin d'air autour de vous pour vous faire flotter vers le haut ou délicatement ralentir votre descente jusqu'au sol.  La machine ne fonctionne que sur les mages au dessus d'elle (#5joueurs uniquement#0), mais a une grande portée verticale.  Pendant les tests, vous avez remarqué que si vous êtes en chute libre quand vous entrez dans son rayon d'effet, il lui faut quelques temps pour vous attraper complètement.  Vous avez aussi réussi à la faire fonctionner #9sur base de la direction dans laquelle vous regardez#0.  regardez en haut, allez en haut.  regarder en bas, allez en bas.  regarder droit devant, flottez.  Vous pouvez également #9vous accroupir pour rester verticalement stationnaire#0, peu importe où vous regardez.</desc>
+    </block>
+    <block id="obelisk">
+      <name>Obélisque</name>
+      <desc>L'obélisque est un bloc runique qui permet de généer de #5l'Etherium#0 (le système d'énergie dans Ars Magica 2).  Elle fonctionne comme un four magique, et brule de la poudre de vinteum ou de l'Etherium liquide pour générer de l'énergie.
+			!d
+			Elle peut être altérée en utilisant des #9Rituels#0 pour devenir un #4Aurem Noir#0 ou un #9Prisme Céleste#0.</desc>
+      <relatedEntries>obelisk_structure,blackaurem_structure,celestialprism_structure,essenceAllAround,powerTypes,mana_battery,essence_refiner,essenceconduit,casters,arcanereconstructor,slipstreamGenerator</relatedEntries>
+    </block>
+    <block id="brokenLink">
+      <name>Lien d'énergie brisés</name>
+      <desc>Si un chemin énergétique est crée, et à un certain point un relai (conduits, etc.) ou générateur (obélisque, prisme, aurem, etc.) est détruit, le système énergétique tentera de vous faire savoir qu'il y avait quelque chose là, et que quelque chose cloche.  Ces blocs seront placés automatiquement si un lien brisé est détecté.  Le bloc sera placé là où le relai ou générateur était.
+			!d
+			Ces blocs ne seront placés que là où il n'y a pas d'autre bloc.  ils ne peuvent être cassés à la main, mais peuvent être remplacés par n'importe quel bloc.  Les liens d'énergie brisés ne sont visibles que si vous portez des #9Lunettes Magitech#0.</desc>
+      <relatedEntries>magitechGoggles</relatedEntries>
+    </block>
+    <block id="flickerHabitat">
+      <name>Habitat à Lucioles</name>
+      <desc>L'habitat à lucioles est une série de crystaux conçus pour permettre aux lucioles de rester dans notre monde.  Si une #9Lentille à Lucioles#0 est ajoutée, les lucioles dans la lentille utiliseront l'habitat pour performer différentes tâches, comme faire pousser les plantes, trier des objets, pêcher, créer des barrières magiques, et bien d'autres fonctions.
+			!d
+			Vous pouvez aussi placer une #9Jarre à Lucioles#0 dans l'habitat et elle servira à modifier la fonctionnalité des habitats adjacents avec une lentille à lucioles dedans.
+			!d
+			Voir l'entrée sur les lentilles à lucioles pour plus d'informations sur comment elles peuvent êtres modifiées.</desc>
+      <relatedEntries>flickerFocus,flicker_jar,crystalMarkers</relatedEntries>
+    </block>
+    <block id="crystalMarker">
+      <name>Crystaux de Marquage</name>
+      <desc>Les Crystaux de Marquage sont utilisés pour indiquer aux lucioles dans un habitat à lucioles comment trier les objets.</desc>
+      <subitem id="cm_import">
+        <name>Crystail d'Importation</name>
+        <desc>Ce crystal indique aux lucioles de collecter des objets dans l'inventaire auquel il est attaché et de les ammener dans le réseau de transfert d'objets</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="cm_export">
+        <name>Crystal d'Exportation</name>
+        <desc>Ce crystal indique aux lucioles que tous les objets dans le réseau de transfert peuvent être exportés dans l'inventaire auquel ce crystal est attaché</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="cm_likeExport">
+        <name>Crystal d'Exportation Mimiquée</name>
+        <desc>Ce crystal indique aux lucioles que les objets peuvent être exportés depuis le réseau de transfert vers l'inventaire auquel il est attaché pour autant que cet inventaire contiennent déja ces objets</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="cm_setExport">
+        <name>Crystal d'Exportation Définie</name>
+        <desc>Ce crystal indique aux lucioles qu'elles peuvent exporter des objets du réseau de transfert à l'inventaire auquel ce crystal est attaché pour autant que ces objets aient eté définis dans l'interface du crystal (clic droit pour accéder)</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="cm_regulateExport">
+        <name>Crystal d'Exportation Régulée</name>
+        <desc>Ce crystal indique aux lucioles qu'elles peuvent exporter des objets dans l'inventaire auquel il est attaché pour autant que ces objets aient été définis dans l'interface et que le nombre de ces objets contenus dans l'inventaire soit inférieur à celui défini dans l'interface (clic droit pour accéder)</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="cm_regulateMulti">
+        <name>Crystal Bidirectionnel Régulé</name>
+        <desc>Ce crystal indique aux lucioles qu'elles peuvent à la fois importer et exporter dans l'inventaire auquel il est attaché !d Importation: !l Les Lucioles prendront des objets dans l'inventaire si ils ont été définis dans le GUI et le nombre de cet objet dans l'inventaire est supérieur à celui défini dans le GUI !d Exportation: !l Les lucioles placeront des objets dans l'inventaire si ils ont été définis dans l'interface et le nombre de ces objets contenus dans l'inventaire est inférieur à celui défini dans l'interface</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+      <subitem id="cm_setImport">
+        <name>Crystal d'Importation définie</name>
+        <desc>Ce crystal indique aux lucioles qu'elles peuvent importer des objets dans le réseau de transfert depuis l'inventaire auquel il est attaché pour autant que ces objets aient été définis dans l'interface du crystal</desc>
+        <relatedEntries>flickerFocus</relatedEntries>
+      </subitem>
+    </block>
+    <block id="keystoneDoors">
+      <name>Portes à Cryptolithes</name>
+      <desc>Les portes à cryptolithes peuvent être verrouillées avec une combinaison de runes.  Si verrouillées, elles ne s'ouvriront que si vous avez un cryptolithe avec la combinaison de runes correspondante dans votre inventaire.  Si non verrouillées, elles fonctionnent simplement comme une porte.  Les zombies ne peuvent pas les casser dans les deux cas.</desc>
+      <subitem id="keystoneDoor">
+        <name>Porte à Cryptolithe</name>
+        <desc></desc>
+        <relatedEntries>keystone, keystoneTrapdoor</relatedEntries>
+      </subitem>
+      <subitem id="keystoneTrapdoor">
+        <name>Trappe à Cryptolithe</name>
+        <desc></desc>
+        <relatedEntries>keystone, keystoneDoor</relatedEntries>
+      </subitem>
+    </block>
+    <block id="armor_infuser">
+      <name>Table d'Imbuement d'Armure</name>
+      <desc>La table d'imbuement d'armure peut servir à attacher des enchantements à n'importe quelle armure dans Minecraft.  Pour celà, vous devez d'abord avoir l'armure équippée.  Passer la souris sur n'importe quelle pièce d'armure fera apparaître un message "Maintenir SHIFT pour des détails".  Celà vous permettra de voir combien d'XP a été absorbée dans l'armure.  L'armure gagne de l'XP quand vous en gagnez.  Voir #5Mécaniques -&gt; Infusion d'XP d'Armure#0 pour plus d'information là dessus. !d Une fois que votre armure a atteint au moins le niveau 30, vous pouvez appliquer dessus un enchantement de palier I.  Équippez simplement l'armure et activez la table d'imbuement.  Déplacez l'armure de l'emplacement d'équipement au bas de l'interface dans l'emplacement actif.  Les enchantements disponibles apparaîtront en couleur, ceux indisponibles seront grisés.  Vous ne pouvez appliquer qu'un enchantement par palier, donc choisissez bien!  !d Les coûts par palier sont: !l Palier 1: 30 niveaux !l Palier 2: 42 niveaux !l Palier 3: 54 niveaux !l Palier 4: 66 niveaux !d Chaque fois que vous imbuez l'armure, l'XP en est déduite pour appliquer l'enchantement.</desc>
+      <subitem id="imbuement_burnout_reduction">
+        <name>Imbuement:  Réduction du Burnout</name>
+        <desc>L'Imbuement de réduction de Burnout octroie une augmentation de 150% du taux de réduction de votre burnout. Cet effet est additif sur chaque pièce d'armure, avec un maximum de 600%. !d Emplacements valides:  Tête, Torse, Jambes, Bottes</desc>
+      </subitem>
+      <subitem id="imbuement_fall_damage">
+        <name>Imbuement: Résistance aux Dégats de Chute</name>
+        <desc>L'Imbuement de dégats de chute cause une réduction de 15% des dégats de chute. !d Emplacement valides:  Tête, Torse, Jambes, Bottes</desc>
+      </subitem>
+      <subitem id="imbuement_drown_damage">
+        <name>Imbuement: Résistance aux Dégats de Noyade</name>
+        <desc>L'Imbuement cause une réduction de 15% des dégats de noyade. !d Emplacement valides:  Tête, Torse, Jambes, Bottes</desc>
+      </subitem>
+      <subitem id="imbuement_explosive_damage">
+        <name>Imbuement: Résistance aux Dégats d'Explosion</name>
+        <desc>L'Imbuement de dégats d'explosion cause une réduction de 15% des dégats explosifs. !d Emplacement valides:  Tête, Torse, Jambes, Bottes</desc>
+      </subitem>
+      <subitem id="imbuement_phys_damage">
+        <name>Imbuement: Résistance aux Dégats Physiques</name>
+        <desc>L'Imbuement de dégats physiques cause une réduction de 15% des dégats physiques. !d Emplacement valides:  Tête, Torse, Jambes, Bottes</desc>
+      </subitem>
+      <subitem id="imbuement_fire_damage">
+        <name>Imbuement: Résistance aux Dégats de Feu</name>
+        <desc>L'Imbuement de dégats de feu cause une réduction de 15% des dégats de feu. !d Emplacement valides:  Tête, Torse, Jambes, Bottes</desc>
+      </subitem>
+      <subitem id="imbuement_frost_damage">
+        <name>Imbuement: Résistance aux Dégats de Givre</name>
+        <desc>L'Imbuement de dégats de givre cause une réduction de 15% des dégats de givre. !d Emplacement valides:  Tête, Torse, Jambes, Bottes</desc>
+      </subitem>
+      <subitem id="imbuement_lightning_damage">
+        <name>Imbuement: Résistance aux Dégats de Foudre</name>
+        <desc>L'Imbuement de dégats de foudre cause une réduction de 15% des dégats de foudre. !d Emplacement valides:  Tête, Torse, Jambes, Bottes</desc>
+      </subitem>
+      <subitem id="imbuement_magic_damage">
+        <name>Imbuement: Résistance aux Dégats Magiques</name>
+        <desc>L'Imbuement de dégats magiques cause une réduction de 15% des dégats magiques. !d Emplacement valides:  Tête, Torse, Jambes, Bottes</desc>
+      </subitem>
+      <subitem id="imbuement_mana_regeneration">
+        <name>Imbuement: Régenération de Mana</name>
+        <desc>TL'Imbuement de régenération de mana octroie une augmentation de 10% de votre taux de régen de mana. !d Emplacement valides:  Tête, Torse, Jambes, Bottes</desc>
+      </subitem>
+      <subitem id="imbuement_magitech">
+        <name>Imbuement: Lunettes Magitech Intégrées</name>
+        <desc>L'Imbuement de lunettes magitech permettent à un casque de d'avoir le mêmes attributs que les #5Lunettes Magitech#0. !d Emplacements valides: Tête</desc>
+        <relatedEntries>magitechGoggles</relatedEntries>
+      </subitem>
+      <subitem id="imbuement_pinpoint_ores">
+        <name>Imbuement: Marquage des Minerais</name>
+        <desc>L'Imbuement de marquage des minerais permet un degré supplémentaire de précision en utilisant les #5Chandelles phasées#0, donnant une coloration noire à la flamme à moins de 2 blocs du minerai cible.  !d Emplacements valides: Tête</desc>
+        <relatedEntries>warding_candle</relatedEntries>
+      </subitem>
+      <subitem id="imbuement_hunger_regen">
+        <name>Imbuement: Régenération de Faim</name>
+        <desc>L'Imbuement de régenération de faim fait passivement remonter votre barre de faim. !d Emplacements valides: Tête</desc>
+      </subitem>
+      <subitem id="imbuement_mining_speed">
+        <name>Imbuement: Vitesse de Minage Augmentée</name>
+        <desc>L'imbuement de minage augmenté vous fait miner les blocs 50% plus vite. !d Emplacements valides: Tête</desc>
+      </subitem>
+      <subitem id="imbuement_thaumic_vision">
+        <name>Imbuement: Vision Thaumique</name>
+        <desc>#9REQUIERT THAUMCRAFT#0 !d L'Imbuement de vision thaumique vous fait voir les choses comme si vous aviez des lunettes de Thaumcraft équippées. !d Emplacements valides: Tête</desc>
+      </subitem>
+      <subitem id="imbuement_water_breathing">
+        <name>Imbuement: Respiration Aquatique</name>
+        <desc>l'Imbuement de respiration aquatique vous permet de respirer sous l'eau quelques instants si vous n'avez plus d'oxygène. !d Emplacements valides: Tête</desc>
+      </subitem>
+      <subitem id="imbuement_flicker_lure">
+        <name>Imbuement: Appât à Lucioles</name>
+        <desc>L'Imbuement d'appât à lucioles empêchera les #9Lucioles#0 de disparaître quand vous vous approchez. !d Emplacements valides: Torse</desc>
+      </subitem>
+      <subitem id="imbuement_soulbound">
+        <name>Imbuement: Lié à l'âme</name>
+        <desc>L'Imbuement Lié à l'âme fera que l'item reste dans votre inventaire quand vous mourrez plutôt que d'être droppé. !d Emplacements valides: Torse, Jambes, Bottes</desc>
+      </subitem>
+      <subitem id="imbuement_healing">
+        <name>Imbuement: Soin</name>
+        <desc>L'Imbuement de soin vous donne un puissant buff de régenération si votre vie est basse. !d Emplacements valides: Torse</desc>
+      </subitem>
+      <subitem id="imbuement_life_saving">
+        <name>Imbuement: Sauvevie</name>
+        <desc>L'Imbuement de sauvevie vous protège de la mort, restaurant 50% de vos PVs.  Fait d'extrème dégats à l'armure et a un long cooldown. !d Emplacements valides: Torse</desc>
+      </subitem>
+      <subitem id="imbuement_bonus_xp">
+        <name>Imbuement: XP Magique Bonus</name>
+        <desc>L'Imbuement d'XP magique bonus ocrtoie 50% d'XP magique bonus pour les incantations de sorts. !d Emplacements valides: Torse</desc>
+      </subitem>
+      <subitem id="imbuement_recoil">
+        <name>Imbuement: Recul</name>
+        <desc>L'Imbuement de recul repousse violemment tous ceux qui vous attaquent au corps à corps. !d Emplacements valides: Torse</desc>
+      </subitem>
+      <subitem id="imbuement_stepassist">
+        <name>Imbuement: Assistance de Marche</name>
+        <desc>L'Imbuement d'assistance de marche vous permet de marcher par dessus les monticules d'un bloc de haut. !d Emplacements valides: Jambes</desc>
+      </subitem>
+      <subitem id="imbuement_dispelling">
+        <name>Imbuement: Dissipation de Sort</name>
+        <desc>L'Imbuement de dissipation enlève tous les buffs négatifs actifs sur vous.  A un faible cooldown. !d Emplacements valides: Jambes</desc>
+      </subitem>
+      <subitem id="imbuement_lava_prot">
+        <name>Imbuement: Protection contre la Lave</name>
+        <desc>Au cas où vous tomber dans la lave, cet imbuement s'activera, solidifiant la lave autour de vous en un dome protectif de cobble/obsidienne. !d Emplacements valides: Jambes</desc>
+      </subitem>
+      <subitem id="imbuement_jump_boost">
+        <name>Imbuement: Saut Augmenté</name>
+        <desc>Imbuement de saut augmenté vous permet de sauter significativement plus haut. !d Emplacements valides: Jambes</desc>
+      </subitem>
+      <subitem id="imbuement_swim_boost">
+        <name>Imbuement: Bonus de Vitesse de Nage</name>
+        <desc>L'Imbuement de vitesse de nage vous fait nager beaucoup plus vite. !d Emplacements valides: Jambes</desc>
+      </subitem>
+      <subitem id="imbuement_run_speed">
+        <name>Imbuement: Bonus de Vitesse de Course</name>
+        <desc>L'Imbuement de vitesse de course vous fait courir beaucoup plus vite. !d Emplacements valides: Bottes</desc>
+      </subitem>
+      <subitem id="imbuement_fall_protection">
+        <name>Imbuement: Parachute</name>
+        <desc>L'Imbuement de parachute appliquera automatiquement un effet de chute ralentie juste avant que vous ne touchiez le sol, prévenant tout dégat.  Il a un court cooldown. !d Emplacements valides: Bottes</desc>
+      </subitem>
+      <subitem id="imbuement_freedom">
+        <name>Imbuement: Liberté de Mouvement</name>
+        <desc>L'Imbuement de liberté de mouvement empêche la plupart des effets handicapants de vous atteindre. !d Emplacements valides: Bottes</desc>
+      </subitem>
+      <subitem id="imbuement_water_walking">
+        <name>Imbuement: Marche sur l'Eau</name>
+        <desc>Vous pouvez marcher sur l'eau avec ces bottes.  Vous êtes un ninja! !d Marche sur l'eau ne s'applique que si vous êtes à la suraface de l'eau.  si vous êtes dans, ou sous l'eau, vous pouvez nager normalement.  Nagez simplement à la surface et sautez pour commencer à marcher.  À la surface de l'eau, accroupissez vous pour plonger. !d Emplacements valides: Bottes</desc>
+      </subitem>
+      <subitem id="imbuement_light_step">
+        <name>Imbuement: Pas lumineux</name>
+        <desc>L'Imbuement de pas lumineux placera automatiquement des lumières de mages à vos pieds (si possible) si le niveau de lumière est assez bas pour que des monstres puissent apparaître. !d Emplacements valides: Bottes</desc>
+      </subitem>
+    </block>
+	<block id="flicker_lure">
+      <name>Appât à Lucioles</name>
+      <desc>Les lucioles sont normalement incapables d'entrer dans notre monde, mais avec un peu d'aide et d'encouragement, vous pouvez le rendre possible.  Placer ce bloc et l'alimenter en Étherium permettra aux lucioles d'être attirées dans notre monde!  Quand vous en voulez, appliquez juste un signal redstone.  Le type de luciole dépend d'où l'appât se trouve.  Voir l'entrée sur les #9Lucioles#0 pour plus d'informations.</desc>
+      <relatedEntries>Flicker</relatedEntries>
+    </block>
+	<block id="arcane_deconstructor">
+      <name>Déconstructeur Arcanique</name>
+      <desc>Le Déconstructeur Arcanique, lorsqu'alimenté en #5Étherium Sombre#0 peut désassembler un objet en ses composants. !d  En plus, il peut aussi désassembler les sorts.  Vous récupérerez la plupart des objets d'un sort, mais les objets comme la rune vide initiale ou l'etherium, de même que le parchemin de sort final, ne seront pas récupérés. !d Le déconstructeur essayera de to place les objets dans les inventaires adjacents si son propre inventaire est plein après déconstruction.  Tout objet ne pouvant être rangé sera simplement éjecté dans le monde.</desc>
+      <relatedEntries>chargefocus</relatedEntries>
+    </block>
+  </blocks>
+  <mechanics>
+    <mechanic id="affinity">
+      <name>Affinités</name>
+      <desc>#5L'Affinité#0 représente un lien avec certains aspects de la magie.  Vous débutez avec aucune affinité.  Votre affinité est représentée par un petit diagramme sur le HUD, et peuvent être visionnées en détail dans un Occulus (Bloc craftable).  Votre affinité changera sur base des sorts que vous lancez, ce qui veut dire que si vous lancez souvent un certain type de sorts, vous deviendrez meilleurs avec.
+			Lancer des sorts d'une autre affinité vous déplacera vers cette affinité.  Une fois atteint les 100% d'affinité, vous deviendrez verrouillé sur cette affinité, et devrez lire une tome d'affinité opposée pour déverrouiller cotre affinité, ce qui reprendra la progression normale.  Déverrouiller une affinité pleine vous ramènera à 80%.
+			
+			Chaque composant de sort à une affinité.  Les composants de la même affinité que vous coûteront moins de mana, et en fonction de votre degré affinité (à quel point dans l'affinité vous êtes), peuvent même ne pas coûter de réagents.  Les composants de l'affinité opposée, cependant, coûteront plus de mana et là aussi, en fonction de votre degré d'affinité, peut demander plus de réagents.  Les affinités offrent des bonus et des désavantages spécifiques, décrits dans les entrées correspondantes.			
+			</desc>
+      <subitem id="earth_affinity">
+        <name>Affinité de Terre</name>
+        <desc>
+					L'affinité de terre offre un bonus mineur de défense, grâce à votre peau renforcée.  Au maximum, vous aurez 10% de réduction des dégats totaux, appliquée avant l'armure.  Le pourcentage dépends de votre degré d'affinité, et commence à partir de 25% d'affinité.
+					!d
+					Avec l'affinité de terre, vous êtes plus lourd, et coulerez donc plus vite dans l'eau (mais jamais assez pour que vous ne puissiez plus remonter en surface), et vous prenez plus de dégats de chute.
+				</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="water_affinity">
+        <name>Affinité d'Eau</name>
+        <desc>
+					L'affinité d'eau offre un bonus de déplacement dans l'eau ainsi qu'une meilleure rétention de l'oxygène sous l'eau.  Vous n'êtes aussi plus déplacé par de l'eau qui coule.  Les Endermen qui attaquent un mage d'eau à 100% d'affinité prennent des dégats comme si ils avaient touché de l'eau.
+					!d
+					Les mages d'eau prennent périodiquement des dégats si ils sont exposés au feu, ce qui rend le Nether particulièrement dangereux.  Ces dégats ne vous mettront pas en dessous de 75% de votre santé, et ne s'appliqueront pas si vous êtes en dessous.
+				</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="air_affinity">
+        <name>Affinité d'Air</name>
+        <desc>
+					L'affinité d'air offre un bonus de saut et vous pouvez tomber sur une plus grande distance avant de prendre des dégats.  Ces bonus dépendent de votre degré d'affinité: vous sautez un bloc plus haut et pouvez chuter un bloc plus bas à 50%.  Ces bonus vont à 2 à 75%, et à 3 à 100%.
+					!d
+					Les mages d'air craignent la pluie et la tempète; le vent vous pousse et vous devez bouger plus lentement.  #5S'accroupir#0 ou lancez un sort de #5Puit Gravitationel#0 peut mitiger cet effet et vous permettre de bouger dans la tempète... lentement.
+				</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="fire_affinity">
+        <name>Affinité de Feu</name>
+        <desc>
+					L'affinité de feu offre une réduction des dégats dans le feu et la lave, bien que pas d'immunité complète.  La protection est directement liée à votre degré d'affinité, et atteint 60% au maximum d'affinité.  frapper du poing les ennemis à 100% d'affinité  leur met le feu.
+					!d
+					Une fois que votre affinité de feu atteint 50%, vous prendrez périodiquement des dégats au contact avec de l'eau.  Ces dégats ne vous ammèneront pas en dessous de 75% de votre santé et ne s'appliqueront pas si en dessous.
+				</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="nature_affinity">
+        <name>Affinité de Nature</name>
+        <desc>
+					L'affinité de nature vous donne plus de graine et de pousses en récoltant des plantes dans le monde.  À 50% d'affinité, vous gagnez l'effet Aura de Ronces, qui inflige des dégats aux attaquants au corps à corps (similaire à l'enchantement d'armure).  Ces dégats augmentent à 75% d'affinité et à 100% d'affinité.  À pleine affinité de nature vous regagnez lentement de la faim à la lumière du soleil.  Vous pouvez également étendre des racines dans le sol, ce qui vous permet de grimper certaines surfaces comme les araignées le font.
+					!d
+					L'affinité de nature vous fait bouger plus lentement à cause de vos racines. À 100% d'affinité vous perdez plus rapidement votre faim pendant la nuit ou dans des zones peu éclairées.
+				</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="ice_affinity">
+        <name>Affinité de Glace</name>
+        <desc>
+					L'affinité de glace ralentit vos attaquants.  À 50%, en vous accroupissant vous gelez l'eau devant vous, ce qui vous permet de faire des ponts en bougeant.  À 100% vous gelez la lave en obsidienne.
+					!d
+					Tous les mages de glace bougent plus lentement à cause de leur sang froid, sauf sur l'eau ou la glace.
+				</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="lightning_affinity">
+        <name>Affinité de Foudre</name>
+        <desc>
+					L'affinité de foudre vous fait courir plus vite.  L'augmentation de vitesse est directement relié à votre degré d'affinité, allant de 1 à 30%.  À 50%, vous gagnez la capacité de marchez par dessus les tallus d'un bloc de haut.
+					!d
+					Malheureusement, à cause de votre affinité, vous avez tendance à court-circuiter dans l'eau. Vous pouvez aussi allumer la TNT proche et supercharger les creepers!  Pas d'inquiétude cependant, en gagnant contrôle sur votre nature électrique, vous arriverez à réduire les effets sur la TNT et les creepers.
+				</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="life_affinity">
+        <name>Affinité de Vie</name>
+        <desc>
+					L'affinité de vie vous fais très lentement régénérer des PVs supplémentaires.  La vitesse de régen est directement liée à votre degré d'affinité.  Cette régen s'applique sans regard pour votre niveau de faim.
+					!d
+					Étant donné vos liens étroits avec la vie, vous êtes malade et nauséeux chaque fois que vous tuez quelque chose.
+				</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="arcane_affinity">
+        <name>Affinité d'Arcane</name>
+        <desc>
+					L'affinité d'arcane fait que tous vos sorts coûtens 5% de mana en moins, en plus des autres réductions de mana.  À 100%, il y a également une chance de gagner l'effet clarté en lançant un sort, ce qui annule le coût de votre prochain sort.
+					!d
+					L'inconvénient est que toutes les sources de dégats magiques vous font plus de dégats.
+				</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="ender_affinity">
+        <name>Affinité du Néant</name>
+        <desc>
+					L'affinité du néant vous donne de la résistance au poison à 50%, et à 75% vous gagnez automatiquement la vision nocturne dans les zones sombres.  À 100% d'affinité, Les endermen ne vous attaqueront pas, sauf si vous les attaquez en premier.
+					!d
+					À cause de votre nature obscure, votre vie maximum est réduite en pleine lumière, et à 100% d'affinité, elle est réduite dans l'eau également.
+				</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <relatedEntries></relatedEntries>
+    </mechanic>
+    <mechanic id="spellCreation" unlocked="true">
+      <name>Création de Sorts</name>
+      <desc>Créer des sorts est un peu long, mais simple.  D'abord, apprenez des parties de sorts dans un #5Occulus#0.  Ensuite, assemblez le sort que vous voulez créer dans une #5Table d'Inscription#0.  Placez le livre de la table d'inscription dans le lettrin de votre autel de création, et jetez y une #5Rune Vide#0.  Le livre vous guidera à travers le reste du processus, vous montrant ce dont vous avez besoin.  Quand de l'Étherium est requis pendant la création du sort, utilisez une #5Clé de Crystal#0 pour changer le type d'énergie si nécéssaire, puis activez le levier sur l'autel.  La structure prendra l'énergie nécéssaire, puis désactivera automatiquement le levier une fois terminé.  Dès que votre sort est créé, équippez le et faites clic-droit pour le nommer et choisir l'icone.  Si vous avez fait tout cela correctement, le sort sera lançable!  Sinon il montrera l'interface de customisation quand vous le lancez.</desc>
+      <relatedEntries></relatedEntries>
+    </mechanic>
+    <mechanic id="infusion">
+      <name>L'Infusion</name>
+      <desc>#5L'Infusion#0 est un processus par lequel de l'armure AM draine votre mana pour se réparer.  À cause de cette mécanique, toutes les armures AM ont peu de durabilité, et ne dureront pas dans un combat prolongé.  Enlever l'armure stoppera l'infusion - elle doit être équippée pour que la mécanique fonctionne.  Si l'armure est à pleine durabilité, il n'y a pas de coût de mana.</desc>
+      <relatedEntries></relatedEntries>
+    </mechanic>
+    <mechanic id="mana" unlocked="true">
+      <name>Le Mana</name>
+      <desc>Le Mana est votre niveau d'énergie magique.  Vous gagnez plus de mana en augmentant votre niveau magique. !d Le mana se régenère avec le temps, mais vous pouvez avoir des boosts de régen en mangeant un #9MCake au Mana#0 où en vous tenant près d'un obélisque, d'un Prisme Céleste, ou d'un Aurem Noir avec plus de 10% de charge.  Les #9Potions de Mana#0 et les #9Paquets de Potions de Mana#0 servent à donner un boost instantané de mana.  Le mana est représenté par une barre bleue HUD.  Vous pouvez utiliser "#2/amuicfg#0" pour sélectionner une option pour afficher les valeurs numériques de votre mana.</desc>
+      <relatedEntries></relatedEntries>
+    </mechanic>
+    <mechanic id="magicLevel" unlocked="true">
+      <name>Niveau Magique</name>
+      <desc>Le niveau magique représente votre puissance en temps que mage.  Quand votre niveau magique augmente, vos quantités de mana et de burnout augmentent aussi.  Le niveau magique peut être augmenté en lancant des sorts valides.  A valid spell cast is one that does what is intended, meaning casting fire bolt at a wall for an hour won't get you anywhere.  Certain components that have valid targets more rarely award more magical XP towards the next level.  Your Magic Level is represented by a blue number on your HUD.  You can use "#2/amuicfg#0" to toggle an option to show the actual numeric values of your magic XP bar.</desc>
+      <relatedEntries></relatedEntries>
+    </mechanic>
+    <mechanic id="burnout" unlocked="true">
+      <name>Le Burnout</name>
+      <desc>Le Burnout est votre tension en lançant des sorts.  Plus haut est votre Burnout, plus vos sorts coûteront du mana.  Lancer des sorts plus puissants génerera plus de Burnout.  Celui ci diminue avec le temps.  Gagner des niveaux de magie augmenteront votre Burnout maximum, vous permettant de lancer plus de sorts avant d'être épuisé.  Votre Burnout est représenté par une barre rouge sur l'interface.  Vous pouvez utiliser "#2/amuicfg#0" pour activer une option qui montre les valeurs numériques de votre burnout.</desc>
+      <relatedEntries></relatedEntries>
+    </mechanic>
+    <mechanic id="rituals">
+      <name>Rituels d'Invocation</name>
+      <desc>Les Rituels d'Invocation servent à invoquer les boss dans Ars Magica.  Voir la section des #5boss#0 de ce compendium pour les rituels spécifiques de chaque boss.</desc>
+      <relatedEntries></relatedEntries>
+    </mechanic>
+    <mechanic id="moonstone_meteors">
+      <name>Météorites de Lunepierre</name>
+      <desc>À certaines occasion pendant la nuit, de petites météorites aterrissent sur ce monde.  C'est le seul moyen d'obtenir du minerai de Lunepierre.  La pleine lune augmente les chances qu'il en spawne.  Les météorites tombent toujours dans un rayon de 32 blocs d'un joueur, et elles ne tombent que sur le sol naturel du biome.  Ce qui veut dire qu'à moins que vous ayez une maison faites d'herbe, elles ne toucheront même pas votre maison.  Et si vous avez une maison en herbe, alors c'est quoi votre problème?  Vous n'avez jamais lu les trois petits cochon?</desc>
+      <relatedEntries></relatedEntries>
+    </mechanic>
+    <mechanic id="enchantments" unlocked="true">
+      <name>Enchantements</name>
+      <desc>AM ajoute quelques enchantements utiles au jeu pour faciliter votre ascension dans les arcanes de la magie.</desc>
+      <subitem id="magic_resistance">
+        <name>Résistance Magique</name>
+        <desc>Comme le nom le suggère, cet enchantement offre de la protection contre les dégats magiques.  Il y a 4 rangs de cet enchantement, et ça se met sur de l'armure.</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <subitem id="soulbound">
+        <name>Lié à l'âme</name>
+        <desc>Êtes vous jamais fatigués de perdre votre équipement quand vous mourrez?  Vous pouvez palier à celà maintenant.  L'enchantement 'Lié à l'âme' peut être appliqué sur a peu près tout ce qui peut être enchanté, et fera toujours en sorte que cet objet reste dans votre inventaire quand vous mourrez.  Vous réapparaitrez avec l'objet dans le même emplacement que quand vous êtes mort.  'Lié à l'âme' ne peut être appliqué qu'une fois sur un même objet.</desc>
+        <relatedEntries></relatedEntries>
+      </subitem>
+      <relatedEntries></relatedEntries>
+    </mechanic>
+    <mechanic id="armor_xp_infusion">
+      <name>Infusion d'XP d'armure</name>
+      <desc>Quand vous gagnez de l'XP, n'importe quelle pièce d'armure équippée en gagnera aussi.  La quantité gagnée est égale au total d'XP que vous venez de gagner divisé à parts égales entre toutes les pièces d'armure équipées.  N'importe quelle armure peut gagner de l'XP.  l'XP enmagasinée dans l'armure peut être utilisée dans une #Table d'Imbuement d'Armure#0.</desc>
+      <relatedEntries>armor_infuser</relatedEntries>
+    </mechanic>
+    <mechanic id="silver_skills">
+      <name>Compétences d'Argent</name>
+      <desc>Les compétences d'argent sont des compétences dans l'occulus qui ne peuvent pas être obtenues normalement.  Pour débloquer une compétence d'argent, le bon sort doit être fabriqué, et puis lancé.  Il y a quelques règles à l'obtention des compétences d'argent qui les rendront plus facile à trouver. !d 1.) Toutes les parts requises pour débloquer une compétence d'argent sont dans le #9même arbre de comptétence que la compétence elle même#0. !d 2.) Toutes les comptétences d'argent requièrent entre  #9 2 et 4 composants et/oo modificateurs pour être débloqués#0. !d 3.) Les Formes n'ont aucune importance pour débloquer une compétence d'argent.  #9N'importe quelle Forme peut être utilisée#0. !d 4.) La combinaison #9n'a pas besoin d'être dans un ordre spécifique#0.  Tant que les bons composants sont là, ça marchera. !d 5.) Les composants/modificateurs #9doivent tous être dans la même étape#0. !d 6.) Les composants et modificateurs #9ont un sens logique par rapport à la compétence d'argent#0.  Par exemple, Tempète de Feu ne requière pas "Noyade". !d 7.) Le sort pour débloquer une compétence d'argent ne sont pas spécialement les plus pratiques pour un usage commun.</desc>
+      <relatedEntries></relatedEntries>
+    </mechanic>
+  </mechanics>
+  <guides>
+    <guide id="introToArsMagica" order="0" unlocked="true" new="false">
+      <name>Avant Propos</name>
+      <desc>Ars Magica a commencé comme ma première expérience du modding.  J'ai développé du software professionellement depuis 11 avant la sortie de AM2, mais n'ai jamais fait beaucoup de game design.  J'aimais beaucoup Minecraft, mais je trouvais que ce serait l'endroit parfait pour un monde magique.  Donc j'ai commencé, et qui aurait cru que ça me plairait autant.  J'ai passé littéralement des centaines d'heures à développer AM1 et AM2.  Avec quelques bons tutoriels et un peu de chance, J'ai réussi à écrire AM1.  Maintenant j'ai pris ce que j'ai appris, résolu certains problème qui étaient apparus (et probablement introduit deux fois plus), et j'ai fait Ars Magica 2.  Je tiens à remercier toutes les personnes qui ont aidé ce mod à devenir ce qu'il est maintenant, mes beta-testeurs, tous ceux qui m'ont aidé avec le code, les modèles, et les textures - Ce ne serait pas ce que c'est sans vous.  Et toi, le joueur, j'espère que tu prendra autant de plaisir à jouer avec ce mod que j'en ai eu moi à le faire. !d Bonnes Incantations! !l ~Mithion</desc>
+    </guide>
+    <guide id="usingThisCompendium" order="1" unlocked="true">
+      <name>Utiliser ce Compendium</name>
+      <desc>Ce compendium est conçu pour débloquer des entrées quan vous y arrivez, pour vous guider d'une certaine manière à travers le début du mod.  Vous êtes notifiés à chaque fois que vous débloquez de nouvelles entrées.  Les catégories avec de nouvelles entrées brilleront, et les nouvelles entrées elle même seront marquées d'un croissant de lune.  !d Si vous préférez vous passer de celà, vous pouvez le désactiver dans la config en changeant "Staged Compendium" en false.  Ce compendium est #9intra-lié#0.  N'importe quel item que vous observez dans votre inventaire qui a du texte en vert peut être cliqué et vous serez emmené à l'entrée correspondante du compendium. !d Ce compendium garde aussi un historique des lectures, ce qui veut dire que vous pouvez regarder en ordre inverse les pages que vous avez visitées.</desc>
+    </guide>
+    <guide id="theAMUI" order="2" unlocked="true">
+      <name>L'interface d'Ars Magica</name>
+      <desc>L'acte de ramasser un compendium a débloqué les énergies magiques en vous.  Vous avez maintenant l'interface d'AM2 activée.  Pour configurer cette interface, à n'importe quel moment, entrez la commande "#2/amuicfg#0".  Cela ouvrira une interface de configuration drag and drop.  Faites vos changements et appuyez sur ESC pour les sauvegarder.</desc>
+    </guide>
+    <guide id="spellComponents101" order="4">
+      <name>Les Composants de Sorts</name>
+      <desc>Les sorts sont composés de #4formes#0, #9composants#0, et #2modificateurs#0.  Les Formes définissent comment les sorts ciblent les choses. Les Composants définissent ce que font les sorts à ce qu'ils ciblent, et les Modificateurs changent certains aspects des sorts.  Une #4forme#0 ne peut apparaître qu'une fois dans un même sort.  Les Formes peuvent être enchainées pour créer différentes étapes du sorts. Par exemple, un "Projectile AoE".  Les Composants peuvent être ajoutés une fois par étape. Quant aux modificateurs, le même aspect d'un sort peut être modifié jusqu'à 3 fois par étape.  Celà veut dire que si vous avez des modificateurs qui changent plusieurs parties d'un sort, ils peuvent verrouiller les autres modificateurs qui modifient les mêmes stats si le nombre de modificateurs pour cette forme est égal à trois.  Le compendium ne vous montrera que les formes, composants et modificateurs que vous connaissez déjà, ou pouvez apprendre.</desc>
+    </guide>
+    <guide id="yourFirstSpell" order="3" unlocked="true">
+      <name>Votre premier sort</name>
+      <desc>Pour faire un sort, vous avez d'abord besoin de fabriquer un #5Occulus#0 et débloquer au moins une forme et un composant.  Vous débutez avec trois points de compétences bleus pour celà.  Ensuite, fabriquez un livre éditable et allez à votre #5Table d'Inscription#0.  Placez le livre dans la table d'inscription. !d Il y a trois sections importantes de l'interface de la table d'inscription.  La région source est le gros carré gris au dessus, et contient toutes les formes, composants et modificateurs.  Les groupes formes sont distinguées par des carrés bruns.  Il y a plusieurs carrés bruns car plusieurs groupes de formes peuvent être crées.  Enfin, il y a la section de Grammaire des Sorts, qui est le rectangle gris au bas.  !d Créez des #5Groupes de Formes#0 en y déposant des formes et/ou modificateurs de la région source vers n'importe quel des groupes de formes dans l'interface.  Vous pouvez créer plusieurs groupes de formes dans le même sort, trois par défaut.  Chaque groupe de formes peut contenir jusqu'à quatre formes/modificateurs.  Les groupes de formes ne peuvent pas contenir de composants. Une façon de le voir est que les groupes de formes sont différentes manières de cibler avec un sort, et que la grammaire de sort est ce que le sort fait en fin de compte. !d Une fois vos groupes de formes crées, déposez les parts de sorts que vous voulez, dans l'ordre, de la région source vers la section de grammaire de sort. La section de grammaire de sort peut contenir des formes, des composants et des modificateurs en plus des groupes de formes.  Une fois votre combinaison complète, allez à votre #5Autel de Création#0 et placez votre livre contenant la recette du sort sur le lettrin.  Lancez une #5rune vide#0 au milieu de l'autel de création pour commencer le processus, et suivez les instruction du livre.  Le livre vaut la peine d'être lu, car il contient un résumé de ce à quoi la recette sert, la liste des matérieaux pour le sort et une analyse des affinités dus sort.  Notez que certains autels de création ne peuvent créer que les sorts d'une certaine puissance.  Trop de puissance et de mauvaises chosed peuvent arriver.  Voir l'entrée sur #5l'Autel de Création#0 pour plus d'informations.</desc>
+    </guide>
+    <guide id="gainingMagicLevels" order="5">
+      <name>Gagner des niveaux magiques</name>
+      <desc>Vous gagnez des niveaux de magie en lancant des sorts.  Vous ne gangez pas d'XP magique si le sort rate, et il y a un malus avec un cooldown, donc spammer les sorts pour grind ne vous mènera à rien.  Lancer des sorts affecte aussi votre affinité.  Voir #5Mécaniques -&gt; Affinités#0 pour plus d'informations.</desc>
+    </guide>
+    <guide id="unlockingPowers" order="6">
+      <name>Obtenir des points de compétences</name>
+      <desc>Vous gagnez des points de compétences principalement en gangant des niveaux.  À chaque niveau pair, vous gangez un poinr de compétence.  Les niveaux 2-20 vous donnent des points de compétences bleus, 22-40 vous donnent des points de compétences verts et 42-50 vous donnent des poits de compétences rouges.  Des points supplémentaires peuvent être obtenus en combattant des boss, échangeant avec des villageois, et en explorant.  À vous de choisir!  En regardant les compétences débloquables dans l'#5Occulus#0, passer votre souris au dessus de la compétence affiche #9du texte qui correspond à la couleur de point de compétence qu'il faut pour le débloquer#0.</desc>
+    </guide>
+    <guide id="essenceAllAround" order="7">
+      <name>Le système d'Etherium</name>
+      <desc>Ars Magica contient un système d'énergie unique appelé #5Etherium#0.  l'Etherium est généré avec un #5Obélisque#0.  Un obélisque diffusera de l'énergie aux autres blocs à énergie dans un rayon de 10 blocs.  Pour étendre la portée de l'obélisque, vous pouvez placer des #5Conduits à Etherium#0 à moins de 10 blocs de l'obélisque.  Chaque conduit projette aussi un rayon de 10 blocs dans lequel vous pouvez relayer de l'énergie de l'obélisque, ce qui étend la portée de l'obélisque dans une chaîne. !d Il y a plusieurs types d'Etherium.  Les autres types d'Etherium peuvent être générés par d'autres blocs, comme #9Etherium Clair#0 généré par un #5Prisme Céleste#0 ou  l'#4Etherium Sombre#0 par un #5Aurem Noir#0.  Tous les types d'Etherium ont les mêmes règles de transmission que l'obélisque, et peuvent être étendus par des Conduits à Etherium.</desc>
+    </guide>
+    <guide id="powerTypes" order="8">
+      <name>Types d'Etherium</name>
+      <desc>Il y a trois types d'Etherium par défaut.  Des Addons du mod peuvent ajouter de nouveaux types d'Etherium, mais ceux par défaut sont Clair, Neutre et Sombre.  Voir structures pour les crafts et la variations de ceux-ci.  Chaque type d'Etherium affecte les machines d'une manière différente, et a ses avantages et ses inconvénients.  Vous aurez aussi besoin des trois types d'Etherium pour la création de sorts, car certaines formes, composants et modificateurs peuvent requiérir différents types d'Etherium.  Certaines machines ne peuvent fonctionner qu'avec certains types d'Etherium, et certaines machines requièrent plusieurs types simultanément.</desc>
+    </guide>
+  </guides>
+</compendium>
