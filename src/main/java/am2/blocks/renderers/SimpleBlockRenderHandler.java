@@ -9,7 +9,7 @@ import am2.blocks.tileentities.TileEntityManaBattery;
 import am2.guis.GuiBlockAccess;
 import am2.items.ItemsCommonProxy;
 import am2.models.ModelCandle;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import net.minecraftforge.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;

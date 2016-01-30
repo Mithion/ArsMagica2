@@ -2,7 +2,7 @@ package am2.enchantments;
 
 import am2.AMCore;
 import am2.LogHelper;
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import net.minecraftforge.fml.common.registry.LanguageRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;

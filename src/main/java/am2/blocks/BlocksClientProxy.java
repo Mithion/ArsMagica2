@@ -2,8 +2,8 @@ package am2.blocks;
 
 import am2.blocks.renderers.*;
 import am2.blocks.tileentities.*;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class BlocksClientProxy extends BlocksCommonProxy{
 	public static TileEntityEssenceConduit essenceConduitInventoryRender;

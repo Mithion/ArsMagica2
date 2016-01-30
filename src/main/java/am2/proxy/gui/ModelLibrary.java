@@ -5,8 +5,8 @@ import am2.bosses.models.ModelWinterGuardianArm;
 import am2.entities.EntityBroom;
 import am2.entities.models.ModelBroom;
 import am2.models.*;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 
 @SideOnly(Side.CLIENT)

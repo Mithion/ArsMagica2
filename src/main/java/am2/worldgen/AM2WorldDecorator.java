@@ -3,7 +3,7 @@ package am2.worldgen;
 import am2.AMCore;
 import am2.blocks.BlocksCommonProxy;
 import am2.entities.SpawnBlacklists;
-import cpw.mods.fml.common.IWorldGenerator;
+import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;

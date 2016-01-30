@@ -9,7 +9,7 @@ import am2.armor.*;
 import am2.blocks.BlocksCommonProxy;
 import am2.blocks.tileentities.flickers.FlickerOperatorRegistry;
 import am2.enchantments.AMEnchantmentHelper;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;

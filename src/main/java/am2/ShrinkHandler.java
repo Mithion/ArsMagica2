@@ -6,7 +6,7 @@ import am2.playerextensions.ExtendedProperties;
 import am2.spell.SkillManager;
 import am2.spell.SkillTreeManager;
 import am2.utility.EntityUtilities;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingEvent;
 

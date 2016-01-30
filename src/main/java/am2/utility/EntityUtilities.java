@@ -10,7 +10,7 @@ import am2.entities.ai.selectors.SummonEntitySelector;
 import am2.items.ItemCrystalPhylactery;
 import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
-import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;

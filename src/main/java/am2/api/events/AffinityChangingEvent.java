@@ -1,8 +1,8 @@
 package am2.api.events;
 
 import am2.api.spell.enums.Affinity;
-import cpw.mods.fml.common.eventhandler.Cancelable;
-import cpw.mods.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.Cancelable;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraft.entity.player.EntityPlayer;
 
 @Cancelable

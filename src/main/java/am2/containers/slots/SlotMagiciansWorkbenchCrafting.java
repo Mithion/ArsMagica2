@@ -1,7 +1,7 @@
 package am2.containers.slots;
 
 import am2.containers.ContainerMagiciansWorkbench;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;

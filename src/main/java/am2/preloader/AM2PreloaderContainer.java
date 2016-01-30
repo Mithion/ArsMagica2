@@ -2,10 +2,10 @@ package am2.preloader;
 
 import am2.LogHelper;
 import com.google.common.eventbus.EventBus;
-import cpw.mods.fml.common.DummyModContainer;
-import cpw.mods.fml.common.LoadController;
-import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
+import net.minecraftforge.fml.common.DummyModContainer;
+import net.minecraftforge.fml.common.LoadController;
+import net.minecraftforge.fml.common.ModMetadata;
+import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
 import java.io.File;
 import java.util.Arrays;

@@ -1,7 +1,7 @@
 package am2.items;
 
 import am2.utility.EntityUtilities;
-import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;

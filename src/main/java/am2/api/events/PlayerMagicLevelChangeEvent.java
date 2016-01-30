@@ -1,6 +1,6 @@
 package am2.api.events;
 
-import cpw.mods.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraft.entity.EntityLivingBase;
 
 /**

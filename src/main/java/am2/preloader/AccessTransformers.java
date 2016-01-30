@@ -1,6 +1,6 @@
 package am2.preloader;
 
-import cpw.mods.fml.common.asm.transformers.AccessTransformer;
+import net.minecraftforge.fml.common.asm.transformers.AccessTransformer;
 
 import java.io.IOException;
 

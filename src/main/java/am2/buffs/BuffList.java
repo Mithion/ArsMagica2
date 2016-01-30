@@ -6,7 +6,7 @@ import am2.api.potion.IBuffHelper;
 import am2.particles.AMParticle;
 import am2.particles.ParticleLiveForBuffDuration;
 import am2.texture.ResourceManager;
-import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.potion.Potion;
 

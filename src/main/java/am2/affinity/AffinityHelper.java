@@ -14,7 +14,7 @@ import am2.network.AMPacketIDs;
 import am2.playerextensions.AffinityData;
 import am2.playerextensions.ExtendedProperties;
 import am2.utility.MathUtilities;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.BlockTNT;

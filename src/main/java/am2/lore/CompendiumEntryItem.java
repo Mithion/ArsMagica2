@@ -2,9 +2,9 @@ package am2.lore;
 
 import am2.AMCore;
 import am2.guis.GuiArcaneCompendium;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.w3c.dom.Node;

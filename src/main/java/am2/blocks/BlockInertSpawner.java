@@ -3,7 +3,7 @@ package am2.blocks;
 import am2.AMCore;
 import am2.blocks.tileentities.TileEntityInertSpawner;
 import am2.guis.ArsMagicaGuiIdList;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
