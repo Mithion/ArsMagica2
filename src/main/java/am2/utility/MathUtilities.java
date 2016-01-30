@@ -4,10 +4,7 @@ import am2.api.math.AMVector3;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 import java.security.InvalidParameterException;
@@ -258,7 +255,7 @@ public class MathUtilities{
 		Vec3 vec3d1 = entityplayer.getLookVec();
 		Vec3 vec3d2 = vec3d.addVector(vec3d1.xCoord * d, vec3d1.yCoord * d, vec3d1.zCoord * d);
 		double f1 = collideRadius;
-		List list = world.getEntitiesWithinAABBExcludingEntity(entityplayer, entityplayer.boundingBox.addCoord(vec3d1.xCoord * d, vec3d1.yCoord * d, vec3d1.zCoord * d).expand(f1, f1, f1));
+		List list = world.getEntitiesWithinAABBExcludingEntity(entityplayer, entityplayer.getEntityBoundingBox().addCoord(vec3d1.xCoord * d, vec3d1.yCoord * d, vec3d1.zCoord * d).expand(f1, f1, f1));
 
 		double d2 = 0.0D;
 		for (int i = 0; i < list.size(); i++){
@@ -269,7 +266,7 @@ public class MathUtilities{
 					false);
 			if (((entity.canBeCollidedWith()) || (nonCollide)) && mop == null){
 				float f2 = Math.max(0.8F, entity.getCollisionBorderSize());
-				AxisAlignedBB axisalignedbb = entity.boundingBox.expand(f2, f2, f2);
+				AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand(f2, f2, f2);
 				MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(vec3d, vec3d2);
 				if (axisalignedbb.isVecInside(vec3d)){
 					if ((0.0D < d2) || (d2 == 0.0D)){
@@ -294,7 +291,7 @@ public class MathUtilities{
 		float var5 = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * var4;
 		float var6 = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * var4;
 		double var7 = entity.prevPosX + (entity.posX - entity.prevPosX) * var4;
-		double var9 = entity.prevPosY + (entity.posY - entity.prevPosY) * var4 + 1.6D - entity.yOffset;
+		double var9 = entity.prevPosY + (entity.posY - entity.prevPosY) * var4 + 1.6D - entity.getYOffset();
 		double var11 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * var4;
 		Vec3 var13 = new Vec3(var7, var9, var11);
 		float var14 = MathHelper.cos(-var6 * 0.017453292F - (float)Math.PI);
@@ -337,16 +334,16 @@ public class MathUtilities{
 		int distance = 0;
 
 		while (distance < 20){
-			if (world.isAirBlock((int)Math.floor(ent.posX), yCoord, (int)Math.floor(ent.posZ))){
+			if (world.isAirBlock(new BlockPos((int)Math.floor(ent.posX), yCoord, (int)Math.floor(ent.posZ)))){
 				break;
 			}
-			if (world.isAirBlock((int)Math.ceil(ent.posX), yCoord, (int)Math.floor(ent.posZ))){
+			if (world.isAirBlock(new BlockPos((int)Math.ceil(ent.posX), yCoord, (int)Math.floor(ent.posZ)))){
 				break;
 			}
-			if (world.isAirBlock((int)Math.floor(ent.posX), yCoord, (int)Math.ceil(ent.posZ))){
+			if (world.isAirBlock(new BlockPos((int)Math.floor(ent.posX), yCoord, (int)Math.ceil(ent.posZ)))){
 				break;
 			}
-			if (world.isAirBlock((int)Math.ceil(ent.posX), yCoord, (int)Math.ceil(ent.posZ))){
+			if (world.isAirBlock(new BlockPos((int)Math.ceil(ent.posX), yCoord, (int)Math.ceil(ent.posZ)))){
 				break;
 			}
 			distance++;

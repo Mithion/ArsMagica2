@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.EnumFacing;
 
 public class InventoryUtilities{
 	public static int decrementStackQuantity(IInventory inventory, int slotIndex, int quantity){
@@ -72,11 +73,11 @@ public class InventoryUtilities{
 		return false;
 	}
 
-	public static boolean mergeIntoInventory(IInventory inventory, ItemStack toMerge, int quantity, int side){
+	public static boolean mergeIntoInventory(IInventory inventory, ItemStack toMerge, int quantity, EnumFacing side){
 		if (inventory instanceof ISidedInventory){
 			ItemStack stack = toMerge.splitStack(Math.min(toMerge.stackSize, quantity));
 			ISidedInventory sidedInventory = (ISidedInventory)inventory;
-			int[] slots = sidedInventory.getAccessibleSlotsFromSide(side);
+			int[] slots = sidedInventory.getSlotsForFace(side);
 			boolean flag = false;
 
 			for (int i = 0; i < slots.length && stack != null && stack.stackSize > 0; ++i){
@@ -152,11 +153,11 @@ public class InventoryUtilities{
 		return false;
 	}
 
-	public static boolean inventoryHasItem(IInventory inventory, ItemStack search, int quantity, int side){
+	public static boolean inventoryHasItem(IInventory inventory, ItemStack search, int quantity, EnumFacing side){
 		if (inventory instanceof ISidedInventory){
 			ISidedInventory sidedInventory = (ISidedInventory)inventory;
 			int qtyFound = 0;
-			int[] slots = sidedInventory.getAccessibleSlotsFromSide(side);
+			int[] slots = sidedInventory.getSlotsForFace(side);
 
 			for (int i = 0; i < slots.length; i++){
 				ItemStack inventoryStack = inventory.getStackInSlot(slots[i]);
@@ -229,10 +230,10 @@ public class InventoryUtilities{
 		return false;
 	}
 
-	public static boolean inventoryHasRoomFor(IInventory inventory, ItemStack stack, int qty, int side){
+	public static boolean inventoryHasRoomFor(IInventory inventory, ItemStack stack, int qty, EnumFacing side){
 		if (inventory instanceof ISidedInventory){
 			ISidedInventory sidedInventory = (ISidedInventory)inventory;
-			int[] slots = sidedInventory.getAccessibleSlotsFromSide(side);
+			int[] slots = sidedInventory.getSlotsForFace(side);
 
 			for (int i = 0; i < slots.length; i++){
 				ItemStack invStack = inventory.getStackInSlot(slots[i]);
@@ -301,11 +302,11 @@ public class InventoryUtilities{
 		return totalCount;
 	}
 
-	public static int getLikeItemCount(IInventory inventory, ItemStack stack, int side){
+	public static int getLikeItemCount(IInventory inventory, ItemStack stack, EnumFacing side){
 		if (inventory instanceof ISidedInventory){
 			int totalCount = 0;
 			ISidedInventory sidedInventory = (ISidedInventory)inventory;
-			int[] slots = sidedInventory.getAccessibleSlotsFromSide(side);
+			int[] slots = sidedInventory.getSlotsForFace(side);
 
 			for (int i = 0; i < slots.length; i++){
 				ItemStack invStack = inventory.getStackInSlot(slots[i]);
@@ -319,11 +320,11 @@ public class InventoryUtilities{
 		}
 	}
 
-	public static boolean canInsertItemToInventory(IInventory inventory, ItemStack itemStack, int slot, int side){
+	public static boolean canInsertItemToInventory(IInventory inventory, ItemStack itemStack, int slot, EnumFacing side){
 		return !inventory.isItemValidForSlot(slot, itemStack) ? false : !(inventory instanceof ISidedInventory) || ((ISidedInventory)inventory).canInsertItem(slot, itemStack, side);
 	}
 
-	private static boolean canExtractItemFromInventory(IInventory inventory, ItemStack itemStack, int slot, int side){
+	private static boolean canExtractItemFromInventory(IInventory inventory, ItemStack itemStack, int slot, EnumFacing side){
 		return !(inventory instanceof ISidedInventory) || ((ISidedInventory)inventory).canExtractItem(slot, itemStack, side);
 	}
 
@@ -338,10 +339,10 @@ public class InventoryUtilities{
 		return new GetFirstStackStartingFromSlotResult(-1, null);
 	}
 
-	public static GetFirstStackStartingFromSlotResult getFirstStackStartingFromSlot(IInventory inventory, ItemStack itemStack, int slot, int side){
+	public static GetFirstStackStartingFromSlotResult getFirstStackStartingFromSlot(IInventory inventory, ItemStack itemStack, int slot, EnumFacing side){
 		if (inventory instanceof ISidedInventory){
 			ISidedInventory sidededInventory = (ISidedInventory)inventory;
-			int[] slots = sidededInventory.getAccessibleSlotsFromSide(side);
+			int[] slots = sidededInventory.getSlotsForFace(side);
 
 			for (int i = slot; i < slots.length; i++){
 				itemStack = inventory.getStackInSlot(slots[i]);

@@ -3,6 +3,7 @@ package am2.worldgen;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
@@ -16,17 +17,17 @@ public class WorldGenEssenceLakes extends WorldGenerator{
 	}
 
 	@Override
-	public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5){
-		par3 -= 8;
+	public boolean generate(World par1World, Random par2Random, BlockPos pos){
+		pos = pos.west(8);
 
-		for (par5 -= 8; par4 > 5 && par1World.isAirBlock(par3, par4, par5); --par4){
+		for (pos = pos.north(8); pos.getY() > 5 && par1World.isAirBlock(pos); pos = pos.down()){
 			;
 		}
 
-		if (par4 <= 4){
+		if (pos.getY() <= 4){
 			return false;
 		}else{
-			par4 -= 4;
+			pos = pos.down(4);
 			boolean[] aboolean = new boolean[2048];
 			int l = par2Random.nextInt(4) + 4;
 			int i1;
@@ -65,13 +66,13 @@ public class WorldGenEssenceLakes extends WorldGenerator{
 						flag = !aboolean[(i1 * 16 + j2) * 8 + i2] && (i1 < 15 && aboolean[((i1 + 1) * 16 + j2) * 8 + i2] || i1 > 0 && aboolean[((i1 - 1) * 16 + j2) * 8 + i2] || j2 < 15 && aboolean[(i1 * 16 + j2 + 1) * 8 + i2] || j2 > 0 && aboolean[(i1 * 16 + (j2 - 1)) * 8 + i2] || i2 < 7 && aboolean[(i1 * 16 + j2) * 8 + i2 + 1] || i2 > 0 && aboolean[(i1 * 16 + j2) * 8 + (i2 - 1)]);
 
 						if (flag){
-							Material material = par1World.getBlock(par3 + i1, par4 + i2, par5 + j2).getMaterial();
+							Material material = par1World.getBlockState(pos.add(i1, i2, j2)).getBlock().getMaterial();
 
 							if (i2 >= 4 && material.isLiquid()){
 								return false;
 							}
 
-							if (i2 < 4 && !material.isSolid() && par1World.getBlock(par3 + i1, par4 + i2, par5 + j2) != this.targetBlock){
+							if (i2 < 4 && !material.isSolid() && par1World.getBlockState(pos.add(i1, i2, j2)).getBlock() != this.targetBlock){
 								return false;
 							}
 						}
@@ -83,12 +84,9 @@ public class WorldGenEssenceLakes extends WorldGenerator{
 				for (j2 = 0; j2 < 16; ++j2){
 					for (i2 = 0; i2 < 8; ++i2){
 						if (aboolean[(i1 * 16 + j2) * 8 + i2]){
-							par1World.setBlock(
-									par3 + i1,
-									par4 + i2,
-									par5 + j2,
-									i2 >= 4 ? Blocks.air : this.targetBlock,
-									0,
+							par1World.setBlockState(
+									pos.add(i1, i2, j2),
+									i2 >= 4 ? Blocks.air.getDefaultState() : this.targetBlock.getDefaultState(), // todo 1.8 targetblock state
 									2);
 						}
 					}

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
@@ -52,7 +53,7 @@ public class BlockTarmaRoot extends AMFlower{
 
 	//EoD: Tarmas should only grow in dark places
 	@Override
-	public boolean canGrowOn(World worldIn, int x, int y, int z) {
+	public boolean canGrowOn(World worldIn, BlockPos pos) {
 		return canBlockStay(worldIn, x, y, z) && worldIn.getFullBlockLightValue(x, y, z) < 4;
 	}
 }

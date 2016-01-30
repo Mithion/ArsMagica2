@@ -3,6 +3,7 @@ package am2.worldgen;
 import am2.AMCore;
 import am2.blocks.BlocksCommonProxy;
 import am2.entities.SpawnBlacklists;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -73,12 +74,12 @@ public class AM2WorldDecorator implements IWorldGenerator{
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider){
 
-		if (!SpawnBlacklists.worldgenCanHappenInDimension(world.provider.dimensionId))
+		if (!SpawnBlacklists.worldgenCanHappenInDimension(world.provider.getDimensionId()))
 			return;
 
-		if (world.provider.terrainType == WorldType.FLAT) return;
-		if (dimensionBlacklist.contains(world.provider.dimensionId)) return;
-		switch (world.provider.dimensionId){
+		if (world.getWorldType() == WorldType.FLAT) return;
+		if (dimensionBlacklist.contains(world.provider.getDimensionId())) return;
+		switch (world.provider.getDimensionId()){
 		case -1:
 			generateNether(random, chunkX, chunkZ, world, chunkGenerator, chunkProvider);
 			break;
@@ -103,7 +104,7 @@ public class AM2WorldDecorator implements IWorldGenerator{
 		generateFlowers(desertNova, world, random, chunkX, chunkZ);
 		generateFlowers(tarmaRoot, world, random, chunkX, chunkZ);
 
-		BiomeGenBase biome = world.getBiomeGenForCoords(chunkX << 4, chunkZ << 4);
+		BiomeGenBase biome = world.getBiomeGenForCoords(new BlockPos(chunkX << 4, 0, chunkZ << 4));
 		Type[] biomeTypes = BiomeDictionary.getTypesForBiome(biome);
 		boolean typeValid = false;
 		for (Type type : biomeTypes){
@@ -131,7 +132,7 @@ public class AM2WorldDecorator implements IWorldGenerator{
 			int lakeGenX = (chunkX * 16) + random.nextInt(16) + 8;
 			int lakeGenY = random.nextInt(128);
 			int lakeGenZ = (chunkZ * 16) + random.nextInt(16) + 8;
-			(new WorldGenEssenceLakes(BlocksCommonProxy.liquidEssence)).generate(world, random, lakeGenX, lakeGenY, lakeGenZ);
+			(new WorldGenEssenceLakes(BlocksCommonProxy.liquidEssence)).generate(world, random, new BlockPos(lakeGenX, lakeGenY, lakeGenZ));
 		}
 	}
 
@@ -140,7 +141,7 @@ public class AM2WorldDecorator implements IWorldGenerator{
 		int y = random.nextInt(128);
 		int z = (chunkZ << 4) + random.nextInt(16) + 8;
 
-		flowers.generate(world, random, x, y, z);
+		flowers.generate(world, random, new BlockPos(x, y, z));
 	}
 
 	private void generateOre(WorldGenMinable mineable, int amount, World world, Random random, int minY, int maxY, int chunkX, int chunkZ){
@@ -149,25 +150,25 @@ public class AM2WorldDecorator implements IWorldGenerator{
 			int y = random.nextInt(maxY - minY) + minY;
 			int z = (chunkZ << 4) + random.nextInt(16);
 
-			mineable.generate(world, random, x, y, z);
+			mineable.generate(world, random, new BlockPos(x, y, z));
 		}
 	}
 
 	private void generateTree(WorldGenerator trees, World world, Random random, int chunkX, int chunkZ){
 		int x = (chunkX * 16) + random.nextInt(16);
 		int z = (chunkZ * 16) + random.nextInt(16);
-		int y = world.getHeightValue(x, z);
+		BlockPos pos = world.getHeight(new BlockPos(x, 0, z));
 
-		if (new WitchwoodTreeHuge(true).generate(world, random, x, y, z)){
-			aum.generate(world, random, x, y, z);
+		if (new WitchwoodTreeHuge(true).generate(world, random, pos)){
+			aum.generate(world, random, pos);
 		}
 	}
 
 	private void generatePools(World world, Random random, int chunkX, int chunkZ){
 		int x = (chunkX * 16) + random.nextInt(16);
 		int z = (chunkZ * 16) + random.nextInt(16);
-		int y = world.getHeightValue(x, z);
+		BlockPos pos = world.getHeight(new BlockPos(x, 0, z));
 
-		pools.generate(world, random, x, y, z);
+		pools.generate(world, random, pos);
 	}
 }
