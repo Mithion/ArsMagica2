@@ -14,6 +14,7 @@ import am2.api.spell.ISpellUtils;
 import am2.api.spell.component.interfaces.ISkillTreeEntry;
 import am2.api.spell.enums.SkillPointTypes;
 import am2.api.spell.enums.SkillTrees;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,7 +22,6 @@ import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.util.IIcon;
 
 public class ArsMagicaApi{
 	public static final ArsMagicaApi instance = new ArsMagicaApi();
@@ -40,15 +40,15 @@ public class ArsMagicaApi{
 	 * Attributes for AM2's properties
 	 */
 	//Bonus to max mana.  Applied additively.
-	public static final IAttribute maxManaBonus = new RangedAttribute("am2.maxManaBonus", 0.0f, 0.0f, Double.MAX_VALUE).setDescription("Mana Bonus").setShouldWatch(true);
+	public static final IAttribute maxManaBonus = new RangedAttribute(null, "am2.maxManaBonus", 0.0f, 0.0f, Double.MAX_VALUE).setDescription("Mana Bonus").setShouldWatch(true);
 	//Bonus to max burnout.  Applied additively.
-	public static final IAttribute maxBurnoutBonus = new RangedAttribute("am2.maxBurnoutBonus", 0.0f, 0.0f, Double.MAX_VALUE).setDescription("Burnout Bonus").setShouldWatch(true);
+	public static final IAttribute maxBurnoutBonus = new RangedAttribute(null, "am2.maxBurnoutBonus", 0.0f, 0.0f, Double.MAX_VALUE).setDescription("Burnout Bonus").setShouldWatch(true);
 	//Bonus to XP gained.  Applied multiplicatively.
-	public static final IAttribute xpGainModifier = new RangedAttribute("am2.xpMultiplier", 1.0f, 0.0f, Double.MAX_VALUE).setDescription("XP Mutiplier").setShouldWatch(true);
+	public static final IAttribute xpGainModifier = new RangedAttribute(null, "am2.xpMultiplier", 1.0f, 0.0f, Double.MAX_VALUE).setDescription("XP Mutiplier").setShouldWatch(true);
 	//Bonus to mana regen rate.  Applied multiplicatively.
-	public static final IAttribute manaRegenTimeModifier = new RangedAttribute("am2.manaRegenModifier", 1.0f, 0.5f, 2.0f).setDescription("Mana Regen Rate Multiplier").setShouldWatch(true);
+	public static final IAttribute manaRegenTimeModifier = new RangedAttribute(null, "am2.manaRegenModifier", 1.0f, 0.5f, 2.0f).setDescription("Mana Regen Rate Multiplier").setShouldWatch(true);
 	//Bonus to burnout reduction rate.  Applied multiplicatively.
-	public static final IAttribute burnoutReductionRate = new RangedAttribute("am2.burnoutReduction", 1.0f, 0.1f, 2.0f).setDescription("Burnout Reduction Rate").setShouldWatch(true);
+	public static final IAttribute burnoutReductionRate = new RangedAttribute(null, "am2.burnoutReduction", 1.0f, 0.1f, 2.0f).setDescription("Burnout Reduction Rate").setShouldWatch(true);
 
 	private static final float manaBurnoutRatio = 0.38f;
 
@@ -188,7 +188,7 @@ public class ArsMagicaApi{
 	 * @param IIcon The IIcon to use.  You need to register these IIcons with the game beforehand during your mod's load phase - AM won't do it for you.
 	 */
 	@SideOnly(Side.CLIENT)
-	public final void registerSkillIcon(String name, IIcon IIcon){
+	public final void registerSkillIcon(String name, TextureAtlasSprite IIcon){
 		spellIconManager.registerIcon(name, IIcon);
 	}
 

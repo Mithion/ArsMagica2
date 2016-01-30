@@ -1,6 +1,7 @@
 package am2.api.illeffect;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Map;
@@ -24,12 +25,10 @@ public interface IIllEffect extends Comparable{
 	 * Callback to actually apply the ill effect.
 	 *
 	 * @param world The world the effect is happening in
-	 * @param x     The x coordinate of the vinteum crystal
-	 * @param y     The y coordinate of the vinteum crystal
-	 * @param z     The z coordinate of the vinteum crystal
+	 * @param pos     The position of the vinteum crystal
 	 * @return A map of entity players affected, as well as any metadata relevant to the effect applied on that player.
 	 */
-	public Map<EntityPlayer, Object> ApplyIllEffect(World world, int x, int y, int z);
+	public Map<EntityPlayer, Object> ApplyIllEffect(World world, BlockPos pos);
 
 	/**
 	 * Gets the localized description of this ill effect as pertains to the affected entity player.
