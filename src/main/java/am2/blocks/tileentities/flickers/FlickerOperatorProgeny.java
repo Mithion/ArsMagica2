@@ -39,7 +39,7 @@ public class FlickerOperatorProgeny implements IFlickerFunctionality{
 		HashMap<Class, Integer> entityCount = new HashMap<Class, Integer>();
 		int radius = 8;
 		int diameter = radius * 2 + 1;
-		List<EntityAnimal> creatures = worldObj.getEntitiesWithinAABB(EntityAnimal.class, AxisAlignedBB.getBoundingBox(((TileEntity)habitat).xCoord - radius, ((TileEntity)habitat).yCoord - radius, ((TileEntity)habitat).zCoord - radius, ((TileEntity)habitat).xCoord + radius + 1, ((TileEntity)habitat).yCoord + radius + 1, ((TileEntity)habitat).zCoord + radius + 1));
+		List<EntityAnimal> creatures = worldObj.getEntitiesWithinAABB(EntityAnimal.class, new AxisAlignedBB(((TileEntity)habitat).xCoord - radius, ((TileEntity)habitat).yCoord - radius, ((TileEntity)habitat).zCoord - radius, ((TileEntity)habitat).xCoord + radius + 1, ((TileEntity)habitat).yCoord + radius + 1, ((TileEntity)habitat).zCoord + radius + 1));
 		for (EntityAnimal creature : creatures){
 			Class clazz = creature.getClass();
 			if (!SpawnBlacklists.canProgenyAffect(clazz))
@@ -58,7 +58,7 @@ public class FlickerOperatorProgeny implements IFlickerFunctionality{
 						particle.AddParticleController(new ParticleFloatUpward(particle, 0, 0.05f, 1, false));
 					}
 				}else{
-					creatures = worldObj.getEntitiesWithinAABB(clazz, AxisAlignedBB.getBoundingBox(((TileEntity)habitat).xCoord - radius, ((TileEntity)habitat).yCoord - radius, ((TileEntity)habitat).zCoord - radius, ((TileEntity)habitat).xCoord + radius + 1, ((TileEntity)habitat).yCoord + radius + 1, ((TileEntity)habitat).zCoord + radius + 1));
+					creatures = worldObj.getEntitiesWithinAABB(clazz, new AxisAlignedBB(((TileEntity)habitat).xCoord - radius, ((TileEntity)habitat).yCoord - radius, ((TileEntity)habitat).zCoord - radius, ((TileEntity)habitat).xCoord + radius + 1, ((TileEntity)habitat).yCoord + radius + 1, ((TileEntity)habitat).zCoord + radius + 1));
 					count = 0;
 					for (EntityAnimal animal : creatures){
 						if (!animal.isChild()){

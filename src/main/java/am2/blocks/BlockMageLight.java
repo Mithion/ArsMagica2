@@ -83,7 +83,7 @@ public class BlockMageLight extends AMSpecialRenderBlock{
 
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4){
-		return AxisAlignedBB.getBoundingBox(-0.2, -0.2, -0.2, 0.2, 0.2, 0.2);
+		return new AxisAlignedBB(-0.2, -0.2, -0.2, 0.2, 0.2, 0.2);
 	}
 
 	@Override

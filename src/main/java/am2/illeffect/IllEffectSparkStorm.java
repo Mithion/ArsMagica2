@@ -24,7 +24,7 @@ public class IllEffectSparkStorm extends IllEffectBase{
 	public Map<EntityPlayer, Object> ApplyIllEffect(World world, int x, int y, int z){
 		HashMap<EntityPlayer, Object> toReturn = new HashMap<EntityPlayer, Object>();
 		if (world.isRemote) return toReturn;
-		List<EntityPlayer> located_players = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x - 3, y - 3, z - 3, x + 3, y + 3, z + 3));
+		List<EntityPlayer> located_players = world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(x - 3, y - 3, z - 3, x + 3, y + 3, z + 3));
 		EntityPlayer[] players = located_players.toArray(new EntityPlayer[located_players.size()]);
 		if (players.length == 0) return toReturn;
 
@@ -39,7 +39,7 @@ public class IllEffectSparkStorm extends IllEffectBase{
 
 	@Override
 	public String getDescription(EntityPlayer player, Object meta){
-		return player.getCommandSenderName() + " got caught in a sparkstorm!";
+		return player.getName() + " got caught in a sparkstorm!";
 	}
 
 }

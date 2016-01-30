@@ -73,7 +73,7 @@ public class SetMagicLevelCommand extends CommandBase{
 		ExtendedProperties.For(player).setMagicLevelWithMana(magicLevel);
 		ExtendedProperties.For(player).forceSync();
 
-		func_152373_a(sender, this, "Setting " + player.getCommandSenderName() + "'s magic level to " + magicLevel, new Object[0]);
+		func_152373_a(sender, this, "Setting " + player.getName() + "'s magic level to " + magicLevel, new Object[0]);
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class SetMagicLevelCommand extends CommandBase{
 			EntityPlayer player = getCommandSenderAsPlayer(var1);
 			for (Object o : player.worldObj.playerEntities){
 				EntityPlayer p = (EntityPlayer)o;
-				completions.add(p.getCommandSenderName());
+				completions.add(p.getName());
 			}
 			return completions;
 		}

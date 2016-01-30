@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -38,7 +39,7 @@ public class MeteorSpawnHelper{
 
 		WorldServer ws = null;
 		for (WorldServer world : MinecraftServer.getServer().worldServers){
-			if (world.provider.dimensionId == 0){
+			if (world.provider.getDimensionId() == 0){
 				ws = world;
 				break;
 			}
@@ -65,12 +66,12 @@ public class MeteorSpawnHelper{
 			}
 			for (int i = 0; i < 10; ++i){
 				AMVector3 offsetCoord = spawnCoord.copy().add(new AMVector3(rand.nextInt(meteorOffsetRadius) - (meteorOffsetRadius / 2), 0, rand.nextInt(meteorOffsetRadius) - (meteorOffsetRadius / 2)));
-				offsetCoord.y = correctYCoord(ws, (int)offsetCoord.x, (int)offsetCoord.y, (int)offsetCoord.z);
+				offsetCoord.y = correctYCoord(ws, offsetCoord.toBlockPos()).getY();
 
 				if (offsetCoord.y < 0)
 					return;
 
-				if (topBlockIsBiomeGeneric(ws, (int)offsetCoord.x, (int)offsetCoord.y, (int)offsetCoord.z)){
+				if (topBlockIsBiomeGeneric(ws, offsetCoord.toBlockPos())){
 					spawnCoord = offsetCoord;
 					found = true;
 					break;
@@ -88,31 +89,31 @@ public class MeteorSpawnHelper{
 
 	}
 
-	private boolean topBlockIsBiomeGeneric(World world, int x, int y, int z){
+	private boolean topBlockIsBiomeGeneric(World world, BlockPos pos){
 		if (world == null)
 			return false;
 
-		y = correctYCoord(world, x, y, z);
+		pos = correctYCoord(world, pos);
 
-		if (y < 0) return false;
+		if (pos.getY() < 0) return false;
 
-		BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
+		BiomeGenBase biome = world.getBiomeGenForCoords(pos);
 
-		Block block = world.getBlock(x, y, z);
+		Block block = world.getBlockState(pos).getBlock();
 
-		return (block == Blocks.obsidian || block == biome.topBlock) && world.canBlockSeeTheSky(x, y + 1, z);
+		return (block == Blocks.obsidian || block == biome.topBlock) && world.canBlockSeeSky(pos.up());
 	}
 
-	private int correctYCoord(World world, int x, int y, int z){
+	private BlockPos correctYCoord(World world, BlockPos pos){
 		if (world == null)
-			return y;
+			return pos;
 
-		while (y < world.getActualHeight() && world.canBlockSeeTheSky(x, y, z))
-			y++;
+		while (pos.getY() < world.getActualHeight() && world.canBlockSeeSky(pos))
+			pos = pos.up();
 
-		while (world.isAirBlock(x, y, z) && y > -1)
-			y--;
+		while (world.isAirBlock(pos) && pos.getY() > -1)
+			pos = pos.down();
 
-		return y;
+		return pos;
 	}
 }

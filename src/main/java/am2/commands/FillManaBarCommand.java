@@ -63,7 +63,7 @@ public class FillManaBarCommand extends CommandBase{
 		ExtendedProperties.For(player).setCurrentMana(ExtendedProperties.For(player).getMaxMana());
 		ExtendedProperties.For(player).forceSync();
 
-		func_152373_a(sender, this, "Filling " + player.getCommandSenderName() + "'s mana.", new Object[0]);
+		func_152373_a(sender, this, "Filling " + player.getName() + "'s mana.", new Object[0]);
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class FillManaBarCommand extends CommandBase{
 			EntityPlayer player = getCommandSenderAsPlayer(var1);
 			for (Object o : player.worldObj.playerEntities){
 				EntityPlayer p = (EntityPlayer)o;
-				completions.add(p.getCommandSenderName());
+				completions.add(p.getName());
 			}
 			return completions;
 		}

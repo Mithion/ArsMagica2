@@ -24,7 +24,7 @@ public class DummyEntityPlayer extends EntityPlayer{
 	public static EntityPlayer fromEntityLiving(EntityLivingBase entity){
 		if (entity instanceof EntityPlayer) return (EntityPlayer)entity;
 
-		DummyEntityPlayer dep = new DummyEntityPlayer(entity.worldObj, entity.getCommandSenderName());
+		DummyEntityPlayer dep = new DummyEntityPlayer(entity.worldObj, entity.getName());
 		dep.setPosition(entity.posX, entity.posY, entity.posZ);
 		dep.setRotation(entity.rotationYaw, entity.rotationPitch);
 		dep.trackEntity = entity;

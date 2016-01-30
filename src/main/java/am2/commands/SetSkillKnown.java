@@ -53,7 +53,7 @@ public class SetSkillKnown extends CommandBase{
 		ISkillTreeEntry entry = SkillManager.instance.getSkill(skill);
 		SkillData.For(player).learn(entry);
 
-		func_152373_a(var1, this, "Unlocking " + skill + " for " + player.getCommandSenderName(), new Object[0]);
+		func_152373_a(var1, this, "Unlocking " + skill + " for " + player.getName(), new Object[0]);
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class SetSkillKnown extends CommandBase{
 			EntityPlayer player = getCommandSenderAsPlayer(var1);
 			for (Object o : player.worldObj.playerEntities){
 				EntityPlayer p = (EntityPlayer)o;
-				completions.add(p.getCommandSenderName());
+				completions.add(p.getName());
 			}
 		}
 		return completions;

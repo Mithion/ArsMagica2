@@ -774,7 +774,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 			Story.WritePartToNBT(bookstack.stackTagCompound, pages);
 
-			bookstack = Story.finalizeStory(bookstack, title, player.getCommandSenderName());
+			bookstack = Story.finalizeStory(bookstack, title, player.getName());
 
 			int[] recipeData = new int[componentRecipeList.size() * 3];
 			int idx = 0;
@@ -961,7 +961,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	public void incrementUpgradeState(){
 		this.numStageGroups++;
 		if (!this.worldObj.isRemote){
-			List<EntityPlayerMP> players = this.worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(256, 256, 256));
+			List<EntityPlayerMP> players = this.worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(256, 256, 256));
 			for (EntityPlayerMP player : players){
 				player.playerNetServerHandler.sendPacket(getDescriptionPacket());
 			}

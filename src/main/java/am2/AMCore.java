@@ -107,7 +107,7 @@ public class AMCore{
 
 		if (AMCore.config.getEnableWitchwoodForest()){
 			BiomeDictionary.registerBiomeType(BiomeWitchwoodForest.instance, Type.FOREST, Type.MAGICAL);
-			BiomeManager.warmBiomes.add(new BiomeEntry(BiomeWitchwoodForest.instance, 6));
+			BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeEntry(BiomeWitchwoodForest.instance, 6));
 		}
 	}
 

@@ -3,8 +3,10 @@ package am2.api.math;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3i;
 
 public class AMVector3{
 	public float x;
@@ -18,15 +20,19 @@ public class AMVector3{
 	}
 
 	public AMVector3(TileEntity tile){
-		this.x = (tile.xCoord);
-		this.y = (tile.yCoord);
-		this.z = (tile.zCoord);
+		this(tile.getPos());
 	}
 
 	public AMVector3(Vec3 vec){
 		this.x = (float)vec.xCoord;
 		this.y = (float)vec.yCoord;
 		this.z = (float)vec.zCoord;
+	}
+
+	public AMVector3(Vec3i vec){
+		this.x = vec.getX();
+		this.y = vec.getY();
+		this.z = vec.getZ();
 	}
 
 	public AMVector3(AMVector3 a, AMVector3 b){
@@ -132,7 +138,11 @@ public class AMVector3{
 	}
 
 	public Vec3 toVec3D(){
-		return Vec3.createVectorHelper(this.x, this.y, this.z);
+		return new Vec3(this.x, this.y, this.z);
+	}
+
+	public BlockPos toBlockPos() {
+		return new BlockPos(this.x, this.y, this.z);
 	}
 
 	public static AMVector3 getPerpendicular(AMVector3 vec){

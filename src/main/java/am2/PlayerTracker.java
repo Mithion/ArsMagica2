@@ -347,8 +347,8 @@ public class PlayerTracker{
 
 		if (aals == null || clls == null)
 			populateAALList();
-		if (aals.containsKey(thePlayer.getDisplayName().toLowerCase()))
-			return aals.get(thePlayer.getDisplayName().toLowerCase());
+		if (aals.containsKey(thePlayer.getDisplayName().getUnformattedText().toLowerCase()))
+			return aals.get(thePlayer.getDisplayName().getUnformattedText().toLowerCase());
 		return 0;
 	}
 

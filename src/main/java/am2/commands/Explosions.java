@@ -26,7 +26,7 @@ public class Explosions extends CommandBase{
 	public void processCommand(ICommandSender icommandsender, String[] astring){
 		EntityPlayer player = getCommandSenderAsPlayer(icommandsender);
 
-		if (player.getCommandSenderName().equals("Moridrex") || player.getCommandSenderName().equals("Mithion")){
+		if (player.getName().equals("Moridrex") || player.getName().equals("Mithion")){
 			if (player.worldObj.rand.nextInt(10) < 5 || !player.worldObj.canBlockSeeTheSky((int)player.posX, (int)player.posY, (int)player.posZ)){
 				Explosion explosion = player.worldObj.newExplosion(null, player.posX, player.posY, player.posZ, 10, true, true);
 				player.attackEntityFrom(DamageSource.setExplosionSource(explosion), 5000);

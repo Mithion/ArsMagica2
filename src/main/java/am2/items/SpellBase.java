@@ -192,7 +192,7 @@ public class SpellBase extends ItemSpellBase{
 		double interpPosX = caster.prevPosX + (caster.posX - caster.prevPosX) * factor;
 		double interpPosY = caster.prevPosY + (caster.posY - caster.prevPosY) * factor + caster.getEyeHeight();
 		double interpPosZ = caster.prevPosZ + (caster.posZ - caster.prevPosZ) * factor;
-		Vec3 vec3 = Vec3.createVectorHelper(interpPosX, interpPosY, interpPosZ);
+		Vec3 vec3 = new Vec3(interpPosX, interpPosY, interpPosZ);
 		float offsetYawCos = MathHelper.cos(-interpYaw * 0.017453292F - (float)Math.PI);
 		float offsetYawSin = MathHelper.sin(-interpYaw * 0.017453292F - (float)Math.PI);
 		float offsetPitchCos = -MathHelper.cos(-interpPitch * 0.017453292F);

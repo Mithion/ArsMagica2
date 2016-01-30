@@ -76,7 +76,7 @@ public class ShiftAffinityCommand extends CommandBase{
 		AffinityData.For(player).setAffinityAndDepth(enumAffinity, affinityDepth);
 		AffinityData.For(player).forceSync();
 
-		func_152373_a(var1, this, "Shifting " + player.getCommandSenderName() + "'s " + affinity + " affinity level by " + amt, new Object[0]);
+		func_152373_a(var1, this, "Shifting " + player.getName() + "'s " + affinity + " affinity level by " + amt, new Object[0]);
 
 	}
 
@@ -109,7 +109,7 @@ public class ShiftAffinityCommand extends CommandBase{
 			EntityPlayer player = getCommandSenderAsPlayer(var1);
 			for (Object o : player.worldObj.playerEntities){
 				EntityPlayer p = (EntityPlayer)o;
-				completions.add(p.getCommandSenderName());
+				completions.add(p.getName());
 			}
 		}
 		return completions;

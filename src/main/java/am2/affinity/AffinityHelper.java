@@ -266,7 +266,7 @@ public class AffinityHelper{
 			return;
 		}else{
 			boolean flag = false;
-			Vec3 vec3 = Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
+			Vec3 vec3 = new Vec3(0.0D, 0.0D, 0.0D);
 
 			for (int k1 = i; k1 < j; ++k1){
 				for (int l1 = k; l1 < l; ++l1){

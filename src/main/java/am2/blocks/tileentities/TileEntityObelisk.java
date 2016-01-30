@@ -191,7 +191,7 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 				checkNearbyBlockState();
 				surroundingCheckTicks = 1;
 				if (!worldObj.isRemote && PowerNodeRegistry.For(this.worldObj).checkPower(this, this.capacity * 0.1f)){
-					List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(this.xCoord - 2, this.yCoord, this.zCoord - 2, this.xCoord + 2, this.yCoord + 3, this.zCoord + 2));
+					List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.xCoord - 2, this.yCoord, this.zCoord - 2, this.xCoord + 2, this.yCoord + 3, this.zCoord + 2));
 					for (EntityPlayer p : nearbyPlayers){
 						if (p.isPotionActive(BuffList.manaRegen.id)) continue;
 						p.addPotionEffect(new BuffEffectManaRegen(600, 2));
@@ -243,7 +243,7 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox(){
-		return AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord, zCoord - 1, xCoord + 2, yCoord + 0.3, zCoord + 2);
+		return new AxisAlignedBB(xCoord - 1, yCoord, zCoord - 1, xCoord + 2, yCoord + 0.3, zCoord + 2);
 	}
 
 	@Override

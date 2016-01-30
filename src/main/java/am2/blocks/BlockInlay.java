@@ -135,7 +135,7 @@ public class BlockInlay extends BlockRailBase{
 
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4){
-		return AxisAlignedBB.getBoundingBox(par2 + this.minX, par3 + this.minY, par4 + this.minZ, par2 + this.maxX, par3 + this.maxY, par4 + this.maxZ);
+		return new AxisAlignedBB(par2 + this.minX, par3 + this.minY, par4 + this.minZ, par2 + this.maxX, par3 + this.maxY, par4 + this.maxZ);
 	}
 
 	@Override
@@ -214,7 +214,7 @@ public class BlockInlay extends BlockRailBase{
 					if (iceMeta >= 3){
 						BossSpawnHelper.instance.onIceEffigyBuilt(world, x + 1, y, z + 1);
 					}else{
-						List<EntitySnowman> snowmen = world.getEntitiesWithinAABB(EntitySnowman.class, AxisAlignedBB.getBoundingBox(x - 9, y - 2, z - 9, x + 10, y + 4, z + 10));
+						List<EntitySnowman> snowmen = world.getEntitiesWithinAABB(EntitySnowman.class, new AxisAlignedBB(x - 9, y - 2, z - 9, x + 10, y + 4, z + 10));
 						if (snowmen.size() > 0){
 							snowmen.get(0).attackEntityFrom(DamageSources.unsummon, 5000);
 							iceMeta++;

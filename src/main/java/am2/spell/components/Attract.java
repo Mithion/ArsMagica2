@@ -78,7 +78,7 @@ public class Attract implements ISpellComponent{
 	}
 
 	private EntityLivingBase getClosestEntityToPointWithin(EntityLivingBase caster, World world, AMVector3 point, double radius){
-		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(point.x - radius, point.y - radius, point.z - radius, point.x + radius, point.y + radius, point.z + radius);
+		AxisAlignedBB bb = new AxisAlignedBB(point.x - radius, point.y - radius, point.z - radius, point.x + radius, point.y + radius, point.z + radius);
 		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, bb);
 		EntityLivingBase closest = null;
 		for (EntityLivingBase e : entities){

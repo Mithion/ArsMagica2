@@ -21,11 +21,11 @@ public class CloakUtils{
 	public static ModelCloaks cloak = new ModelCloaks();
 
 	public static void renderCloakModel(EntityPlayer player, ModelBiped mainModel, float partialRenderTick){
-		if (!AMCore.proxy.playerTracker.hasCLDM(player.getCommandSenderName()))
+		if (!AMCore.proxy.playerTracker.hasCLDM(player.getName()))
 			return;
-		int dm = AMCore.proxy.playerTracker.getCLDM(player.getCommandSenderName());
-		ResourceLocation capeLoc = getCapeLocation(player.getCommandSenderName());
-		ThreadDownloadImageData capeImg = downloadCapeTexture(capeLoc, player.getCommandSenderName());
+		int dm = AMCore.proxy.playerTracker.getCLDM(player.getName());
+		ResourceLocation capeLoc = getCapeLocation(player.getName());
+		ThreadDownloadImageData capeImg = downloadCapeTexture(capeLoc, player.getName());
 
 		EntityPlayer localPlayer = Minecraft.getMinecraft().thePlayer;
 

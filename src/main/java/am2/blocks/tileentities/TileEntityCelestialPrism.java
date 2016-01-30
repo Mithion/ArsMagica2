@@ -128,7 +128,7 @@ public class TileEntityCelestialPrism extends TileEntityObelisk implements IMult
 			checkNearbyBlockState();
 			surroundingCheckTicks = 1;
 			if (!worldObj.isRemote && PowerNodeRegistry.For(this.worldObj).checkPower(this, this.capacity * 0.1f)){
-				List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(this.xCoord - 2, this.yCoord, this.zCoord - 2, this.xCoord + 2, this.yCoord + 3, this.zCoord + 2));
+				List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.xCoord - 2, this.yCoord, this.zCoord - 2, this.xCoord + 2, this.yCoord + 3, this.zCoord + 2));
 				for (EntityPlayer p : nearbyPlayers){
 					if (p.isPotionActive(BuffList.manaRegen.id)) continue;
 					p.addPotionEffect(new BuffEffectManaRegen(600, 1));

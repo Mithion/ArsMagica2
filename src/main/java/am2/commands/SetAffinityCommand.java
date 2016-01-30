@@ -73,7 +73,7 @@ public class SetAffinityCommand extends CommandBase{
 		AffinityData.For(player).setAffinityAndDepth(enumAffinity, depth);
 		AffinityData.For(player).forceSync();
 
-		func_152373_a(var1, this, "Setting " + player.getCommandSenderName() + "'s " + affinity + " affinity level to " + depth, new Object[0]);
+		func_152373_a(var1, this, "Setting " + player.getName() + "'s " + affinity + " affinity level to " + depth, new Object[0]);
 
 	}
 
@@ -106,7 +106,7 @@ public class SetAffinityCommand extends CommandBase{
 			EntityPlayer player = getCommandSenderAsPlayer(var1);
 			for (Object o : player.worldObj.playerEntities){
 				EntityPlayer p = (EntityPlayer)o;
-				completions.add(p.getCommandSenderName());
+				completions.add(p.getName());
 			}
 		}
 		return completions;

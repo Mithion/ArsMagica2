@@ -66,7 +66,7 @@ public class TakeSkillPoints extends CommandBase{
 		SkillData.For(player).setSpellPoints(SkillData.For(player).getSpellPoints(SkillPointTypes.BLUE) - amount_blue, SkillData.For(player).getSpellPoints(SkillPointTypes.GREEN) - amount_green, SkillData.For(player).getSpellPoints(SkillPointTypes.RED) - amount_red);
 		SkillData.For(player).forceSync();
 
-		func_152373_a(sender, this, String.format("Deducting %d(B), %d(G), %d(R) skill points from %s.", amount_blue, amount_green, amount_red, player.getCommandSenderName()), new Object[0]);
+		func_152373_a(sender, this, String.format("Deducting %d(B), %d(G), %d(R) skill points from %s.", amount_blue, amount_green, amount_red, player.getName()), new Object[0]);
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class TakeSkillPoints extends CommandBase{
 			EntityPlayer player = getCommandSenderAsPlayer(var1);
 			for (Object o : player.worldObj.playerEntities){
 				EntityPlayer p = (EntityPlayer)o;
-				completions.add(p.getCommandSenderName());
+				completions.add(p.getName());
 			}
 			return completions;
 		}

@@ -39,6 +39,6 @@ public class Respec extends CommandBase{
 
 		SkillData.For(player).respec();
 
-		func_152373_a(icommandsender, this, "Respeced " + player.getCommandSenderName(), new Object[0]);
+		func_152373_a(icommandsender, this, "Respeced " + player.getName(), new Object[0]);
 	}
 }

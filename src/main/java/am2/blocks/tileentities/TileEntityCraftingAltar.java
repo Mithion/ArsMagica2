@@ -707,7 +707,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private List<EntityItem> lookForValidItems(){
 		if (!isCrafting) return new ArrayList<EntityItem>();
 		double radius = worldObj.isRemote ? 2.1 : 2;
-		List<EntityItem> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(xCoord - radius, yCoord - 3, zCoord - radius, xCoord + radius, yCoord, zCoord + radius));
+		List<EntityItem> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(xCoord - radius, yCoord - 3, zCoord - radius, xCoord + radius, yCoord, zCoord + radius));
 		return items;
 	}
 
@@ -789,7 +789,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private void checkForStartCondition(){
 		if (this.worldObj.isRemote || !structureValid || this.isCrafting) return;
 
-		List<Entity> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(xCoord - 2, yCoord - 3, zCoord - 2, xCoord + 2, yCoord, zCoord + 2));
+		List<Entity> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(xCoord - 2, yCoord - 3, zCoord - 2, xCoord + 2, yCoord, zCoord + 2));
 		if (items.size() == 1){
 			EntityItem item = (EntityItem)items.get(0);
 			if (item != null && !item.isDead && item.getEntityItem().getItem() == ItemsCommonProxy.rune && item.getEntityItem().getItemDamage() == ItemsCommonProxy.rune.META_BLANK){
@@ -804,7 +804,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 		double radius = worldObj.isRemote ? 2.2 : 2;
 
-		List<Entity> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(xCoord - radius, yCoord - 3, zCoord - radius, xCoord + radius, yCoord, zCoord + radius));
+		List<Entity> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(xCoord - radius, yCoord - 3, zCoord - radius, xCoord + radius, yCoord, zCoord + radius));
 		if (items.size() == 1){
 			EntityItem item = (EntityItem)items.get(0);
 			if (item != null && !item.isDead && item.getEntityItem() != null && item.getEntityItem().getItem() == ItemsCommonProxy.spellParchment){

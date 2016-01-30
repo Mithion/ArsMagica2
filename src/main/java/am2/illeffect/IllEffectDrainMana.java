@@ -24,7 +24,7 @@ public class IllEffectDrainMana extends IllEffectBase{
 		HashMap<EntityPlayer, Object> toReturn = new HashMap<EntityPlayer, Object>();
 		if (world.isRemote) return toReturn;
 
-		List<EntityPlayer> located_players = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x - 3, y - 3, z - 3, x + 3, y + 3, z + 3));
+		List<EntityPlayer> located_players = world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(x - 3, y - 3, z - 3, x + 3, y + 3, z + 3));
 
 		EntityPlayer[] players = located_players.toArray(new EntityPlayer[located_players.size()]);
 
@@ -42,6 +42,6 @@ public class IllEffectDrainMana extends IllEffectBase{
 
 	@Override
 	public String getDescription(EntityPlayer player, Object metadata){
-		return String.format("%s had their mana drained.", player.getCommandSenderName());
+		return String.format("%s had their mana drained.", player.getName());
 	}
 }

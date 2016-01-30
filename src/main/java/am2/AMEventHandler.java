@@ -22,6 +22,7 @@ import am2.playerextensions.ExtendedProperties;
 import am2.playerextensions.RiftStorage;
 import am2.playerextensions.SkillData;
 import am2.utility.*;
+import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -349,7 +350,7 @@ public class AMEventHandler{
 				double posY = ent.posY + ent.height;
 				if (!world.isRemote)
 					posY += ent.getEyeHeight();
-				if (world.rayTraceBlocks(Vec3.createVectorHelper(ent.posX, posY, ent.posZ), Vec3.createVectorHelper(ent.posX, posY + 1, ent.posZ), true) != null){
+				if (world.rayTraceBlocks(new Vec3(ent.posX, posY, ent.posZ), new Vec3(ent.posX, posY + 1, ent.posZ), true) != null){
 					if (!ent.onGround){
 						if (ent.fallDistance > 0){
 							try{
@@ -368,7 +369,7 @@ public class AMEventHandler{
 						if (world.isRemote)
 							ent.fallDistance += ent.posY - ent.prevPosY;
 						else
-							ent.fallDistance += (((EntityPlayer)ent).field_71095_bQ - ((EntityPlayer)ent).field_71096_bN) * 2;
+							ent.fallDistance += (((EntityPlayer)ent).chasingPosY - ((EntityPlayer)ent).prevChasingPosY) * 2;
 					}
 					ent.onGround = false;
 				}
@@ -526,12 +527,16 @@ public class AMEventHandler{
 	}
 
 	private ItemStack attemptFill(World world, MovingObjectPosition p){
-		Block block = world.getBlock(p.blockX, p.blockY, p.blockZ);
+		if (p.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK){
+			return null;
+		}
+
+		Block block = world.getBlockState(p.getBlockPos()).getBlock();
 
 		if (block == BlocksCommonProxy.liquidEssence){
-			if (world.getBlockMetadata(p.blockX, p.blockY, p.blockZ) == 0) // Check that it is a source block
+			if (world.getBlockState(p.getBlockPos()).getValue(BlockFluidBase.LEVEL) == 0) // Check that it is a source block
 			{
-				world.setBlock(p.blockX, p.blockY, p.blockZ, Blocks.air); // Remove the fluid block
+				world.setBlockState(p.getBlockPos(), Blocks.air.getDefaultState()); // Remove the fluid block
 
 				return new ItemStack(ItemsCommonProxy.itemAMBucket);
 			}
@@ -698,7 +703,7 @@ public class AMEventHandler{
 			if (event.entityPlayer.worldObj.isRemote &&
 					item.getUnlocalizedName() != null && (
 					AMCore.proxy.items.getArsMagicaItems().contains(item)) ||
-					(item instanceof ItemBlock && AMCore.proxy.blocks.getArsMagicaBlocks().contains(((ItemBlock)item).field_150939_a))){
+					(item instanceof ItemBlock && AMCore.proxy.blocks.getArsMagicaBlocks().contains(((ItemBlock)item).getBlock()))){
 				AMNetHandler.INSTANCE.sendCompendiumUnlockPacket((EntityPlayerMP)event.entityPlayer, item.getUnlocalizedName().replace("item.", "").replace("arsmagica2:", "").replace("tile.", "") + ((meta > -1) ? "@" + meta : ""), false);
 			}
 		}
