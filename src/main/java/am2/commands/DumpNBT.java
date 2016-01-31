@@ -3,6 +3,7 @@ package am2.commands;
 import am2.network.AMNetHandler;
 import am2.network.AMPacketIDs;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
@@ -30,7 +31,7 @@ public class DumpNBT extends CommandBase{
 	}
 
 	@Override
-	public void processCommand(ICommandSender icommandsender, String[] astring){
+	public void processCommand(ICommandSender icommandsender, String[] astring) throws CommandException{
 		EntityPlayerMP player = getCommandSenderAsPlayer(icommandsender);
 		if (player.getCurrentEquippedItem() == null){
 			player.addChatMessage(new ChatComponentText("This command dumps the NBT of your current equipped item...see the problem here?"));

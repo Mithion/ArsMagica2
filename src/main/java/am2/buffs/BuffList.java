@@ -6,6 +6,7 @@ import am2.api.potion.IBuffHelper;
 import am2.particles.AMParticle;
 import am2.particles.ParticleLiveForBuffDuration;
 import am2.texture.ResourceManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.potion.Potion;
@@ -58,152 +59,122 @@ public class BuffList implements IBuffHelper{
 	public static final int default_buff_duration = 600;
 	private static int potionDefaultOffset = 0;
 	public static HashMap<Integer, Integer> particlesForBuffID;
-	private static HashMap<Integer, Class> classesForBuffID;
+	private static HashMap<String, Class> classesForBuffID;
 
 	//since sync code only applies the PotionEffect class, any inherited bonuses are lost.
 	//These dummy buffs can be used to apply the tick of the potion when the class type
 	//isn't transferred.
-	private static final HashMap<Integer, BuffEffect> utilityBuffs = new HashMap<Integer, BuffEffect>();
+	private static final HashMap<String, BuffEffect> utilityBuffs = new HashMap<String, BuffEffect>();
 	private static final ArrayList<ArsMagicaPotion> arsMagicaPotions = new ArrayList<ArsMagicaPotion>();
-	private static ArrayList<Integer> dispelBlacklist;
+	private static ArrayList<ResourceLocation> dispelBlacklist;
 	
 
 	public static final BuffList instance = new BuffList();
 
-	private static HashMap<Integer, Potion> ourInitialPotionAllocations;
+	private static HashMap<String, Potion> ourInitialPotionAllocations;
 
 	private BuffList(){
 
 	}
 
-	private static ArsMagicaPotion createAMPotion(int index, String name, int IIconRow, int iconCol, boolean isBadEffect, Class buffEffectClass){
-
-		String configID = name.replace(" ", "").toLowerCase().trim();
-		index = AMCore.config.getConfigurablePotionID(configID, index);
-
-		LogHelper.info("Potion %s is ID %d", name, index);
-		
-		if (Potion.potionTypes[index] != null){
-			LogHelper.error("Warning: Potion index %d is already occupied by potion %s. Check your config files for clashes.", index, Potion.potionTypes[index].getName());
-		}
-
-		ArsMagicaPotion potion = new ArsMagicaPotion(index, isBadEffect, 0x000000);
+	private static ArsMagicaPotion createAMPotion(String registryName, String name, int IIconRow, int iconCol, boolean isBadEffect, Class buffEffectClass){
+		LogHelper.info("Potion %s is ID %s", name, registryName);
+		ArsMagicaPotion potion = new ArsMagicaPotion(new ResourceLocation("arsmagica2", registryName), isBadEffect, 0x000000);
 		potion.setPotionName(name);
 		potion._setIconIndex(iconCol, IIconRow);
-		classesForBuffID.put(index, buffEffectClass);
+		classesForBuffID.put(registryName, buffEffectClass);
 		arsMagicaPotions.add(potion);
-		ourInitialPotionAllocations.put(index, potion);
+		ourInitialPotionAllocations.put(registryName, potion);
 		
 		return potion;
 	}
 
-	private static ManaPotion createManaPotion(int index, String name, int IIconRow, int iconCol, boolean isBadEffect, int colour){
-		String configID = name.replace(" ", "").toLowerCase().trim();
-		index = AMCore.config.getConfigurablePotionID(configID, index);
-		
-		LogHelper.info("Potion %s is ID %d", name, index);
-		
-		if (Potion.potionTypes[index] != null){
-			LogHelper.warn("Warning: Potion index %d is already occupied by potion %s. Check your config files for clashes.", index, Potion.potionTypes[index].getName());
-		}
-		
-		ManaPotion potion = new ManaPotion(index, isBadEffect, colour);
+	private static ManaPotion createManaPotion(String registryName, String name, int IIconRow, int iconCol, boolean isBadEffect, int colour){
+		LogHelper.info("Potion %s is ID %s", name, registryName);
+		ManaPotion potion = new ManaPotion(new ResourceLocation("arsmagica2", registryName), isBadEffect, colour);
 		potion.setPotionName(name);
 		potion._setIconIndex(iconCol, IIconRow);
-		ourInitialPotionAllocations.put(index, potion);
+		ourInitialPotionAllocations.put(registryName, potion);
 		
 		return potion;
 	}
 
-	private static void createDummyBuff(Class buffEffectClass, int potionID){
+	private static void createDummyBuff(Class buffEffectClass, String name){
 		try{
 			Constructor ctor = buffEffectClass.getConstructor(Integer.TYPE, Integer.TYPE);
 			BuffEffect utilityBuff = (BuffEffect)ctor.newInstance(0, 0);
-			utilityBuffs.put(potionID, utilityBuff);
+			utilityBuffs.put(name, utilityBuff);
 		}catch (Throwable e){
 			e.printStackTrace();
 		}
 	}
 
 	public static void Init(){
-		dispelBlacklist = new ArrayList<Integer>();
+		dispelBlacklist = new ArrayList<ResourceLocation>();
 		particlesForBuffID = new HashMap<Integer, Integer>();
-		classesForBuffID = new HashMap<Integer, Class>();
-		ourInitialPotionAllocations = new HashMap<Integer, Potion>();
+		classesForBuffID = new HashMap<String, Class>();
+		ourInitialPotionAllocations = new HashMap<String, Potion>();
 
-		try{
-			extendPotionsArray();
+		int numBuffs = Potion.potionTypes.length;
 
-			int numBuffs = Potion.potionTypes.length;
-
-			for (int i = 0; i < numBuffs; ++i){
-				particlesForBuffID.put(i, 0);
-			}
-		}catch (Throwable t){
-			LogHelper.error("Buffs failed to initialize!  This will make the game very unstable!");
-			t.printStackTrace();
+		for (int i = 0; i < numBuffs; ++i){
+			particlesForBuffID.put(i, 0);
 		}
 	}
 
 	public static void postInit(){
-		// potion clash detection
-		for (Map.Entry<Integer, Potion> entry : ourInitialPotionAllocations.entrySet()){
-			if (Potion.potionTypes[entry.getKey()] != entry.getValue()){
-				LogHelper.warn("My potion, %s, at index %d has been over-written by another potion, %s. You have a conflict in your configuration files.", entry.getValue().getName(), entry.getKey(), Potion.potionTypes[entry.getKey()].getName());
-			}
-		}
 	}
 
 	public static void Instantiate(){
-		waterBreathing = createAMPotion(potionDefaultOffset + 0, "Water Breathing", 0, 0, false, BuffEffectWaterBreathing.class);
-		flight = createAMPotion(potionDefaultOffset + 1, "Flight", 0, 1, false, BuffEffectFlight.class);
-		slowfall = createAMPotion(potionDefaultOffset + 2, "Feather Fall", 0, 2, false, BuffEffectSlowfall.class);
-		haste = createAMPotion(potionDefaultOffset + 3, "Haste", 0, 3, false, BuffEffectHaste.class);
-		trueSight = createAMPotion(potionDefaultOffset + 4, "True Sight", 0, 4, false, BuffEffectTrueSight.class);
-		regeneration = createAMPotion(potionDefaultOffset + 5, "Regeneration", 0, 6, false, BuffEffectRegeneration.class);
-		magicShield = createAMPotion(potionDefaultOffset + 6, "Magic Shield", 1, 1, false, BuffEffectMagicShield.class);
-		charmed = createAMPotion(potionDefaultOffset + 7, "Charmed", 1, 2, true, BuffEffectCharmed.class);
-		frostSlowed = createAMPotion(potionDefaultOffset + 8, "Frost Slow", 1, 3, true, BuffEffectFrostSlowed.class);
-		temporalAnchor = createAMPotion(potionDefaultOffset + 9, "Chrono Anchor", 1, 4, false, BuffEffectTemporalAnchor.class);
-		manaRegen = createAMPotion(potionDefaultOffset + 10, "Mana Regen", 1, 5, false, BuffEffectManaRegen.class);
-		entangled = createAMPotion(potionDefaultOffset + 11, "Entangled", 1, 7, true, BuffEffectEntangled.class);
-		wateryGrave = createAMPotion(potionDefaultOffset + 12, "Watery Grave", 2, 0, true, BuffEffectWateryGrave.class);
-		spellReflect = createAMPotion(potionDefaultOffset + 13, "Spell Reflect", 2, 3, false, BuffEffectSpellReflect.class);
-		silence = createAMPotion(potionDefaultOffset + 14, "Silence", 2, 6, true, BuffEffectSilence.class);
-		swiftSwim = createAMPotion(potionDefaultOffset + 15, "Swift Swim", 2, 7, false, BuffEffectSwiftSwim.class);
-		agility = createAMPotion(potionDefaultOffset + 16, "Agility", 0, 0, false, BuffEffectAgility.class);
-		leap = createAMPotion(potionDefaultOffset + 17, "Leap", 0, 2, false, BuffEffectLeap.class);
-		manaBoost = createAMPotion(potionDefaultOffset + 18, "Mana Boost", 1, 0, false, BuffMaxManaIncrease.class);
-		astralDistortion = createAMPotion(potionDefaultOffset + 19, "Astral Distortion", 0, 4, true, BuffEffectAstralDistortion.class);
-		manaShield = createAMPotion(potionDefaultOffset + 20, "Mana Shield", 0, 7, false, BuffEffectManaShield.class);
-		fury = createAMPotion(potionDefaultOffset + 21, "Fury", 1, 6, false, BuffEffectFury.class);
-		scrambleSynapses = createAMPotion(potionDefaultOffset + 22, "Scramble Synapses", 1, 7, true, BuffEffectScrambleSynapses.class);
-		illumination = createAMPotion(potionDefaultOffset + 23, "Illuminated", 1, 0, false, BuffEffectIllumination.class);
+		waterBreathing = createAMPotion("water_breathing", "Water Breathing", 0, 0, false, BuffEffectWaterBreathing.class);
+		flight = createAMPotion("flight", "Flight", 0, 1, false, BuffEffectFlight.class);
+		slowfall = createAMPotion("slowfall", "Feather Fall", 0, 2, false, BuffEffectSlowfall.class);
+		haste = createAMPotion("haste", "Haste", 0, 3, false, BuffEffectHaste.class);
+		trueSight = createAMPotion("true_sight", "True Sight", 0, 4, false, BuffEffectTrueSight.class);
+		regeneration = createAMPotion("regeneration", "Regeneration", 0, 6, false, BuffEffectRegeneration.class);
+		magicShield = createAMPotion("magic_shield", "Magic Shield", 1, 1, false, BuffEffectMagicShield.class);
+		charmed = createAMPotion("charmed", "Charmed", 1, 2, true, BuffEffectCharmed.class);
+		frostSlowed = createAMPotion("frost_slow", "Frost Slow", 1, 3, true, BuffEffectFrostSlowed.class);
+		temporalAnchor = createAMPotion("chrono_anchor", "Chrono Anchor", 1, 4, false, BuffEffectTemporalAnchor.class);
+		manaRegen = createAMPotion("mana_regen", "Mana Regen", 1, 5, false, BuffEffectManaRegen.class);
+		entangled = createAMPotion("entangled", "Entangled", 1, 7, true, BuffEffectEntangled.class);
+		wateryGrave = createAMPotion("watery_grave", "Watery Grave", 2, 0, true, BuffEffectWateryGrave.class);
+		spellReflect = createAMPotion("spell_reflect", "Spell Reflect", 2, 3, false, BuffEffectSpellReflect.class);
+		silence = createAMPotion("silence", "Silence", 2, 6, true, BuffEffectSilence.class);
+		swiftSwim = createAMPotion("swift_swim", "Swift Swim", 2, 7, false, BuffEffectSwiftSwim.class);
+		agility = createAMPotion("agility", "Agility", 0, 0, false, BuffEffectAgility.class);
+		leap = createAMPotion("leap", "Leap", 0, 2, false, BuffEffectLeap.class);
+		manaBoost = createAMPotion("mana_boost", "Mana Boost", 1, 0, false, BuffMaxManaIncrease.class);
+		astralDistortion = createAMPotion("astral_distortion", "Astral Distortion", 0, 4, true, BuffEffectAstralDistortion.class);
+		manaShield = createAMPotion("mana_shield", "Mana Shield", 0, 7, false, BuffEffectManaShield.class);
+		fury = createAMPotion("fury", "Fury", 1, 6, false, BuffEffectFury.class);
+		scrambleSynapses = createAMPotion("scramble_synapses", "Scramble Synapses", 1, 7, true, BuffEffectScrambleSynapses.class);
+		illumination = createAMPotion("illuminated", "Illuminated", 1, 0, false, BuffEffectIllumination.class);
 		
-		greaterManaPotion = createManaPotion(potionDefaultOffset + 24, "Greater Mana Restoration", 0, 1, false, 0x40c6be);
+		greaterManaPotion = createManaPotion("mana_restoration_greater", "Greater Mana Restoration", 0, 1, false, 0x40c6be);
 		// greaterManaPotion = new ManaPotion(potionDefaultOffset + 24, false, 0x40c6be);
 		// greaterManaPotion.setPotionName("Greater Mana Restoration");
 		// greaterManaPotion._setIconIndex(0, 1);
 
-		epicManaPotion = createManaPotion(potionDefaultOffset + 25, "Epic Mana Restoration", 0, 1, false, 0xFF00FF);
+		epicManaPotion = createManaPotion("mana_restoration_epic", "Epic Mana Restoration", 0, 1, false, 0xFF00FF);
 		// epicManaPotion = new ManaPotion(potionDefaultOffset + 25, false, 0xFF00FF);
 		// epicManaPotion.setPotionName("Epic Mana Restoration");
 		// epicManaPotion._setIconIndex(0, 1);
 
-		legendaryManaPotion = createManaPotion(potionDefaultOffset + 26, "Legendary Mana Restoration", 0, 1, false, 0xFFFF00);
+		legendaryManaPotion = createManaPotion("mana_restoration_legendary", "Legendary Mana Restoration", 0, 1, false, 0xFFFF00);
 		// legendaryManaPotion = new ManaPotion(potionDefaultOffset + 26, false, 0xFFFF00);
 		// legendaryManaPotion.setPotionName("Legendary Mana Restoration");
 		// legendaryManaPotion._setIconIndex(0, 1);
 
-		gravityWell = createAMPotion(potionDefaultOffset + 27, "Gravity Well", 0, 6, true, BuffEffectGravityWell.class);
-		levitation = createAMPotion(potionDefaultOffset + 28, "Levitation", 0, 7, false, BuffEffectLevitation.class);
+		gravityWell = createAMPotion("gravity_well", "Gravity Well", 0, 6, true, BuffEffectGravityWell.class);
+		levitation = createAMPotion("levitation", "Levitation", 0, 7, false, BuffEffectLevitation.class);
 
-		clarity = createAMPotion(potionDefaultOffset + 29, "Clarity", 0, 5, false, BuffEffectClarity.class);
-		shrink = createAMPotion(potionDefaultOffset + 30, "Shrunken", 0, 5, false, BuffEffectShrink.class);
-		burnoutReduction = createAMPotion(potionDefaultOffset + 31, "Burnout Redux", 1, 1, false, BuffEffectBurnoutReduction.class);
+		clarity = createAMPotion("clarity", "Clarity", 0, 5, false, BuffEffectClarity.class);
+		shrink = createAMPotion("shrunken", "Shrunken", 0, 5, false, BuffEffectShrink.class);
+		burnoutReduction = createAMPotion("burnout_reduction", "Burnout Redux", 1, 1, false, BuffEffectBurnoutReduction.class);
 
-		for (int i : classesForBuffID.keySet()){
-			createDummyBuff(classesForBuffID.get(i), i);
+		for (Map.Entry<String, Class> e : classesForBuffID.entrySet()){
+			createDummyBuff(e.getValue(), e.getKey());
 		}
 	}
 
@@ -240,47 +211,7 @@ public class BuffList implements IBuffHelper{
 		shrink.setTextureSheet(ResourceManager.GetGuiTexturePath("buffs_2.png"));
 		burnoutReduction.setTextureSheet(ResourceManager.GetGuiTexturePath("buffs_2.png"));
 	}
-
-	/*
-	 * This is bad.  Don't ever use this unless you absolutely HAVE to!
-	 * The only reason I did was to remove the need to edit base classes.  You can REALLY mess up a program with this if not used properly...
-	 * Technically, you could change false to true.  I'm not even kidding.  The actual keyword would have a different value.  BE CAREFUL!
-	 */
-	private static void setFinalStatic(Field field, Object newValue) throws Exception{
-		field.setAccessible(true);
-
-		Field modifiersField = Field.class.getDeclaredField("modifiers");
-		modifiersField.setAccessible(true);
-		modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-
-		field.set(null, newValue);
-	}
-
-	private static void extendPotionsArray() throws Exception{
-		LogHelper.info("Extending potions array");
-		LogHelper.info("Injecting potions starting from index " + Potion.potionTypes.length);
-		potionDefaultOffset = Potion.potionTypes.length;
-		setPotionArrayLength(255);
-	}
-
-	private static void setPotionArrayLength(int length) throws Exception{
-		if (length <= Potion.potionTypes.length)
-			return;
-		Potion[] potions = new Potion[length];
-		for (int i = 0; i < Potion.potionTypes.length; ++i){
-			potions[i] = Potion.potionTypes[i];
-		}
-		Field field = null;
-		Field[] fields = Potion.class.getDeclaredFields();
-		for (Field f : fields){
-			if (f.getType().equals(Potion[].class)){
-				field = f;
-				break;
-			}
-		}
-		setFinalStatic(field, potions);
-	}
-
+	
 	public static boolean IDIsAMBuff(int potionID){
 		for (ArsMagicaPotion i : arsMagicaPotions){
 			if (i.id == potionID){
@@ -327,27 +258,12 @@ public class BuffList implements IBuffHelper{
 	}
 
 	@Override
-	public int getPotionID(String name){
-		Field potionField = ReflectionHelper.findField(BuffList.class, name);
-		if (potionField != null && potionField.getType() == ArsMagicaPotion.class){
-			try{
-				return ((ArsMagicaPotion)potionField.get(null)).getId();
-			}catch (IllegalArgumentException e){
-				e.printStackTrace();
-			}catch (IllegalAccessException e){
-				e.printStackTrace();
-			}
-		}
-		return -1;
-	}
-
-	@Override
-	public void addDispelExclusion(int id){
-		if (dispelBlacklist.contains(id)){
-			LogHelper.info("Id %d was already on the dispel blacklist; skipping.", id);
+	public void addDispelExclusion(ResourceLocation loc){
+		if (dispelBlacklist.contains(loc)){
+			LogHelper.info("Id %s was already on the dispel blacklist; skipping.", loc);
 		}else{
-			LogHelper.info("Added %d to the dispel blacklist.", id);
-			dispelBlacklist.add(id);
+			LogHelper.info("Added %s to the dispel blacklist.", loc);
+			dispelBlacklist.add(loc);
 		}
 	}
 

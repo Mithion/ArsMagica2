@@ -1,12 +1,10 @@
 package am2.commands;
 
 import am2.playerextensions.ExtendedProperties;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.PlayerSelector;
-import net.minecraft.command.WrongUsageException;
+import net.minecraft.command.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +12,7 @@ import java.util.List;
 public class FillManaBarCommand extends CommandBase{
 
 	@Override
-	public int compareTo(Object arg0){
+	public int compareTo(ICommand arg0){
 		return 0;
 	}
 
@@ -34,7 +32,7 @@ public class FillManaBarCommand extends CommandBase{
 	}
 
 	@Override
-	public void processCommand(ICommandSender var1, String[] var2){
+	public void processCommand(ICommandSender var1, String[] var2) throws CommandException{
 		if (var2.length != 1 && var2.length != 0){
 			throw new WrongUsageException(this.getCommandUsage(var1), new Object[0]);
 		}
@@ -42,11 +40,9 @@ public class FillManaBarCommand extends CommandBase{
 
 		if (var2.length == 1){
 			if (var2[1].equals("@a")){
-				EntityPlayerMP[] players = PlayerSelector.matchPlayers(var1, var2[1]);
-				if (players != null){
-					for (EntityPlayerMP p : players){
-						doRefillMana(var1, p);
-					}
+				List<EntityPlayerMP> players = PlayerSelector.matchEntities(var1, var2[1], EntityPlayerMP.class);
+				for (EntityPlayerMP p : players){
+					doRefillMana(var1, p);
 				}
 			}else{
 				player = getPlayer(var1, var2[1]);
@@ -63,14 +59,18 @@ public class FillManaBarCommand extends CommandBase{
 		ExtendedProperties.For(player).setCurrentMana(ExtendedProperties.For(player).getMaxMana());
 		ExtendedProperties.For(player).forceSync();
 
-		func_152373_a(sender, this, "Filling " + player.getName() + "'s mana.", new Object[0]);
+		notifyOperators(sender, this, "Filling " + player.getName() + "'s mana.", new Object[0]);
 	}
 
 	@Override
-	public List addTabCompletionOptions(ICommandSender var1, String[] var2){
+	public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos pos){
 		if (var2.length == 1){
 			ArrayList<String> completions = new ArrayList<String>();
-			EntityPlayer player = getCommandSenderAsPlayer(var1);
+			EntityPlayer player = null;
+			try{
+				player = getCommandSenderAsPlayer(var1);
+			}catch (PlayerNotFoundException e){}
+			if (player == null) return completions;
 			for (Object o : player.worldObj.playerEntities){
 				EntityPlayer p = (EntityPlayer)o;
 				completions.add(p.getName());

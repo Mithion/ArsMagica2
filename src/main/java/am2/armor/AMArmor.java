@@ -116,9 +116,9 @@ public class AMArmor extends ItemArmor implements ISpecialArmor{
 	}
 
 	@Override
-	public boolean hasEffect(ItemStack stack, int pass){
-		if (stack.hasTagCompound() && stack.stackTagCompound.hasKey(NBT_KEY_AMPROPS)){
-			String s = ((NBTTagCompound)stack.stackTagCompound.getTag(NBT_KEY_AMPROPS)).getString(NBT_KEY_EFFECTS);
+	public boolean hasEffect(ItemStack stack){
+		if (stack.hasTagCompound() && stack.getTagCompound().hasKey(NBT_KEY_AMPROPS)){
+			String s = ((NBTTagCompound)stack.getTagCompound().getTag(NBT_KEY_AMPROPS)).getString(NBT_KEY_EFFECTS);
 			return s != null && s.length() > 0;
 		}
 		return false;

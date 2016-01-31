@@ -1,5 +1,7 @@
 package am2.api.potion;
 
+import net.minecraft.util.ResourceLocation;
+
 public interface IBuffHelper{
 	/*
 	 * Potion Names:
@@ -36,17 +38,10 @@ public interface IBuffHelper{
 	 */
 
 	/**
-	 * Returns the ID of an AM buff, or -1 if not found.
-	 *
-	 * @param name The name of the potion to find.  Case sensitive.
-	 */
-	public int getPotionID(String name);
-
-	/**
 	 * Adds a potion to the dispel blacklist, essentially making it un-dispellable.
 	 *
-	 * @param id The id to cause dispel to ignore.
+	 * @param potionName The id to cause dispel to ignore.
 	 * @return True on success, otherwise false.
 	 */
-	public void addDispelExclusion(int id);
+	public void addDispelExclusion(ResourceLocation potionName);
 }

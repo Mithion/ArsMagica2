@@ -5,6 +5,7 @@ import am2.api.illeffect.IllEffectSeverity;
 import am2.playerextensions.ExtendedProperties;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.HashMap;
@@ -20,11 +21,11 @@ public class IllEffectDrainMana extends IllEffectBase{
 	}
 
 	@Override
-	public Map<EntityPlayer, Object> ApplyIllEffect(World world, int x, int y, int z){
+	public Map<EntityPlayer, Object> ApplyIllEffect(World world, BlockPos pos){
 		HashMap<EntityPlayer, Object> toReturn = new HashMap<EntityPlayer, Object>();
 		if (world.isRemote) return toReturn;
 
-		List<EntityPlayer> located_players = world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(x - 3, y - 3, z - 3, x + 3, y + 3, z + 3));
+		List<EntityPlayer> located_players = world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(pos.add(-3, -3, -3), pos.add(3, 3, 3)));
 
 		EntityPlayer[] players = located_players.toArray(new EntityPlayer[located_players.size()]);
 

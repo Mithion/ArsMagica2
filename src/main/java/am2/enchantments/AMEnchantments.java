@@ -26,7 +26,7 @@ public class AMEnchantments{
 		int enchID = start_value;
 		boolean fullcircle = true;
 		do{
-			if (Enchantment.enchantmentsList[enchID] == null){
+			if (Enchantment.getEnchantmentById(enchID) == null){
 				fullcircle = false;
 				break;
 			}

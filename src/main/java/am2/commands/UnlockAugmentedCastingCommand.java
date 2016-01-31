@@ -4,6 +4,7 @@ import am2.api.spell.enums.SkillPointTypes;
 import am2.playerextensions.SkillData;
 import am2.spell.SkillManager;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +27,7 @@ public class UnlockAugmentedCastingCommand extends CommandBase{
 	}
 
 	@Override
-	public void processCommand(ICommandSender var1, String[] var2){
+	public void processCommand(ICommandSender var1, String[] var2) throws CommandException{
 		if (var2.length > 1){
 			throw new WrongUsageException(this.getCommandUsage(var1), new Object[0]);
 		}
@@ -45,6 +46,6 @@ public class UnlockAugmentedCastingCommand extends CommandBase{
 		SkillData.For(player).learn(SkillManager.instance.getSkill("AugmentedCasting").getID() + SkillManager.TALENT_OFFSET, 3);
 		SkillData.For(player).forceSync();
 
-		func_152373_a(var1, this, "Unlocking augmented casting for " + player.getName(), new Object[0]);
+		notifyOperators(var1, this, "Unlocking augmented casting for " + player.getName(), new Object[0]);
 	}
 }

@@ -3,17 +3,16 @@ package am2.commands;
 import am2.api.spell.component.interfaces.ISkillTreeEntry;
 import am2.playerextensions.SkillData;
 import am2.spell.SkillManager;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
+import net.minecraft.command.*;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SetSkillKnown extends CommandBase{
 	@Override
-	public int compareTo(Object arg0){
+	public int compareTo(ICommand arg0){
 		return 0;
 	}
 
@@ -33,7 +32,7 @@ public class SetSkillKnown extends CommandBase{
 	}
 
 	@Override
-	public void processCommand(ICommandSender var1, String[] var2){
+	public void processCommand(ICommandSender var1, String[] var2) throws CommandException{
 		if (var2.length != 2 && var2.length != 1){
 			throw new WrongUsageException(this.getCommandUsage(var1), new Object[0]);
 		}
@@ -53,11 +52,11 @@ public class SetSkillKnown extends CommandBase{
 		ISkillTreeEntry entry = SkillManager.instance.getSkill(skill);
 		SkillData.For(player).learn(entry);
 
-		func_152373_a(var1, this, "Unlocking " + skill + " for " + player.getName(), new Object[0]);
+		notifyOperators(var1, this, "Unlocking " + skill + " for " + player.getName(), new Object[0]);
 	}
 
 	@Override
-	public List addTabCompletionOptions(ICommandSender var1, String[] var2){
+	public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos pos){
 		ArrayList<String> completions = new ArrayList<String>();
 		if (var2.length == 1){
 			for (String s : SkillManager.instance.getAllSkillNames()){
@@ -66,7 +65,11 @@ public class SetSkillKnown extends CommandBase{
 				}
 			}
 		}else if (var2.length == 0){
-			EntityPlayer player = getCommandSenderAsPlayer(var1);
+			EntityPlayer player = null;
+			try{
+				player = getCommandSenderAsPlayer(var1);
+			}catch (PlayerNotFoundException e){}
+			if (player == null) return completions;
 			for (Object o : player.worldObj.playerEntities){
 				EntityPlayer p = (EntityPlayer)o;
 				completions.add(p.getName());

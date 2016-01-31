@@ -2,6 +2,7 @@ package am2.commands;
 
 import am2.network.AMNetHandler;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -19,7 +20,7 @@ public class UnlockCompendiumEntry extends CommandBase{
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args){
+	public void processCommand(ICommandSender sender, String[] args) throws CommandException{
 		if (args.length < 1 || args.length > 2){
 			throw new WrongUsageException(getCommandUsage(sender), new Object[0]);
 		}

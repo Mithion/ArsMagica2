@@ -1,12 +1,14 @@
 package am2.buffs;
 
 import am2.playerextensions.ExtendedProperties;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.ResourceLocation;
 
 public class ManaPotion extends ArsMagicaPotion{
 
-	protected ManaPotion(int par1, boolean par2, int par3){
-		super(par1, par2, par3);
+	protected ManaPotion(ResourceLocation name, boolean par2, int par3){
+		super(name, par2, par3);
 	}
 
 	@Override
@@ -20,11 +22,11 @@ public class ManaPotion extends ArsMagicaPotion{
 
 	private float getManaRestored(int amplifier){
 		float manaRestored = 0;
-		if (this.id == BuffList.greaterManaPotion.id){
+		if ("mana_restoration_greater".equals(this.registryName.getResourcePath())){
 			manaRestored = 500;
-		}else if (this.id == BuffList.epicManaPotion.id){
+		}else if ("mana_restoration_epic".equals(this.registryName.getResourcePath())){
 			manaRestored = 1000;
-		}else if (this.id == BuffList.legendaryManaPotion.id){
+		}else if ("mana_restoration_legendary".equals(this.registryName.getResourcePath())){
 			manaRestored = 2500;
 		}
 
@@ -34,11 +36,11 @@ public class ManaPotion extends ArsMagicaPotion{
 	}
 
 	@Override
-	public void affectEntity(EntityLivingBase par1EntityLiving, EntityLivingBase par2EntityLiving, int amplifier, double distanceToImpact){
+	public void affectEntity(Entity potion, Entity thrower, EntityLivingBase target, int amplifier, double distance){
 		float manaRestored = getManaRestored(amplifier);
 
-		ExtendedProperties.For(par2EntityLiving).setCurrentMana(ExtendedProperties.For(par2EntityLiving).getCurrentMana() + manaRestored);
-		ExtendedProperties.For(par2EntityLiving).forceSync();
+		ExtendedProperties.For(target).setCurrentMana(ExtendedProperties.For(target).getCurrentMana() + manaRestored);
+		ExtendedProperties.For(target).forceSync();
 	}
 
 	@Override
