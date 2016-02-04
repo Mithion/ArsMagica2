@@ -20,6 +20,7 @@ public class WitchwoodSlabs extends BlockWoodSlab{
 		super(par2);
 		this.setHardness(2.0f);
 		this.setResistance(2.0f);
+		this.setHarvestLevel("axe", 2);
 	}
 
 	@Override

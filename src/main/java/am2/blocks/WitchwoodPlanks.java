@@ -20,6 +20,7 @@ public class WitchwoodPlanks extends BlockWood{
 		super();
 		this.setHardness(2.0f);
 		this.setResistance(2.0f);
+		this.setHarvestLevel("axe", 2);
 	}
 
 	@Override
@@ -45,15 +46,5 @@ public class WitchwoodPlanks extends BlockWood{
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z){
 		return new ItemStack(this);
-	}
-
-	@Override
-	public int getHarvestLevel(int metadata){
-		return 2;
-	}
-
-	@Override
-	public String getHarvestTool(int metadata){
-		return "axe";
 	}
 }
