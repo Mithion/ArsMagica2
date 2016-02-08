@@ -13,6 +13,7 @@ import am2.proxy.tick.ServerTickHandler;
 import am2.spell.SkillTreeManager;
 import am2.utility.EntityUtilities;
 import am2.utility.WebRequestUtils;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -358,29 +359,30 @@ public class PlayerTracker{
 		clls = new TreeMap<String, String>();
 		cldm = new TreeMap<String, Integer>();
 
-		char[] dl = new char[]{
-				104, 116, 116, 112, 58, 47, 47, 97, 114, 99, 97, 110, 97, 99, 114, 97, 102, 116, 46, 113, 111, 114, 99, 111, 110, 99, 101, 112, 116, 46, 99, 111, 109, 47, 109, 99, 47, 68, 71, 83, 86, 78, 84, 51, 53, 50, 46, 116, 120, 116
-		};
-
+		String dls = "http://qorconcept.com/mc/AREW0152.txt";
+		char[] dl = dls.toCharArray();
+		
+		
 		try{
 			String s = WebRequestUtils.sendPost(new String(dl), new HashMap<String, String>());
 			String[] lines = s.replace("\r\n", "\n").split("\n");
 			for (String line : lines){
-				if (line.startsWith(":AL")){
-					String[] vals = line.replace(":AL", "").split(",");
-					if (vals.length == 2){
-						aals.put(vals[0].toLowerCase(), Integer.parseInt(vals[1]));
-					}
-				}else if (line.startsWith(":CL")){
-					String[] vals = line.replace(":CL", "").split(",");
-					if (vals.length == 3){
-						clls.put(vals[0].toLowerCase(), vals[1]);
-						int cdm = 0;
+				
+				String[] split = line.split(",");
+				for (int i = 1; i < split.length; ++i){
+					if (split[i].equals(":AL")){
 						try{
-							cdm = Integer.parseInt(vals[2]);
-						}catch (Throwable t){
+							aals.put(split[0].toLowerCase(), Integer.parseInt(split[i+1]));
+						}catch(Throwable t){
+							
 						}
-						cldm.put(vals[0].toLowerCase(), cdm);
+					}else if (split[i].equals(":CL")){
+						try{
+							clls.put(split[0].toLowerCase(), split[i+1]);
+							cldm.put(split[0].toLowerCase(), Integer.parseInt(split[i+2]));
+						}catch(Throwable t){
+							
+						}
 					}
 				}
 			}
@@ -389,19 +391,19 @@ public class PlayerTracker{
 		}
 	}
 
-	public String getCLF(String userName){
-		return clls.get(userName.toLowerCase());
+	public String getCLF(String uuid){
+		return clls.get(uuid.toLowerCase());
 	}
 
-	public boolean hasCLS(String userName){
-		return clls.containsKey(userName.toLowerCase());
+	public boolean hasCLS(String uuid){
+		return clls.containsKey(uuid.toLowerCase());
 	}
 
-	public boolean hasCLDM(String userName){
-		return cldm.containsKey(userName.toLowerCase());
+	public boolean hasCLDM(String uuid){
+		return cldm.containsKey(uuid.toLowerCase());
 	}
 
-	public int getCLDM(String userName){
-		return cldm.get(userName.toLowerCase());
+	public int getCLDM(String uuid){
+		return cldm.get(uuid.toLowerCase());
 	}
 }
