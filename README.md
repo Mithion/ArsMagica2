@@ -1,7 +1,7 @@
 ArsMagica2
 ==========
 
-Ars Magica 2 Bug Tracker
+Ars Magica 2 Repository
 
 ### Useful Links
 * [Homepage](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1292222)
