@@ -21,11 +21,14 @@ public class CloakUtils{
 	public static ModelCloaks cloak = new ModelCloaks();
 
 	public static void renderCloakModel(EntityPlayer player, ModelBiped mainModel, float partialRenderTick){
-		if (!AMCore.proxy.playerTracker.hasCLDM(player.getName()))
+		if (!AMCore.proxy.playerTracker.hasCLDM(player.getUniqueID().toString()))
 			return;
-		int dm = AMCore.proxy.playerTracker.getCLDM(player.getName());
-		ResourceLocation capeLoc = getCapeLocation(player.getName());
-		ThreadDownloadImageData capeImg = downloadCapeTexture(capeLoc, player.getName());
+		
+		if (!player.getHideCape()) return; //cloaks obey the inverse of show cape
+		
+		int dm = AMCore.proxy.playerTracker.getCLDM(player.getUniqueID().toString());
+		ResourceLocation capeLoc = getCapeLocation(player.getUniqueID().toString());
+		ThreadDownloadImageData capeImg = downloadCapeTexture(capeLoc, player.getUniqueID().toString());
 
 		EntityPlayer localPlayer = Minecraft.getMinecraft().thePlayer;
 
@@ -53,15 +56,15 @@ public class CloakUtils{
 		return resourceLocation;
 	}
 
-	private static ThreadDownloadImageData downloadCapeTexture(ResourceLocation resourceLocation, String userName){
-		ThreadDownloadImageData data = downloadedCloaks.get(userName);
+	private static ThreadDownloadImageData downloadCapeTexture(ResourceLocation resourceLocation, String uuid){
+		ThreadDownloadImageData data = downloadedCloaks.get(uuid);
 
 		if (data == null){
 			TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
-			Object object = new ThreadDownloadImageData((File)null, AMCore.proxy.playerTracker.getCLF(userName), null, null);
+			Object object = new ThreadDownloadImageData((File)null, AMCore.proxy.playerTracker.getCLF(uuid), null, null);
 			texturemanager.loadTexture(resourceLocation, (ITextureObject)object);
 			data = (ThreadDownloadImageData)object;
-			downloadedCloaks.put(userName, data);
+			downloadedCloaks.put(uuid, data);
 		}
 
 		return data;

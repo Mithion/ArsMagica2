@@ -116,7 +116,7 @@ public class ItemFrameWatcher{
 		queuedAddFrames.clear();
 
 		for (EntityItemFrameComparator comp : toAdd){
-			if (comp.frame.getDisplayedItem() == null || comp.frame.getDisplayedItem().getItem() != ItemsCommonProxy.arcaneCompendium)
+			if (comp.frame != null && (comp.frame.getDisplayedItem() == null || comp.frame.getDisplayedItem().getItem() != ItemsCommonProxy.arcaneCompendium))
 				watchedFrames.put(comp, 0);
 		}
 

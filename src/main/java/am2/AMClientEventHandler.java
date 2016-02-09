@@ -220,7 +220,7 @@ public class AMClientEventHandler{
 		if (event.entityPlayer.getCurrentEquippedItem() != null)
 			holdingItem = true;
 
-		if (!AMCore.proxy.playerTracker.hasCLS(event.entityPlayer.getName())){
+		if (!AMCore.proxy.playerTracker.hasCLS(event.entityPlayer.getUniqueID().toString())){
 			if (chestPlate != null && chestPlate.getItem() == ItemsCommonProxy.earthGuardianArmor){
 				if (mainModel != null){
 					mainModel.bipedLeftArm.isHidden = true;
@@ -268,8 +268,8 @@ public class AMClientEventHandler{
 
 	@SubscribeEvent
 	public void onSetArmorModel(RenderPlayerEvent.SetArmorModel event){
-		if (AMCore.proxy.playerTracker.hasCLS(event.entityPlayer.getName())){
-			int dm = AMCore.proxy.playerTracker.getCLDM(event.entityPlayer.getName());
+		if (AMCore.proxy.playerTracker.hasCLS(event.entityPlayer.getUniqueID().toString())){
+			int dm = AMCore.proxy.playerTracker.getCLDM(event.entityPlayer.getUniqueID().toString());
 			if (event.slot == 1 || event.slot == 2 || ((dm & 0x1) == 0x1 && event.slot == 3)){
 				event.result = -2;
 			}
