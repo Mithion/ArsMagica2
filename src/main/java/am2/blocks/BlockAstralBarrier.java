@@ -16,8 +16,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
-import java.util.Random;
-
 public class BlockAstralBarrier extends AMSpecialRenderPoweredBlock{
 
 	public BlockAstralBarrier(){
@@ -37,7 +35,7 @@ public class BlockAstralBarrier extends AMSpecialRenderPoweredBlock{
 			return true;
 		}
 
-		if (HandleSpecialItems(par1World, par5EntityPlayer, par2, par3, par4)){
+		if (handleSpecialItems(par1World, par5EntityPlayer, par2, par3, par4)){
 			return true;
 		}
 		if (!par1World.isRemote)

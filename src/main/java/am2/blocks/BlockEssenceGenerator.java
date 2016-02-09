@@ -100,7 +100,7 @@ public class BlockEssenceGenerator extends AMSpecialRenderPoweredBlock{
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int face, float interactX, float interactY, float interactZ){
 
-		if (HandleSpecialItems(world, player, x, y, z))
+		if (handleSpecialItems(world, player, x, y, z))
 			return true;
 
 		if (world.getBlock(x, y, z) == BlocksCommonProxy.obelisk)

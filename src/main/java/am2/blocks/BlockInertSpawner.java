@@ -15,8 +15,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-import java.util.Random;
-
 public class BlockInertSpawner extends PoweredBlock{
 
 	protected BlockInertSpawner(){
@@ -46,7 +44,7 @@ public class BlockInertSpawner extends PoweredBlock{
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float hitX, float hitY, float hitZ){
-		if (this.HandleSpecialItems(world, player, x, y, z)){
+		if (this.handleSpecialItems(world, player, x, y, z)){
 			return false;
 		}
 		FMLNetworkHandler.openGui(player, AMCore.instance, ArsMagicaGuiIdList.GUI_INERT_SPAWNER, world, x, y, z);

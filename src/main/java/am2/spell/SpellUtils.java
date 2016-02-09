@@ -412,10 +412,10 @@ public class SpellUtils implements ISpellUtils{
 	private SpellRequirements parseSpellRequirements(ItemStack stack, EntityLivingBase caster){
 		float burnoutPct = (ExtendedProperties.For(caster).getCurrentFatigue() / ExtendedProperties.For(caster).getMaxFatigue()) + 1f;
 
-		float manaCost = stack.stackTagCompound.getFloat(BaseManaCostIdentifier) * burnoutPct;
-		float burnout = stack.stackTagCompound.getFloat(BaseBurnoutIdentifier);
+		float manaCost = stack.getTagCompound().getFloat(BaseManaCostIdentifier) * burnoutPct;
+		float burnout = stack.getTagCompound().getFloat(BaseBurnoutIdentifier);
 
-		int[] reagentList = stack.stackTagCompound.getIntArray(BaseReagentsIdentifier);
+		int[] reagentList = stack.getTagCompound().getIntArray(BaseReagentsIdentifier);
 		ArrayList<ItemStack> reagents = new ArrayList<ItemStack>();
 		for (int i = 0; i < reagentList.length; i += 3){
 			reagents.add(new ItemStack(Item.getItemById(reagentList[i]), reagentList[i + 1], reagentList[i + 2]));
@@ -427,8 +427,8 @@ public class SpellUtils implements ISpellUtils{
 	private void writeSpellRequirements(ItemStack stack, EntityLivingBase caster, SpellRequirements requirements){
 		if (!stack.hasTagCompound()) return;
 
-		stack.stackTagCompound.setFloat(BaseManaCostIdentifier, requirements.manaCost);
-		stack.stackTagCompound.setFloat(BaseBurnoutIdentifier, requirements.burnout);
+		stack.getTagCompound().setFloat(BaseManaCostIdentifier, requirements.manaCost);
+		stack.getTagCompound().setFloat(BaseBurnoutIdentifier, requirements.burnout);
 
 		int[] reagentList = new int[requirements.reagents.size() * 3];
 		int count = 0;
@@ -438,14 +438,14 @@ public class SpellUtils implements ISpellUtils{
 			reagentList[count++] = reagentStack.getItemDamage();
 		}
 
-		stack.stackTagCompound.setIntArray(BaseReagentsIdentifier, reagentList);
+		stack.getTagCompound().setIntArray(BaseReagentsIdentifier, reagentList);
 		writeModVersionToStack(stack);
 	}
 
 	private boolean spellRequirementsPresent(ItemStack stack, EntityLivingBase caster){
 		if (!stack.hasTagCompound()) return false;
 		if (isOldVersionSpell(stack)) return false;
-		return stack.stackTagCompound.hasKey(BaseManaCostIdentifier) && stack.stackTagCompound.hasKey(BaseBurnoutIdentifier) && stack.stackTagCompound.hasKey(BaseReagentsIdentifier);
+		return stack.getTagCompound().hasKey(BaseManaCostIdentifier) && stack.getTagCompound().hasKey(BaseBurnoutIdentifier) && stack.getTagCompound().hasKey(BaseReagentsIdentifier);
 	}
 	//==============================================================================
 	// End Spell Requirements
@@ -455,25 +455,25 @@ public class SpellUtils implements ISpellUtils{
 	 * Gets the shape group parts from the passed in ItemStack, based on the stack's internal state of current shape group
 	 */
 	public int[] getShapeGroupParts(ItemStack stack){
-		if (!stack.hasTagCompound() || !stack.stackTagCompound.hasKey(CurShapeGroup_Identifier))
+		if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey(CurShapeGroup_Identifier))
 			return new int[0];
 
-		int currentShapeGroup = stack.stackTagCompound.getInteger(CurShapeGroup_Identifier);
-		return stack.stackTagCompound.getIntArray(String.format("%s%d", ShapeGroup_Identifier, currentShapeGroup));
+		int currentShapeGroup = stack.getTagCompound().getInteger(CurShapeGroup_Identifier);
+		return stack.getTagCompound().getIntArray(String.format("%s%d", ShapeGroup_Identifier, currentShapeGroup));
 	}
 
 	public int[] getShapeGroupParts(ItemStack stack, int index){
 		if (!stack.hasTagCompound())
 			return new int[0];
-		return stack.stackTagCompound.getIntArray(String.format("%s%d", ShapeGroup_Identifier, index));
+		return stack.getTagCompound().getIntArray(String.format("%s%d", ShapeGroup_Identifier, index));
 	}
 
 	public void setShapeGroup(ItemStack stack, int shapeGroup){
 		if (!stack.hasTagCompound())
 			return;
-		if (shapeGroup < 0 || shapeGroup >= stack.stackTagCompound.getInteger(NumShapeGroups_Identifier))
+		if (shapeGroup < 0 || shapeGroup >= stack.getTagCompound().getInteger(NumShapeGroups_Identifier))
 			shapeGroup = 0;
-		stack.stackTagCompound.setInteger(CurShapeGroup_Identifier, shapeGroup);
+		stack.getTagCompound().setInteger(CurShapeGroup_Identifier, shapeGroup);
 		changeEnchantmentsForShapeGroup(stack);
 	}
 
@@ -483,8 +483,8 @@ public class SpellUtils implements ISpellUtils{
 	public int cycleShapeGroup(ItemStack stack){
 		if (!stack.hasTagCompound())
 			return 0;
-		int current = stack.stackTagCompound.getInteger(CurShapeGroup_Identifier);
-		int max = stack.stackTagCompound.getInteger(NumShapeGroups_Identifier);
+		int current = stack.getTagCompound().getInteger(CurShapeGroup_Identifier);
+		int max = stack.getTagCompound().getInteger(NumShapeGroups_Identifier);
 		if (max == 0)
 			return 0;
 		return (current + 1) % max;
@@ -508,12 +508,12 @@ public class SpellUtils implements ISpellUtils{
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 
-		int numShapeGroups = stack.stackTagCompound.getInteger(NumShapeGroups_Identifier) + 1;
-		stack.stackTagCompound.setInteger(NumShapeGroups_Identifier, numShapeGroups);
-		stack.stackTagCompound.setInteger(CurShapeGroup_Identifier, 0);
-		stack.stackTagCompound.setIntArray(String.format("%s%d", ShapeGroup_Identifier, numShapeGroups - 1), shapeGroupParts);
+		int numShapeGroups = stack.getTagCompound().getInteger(NumShapeGroups_Identifier) + 1;
+		stack.getTagCompound().setInteger(NumShapeGroups_Identifier, numShapeGroups);
+		stack.getTagCompound().setInteger(CurShapeGroup_Identifier, 0);
+		stack.getTagCompound().setIntArray(String.format("%s%d", ShapeGroup_Identifier, numShapeGroups - 1), shapeGroupParts);
 		for (int i = 0; i < metaDatas.length; ++i){
-			stack.stackTagCompound.setByteArray(String.format("%s%d%d", ShapeGroupMeta_Identifier, numShapeGroups - 1, i), metaDatas[i]);
+			stack.getTagCompound().setByteArray(String.format("%s%d%d", ShapeGroupMeta_Identifier, numShapeGroups - 1, i), metaDatas[i]);
 		}
 	}
 
@@ -524,20 +524,20 @@ public class SpellUtils implements ISpellUtils{
 	 * @return An ItemStack that contains a classic spell definition that the casting system can handle.  This is what should be passed to the spell helper class.
 	 */
 	public ItemStack constructSpellStack(ItemStack stack){
-		if (!stack.hasTagCompound() || !stack.stackTagCompound.hasKey(CurShapeGroup_Identifier))
+		if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey(CurShapeGroup_Identifier))
 			return stack.copy();
 
 		ItemStack classicStack = new ItemStack(ItemsCommonProxy.spell);
 		classicStack.setTagCompound(new NBTTagCompound());
 
-		if (stack.stackTagCompound.hasKey(Global_Spell_Meta))
-			classicStack.stackTagCompound.setTag(Global_Spell_Meta, stack.stackTagCompound.getTag(Global_Spell_Meta));
+		if (stack.getTagCompound().hasKey(Global_Spell_Meta))
+			classicStack.getTagCompound().setTag(Global_Spell_Meta, stack.getTagCompound().getTag(Global_Spell_Meta));
 
 		//this is the starter shapes
 		int[] shapeGroup = getShapeGroupParts(stack);
 
 		ArrayList<SpellStageDefinition> newStages = new ArrayList<SpellStageDefinition>();
-		int currentShapeGroup = stack.stackTagCompound.getInteger(CurShapeGroup_Identifier);
+		int currentShapeGroup = stack.getTagCompound().getInteger(CurShapeGroup_Identifier);
 
 		//count the number of shapes in the selected shape group - there are this many more stages present
 		int shapeGroupElementCount = 0;
@@ -547,7 +547,7 @@ public class SpellUtils implements ISpellUtils{
 				newStages.add(new SpellStageDefinition());
 				newStages.get(newStages.size() - 1).shape = entry.getID();
 			}else if (entry instanceof ISpellModifier){
-				byte[] meta = stack.stackTagCompound.getByteArray(String.format("%s%d%d", ShapeGroupMeta_Identifier, currentShapeGroup, shapeGroupElementCount));
+				byte[] meta = stack.getTagCompound().getByteArray(String.format("%s%d%d", ShapeGroupMeta_Identifier, currentShapeGroup, shapeGroupElementCount));
 				if (meta == null)
 					meta = new byte[0];
 				newStages.get(newStages.size() - 1).definition.addModifier(SkillManager.instance.getShiftedPartID(entry), meta);
@@ -558,9 +558,9 @@ public class SpellUtils implements ISpellUtils{
 		//check the old spell definition - if it starts with MissingShape, then inject the components and modifiers into the last stage from the shape group
 		if (numStages(stack) > 0 && newStages.size() > 0){
 			SpellStageDefinition last = newStages.get(newStages.size() - 1);
-			int firstShape = stack.stackTagCompound.getInteger(Shape_Prefix + "0");
+			int firstShape = stack.getTagCompound().getInteger(Shape_Prefix + "0");
 			if (firstShape == SkillManager.instance.missingShape.getID()){
-				int[] components = stack.stackTagCompound.getIntArray(Component_Prefix + "0");
+				int[] components = stack.getTagCompound().getIntArray(Component_Prefix + "0");
 				ISpellModifier[] modifiers = getModifiersForStage(stack, 0);
 				for (int i : components)
 					last.definition.addComponent(i);
@@ -585,11 +585,11 @@ public class SpellUtils implements ISpellUtils{
 		//copy the other stages from the original to the new one
 		for (int i = 0; i < numStages(stack); ++i){
 			SpellStageDefinition def = new SpellStageDefinition();
-			def.shape = stack.stackTagCompound.getInteger(Shape_Prefix + i);
+			def.shape = stack.getTagCompound().getInteger(Shape_Prefix + i);
 			//skip a stage of missing shape as we will have handled it already
 			if (def.shape == SkillManager.instance.missingShape.getID())
 				continue;
-			int[] components = stack.stackTagCompound.getIntArray(Component_Prefix + i);
+			int[] components = stack.getTagCompound().getIntArray(Component_Prefix + i);
 			for (int c : components)
 				def.definition.addComponent(c);
 			ISpellModifier[] modifiers = getModifiersForStage(stack, i);
@@ -616,15 +616,15 @@ public class SpellUtils implements ISpellUtils{
 		int stages = numStages(workingStack);
 		if (stages == 0) return workingStack;
 		for (int i = 1; i < stages; ++i){
-			workingStack.stackTagCompound.setIntArray(Component_Prefix + (i - 1), workingStack.stackTagCompound.getIntArray(Component_Prefix + i));
-			workingStack.stackTagCompound.setIntArray(Modifier_Prefix + (i - 1), workingStack.stackTagCompound.getIntArray(Modifier_Prefix + i));
-			workingStack.stackTagCompound.setInteger(Shape_Prefix + (i - 1), workingStack.stackTagCompound.getInteger(Shape_Prefix + i));
+			workingStack.getTagCompound().setIntArray(Component_Prefix + (i - 1), workingStack.getTagCompound().getIntArray(Component_Prefix + i));
+			workingStack.getTagCompound().setIntArray(Modifier_Prefix + (i - 1), workingStack.getTagCompound().getIntArray(Modifier_Prefix + i));
+			workingStack.getTagCompound().setInteger(Shape_Prefix + (i - 1), workingStack.getTagCompound().getInteger(Shape_Prefix + i));
 		}
-		workingStack.stackTagCompound.setInteger(Stages_Identifier, stages - 1);
+		workingStack.getTagCompound().setInteger(Stages_Identifier, stages - 1);
 
-		workingStack.stackTagCompound.removeTag(Component_Prefix + (stages - 1));
-		workingStack.stackTagCompound.removeTag(Modifier_Prefix + (stages - 1));
-		workingStack.stackTagCompound.removeTag(Shape_Prefix + (stages - 1));
+		workingStack.getTagCompound().removeTag(Component_Prefix + (stages - 1));
+		workingStack.getTagCompound().removeTag(Modifier_Prefix + (stages - 1));
+		workingStack.getTagCompound().removeTag(Shape_Prefix + (stages - 1));
 
 		return workingStack;
 	}
@@ -632,20 +632,20 @@ public class SpellUtils implements ISpellUtils{
 	public int numStages(ItemStack stack){
 		if (stack == null || !stack.hasTagCompound())
 			return 0;
-		int numStages = stack.stackTagCompound.hasKey(Stages_Identifier) ? stack.stackTagCompound.getInteger(Stages_Identifier) : stack.stackTagCompound.getInteger("ShapeOrdinal_");
+		int numStages = stack.getTagCompound().hasKey(Stages_Identifier) ? stack.getTagCompound().getInteger(Stages_Identifier) : stack.getTagCompound().getInteger("ShapeOrdinal_");
 		return numStages;
 	}
 
 	public int numShapeGroups(ItemStack stack){
 		if (!stack.hasTagCompound())
 			return 0;
-		return stack.stackTagCompound.getInteger(NumShapeGroups_Identifier);
+		return stack.getTagCompound().getInteger(NumShapeGroups_Identifier);
 	}
 
 	public ISpellComponent[] getComponentsForStage(ItemStack stack, int stage){
 		if (stack == null || !stack.hasTagCompound())
 			return new ISpellComponent[0];
-		int[] componentIDs = stack.stackTagCompound.getIntArray(Component_Prefix + stage);
+		int[] componentIDs = stack.getTagCompound().getIntArray(Component_Prefix + stage);
 		ISpellComponent[] components = new ISpellComponent[componentIDs.length];
 		int count = 0;
 		for (int i : componentIDs){
@@ -663,7 +663,7 @@ public class SpellUtils implements ISpellUtils{
 		if (stack == null || !stack.hasTagCompound())
 			return new ISpellModifier[0];
 
-		int[] modifierIDs = stack.stackTagCompound.getIntArray(Modifier_Prefix + stage);
+		int[] modifierIDs = stack.getTagCompound().getIntArray(Modifier_Prefix + stage);
 		ISpellModifier[] modifiers = new ISpellModifier[modifierIDs.length];
 		int count = 0;
 		for (int i : modifierIDs){
@@ -679,7 +679,7 @@ public class SpellUtils implements ISpellUtils{
 
 	public ISpellShape getShapeForStage(ItemStack stack, int stage){
 		if (stack == null || !stack.hasTagCompound()) return SkillManager.instance.missingShape;
-		int shapeIndex = stack.stackTagCompound.getInteger(Shape_Prefix + stage);
+		int shapeIndex = stack.getTagCompound().getInteger(Shape_Prefix + stage);
 		ISkillTreeEntry shape = SkillManager.instance.getSkill(shapeIndex);
 
 		if (SkillTreeManager.instance.isSkillDisabled(shape))
@@ -701,14 +701,14 @@ public class SpellUtils implements ISpellUtils{
 	}
 
 	public void addSpellStageToScroll(ItemStack scrollStack, int shape, int[] components, ListMultimap<Integer, byte[]> modifiers){
-		if (scrollStack.stackTagCompound == null){
-			scrollStack.stackTagCompound = new NBTTagCompound();
-		}
+		/*if (scrollStack.getTagCompound() == null){
+			scrollStack.stackTagCompound = new NBTTagCompound(); -- might not be needed
+		}*/
 		//stages are 0-based
 		int nextStage = numStages(scrollStack);
-		scrollStack.stackTagCompound.setInteger(Stages_Identifier, nextStage + 1);
-		scrollStack.stackTagCompound.setInteger(Shape_Prefix + nextStage, shape);
-		scrollStack.stackTagCompound.setIntArray(Component_Prefix + nextStage, components);
+		scrollStack.getTagCompound().setInteger(Stages_Identifier, nextStage + 1);
+		scrollStack.getTagCompound().setInteger(Shape_Prefix + nextStage, shape);
+		scrollStack.getTagCompound().setIntArray(Component_Prefix + nextStage, components);
 
 		int[] modifierarray = new int[modifiers.values().size()];
 		int index = 0;
@@ -726,7 +726,7 @@ public class SpellUtils implements ISpellUtils{
 			}
 		}
 
-		scrollStack.stackTagCompound.setIntArray(Modifier_Prefix + nextStage, modifierarray);
+		scrollStack.getTagCompound().setIntArray(Modifier_Prefix + nextStage, modifierarray);
 	}
 
 	public Affinity mainAffinityFor(ItemStack stack){
@@ -734,8 +734,8 @@ public class SpellUtils implements ISpellUtils{
 		if (!stack.hasTagCompound())
 			return Affinity.NONE;
 
-		if (stack.stackTagCompound.hasKey(ForcedAffinity)){
-			int aff = stack.stackTagCompound.getInteger(ForcedAffinity);
+		if (stack.getTagCompound().hasKey(ForcedAffinity)){
+			int aff = stack.getTagCompound().getInteger(ForcedAffinity);
 			return Affinity.values()[aff];
 		}
 
@@ -810,8 +810,8 @@ public class SpellUtils implements ISpellUtils{
 		HashMap<Affinity, Float> affinities = new HashMap<Affinity, Float>();
 		float totalAffinityEntries = 0;
 
-		if (stack.stackTagCompound.hasKey(ForcedAffinity)){
-			int aff = stack.stackTagCompound.getInteger(ForcedAffinity);
+		if (stack.getTagCompound().hasKey(ForcedAffinity)){
+			int aff = stack.getTagCompound().getInteger(ForcedAffinity);
 			affinities.put(Affinity.values()[aff], 100f);
 			return affinities;
 		}
@@ -874,19 +874,19 @@ public class SpellUtils implements ISpellUtils{
 
 	public void writeModVersionToStack(ItemStack stack){
 		if (!stack.hasTagCompound()) return;
-		stack.stackTagCompound.setString("spell_mod_version", AMCore.instance.getVersion());
+		stack.getTagCompound().setString("spell_mod_version", AMCore.instance.getVersion());
 	}
 
 	public void writeModifierMetadataToStack(ItemStack stack, ISpellModifier modifier, int stage, int ordinal, byte[] meta){
 		if (!stack.hasTagCompound()) return;
 		String identifier = String.format("%s%d_%d_%d", Modifier_Meta_Prefix, modifier.getID(), stage, ordinal);
-		stack.stackTagCompound.setByteArray(identifier, meta);
+		stack.getTagCompound().setByteArray(identifier, meta);
 	}
 
 	public byte[] getModifierMetadataFromStack(ItemStack stack, ISpellModifier modifier, int stage, int ordinal){
 		if (!stack.hasTagCompound()) return new byte[0];
 		String identifier = String.format("%s%d_%d_%d", Modifier_Meta_Prefix, modifier.getID(), stage, ordinal);
-		return stack.stackTagCompound.getByteArray(identifier);
+		return stack.getTagCompound().getByteArray(identifier);
 	}
 
 	public int getNextOrdinalForModifier(ItemStack stack, int stage, EnumSet<SpellModifiers> enumSet){
@@ -901,7 +901,7 @@ public class SpellUtils implements ISpellUtils{
 
 	public boolean isOldVersionSpell(ItemStack stack){
 		if (!stack.hasTagCompound()) return false;
-		String version = stack.stackTagCompound.getString("spell_mod_version");
+		String version = stack.getTagCompound().getString("spell_mod_version");
 		return version != AMCore.instance.getVersion();
 	}
 
@@ -1041,21 +1041,21 @@ public class SpellUtils implements ISpellUtils{
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 
-		stack.stackTagCompound.setInteger(ForcedAffinity, aff.ordinal());
+		stack.getTagCompound().setInteger(ForcedAffinity, aff.ordinal());
 	}
 
 	public String getSpellMetadata(ItemStack stack, String key){
-		if (!stack.hasTagCompound() || !stack.stackTagCompound.hasKey(Global_Spell_Meta))
+		if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey(Global_Spell_Meta))
 			return "";
-		NBTTagCompound metaComp = stack.stackTagCompound.getCompoundTag(Global_Spell_Meta);
+		NBTTagCompound metaComp = stack.getTagCompound().getCompoundTag(Global_Spell_Meta);
 		return metaComp.getString(key);
 	}
 
 	public void setSpellMetadata(ItemStack stack, String string, String s){
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
-		NBTTagCompound meta = stack.stackTagCompound.getCompoundTag(Global_Spell_Meta);
+		NBTTagCompound meta = stack.getTagCompound().getCompoundTag(Global_Spell_Meta);
 		meta.setString(string, s);
-		stack.stackTagCompound.setTag(Global_Spell_Meta, meta);
+		stack.getTagCompound().setTag(Global_Spell_Meta, meta);
 	}
 }

@@ -41,7 +41,7 @@ public class BlockSummoner extends AMSpecialRenderPoweredBlock{
 
 		super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
 
-		if (HandleSpecialItems(par1World, par5EntityPlayer, par2, par3, par4)){
+		if (handleSpecialItems(par1World, par5EntityPlayer, par2, par3, par4)){
 			return true;
 		}
 
