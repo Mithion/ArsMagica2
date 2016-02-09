@@ -1,7 +1,7 @@
 package am2.items;
 
 import am2.utility.EntityUtilities;
-import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -50,10 +50,10 @@ public class ItemJournal extends ArsMagicaItem{
 			list.add(String.format(StatCollector.translateToLocal("am2.tooltip.journalOwner2"), owner));
 		}
 
-		if (owner.equals(player.getCommandSenderName()))
+		if (owner.equals(player.getName()))
 			list.add(String.format(StatCollector.translateToLocal("am2.tooltip.containedXP"), getXPInJournal(journal)));
 
-		if (owner == null || owner.equals(player.getCommandSenderName()))
+		if (owner == null || owner.equals(player.getName()))
 			list.add(StatCollector.translateToLocal("am2.tooltip.journalUse"));
 	}
 
@@ -63,7 +63,7 @@ public class ItemJournal extends ArsMagicaItem{
 		if (!player.worldObj.isRemote){
 			if (getOwner(journal) == null){
 				setOwner(journal, player);
-			}else if (!getOwner(journal).equals(player.getCommandSenderName())){
+			}else if (!getOwner(journal).equals(player.getName())){
 			  player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.notYourJournal")));
 				return super.onItemRightClick(journal, world, player);
 			}
@@ -108,7 +108,7 @@ public class ItemJournal extends ArsMagicaItem{
 	private void setOwner(ItemStack journal, EntityPlayer player){
 		if (!journal.hasTagCompound())
 			journal.stackTagCompound = new NBTTagCompound();
-		journal.stackTagCompound.setString(KEY_NBT_OWNER, player.getCommandSenderName());
+		journal.stackTagCompound.setString(KEY_NBT_OWNER, player.getName());
 	}
 
 	@Override

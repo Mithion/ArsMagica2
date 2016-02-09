@@ -2,6 +2,7 @@ package am2;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -24,7 +25,7 @@ public class AMChunkLoader implements LoadingCallback{
 	private Ticket requestTicket(int x, int y, int z, World world){
 		Ticket ticket = ForgeChunkManager.requestTicket(AMCore.instance, world, ForgeChunkManager.Type.NORMAL);
 		if (ticket != null){
-			cacheTicket(new TicketIdentifier(x, y, z, world.provider.dimensionId), ticket);
+			cacheTicket(new TicketIdentifier(x, y, z, world.provider.getDimensionId()), ticket);
 			return ticket;
 		}
 		return null;
@@ -67,7 +68,7 @@ public class AMChunkLoader implements LoadingCallback{
 	}
 
 	public void releaseStaticChunkLoad(Class clazz, int x, int y, int z, World world){
-		Ticket ticket = getTicket(new TicketIdentifier(x, y, z, world.provider.dimensionId));
+		Ticket ticket = getTicket(new TicketIdentifier(x, y, z, world.provider.getDimensionId()));
 		if (ticket == null){
 			LogHelper.warn("No ticket for specified location.  No chunk to unload!");
 			return;
@@ -91,7 +92,7 @@ public class AMChunkLoader implements LoadingCallback{
 				ForgeChunkManager.releaseTicket(ticket);
 				continue;
 			}
-			TileEntity te = world.getTileEntity(coords[0], coords[1], coords[2]);
+			TileEntity te = world.getTileEntity(new BlockPos(coords[0], coords[1], coords[2]));
 			if (te != null && te.getClass().isAssignableFrom(clazz)){
 				ChunkCoordIntPair pair = new ChunkCoordIntPair(coords[0] >> 4, coords[2] >> 4);
 				ForgeChunkManager.forceChunk(ticket, pair);

@@ -1,7 +1,9 @@
 package am2.utility;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.*;
 
@@ -18,28 +20,28 @@ public class BlockUtilities{
 		return null;
 	}
 
-	public static FluidStack drainBlock(World world, int x, int y, int z, boolean doDrain){
-		return drainBlock(world.getBlock(x, y, z), world, x, y, z, doDrain);
+	public static FluidStack drainBlock(World world, BlockPos pos, boolean doDrain){
+		return drainBlock(world.getBlockState(pos).getBlock(), world, pos, doDrain);
 	}
 
-	public static FluidStack drainBlock(Block block, World world, int x, int y, int z, boolean doDrain){
+	public static FluidStack drainBlock(Block block, World world, BlockPos pos, boolean doDrain){
 		if (block instanceof IFluidBlock){
 			IFluidBlock fluidBlock = (IFluidBlock)block;
-			if (fluidBlock.canDrain(world, x, y, z))
-				return fluidBlock.drain(world, x, y, z, doDrain);
+			if (fluidBlock.canDrain(world, pos))
+				return fluidBlock.drain(world, pos, doDrain);
 		}else if (block == Blocks.water || block == Blocks.water){
-			int meta = world.getBlockMetadata(x, y, z);
-			if (meta != 0)
+			int level = world.getBlockState(pos).getValue(BlockLiquid.LEVEL);
+			if (level != 0)
 				return null;
 			if (doDrain)
-				world.setBlockToAir(x, y, z);
+				world.setBlockToAir(pos);
 			return new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME);
 		}else if (block == Blocks.lava || block == Blocks.lava){
-			int meta = world.getBlockMetadata(x, y, z);
-			if (meta != 0)
+			int level = world.getBlockState(pos).getValue(BlockLiquid.LEVEL);
+			if (level != 0)
 				return null;
 			if (doDrain)
-				world.setBlockToAir(x, y, z);
+				world.setBlockToAir(pos);
 			return new FluidStack(FluidRegistry.LAVA, FluidContainerRegistry.BUCKET_VOLUME);
 		}
 		return null;

@@ -32,7 +32,7 @@ public class TileEntityEverstone extends TileEntity{
 		this.facadeMeta = meta;
 
 		if (!worldObj.isRemote){
-			List<EntityPlayerMP> players = worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(64, 64, 64));
+			List<EntityPlayerMP> players = worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(64, 64, 64));
 			for (EntityPlayerMP player : players){
 				player.playerNetServerHandler.sendPacket(getDescriptionPacket());
 			}
@@ -121,7 +121,7 @@ public class TileEntityEverstone extends TileEntity{
 	public void onBreak(){
 		reconstructTimer = reconstructMax;
 		if (!worldObj.isRemote){
-			List<EntityPlayerMP> players = worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(64, 64, 64));
+			List<EntityPlayerMP> players = worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(64, 64, 64));
 			for (EntityPlayerMP player : players){
 				player.playerNetServerHandler.sendPacket(getDescriptionPacket());
 			}

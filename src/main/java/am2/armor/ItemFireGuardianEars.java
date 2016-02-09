@@ -3,10 +3,9 @@ package am2.armor;
 import am2.items.ItemsCommonProxy;
 import am2.proxy.gui.ModelLibrary;
 import am2.texture.ResourceManager;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -49,7 +48,4 @@ public class ItemFireGuardianEars extends AMArmor{
 		par3List.add(ItemsCommonProxy.fireEarsEnchanted.copy());
 	}
 
-	@Override
-	public void registerIcons(IIconRegister par1IconRegister){
-	}
 }

@@ -14,7 +14,7 @@ public class ReloadSkillTree extends CommandBase{
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring){
 		SkillTreeManager.instance.init();
-		func_152373_a(icommandsender, this, "Reloaded the skill trees.", new Object[0]);
+		notifyOperators(icommandsender, this, "Reloaded the skill trees.", new Object[0]);
 	}
 
 	@Override

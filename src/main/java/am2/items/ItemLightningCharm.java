@@ -47,7 +47,7 @@ public class ItemLightningCharm extends ArsMagicaItem{
 	private void attractItems(World world, Entity ent){
 		double distance = 16;
 		int hDist = 5;
-		List<Entity> entities = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(ent.posX - distance, ent.posY - hDist, ent.posZ - distance, ent.posX + distance, ent.posY + hDist, ent.posZ + distance));
+		List<Entity> entities = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(ent.posX - distance, ent.posY - hDist, ent.posZ - distance, ent.posX + distance, ent.posY + hDist, ent.posZ + distance));
 		for (Entity e : entities){
 			EntityItem item = (EntityItem)e;
 			if (item.age < 10){

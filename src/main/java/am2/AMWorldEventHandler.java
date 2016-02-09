@@ -1,7 +1,8 @@
 package am2;
 
 import am2.entities.EntityFlicker;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.util.ClassInheritanceMultiMap;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraftforge.event.world.ChunkDataEvent;
@@ -25,7 +26,7 @@ public class AMWorldEventHandler{
 
 	@SubscribeEvent
 	public void onChunkLoaded(ChunkDataEvent.Load event){
-		int dimensionID = event.world.provider.dimensionId;
+		int dimensionID = event.world.provider.getDimensionId();
 		ChunkCoordIntPair chunkLocation = event.getChunk().getChunkCoordIntPair();
 
 		NBTTagCompound compound = (NBTTagCompound)event.getData().getTag("ArsMagica2");
@@ -39,8 +40,9 @@ public class AMWorldEventHandler{
 	@SubscribeEvent
 	public void onChunkUnload(ChunkEvent.Unload event){
 		if (!event.world.isRemote){
-			for (List l : event.getChunk().entityLists){
-				for (Object o : l){
+			ClassInheritanceMultiMap[] maps = event.getChunk().getEntityLists();
+			for (ClassInheritanceMultiMap map : maps){
+				for (Object o : map.getByClass(EntityFlicker.class)){
 					if (o instanceof EntityFlicker){
 						((EntityFlicker)o).setDead();
 					}

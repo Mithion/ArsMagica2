@@ -1,6 +1,7 @@
 package am2.api.illeffect;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Map;
@@ -35,6 +36,6 @@ public abstract class IllEffectBase implements IIllEffect{
 	public abstract String getDescription(EntityPlayer player, Object metadata);
 
 	@Override
-	public abstract Map<EntityPlayer, Object> ApplyIllEffect(World world, int x, int y, int z);
+	public abstract Map<EntityPlayer, Object> ApplyIllEffect(World world, BlockPos pos);
 
 }

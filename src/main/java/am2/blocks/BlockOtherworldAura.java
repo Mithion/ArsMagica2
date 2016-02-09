@@ -55,7 +55,7 @@ public class BlockOtherworldAura extends PoweredBlock{
 		super.onBlockPlacedBy(world, x, y, z, elb, stack);
 		if (elb instanceof EntityPlayer){
 			TileEntityOtherworldAura te = (TileEntityOtherworldAura)world.getTileEntity(x, y, z);
-			te.setPlacedByUsername(((EntityPlayer)elb).getCommandSenderName());
+			te.setPlacedByUsername(((EntityPlayer)elb).getName());
 		}
 	}
 

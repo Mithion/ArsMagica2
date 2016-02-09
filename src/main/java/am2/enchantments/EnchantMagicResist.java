@@ -5,11 +5,12 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 
 public class EnchantMagicResist extends Enchantment{
 
-	public EnchantMagicResist(int effectID, int weight){
-		super(effectID, weight, EnumEnchantmentType.armor);
+	public EnchantMagicResist(int effectID, ResourceLocation name, int weight){
+		super(effectID, name, weight, EnumEnchantmentType.ARMOR);
 		setName("magicresist");
 	}
 

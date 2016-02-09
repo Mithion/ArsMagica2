@@ -2,7 +2,7 @@ package am2.buffs;
 
 import am2.AMCore;
 import am2.proxy.CommonProxy;
-import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.PotionEffect;
 

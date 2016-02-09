@@ -38,7 +38,7 @@ public class FireRain implements ISpellComponent{
 
 	private boolean spawnFireRain(ItemStack stack, World world, EntityLivingBase caster, Entity target, double x, double y, double z){
 
-		List<EntitySpellEffect> zones = world.getEntitiesWithinAABB(EntitySpellEffect.class, AxisAlignedBB.getBoundingBox(x - 10, y - 10, z - 10, x + 10, y + 10, z + 10));
+		List<EntitySpellEffect> zones = world.getEntitiesWithinAABB(EntitySpellEffect.class, new AxisAlignedBB(x - 10, y - 10, z - 10, x + 10, y + 10, z + 10));
 
 		for (EntitySpellEffect zone : zones){
 			if (zone.isRainOfFire())

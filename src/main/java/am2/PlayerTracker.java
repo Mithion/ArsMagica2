@@ -13,12 +13,11 @@ import am2.proxy.tick.ServerTickHandler;
 import am2.spell.SkillTreeManager;
 import am2.utility.EntityUtilities;
 import am2.utility.WebRequestUtils;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -348,8 +347,8 @@ public class PlayerTracker{
 
 		if (aals == null || clls == null)
 			populateAALList();
-		if (aals.containsKey(thePlayer.getDisplayName().toLowerCase()))
-			return aals.get(thePlayer.getDisplayName().toLowerCase());
+		if (aals.containsKey(thePlayer.getDisplayName().getUnformattedText().toLowerCase()))
+			return aals.get(thePlayer.getDisplayName().getUnformattedText().toLowerCase());
 		return 0;
 	}
 

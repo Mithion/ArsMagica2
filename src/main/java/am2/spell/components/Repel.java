@@ -52,11 +52,11 @@ public class Repel implements ISpellComponent{
 	}
 
 	private void performRepel(World world, EntityLivingBase caster, Entity target){
-		Vec3 casterPos = Vec3.createVectorHelper(caster.posX, caster.posY, caster.posZ);
-		Vec3 targetPos = Vec3.createVectorHelper(target.posX, target.posY, target.posZ);
+		Vec3 casterPos = new Vec3(caster.posX, caster.posY, caster.posZ);
+		Vec3 targetPos = new Vec3(target.posX, target.posY, target.posZ);
 		double distance = casterPos.distanceTo(targetPos) + 0.1D;
 
-		Vec3 delta = Vec3.createVectorHelper(targetPos.xCoord - casterPos.xCoord, targetPos.yCoord - casterPos.yCoord, targetPos.zCoord - casterPos.zCoord);
+		Vec3 delta = new Vec3(targetPos.xCoord - casterPos.xCoord, targetPos.yCoord - casterPos.yCoord, targetPos.zCoord - casterPos.zCoord);
 
 		double dX = delta.xCoord / 2.5D / distance;
 		double dY = delta.yCoord / 2.5D / distance;

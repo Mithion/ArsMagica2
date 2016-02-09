@@ -1,7 +1,7 @@
 package am2.texture;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.ResourceLocation;
 
 
@@ -43,13 +43,13 @@ public class ResourceManager{
 		return String.format("%s/mobs/%s", getOverrideTexturesPath(), textureFileName);
 	}
 
-	public static IIcon RegisterTexture(String textureFile, IIconRegister IIconRegister){
+	public static TextureAtlasSprite RegisterTexture(String textureFile, TextureMap IIconRegister){
 		if (!textureFile.contains(":")){
 			textureFile = "arsmagica2:" + textureFile;
 		}
 		if (textureFile.endsWith(".png")){
 			textureFile = textureFile.substring(0, textureFile.lastIndexOf(".png"));
 		}
-		return IIconRegister.registerIcon(textureFile);
+		return IIconRegister.registerSprite(new ResourceLocation(textureFile));
 	}
 }

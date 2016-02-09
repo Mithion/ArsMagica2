@@ -9,7 +9,7 @@ import am2.network.AMNetHandler;
 import am2.network.AMPacketIDs;
 import am2.playerextensions.RiftStorage;
 import am2.utility.InventoryUtilities;
-import cpw.mods.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;

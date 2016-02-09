@@ -1,14 +1,12 @@
 package am2.commands;
 
 import am2.lore.ArcaneCompendium;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
+import net.minecraft.command.*;
 
 public class SetCompendiumState extends CommandBase{
 
 	@Override
-	public int compareTo(Object arg0){
+	public int compareTo(ICommand arg0){
 		return 0;
 	}
 
@@ -28,7 +26,7 @@ public class SetCompendiumState extends CommandBase{
 	}
 
 	@Override
-	public void processCommand(ICommandSender var1, String[] var2){
+	public void processCommand(ICommandSender var1, String[] var2) throws CommandException{
 		if (var2.length != 1){
 			throw new WrongUsageException(this.getCommandUsage(var1), new Object[0]);
 		}

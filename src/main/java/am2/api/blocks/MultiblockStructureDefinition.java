@@ -1,6 +1,7 @@
 package am2.api.blocks;
 
 import net.minecraft.block.Block;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -49,67 +50,19 @@ public class MultiblockStructureDefinition{
 		}
 	}
 
-	public class BlockCoord implements Comparable<BlockCoord>{
-		public int x;
-		public int y;
-		public int z;
-
-		public BlockCoord(int offsetX, int offsetY, int offsetZ){
-			this.x = offsetX;
-			this.y = offsetY;
-			this.z = offsetZ;
-		}
-
-		@Override
-		public boolean equals(Object obj){
-			if (obj instanceof BlockCoord){
-				return this.x == ((BlockCoord)obj).x && this.y == ((BlockCoord)obj).y && this.z == ((BlockCoord)obj).z;
-			}
-			return false;
-		}
-
-		@Override
-		public int hashCode(){
-			return this.x + this.y + this.z;
-		}
-
-
-		public int getX(){
-			return this.x;
-		}
-
-		public int getY(){
-			return this.y;
-		}
-
-		public int getZ(){
-			return this.z;
-		}
-
-		@Override
-		public String toString(){
-			return String.format("BlockCoord: %d, %d, %d", x, y, z);
-		}
-
-		@Override
-		public int compareTo(BlockCoord o){
-			return this.z > o.z ? 1 : this.z < o.z ? -1 : this.x > o.x ? 1 : this.x < o.x ? -1 : this.y > o.y ? 1 : this.y < o.y ? -1 : 0;
-		}
-	}
-
 	public class StructureGroup{
 		String name;
 		int mutex;
-		HashMap<BlockCoord, ArrayList<BlockDec>> allowedBlocks;
+		HashMap<BlockPos, ArrayList<BlockDec>> allowedBlocks;
 
 		public StructureGroup(String name, int mutex){
 			this.name = name;
 			this.mutex = mutex;
-			allowedBlocks = new HashMap<BlockCoord, ArrayList<BlockDec>>();
+			allowedBlocks = new HashMap<BlockPos, ArrayList<BlockDec>>();
 		}
 
 		void addAllowedBlock(int offsetX, int offsetY, int offsetZ, Block block, int meta){
-			BlockCoord originOffset = new BlockCoord(offsetX, offsetY, offsetZ);
+			BlockPos originOffset = new BlockPos(offsetX, offsetY, offsetZ);
 			if (!allowedBlocks.containsKey(originOffset)){
 				allowedBlocks.put(originOffset, new ArrayList<BlockDec>());
 			}
@@ -117,12 +70,12 @@ public class MultiblockStructureDefinition{
 			positionReplacements.add(new BlockDec(block, meta));
 		}
 
-		ArrayList<BlockDec> getAllowedBlocksAt(BlockCoord coord){
+		ArrayList<BlockDec> getAllowedBlocksAt(BlockPos coord){
 			return allowedBlocks.get(coord);
 		}
 
 		boolean matchGroup(World world, int originX, int originY, int originZ){
-			for (BlockCoord offset : allowedBlocks.keySet()){
+			for (BlockPos offset : allowedBlocks.keySet()){
 				Block block = world.getBlock(originX + offset.x, originY + offset.y, originZ + offset.z);
 				int meta = world.getBlockMetadata(originX + offset.x, originY + offset.y, originZ + offset.z);
 				ArrayList<BlockDec> positionReplacements = allowedBlocks.get(offset);
@@ -137,14 +90,14 @@ public class MultiblockStructureDefinition{
 			return true;
 		}
 
-		HashMap<BlockCoord, ArrayList<BlockDec>> getStructureLayer(int layer){
-			HashMap<BlockCoord, ArrayList<BlockDec>> toReturn = new HashMap<MultiblockStructureDefinition.BlockCoord, ArrayList<BlockDec>>();
+		HashMap<BlockPos, ArrayList<BlockDec>> getStructureLayer(int layer){
+			HashMap<BlockPos, ArrayList<BlockDec>> toReturn = new HashMap<BlockPos, ArrayList<BlockDec>>();
 
 			if (layer > getMaxLayer() || layer < getMinLayer()){
 				return toReturn;
 			}
 
-			for (BlockCoord bc : allowedBlocks.keySet()){
+			for (BlockPos bc : allowedBlocks.keySet()){
 				if (bc.y == layer){
 					toReturn.put(bc, allowedBlocks.get(bc));
 				}
@@ -157,7 +110,7 @@ public class MultiblockStructureDefinition{
 		}
 
 		public void replaceAllBlocksOfType(Block originalBlock, int originalMeta, Block newBlock, int newMeta){
-			for (BlockCoord bc : allowedBlocks.keySet()){
+			for (BlockPos bc : allowedBlocks.keySet()){
 				for (BlockDec bd : allowedBlocks.get(bc)){
 					if (bd.block == originalBlock){
 						if (bd.meta == originalMeta || originalMeta == -1){
@@ -171,12 +124,12 @@ public class MultiblockStructureDefinition{
 			}
 		}
 
-		public HashMap<BlockCoord, ArrayList<BlockDec>> getAllowedBlocks(){
-			return (HashMap<BlockCoord, ArrayList<BlockDec>>)allowedBlocks.clone();
+		public HashMap<BlockPos, ArrayList<BlockDec>> getAllowedBlocks(){
+			return (HashMap<BlockPos, ArrayList<BlockDec>>)allowedBlocks.clone();
 		}
 
 		public void deleteBlocksFromWorld(World world, int x, int y, int z){
-			for (BlockCoord offset : allowedBlocks.keySet()){
+			for (BlockPos offset : allowedBlocks.keySet()){
 				world.setBlockToAir(x + offset.x, y + offset.y, z + offset.z);
 			}
 		}
@@ -226,11 +179,11 @@ public class MultiblockStructureDefinition{
 		return toReturn;
 	}
 
-	public ArrayList<BlockDec> getAllowedBlocksAt(StructureGroup group, BlockCoord coord){
+	public ArrayList<BlockDec> getAllowedBlocksAt(StructureGroup group, BlockPos coord){
 		return group.getAllowedBlocksAt(coord);
 	}
 
-	public ArrayList<BlockDec> getAllowedBlocksAt(BlockCoord coord){
+	public ArrayList<BlockDec> getAllowedBlocksAt(BlockPos coord){
 		return mainGroup.getAllowedBlocksAt(coord);
 	}
 
@@ -319,7 +272,7 @@ public class MultiblockStructureDefinition{
 			newGroup = new StructureGroup(destinationName, copyGroup.mutex);
 		}
 
-		for (BlockCoord bc : copyGroup.allowedBlocks.keySet()){
+		for (BlockPos bc : copyGroup.allowedBlocks.keySet()){
 			for (BlockDec bd : copyGroup.allowedBlocks.get(bc)){
 				newGroup.addAllowedBlock(bc.x, bc.y, bc.z, bd.block, bd.meta);
 			}
@@ -386,11 +339,11 @@ public class MultiblockStructureDefinition{
 		return this.maxZ - this.minZ;
 	}
 
-	public HashMap<BlockCoord, ArrayList<BlockDec>> getStructureLayer(int layer){
+	public HashMap<BlockPos, ArrayList<BlockDec>> getStructureLayer(int layer){
 		return mainGroup.getStructureLayer(layer);
 	}
 
-	public HashMap<BlockCoord, ArrayList<BlockDec>> getStructureLayer(StructureGroup group, int layer){
+	public HashMap<BlockPos, ArrayList<BlockDec>> getStructureLayer(StructureGroup group, int layer){
 		return group.getStructureLayer(layer);
 	}
 

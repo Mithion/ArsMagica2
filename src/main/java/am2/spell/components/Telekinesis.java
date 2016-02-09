@@ -49,8 +49,8 @@ public class Telekinesis implements ISpellComponent{
 
 		double distance = 16;
 		int hDist = 3;
-		List<Entity> entities = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(impactX - distance, impactY - hDist, impactZ - distance, impactX + distance, impactY + hDist, impactZ + distance));
-		entities.addAll(world.getEntitiesWithinAABB(EntityXPOrb.class, AxisAlignedBB.getBoundingBox(impactX - distance, impactY - hDist, impactZ - distance, impactX + distance, impactY + hDist, impactZ + distance)));
+		List<Entity> entities = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(impactX - distance, impactY - hDist, impactZ - distance, impactX + distance, impactY + hDist, impactZ + distance));
+		entities.addAll(world.getEntitiesWithinAABB(EntityXPOrb.class, new AxisAlignedBB(impactX - distance, impactY - hDist, impactZ - distance, impactX + distance, impactY + hDist, impactZ + distance)));
 		for (Entity e : entities){
 			if (e.ticksExisted < 20){
 				continue;

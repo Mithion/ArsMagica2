@@ -3,6 +3,7 @@ package am2.worldgen;
 import am2.AMCore;
 import am2.entities.EntityDryad;
 import net.minecraft.entity.passive.EntityWolf;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -30,12 +31,12 @@ public class BiomeWitchwoodForest extends BiomeGenBase{
 	}
 
 	@Override
-	public int getBiomeFoliageColor(int x, int y, int z){
+	public int getFoliageColorAtPos(BlockPos pos){
 		return 0xdbe6e5;
 	}
 
 	@Override
-	public int getBiomeGrassColor(int x, int y, int z){
+	public int getGrassColorAtPos(BlockPos pos){
 		return 0xdbe6e5;
 	}
 
@@ -45,7 +46,7 @@ public class BiomeWitchwoodForest extends BiomeGenBase{
 	}
 	
 	@Override
-	public WorldGenAbstractTree func_150567_a(Random p_150567_1_)
+	public WorldGenAbstractTree genBigTreeChance(Random p_150567_1_)
 	{
 	  return (WorldGenAbstractTree)(p_150567_1_.nextInt(10) == 0 ? hugeTree : smallTree);
 	}

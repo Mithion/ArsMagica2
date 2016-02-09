@@ -16,7 +16,7 @@ public class RetroactiveWorldgenerator{
 		if (world == null)
 			return;
 
-		int dimensionID = world.provider.dimensionId;
+		int dimensionID = world.provider.getDimensionId();
 
 		int count = 0;
 		ArrayList<ChunkCoordIntPair> chunks = deferredChunkGeneration.get(dimensionID);

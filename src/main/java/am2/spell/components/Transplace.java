@@ -38,7 +38,7 @@ public class Transplace implements ISpellComponent, IRitualInteraction{
 				world.setBlock(blockx, blocky, blockz, BlocksCommonProxy.otherworldAura);
 				TileEntity te = world.getTileEntity(blockx, blocky, blockz);
 				if (te != null && te instanceof TileEntityOtherworldAura){
-					((TileEntityOtherworldAura)te).setPlacedByUsername(((EntityPlayer)caster).getCommandSenderName());
+					((TileEntityOtherworldAura)te).setPlacedByUsername(((EntityPlayer)caster).getName());
 				}
 				return true;
 			}

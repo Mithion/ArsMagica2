@@ -2,7 +2,7 @@ package am2.enchantments;
 
 import am2.AMCore;
 import am2.LogHelper;
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import net.minecraftforge.fml.common.registry.LanguageRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
@@ -26,7 +26,7 @@ public class AMEnchantments{
 		int enchID = start_value;
 		boolean fullcircle = true;
 		do{
-			if (Enchantment.enchantmentsList[enchID] == null){
+			if (Enchantment.getEnchantmentById(enchID) == null){
 				fullcircle = false;
 				break;
 			}

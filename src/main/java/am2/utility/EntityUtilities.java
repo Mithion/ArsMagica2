@@ -10,7 +10,7 @@ import am2.entities.ai.selectors.SummonEntitySelector;
 import am2.items.ItemCrystalPhylactery;
 import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
-import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
@@ -128,7 +128,7 @@ public class EntityUtilities{
 
 			if (entityliving instanceof EntityTameable){
 				((EntityTameable)entityliving).setTamed(true);
-				((EntityTameable)entityliving).func_152115_b(player.getCommandSenderName());
+				((EntityTameable)entityliving).func_152115_b(player.getName());
 			}
 
 			entityliving.getEntityData().setBoolean(isSummonKey, true);
@@ -294,7 +294,7 @@ public class EntityUtilities{
 	}
 
 	public static int getRuneCombo(EntityPlayer player){
-		int hash = player.getCommandSenderName().toLowerCase().hashCode();
+		int hash = player.getName().toLowerCase().hashCode();
 		return hash & 0xFFFF;
 	}
 

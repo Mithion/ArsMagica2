@@ -14,7 +14,10 @@ import am2.network.AMPacketIDs;
 import am2.playerextensions.AffinityData;
 import am2.playerextensions.ExtendedProperties;
 import am2.utility.MathUtilities;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.util.*;
+import net.minecraftforge.fluids.BlockFluidBase;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.BlockTNT;
@@ -29,10 +32,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -89,7 +88,7 @@ public class AffinityHelper{
 		}
 
 		if (natureDepth == 1.0f){
-			if (ent.worldObj.canBlockSeeTheSky((int)ent.posX, (int)ent.posY, (int)ent.posZ) && ent.worldObj.isDaytime()){
+			if (ent.worldObj.canBlockSeeSky(new BlockPos(ent)) && ent.worldObj.isDaytime()){
 				affinityData.accumulatedHungerRegen += 0.02f;
 				if (affinityData.accumulatedHungerRegen > 1.0f){
 					((EntityPlayer)ent).getFoodStats().addStats(1, 0.025f);
@@ -160,7 +159,7 @@ public class AffinityHelper{
 
 		}
 
-		if (ent.worldObj.isRaining() && !ent.worldObj.isRemote && ent.worldObj.getBiomeGenForCoords((int)Math.floor(ent.posX), (int)Math.floor(ent.posZ)).canSpawnLightningBolt()){
+		if (ent.worldObj.isRaining() && !ent.worldObj.isRemote && ent.worldObj.getBiomeGenForCoords(new BlockPos(ent)).canSpawnLightningBolt()){
 			float airDepth = affinityData.getAffinityDepth(Affinity.AIR);
 			if (airDepth > 0.5f && airDepth < 0.85f && !ent.worldObj.isRemote && ent.worldObj.rand.nextInt(100) < 10){
 				if (!ent.isSneaking() && !ent.isPotionActive(BuffList.gravityWell) && !ent.isInsideOfMaterial(Material.water) && ent.isWet()){
@@ -188,26 +187,27 @@ public class AffinityHelper{
 		int posZ = (int)Math.floor(ent.posZ + dz);
 		int posY = (int)Math.floor(ent.posY);
 
-		return ent.worldObj.getBlock(posX, posY, posZ);
+		return ent.worldObj.getBlockState(new BlockPos(posX, posY, posZ)).getBlock();
 	}
 
 	private void applyFulmintion(EntityPlayer ent, float lightningDepth){
 		//chance to light nearby TNT
 		if (!ent.worldObj.isRemote){
 			if (lightningDepth > 0.5f && lightningDepth <= 0.8f){
-				int offsetX = (int)ent.posX - 5 + ent.getRNG().nextInt(11);
-				int offsetY = (int)ent.posY - 5 + ent.getRNG().nextInt(11);
-				int offsetZ = (int)ent.posZ - 5 + ent.getRNG().nextInt(11);
+				BlockPos offsetPos = new BlockPos((int)ent.posX - 5 + ent.getRNG().nextInt(11),
+					(int)ent.posY - 5 + ent.getRNG().nextInt(11),
+					(int)ent.posZ - 5 + ent.getRNG().nextInt(11)
+				);
 
-				Block block = ent.worldObj.getBlock(offsetX, offsetY, offsetZ);
+				Block block = ent.worldObj.getBlockState(offsetPos).getBlock();
 				if (block == Blocks.tnt){
-					ent.worldObj.setBlockToAir(offsetX, offsetY, offsetZ);
-					((BlockTNT)Blocks.tnt).func_150114_a(ent.worldObj, offsetX, offsetY, offsetZ, 1, ent);
+					ent.worldObj.setBlockToAir(offsetPos);
+					((BlockTNT)Blocks.tnt).explode(ent.worldObj, offsetPos, ent.worldObj.getBlockState(offsetPos), ent);
 				}
 			}
 			//chance to supercharge nearby creepers
 			if (lightningDepth >= 0.7f && lightningDepth <= 0.95f && ent.getRNG().nextDouble() < 0.05f){
-				List<EntityCreeper> creepers = ent.worldObj.getEntitiesWithinAABB(EntityCreeper.class, ent.boundingBox.expand(5, 5, 5));
+				List<EntityCreeper> creepers = ent.worldObj.getEntitiesWithinAABB(EntityCreeper.class, ent.getEntityBoundingBox().expand(5, 5, 5));
 				for (EntityCreeper creeper : creepers){
 					creeper.getDataWatcher().updateObject(17, (byte)1);
 					AMCore.proxy.particleManager.BoltFromEntityToEntity(ent.worldObj, ent, ent, creeper, 0, 1, -1);
@@ -232,19 +232,20 @@ public class AffinityHelper{
 			AMVector3 current = blocks[i];
 			for (int n = -1; n <= 1; ++n){
 				for (int p = -1; p <= 1; ++p){
-					Block block = ent.worldObj.getBlock((int)current.x + n, (int)current.y, (int)current.z + p);
+					BlockPos pos = new BlockPos((int)current.x + n, (int)current.y, (int)current.z + p);
+					Block block = ent.worldObj.getBlockState(pos).getBlock();
 
 					if (iceDepth == 1.0f && block == Blocks.lava)
-						ent.worldObj.setBlock((int)current.x + n, (int)current.y, (int)current.z + p, Blocks.obsidian);
+						ent.worldObj.setBlockState(pos, Blocks.obsidian.getDefaultState());
 					else if (iceDepth == 1.0f && block == Blocks.flowing_lava)
-						ent.worldObj.setBlock((int)current.x + n, (int)current.y, (int)current.z + p, Blocks.cobblestone);
+						ent.worldObj.setBlockState(pos, Blocks.cobblestone.getDefaultState());
 					else if (block == Blocks.water)
-						ent.worldObj.setBlock((int)current.x + n, (int)current.y, (int)current.z + p, Blocks.ice);
+						ent.worldObj.setBlockState(pos, Blocks.ice.getDefaultState());
 					else if (block == Blocks.flowing_water)
-						ent.worldObj.setBlock((int)current.x + n, (int)current.y, (int)current.z + p, Blocks.ice);
-					block = ent.worldObj.getBlock((int)current.x + n, (int)current.y + 1, (int)current.z + p);
+						ent.worldObj.setBlockState(pos, Blocks.ice.getDefaultState());
+					block = ent.worldObj.getBlockState(pos.up()).getBlock();
 					if (block == Blocks.fire){
-						ent.worldObj.setBlock((int)current.x + n, (int)current.y + 1, (int)current.z + p, Blocks.air);
+						ent.worldObj.setBlockState(pos.up(), Blocks.air.getDefaultState());
 					}
 				}
 			}
@@ -253,7 +254,7 @@ public class AffinityHelper{
 
 	private void applyReverseWaterMovement(EntityLivingBase entity){
 
-		AxisAlignedBB par1AxisAlignedBB = entity.boundingBox.expand(0.0D, -0.4000000059604645D, 0.0D).contract(0.001D, 0.001D, 0.001D);
+		AxisAlignedBB par1AxisAlignedBB = entity.getEntityBoundingBox().expand(0.0D, -0.4000000059604645D, 0.0D).contract(0.001D, 0.001D, 0.001D);
 
 		int i = MathHelper.floor_double(par1AxisAlignedBB.minX);
 		int j = MathHelper.floor_double(par1AxisAlignedBB.maxX + 1.0D);
@@ -262,23 +263,25 @@ public class AffinityHelper{
 		int i1 = MathHelper.floor_double(par1AxisAlignedBB.minZ);
 		int j1 = MathHelper.floor_double(par1AxisAlignedBB.maxZ + 1.0D);
 
-		if (!entity.worldObj.checkChunksExist(i, k, i1, j, l, j1)){
+		if (!entity.worldObj.isAreaLoaded(new BlockPos(i, k, i1), new BlockPos(j, l, j1))){
 			return;
 		}else{
 			boolean flag = false;
-			Vec3 vec3 = Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
+			Vec3 vec3 = new Vec3(0.0D, 0.0D, 0.0D);
 
 			for (int k1 = i; k1 < j; ++k1){
 				for (int l1 = k; l1 < l; ++l1){
 					for (int i2 = i1; i2 < j1; ++i2){
-						Block block = entity.worldObj.getBlock(k1, l1, i2);
+						BlockPos pos = new BlockPos(k1, l1, i2);
+						Block block = entity.worldObj.getBlockState(pos).getBlock();
 
 						if (block != null && block.getMaterial() == Material.water){
-							double d0 = l1 + 1 - BlockLiquid.getLiquidHeightPercent(entity.worldObj.getBlockMetadata(k1, l1, i2));
+							PropertyInteger prop = (block == Blocks.water || block == Blocks.flowing_water) ? BlockLiquid.LEVEL : BlockFluidBase.LEVEL;
+							double d0 = l1 + 1 - BlockLiquid.getLiquidHeightPercent(entity.worldObj.getBlockState(pos).getValue(prop));
 
 							if (l >= d0){
 								flag = true;
-								block.velocityToAddToEntity(entity.worldObj, k1, l1, i2, entity, vec3);
+								block.modifyAcceleration(entity.worldObj, pos, entity, vec3);
 							}
 						}
 					}

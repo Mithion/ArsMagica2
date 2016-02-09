@@ -117,13 +117,13 @@ public class EntityThrownSickle extends EntityLiving{
 			((EntityNatureGuardian)getThrowingEntity()).hasSickle = false;
 		}
 
-		Vec3 vec3d = Vec3.createVectorHelper(posX, posY, posZ);
-		Vec3 vec3d1 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
+		Vec3 vec3d = new Vec3(posX, posY, posZ);
+		Vec3 vec3d1 = new Vec3(posX + motionX, posY + motionY, posZ + motionZ);
 		MovingObjectPosition movingobjectposition = worldObj.rayTraceBlocks(vec3d, vec3d1);
-		vec3d = Vec3.createVectorHelper(posX, posY, posZ);
-		vec3d1 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
+		vec3d = new Vec3(posX, posY, posZ);
+		vec3d1 = new Vec3(posX + motionX, posY + motionY, posZ + motionZ);
 		if (movingobjectposition != null){
-			vec3d1 = Vec3.createVectorHelper(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
+			vec3d1 = new Vec3(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
 		}
 		Entity entity = null;
 		List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
@@ -149,7 +149,7 @@ public class EntityThrownSickle extends EntityLiving{
 		if (entity != null){
 			movingobjectposition = new MovingObjectPosition(entity);
 		}else{
-			movingobjectposition = new MovingObjectPosition((int)Math.floor(posX), (int)Math.floor(posY), (int)Math.floor(posZ), 0, Vec3.createVectorHelper(posX, posY, posZ));
+			movingobjectposition = new MovingObjectPosition((int)Math.floor(posX), (int)Math.floor(posY), (int)Math.floor(posZ), 0, new Vec3(posX, posY, posZ));
 		}
 		if (movingobjectposition != null){
 			HitObject(movingobjectposition);
