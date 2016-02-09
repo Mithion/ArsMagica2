@@ -7,7 +7,6 @@ public class ArsMagicaItem extends Item{
 
 	public ArsMagicaItem setUnlocalizedAndTextureName(String name){
 		this.setUnlocalizedName(name);
-		setTextureName(name);
 		return this;
 	}
 }

@@ -43,5 +43,5 @@ public interface IBuffHelper{
 	 * @param potionName The id to cause dispel to ignore.
 	 * @return True on success, otherwise false.
 	 */
-	public void addDispelExclusion(ResourceLocation potionName);
+	void addDispelExclusion(ResourceLocation potionName);
 }

@@ -39,6 +39,7 @@ import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
@@ -259,7 +260,7 @@ public class AMCore{
 			}else if (msg.key == "adb"){
 				LogHelper.info("Received dispel blacklist IMC!  Processing.");
 				try{
-					BuffList.instance.addDispelExclusion(Integer.parseInt(msg.getStringValue()));
+					BuffList.instance.addDispelExclusion(new ResourceLocation(msg.getStringValue()));
 				}catch (NumberFormatException nex){
 					LogHelper.warn("Could not parse adb IMC - improper potion ID (not a number)!  Syntax is 'potionID', for example:  10");
 				}
