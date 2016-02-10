@@ -13,7 +13,7 @@ import am2.api.spell.ISpellPartManager;
 import am2.api.spell.ISpellUtils;
 import am2.api.spell.component.interfaces.ISkillTreeEntry;
 import am2.api.spell.enums.SkillPointTypes;
-import am2.api.spell.enums.SkillTrees;
+import am2.api.spell.enums.SkillTree;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -176,7 +176,7 @@ public class ArsMagicaApi{
 	 * @param point    The type of skill point needed to unlock this entry
 	 * @param prerequs Any skill tree entries that are required as prerequisites for this one.  All prerequisites must be registered before the current entry.
 	 */
-	public final void registerSkillTreeEntry(ISkillTreeEntry entry, String name, SkillTrees tree, int x, int y, SkillPointTypes point, ISkillTreeEntry... prereqs){
+	public final void registerSkillTreeEntry(ISkillTreeEntry entry, String name, SkillTree tree, int x, int y, SkillPointTypes point, ISkillTreeEntry... prereqs){
 		spellPartManager.registerSkillTreeEntry(entry, name);
 		skillTreeManager.RegisterPart(entry, x, y, tree, point, prereqs);
 	}
@@ -184,7 +184,7 @@ public class ArsMagicaApi{
 	/**
 	 * Registers the IIcon to use for the specified skill.  This should be called during the API's registerSkillTreeIcons event for each entry that you registered.  You get a reference to the ISpellIconManager which has the same method, so this is only here for convenience.
 	 *
-	 * @param name  The unlocalized name that was used to register the spell.  See {@link #registerSkillTreeEntry(ISkillTreeEntry, String, SkillTrees, int, int, SkillPointTypes, ISkillTreeEntry...) registerSkillTreeEntry} method for more info on the name.
+	 * @param name  The unlocalized name that was used to register the spell.  See {@link #registerSkillTreeEntry(ISkillTreeEntry, String, SkillTree, int, int, SkillPointTypes, ISkillTreeEntry...) registerSkillTreeEntry} method for more info on the name.
 	 * @param IIcon The IIcon to use.  You need to register these IIcons with the game beforehand during your mod's load phase - AM won't do it for you.
 	 */
 	@SideOnly(Side.CLIENT)

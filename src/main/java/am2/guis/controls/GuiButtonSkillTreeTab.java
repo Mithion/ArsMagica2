@@ -1,12 +1,15 @@
 package am2.guis.controls;
 
-import am2.api.spell.enums.SkillTrees;
+import am2.api.spell.enums.SkillTree;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -16,34 +19,33 @@ import java.util.List;
 
 public class GuiButtonSkillTreeTab extends GuiButton{
 
-	private final SkillTrees skillTree;
+	private final SkillTree skillTree;
 	private boolean isActive;
 
 	private static final int IIconDims = 19;
 	public static final int buttonWidth = 22;
 	public static final int buttonHeight = 22;
-
-	private static final ResourceLocation buttonImage = new ResourceLocation("arsmagica2", "textures/guis/SkillTreeUI.png");
-
+	private static final ResourceLocation rl_background = new ResourceLocation("arsmagica2", "textures/guis/SkillTreeUI.png");
+	
 	private final ArrayList<String> lines = new ArrayList<String>();
 
 	private static final int u = 0;
 	private static final int v = 210;
 
-	public GuiButtonSkillTreeTab(int id, int x, int y, SkillTrees skillTree){
+	public GuiButtonSkillTreeTab(int id, int x, int y, SkillTree skillTree){
 		super(id, x, y, "");
 		this.skillTree = skillTree;
 		this.isActive = false;
 		this.height = buttonHeight;
 		this.width = buttonWidth;
-		lines.add(StatCollector.translateToLocal("am2.gui." + skillTree.toString()));
+		lines.add(StatCollector.translateToLocal("am2.gui." + skillTree.getName()));
 	}
 
 	public void setActive(boolean isActive){
 		this.isActive = isActive;
 	}
 
-	public SkillTrees getTree(){
+	public SkillTree getTree(){
 		return this.skillTree;
 	}
 
@@ -54,7 +56,6 @@ public class GuiButtonSkillTreeTab extends GuiButton{
 	public void drawButton(Minecraft par1Minecraft, int par2, int par3){
 		if (this.visible){
 			boolean isMousedOver = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
-			par1Minecraft.renderEngine.bindTexture(buttonImage);
 
 			if (isActive){
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -63,53 +64,34 @@ public class GuiButtonSkillTreeTab extends GuiButton{
 			}
 
 			GL11.glDisable(GL11.GL_LIGHTING);
-			this.drawTexturedModalRect_Classic(this.xPosition, this.yPosition, u, v, buttonWidth, buttonHeight, buttonWidth, buttonHeight);
+			par1Minecraft.renderEngine.bindTexture(rl_background);
+			this.drawTexturedModalRect(xPosition, yPosition, 0, 210, 22, 22);
 
 			int iconU = u + buttonWidth * 2;
 			int iconV = v;
-
-			switch (skillTree){
-			case Defense:
-				iconU += IIconDims;
-				break;
-			case Utility:
-				iconU += IIconDims * 2;
-				break;
-			case Talents:
-				iconU += IIconDims * 3;
-				break;
-			case Affinity:
-				iconU += IIconDims * 4;
-				break;
-			case Offense:
-			default:
-				break;
-			}
-
-			this.drawTexturedModalRect_Classic(this.xPosition + 1.5, this.yPosition + 2, iconU, iconV, IIconDims, IIconDims, IIconDims, IIconDims);
+			
+			drawBox(this.xPosition + 1.5, this.xPosition + 1.5, IIconDims, IIconDims, 0, 0, 1, 1);
+			par1Minecraft.renderEngine.bindTexture(skillTree.getIcon());
 			if (isActive)
-				this.drawTexturedModalRect_Classic(this.xPosition, this.yPosition + this.buttonHeight, this.buttonWidth, v, buttonWidth, 7, buttonWidth, 7);
+				this.drawTexturedModalRect(this.xPosition, this.yPosition + this.buttonHeight, 22, 210, 22, 7);
 
 			if (isMousedOver){
-				drawHoveringText(lines, par2, par3, Minecraft.getMinecraft().fontRenderer);
+				drawHoveringText(lines, par2, par3, Minecraft.getMinecraft().fontRendererObj);
 			}
 
 			GL11.glEnable(GL11.GL_LIGHTING);
 		}
 	}
-
-
-	public void drawTexturedModalRect_Classic(double dst_x, double dst_y, int src_x, int src_y, int dst_width, int dst_height, int src_width, int src_height){
-		float var7 = 0.00390625F;
-		float var8 = 0.00390625F;
-
-		Tessellator var9 = Tessellator.instance;
-		var9.startDrawingQuads();
-		var9.addVertexWithUV(dst_x + 0, dst_y + dst_height, this.zLevel, (src_x + 0) * var7, (src_y + src_height) * var8);
-		var9.addVertexWithUV(dst_x + dst_width, dst_y + dst_height, this.zLevel, (src_x + src_width) * var7, (src_y + src_height) * var8);
-		var9.addVertexWithUV(dst_x + dst_width, dst_y + 0, this.zLevel, (src_x + src_width) * var7, (src_y + 0) * var8);
-		var9.addVertexWithUV(dst_x + 0, dst_y + 0, this.zLevel, (src_x + 0) * var7, (src_y + 0) * var8);
-		var9.draw();
+	
+	public void drawBox (double xStart, double yStart, double xEnd, double yEnd, double wStart, double hStart, double wEnd, double hEnd) {
+		Tessellator t = Tessellator.getInstance();
+		WorldRenderer wr = t.getWorldRenderer();
+		wr.begin(7, DefaultVertexFormats.POSITION_TEX);
+		wr.pos(xStart, yStart, this.zLevel).tex(wStart, hStart).endVertex();
+		wr.pos(xStart + xEnd, yStart, this.zLevel).tex(wEnd, hStart).endVertex();
+		wr.pos(xStart, yStart + yEnd, this.zLevel).tex(wStart, hEnd).endVertex();
+		wr.pos(xStart + xEnd, yStart + yEnd, this.zLevel).tex(wEnd, hEnd).endVertex();
+		t.draw();
 	}
 
 	protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font){

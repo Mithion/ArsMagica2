@@ -1,12 +1,35 @@
 package am2.guis;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.List;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
 import am2.AMCore;
 import am2.api.SkillTreeEntry;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.LearnStates;
 import am2.api.spell.enums.SkillPointTypes;
-import am2.api.spell.enums.SkillTrees;
+import am2.api.spell.enums.SkillTree;
 import am2.guis.controls.GuiButtonSkillTreeTab;
 import am2.lore.ArcaneCompendium;
 import am2.lore.CompendiumEntryTypes;
@@ -16,23 +39,6 @@ import am2.playerextensions.SkillData;
 import am2.spell.SkillManager;
 import am2.spell.SkillTreeManager;
 import am2.texture.SpellIconManager;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.Iterator;
-import java.util.List;
 
 public class GuiSkillTrees extends GuiScreen{
 	int xSize = 210;
@@ -57,11 +63,12 @@ public class GuiSkillTrees extends GuiScreen{
 	private int lastMouseX;
 	private int lastMouseY;
 
-	private SkillTrees activeTree;
+	private SkillTree activeTree;
 	private SkillTreeEntry hoveredItem;
 	private Affinity hoveredAffinity;
 
 	private ArrayList<SkillTreeEntry> skillTree;
+	private ArrayList<GuiButtonSkillTreeTab> buttonMap;
 
 	private static final ResourceLocation rl_background = new ResourceLocation("arsmagica2", "textures/guis/SkillTreeUI.png");
 	private static final ResourceLocation rl_offense = new ResourceLocation("arsmagica2", "textures/guis/SkillTree_Offense.png");
@@ -75,8 +82,9 @@ public class GuiSkillTrees extends GuiScreen{
 		CompendiumEntryTypes.instance.initTextures();
 
 		this.player = player;
-		activeTree = SkillTrees.Offense;
+		activeTree = SkillTree.Offense;
 		skillTree = SkillTreeManager.instance.getTree(activeTree);
+		buttonMap = new ArrayList<GuiButtonSkillTreeTab>();
 	}
 
 	@Override
@@ -85,45 +93,36 @@ public class GuiSkillTrees extends GuiScreen{
 
 		int l = (width - xSize) / 2 + 8;
 		int i1 = (height - ySize) / 2;
-
-		offense = new GuiButtonSkillTreeTab(0, l, i1, SkillTrees.Offense);
-		defense = new GuiButtonSkillTreeTab(0, l + GuiButtonSkillTreeTab.buttonWidth + buttonPadding, i1, SkillTrees.Defense);
-		utility = new GuiButtonSkillTreeTab(0, l + GuiButtonSkillTreeTab.buttonWidth * 2 + buttonPadding * 2, i1, SkillTrees.Utility);
-		talents = new GuiButtonSkillTreeTab(0, l + GuiButtonSkillTreeTab.buttonWidth * 3 + buttonPadding * 3, i1, SkillTrees.Talents);
-		affinity = new GuiButtonSkillTreeTab(0, l + GuiButtonSkillTreeTab.buttonWidth * 4 + buttonPadding * 4, i1, SkillTrees.Affinity);
-
-		offense.setActive(true);
-
-		this.buttonList.add(offense);
-		this.buttonList.add(defense);
-		this.buttonList.add(utility);
-		if (ExtendedProperties.For(Minecraft.getMinecraft().thePlayer).getMagicLevel() >= 5)
-			this.buttonList.add(talents);
-		if (!ArcaneCompendium.instance.getEntry("affinity").isLocked())
-			this.buttonList.add(affinity);
+		ArrayList<SkillTree> trees = SkillTreeManager.instance.getTrees();
+		for (int i = 0; i < trees.size(); i++) {
+			GuiButtonSkillTreeTab btn = new GuiButtonSkillTreeTab(i, l + i*22, i1, trees.get(i));
+			buttonMap.add(btn);
+			if (i == 0)
+				btn.setActive(true);
+			if ((i != 3 && i != 4) || (i == 3 &&ExtendedProperties.For(Minecraft.getMinecraft().thePlayer).getMagicLevel() >= 5) || (i == 4 && !ArcaneCompendium.instance.getEntry("affinity").isLocked())) {
+				buttonList.add(btn);
+			}
+		}
 	}
-
-	@SuppressWarnings("incomplete-switch")
+	
+	public void drawBox (double xStart, double yStart, double xEnd, double yEnd, double wStart, double hStart, double wEnd, double hEnd) {
+		Tessellator t = Tessellator.getInstance();
+		WorldRenderer wr = t.getWorldRenderer();
+		wr.begin(7, DefaultVertexFormats.POSITION_TEX);
+		wr.pos(xStart, yStart, this.zLevel).tex(wStart, hStart).endVertex();
+		wr.pos(xStart + xEnd, yStart, this.zLevel).tex(wEnd, hStart).endVertex();
+		wr.pos(xStart, yStart + yEnd, this.zLevel).tex(wStart, hEnd).endVertex();
+		wr.pos(xStart + xEnd, yStart + yEnd, this.zLevel).tex(wEnd, hEnd).endVertex();
+		t.draw();
+	}
+	
 	@Override
-	protected void actionPerformed(GuiButton par1GuiButton){
+	protected void actionPerformed(GuiButton par1GuiButton) throws IOException{
 		if (par1GuiButton instanceof GuiButtonSkillTreeTab){
 			this.activeTree = ((GuiButtonSkillTreeTab)par1GuiButton).getTree();
 			skillTree = SkillTreeManager.instance.getTree(activeTree);
-
-			switch (activeTree){
-			case Defense:
-				offsetX = 91;
-				offsetY = 0;
-				break;
-			case Offense:
-				offsetX = 105;
-				offsetY = 0;
-				break;
-			case Utility:
-				offsetX = 94;
-				offsetY = 3;
-				break;
-			}
+			offsetX = 90;
+			offsetY = 0;
 			for (Object button : this.buttonList){
 				if (button instanceof GuiButtonSkillTreeTab){
 					((GuiButtonSkillTreeTab)button).setActive(false);
@@ -142,7 +141,7 @@ public class GuiSkillTrees extends GuiScreen{
 		int l = (width - xSize) / 2;
 		int i1 = (height - ySize) / 2;
 
-		if (AMCore.config.getSkillTreeSecondaryTierCap() < SkillTreeManager.instance.getHighestTier() && (sk.getPrimaryTree() == null || sk.getPrimaryTree() == SkillTrees.None) && sk.getSpellPoints(SkillPointTypes.BLUE) > 0){
+		if (AMCore.config.getSkillTreeSecondaryTierCap() < SkillTreeManager.instance.getHighestTier() && (sk.getPrimaryTree() == null || sk.getPrimaryTree() == SkillTree.None) && sk.getSpellPoints(SkillPointTypes.BLUE) > 0){
 			String s = StatCollector.translateToLocal("am2.gui.lockWarning");
 			fontRendererObj.drawSplitString(s, l - 120, i1 + 20, 110, 0xbf6325);
 		}
@@ -166,19 +165,11 @@ public class GuiSkillTrees extends GuiScreen{
 
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-		if (activeTree == SkillTrees.Offense)
-			Minecraft.getMinecraft().renderEngine.bindTexture(rl_offense);
-		else if (activeTree == SkillTrees.Defense)
-			Minecraft.getMinecraft().renderEngine.bindTexture(rl_defense);
-		else if (activeTree == SkillTrees.Utility)
-			Minecraft.getMinecraft().renderEngine.bindTexture(rl_utility);
-		else if (activeTree == SkillTrees.Talents || activeTree == SkillTrees.Affinity)
-			Minecraft.getMinecraft().renderEngine.bindTexture(rl_talents);
-		else return;
+		Minecraft.getMinecraft().renderEngine.bindTexture(activeTree.getBackground());
 
 		drawTexturedModalRect_Classic(l + 5, i1 + GuiButtonSkillTreeTab.buttonHeight + 5, offsetX, offsetY, 200, 200, 75, 75);
 
-		if (activeTree == SkillTrees.Affinity){
+		if (activeTree == SkillTree.Affinity){
 			drawAffinity();
 		}else{
 			drawSkillTree();
@@ -193,19 +184,19 @@ public class GuiSkillTrees extends GuiScreen{
 
 
 		String quantity = String.format("%d", sk.getSpellPoints(SkillPointTypes.BLUE));
-		Minecraft.getMinecraft().fontRenderer.drawString(quantity, l + xSize - 24 - (Minecraft.getMinecraft().fontRenderer.getStringWidth(quantity) / 2), i1 + 5, 0x0000FF);
+		Minecraft.getMinecraft().fontRendererObj.drawString(quantity, l + xSize - 24 - (Minecraft.getMinecraft().fontRendererObj.getStringWidth(quantity) / 2), i1 + 5, 0x0000FF);
 
 		quantity = String.format("%d", sk.getSpellPoints(SkillPointTypes.GREEN));
-		Minecraft.getMinecraft().fontRenderer.drawString(quantity, l + xSize - 12 - (Minecraft.getMinecraft().fontRenderer.getStringWidth(quantity) / 2), i1 + 5, 0x00FF00);
+		Minecraft.getMinecraft().fontRendererObj.drawString(quantity, l + xSize - 12 - (Minecraft.getMinecraft().fontRendererObj.getStringWidth(quantity) / 2), i1 + 5, 0x00FF00);
 
 		quantity = String.format("%d", sk.getSpellPoints(SkillPointTypes.RED));
-		Minecraft.getMinecraft().fontRenderer.drawString(quantity, l + xSize - 18 - (Minecraft.getMinecraft().fontRenderer.getStringWidth(quantity) / 2), i1 + 15, 0xFF0000);
+		Minecraft.getMinecraft().fontRendererObj.drawString(quantity, l + xSize - 18 - (Minecraft.getMinecraft().fontRendererObj.getStringWidth(quantity) / 2), i1 + 15, 0xFF0000);
 
 		super.drawScreen(par1, par2, par3);
 
 		if (hoveredItem != null){
 			ArrayList<String> text = new ArrayList<String>();
-			FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
+			FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 			String s = SkillManager.instance.getDisplayName(hoveredItem.registeredItem);
 			LearnStates state = sk.getLearnState(hoveredItem, Minecraft.getMinecraft().thePlayer);
 			if (state == LearnStates.LEARNED) s += " (" + StatCollector.translateToLocal("am2.gui.known") + ")";
@@ -225,7 +216,7 @@ public class GuiSkillTrees extends GuiScreen{
 				for (Affinity a : aff){
 					if (a == Affinity.NONE)
 						continue;
-					DrawIconAtXY(a.representItem.getIconFromDamage(a.representMeta), "item", affX, affY, 16, 16, false);
+					itemRender.renderItemIntoGUI(new ItemStack(a.representItem, 1, a.representMeta), affX, affY);
 					affX += 18;
 				}
 			}
@@ -289,7 +280,7 @@ public class GuiSkillTrees extends GuiScreen{
 			if (name == null)
 				name = "";
 
-			IIcon IIcon = SpellIconManager.instance.getIcon(name);
+			TextureAtlasSprite IIcon = SpellIconManager.instance.getIcon(name);
 
 			LearnStates state = sk.getLearnState(entry, Minecraft.getMinecraft().thePlayer);
 
@@ -357,7 +348,6 @@ public class GuiSkillTrees extends GuiScreen{
 		AffinityData ad = AffinityData.For(Minecraft.getMinecraft().thePlayer);
 
 		for (Affinity aff : Affinity.getOrderedAffinities()){
-			IIcon IIcon = aff.representItem.getIconFromDamage(aff.representMeta);
 			int newX = (int)(cx + Math.cos(Math.toRadians(angle)) * distance);
 			int newY = (int)(cy + Math.sin(Math.toRadians(angle)) * distance);
 
@@ -384,7 +374,7 @@ public class GuiSkillTrees extends GuiScreen{
 				AMGuiHelper.instance.line2d(lx + halfIconSize, ly + halfIconSize, cx2 + halfIconSize, cy2 + halfIconSize, this.zLevel, aff.color);
 			}
 
-			DrawIconAtXY(IIcon, "items", newX, newY, IIconsize, IIconsize, false);
+			itemRender.renderItemIntoGUI(new ItemStack(aff.representItem, 1, aff.representMeta), newX, newY);
 			String depthString = String.format("%.2f", ad.getAffinityDepth(aff) * 100);
 			fontRendererObj.drawString(depthString, newX + halfIconSize - fontRendererObj.getStringWidth(depthString) / 2, newY + IIconsize, aff.color, false);
 			angle += 36;
@@ -400,7 +390,7 @@ public class GuiSkillTrees extends GuiScreen{
 	}
 
 	@Override
-	protected void mouseClicked(int par1, int par2, int par3){
+	protected void mouseClicked(int par1, int par2, int par3) throws IOException{
 		super.mouseClicked(par1, par2, par3);
 		if (par3 == 0){
 			if (hoveredItem != null){
@@ -412,19 +402,11 @@ public class GuiSkillTrees extends GuiScreen{
 				}
 
 			}else{
-				if (this.activeTree != SkillTrees.Affinity)
+				if (this.activeTree != SkillTree.Affinity)
 					isDragging = true;
 				lastMouseX = par1;
 				lastMouseY = par2;
 			}
-		}
-	}
-
-	@Override
-	protected void mouseMovedOrUp(int par1, int par2, int par3){
-		super.mouseMovedOrUp(par1, par2, par3);
-		if (par3 != -1){
-			this.isDragging = false;
 		}
 	}
 
@@ -437,43 +419,10 @@ public class GuiSkillTrees extends GuiScreen{
 		float var7 = 0.00390625F;
 		float var8 = 0.00390625F;
 
-		Tessellator var9 = Tessellator.instance;
-		var9.startDrawingQuads();
-		var9.addVertexWithUV(dst_x + 0, dst_y + dst_height, this.zLevel, (src_x + 0) * var7, (src_y + src_height) * var8);
-		var9.addVertexWithUV(dst_x + dst_width, dst_y + dst_height, this.zLevel, (src_x + src_width) * var7, (src_y + src_height) * var8);
-		var9.addVertexWithUV(dst_x + dst_width, dst_y + 0, this.zLevel, (src_x + src_width) * var7, (src_y + 0) * var8);
-		var9.addVertexWithUV(dst_x + 0, dst_y + 0, this.zLevel, (src_x + 0) * var7, (src_y + 0) * var8);
-		var9.draw();
+		drawBox(dst_x, dst_y, src_x, src_y, dst_width*var7, dst_height*var8, src_width*var7, src_height*var8);
 	}
 
-	private void DrawIconAtXY(IIcon IIcon, String base, float x, float y, int w, int h, boolean semitransparent){
-
-		GL11.glMatrixMode(GL11.GL_TEXTURE);
-		GL11.glPushMatrix();
-		if (semitransparent){
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		}
-		mc.renderEngine.bindTexture(rl_items);
-
-		Tessellator tessellator = Tessellator.instance;
-		tessellator.startDrawingQuads();
-
-		tessellator.addVertexWithUV(x, y + h, this.zLevel, IIcon.getMinU(), IIcon.getMaxV());
-		tessellator.addVertexWithUV(x + w, y + h, this.zLevel, IIcon.getMaxU(), IIcon.getMaxV());
-		tessellator.addVertexWithUV(x + w, y, this.zLevel, IIcon.getMaxU(), IIcon.getMinV());
-		tessellator.addVertexWithUV(x, y, this.zLevel, IIcon.getMinU(), IIcon.getMinV());
-
-		tessellator.draw();
-
-		if (semitransparent){
-			GL11.glDisable(GL11.GL_BLEND);
-		}
-		GL11.glPopMatrix();
-		GL11.glMatrixMode(GL11.GL_MODELVIEW);
-	}
-
-	private void DrawConstrainedIconAtXY(IIcon IIcon, float x, float y, int w, int h, boolean semitransparent){
+	private void DrawConstrainedIconAtXY(TextureAtlasSprite icon ,float x, float y, int w, int h, boolean semitransparent){
 
 		int l = (width - xSize) / 2 + 3;
 		int i1 = ((height - ySize) / 2) + GuiButtonSkillTreeTab.buttonHeight;
@@ -486,12 +435,10 @@ public class GuiSkillTrees extends GuiScreen{
 
 		float wFactor = 1.0f;
 		float hFactor = 1.0f;
-
-		float minU = IIcon.getMinU();
-		float minV = IIcon.getMinV();
-		float maxU = IIcon.getMaxU();
-		float maxV = IIcon.getMaxV();
-
+		float minU = icon.getMinU();
+		float minV = icon.getMinV();
+		float maxU = icon.getMaxU();
+		float maxV = icon.getMaxV();
 		float deltaU = maxU - minU;
 		float deltaV = maxV - minV;
 
@@ -536,16 +483,7 @@ public class GuiSkillTrees extends GuiScreen{
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		}
 		mc.renderEngine.bindTexture(rl_items);
-
-		Tessellator tessellator = Tessellator.instance;
-		tessellator.startDrawingQuads();
-
-		tessellator.addVertexWithUV(x, y + h, this.zLevel, minU, maxV);
-		tessellator.addVertexWithUV(x + w, y + h, this.zLevel, maxU, maxV);
-		tessellator.addVertexWithUV(x + w, y, this.zLevel, maxU, minV);
-		tessellator.addVertexWithUV(x, y, this.zLevel, minU, minV);
-
-		tessellator.draw();
+		drawBox(x, y, w, h, 0, 0, 1, 1);
 
 		if (semitransparent){
 			GL11.glDisable(GL11.GL_BLEND);
