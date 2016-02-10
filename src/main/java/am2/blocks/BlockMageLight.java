@@ -1,32 +1,40 @@
 package am2.blocks;
 
+import java.util.List;
+import java.util.Random;
+
+import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.ItemDye;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 import am2.AMCore;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
 import am2.particles.ParticleGrow;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemDye;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class BlockMageLight extends AMSpecialRenderBlock{
-
+	
+	public static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("color", EnumDyeColor.class);
+    private static final String[] dyes = { "Black", "Red", "Green", "Brown",
+			"Blue", "Purple", "Cyan", "LightGray", "Gray", "Pink", "Lime",
+			"Yellow", "LightBlue", "Magenta", "Orange", "White" };
+	
 	protected BlockMageLight(){
 		super(Material.circuits);
 		setBlockBounds(0.35f, 0.35f, 0.35f, 0.65f, 0.65f, 0.65f);
+		this.setDefaultState(this.blockState.getBaseState().withProperty(COLOR, EnumDyeColor.WHITE));
 		this.setTickRandomly(true);
 	}
 
@@ -34,14 +42,30 @@ public class BlockMageLight extends AMSpecialRenderBlock{
 	public int tickRate(World par1World){
 		return 20 - 5 * AMCore.config.getGFXLevel();
 	}
-
+	
+	@Override
+	protected BlockState createBlockState() {
+		return new BlockState(this, COLOR);
+	}
+	
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		EnumDyeColor color =  state.getValue(COLOR);
+		return color.getDyeDamage();
+	}
+	
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return getDefaultState().withProperty(COLOR, EnumDyeColor.values()[meta]);
+	}
+	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random rand){
-		int meta = par1World.getBlockMetadata(par2, par3, par4);
-		int color = ItemDye.field_150922_c[meta];
+	public void randomDisplayTick(World par1World, BlockPos pos, IBlockState state, Random rand){
+		int meta = state.getBlock().getMetaFromState(state);
+		int color = ItemDye.dyeColors[meta];
 
-		AMParticle particle = (AMParticle)AMCore.instance.proxy.particleManager.spawn(par1World, "sparkle", par2 + 0.5 + (rand.nextDouble() * 0.2f - 0.1f), par3 + 0.5, par4 + 0.5 + (rand.nextDouble() * 0.2f - 0.1f));
+		AMParticle particle = (AMParticle)AMCore.instance.proxy.particleManager.spawn(par1World, "sparkle", pos.getX() + 0.5 + (rand.nextDouble() * 0.2f - 0.1f), pos.getY() + 0.5, pos.getZ() + 0.5 + (rand.nextDouble() * 0.2f - 0.1f));
 		if (particle != null){
 			particle.setIgnoreMaxAge(false);
 			particle.setMaxAge(10 + rand.nextInt(20));
@@ -52,51 +76,41 @@ public class BlockMageLight extends AMSpecialRenderBlock{
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int face, float interactX, float interactY, float interactZ){
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing face, float interactX, float interactY, float interactZ){
 
 		if (!world.isRemote && player.getCurrentEquippedItem() != null){
-
-			int id = OreDictionary.getOreID(player.getCurrentEquippedItem());
-			if (id > -1){
-				ArrayList<ItemStack> ores = OreDictionary.getOres(id);
+			for (int i = 0; i < 16; i++) {
+				List<ItemStack> ores = OreDictionary.getOres("dye" + dyes[i], false);
 				for (ItemStack stack : ores){
-					if (stack.getItem() == Items.dye){
-						world.setBlockMetadataWithNotify(x, y, z, player.getCurrentEquippedItem().getItemDamage() % 15, 2);
+					if (ItemStack.areItemsEqual(stack, player.getCurrentEquippedItem())){
+						world.setBlockState(pos, this.getDefaultState().withProperty(COLOR, EnumDyeColor.values()[i]));
 						break;
 					}
 				}
 			}
 		}
 
-		return super.onBlockActivated(world, x, y, z, player, face, interactX, interactY, interactZ);
+		return super.onBlockActivated(world, pos, state, player, face, interactX, interactY, interactZ);
 	}
-
+	
 	@Override
-	public int getLightValue(IBlockAccess world, int x, int y, int z){
+	public int getLightValue() {
 		return 15;
 	}
-
+	
 	@Override
 	public int quantityDropped(Random random){
 		return 0;
 	}
-
+	
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4){
-		return new AxisAlignedBB(-0.2, -0.2, -0.2, 0.2, 0.2, 0.2);
-	}
-
-	@Override
-	public void addCollisionBoxesToList(World par1World, int par2, int par3, int par4, AxisAlignedBB par5AxisAlignedBB, List par6List, Entity par7Entity){
-	}
-
-	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z){
+	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
 		return null;
 	}
-
+	
 	@Override
-	public boolean isAir(IBlockAccess world, int x, int y, int z){
+	public boolean isAir(IBlockAccess world, BlockPos pos) {
 		return false;
 	}
+
 }

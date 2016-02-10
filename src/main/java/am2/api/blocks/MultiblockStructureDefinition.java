@@ -1,11 +1,13 @@
 package am2.api.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
-
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
 
 public class MultiblockStructureDefinition{
 	public class BlockDec{
@@ -76,12 +78,12 @@ public class MultiblockStructureDefinition{
 
 		boolean matchGroup(World world, int originX, int originY, int originZ){
 			for (BlockPos offset : allowedBlocks.keySet()){
-				Block block = world.getBlock(originX + offset.x, originY + offset.y, originZ + offset.z);
-				int meta = world.getBlockMetadata(originX + offset.x, originY + offset.y, originZ + offset.z);
+				IBlockState state = world.getBlockState(new BlockPos(originX + offset.getX(), originY + offset.getY(), originZ + offset.getZ()));
+				int meta = state.getBlock().getMetaFromState(state);
 				ArrayList<BlockDec> positionReplacements = allowedBlocks.get(offset);
 				boolean valid = false;
 				for (BlockDec bd : positionReplacements){
-					if (bd.block == block && (bd.meta == -1 || bd.meta == meta)){
+					if (bd.block == state.getBlock() && (bd.meta == -1 || bd.meta == meta)){
 						valid = true;
 					}
 				}
@@ -98,7 +100,7 @@ public class MultiblockStructureDefinition{
 			}
 
 			for (BlockPos bc : allowedBlocks.keySet()){
-				if (bc.y == layer){
+				if (bc.getY() == layer){
 					toReturn.put(bc, allowedBlocks.get(bc));
 				}
 			}
@@ -130,7 +132,7 @@ public class MultiblockStructureDefinition{
 
 		public void deleteBlocksFromWorld(World world, int x, int y, int z){
 			for (BlockPos offset : allowedBlocks.keySet()){
-				world.setBlockToAir(x + offset.x, y + offset.y, z + offset.z);
+				world.setBlockToAir(new BlockPos(x + offset.getX(), y + offset.getY(), z + offset.getZ()));
 			}
 		}
 	}
@@ -274,7 +276,7 @@ public class MultiblockStructureDefinition{
 
 		for (BlockPos bc : copyGroup.allowedBlocks.keySet()){
 			for (BlockDec bd : copyGroup.allowedBlocks.get(bc)){
-				newGroup.addAllowedBlock(bc.x, bc.y, bc.z, bd.block, bd.meta);
+				newGroup.addAllowedBlock(bc.getX(), bc.getY(), bc.getZ(), bd.block, bd.meta);
 			}
 		}
 

@@ -1,34 +1,71 @@
 package am2.blocks;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemMultiTexture;
+import net.minecraft.item.ItemSlab;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameData;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 import am2.AMCreativeTab;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.math.AMVector3;
 import am2.blocks.liquid.BlockLiquidEssence;
-import am2.blocks.tileentities.*;
+import am2.blocks.tileentities.TileEntityArcaneDeconstructor;
+import am2.blocks.tileentities.TileEntityArcaneReconstructor;
+import am2.blocks.tileentities.TileEntityArmorImbuer;
+import am2.blocks.tileentities.TileEntityAstralBarrier;
+import am2.blocks.tileentities.TileEntityBlackAurem;
+import am2.blocks.tileentities.TileEntityBrokenPowerLink;
+import am2.blocks.tileentities.TileEntityCalefactor;
+import am2.blocks.tileentities.TileEntityCandle;
+import am2.blocks.tileentities.TileEntityCelestialPrism;
+import am2.blocks.tileentities.TileEntityCraftingAltar;
+import am2.blocks.tileentities.TileEntityCrystalMarker;
+import am2.blocks.tileentities.TileEntityCrystalMarkerSpellExport;
+import am2.blocks.tileentities.TileEntityEssenceConduit;
+import am2.blocks.tileentities.TileEntityEssenceRefiner;
+import am2.blocks.tileentities.TileEntityEverstone;
+import am2.blocks.tileentities.TileEntityFlickerHabitat;
+import am2.blocks.tileentities.TileEntityFlickerLure;
+import am2.blocks.tileentities.TileEntityGroundRuneSpell;
+import am2.blocks.tileentities.TileEntityInertSpawner;
+import am2.blocks.tileentities.TileEntityInscriptionTable;
+import am2.blocks.tileentities.TileEntityKeystoneChest;
+import am2.blocks.tileentities.TileEntityKeystoneDoor;
+import am2.blocks.tileentities.TileEntityKeystoneRecepticle;
+import am2.blocks.tileentities.TileEntityLectern;
+import am2.blocks.tileentities.TileEntityMagiciansWorkbench;
+import am2.blocks.tileentities.TileEntityManaBattery;
+import am2.blocks.tileentities.TileEntityObelisk;
+import am2.blocks.tileentities.TileEntityOcculus;
+import am2.blocks.tileentities.TileEntityOtherworldAura;
+import am2.blocks.tileentities.TileEntityParticleEmitter;
+import am2.blocks.tileentities.TileEntitySeerStone;
+import am2.blocks.tileentities.TileEntitySlipstreamGenerator;
+import am2.blocks.tileentities.TileEntitySpellSealedDoor;
+import am2.blocks.tileentities.TileEntitySummoner;
 import am2.items.ItemsCommonProxy;
 import am2.items.OreItem;
 import am2.spell.SkillManager;
 import am2.spell.components.Dig;
 import am2.utility.KeystoneUtilities;
 import am2.utility.RecipeUtilities;
-import net.minecraftforge.fml.common.registry.GameData;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.*;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class BlocksCommonProxy{
 	//--------------------------------------------------------------
@@ -154,7 +191,7 @@ public class BlocksCommonProxy{
 
 	public AMVector3 getNextKeystoneLocationInWorld(World world, int x, int y, int z, long key){
 		AMVector3 location = new AMVector3(x, y, z);
-		ArrayList<AMVector3> dimensionList = KeystonePortalLocations.get(world.provider.dimensionId);
+		ArrayList<AMVector3> dimensionList = KeystonePortalLocations.get(world.provider.getDimensionId());
 		if (dimensionList == null || dimensionList.size() < 1){
 			return null;
 		}
@@ -165,7 +202,7 @@ public class BlocksCommonProxy{
 		AMVector3 newLocation = dimensionList.get(index);
 
 		while (!newLocation.equals(location)){
-			TileEntity te = world.getTileEntity((int)newLocation.x, (int)newLocation.y, (int)newLocation.z);
+			TileEntity te = world.getTileEntity(newLocation.toBlockPos());
 			if (te != null && te instanceof TileEntityKeystoneRecepticle){
 				if (KeystoneUtilities.instance.getKeyFromRunes(((IKeystoneLockable)te).getRunesInKey()) == key){
 					return newLocation;
@@ -195,7 +232,7 @@ public class BlocksCommonProxy{
 		blackAurem = new BlockEssenceGenerator(BlockEssenceGenerator.NEXUS_DARK).setUnlocalizedNameAndID("arsmagica2:blackaurem").setCreativeTab(blockTab);
 		seerStone = new BlockSeerStone().setUnlocalizedNameAndID("arsmagica2:blockseerstone").setCreativeTab(blockTab);
 		celestialPrism = new BlockEssenceGenerator(BlockEssenceGenerator.NEXUS_LIGHT).setUnlocalizedNameAndID("arsmagica2:celestialprism").setCreativeTab(blockTab);
-		AMOres = (BlockAMOre)new BlockAMOre().setBlockName("arsmagica2:ores").setHardness(3.0f).setResistance(3.0f).setCreativeTab(blockTab);
+		AMOres = (BlockAMOre)new BlockAMOre().setUnlocalizedName("arsmagica2:ores").setHardness(3.0f).setResistance(3.0f).setCreativeTab(blockTab);
 		cerublossom = (AMFlower)new AMFlower().setUnlocalizedNameAndID("arsmagica2:cerublossom").setLightLevel(0.325f).setCreativeTab(blockTab);
 		desertNova = (BlockDesertNova)new BlockDesertNova().setUnlocalizedNameAndID("arsmagica2:desert_nova").setCreativeTab(blockTab);
 		keystoneChest = (BlockKeystoneChest)new BlockKeystoneChest().setUnlocalizedNameAndID("arsmagica2:keystonechest").setCreativeTab(blockTab);
@@ -207,40 +244,40 @@ public class BlocksCommonProxy{
 		craftingAltar = (BlockCraftingAltar)new BlockCraftingAltar().setUnlocalizedNameAndID("arsmagica2:altarOfCreation").setCreativeTab(blockTab);
 		spellRune = (BlockGroundRuneSpell)new BlockGroundRuneSpell().setUnlocalizedNameAndID("arsmagica2:spellRune");
 		particleEmitter = (BlockParticleEmitter)new BlockParticleEmitter().setUnlocalizedNameAndID("arsmagica2:particleEmitter").setCreativeTab(blockTab);
-		vinteumTorch = (VinteumTorch)new VinteumTorch().setBlockName("arsmagica2:vinteumTorch").setCreativeTab(blockTab);
+		vinteumTorch = (VinteumTorch)new VinteumTorch().setUnlocalizedName("arsmagica2:vinteumTorch").setCreativeTab(blockTab);
 		inscriptionTable = (BlockInscriptionTable)new BlockInscriptionTable().setUnlocalizedNameAndID("arsmagica2:inscriptionTable").setCreativeTab(blockTab);
 		invisibleUtility = (BlockInvisibleUtility)new BlockInvisibleUtility().setUnlocalizedNameAndID("arsmagica2:invisibleUtility");
 		aum = (AMFlower)new AMFlower().setUnlocalizedNameAndID("arsmagica2:aum").setCreativeTab(blockTab);
 		wakebloom = (BlockWakebloom)new BlockWakebloom().setUnlocalizedNameAndID("arsmagica2:wakebloom").setCreativeTab(blockTab);
 		tarmaRoot = (BlockTarmaRoot)new BlockTarmaRoot().setUnlocalizedNameAndID("arsmagica2:tarmaroot").setCreativeTab(blockTab);
-		witchwoodLog = (BlockWitchwoodLog)new BlockWitchwoodLog().setBlockName("arsmagica2:witchwoodlog").setCreativeTab(blockTab);
-		witchwoodLeaves = (BlockWitchwoodLeaves)new BlockWitchwoodLeaves().setBlockName("arsmagica2:witchwoodleaves").setCreativeTab(blockTab);
+		witchwoodLog = (BlockWitchwoodLog)new BlockWitchwoodLog().setUnlocalizedName("arsmagica2:witchwoodlog").setCreativeTab(blockTab);
+		witchwoodLeaves = (BlockWitchwoodLeaves)new BlockWitchwoodLeaves().setUnlocalizedName("arsmagica2:witchwoodleaves").setCreativeTab(blockTab);
 		summoner = (BlockSummoner)new BlockSummoner().setUnlocalizedNameAndID("arsmagica2:summoner").setCreativeTab(blockTab);
-		liquidEssence = (BlockLiquidEssence)new BlockLiquidEssence().setBlockName("arsmagica2:liquidEssence");
-		redstoneInlay = (BlockInlay)new BlockInlay(BlockInlay.TYPE_REDSTONE).setBlockName("arsmagica2:redstone_inlay").setCreativeTab(blockTab);
-		ironInlay = (BlockInlay)new BlockInlay(BlockInlay.TYPE_IRON).setBlockName("arsmagica2:iron_inlay").setCreativeTab(blockTab);
-		goldInlay = (BlockInlay)new BlockInlay(BlockInlay.TYPE_GOLD).setBlockName("arsmagica2:gold_inlay").setCreativeTab(blockTab);
-		witchwoodPlanks = (WitchwoodPlanks)new WitchwoodPlanks().setBlockName("arsmagica2:planksWitchwood").setCreativeTab(blockTab);
-		witchwoodSingleSlab = (WitchwoodSlabs)new WitchwoodSlabs(false).setBlockName("arsmagica2:witchwoodSingleSlab").setCreativeTab(blockTab);
-		witchwoodDoubleSlab = (WitchwoodSlabs)new WitchwoodSlabs(true).setBlockName("arsmagica2:witchwoodDoubleSlab");
-		witchwoodStairs = (WitchwoodStairs)new WitchwoodStairs(witchwoodPlanks, 0).setBlockName("arsmagica2:stairsWitchwood").setCreativeTab(blockTab);
-		witchwoodSapling = (WitchwoodSapling)new WitchwoodSapling().setBlockName("arsmagica2:saplingWitchwood").setCreativeTab(blockTab);
-		magiciansWorkbench = (BlockMagiciansWorkbench)new BlockMagiciansWorkbench().setBlockName("arsmagica2:magiciansWorkbench").setCreativeTab(blockTab);
-		everstone = (BlockEverstone)new BlockEverstone().setBlockName("arsmagica2:everstone").setCreativeTab(blockTab);
-		keystoneDoor = (BlockKeystoneDoor)new BlockKeystoneDoor().setBlockName("arsmagica2:keystoneDoor");
-		keystoneTrapDoor = (BlockKeystoneTrapdoor)new BlockKeystoneTrapdoor().setBlockName("arsmagica2:keystoneTrapdoor");
-		slipstreamGenerator = (BlockSlipstreamGenerator)new BlockSlipstreamGenerator().setBlockName("arsmagica2:slipstreamGenerator").setCreativeTab(blockTab);
-		crystalMarker = (BlockCrystalMarker)new BlockCrystalMarker().setBlockName("arsmagica2:crystalMarker").setCreativeTab(blockTab);
-		elementalAttuner = (BlockFlickerHabitat)new BlockFlickerHabitat().setBlockName("arsmagica2:flickerHabitat").setCreativeTab(blockTab);
-		wizardChalk = (BlockWizardsChalk)new BlockWizardsChalk().setBlockName("arsmagica2:wizardChalk");
-		inertSpawner = (BlockInertSpawner)new BlockInertSpawner().setBlockName("arsmagica2:inertSpawner").setCreativeTab(blockTab);
-		candle = (BlockCandle)new BlockCandle().setBlockName("arsmagica2:candle").setCreativeTab(blockTab);
-		brokenLinkBlock = (BlockBrokenPowerLink)new BlockBrokenPowerLink().setBlockName("arsmagica2:brokenLink").setCreativeTab(blockTab);
-		armorInfuser = (BlockArmorInfuser)new BlockArmorInfuser().setBlockName("arsmagica2:armor_infuser").setCreativeTab(blockTab);
-		flickerLure = (BlockFlickerLure)new BlockFlickerLure().setBlockName("arsmagica2:flicker_lure").setCreativeTab(blockTab);
-		arcaneDeconstructor = (BlockArcaneDeconstructor)new BlockArcaneDeconstructor().setBlockName("arsmagica2:arcane_deconstructor").setCreativeTab(blockTab);
-		otherworldAura = (BlockOtherworldAura)new BlockOtherworldAura().setBlockName("arsmagica2:otherworld_aura").setCreativeTab(blockTab);
-		spellSealedDoor = (BlockSpellSealedDoor)new BlockSpellSealedDoor().setBlockName("arsmagica2:spell_sealed_door");
+		liquidEssence = (BlockLiquidEssence)new BlockLiquidEssence().setUnlocalizedName("arsmagica2:liquidEssence");
+		redstoneInlay = (BlockInlay)new BlockInlay(BlockInlay.TYPE_REDSTONE).setUnlocalizedName("arsmagica2:redstone_inlay").setCreativeTab(blockTab);
+		ironInlay = (BlockInlay)new BlockInlay(BlockInlay.TYPE_IRON).setUnlocalizedName("arsmagica2:iron_inlay").setCreativeTab(blockTab);
+		goldInlay = (BlockInlay)new BlockInlay(BlockInlay.TYPE_GOLD).setUnlocalizedName("arsmagica2:gold_inlay").setCreativeTab(blockTab);
+		witchwoodPlanks = (WitchwoodPlanks)new WitchwoodPlanks().setUnlocalizedName("arsmagica2:planksWitchwood").setCreativeTab(blockTab);
+		witchwoodSingleSlab = (WitchwoodSlabs)new WitchwoodSlabs(false).setUnlocalizedName("arsmagica2:witchwoodSingleSlab").setCreativeTab(blockTab);
+		witchwoodDoubleSlab = (WitchwoodSlabs)new WitchwoodSlabs(true).setUnlocalizedName("arsmagica2:witchwoodDoubleSlab");
+		witchwoodStairs = (WitchwoodStairs)new WitchwoodStairs(witchwoodPlanks, 0).setUnlocalizedName("arsmagica2:stairsWitchwood").setCreativeTab(blockTab);
+		witchwoodSapling = (WitchwoodSapling)new WitchwoodSapling().setUnlocalizedName("arsmagica2:saplingWitchwood").setCreativeTab(blockTab);
+		magiciansWorkbench = (BlockMagiciansWorkbench)new BlockMagiciansWorkbench().setUnlocalizedName("arsmagica2:magiciansWorkbench").setCreativeTab(blockTab);
+		everstone = (BlockEverstone)new BlockEverstone().setUnlocalizedName("arsmagica2:everstone").setCreativeTab(blockTab);
+		keystoneDoor = (BlockKeystoneDoor)new BlockKeystoneDoor().setUnlocalizedName("arsmagica2:keystoneDoor");
+		keystoneTrapDoor = (BlockKeystoneTrapdoor)new BlockKeystoneTrapdoor().setUnlocalizedName("arsmagica2:keystoneTrapdoor");
+		slipstreamGenerator = (BlockSlipstreamGenerator)new BlockSlipstreamGenerator().setUnlocalizedName("arsmagica2:slipstreamGenerator").setCreativeTab(blockTab);
+		crystalMarker = (BlockCrystalMarker)new BlockCrystalMarker().setUnlocalizedName("arsmagica2:crystalMarker").setCreativeTab(blockTab);
+		elementalAttuner = (BlockFlickerHabitat)new BlockFlickerHabitat().setUnlocalizedName("arsmagica2:flickerHabitat").setCreativeTab(blockTab);
+		wizardChalk = (BlockWizardsChalk)new BlockWizardsChalk().setUnlocalizedName("arsmagica2:wizardChalk");
+		inertSpawner = (BlockInertSpawner)new BlockInertSpawner().setUnlocalizedName("arsmagica2:inertSpawner").setCreativeTab(blockTab);
+		candle = (BlockCandle)new BlockCandle().setUnlocalizedName("arsmagica2:candle").setCreativeTab(blockTab);
+		brokenLinkBlock = (BlockBrokenPowerLink)new BlockBrokenPowerLink().setUnlocalizedName("arsmagica2:brokenLink").setCreativeTab(blockTab);
+		armorInfuser = (BlockArmorInfuser)new BlockArmorInfuser().setUnlocalizedName("arsmagica2:armor_infuser").setCreativeTab(blockTab);
+		flickerLure = (BlockFlickerLure)new BlockFlickerLure().setUnlocalizedName("arsmagica2:flicker_lure").setCreativeTab(blockTab);
+		arcaneDeconstructor = (BlockArcaneDeconstructor)new BlockArcaneDeconstructor().setUnlocalizedName("arsmagica2:arcane_deconstructor").setCreativeTab(blockTab);
+		otherworldAura = (BlockOtherworldAura)new BlockOtherworldAura().setUnlocalizedName("arsmagica2:otherworld_aura").setCreativeTab(blockTab);
+		spellSealedDoor = (BlockSpellSealedDoor)new BlockSpellSealedDoor().setUnlocalizedName("arsmagica2:spell_sealed_door");
 
 		blockTab.setIconItemIndex(new ItemBlock(manaBattery));
 	}
@@ -756,8 +793,8 @@ public class BlocksCommonProxy{
 		Item.itemsList[BlocksCommonProxy.witchwoodDoubleSlab.blockID] = new ItemSlab(BlocksCommonProxy.witchwoodDoubleSlab.blockID - 256, BlocksCommonProxy.witchwoodSingleSlab, BlocksCommonProxy.witchwoodDoubleSlab, true);
 		Item.itemsList[BlocksCommonProxy.illusionBlock.blockID] = (new ItemMultiTextureTile(BlocksCommonProxy.illusionBlock.blockID - 256, BlocksCommonProxy.illusionBlock, IllusionBlock.illusion_block_types)).setUnlocalizedName("arsmagica2:illusionBlock");
 		Item.itemsList[BlocksCommonProxy.crystalMarker.blockID] = (new ItemMultiTextureTile(BlocksCommonProxy.crystalMarker.blockID - 256, BlocksCommonProxy.crystalMarker, BlockCrystalMarker.crystalMarkerTypes)).setUnlocalizedName("arsmagica2:crystalMarker");*/
-		registerMultiTextureBlock(witchwoodSingleSlab, "witchwoodSingleSlab", new ItemSlab(witchwoodSingleSlab, witchwoodSingleSlab, witchwoodDoubleSlab, false));
-		registerMultiTextureBlock(witchwoodDoubleSlab, "witchwoodDoubleSlab", new ItemSlab(witchwoodDoubleSlab, witchwoodSingleSlab, witchwoodDoubleSlab, false));
+		registerMultiTextureBlock(witchwoodSingleSlab, "witchwoodSingleSlab", new ItemSlab(witchwoodSingleSlab, witchwoodSingleSlab, witchwoodDoubleSlab));
+		registerMultiTextureBlock(witchwoodDoubleSlab, "witchwoodDoubleSlab", new ItemSlab(witchwoodDoubleSlab, witchwoodSingleSlab, witchwoodDoubleSlab));
 		registerMultiTextureBlock(illusionBlock, "illusionBlock", new ItemMultiTexture(illusionBlock, illusionBlock, illusionBlock.illusion_block_types).setUnlocalizedName("arsmagica2:illusionBlock"));
 		registerMultiTextureBlock(crystalMarker, "crystalMarker", new ItemMultiTexture(crystalMarker, crystalMarker, crystalMarker.crystalMarkerTypes).setUnlocalizedName("arsmagica2:crystalMarker"));
 

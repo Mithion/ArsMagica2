@@ -7,15 +7,15 @@ public abstract class AMSpecialRenderBlockContainer extends AMBlockContainer{
 	protected AMSpecialRenderBlockContainer(Material material){
 		super(material);
 	}
-
+	
 	@Override
-	public boolean renderAsNormalBlock(){
+	public boolean isNormalCube(){
 		return false;
 	}
 
 	@Override
 	public int getRenderType(){
-		return BlocksCommonProxy.blockRenderID;
+		return -1;
 	}
 
 	@Override

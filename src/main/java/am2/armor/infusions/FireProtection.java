@@ -1,17 +1,18 @@
 package am2.armor.infusions;
 
-import am2.api.items.armor.IArmorImbuement;
-import am2.api.items.armor.ImbuementApplicationTypes;
-import am2.api.items.armor.ImbuementTiers;
-import am2.playerextensions.ExtendedProperties;
+import java.util.EnumSet;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-
-import java.util.EnumSet;
+import am2.api.items.armor.IArmorImbuement;
+import am2.api.items.armor.ImbuementApplicationTypes;
+import am2.api.items.armor.ImbuementTiers;
+import am2.playerextensions.ExtendedProperties;
 
 public class FireProtection implements IArmorImbuement{
 
@@ -56,18 +57,18 @@ public class FireProtection implements IArmorImbuement{
 				for (int i = -1; i <= 1; ++i){
 					for (int j = -2; j <= 2; ++j){
 						for (int k = -1; k <= 1; ++k){
-							Block block = world.getBlock(x + i, y + j, z + k);
+							Block block = world.getBlockState(new BlockPos(x + i, y + j, z + k)).getBlock();
 							if (block == Blocks.flowing_lava){
 								if (i == 0 && k == 0 && j != -2){
-									world.setBlockToAir(x + i, y + j, z + k);
+									world.setBlockToAir(new BlockPos (x + i, y + j, z + k));
 								}else{
-									world.setBlock(x + i, y + j, z + k, Blocks.cobblestone);
+									world.setBlockState(new BlockPos(x + i, y + j, z + k), Blocks.cobblestone.getDefaultState());
 								}
 							}else if (block == Blocks.lava){
 								if (i == 0 && k == 0 && j != -2){
-									world.setBlockToAir(x + i, y + j, z + k);
+									world.setBlockToAir(new BlockPos (x + i, y + j, z + k));
 								}else{
-									world.setBlock(x + i, y + j, z + k, Blocks.obsidian);
+									world.setBlockState(new BlockPos(x + i, y + j, z + k), Blocks.obsidian.getDefaultState());
 								}
 							}
 						}
