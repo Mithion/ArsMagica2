@@ -12,8 +12,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.HashMap;
 
@@ -45,8 +46,8 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 	}
 
 	public void scanForNearbyUpgrades(){
-		for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS){
-			TileEntity te = worldObj.getTileEntity(xCoord + direction.offsetX, yCoord + direction.offsetY, zCoord + direction.offsetZ);
+		for (EnumFacing direction : EnumFacing.VALUES){
+			TileEntity te = worldObj.getTileEntity(pos.add(pos.getX() + direction.getFrontOffsetX(), pos.getY() + direction.getFrontOffsetY(), pos.getZ() + direction.getFrontOffsetZ()));
 			if (te != null && te instanceof TileEntityFlickerHabitat){
 				nearbyList[direction.ordinal()] = ((TileEntityFlickerHabitat)te).getSelectedAffinity();
 			}
@@ -55,38 +56,38 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 
 	public void notifyOfNearbyUpgradeChange(TileEntity neighbor){
 		if (neighbor instanceof TileEntityFlickerHabitat){
-			ForgeDirection direction = getNeighboringForgeDirection(neighbor);
-			if (direction != ForgeDirection.UNKNOWN){
+			EnumFacing direction = getNeighboringFacing(neighbor);
+			if (direction != null){
 				nearbyList[direction.ordinal()] = ((TileEntityFlickerHabitat)neighbor).getSelectedAffinity();
 			}
 		}
 	}
 
-	private ForgeDirection getNeighboringForgeDirection(TileEntity neighbor){
-		if (neighbor.xCoord == this.xCoord && neighbor.yCoord == this.yCoord && neighbor.zCoord == this.zCoord + 1)
-			return ForgeDirection.SOUTH;
-		else if (neighbor.xCoord == this.xCoord && neighbor.yCoord == this.yCoord && neighbor.zCoord == this.zCoord - 1)
-			return ForgeDirection.NORTH;
-		else if (neighbor.xCoord == this.xCoord + 1 && neighbor.yCoord == this.yCoord && neighbor.zCoord == this.zCoord)
-			return ForgeDirection.EAST;
-		else if (neighbor.xCoord == this.xCoord - 1 && neighbor.yCoord == this.yCoord && neighbor.zCoord == this.zCoord)
-			return ForgeDirection.WEST;
-		else if (neighbor.xCoord == this.xCoord && neighbor.yCoord == this.yCoord + 1 && neighbor.zCoord == this.zCoord)
-			return ForgeDirection.UP;
-		else if (neighbor.xCoord == this.xCoord && neighbor.yCoord == this.yCoord - 1 && neighbor.zCoord == this.zCoord)
-			return ForgeDirection.DOWN;
+	private EnumFacing getNeighboringFacing(TileEntity neighbor){
+		if (neighbor.getPos().getX() == this.pos.getX() && neighbor.getPos().getY() == this.pos.getY() && neighbor.getPos().getZ() == this.pos.getZ() + 1)
+			return EnumFacing.SOUTH;
+		else if (neighbor.getPos().getX() == this.pos.getX() && neighbor.getPos().getY() == this.pos.getY() && neighbor.getPos().getZ() == this.pos.getZ() - 1)
+			return EnumFacing.NORTH;
+		else if (neighbor.getPos().getX() == this.pos.getX() + 1 && neighbor.getPos().getY() == this.pos.getY() && neighbor.getPos().getZ() == this.pos.getZ())
+			return EnumFacing.EAST;
+		else if (neighbor.getPos().getX() == this.pos.getX() - 1 && neighbor.getPos().getY() == this.pos.getY() && neighbor.getPos().getZ() == this.pos.getZ())
+			return EnumFacing.WEST;
+		else if (neighbor.getPos().getX() == this.pos.getX() && neighbor.getPos().getY() == this.pos.getY() + 1 && neighbor.getPos().getZ() == this.pos.getZ())
+			return EnumFacing.UP;
+		else if (neighbor.getPos().getX() == this.pos.getX() && neighbor.getPos().getY() == this.pos.getY() - 1 && neighbor.getPos().getZ() == this.pos.getZ())
+			return EnumFacing.DOWN;
 
-		return ForgeDirection.UNKNOWN;
+		return null;
 	}
 
 	@Override
-	public void updateEntity(){
+	public void update(){
 		//handle any power update ticks
-		super.updateEntity();
+		super.update();
 
 		//if redstone powered, increment the tick counter (so that operator time still continues), but do nothing else.
 		//this allows a redstone signal to effectively turn off any flicker habitat.
-		if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)){
+		if (worldObj.isBlockIndirectlyGettingPowered(pos) > 1){
 			tickCounter++;
 			return;
 		}
@@ -119,10 +120,10 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 	}
 
 	private Affinity[] getUnpoweredNeighbors(){
-		Affinity[] aff = new Affinity[ForgeDirection.values().length];
+		Affinity[] aff = new Affinity[EnumFacing.values().length];
 		for (int i = 0; i < nearbyList.length; ++i){
-			ForgeDirection dir = ForgeDirection.values()[i];
-			if (nearbyList[i] == null || worldObj.isBlockIndirectlyGettingPowered(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ)){
+			EnumFacing dir = EnumFacing.values()[i];
+			if (nearbyList[i] == null || worldObj.isBlockIndirectlyGettingPowered(getPos().add(pos.getX() + dir.getFrontOffsetX(), pos.getY() + dir.getFrontOffsetX(), pos.getZ() + dir.getFrontOffsetZ())) > 1){
 				aff[i] = null;
 			}else{
 				aff[i] = nearbyList[i];
@@ -209,9 +210,11 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 	}
 
 	@Override
-	public float particleOffset(int axis){
+	public float particleOffset(EnumFacing.Axis axis){
 		return 0.5f;
 	}
+
+
 
 	public Affinity[] getNearbyUpgrades(){
 		return this.getUnpoweredNeighbors();

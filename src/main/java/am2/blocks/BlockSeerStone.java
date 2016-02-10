@@ -34,7 +34,7 @@ public class BlockSeerStone extends AMSpecialRenderPoweredBlock{
 
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos){
-		int meta = world.getBlockMetadata(par2, par3, par4); // TODO figure out how to make this work
+		int meta = world.getBlockState(pos).getBlock().getMetaFromState(); // TODO figure out how to make this work
 		switch (meta){
 		case 1:
 			this.setBlockBounds(0.0f, 0.6f, 0.0f, 1.0f, 1.0f, 1.0f);
@@ -123,7 +123,7 @@ public class BlockSeerStone extends AMSpecialRenderPoweredBlock{
 			var10 = 6;
 		}
 
-		return var10;
+		return getStateFromMeta(var10);
 	}
 
 	@Override
@@ -178,22 +178,6 @@ public class BlockSeerStone extends AMSpecialRenderPoweredBlock{
 	@Override
 	public boolean canProvidePower(){
 		return true;
-	}
-
-	@Override
-	public int isProvidingStrongPower(IBlockAccess par1iBlockAccess, int x, int y, int z, int l){
-		TileEntity myTE = par1iBlockAccess.getTileEntity(x, y, z);
-		if (myTE == null || !(myTE instanceof TileEntitySeerStone))
-			return 0;
-		return ((TileEntitySeerStone)myTE).HasSight() ? 15 : 0;
-	}
-
-	@Override
-	public int isProvidingWeakPower(IBlockAccess par1iBlockAccess, int x, int y, int z, int l){
-		TileEntity myTE = par1iBlockAccess.getTileEntity(x, y, z);
-		if (myTE == null || !(myTE instanceof TileEntitySeerStone))
-			return 0;
-		return ((TileEntitySeerStone)myTE).HasSight() ? 15 : 0;
 	}
 
 	@Override

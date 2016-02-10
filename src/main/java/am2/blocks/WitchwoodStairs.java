@@ -5,6 +5,8 @@ import net.minecraft.block.BlockStairs;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -25,7 +27,7 @@ public class WitchwoodStairs extends BlockStairs{
 	}
 
 	@Override
-	public int getFlammability(IBlockAccess world, int x, int y, int z, ForgeDirection face){
+	public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face){
 		return 0;
 	}
 }

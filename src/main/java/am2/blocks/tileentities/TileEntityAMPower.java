@@ -5,9 +5,11 @@ import am2.api.power.PowerTypes;
 import am2.power.PowerNodeRegistry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import net.minecraft.world.World;
 
-public abstract class TileEntityAMPower extends TileEntity implements IPowerNode{
+public abstract class TileEntityAMPower extends TileEntity implements IPowerNode, ITickable{
 	protected int capacity;
 	private boolean canRequestPower = true;
 	private int tickCounter;
@@ -41,7 +43,7 @@ public abstract class TileEntityAMPower extends TileEntity implements IPowerNode
 	}
 
 	@Override
-	public void updateEntity(){
+	public void update(){
 		if (!worldObj.isRemote && this.canRequestPower() && tickCounter++ >= getRequestInterval()){
 			tickCounter = 0;
 			PowerTypes[] powerTypes = this.getValidPowerTypes();
@@ -53,13 +55,13 @@ public abstract class TileEntityAMPower extends TileEntity implements IPowerNode
 		}
 	}
 
-	public int getRequestInterval(){
-		return REQUEST_INTERVAL;
+	@Override
+	public float particleOffset(EnumFacing.Axis axis) {
+		return 0.5F;
 	}
 
-	@Override
-	public float particleOffset(int axis){
-		return 0.5f;
+	public int getRequestInterval(){
+		return REQUEST_INTERVAL;
 	}
 
 	@Override
