@@ -1,17 +1,11 @@
 package am2.spell.components;
 
-import am2.AMCore;
-import am2.api.ArsMagicaApi;
-import am2.api.spell.component.interfaces.ISpellComponent;
-import am2.api.spell.enums.Affinity;
-import am2.blocks.BlocksCommonProxy;
-import am2.items.ItemSpellBook;
-import am2.particles.AMParticle;
-import am2.particles.ParticleOrbitPoint;
-import am2.playerextensions.ExtendedProperties;
-import am2.spell.SpellUtils;
-import am2.utility.DummyEntityPlayer;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
@@ -19,22 +13,26 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
-
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Random;
+import am2.AMCore;
+import am2.api.spell.component.interfaces.ISpellComponent;
+import am2.api.spell.enums.Affinity;
+import am2.blocks.BlocksCommonProxy;
+import am2.items.ItemSpellBook;
+import am2.particles.AMParticle;
+import am2.particles.ParticleOrbitPoint;
+import am2.spell.SpellUtils;
+import am2.utility.DummyEntityPlayer;
 
 public class Appropriation implements ISpellComponent{
 
@@ -66,11 +64,11 @@ public class Appropriation implements ISpellComponent{
 			return false;
 		}
 
-		if (originalSpellStack.stackTagCompound == null){
+		if (originalSpellStack.getTagCompound() == null){
 			return false;
 		}
 
-		Block block = world.getBlock(blockx, blocky, blockz);
+		Block block = world.getBlockState(new BlockPos(blockx, blocky, blockz)).getBlock();
 
 		if (block == null){
 			return false;
@@ -83,9 +81,9 @@ public class Appropriation implements ISpellComponent{
 		}
 
 		if (!world.isRemote){
-			if (originalSpellStack.stackTagCompound.hasKey(storageKey)){
+			if (originalSpellStack.getTagCompound().hasKey(storageKey)){
 
-				if (world.getBlock(blockx, blocky, blockz) == Blocks.air) blockFace = -1;
+				if (world.getBlockState(new BlockPos(blockx, blocky, blockz)).getBlock() == Blocks.air) blockFace = -1;
 				if (blockFace != -1){
 					switch (blockFace){
 					case 0:
@@ -109,7 +107,7 @@ public class Appropriation implements ISpellComponent{
 					}
 				}
 
-				if (world.isAirBlock(blockx, blocky, blockz) || !world.getBlock(blockx, blocky, blockz).getMaterial().isSolid()){
+				if (world.isAirBlock(new BlockPos(blockx, blocky, blockz)) || !world.getBlockState(new BlockPos(blockx, blocky, blockz)).getBlock().getMaterial().isSolid()){
 
 					// save current spell
 					NBTTagCompound nbt = null;
@@ -138,9 +136,9 @@ public class Appropriation implements ISpellComponent{
 						stack.setTagCompound(nbt);
 					}
 					if (blockSnapshots.size() > 1){
-						placeEvent = ForgeEventFactory.onPlayerMultiBlockPlace(casterPlayer, blockSnapshots, ForgeDirection.UNKNOWN);
+						placeEvent = ForgeEventFactory.onPlayerMultiBlockPlace(casterPlayer, blockSnapshots, null);
 					} else if (blockSnapshots.size() == 1){
-						placeEvent = ForgeEventFactory.onPlayerBlockPlace(casterPlayer, blockSnapshots.get(0), ForgeDirection.UNKNOWN);
+						placeEvent = ForgeEventFactory.onPlayerBlockPlace(casterPlayer, blockSnapshots.get(0), null);
 					}
 
 					if (placeEvent != null && (placeEvent.isCanceled())){
@@ -158,18 +156,14 @@ public class Appropriation implements ISpellComponent{
 						}
 
 						for (net.minecraftforge.common.util.BlockSnapshot blocksnapshot : blockSnapshots){
-							int blockX = blocksnapshot.x;
-							int blockY = blocksnapshot.y;
-							int blockZ = blocksnapshot.z;
-							int metadata = world.getBlockMetadata(blockX, blockY, blockZ);
 							int updateFlag = blocksnapshot.flag;
-							Block oldBlock = blocksnapshot.replacedBlock;
-							Block newBlock = world.getBlock(blockX, blockY, blockZ);
-							if (newBlock != null && !(newBlock.hasTileEntity(metadata))){ // Containers get placed automatically
-								newBlock.onBlockAdded(world, blockX, blockY, blockZ);
+							IBlockState oldBlock = blocksnapshot.replacedBlock;
+							IBlockState newBlock = world.getBlockState(blocksnapshot.pos);
+							if (newBlock != null && !(newBlock.getBlock().hasTileEntity(world.getBlockState(blocksnapshot.pos)))){ // Containers get placed automatically
+								newBlock.getBlock().onBlockAdded(world, blocksnapshot.pos, newBlock);
 							}
 
-							world.markAndNotifyBlock(blockX, blockY, blockZ, null, oldBlock, newBlock, updateFlag);
+							world.markAndNotifyBlock(blocksnapshot.pos, null, oldBlock, newBlock, updateFlag);
 						}
 					}
 					world.capturedBlockSnapshots.clear();
@@ -178,7 +172,7 @@ public class Appropriation implements ISpellComponent{
 				}
 			}else{
 
-				if (block == null || block.getBlockHardness(world, blockx, blocky, blockz) == -1.0f){
+				if (block == null || block.getBlockHardness(world, new BlockPos(blockx, blocky, blockz)) == -1.0f){
 					return false;
 				}
 
@@ -186,7 +180,7 @@ public class Appropriation implements ISpellComponent{
 				data.setString(storageType, "block");
 				//data.setString("blockName", block.getUnlocalizedName().replace("tile.", ""));
 				data.setInteger("blockID", Block.getIdFromBlock(block));
-				int meta = world.getBlockMetadata(blockx, blocky, blockz);
+				int meta = world.getBlockState(new BlockPos(blockx, blocky, blockz)).getBlock().getMetaFromState(world.getBlockState(new BlockPos(blockx, blocky, blockz)));
 				data.setInteger("meta", meta);
 
 				EntityPlayerMP casterPlayer = (EntityPlayerMP)DummyEntityPlayer.fromEntityLiving(caster);
@@ -199,7 +193,7 @@ public class Appropriation implements ISpellComponent{
 					return false;
 				}
 
-				TileEntity te = world.getTileEntity(blockx, blocky, blockz);
+				TileEntity te = world.getTileEntity(new BlockPos(blockx, blocky, blockz));
 				if (te != null){
 					NBTTagCompound teData = new NBTTagCompound();
 					te.writeToNBT(teData);
@@ -207,17 +201,17 @@ public class Appropriation implements ISpellComponent{
 
 					// remove tile entity first to prevent content dropping which is already saved in the NBT
 					try{
-						world.removeTileEntity(blockx, blocky, blockz);
+						world.removeTileEntity(new BlockPos(blockx, blocky, blockz));
 					}catch (Throwable exception){
 						exception.printStackTrace();
 					}
 				}
 
-				originalSpellStack.stackTagCompound.setTag(storageKey, data);
+				originalSpellStack.getTagCompound().setTag(storageKey, data);
 
 				setOriginalSpellStackData((EntityPlayer)caster, originalSpellStack);
 
-				world.setBlockToAir(blockx, blocky, blockz);
+				world.setBlockToAir(new BlockPos(blockx, blocky, blockz));
 			}
 		}
 
@@ -244,7 +238,7 @@ public class Appropriation implements ISpellComponent{
 			return false;
 
 		if (!world.isRemote){
-			if (originalSpellStack.stackTagCompound.hasKey(storageKey)){
+			if (originalSpellStack.getTagCompound().hasKey(storageKey)){
 				restore((EntityPlayer)caster, world, originalSpellStack, (int)target.posX, (int)target.posY, (int)target.posZ, target.posX, target.posY + target.getEyeHeight(), target.posZ);
 			}else{
 				NBTTagCompound data = new NBTTagCompound();
@@ -256,7 +250,7 @@ public class Appropriation implements ISpellComponent{
 
 				data.setTag("targetNBT", targetData);
 
-				originalSpellStack.stackTagCompound.setTag(storageKey, data);
+				originalSpellStack.getTagCompound().setTag(storageKey, data);
 
 				setOriginalSpellStackData((EntityPlayer)caster, originalSpellStack);
 
@@ -300,8 +294,8 @@ public class Appropriation implements ISpellComponent{
 	}
 
 	private void restore(EntityPlayer player, World world, ItemStack stack, int x, int y, int z, double hitX, double hitY, double hitZ){
-		if (stack.stackTagCompound.hasKey(storageKey)){
-			NBTTagCompound storageCompound = stack.stackTagCompound.getCompoundTag(storageKey);
+		if (stack.getTagCompound().hasKey(storageKey)){
+			NBTTagCompound storageCompound = stack.getTagCompound().getCompoundTag(storageKey);
 			if (storageCompound != null){
 				String type = storageCompound.getString(storageType);
 				if (type.equals("ent")){
@@ -323,29 +317,27 @@ public class Appropriation implements ISpellComponent{
 					//Block block = Block.getBlockFromName(blockName);
 					Block block = Block.getBlockById(blockID);
 					if (block != null){
-						world.setBlock(x, y, z, block, meta, 2);
+						world.setBlockState(new BlockPos(x, y, z), block.getStateFromMeta(meta));
 					}else{
 						if (!player.worldObj.isRemote)
 							player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.approError")));
-						stack.stackTagCompound.removeTag(storageKey);
+						stack.getTagCompound().removeTag(storageKey);
 						return;
 					}
 
 
 					if (storageCompound.hasKey("tileEntity")){
-						TileEntity te = world.getTileEntity(x, y, z);
+						TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 						if (te != null){
 							te.readFromNBT(storageCompound.getCompoundTag("tileEntity"));
-							te.xCoord = x;
-							te.yCoord = y;
-							te.zCoord = z;
+							te.setPos(new BlockPos(x, y, z));
 							te.setWorldObj(world);
 						}
 					}
 				}
 			}
 
-			stack.stackTagCompound.removeTag(storageKey);
+			stack.getTagCompound().removeTag(storageKey);
 
 			setOriginalSpellStackData(player, stack);
 		}

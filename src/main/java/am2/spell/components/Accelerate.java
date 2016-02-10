@@ -12,6 +12,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -22,9 +23,9 @@ public class Accelerate implements ISpellComponent{
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		if (world.rand.nextDouble() < 0.5){
-			Block block = world.getBlock(blockx, blocky, blockz);
+			Block block = world.getBlockState(new BlockPos (blockx, blocky, blockz)).getBlock();
 			if (block != Blocks.air){
-				block.updateTick(world, blocky, blocky, blockz, world.rand);
+				block.updateTick(world, new BlockPos(blockx, blocky, blockz), world.getBlockState(new BlockPos(blockx, blocky, blockz)), world.rand);
 			}
 		}
 		return true;

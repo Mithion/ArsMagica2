@@ -21,6 +21,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -31,11 +32,11 @@ public class AstralDistortion implements ISpellComponent, IRitualInteraction{
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 
-		if (world.getBlock(blockx, blocky, blockz) == Blocks.mob_spawner){
+		if (world.getBlockState(new BlockPos(blockx, blocky, blockz)).getBlock() == Blocks.mob_spawner){
 			ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, blockx, blocky, blockz);
 			if (reagents != null){
 				if (!world.isRemote){
-					world.setBlockToAir(blockx, blocky, blockz);
+					world.setBlockToAir(new BlockPos(blockx, blocky, blockz));
 					RitualShapeHelper.instance.consumeRitualReagents(this, world, blockx, blocky, blockz);
 					RitualShapeHelper.instance.consumeRitualShape(this, world, blockx, blocky, blockz);
 					EntityItem item = new EntityItem(world);
