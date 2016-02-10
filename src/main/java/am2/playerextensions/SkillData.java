@@ -337,7 +337,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 				int flags = rdr.getInt();
 
 				if (rdr.getBoolean()){
-					this.primaryTree = SkillTree.values()[rdr.getInt()];
+					this.primaryTree = SkillTreeManager.instance.getTrees().get(rdr.getInt());
 				}
 
 				if ((flags & KNOWN_SHAPE_UPDATE) == KNOWN_SHAPE_UPDATE){
@@ -423,7 +423,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 		writer.add(updateFlags);
 
 		writer.add(this.primaryTree != null);
-		if (this.primaryTree != null) writer.add(this.primaryTree.ordinal());
+		if (this.primaryTree != null) writer.add(this.primaryTree.getId());
 
 		if ((updateFlags & KNOWN_SHAPE_UPDATE) == KNOWN_SHAPE_UPDATE){
 			writer.add(shapesKnown.size());
@@ -500,7 +500,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 		spellKnowledgeData.setIntArray("KnownModifiers", arrayListToIntArray(modifiersKnown));
 		spellKnowledgeData.setIntArray("KnownTalents", arrayListToIntArray(talentsKnown));
 		spellKnowledgeData.setIntArray("SpellPoints", spellPoints);
-		spellKnowledgeData.setInteger("PrimarySkillTree", primaryTree != null ? primaryTree.ordinal() : -1);
+		spellKnowledgeData.setInteger("PrimarySkillTree", primaryTree != null ? primaryTree.getId() : -1);
 		compound.setTag("SpellKnowledge", spellKnowledgeData);
 	}
 
@@ -524,7 +524,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 
 			int ordinal = spellKnowledgeData.getInteger("PrimarySkillTree");
 			if (ordinal > -1){
-				this.primaryTree = SkillTree.values()[ordinal];
+				this.primaryTree = SkillTreeManager.instance.getTrees().get(ordinal);
 			}
 		}
 	}
