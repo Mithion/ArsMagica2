@@ -59,7 +59,7 @@ public class TileEntityGroundRuneSpell extends TileEntity{
 	}
 
 	public void setPlacedBy(EntityLivingBase caster){
-		if (caster instanceof EntityPlayer) this.placedByName = ((EntityPlayer)caster).getCommandSenderName();
+		if (caster instanceof EntityPlayer) this.placedByName = ((EntityPlayer)caster).getName();
 	}
 
 	@Override

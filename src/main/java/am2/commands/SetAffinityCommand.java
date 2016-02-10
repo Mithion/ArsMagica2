@@ -2,10 +2,9 @@ package am2.commands;
 
 import am2.api.spell.enums.Affinity;
 import am2.playerextensions.AffinityData;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
+import net.minecraft.command.*;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.List;
 
 public class SetAffinityCommand extends CommandBase{
 	@Override
-	public int compareTo(Object arg0){
+	public int compareTo(ICommand arg0){
 		return 0;
 	}
 
@@ -41,7 +40,7 @@ public class SetAffinityCommand extends CommandBase{
 	}
 
 	@Override
-	public void processCommand(ICommandSender var1, String[] var2){
+	public void processCommand(ICommandSender var1, String[] var2) throws CommandException{
 		if (var2.length != 3 && var2.length != 2){
 			throw new WrongUsageException(this.getCommandUsage(var1), new Object[0]);
 		}
@@ -73,7 +72,7 @@ public class SetAffinityCommand extends CommandBase{
 		AffinityData.For(player).setAffinityAndDepth(enumAffinity, depth);
 		AffinityData.For(player).forceSync();
 
-		func_152373_a(var1, this, "Setting " + player.getCommandSenderName() + "'s " + affinity + " affinity level to " + depth, new Object[0]);
+		notifyOperators(var1, this, "Setting " + player.getName() + "'s " + affinity + " affinity level to " + depth, new Object[0]);
 
 	}
 
@@ -94,7 +93,7 @@ public class SetAffinityCommand extends CommandBase{
 	}
 
 	@Override
-	public List addTabCompletionOptions(ICommandSender var1, String[] var2){
+	public List<String> addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos pos){
 		ArrayList<String> completions = new ArrayList<String>();
 		if (var2.length == 1){
 			for (String s : AllAffinities()){
@@ -103,10 +102,14 @@ public class SetAffinityCommand extends CommandBase{
 				}
 			}
 		}else if (var2.length == 0){
-			EntityPlayer player = getCommandSenderAsPlayer(var1);
+			EntityPlayer player = null;
+			try{
+				player = getCommandSenderAsPlayer(var1);
+			}catch (PlayerNotFoundException e){}
+			if (player == null) return completions;
 			for (Object o : player.worldObj.playerEntities){
 				EntityPlayer p = (EntityPlayer)o;
-				completions.add(p.getCommandSenderName());
+				completions.add(p.getName());
 			}
 		}
 		return completions;

@@ -1,20 +1,20 @@
 package am2.blocks;
 
 import am2.texture.ResourceManager;
-import net.minecraft.block.BlockWood;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.BlockOldLog;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
-public class WitchwoodPlanks extends BlockWood{
+public class WitchwoodPlanks extends BlockOldLog{
 
 	public WitchwoodPlanks(){
 		super();
@@ -24,18 +24,8 @@ public class WitchwoodPlanks extends BlockWood{
 	}
 
 	@Override
-	public int getFlammability(IBlockAccess world, int x, int y, int z, ForgeDirection face){
+	public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face){
 		return 0;
-	}
-
-	@Override
-	public void registerBlockIcons(IIconRegister IIconRegister){
-		this.blockIcon = ResourceManager.RegisterTexture("plankWitchwood", IIconRegister);
-	}
-
-	@Override
-	public IIcon getIcon(int par1, int par2){
-		return this.blockIcon;
 	}
 
 	@Override
@@ -44,7 +34,7 @@ public class WitchwoodPlanks extends BlockWood{
 	}
 
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z){
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player){
 		return new ItemStack(this);
 	}
 }

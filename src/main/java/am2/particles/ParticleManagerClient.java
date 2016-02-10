@@ -8,7 +8,7 @@ import am2.network.AMDataReader;
 import am2.particles.ribbon.AMRibbon;
 import am2.playerextensions.ExtendedProperties;
 import am2.utility.MathUtilities;
-import cpw.mods.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

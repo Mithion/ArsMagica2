@@ -7,7 +7,7 @@ import am2.blocks.tileentities.TileEntityKeystoneDoor;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.texture.ResourceManager;
 import am2.utility.KeystoneUtilities;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.BlockTrapDoor;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;

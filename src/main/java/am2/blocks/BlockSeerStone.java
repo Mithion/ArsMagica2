@@ -5,20 +5,22 @@ import am2.api.blocks.IKeystoneLockable;
 import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntitySeerStone;
 import am2.guis.ArsMagicaGuiIdList;
-import am2.texture.ResourceManager;
 import am2.utility.KeystoneUtilities;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Random;
 
@@ -31,8 +33,8 @@ public class BlockSeerStone extends AMSpecialRenderPoweredBlock{
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess par1iBlockAccess, int par2, int par3, int par4){
-		int meta = par1iBlockAccess.getBlockMetadata(par2, par3, par4);
+	public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos){
+		int meta = world.getBlockState(pos).getBlock().getMetaFromState(); // TODO figure out how to make this work
 		switch (meta){
 		case 1:
 			this.setBlockBounds(0.0f, 0.6f, 0.0f, 1.0f, 1.0f, 1.0f);
@@ -56,70 +58,79 @@ public class BlockSeerStone extends AMSpecialRenderPoweredBlock{
 	}
 
 	@Override
-	public boolean canPlaceBlockOnSide(World world, int x, int y, int z, int meta){
-		ForgeDirection dir = ForgeDirection.getOrientation(meta);
-		return (dir == ForgeDirection.DOWN && world.getBlock(x, y + 1, z).isSideSolid(world, x, y + 1, z, ForgeDirection.DOWN)) ||
-				(dir == ForgeDirection.UP && world.getBlock(x, y - 1, z).isSideSolid(world, x, y - 1, z, ForgeDirection.UP)) ||
-				(dir == ForgeDirection.NORTH && world.getBlock(x, y, z + 1).isSideSolid(world, x, y, z + 1, ForgeDirection.NORTH)) ||
-				(dir == ForgeDirection.SOUTH && world.getBlock(x, y, z - 1).isSideSolid(world, x, y, z - 1, ForgeDirection.SOUTH)) ||
-				(dir == ForgeDirection.WEST && world.getBlock(x + 1, y, z).isSideSolid(world, x + 1, y, z, ForgeDirection.WEST)) ||
-				(dir == ForgeDirection.EAST && world.getBlock(x - 1, y, z).isSideSolid(world, x - 1, y, z, ForgeDirection.EAST));
+	public boolean canPlaceBlockOnSide(World world, BlockPos pos, EnumFacing facing){
+        int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
+		return (facing == EnumFacing.DOWN && world.getBlockState(pos.add(x, y + 1, z)).getBlock().isSideSolid(world, pos.add(x, y + 1, z), EnumFacing.DOWN)) ||
+				(facing == EnumFacing.UP && world.getBlockState(pos.add(x, y - 1, z)).getBlock().isSideSolid(world, pos.add(x, y - 1, z), EnumFacing.UP)) ||
+				(facing == EnumFacing.NORTH && world.getBlockState(pos.add(x, y, z + 1)).getBlock().isSideSolid(world, pos.add(x, y, z + 1), EnumFacing.NORTH)) ||
+				(facing == EnumFacing.SOUTH && world.getBlockState(pos.add(x, y, z - 1)).getBlock().isSideSolid(world, pos.add(x, y, z - 1), EnumFacing.SOUTH)) ||
+				(facing == EnumFacing.WEST && world.getBlockState(pos.add(x + 1, y, z)).getBlock().isSideSolid(world, pos.add(x + 1, y, z), EnumFacing.WEST)) ||
+				(facing == EnumFacing.EAST && world.getBlockState(pos.add(x - 1, y, z)).getBlock().isSideSolid(world, pos.add(x - 1, y, z), EnumFacing.EAST));
 	}
 
 	/**
 	 * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y, z
 	 */
 	@Override
-	public boolean canPlaceBlockAt(World world, int x, int y, int z){
-		return world.getBlock(x - 1, y, z).isSideSolid(world, x - 1, y, z, ForgeDirection.EAST) ||
-				world.getBlock(x + 1, y, z).isSideSolid(world, x + 1, y, z, ForgeDirection.WEST) ||
-				world.getBlock(x, y, z - 1).isSideSolid(world, x, y, z - 1, ForgeDirection.SOUTH) ||
-				world.getBlock(x, y, z + 1).isSideSolid(world, x, y, z + 1, ForgeDirection.NORTH) ||
-				world.getBlock(x, y - 1, z).isSideSolid(world, x, y - 1, z, ForgeDirection.UP) ||
-				world.getBlock(x, y + 1, z).isSideSolid(world, x, y + 1, z, ForgeDirection.DOWN);
+	public boolean canPlaceBlockAt(World world, BlockPos pos){
+        int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
+		return world.getBlockState(pos.add(x - 1, y, z)).getBlock().isSideSolid(world, pos.add(x - 1, y, z), EnumFacing.EAST) ||
+				world.getBlockState(pos.add(x + 1, y, z)).getBlock().isSideSolid(world, pos.add(x + 1, y, z), EnumFacing.WEST) ||
+				world.getBlockState(pos.add(x, y, z - 1)).getBlock().isSideSolid(world, pos.add(x, y, z - 1), EnumFacing.SOUTH) ||
+				world.getBlockState(pos.add(x, y, z + 1)).getBlock().isSideSolid(world, pos.add(x, y, z + 1), EnumFacing.NORTH) ||
+				world.getBlockState(pos.add(x, y - 1, z)).getBlock().isSideSolid(world, pos.add(x, y - 1, z), EnumFacing.UP) ||
+				world.getBlockState(pos.add(x, y + 1, z)).getBlock().isSideSolid(world, pos.add(x, y + 1, z), EnumFacing.DOWN);
 	}
 
 	@Override
-	public int onBlockPlaced(World world, int x, int y, int z, int side, float impX, float impY, float impZ, int meta){
+	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
+		int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
+
 		int var10 = meta;
 		var10 = -1;
 
-		if (side == 0 && world.getBlock(x, y + 1, z).isSideSolid(world, x, y + 1, z, ForgeDirection.DOWN)){
+		if (facing == EnumFacing.DOWN && world.getBlockState(pos.add(x, y + 1, z)).getBlock().isSideSolid(world, pos.add(x, y + 1, z), EnumFacing.DOWN)){
 			var10 = 1;
 		}
 
-		if (side == 1 && world.getBlock(x, y - 1, z).isSideSolid(world, x, y - 1, z, ForgeDirection.UP)){
+		if (facing == EnumFacing.UP && world.getBlockState(pos.add(x, y - 1, z)).getBlock().isSideSolid(world, pos.add(x, y - 1, z), EnumFacing.UP)){
 			var10 = 2;
 		}
 
-		if (side == 2 && world.getBlock(x, y, z + 1).isSideSolid(world, x, y, z + 1, ForgeDirection.NORTH)) //-z
+		if (facing == EnumFacing.NORTH && world.getBlockState(pos.add(x, y, z + 1)).getBlock().isSideSolid(world, pos.add(x, y, z + 1), EnumFacing.NORTH)) //-z
 		{
 			var10 = 3;
 		}
 
-		if (side == 3 && world.getBlock(x, y, z - 1).isSideSolid(world, x, y, z - 1, ForgeDirection.SOUTH)) //+z
+		if (facing == EnumFacing.SOUTH && world.getBlockState(pos.add(x, y, z - 1)).getBlock().isSideSolid(world, pos.add(x, y, z - 1), EnumFacing.SOUTH)) //+z
 		{
 			var10 = 4;
 		}
 
-		if (side == 4 && world.getBlock(x + 1, y, z).isSideSolid(world, x + 1, y, z, ForgeDirection.WEST)) //-x
+		if (facing == EnumFacing.WEST && world.getBlockState(pos.add(x + 1, y, z)).getBlock().isSideSolid(world, pos.add(x + 1, y, z), EnumFacing.WEST)) //-x
 		{
 			var10 = 5;
 		}
 
-		if (side == 5 && world.getBlock(x - 1, y, z).isSideSolid(world, x - 1, y, z, ForgeDirection.EAST)) //+x
+		if (facing == EnumFacing.EAST && world.getBlockState(pos.add(x - 1, y, z)).getBlock().isSideSolid(world, pos.add(x - 1, y, z), EnumFacing.EAST)) //+x
 		{
 			var10 = 6;
 		}
 
-		return var10;
+		return getStateFromMeta(var10);
 	}
 
 	@Override
-	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
-		super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ){
+		super.onBlockActivated(world, pos, state, player, side, hitX, hitY, hitZ);
 
-		TileEntity te = par1World.getTileEntity(par2, par3, par4);
+		TileEntity te = world.getTileEntity(pos);
 		TileEntitySeerStone sste = null;
 		if (te != null && te instanceof TileEntitySeerStone){
 			sste = (TileEntitySeerStone)te;
@@ -127,36 +138,36 @@ public class BlockSeerStone extends AMSpecialRenderPoweredBlock{
 			return true;
 		}
 
-		if (KeystoneUtilities.HandleKeystoneRecovery(par5EntityPlayer, sste)){
+		if (KeystoneUtilities.HandleKeystoneRecovery(player, sste)){
 			return true;
 		}
 
-		if (!KeystoneUtilities.instance.canPlayerAccess(sste, par5EntityPlayer, KeystoneAccessType.USE)){
+		if (!KeystoneUtilities.instance.canPlayerAccess(sste, player, KeystoneAccessType.USE)){
 			return true;
 		}
 
-		if (par5EntityPlayer.isSneaking()){
+		if (player.isSneaking()){
 			sste.invertDetection();
-			if (par1World.isRemote){
-				par5EntityPlayer.addChatMessage(new ChatComponentText("Inverting detection mode: " + ((TileEntitySeerStone)te).isInvertingDetection()));
+			if (world.isRemote){
+                player.addChatMessage(new ChatComponentText("Inverting detection mode: " + ((TileEntitySeerStone)te).isInvertingDetection()));
 			}
 			return true;
 		}
 
-		if (HandleSpecialItems(par1World, par5EntityPlayer, par2, par3, par4)){
+		if (handleSpecialItems(world, player, pos)){
 			return true;
 		}
-		if (!par1World.isRemote)
-			FMLNetworkHandler.openGui(par5EntityPlayer, AMCore.instance, ArsMagicaGuiIdList.GUI_SEER_STONE, par1World, par2, par3, par4);
+		if (!world.isRemote)
+			FMLNetworkHandler.openGui(player, AMCore.instance, ArsMagicaGuiIdList.GUI_SEER_STONE, world, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 
 	@Override
-	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z){
-		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(x, y, z);
+	public boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player, boolean willHarvest){
+		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(pos);
 		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player, KeystoneAccessType.BREAK)) return false;
 
-		return super.removedByPlayer(world, player, x, y, z);
+		return super.removedByPlayer(world, pos, player, willHarvest);
 	}
 
 	@Override
@@ -170,33 +181,17 @@ public class BlockSeerStone extends AMSpecialRenderPoweredBlock{
 	}
 
 	@Override
-	public int isProvidingStrongPower(IBlockAccess par1iBlockAccess, int x, int y, int z, int l){
-		TileEntity myTE = par1iBlockAccess.getTileEntity(x, y, z);
-		if (myTE == null || !(myTE instanceof TileEntitySeerStone))
-			return 0;
-		return ((TileEntitySeerStone)myTE).HasSight() ? 15 : 0;
-	}
-
-	@Override
-	public int isProvidingWeakPower(IBlockAccess par1iBlockAccess, int x, int y, int z, int l){
-		TileEntity myTE = par1iBlockAccess.getTileEntity(x, y, z);
-		if (myTE == null || !(myTE instanceof TileEntitySeerStone))
-			return 0;
-		return ((TileEntitySeerStone)myTE).HasSight() ? 15 : 0;
-	}
-
-	@Override
 	public int quantityDropped(Random random){
 		return 1;
 	}
 
 	@Override
-	public void breakBlock(World world, int i, int j, int k, Block par5, int metadata){
+	public void breakBlock(World world, BlockPos pos, IBlockState state){
 		if (world.isRemote){
-			super.breakBlock(world, i, j, k, par5, metadata);
+			super.breakBlock(world, pos, state);
 			return;
 		}
-		TileEntitySeerStone myTE = (TileEntitySeerStone)world.getTileEntity(i, j, k);
+		TileEntitySeerStone myTE = (TileEntitySeerStone)world.getTileEntity(pos);
 		if (myTE == null) return;
 		for (int l = 0; l < myTE.getSizeInventory() - 3; l++){
 			ItemStack itemstack = myTE.getStackInSlot(l);
@@ -217,7 +212,7 @@ public class BlockSeerStone extends AMSpecialRenderPoweredBlock{
 				itemstack.stackSize -= i1;
 				ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
 				newItem.setTagCompound(itemstack.getTagCompound());
-				EntityItem entityitem = new EntityItem(world, i + f, j + f1, k + f2, newItem);
+				EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, newItem);
 				float f3 = 0.05F;
 				entityitem.motionX = (float)world.rand.nextGaussian() * f3;
 				entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
@@ -225,11 +220,6 @@ public class BlockSeerStone extends AMSpecialRenderPoweredBlock{
 				world.spawnEntityInWorld(entityitem);
 			}while (true);
 		}
-		super.breakBlock(world, i, j, k, par5, metadata);
-	}
-
-	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
-		this.blockIcon = ResourceManager.RegisterTexture("CasterRuneSide", par1IconRegister);
+		super.breakBlock(world, pos, state);
 	}
 }

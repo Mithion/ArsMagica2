@@ -162,7 +162,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 	public void updateEntity(){
 		super.updateEntity();
 
-		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(xCoord + 0.3, yCoord - 3, zCoord + 0.3, xCoord + 0.7, yCoord, zCoord + 0.7);
+		AxisAlignedBB bb = new AxisAlignedBB(xCoord + 0.3, yCoord - 3, zCoord + 0.3, xCoord + 0.7, yCoord, zCoord + 0.7);
 		ArrayList<Entity> entities = (ArrayList<Entity>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bb);
 
 		if (this.isActive){
@@ -464,7 +464,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 
 	@Override
 	public AxisAlignedBB getRenderBoundingBox(){
-		return AxisAlignedBB.getBoundingBox(xCoord - 3, yCoord - 3, zCoord - 3, xCoord + 3, yCoord + 3, zCoord + 3);
+		return new AxisAlignedBB(xCoord - 3, yCoord - 3, zCoord - 3, xCoord + 3, yCoord + 3, zCoord + 3);
 	}
 
 	@Override

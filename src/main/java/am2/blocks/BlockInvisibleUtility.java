@@ -57,7 +57,7 @@ public class BlockInvisibleUtility extends AMBlock{
 		int meta = par1World.getBlockMetadata(par2, par3, par4);
 		if (meta == 0 || meta == 1 || meta == 2)
 			return null;
-		return AxisAlignedBB.getBoundingBox(par2, par3, par4, par2 + 1, par3 + 1, par4 + 1).expand(1, 1, 1);
+		return new AxisAlignedBB(par2, par3, par4, par2 + 1, par3 + 1, par4 + 1).expand(1, 1, 1);
 	}
 
 	@Override
@@ -81,42 +81,42 @@ public class BlockInvisibleUtility extends AMBlock{
 			switch (meta){
 			case 3: //+x
 				if (entity.posX > x + distanceThreshold){
-					collisionList.add(AxisAlignedBB.getBoundingBox(x, y, z, x + 1.25, y + 1.6, z + 1.25));
+					collisionList.add(new AxisAlignedBB(x, y, z, x + 1.25, y + 1.6, z + 1.25));
 					isCollided = true;
 				}
 				break;
 			case 4: //-x
 				if (entity.posX < x - shortDistanceThreshold){
-					collisionList.add(AxisAlignedBB.getBoundingBox(x, y, z, x + 1.25, y + 1.6, z + 1.25));
+					collisionList.add(new AxisAlignedBB(x, y, z, x + 1.25, y + 1.6, z + 1.25));
 					isCollided = true;
 				}
 				break;
 			case 5: //+z
 				if (entity.posZ > z + distanceThreshold){
-					collisionList.add(AxisAlignedBB.getBoundingBox(x, y, z, x + 1.25, y + 1.6, z + 1.25));
+					collisionList.add(new AxisAlignedBB(x, y, z, x + 1.25, y + 1.6, z + 1.25));
 					isCollided = true;
 				}
 				break;
 			case 6: //-z
 				if (entity.posZ < z - shortDistanceThreshold){
-					collisionList.add(AxisAlignedBB.getBoundingBox(x, y, z, x + 1.25, y + 1.6, z + 1.25));
+					collisionList.add(new AxisAlignedBB(x, y, z, x + 1.25, y + 1.6, z + 1.25));
 					isCollided = true;
 				}
 				break;
 			case 7: //+/- x
 				if (entity.posX > x + distanceThreshold || entity.posX < x - shortDistanceThreshold){
-					collisionList.add(AxisAlignedBB.getBoundingBox(x, y, z, x + 1.25, y + 1.6, z + 1.25));
+					collisionList.add(new AxisAlignedBB(x, y, z, x + 1.25, y + 1.6, z + 1.25));
 					isCollided = true;
 				}
 				break;
 			case 8: //+/- z
 				if (entity.posZ > z + distanceThreshold || entity.posZ < z - shortDistanceThreshold){
-					collisionList.add(AxisAlignedBB.getBoundingBox(x, y, z, x + 1.25, y + 1.6, z + 1.25));
+					collisionList.add(new AxisAlignedBB(x, y, z, x + 1.25, y + 1.6, z + 1.25));
 					isCollided = true;
 				}
 				break;
 			case 9: //all
-				collisionList.add(AxisAlignedBB.getBoundingBox(x, y, z, x + 1.25, y + 1.6, z + 1.25));
+				collisionList.add(new AxisAlignedBB(x, y, z, x + 1.25, y + 1.6, z + 1.25));
 				isCollided = true;
 				break;
 			}
@@ -213,7 +213,7 @@ public class BlockInvisibleUtility extends AMBlock{
 		int meta = world.getBlockMetadata(x, y, z);
 		if (meta < 3){
 			float r = 1.5f;
-			List<EntityLivingBase> ents = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - r, y - r, z - r, x + 1 + r, y + 1 + r, z + 1 + r));
+			List<EntityLivingBase> ents = world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(x - r, y - r, z - r, x + 1 + r, y + 1 + r, z + 1 + r));
 			boolean buffNearby = false;
 			for (EntityLivingBase ent : ents){
 				buffNearby |= ent.isPotionActive(BuffList.illumination.id) ||
@@ -232,7 +232,7 @@ public class BlockInvisibleUtility extends AMBlock{
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
 		int meta = world.getBlockMetadata(x, y, z);
 		if (world.rand.nextInt(10) < 3 && world.isRemote && meta >= 3 && meta < 10){
-			List<Entity> ents = world.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(x - 0.2, y - 0.2, z - 0.2, x + 1.2, y + 1.2, z + 1.2));
+			List<Entity> ents = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(x - 0.2, y - 0.2, z - 0.2, x + 1.2, y + 1.2, z + 1.2));
 			if (ents.size() > 0){
 				spawnBlockParticles(world, x, y, z);
 			}

@@ -39,15 +39,14 @@ import am2.spell.components.Telekinesis;
 import am2.texture.SpellIconManager;
 import am2.utility.ProxyUtilitiesClient;
 import am2.utility.RenderUtilities;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.LanguageRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -122,7 +121,7 @@ public class ClientProxy extends CommonProxy{
 		entities.registerRenderInformation();
 		blocks.registerRenderInformation();
 
-		simpleBlockRenderHandler = new SimpleBlockRenderHandler();
+		/*simpleBlockRenderHandler = new SimpleBlockRenderHandler();
 		RenderingRegistry.registerBlockHandler(blocks.commonBlockRenderID, simpleBlockRenderHandler);
 
 		techneBlockRenderHandler = new TechneBlockRenderHandler();
@@ -140,7 +139,7 @@ public class ClientProxy extends CommonProxy{
 		MinecraftForgeClient.registerItemRenderer(ItemsCommonProxy.wardingCandle, CustomItemRenderer.instance);
 
 		MinecraftForgeClient.registerItemRenderer(ItemsCommonProxy.spell, SpellScrollRenderer.instance);
-		MinecraftForgeClient.registerItemRenderer(ItemsCommonProxy.spellBook, SpellScrollRenderer.instance);
+		MinecraftForgeClient.registerItemRenderer(ItemsCommonProxy.spellBook, SpellScrollRenderer.instance);*/
 
 		ClientCommandHandler.instance.registerCommand(new ConfigureAMUICommand());
 	}
@@ -177,10 +176,10 @@ public class ClientProxy extends CommonProxy{
 		return FMLClientHandler.instance().getServer().worldServers;
 	}
 
-	@Override
+	/*@Override
 	public int getArmorRenderIndex(String prefix){
 		return RenderingRegistry.addNewArmourRendererPrefix(prefix);
-	}
+	}*/
 
 	@Override
 	public void openSkillTreeUI(World world, EntityPlayer player){
@@ -262,16 +261,16 @@ public class ClientProxy extends CommonProxy{
 		return stack.getItem().getItemStackDisplayName(stack);
 	}
 
-	@Override
+	/*@Override
 	public void sendLocalMovementData(EntityLivingBase ent){
 		if (ent == Minecraft.getMinecraft().thePlayer){
 			if (ent.worldObj.isRemote && ent.ridingEntity instanceof EntityAirSled){
-				EntityClientPlayerMP player = (EntityClientPlayerMP)ent;
+				EntityPlayerMP player = (EntityPlayerMP) ent;
 				player.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(player.rotationYaw, player.rotationPitch, player.onGround));
 				player.sendQueue.addToSendQueue(new C0CPacketInput(player.moveStrafing, player.moveForward, player.movementInput.jump, player.movementInput.sneak));
 			}
 		}
-	}
+	}*/
 
 	@Override
 	public void setCompendiumSaveBase(String compendiumBase){
@@ -337,7 +336,7 @@ public class ClientProxy extends CommonProxy{
 		ArcaneCompendium.instance.unlockCategory(id);
 	}
 
-	@Override
+	/*@Override
 	public void drawPowerOnBlockHighlight(EntityPlayer player, MovingObjectPosition target, float partialTicks){
 		if (AMCore.proxy.getLocalPlayer().getCurrentArmor(3) != null &&
 				(AMCore.proxy.getLocalPlayer().getCurrentArmor(3).getItem() == ItemsCommonProxy.magitechGoggles ||
@@ -371,13 +370,13 @@ public class ClientProxy extends CommonProxy{
 				}
 			}
 		}
-	}
+	}*/
 
 	public void addDeferredTargetSet(EntityLiving ent, EntityLivingBase target){
 		clientTickHandler.addDeferredTarget(ent, target);
 	}
 
-	public void addDigParticle(World worldObj, int xCoord, int yCoord, int zCoord, Block block, int meta){
+	/*public void addDigParticle(World worldObj, int xCoord, int yCoord, int zCoord, Block block, int meta){
 		Minecraft.getMinecraft().
 				effectRenderer.addEffect(new EntityDiggingFX(worldObj,
 				xCoord + worldObj.rand.nextDouble(),
@@ -390,6 +389,6 @@ public class ClientProxy extends CommonProxy{
 				meta,
 				0
 		));
-	}
+	}*/
 }
 

@@ -3,7 +3,7 @@ package am2.utility;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 
@@ -24,7 +24,7 @@ public class DummyEntityPlayer extends EntityPlayer{
 	public static EntityPlayer fromEntityLiving(EntityLivingBase entity){
 		if (entity instanceof EntityPlayer) return (EntityPlayer)entity;
 
-		DummyEntityPlayer dep = new DummyEntityPlayer(entity.worldObj, entity.getCommandSenderName());
+		DummyEntityPlayer dep = new DummyEntityPlayer(entity.worldObj, entity.getName());
 		dep.setPosition(entity.posX, entity.posY, entity.posZ);
 		dep.setRotation(entity.rotationYaw, entity.rotationPitch);
 		dep.trackEntity = entity;
@@ -52,14 +52,19 @@ public class DummyEntityPlayer extends EntityPlayer{
 	}
 
 	@Override
+	public boolean isSpectator(){
+		return true;
+	}
+
+	@Override
 	public boolean canCommandSenderUseCommand(int i, String s){
 		return false;
 	}
 
 	@Override
-	public ChunkCoordinates getPlayerCoordinates(){
+	public BlockPos getPosition(){
 		return null;
-	}
+	} // todo 1.8 was getPlayerCoordinates: ChunkCoordinates
 
 	@Override
 	public void addChatMessage(IChatComponent arg0){

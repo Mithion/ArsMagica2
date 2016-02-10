@@ -9,7 +9,7 @@ import am2.api.spell.enums.SkillPointTypes;
 import am2.api.spell.enums.SpellModifiers;
 import am2.playerextensions.ExtendedProperties;
 import am2.playerextensions.SkillData;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 

@@ -221,7 +221,7 @@ public class EntitySpellEffect extends Entity{
 		if (ticksToEffect <= 0){
 			ticksToEffect = maxTicksToEffect;
 			float radius = this.dataWatcher.getWatchableObjectFloat(WATCHER_RADIUS);
-			List<Entity> possibleTargets = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(posX - radius, posY - 1, posZ - radius, posX + radius, posY + 3, posZ + radius));
+			List<Entity> possibleTargets = worldObj.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(posX - radius, posY - 1, posZ - radius, posX + radius, posY + 3, posZ + radius));
 			for (Entity e : possibleTargets){
 				if (e instanceof EntityDragonPart && ((EntityDragonPart)e).entityDragonObj instanceof EntityLivingBase)
 					e = (EntityLivingBase)((EntityDragonPart)e).entityDragonObj;
@@ -278,7 +278,7 @@ public class EntitySpellEffect extends Entity{
 
 			//TODO: SoundHelper.instance.loopSound(worldObj, (float)posX, (float)posY, (float)posZ, "arsmagica2:spell.loop.fire", 1.0f);
 		}else{
-			List<Entity> possibleTargets = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(posX - radius, posY - 1, posZ - radius, posX + radius, posY + 3, posZ + radius));
+			List<Entity> possibleTargets = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(posX - radius, posY - 1, posZ - radius, posX + radius, posY + 3, posZ + radius));
 			for (Entity e : possibleTargets){
 				if (e != dummycaster){
 					if (e instanceof EntityDragonPart && ((EntityDragonPart)e).entityDragonObj instanceof EntityLivingBase)
@@ -360,7 +360,7 @@ public class EntitySpellEffect extends Entity{
 
 			//TODO: SoundHelper.instance.loopSound(worldObj, (float)posX, (float)posY, (float)posZ, "arsmagica2:spell.loop.air", 1.0f);
 		}else{
-			List<Entity> possibleTargets = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(posX - radius, posY - 1, posZ - radius, posX + radius, posY + 3, posZ + radius));
+			List<Entity> possibleTargets = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(posX - radius, posY - 1, posZ - radius, posX + radius, posY + 3, posZ + radius));
 			for (Entity e : possibleTargets){
 				if (e != dummycaster){
 					if (e instanceof EntityDragonPart && ((EntityDragonPart)e).entityDragonObj instanceof EntityLivingBase)
@@ -473,7 +473,7 @@ public class EntitySpellEffect extends Entity{
 			if (ticksToEffect <= 0){
 				ticksToEffect = maxTicksToEffect_wall;
 				float radius = this.dataWatcher.getWatchableObjectFloat(WATCHER_RADIUS);
-				List<Entity> possibleTargets = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(posX - radius, posY - 1, posZ - radius, posX + radius, posY + 3, posZ + radius));
+				List<Entity> possibleTargets = worldObj.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(posX - radius, posY - 1, posZ - radius, posX + radius, posY + 3, posZ + radius));
 				ItemStack newStack = SpellUtils.instance.popStackStage(spellStack);
 				for (Entity e : possibleTargets){
 					if (e == this || e == dummycaster || e.getEntityId() == casterEntityID) continue;

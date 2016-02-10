@@ -1,7 +1,7 @@
 package am2.entities;
 
 import am2.items.ItemsCommonProxy;
-import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;

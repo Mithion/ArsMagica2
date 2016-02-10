@@ -12,7 +12,7 @@ import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleFloatUpward;
 import am2.particles.ParticleOrbitPoint;
 import am2.utility.DummyEntityPlayer;
-import cpw.mods.fml.common.eventhandler.Event.Result;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

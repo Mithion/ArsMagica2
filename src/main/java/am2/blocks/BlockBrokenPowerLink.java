@@ -63,7 +63,7 @@ public class BlockBrokenPowerLink extends BlockContainer{
 	@Override
 	public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4){
 		if (!par1World.isRemote)
-			return AxisAlignedBB.getBoundingBox(0, 0, 0, 0, 0, 0);
+			return new AxisAlignedBB(0, 0, 0, 0, 0, 0);
 
 		EntityPlayer localPlayer = AMCore.proxy.getLocalPlayer();
 		if (localPlayer != null){
@@ -72,7 +72,7 @@ public class BlockBrokenPowerLink extends BlockContainer{
 			}
 		}
 
-		return AxisAlignedBB.getBoundingBox(0, 0, 0, 0, 0, 0);
+		return new AxisAlignedBB(0, 0, 0, 0, 0, 0);
 
 	}
 

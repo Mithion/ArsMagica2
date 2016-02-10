@@ -35,7 +35,7 @@ public class FlickerOperatorButchery implements IFlickerFunctionality{
 	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered){
 		HashMap<Class, Integer> entityCount = new HashMap<Class, Integer>();
 		int radius = 6;
-		List<EntityAnimal> creatures = worldObj.getEntitiesWithinAABB(EntityAnimal.class, AxisAlignedBB.getBoundingBox(((TileEntity)habitat).xCoord - radius, ((TileEntity)habitat).yCoord - radius, ((TileEntity)habitat).zCoord - radius, ((TileEntity)habitat).xCoord + radius + 1, ((TileEntity)habitat).yCoord + radius + 1, ((TileEntity)habitat).zCoord + radius + 1));
+		List<EntityAnimal> creatures = worldObj.getEntitiesWithinAABB(EntityAnimal.class, new AxisAlignedBB(((TileEntity)habitat).xCoord - radius, ((TileEntity)habitat).yCoord - radius, ((TileEntity)habitat).zCoord - radius, ((TileEntity)habitat).xCoord + radius + 1, ((TileEntity)habitat).yCoord + radius + 1, ((TileEntity)habitat).zCoord + radius + 1));
 		for (EntityAnimal creature : creatures){
 			Class clazz = creature.getClass();
 			if (!SpawnBlacklists.canButcheryAffect(clazz))

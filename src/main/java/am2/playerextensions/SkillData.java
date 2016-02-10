@@ -585,7 +585,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 	}
 
 	public void respec(){
-		LogHelper.info("Respeccing %s", player.getCommandSenderName());
+		LogHelper.info("Respeccing %s", player.getName());
 
 		int[] addPoints = new int[4];
 		addPoints[0] = this.spellPoints[0];

@@ -55,7 +55,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 		this.priority++;
 		this.priority %= TileEntityFlickerHabitat.PRIORITY_LEVELS;
 		if (!this.worldObj.isRemote){
-			for (EntityPlayerMP player : (List<EntityPlayerMP>)this.worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(64, 64, 64))){
+			for (EntityPlayerMP player : (List<EntityPlayerMP>)this.worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(64, 64, 64))){
 				player.playerNetServerHandler.sendPacket(getDescriptionPacket());
 			}
 		}
@@ -65,7 +65,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 		if (connectedBoundingBox != null){
 			return connectedBoundingBox;
 		}else{
-			return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
+			return new AxisAlignedBB(0, 0, 0, 1, 1, 1);
 		}
 	}
 
@@ -74,7 +74,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	}
 
 	public void SetConnectedBoundingBox(double minx, double miny, double minz, double maxx, double maxy, double maxz){
-		connectedBoundingBox = AxisAlignedBB.getBoundingBox(minx, miny, minz, maxx, maxy, maxz);
+		connectedBoundingBox = new AxisAlignedBB(minx, miny, minz, maxx, maxy, maxz);
 	}
 
 	public int getMarkerType(){
@@ -269,7 +269,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 			double maxx = connectedBoundingBoxDimensions.getDouble("maxx");
 			double maxy = connectedBoundingBoxDimensions.getDouble("maxy");
 			double maxz = connectedBoundingBoxDimensions.getDouble("maxz");
-			connectedBoundingBox = AxisAlignedBB.getBoundingBox(minx, miny, minz, maxx, maxy, maxz);
+			connectedBoundingBox = new AxisAlignedBB(minx, miny, minz, maxx, maxy, maxz);
 		}
 	}
 
@@ -383,7 +383,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 
 	@Override
 	public AxisAlignedBB getRenderBoundingBox(){
-		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
+		return new AxisAlignedBB(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
 	}
 
 	public void linkToHabitat(AMVector3 habLocation, EntityPlayer player){

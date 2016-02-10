@@ -2,6 +2,8 @@ package am2.worldgen;
 
 import am2.blocks.BlocksCommonProxy;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
@@ -10,59 +12,59 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 import java.util.Random;
 
 public class AM2PoolGen{
-	public void generate(World world, Random rand, int x, int y, int z){
-		y = correctYCoord(world, x, y, z);
-		if (y == -1) return;
-		if (validPoolLocation(world, x, y, z)){
-			world.setBlock(x, y, z, BlocksCommonProxy.liquidEssence);
-			world.setBlock(x - 1, y, z, BlocksCommonProxy.liquidEssence);
-			world.setBlock(x, y, z - 1, BlocksCommonProxy.liquidEssence);
-			world.setBlock(x - 1, y, z - 1, BlocksCommonProxy.liquidEssence);
+	public void generate(World world, Random rand, BlockPos pos){
+		pos = correctYCoord(world, pos);
+		if (pos.getY() == -1) return;
+		if (validPoolLocation(world, pos)){
+			world.setBlockState(pos, BlocksCommonProxy.liquidEssence.getDefaultState());
+			world.setBlockState(pos.east(), BlocksCommonProxy.liquidEssence.getDefaultState());
+			world.setBlockState(pos.north(), BlocksCommonProxy.liquidEssence.getDefaultState());
+			world.setBlockState(pos.east().north(), BlocksCommonProxy.liquidEssence.getDefaultState());
 
-			world.setBlockToAir(x, y + 1, z);
-			world.setBlockToAir(x - 1, y + 1, z);
-			world.setBlockToAir(x, y + 1, z - 1);
-			world.setBlockToAir(x - 1, y + 1, z - 1);
+			world.setBlockToAir(pos.up());
+			world.setBlockToAir(pos.east().up());
+			world.setBlockToAir(pos.north().up());
+			world.setBlockToAir(pos.east().north().up());
 
 			//AMCore.log.info("Generated pool at: %d %d %d", x, y ,z);
 		}
 	}
 
-	private int correctYCoord(World world, int x, int y, int z){
-		while (y > 0 && world.isAirBlock(x, y, z)){
-			y--;
+	private BlockPos correctYCoord(World world, BlockPos pos){
+		while (pos.getY() > 0 && world.isAirBlock(pos)){
+			pos = pos.down();
 		}
-		if (y <= 0) return -1;
+		if (pos.getY() <= 0) return new BlockPos(pos.getX(), -1, pos.getZ());
 
-		while (y < world.provider.getActualHeight() && !world.isAirBlock(x, y + 1, z)){
-			y++;
+		while (pos.getY() < world.provider.getActualHeight() && !world.isAirBlock(pos.up())){
+			pos = pos.up();
 		}
-		if (y > world.provider.getActualHeight()) return -1;
+		if (pos.getY() > world.provider.getActualHeight()) return new BlockPos(pos.getX(), -1, pos.getZ());
 
-		return y;
+		return pos;
 	}
 
-	private boolean validPoolLocation(World world, int x, int y, int z){
+	private boolean validPoolLocation(World world, BlockPos pos){
 
-		if (!biomeIsValid(world, x, y, z)) return false;
+		if (!biomeIsValid(world, pos)) return false;
 
 		int radius = 2;
 
-		Block requiredBlock = world.getBiomeGenForCoords(x, z).topBlock;
-		Block alternateBlock = world.getBiomeGenForCoords(x, z).fillerBlock;
+		IBlockState requiredBlock = world.getBiomeGenForCoords(pos).topBlock;
+		IBlockState alternateBlock = world.getBiomeGenForCoords(pos).fillerBlock;
 
 		if (requiredBlock == null || alternateBlock == null) return false;
 
 		for (int i = -radius; i < radius; ++i){
 			for (int k = -radius; k < radius; ++k){
-				Block blockBelow = world.getBlock(x + i, y - 1, z + k);
-				Block block = world.getBlock(x + i, y, z + k);
+				Block blockBelow = world.getBlockState(pos.add(i, -1, k)).getBlock();
+				Block block = world.getBlockState(pos.add(i, 0, k)).getBlock();
 
 				if (blockBelow == null || block == null) return false;
 				if (!blockBelow.isOpaqueCube()) return false;
 				if (block != requiredBlock && block != alternateBlock) return false;
 
-				Block blockAbove = world.getBlock(x, y + 1, z);
+				Block blockAbove = world.getBlockState(pos.up()).getBlock();
 				if (blockAbove == null) continue;
 				if (blockAbove.isOpaqueCube()) return false;
 				if (blockAbove.getMaterial().blocksMovement()) return false;
@@ -72,8 +74,8 @@ public class AM2PoolGen{
 		return true;
 	}
 
-	private boolean biomeIsValid(World world, int x, int y, int z){
-		BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
+	private boolean biomeIsValid(World world, BlockPos pos){
+		BiomeGenBase biome = world.getBiomeGenForCoords(pos);
 		Type[] types = BiomeDictionary.getTypesForBiome(biome);
 
 		for (Type type : types){

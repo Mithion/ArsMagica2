@@ -1,6 +1,6 @@
 package am2.api.items.armor;
 
-import cpw.mods.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.Event;
 
 
 public class ArmorTextureEvent extends Event{

@@ -185,7 +185,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 			Class searchClass = GetSearchClass();
 			ArrayList<Entity> nearbyMobs = new ArrayList<Entity>();
 			if (searchClass != null){
-				nearbyMobs = (ArrayList<Entity>)this.worldObj.getEntitiesWithinAABB(searchClass, AxisAlignedBB.getBoundingBox(xCoord - radius, yCoord - radius, zCoord - radius, xCoord + radius, yCoord + radius, zCoord + radius));
+				nearbyMobs = (ArrayList<Entity>)this.worldObj.getEntitiesWithinAABB(searchClass, new AxisAlignedBB(xCoord - radius, yCoord - radius, zCoord - radius, xCoord + radius, yCoord + radius, zCoord + radius));
 
 				if (key > 0){
 					ArrayList<Entity> mobsToIgnore = new ArrayList<Entity>();

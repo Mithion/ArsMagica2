@@ -8,7 +8,7 @@ import am2.guis.ArsMagicaGuiIdList;
 import am2.items.ItemKeystone;
 import am2.texture.ResourceManager;
 import am2.utility.KeystoneUtilities;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -36,7 +36,7 @@ public class BlockKeystoneReceptacle extends AMSpecialRenderPoweredBlock{
 	public boolean onBlockActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
 		super.onBlockActivated(par1World, x, y, z, par5EntityPlayer, par6, par7, par8, par9);
 
-		if (HandleSpecialItems(par1World, par5EntityPlayer, x, y, z)){
+		if (handleSpecialItems(par1World, par5EntityPlayer, x, y, z)){
 			return true;
 		}
 

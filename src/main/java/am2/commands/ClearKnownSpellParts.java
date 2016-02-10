@@ -2,6 +2,7 @@ package am2.commands;
 
 import am2.playerextensions.SkillData;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +24,7 @@ public class ClearKnownSpellParts extends CommandBase{
 	}
 
 	@Override
-	public void processCommand(ICommandSender icommandsender, String[] astring){
+	public void processCommand(ICommandSender icommandsender, String[] astring) throws CommandException{
 		if (astring.length != 1 && astring.length != 0){
 			throw new WrongUsageException(this.getCommandUsage(icommandsender), new Object[0]);
 		}
@@ -39,6 +40,6 @@ public class ClearKnownSpellParts extends CommandBase{
 
 		SkillData.For(player).clearAllKnowledge();
 
-		func_152373_a(icommandsender, this, "Cleared " + player.getCommandSenderName() + "'s known spell shapes, components, and modifiers.", new Object[0]);
+		notifyOperators(icommandsender, this, "Cleared " + player.getName() + "'s known spell shapes, components, and modifiers.", new Object[0]);
 	}
 }

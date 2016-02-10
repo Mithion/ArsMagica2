@@ -4,8 +4,10 @@ import am2.AMCore;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
 import am2.texture.ResourceManager;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,29 +19,30 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 public class VinteumTorch extends BlockTorch{
-
-	@SideOnly(Side.CLIENT)
-	private IIcon[] torchIcons;
-
 	public VinteumTorch(){
 		super();
 	}
 
 	@Override
-	public int getLightValue(IBlockAccess world, int x, int y, int z){
+	public int getLightValue() {
 		return 14;
 	}
 
 	@Override
-	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack){
-		super.onBlockPlacedBy(par1World, par2, par3, par4, par5EntityLivingBase, par6ItemStack);
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 	}
 
 	@Override
 	public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random){
-		if (!par1World.isRemote) return;
 
-		int l = par1World.getBlockMetadata(par2, par3, par4) & 0x0F;
+	}
+
+	@Override
+	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand) {
+		if (!world.isRemote) return;
+
+		int l = world.getBlockMetadata(par2, par3, par4) & 0x0F;
 		double d0 = par2 + 0.5F;
 		double d1 = par3 + 0.6F;
 		double d2 = par4 + 0.5F;
@@ -78,17 +81,5 @@ public class VinteumTorch extends BlockTorch{
 	@Override
 	public int getRenderType(){
 		return 2;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta){
-		return this.blockIcon;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister IIconRegister){
-		this.blockIcon = ResourceManager.RegisterTexture("arsmagica2:vinteumTorch", IIconRegister);
 	}
 }

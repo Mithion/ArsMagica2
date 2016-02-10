@@ -9,11 +9,6 @@ public abstract class AMSpecialRenderPoweredBlock extends PoweredBlock{
 	}
 
 	@Override
-	public boolean renderAsNormalBlock(){
-		return false;
-	}
-
-	@Override
 	public int getRenderType(){
 		return BlocksCommonProxy.blockRenderID;
 	}

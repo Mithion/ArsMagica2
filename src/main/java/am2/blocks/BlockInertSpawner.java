@@ -3,7 +3,7 @@ package am2.blocks;
 import am2.AMCore;
 import am2.blocks.tileentities.TileEntityInertSpawner;
 import am2.guis.ArsMagicaGuiIdList;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -14,8 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-
-import java.util.Random;
 
 public class BlockInertSpawner extends PoweredBlock{
 
@@ -46,7 +44,7 @@ public class BlockInertSpawner extends PoweredBlock{
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float hitX, float hitY, float hitZ){
-		if (this.HandleSpecialItems(world, player, x, y, z)){
+		if (this.handleSpecialItems(world, player, x, y, z)){
 			return false;
 		}
 		FMLNetworkHandler.openGui(player, AMCore.instance, ArsMagicaGuiIdList.GUI_INERT_SPAWNER, world, x, y, z);

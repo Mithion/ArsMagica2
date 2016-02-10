@@ -28,17 +28,18 @@ import am2.spell.SkillTreeManager;
 import am2.spell.SpellUtils;
 import am2.utility.KeystoneUtilities;
 import am2.worldgen.BiomeWitchwoodForest;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.*;
-import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.event.FMLInterModComms.IMCMessage;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
@@ -107,7 +108,7 @@ public class AMCore{
 
 		if (AMCore.config.getEnableWitchwoodForest()){
 			BiomeDictionary.registerBiomeType(BiomeWitchwoodForest.instance, Type.FOREST, Type.MAGICAL);
-			BiomeManager.warmBiomes.add(new BiomeEntry(BiomeWitchwoodForest.instance, 6));
+			BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeEntry(BiomeWitchwoodForest.instance, 6));
 		}
 	}
 
@@ -259,7 +260,7 @@ public class AMCore{
 			}else if (msg.key == "adb"){
 				LogHelper.info("Received dispel blacklist IMC!  Processing.");
 				try{
-					BuffList.instance.addDispelExclusion(Integer.parseInt(msg.getStringValue()));
+					BuffList.instance.addDispelExclusion(new ResourceLocation(msg.getStringValue()));
 				}catch (NumberFormatException nex){
 					LogHelper.warn("Could not parse adb IMC - improper potion ID (not a number)!  Syntax is 'potionID', for example:  10");
 				}

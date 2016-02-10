@@ -1,6 +1,5 @@
 package am2.lore;
 
-import net.minecraft.util.IIcon;
 import org.w3c.dom.Node;
 
 public class CompendiumEntryType{
@@ -9,7 +8,6 @@ public class CompendiumEntryType{
 	private String nodeName;
 	private String categoryLabel;
 	private int order;
-	private IIcon representItem;
 	private Class<? extends CompendiumEntry> compendiumClass;
 
 	public CompendiumEntryType(String categoryName, String nodeName, String categoryLabel, int order, Class<? extends CompendiumEntry> compendiumClass){
@@ -18,10 +16,6 @@ public class CompendiumEntryType{
 		this.compendiumClass = compendiumClass;
 		this.categoryLabel = categoryLabel;
 		this.order = order;
-	}
-
-	public void setRepresentIcon(IIcon IIcon){
-		this.representItem = IIcon;
 	}
 
 	public String getCategoryName(){
@@ -46,10 +40,6 @@ public class CompendiumEntryType{
 
 	public String getCategoryLabel(){
 		return this.categoryLabel;
-	}
-
-	public IIcon getRepresentItem(){
-		return representItem;
 	}
 
 

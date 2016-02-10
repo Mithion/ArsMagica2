@@ -4,7 +4,7 @@ import am2.AMCore;
 import am2.blocks.tileentities.TileEntityFlickerHabitat;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.items.ItemsCommonProxy;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;

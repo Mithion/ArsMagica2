@@ -5,6 +5,7 @@ import am2.api.illeffect.IllEffectBase;
 import am2.api.illeffect.IllEffectSeverity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
@@ -21,15 +22,15 @@ public class IllEffectSparkStorm extends IllEffectBase{
 	}
 
 	@Override
-	public Map<EntityPlayer, Object> ApplyIllEffect(World world, int x, int y, int z){
+	public Map<EntityPlayer, Object> ApplyIllEffect(World world, BlockPos pos){
 		HashMap<EntityPlayer, Object> toReturn = new HashMap<EntityPlayer, Object>();
 		if (world.isRemote) return toReturn;
-		List<EntityPlayer> located_players = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x - 3, y - 3, z - 3, x + 3, y + 3, z + 3));
+		List<EntityPlayer> located_players = world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(pos.add(-3, -3, -3), pos.add(3, 3, 3)));
 		EntityPlayer[] players = located_players.toArray(new EntityPlayer[located_players.size()]);
 		if (players.length == 0) return toReturn;
 
 		for (EntityPlayer unlucky : players){
-			AMCore.instance.proxy.particleManager.BoltFromPointToPoint(world, x, y, z, unlucky.posX, unlucky.posY, unlucky.posZ, 4, -1);
+			AMCore.instance.proxy.particleManager.BoltFromPointToPoint(world, pos.getX(), pos.getY(), pos.getZ(), unlucky.posX, unlucky.posY, unlucky.posZ, 4, -1);
 			unlucky.attackEntityFrom(DamageSource.generic, 1);
 			toReturn.put(unlucky, null);
 		}
@@ -39,7 +40,7 @@ public class IllEffectSparkStorm extends IllEffectBase{
 
 	@Override
 	public String getDescription(EntityPlayer player, Object meta){
-		return player.getCommandSenderName() + " got caught in a sparkstorm!";
+		return player.getName() + " got caught in a sparkstorm!";
 	}
 
 }

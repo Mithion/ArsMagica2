@@ -27,7 +27,7 @@ import am2.spell.SkillManager;
 import am2.spell.SpellRecipeManager;
 import am2.texture.SpellIconManager;
 import am2.utility.RecipeUtilities;
-import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

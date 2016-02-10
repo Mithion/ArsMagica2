@@ -2,7 +2,7 @@ package am2.entities.ai;
 
 import am2.blocks.BlocksCommonProxy;
 import am2.items.ItemsCommonProxy;
-import cpw.mods.fml.common.registry.VillagerRegistry.IVillageTradeHandler;
+import net.minecraftforge.fml.common.registry.VillagerRegistry.IVillageTradeHandler;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;

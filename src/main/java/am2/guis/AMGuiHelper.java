@@ -3,7 +3,7 @@ package am2.guis;
 import am2.LogHelper;
 import am2.buffs.BuffList;
 import am2.playerextensions.ExtendedProperties;
-import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.FontRenderer;

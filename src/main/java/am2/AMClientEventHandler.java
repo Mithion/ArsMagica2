@@ -19,10 +19,11 @@ import am2.power.PowerNodeEntry;
 import am2.utility.CloakUtils;
 import am2.utility.EntityUtilities;
 import am2.utility.RenderUtilities;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.ReflectionHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
@@ -34,7 +35,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Facing;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.MouseEvent;
@@ -54,12 +54,13 @@ public class AMClientEventHandler{
 
 		if (AMCore.proxy.getLocalPlayer().getCurrentArmor(3) != null &&
 				(AMCore.proxy.getLocalPlayer().getCurrentArmor(3).getItem() == ItemsCommonProxy.magitechGoggles ||
-						ArmorHelper.isInfusionPreset(AMCore.proxy.getLocalPlayer().getCurrentArmor(3), GenericImbuement.magitechGoggleIntegration))
+						ArmorHelper.isInfusionPreset(AMCore.proxy.getLocalPlayer().getCurrentArmor(3), GenericImbuement.magitechGoggleIntegration)) &&
+				event.target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
 				){
 
-			TileEntity te = event.player.worldObj.getTileEntity(event.target.blockX, event.target.blockY, event.target.blockZ);
+			TileEntity te = event.player.worldObj.getTileEntity(event.target.getBlockPos());
 			if (te != null && te instanceof IPowerNode){
-				AMCore.proxy.setTrackedLocation(new AMVector3(event.target.blockX, event.target.blockY, event.target.blockZ));
+				AMCore.proxy.setTrackedLocation(new AMVector3(event.target.getBlockPos()));
 			}else{
 				AMCore.proxy.setTrackedLocation(AMVector3.zero());
 			}
@@ -76,30 +77,30 @@ public class AMClientEventHandler{
 
 	private void renderPowerFloatingText(DrawBlockHighlightEvent event, TileEntity te){
 		PowerNodeEntry data = AMCore.proxy.getTrackedData();
-		Block block = event.player.worldObj.getBlock(event.target.blockX, event.target.blockY, event.target.blockZ);
+		Block block = event.player.worldObj.getBlockState(event.target.getBlockPos()).getBlock();
 		float yOff = 0.5f;
 		if (data != null){
 			GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_LIGHTING_BIT);
 			for (PowerTypes type : ((IPowerNode)te).getValidPowerTypes()){
 				float pwr = data.getPower(type);
 				float pct = pwr / ((IPowerNode)te).getCapacity() * 100;
-				AMVector3 offset = new AMVector3(event.target.blockX + 0.5, event.target.blockY + 0.5, event.target.blockZ + 0.5).sub(
+				AMVector3 offset = new AMVector3(event.target.getBlockPos().getX() + 0.5, event.target.getBlockPos().getY() + 0.5, event.target.getBlockPos().getZ() + 0.5).sub(
 						new AMVector3((event.player.prevPosX - (event.player.prevPosX - event.player.posX) * event.partialTicks),
 								(event.player.prevPosY - (event.player.prevPosY - event.player.posY) * event.partialTicks) + event.player.getEyeHeight(),
 								(event.player.prevPosZ - (event.player.prevPosZ - event.player.posZ) * event.partialTicks)));
 				offset = offset.normalize();
-				if (event.target.blockY <= event.player.posY - 0.5){
+				if (event.target.getBlockPos().getY() <= event.player.posY - 0.5){
 					RenderUtilities.drawTextInWorldAtOffset(String.format("%s%.2f (%.2f%%)", type.chatColor(), pwr, pct),
-							event.target.blockX - (event.player.prevPosX - (event.player.prevPosX - event.player.posX) * event.partialTicks) + 0.5f - offset.x,
-							event.target.blockY + yOff - (event.player.prevPosY - (event.player.prevPosY - event.player.posY) * event.partialTicks) + block.getBlockBoundsMaxY() * 0.8f,
-							event.target.blockZ - (event.player.prevPosZ - (event.player.prevPosZ - event.player.posZ) * event.partialTicks) + 0.5f - offset.z,
+							event.target.getBlockPos().getX() - (event.player.prevPosX - (event.player.prevPosX - event.player.posX) * event.partialTicks) + 0.5f - offset.x,
+							event.target.getBlockPos().getY() + yOff - (event.player.prevPosY - (event.player.prevPosY - event.player.posY) * event.partialTicks) + block.getBlockBoundsMaxY() * 0.8f,
+							event.target.getBlockPos().getZ() - (event.player.prevPosZ - (event.player.prevPosZ - event.player.posZ) * event.partialTicks) + 0.5f - offset.z,
 							0xFFFFFF);
 					yOff += 0.12f;
 				}else{
 					RenderUtilities.drawTextInWorldAtOffset(String.format("%s%.2f (%.2f%%)", type.chatColor(), pwr, pct),
-							event.target.blockX - (event.player.prevPosX - (event.player.prevPosX - event.player.posX) * event.partialTicks) + 0.5f - offset.x,
-							event.target.blockY - yOff - (event.player.prevPosY - (event.player.prevPosY - event.player.posY) * event.partialTicks) - block.getBlockBoundsMaxY() * 0.2f,
-							event.target.blockZ - (event.player.prevPosZ - (event.player.prevPosZ - event.player.posZ) * event.partialTicks) + 0.5f - offset.z,
+							event.target.getBlockPos().getX() - (event.player.prevPosX - (event.player.prevPosX - event.player.posX) * event.partialTicks) + 0.5f - offset.x,
+							event.target.getBlockPos().getY() - yOff - (event.player.prevPosY - (event.player.prevPosY - event.player.posY) * event.partialTicks) - block.getBlockBoundsMaxY() * 0.2f,
+							event.target.getBlockPos().getZ() - (event.player.prevPosZ - (event.player.prevPosZ - event.player.posZ) * event.partialTicks) + 0.5f - offset.z,
 							0xFFFFFF);
 					yOff -= 0.12f;
 				}
@@ -113,7 +114,7 @@ public class AMClientEventHandler{
 		if (meta == BlockCrystalMarker.META_IN) //no priority for these blocks
 			return;
 
-		Block block = event.player.worldObj.getBlock(event.target.blockX, event.target.blockY, event.target.blockZ);
+		Block block = event.player.worldObj.getBlockState(event.target.getBlockPos()).getBlock();
 		float yOff = 0.5f;
 		String priString = String.format(StatCollector.translateToLocal("am2.tooltip.priority"), String.format("%d", te.getPriority()));
 
@@ -123,9 +124,9 @@ public class AMClientEventHandler{
 				block.getBlockBoundsMinZ() + (block.getBlockBoundsMaxZ() - block.getBlockBoundsMinZ()) / 2);
 
 		AMVector3 offset = new AMVector3(
-				event.target.blockX + boundsOffset.x,
-				event.target.blockY + boundsOffset.y,
-				event.target.blockZ + boundsOffset.z
+				event.target.getBlockPos().getX() + boundsOffset.x,
+				event.target.getBlockPos().getY() + boundsOffset.y,
+				event.target.getBlockPos().getZ() + boundsOffset.z
 		).sub(new AMVector3(
 						(event.player.prevPosX - (event.player.prevPosX - event.player.posX) * event.partialTicks),
 						(event.player.prevPosY - (event.player.prevPosY - event.player.posY) * event.partialTicks) + event.player.getEyeHeight(),
@@ -135,12 +136,12 @@ public class AMClientEventHandler{
 
 		offset = offset.normalize();
 		AMVector3 drawPos = new AMVector3(
-				event.target.blockX + block.getBlockBoundsMaxX() - offset.x - (event.player.prevPosX - (event.player.prevPosX - event.player.posX) * event.partialTicks),
-				event.target.blockY + yOff - (event.player.prevPosY - (event.player.prevPosY - event.player.posY) * event.partialTicks) + block.getBlockBoundsMaxY() * 0.8f,
-				event.target.blockZ + block.getBlockBoundsMaxZ() - offset.z - (event.player.prevPosZ - (event.player.prevPosZ - event.player.posZ) * event.partialTicks)
+				event.target.getBlockPos().getX() + block.getBlockBoundsMaxX() - offset.x - (event.player.prevPosX - (event.player.prevPosX - event.player.posX) * event.partialTicks),
+				event.target.getBlockPos().getY() + yOff - (event.player.prevPosY - (event.player.prevPosY - event.player.posY) * event.partialTicks) + block.getBlockBoundsMaxY() * 0.8f,
+				event.target.getBlockPos().getZ() + block.getBlockBoundsMaxZ() - offset.z - (event.player.prevPosZ - (event.player.prevPosZ - event.player.posZ) * event.partialTicks)
 		);
-		if (event.target.blockY > event.player.posY - 0.5){
-			drawPos.y = (float)(event.target.blockY - yOff - (event.player.prevPosY - (event.player.prevPosY - event.player.posY) * event.partialTicks) - block.getBlockBoundsMaxY() * 0.2f);
+		if (event.target.getBlockPos().getY() > event.player.posY - 0.5){
+			drawPos.y = (float)(event.target.getBlockPos().getY() - yOff - (event.player.prevPosY - (event.player.prevPosY - event.player.posY) * event.partialTicks) - block.getBlockBoundsMaxY() * 0.2f);
 		}
 
 		GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_LIGHTING_BIT);
@@ -157,7 +158,7 @@ public class AMClientEventHandler{
 			String[] effects = new String[0];
 
 			if (stack.hasTagCompound()){
-				NBTTagCompound armorCompound = (NBTTagCompound)stack.stackTagCompound.getTag(AMArmor.NBT_KEY_AMPROPS);
+				NBTTagCompound armorCompound = (NBTTagCompound)stack.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
 				if (armorCompound != null){
 					xp = armorCompound.getDouble(AMArmor.NBT_KEY_TOTALXP);
 					armorLevel = armorCompound.getInteger(AMArmor.NBT_KEY_ARMORLEVEL);
@@ -179,9 +180,9 @@ public class AMClientEventHandler{
 				event.toolTip.add(StatCollector.translateToLocal("am2.tooltip.shiftForDetails"));
 			}
 		}else if (stack.getItem() instanceof ItemBlock){
-			if (((ItemBlock)stack.getItem()).field_150939_a == BlocksCommonProxy.manaBattery){
+			if (((ItemBlock)stack.getItem()).getBlock() == BlocksCommonProxy.manaBattery){
 				if (stack.hasTagCompound()){
-					NBTTagList list = stack.stackTagCompound.getTagList("Lore", Constants.NBT.TAG_COMPOUND);
+					NBTTagList list = stack.getTagCompound().getTagList("Lore", Constants.NBT.TAG_COMPOUND);
 					if (list != null){
 						for (int i = 0; i < list.tagCount(); ++i){
 							NBTBase tag = list.getCompoundTagAt(i);
@@ -334,14 +335,14 @@ public class AMClientEventHandler{
 	
 	@SubscribeEvent
 	public void onPlayerInteract(PlayerInteractEvent event){
-		if(event.face == -1){
+		if(event.face == null){
 			return;
 		}
 		
-		Block block = event.world.getBlock(event.x + Facing.offsetsXForSide[event.face], event.y + Facing.offsetsYForSide[event.face], event.z + Facing.offsetsZForSide[event.face]);
+		Block block = event.world.getBlockState(event.pos.offset(event.face)).getBlock();
 		
 		if (block == BlocksCommonProxy.particleEmitter){
-			TileEntity te = event.world.getTileEntity(event.x + Facing.offsetsXForSide[event.face], event.y + Facing.offsetsYForSide[event.face], event.z + Facing.offsetsZForSide[event.face]);
+			TileEntity te = event.world.getTileEntity(event.pos.offset(event.face));
 			
 			if (te != null && te instanceof TileEntityParticleEmitter && !((TileEntityParticleEmitter)te).getShow()){
 				event.setCanceled(true);

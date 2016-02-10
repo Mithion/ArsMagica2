@@ -4,10 +4,7 @@ import am2.api.math.AMVector3;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 import java.security.InvalidParameterException;
@@ -156,7 +153,7 @@ public class MathUtilities{
 		}
 
 		//get all entities within distance
-		List distanceFilter = world.getEntitiesWithinAABB(filterClass, AxisAlignedBB.getBoundingBox((float)source.posX - radius, source.posY - radius, (float)source.posZ - radius, source.posX + radius, source.posY + radius, source.posZ + radius));
+		List distanceFilter = world.getEntitiesWithinAABB(filterClass, new AxisAlignedBB((float)source.posX - radius, source.posY - radius, (float)source.posZ - radius, source.posX + radius, source.posY + radius, source.posZ + radius));
 		if (!includeSource){
 			for (int x = 0; x < distanceFilter.size(); ++x){
 				if (distanceFilter.get(x) == source){
@@ -254,22 +251,22 @@ public class MathUtilities{
 	public static Entity getPointedEntity(World world, EntityLivingBase entityplayer, double range, double collideRadius, boolean nonCollide){
 		Entity pointedEntity = null;
 		double d = range;
-		Vec3 vec3d = Vec3.createVectorHelper(entityplayer.posX, entityplayer.posY + entityplayer.getEyeHeight(), entityplayer.posZ);
+		Vec3 vec3d = new Vec3(entityplayer.posX, entityplayer.posY + entityplayer.getEyeHeight(), entityplayer.posZ);
 		Vec3 vec3d1 = entityplayer.getLookVec();
 		Vec3 vec3d2 = vec3d.addVector(vec3d1.xCoord * d, vec3d1.yCoord * d, vec3d1.zCoord * d);
 		double f1 = collideRadius;
-		List list = world.getEntitiesWithinAABBExcludingEntity(entityplayer, entityplayer.boundingBox.addCoord(vec3d1.xCoord * d, vec3d1.yCoord * d, vec3d1.zCoord * d).expand(f1, f1, f1));
+		List list = world.getEntitiesWithinAABBExcludingEntity(entityplayer, entityplayer.getEntityBoundingBox().addCoord(vec3d1.xCoord * d, vec3d1.yCoord * d, vec3d1.zCoord * d).expand(f1, f1, f1));
 
 		double d2 = 0.0D;
 		for (int i = 0; i < list.size(); i++){
 			Entity entity = (Entity)list.get(i);
 			MovingObjectPosition mop = world.rayTraceBlocks(
-					Vec3.createVectorHelper(entityplayer.posX, entityplayer.posY + entityplayer.getEyeHeight(), entityplayer.posZ),
-					Vec3.createVectorHelper(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ),
+					new Vec3(entityplayer.posX, entityplayer.posY + entityplayer.getEyeHeight(), entityplayer.posZ),
+					new Vec3(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ),
 					false);
 			if (((entity.canBeCollidedWith()) || (nonCollide)) && mop == null){
 				float f2 = Math.max(0.8F, entity.getCollisionBorderSize());
-				AxisAlignedBB axisalignedbb = entity.boundingBox.expand(f2, f2, f2);
+				AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand(f2, f2, f2);
 				MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(vec3d, vec3d2);
 				if (axisalignedbb.isVecInside(vec3d)){
 					if ((0.0D < d2) || (d2 == 0.0D)){
@@ -294,9 +291,9 @@ public class MathUtilities{
 		float var5 = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * var4;
 		float var6 = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * var4;
 		double var7 = entity.prevPosX + (entity.posX - entity.prevPosX) * var4;
-		double var9 = entity.prevPosY + (entity.posY - entity.prevPosY) * var4 + 1.6D - entity.yOffset;
+		double var9 = entity.prevPosY + (entity.posY - entity.prevPosY) * var4 + 1.6D - entity.getYOffset();
 		double var11 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * var4;
-		Vec3 var13 = Vec3.createVectorHelper(var7, var9, var11);
+		Vec3 var13 = new Vec3(var7, var9, var11);
 		float var14 = MathHelper.cos(-var6 * 0.017453292F - (float)Math.PI);
 		float var15 = MathHelper.sin(-var6 * 0.017453292F - (float)Math.PI);
 		float var16 = -MathHelper.cos(-var5 * 0.017453292F);
@@ -337,16 +334,16 @@ public class MathUtilities{
 		int distance = 0;
 
 		while (distance < 20){
-			if (world.isAirBlock((int)Math.floor(ent.posX), yCoord, (int)Math.floor(ent.posZ))){
+			if (world.isAirBlock(new BlockPos((int)Math.floor(ent.posX), yCoord, (int)Math.floor(ent.posZ)))){
 				break;
 			}
-			if (world.isAirBlock((int)Math.ceil(ent.posX), yCoord, (int)Math.floor(ent.posZ))){
+			if (world.isAirBlock(new BlockPos((int)Math.ceil(ent.posX), yCoord, (int)Math.floor(ent.posZ)))){
 				break;
 			}
-			if (world.isAirBlock((int)Math.floor(ent.posX), yCoord, (int)Math.ceil(ent.posZ))){
+			if (world.isAirBlock(new BlockPos((int)Math.floor(ent.posX), yCoord, (int)Math.ceil(ent.posZ)))){
 				break;
 			}
-			if (world.isAirBlock((int)Math.ceil(ent.posX), yCoord, (int)Math.ceil(ent.posZ))){
+			if (world.isAirBlock(new BlockPos((int)Math.ceil(ent.posX), yCoord, (int)Math.ceil(ent.posZ)))){
 				break;
 			}
 			distance++;

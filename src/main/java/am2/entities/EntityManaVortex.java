@@ -68,7 +68,7 @@ public class EntityManaVortex extends Entity{
 				Object[] playerArray = players.toArray();
 				for (Object o : playerArray){
 					EntityLivingBase e = (EntityLivingBase)o;
-					MovingObjectPosition mop = this.worldObj.rayTraceBlocks(Vec3.createVectorHelper(this.posX, this.posY, this.posZ), Vec3.createVectorHelper(e.posX, e.posY + e.getEyeHeight(), e.posZ), false);
+					MovingObjectPosition mop = this.worldObj.rayTraceBlocks(new Vec3(this.posX, this.posY, this.posZ), new Vec3(e.posX, e.posY + e.getEyeHeight(), e.posZ), false);
 					if (mop == null)
 						e.attackEntityFrom(DamageSources.causeEntityPhysicalDamage(this), damage);
 				}
@@ -98,16 +98,16 @@ public class EntityManaVortex extends Entity{
 			List<EntityLivingBase> players = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.boundingBox.expand(3 + Math.floor(this.ticksExisted / 50), 2, 3 + Math.floor(this.ticksExisted / 50)));
 			Object[] playerArray = players.toArray();
 
-			Vec3 thisPos = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
+			Vec3 thisPos = new Vec3(this.posX, this.posY, this.posZ);
 
 			for (Object o : playerArray){
 				EntityLivingBase e = (EntityLivingBase)o;
 
-				MovingObjectPosition mop = this.worldObj.rayTraceBlocks(Vec3.createVectorHelper(this.posX, this.posY, this.posZ), Vec3.createVectorHelper(e.posX, e.posY + e.getEyeHeight(), e.posZ), false);
+				MovingObjectPosition mop = this.worldObj.rayTraceBlocks(new Vec3(this.posX, this.posY, this.posZ), new Vec3(e.posX, e.posY + e.getEyeHeight(), e.posZ), false);
 				if (mop != null)
 					continue;
 
-				Vec3 playerPos = Vec3.createVectorHelper(e.posX, e.posY + e.getEyeHeight(), e.posZ);
+				Vec3 playerPos = new Vec3(e.posX, e.posY + e.getEyeHeight(), e.posZ);
 				if (worldObj.isRemote){
 					if (AMCore.config.NoGFX()){
 						break;

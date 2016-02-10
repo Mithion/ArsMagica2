@@ -1,6 +1,7 @@
 package am2.api.power;
 
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 
 /**
  * @author Mithion
@@ -49,9 +50,7 @@ public interface IPowerNode<T extends TileEntity>{
 
 	/**
 	 * Offset of any particle effects to the origin of the block
-	 *
-	 * @param axis The axis in question.  0=x, 1=y, 2=z
 	 */
-	public float particleOffset(int axis);
+	public float particleOffset(EnumFacing.Axis axis);
 
 }

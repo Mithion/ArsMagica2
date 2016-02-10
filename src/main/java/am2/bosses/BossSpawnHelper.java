@@ -181,7 +181,7 @@ public class BossSpawnHelper{
 				if (!world.canBlockSeeTheSky(x + i, y + 1, z + j))
 					return;
 
-		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1));
+		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1));
 		if (itemsInRange.size() != 2) return;
 		boolean hasBucket = false;
 		boolean hasBoat = false;
@@ -206,7 +206,7 @@ public class BossSpawnHelper{
 
 	private void checkForAirGuardianSpawn(World world, int x, int y, int z){
 		if (y < 150) return;
-		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1));
+		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1));
 		if (itemsInRange.size() != 1) return;
 		if (itemsInRange.get(0).getEntityItem().getItem() != ItemsCommonProxy.essence || itemsInRange.get(0).getEntityItem().getItemDamage() != ItemsCommonProxy.essence.META_AIR)
 			return;
@@ -218,7 +218,7 @@ public class BossSpawnHelper{
 	}
 
 	private void checkForArcaneGuardianSpawn(World world, int x, int y, int z){
-		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1));
+		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1));
 		if (itemsInRange.size() != 1) return;
 		if (itemsInRange.get(0).getEntityItem().getItem() != ItemsCommonProxy.essence || itemsInRange.get(0).getEntityItem().getItemDamage() != ItemsCommonProxy.essence.META_ARCANE)
 			return;
@@ -262,7 +262,7 @@ public class BossSpawnHelper{
 	}
 
 	private void checkForEarthGuardianSpawn(World world, int x, int y, int z){
-		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1));
+		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1));
 		if (itemsInRange.size() != 3) return;
 		boolean hasEmerald = false;
 		boolean hasTopaz = false;
@@ -412,7 +412,7 @@ public class BossSpawnHelper{
 				else if (!world.canBlockSeeTheSky(x + i, y + 1, z + j))
 					return;
 
-		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1));
+		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1));
 		if (itemsInRange.size() != 2) return;
 
 		boolean hasEnderEssence = false;

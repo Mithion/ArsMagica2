@@ -4,9 +4,8 @@ import am2.LogHelper;
 import am2.api.math.AMVector2;
 import am2.particles.AMParticle;
 import am2.particles.ParticleController;
-import cpw.mods.fml.common.Loader;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraft.client.Minecraft;
-import net.minecraft.potion.Potion;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
@@ -150,7 +149,6 @@ public class AMConfig extends Configuration{
 	private static final String CATEGORY_MOBS = "mobs";
 	private static final String CATEGORY_ENCHANTMENTS = "enchantments";
 	private static final String CATEGORY_UI = "guis";
-	private static final String CATEGORY_POTIONS = "potions";
 
 	private int GFXLevel;
 	private boolean PlayerSpellsDamageTerrain;
@@ -777,34 +775,6 @@ public class AMConfig extends Configuration{
 	public int GetFlickerSpawnRate(){
 		Property prop = get(CATEGORY_MOBS, KEY_flickerSpawnRate, 4);
 		return Math.max(prop.getInt(4), 0);
-	}
-
-	// Gets the first available potion ID
-	// returns -1 if there are no available IDs
-	private static int getNextFreePotionID(){
-		int freeID = -1;
-		for(int i = 1; i < Potion.potionTypes.length; i++){
-			if(Potion.potionTypes[i] == null){
-			  freeID = i;
-			  break;
-			}
-		}
-		return freeID;
-	}
-
-	public int getConfigurablePotionID(String id, int default_value){
-		// because we auto-configure, default_value is ignored
-		int val = getNextFreePotionID();
-		
-		if(val == -1 && !hasKey(CATEGORY_POTIONS, id)){
-			LogHelper.error("Cannot find a free potion ID for the %s effect. This will cause severe problems!", id);
-			LogHelper.error("Effect %s has been assigned to a default of potion ID 1 (movement speed). Erroneous behaviour *will* result.", id);
-			val = 1;
-		}
-		Property prop = get(CATEGORY_POTIONS, id, val);
-		val = prop.getInt(val);
-		save();
-		return val;
 	}
 
 	//====================================================================================

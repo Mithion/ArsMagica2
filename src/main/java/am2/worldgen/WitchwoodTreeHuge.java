@@ -4,6 +4,7 @@ import am2.blocks.BlocksCommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
@@ -153,12 +154,12 @@ public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 					++k1;
 				}else{
 					aint1[b2] = aint[b2] + k1;
-					Block l1 = this.worldObj.getBlock(aint1[0], aint1[1], aint1[2]);
+					Block l1 = this.worldObj.getBlockState(new BlockPos(aint1[0], aint1[1], aint1[2])).getBlock();
 
 					if (l1 != Blocks.air && l1 != BlocksCommonProxy.witchwoodLeaves){
 						++k1;
 					}else{
-						this.setBlockAndNotifyAdequately(this.worldObj, aint1[0], aint1[1], aint1[2], par6, 0);
+						this.setBlockAndNotifyAdequately(this.worldObj, new BlockPos(aint1[0], aint1[1], aint1[2]), par6.getDefaultState());
 						++k1;
 					}
 				}

@@ -4,11 +4,12 @@ import am2.items.ItemSpellBook;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 public class EnchantmentSoulbound extends Enchantment{
 
-	public EnchantmentSoulbound(int par1, int par2){
-		super(par1, par2, EnumEnchantmentType.all);
+	public EnchantmentSoulbound(int id, ResourceLocation name, int weight){
+		super(id, name, weight, EnumEnchantmentType.ALL);
 		setName("soulbound");
 	}
 

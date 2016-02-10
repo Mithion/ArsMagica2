@@ -68,7 +68,7 @@ public class Beam implements ISpellShape{
 					return result;
 				}
 			}
-			float rng = (float)mop.hitVec.distanceTo(Vec3.createVectorHelper(caster.posX, caster.posY, caster.posZ));
+			float rng = (float)mop.hitVec.distanceTo(new Vec3(caster.posX, caster.posY, caster.posZ));
 			beamHitVec = MathUtilities.extrapolateEntityLook(world, caster, rng);
 			spellVec = beamHitVec;
 		}else{
@@ -79,7 +79,7 @@ public class Beam implements ISpellShape{
 				}
 			}
 			beamHitVec = mop.hitVec;
-			spellVec = Vec3.createVectorHelper(mop.blockX, mop.blockY, mop.blockZ);
+			spellVec = new Vec3(mop.blockX, mop.blockY, mop.blockZ);
 		}
 
 		if (world.isRemote && beamHitVec != null){

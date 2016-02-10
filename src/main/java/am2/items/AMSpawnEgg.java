@@ -5,10 +5,12 @@ import am2.entities.*;
 import am2.guis.AMGuiIcons;
 import am2.particles.AMParticleIcons;
 import am2.spell.SpellTextureHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.BlockFalling;
+import net.minecraft.block.BlockFence;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -62,7 +64,7 @@ public class AMSpawnEgg extends ArsMagicaItem{
 		setHasSubtypes(true);
 	}
 
-	@Override
+	/*@Override
 	public boolean hasEffect(ItemStack stack, int pass){
 		return pass == 0 && stack.getItemDamage() > 8;
 	}
@@ -83,7 +85,7 @@ public class AMSpawnEgg extends ArsMagicaItem{
 		AMGuiIcons.instance.init(iconRegister);
 		AMParticleIcons.instance.init(iconRegister);
 		SpellTextureHelper.instance.loadAllIcons(iconRegister);
-	}
+	}*/
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack){
@@ -210,30 +212,30 @@ public class AMSpawnEgg extends ArsMagicaItem{
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10){
-		if (par3World.isRemote){
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
+		if (world.isRemote){
 			return true;
 		}else{
 
-			Block block = par3World.getBlock(par4, par5, par6);
-			par4 += Facing.offsetsXForSide[par7];
-			par5 += Facing.offsetsYForSide[par7];
-			par6 += Facing.offsetsZForSide[par7];
+			IBlockState state = world.getBlockState(pos);
+			Block block = state.getBlock();
+
+			pos = pos.offset(side);
 			double d0 = 0.0D;
 
-			if (par7 == 1 && block != null && block.getRenderType() == 11){
+			if (side == EnumFacing.UP && state.getBlock() instanceof BlockFence){
 				d0 = 0.5D;
 			}
 
-			Entity entity = spawnCreature(par3World, par1ItemStack.getItemDamage(), par4 + 0.5D, par5 + d0, par6 + 0.5D);
+			Entity entity = spawnCreature(world, stack.getItemDamage(), (double) pos.getX() + 0.5D, (double) pos.getY() + d0, (double) pos.getZ() + 0.5D);
 
 			if (entity != null){
-				if (entity instanceof EntityLiving && par1ItemStack.hasDisplayName()){
-					((EntityLiving)entity).setCustomNameTag(par1ItemStack.getDisplayName());
+				if (entity instanceof EntityLiving && stack.hasDisplayName()){
+					entity.setCustomNameTag(stack.getDisplayName());
 				}
 
-				if (!par2EntityPlayer.capabilities.isCreativeMode){
-					--par1ItemStack.stackSize;
+				if (!player.capabilities.isCreativeMode){
+					--stack.stackSize;
 				}
 			}
 
@@ -308,28 +310,6 @@ public class AMSpawnEgg extends ArsMagicaItem{
 		for (int i = 0; i < numClasses; ++i){
 			par3List.add(new ItemStack(par1, 1, i));
 		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int par1){
-		return Items.spawn_egg.getIconFromDamage(par1);
-	}
-
-	@Override
-	public IIcon getIcon(ItemStack stack, int pass){
-		return Items.spawn_egg.getIcon(stack, pass);
-	}
-
-	@Override
-	public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining){
-		return Items.spawn_egg.getIcon(stack, renderPass, player, usingItem, useRemaining);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamageForRenderPass(int par1, int par2){
-		return Items.spawn_egg.getIconFromDamageForRenderPass(par1, par2);
 	}
 
 	class ColorPair{

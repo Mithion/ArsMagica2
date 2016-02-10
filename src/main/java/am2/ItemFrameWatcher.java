@@ -6,8 +6,9 @@ import am2.particles.AMParticle;
 import am2.particles.ParticleArcToEntity;
 import am2.particles.ParticleColorShift;
 import am2.particles.ParticleHoldPosition;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBook;
@@ -68,12 +69,13 @@ public class ItemFrameWatcher{
 		boolean shouldRemove = true;
 
 		EntityItemFrame frame = frameComp.frame;
+		BlockPos framePos = new BlockPos(frame);
 
 		for (int i = -radius; i <= radius; ++i){
 			for (int j = -radius; j <= radius; ++j){
 				for (int k = -radius; k <= radius; ++k){
 
-					if (frame.worldObj.getBlock((int)frame.posX + i, (int)frame.posY + j, (int)frame.posZ + k) == BlocksCommonProxy.liquidEssence){
+					if (frame.worldObj.getBlockState(framePos.add(i, j, k)).getBlock() == BlocksCommonProxy.liquidEssence){
 
 						Integer time = watchedFrames.get(frameComp);
 						if (time == null){

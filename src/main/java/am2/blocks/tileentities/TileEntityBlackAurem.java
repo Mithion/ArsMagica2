@@ -142,7 +142,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 				continue;
 			}
 
-			MovingObjectPosition mop = this.worldObj.rayTraceBlocks(Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5), Vec3.createVectorHelper(ent.posX, ent.posY + ent.getEyeHeight(), ent.posZ), false);
+			MovingObjectPosition mop = this.worldObj.rayTraceBlocks(new Vec3(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5), new Vec3(ent.posX, ent.posY + ent.getEyeHeight(), ent.posZ), false);
 
 			if (EntityUtilities.isSummon(ent) || mop != null){
 				continue;
@@ -213,7 +213,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 			checkNearbyBlockState();
 			surroundingCheckTicks = 1;
 			if (!worldObj.isRemote && PowerNodeRegistry.For(this.worldObj).checkPower(this, this.capacity * 0.1f)){
-				List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(this.xCoord - 2, this.yCoord, this.zCoord - 2, this.xCoord + 2, this.yCoord + 3, this.zCoord + 2));
+				List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.xCoord - 2, this.yCoord, this.zCoord - 2, this.xCoord + 2, this.yCoord + 3, this.zCoord + 2));
 				for (EntityPlayer p : nearbyPlayers){
 					if (p.isPotionActive(BuffList.manaRegen.id)) continue;
 					p.addPotionEffect(new BuffEffectManaRegen(600, 3));
@@ -232,7 +232,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 
 	private void updateNearbyEntities(){
 		ArrayList<EntityLivingBase> toRemove = new ArrayList<EntityLivingBase>();
-		List<EntityLivingBase> nearbyEntities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(this.xCoord - 10, this.yCoord, this.zCoord - 10, this.xCoord + 10, this.yCoord + 4, this.zCoord + 10));
+		List<EntityLivingBase> nearbyEntities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(this.xCoord - 10, this.yCoord, this.zCoord - 10, this.xCoord + 10, this.yCoord + 4, this.zCoord + 10));
 		for (EntityLivingBase entity : nearbyEntities){
 			if (entity.isEntityInvulnerable() ||
 					entity instanceof IBossDisplayData ||

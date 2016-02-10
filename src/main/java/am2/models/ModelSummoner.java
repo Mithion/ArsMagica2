@@ -6,8 +6,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
+import net.minecraftforge.client.model.ICustomModelLoader;
 import org.lwjgl.opengl.GL11;
 
 public class ModelSummoner extends ModelBase{
@@ -24,7 +23,7 @@ public class ModelSummoner extends ModelBase{
 	ModelRenderer Shape9;
 	ModelRenderer Shape11;
 
-	private IModelCustom crystalmodel;
+	private ICustomModelLoader crystalmodel;
 
 	public ModelSummoner(){
 		textureWidth = 64;
@@ -98,7 +97,7 @@ public class ModelSummoner extends ModelBase{
 		setRotation(Shape11, 0F, 0F, 0F);
 
 		ResourceLocation path = ResourceManager.getOBJFilePath("crystal.obj");
-		crystalmodel = AdvancedModelLoader.loadModel(path);
+		//crystalmodel = AdvancedModelLoader.loadModel(path);
 	}
 
 	@Override
@@ -144,7 +143,7 @@ public class ModelSummoner extends ModelBase{
 			GL11.glColor3f(1, 0, 0);
 		}
 		try{
-			crystalmodel.renderAll();
+			//crystalmodel.renderAll();
 		}catch (Throwable t){
 		}
 		GL11.glEnable(GL11.GL_LIGHTING);

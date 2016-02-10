@@ -10,9 +10,9 @@ import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
 import am2.proxy.tick.ClientTickHandler;
 import am2.utility.WebRequestUtils;
-import cpw.mods.fml.relauncher.ReflectionHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
@@ -516,7 +516,7 @@ public class ArcaneCompendium implements ILoreHelper{
 		if (entry.isLocked()){
 			entry.setIsLocked(false);
 			if (ExtendedProperties.For(Minecraft.getMinecraft().thePlayer).getMagicLevel() > 0)
-				Minecraft.getMinecraft().guiAchievement.func_146256_a(compendiumData);
+				Minecraft.getMinecraft().guiAchievement.displayAchievement(compendiumData);
 
 			saveUnlockData();
 		}

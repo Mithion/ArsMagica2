@@ -164,9 +164,9 @@ public class Story{
 	}
 
 	public static ItemStack finalizeStory(ItemStack stack, String title, String author){
-		if (stack.stackTagCompound == null) return stack;
-		stack.stackTagCompound.setTag("title", new NBTTagString(title));
-		stack.stackTagCompound.setTag("author", new NBTTagString(author));
+		if (stack.getTagCompound() == null) return stack;
+		stack.getTagCompound().setTag("title", new NBTTagString(title));
+		stack.getTagCompound().setTag("author", new NBTTagString(author));
 		stack = InventoryUtilities.replaceItem(stack, Items.written_book);
 		return stack;
 	}

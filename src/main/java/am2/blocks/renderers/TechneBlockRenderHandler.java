@@ -4,7 +4,7 @@ import am2.blocks.BlockEssenceConduit;
 import am2.blocks.BlocksClientProxy;
 import am2.blocks.BlocksCommonProxy;
 import am2.guis.GuiBlockAccess;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import net.minecraftforge.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;

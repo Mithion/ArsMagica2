@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -45,7 +46,7 @@ public class AMFlower extends BlockFlower{
 		list.add(new ItemStack(Item.getItemFromBlock(this), 1, 0));
 	}
 
-	public boolean canGrowOn(World worldIn, int x, int y, int z) {
-		return canBlockStay(worldIn, x, y, z);
+	public boolean canGrowOn(World worldIn, BlockPos pos) {
+		return canBlockStay(worldIn, pos);
 	}
 }
