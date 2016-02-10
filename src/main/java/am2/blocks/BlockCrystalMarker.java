@@ -82,7 +82,7 @@ public class BlockCrystalMarker extends BlockContainer{
 	}
 
 	@Override
-	public int getLightValue(IBlockAccess world, int x, int y, int z){
+	public int getLightValue(IBlockAccess world, BlockPos pos){
 		int meta = world.getBlockMetadata(x, y, z);
 		return 3 + getCrystalTier(meta);
 	}
@@ -109,7 +109,7 @@ public class BlockCrystalMarker extends BlockContainer{
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z,
+	public boolean onBlockActivated(World world, BlockPos pos,
 									EntityPlayer player, int facing, float impx, float impy, float impz){
 		int operandType = world.getBlockMetadata(x, y, z);
 
@@ -179,7 +179,7 @@ public class BlockCrystalMarker extends BlockContainer{
 	}
 
 	@Override
-	public int onBlockPlaced(World world, int x, int y, int z, int side,
+	public int onBlockPlaced(World world, BlockPos pos, int side,
 							 float hitX, float hitY, float hitZ, int meta){
 		facingHolder = side;
 		this.xCoord = x;
@@ -191,7 +191,7 @@ public class BlockCrystalMarker extends BlockContainer{
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z,
+	public void onBlockPlacedBy(World world, BlockPos pos,
 								EntityLivingBase player, ItemStack itemStack){
 		TileEntity te = world.getTileEntity(x, y, z);
 
@@ -251,7 +251,7 @@ public class BlockCrystalMarker extends BlockContainer{
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block oldBlock, int oldMeta){
+	public void breakBlock(World world, BlockPos pos, Block oldBlock, int oldMeta){
 		TileEntityCrystalMarker crystalMarkerTE = GetTileEntity(world, x, y, z);
 		TileEntityFlickerHabitat elementalAttunerTE = null;
 
@@ -279,7 +279,7 @@ public class BlockCrystalMarker extends BlockContainer{
 	}
 
 	private TileEntityFlickerHabitat GetElementalAttunerTileEntity(
-			World world, int x, int y, int z){
+			World world, BlockPos pos){
 		TileEntity te = world.getTileEntity(x, y, z);
 
 		if (te != null && te instanceof TileEntityFlickerHabitat){
@@ -306,7 +306,7 @@ public class BlockCrystalMarker extends BlockContainer{
 
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess par1iBlockAccess,
-										   int x, int y, int z){
+										   BlockPos pos){
 		TileEntity te = par1iBlockAccess.getTileEntity(x, y, z);
 		TileEntityCrystalMarker cm = (TileEntityCrystalMarker)te;
 		int facing = cm.getFacing();
@@ -341,7 +341,7 @@ public class BlockCrystalMarker extends BlockContainer{
 	}
 
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block blockID){
+	public void onNeighborBlockChange(World world, BlockPos pos, Block blockID){
 		if (world.isRemote){
 			return;
 		}

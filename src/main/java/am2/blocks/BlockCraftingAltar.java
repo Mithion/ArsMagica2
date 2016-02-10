@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -32,7 +33,7 @@ public class BlockCraftingAltar extends PoweredBlock{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(IBlockAccess iBlockAccess, int x, int y, int z, int meta){
+	public IIcon getIcon(IBlockAccess iBlockAccess, BlockPos pos, int meta){
 		return IIcon;
 	}
 
@@ -96,7 +97,7 @@ public class BlockCraftingAltar extends PoweredBlock{
 	}
 
 	@Override
-	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
+	public boolean onBlockActivated(World par1World, BlockPos pos, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
 		if (super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9)){
 			TileEntity te = par1World.getTileEntity(par2, par3, par4);
 			if (te != null && te instanceof TileEntityCraftingAltar){

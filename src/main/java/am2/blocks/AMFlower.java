@@ -1,52 +1,34 @@
 package am2.blocks;
 
-import am2.texture.ResourceManager;
-import net.minecraft.block.BlockFlower;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import java.util.List;
+
+import net.minecraft.block.BlockBush;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import java.util.List;
-
-public class AMFlower extends BlockFlower{
+public class AMFlower extends BlockBush{
 
 	protected AMFlower(){
-		super(1);
+		super();
 		setStepSound(soundTypeGrass);
 	}
 
 	public AMFlower setUnlocalizedNameAndID(String name){
-		setBlockName(name);
-		setBlockTextureName(name);
+		setUnlocalizedName(name);
+		setRegistryName(name);
 		return this;
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister register){
-		this.blockIcon = ResourceManager.RegisterTexture(this.textureName, register);
-	}
-
-	@Override
-	public IIcon getIcon(IBlockAccess p_149673_1_, int p_149673_2_, int p_149673_3_, int p_149673_4_, int p_149673_5_){
-		return this.blockIcon;
-	}
-
-	@Override
-	public IIcon getIcon(int p_149691_1_, int p_149691_2_){
-		return blockIcon;
-	}
-
-	@Override
-	public void getSubBlocks(Item item, CreativeTabs tab, List list){
+	public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list){
 		list.add(new ItemStack(Item.getItemFromBlock(this), 1, 0));
 	}
 
-	public boolean canGrowOn(World worldIn, BlockPos pos) {
-		return canBlockStay(worldIn, pos);
+	public boolean canGrowOn(World worldIn, BlockPos pos, IBlockState state) {
+		return canBlockStay(worldIn, pos, state);
 	}
 }

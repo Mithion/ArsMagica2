@@ -39,7 +39,7 @@ public class BlockBrokenPowerLink extends BlockContainer{
 	}
 
 	@Override
-	public boolean isReplaceable(IBlockAccess world, int x, int y, int z){
+	public boolean isReplaceable(IBlockAccess world, BlockPos pos){
 		return true;
 	}
 
@@ -77,7 +77,7 @@ public class BlockBrokenPowerLink extends BlockContainer{
 	}
 
 	@Override
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
+	public void randomDisplayTick(World world, BlockPos pos, Random rand){
 		int meta = world.getBlockMetadata(x, y, z);
 		EntityPlayer closest = world.getClosestPlayer(x, y, z, 5.0);
 		if (closest == null && meta != 0){
@@ -125,7 +125,7 @@ public class BlockBrokenPowerLink extends BlockContainer{
 	}
 
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z){
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos){
 		return null;
 	}
 

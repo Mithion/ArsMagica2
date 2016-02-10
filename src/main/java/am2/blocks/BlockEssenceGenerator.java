@@ -52,7 +52,7 @@ public class BlockEssenceGenerator extends AMSpecialRenderPoweredBlock{
 		}
 	}
 
-	private TileEntityObelisk getTileEntity(IBlockAccess blockAccess, int x, int y, int z){
+	private TileEntityObelisk getTileEntity(IBlockAccess blockAccess, BlockPos pos){
 		TileEntity te = blockAccess.getTileEntity(x, y, z);
 		if (te != null && te instanceof TileEntityObelisk){
 			return (TileEntityObelisk)te;
@@ -98,7 +98,7 @@ public class BlockEssenceGenerator extends AMSpecialRenderPoweredBlock{
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int face, float interactX, float interactY, float interactZ){
+	public boolean onBlockActivated(World world, BlockPos pos, EntityPlayer player, int face, float interactX, float interactY, float interactZ){
 
 		if (handleSpecialItems(world, player, x, y, z))
 			return true;

@@ -1,22 +1,24 @@
 package am2.blocks;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Random;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.common.EnumPlantType;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 import am2.AMCore;
 import am2.particles.AMParticle;
 import am2.particles.ParticleExpandingCollapsingRingAtPoint;
 import am2.particles.ParticleFadeOut;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.common.EnumPlantType;
-import net.minecraftforge.oredict.OreDictionary;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Random;
 
 public class BlockDesertNova extends AMFlower{
 
@@ -32,7 +34,7 @@ public class BlockDesertNova extends AMFlower{
 	}
 
 	@Override
-	public EnumPlantType getPlantType(IBlockAccess world, int x, int y, int z){
+	public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos){
 		return EnumPlantType.Desert;
 	}
 
@@ -53,10 +55,10 @@ public class BlockDesertNova extends AMFlower{
 		}
 		return blockSands != null && blockSands.contains(block);
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, int x, int y, int z, Random par5Random){
+	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random par5Random){
 
 		if (par5Random.nextInt(10) != 0) return;
 
@@ -66,11 +68,11 @@ public class BlockDesertNova extends AMFlower{
 
 		for (int i = 0; i < 360; i += increment){
 			int angle = i;
-			double posX = x + 0.5 + Math.cos(angle) * 3;
-			double posZ = z + 0.5 + Math.sin(angle) * 3;
-			double posY = y + 0.6 + par5Random.nextFloat() * 0.2f;
+			double posX = pos.getX() + 0.5 + Math.cos(angle) * 3;
+			double posZ = pos.getZ() + 0.5 + Math.sin(angle) * 3;
+			double posY = pos.getY() + 0.6 + par5Random.nextFloat() * 0.2f;
 
-			AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(world, "explosion_2", x + 0.5, posY, z + 0.5);
+			AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(world, "explosion_2", pos.getX() + 0.5, posY, pos.getY() + 0.5);
 			if (effect != null){
 				effect.setIgnoreMaxAge(true);
 				effect.AddParticleController(new ParticleExpandingCollapsingRingAtPoint(effect, posX, posY, posZ, 0.3, 3, 0.2, 1, false).setExpanding());

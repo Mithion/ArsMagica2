@@ -23,7 +23,7 @@ public class BlockCandle extends AMSpecialRenderBlockContainer{
 	}
 
 	@Override
-	public int getLightValue(IBlockAccess world, int x, int y, int z){
+	public int getLightValue(IBlockAccess world, BlockPos pos){
 		return 14;
 	}
 
@@ -40,7 +40,7 @@ public class BlockCandle extends AMSpecialRenderBlockContainer{
 	}
 
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z){
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos){
 		return new ItemStack(ItemsCommonProxy.wardingCandle);
 	}
 
@@ -50,7 +50,7 @@ public class BlockCandle extends AMSpecialRenderBlockContainer{
 	}
 
 	@Override
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
+	public void randomDisplayTick(World world, BlockPos pos, Random rand){
 		world.spawnParticle("flame", x + 0.5, y + 0.65, z + 0.5, 0, 0, 0);
 	}
 

@@ -1,5 +1,20 @@
 package am2.spell.components;
 
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.Random;
+
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
 import am2.AMCore;
 import am2.api.ArsMagicaApi;
 import am2.api.spell.component.interfaces.ISpellComponent;
@@ -15,20 +30,6 @@ import am2.playerextensions.ExtendedProperties;
 import am2.spell.SpellUtils;
 import am2.utility.DimensionUtilities;
 import am2.utility.KeystoneUtilities;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
-
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.Random;
 
 public class Blink implements ISpellComponent{
 
@@ -90,9 +91,9 @@ public class Blink implements ISpellComponent{
 				finalBlocker = blocker;
 				astralBarrierBlocked = true;
 
-				int dx = (int)newX - blocker.xCoord;
-				int dy = (int)newY - blocker.yCoord;
-				int dz = (int)newZ - blocker.zCoord;
+				int dx = (int)newX - blocker.getPos().getX();
+				int dy = (int)newY - blocker.getPos().getY();
+				int dz = (int)newZ - blocker.getPos().getZ();
 
 				int sqDist = (dx * dx + dy * dy + dz * dz);
 				int delta = blocker.getRadius() - (int)Math.floor(Math.sqrt(sqDist));
@@ -296,17 +297,17 @@ public class Blink implements ISpellComponent{
 			return false;
 		}
 
-		Block firstBlock = world.getBlock(x, y, z);
-		Block secondBlock = world.getBlock(x, y + 1, z);
+		IBlockState firstBlock = world.getBlockState(new BlockPos(x, y, z));
+		IBlockState secondBlock = world.getBlockState(new BlockPos(x, y + 1, z));
 
 		AxisAlignedBB firstBlockBB = null;
 		AxisAlignedBB secondBlockBB = null;
 
 		if (firstBlock != null){
-			firstBlockBB = firstBlock.getCollisionBoundingBoxFromPool(world, x, y, z);
+			firstBlockBB = firstBlock.getBlock().getCollisionBoundingBox(world, new BlockPos(x, y, z), firstBlock);
 		}
 		if (secondBlock != null){
-			secondBlockBB = secondBlock.getCollisionBoundingBoxFromPool(world, x, y, z);
+			secondBlockBB = secondBlock.getBlock().getCollisionBoundingBox(world, new BlockPos(x, y + 1, z), secondBlock);
 		}
 
 		if ((firstBlockBB == null && secondBlockBB == null)){

@@ -46,7 +46,7 @@ public class BlockEverstone extends PoweredBlock{
 	}
 
 	@Override
-	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z){
+	public boolean removedByPlayer(World world, EntityPlayer player, BlockPos pos){
 		TileEntityEverstone everstone = getTE(world, x, y, z);
 		if (everstone == null){
 			if (player.capabilities.isCreativeMode){
@@ -71,7 +71,7 @@ public class BlockEverstone extends PoweredBlock{
 	}
 
 	@Override
-	public float getExplosionResistance(Entity par1Entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ){
+	public float getExplosionResistance(Entity par1Entity, World world, BlockPos pos, double explosionX, double explosionY, double explosionZ){
 		TileEntityEverstone everstone = getTE(world, x, y, z);
 		if (everstone != null){
 			everstone.onBreak();
@@ -79,7 +79,7 @@ public class BlockEverstone extends PoweredBlock{
 		return 10000f;
 	}
 
-	private TileEntityEverstone getTE(IBlockAccess world, int x, int y, int z){
+	private TileEntityEverstone getTE(IBlockAccess world, BlockPos pos){
 		if (world == null)
 			return null;
 
@@ -91,7 +91,7 @@ public class BlockEverstone extends PoweredBlock{
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9){
+	public boolean onBlockActivated(World world, BlockPos pos, EntityPlayer player, int par6, float par7, float par8, float par9){
 		if (player.getHeldItem() != null){
 			Block block = null;
 			int meta = -1;
@@ -163,7 +163,7 @@ public class BlockEverstone extends PoweredBlock{
 	}
 
 	@Override
-	public IIcon getIcon(IBlockAccess par1iBlockAccess, int x, int y, int z, int face){
+	public IIcon getIcon(IBlockAccess par1iBlockAccess, BlockPos pos, int face){
 		TileEntityEverstone everstone = getTE(par1iBlockAccess, x, y, z);
 		if (everstone != null){
 			if (everstone.isSolid()){
@@ -179,7 +179,7 @@ public class BlockEverstone extends PoweredBlock{
 	}
 
 	@Override
-	public boolean isNormalCube(IBlockAccess world, int x, int y, int z){
+	public boolean isNormalCube(IBlockAccess world, BlockPos pos){
 		TileEntityEverstone everstone = getTE(world, x, y, z);
 		if (everstone == null) return true;
 		return everstone.isSolid();
@@ -195,7 +195,7 @@ public class BlockEverstone extends PoweredBlock{
 	}
 
 	@Override
-	public float getBlockHardness(World world, int x, int y, int z){
+	public float getBlockHardness(World world, BlockPos pos){
 		TileEntityEverstone everstone = getTE(world, x, y, z);
 		if (everstone == null) return this.blockHardness;
 		Block block = everstone.getFacade();
@@ -205,7 +205,7 @@ public class BlockEverstone extends PoweredBlock{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean addDestroyEffects(World world, int x, int y, int z, int meta, EffectRenderer effectRenderer){
+	public boolean addDestroyEffects(World world, BlockPos pos, int meta, EffectRenderer effectRenderer){
 
 		TileEntityEverstone everstone = getTE(world, x, y, z);
 
