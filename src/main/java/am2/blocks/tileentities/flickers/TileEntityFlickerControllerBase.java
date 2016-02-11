@@ -8,6 +8,7 @@ import am2.blocks.tileentities.TileEntityAMPower;
 import am2.blocks.tileentities.TileEntityFlickerHabitat;
 import am2.items.ItemsCommonProxy;
 import am2.power.PowerNodeRegistry;
+import com.sun.corba.se.impl.logging.POASystemException;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -64,17 +65,17 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 	}
 
 	private EnumFacing getNeighboringFacing(TileEntity neighbor){
-		if (neighbor.getPos().getX() == this.pos.getX() && neighbor.getPos().getY() == this.pos.getY() && neighbor.getPos().getZ() == this.pos.getZ() + 1)
+		if (neighbor.getPos() == pos.south())
 			return EnumFacing.SOUTH;
-		else if (neighbor.getPos().getX() == this.pos.getX() && neighbor.getPos().getY() == this.pos.getY() && neighbor.getPos().getZ() == this.pos.getZ() - 1)
+		else if (neighbor.getPos() == pos.north())
 			return EnumFacing.NORTH;
-		else if (neighbor.getPos().getX() == this.pos.getX() + 1 && neighbor.getPos().getY() == this.pos.getY() && neighbor.getPos().getZ() == this.pos.getZ())
+		else if (neighbor.getPos() == pos.east())
 			return EnumFacing.EAST;
-		else if (neighbor.getPos().getX() == this.pos.getX() - 1 && neighbor.getPos().getY() == this.pos.getY() && neighbor.getPos().getZ() == this.pos.getZ())
+		else if (neighbor.getPos() == pos.west())
 			return EnumFacing.WEST;
-		else if (neighbor.getPos().getX() == this.pos.getX() && neighbor.getPos().getY() == this.pos.getY() + 1 && neighbor.getPos().getZ() == this.pos.getZ())
+		else if (neighbor.getPos() == pos.up())
 			return EnumFacing.UP;
-		else if (neighbor.getPos().getX() == this.pos.getX() && neighbor.getPos().getY() == this.pos.getY() - 1 && neighbor.getPos().getZ() == this.pos.getZ())
+		else if (neighbor.getPos() == pos.down())
 			return EnumFacing.DOWN;
 
 		return null;
@@ -123,7 +124,7 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 		Affinity[] aff = new Affinity[EnumFacing.values().length];
 		for (int i = 0; i < nearbyList.length; ++i){
 			EnumFacing dir = EnumFacing.values()[i];
-			if (nearbyList[i] == null || worldObj.isBlockIndirectlyGettingPowered(getPos().add(pos.getX() + dir.getFrontOffsetX(), pos.getY() + dir.getFrontOffsetX(), pos.getZ() + dir.getFrontOffsetZ())) > 1){
+			if (nearbyList[i] == null || worldObj.isBlockIndirectlyGettingPowered(pos.offset(dir)) > 1){
 				aff[i] = null;
 			}else{
 				aff[i] = nearbyList[i];

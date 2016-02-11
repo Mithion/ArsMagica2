@@ -4,7 +4,6 @@ import am2.api.power.PowerTypes;
 import am2.items.ItemCrystalPhylactery;
 import am2.items.ItemsCommonProxy;
 import am2.power.PowerNodeRegistry;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -64,15 +63,15 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements IInvent
 		return null;
 	}
 
-	/*@Override
-	public ItemStack getStackInSlotOnClosing(int i){
+	@Override
+	public ItemStack removeStackFromSlot(int i){
 		if (i < getSizeInventory() && phylactery != null){
 			ItemStack jar = phylactery;
 			phylactery = null;
 			return jar;
 		}
 		return null;
-	}*/
+	}
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
@@ -162,7 +161,7 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements IInvent
 	}
 
 	public void updateEntity(){
-		super.worldObj.updateEntity((Entity) worldObj.playerEntities);
+		super.update();
 
 		if (!worldObj.isRemote && phylactery != null && ((ItemCrystalPhylactery)phylactery.getItem()).isFull(phylactery) && worldObj.isBlockIndirectlyGettingPowered(pos.add(pos.getX(), pos.getY(), pos.getZ())) == 0){
 			if (this.powerConsumed < this.SUMMON_REQ){
