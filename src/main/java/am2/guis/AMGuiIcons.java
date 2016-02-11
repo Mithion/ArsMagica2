@@ -2,27 +2,28 @@ package am2.guis;
 
 import am2.texture.ResourceManager;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
 
 
 public class AMGuiIcons{
 	public static boolean initialized = false;
-	public static IIcon manaBar;
-	public static IIcon manaLevel;
+	public static TextureAtlasSprite manaBar;
+	public static TextureAtlasSprite manaLevel;
 
-	public static IIcon fatigueIcon;
-	public static IIcon fatigueBar;
-	public static IIcon fatigueLevel;
+	public static TextureAtlasSprite fatigueIcon;
+	public static TextureAtlasSprite fatigueBar;
+	public static TextureAtlasSprite fatigueLevel;
 
-	public static IIcon padlock;
-	public static IIcon gatewayPortal;
-	public static IIcon evilBook;
-	public static IIcon selectedRunes;
+	public static TextureAtlasSprite padlock;
+	public static TextureAtlasSprite gatewayPortal;
+	public static TextureAtlasSprite evilBook;
+	public static TextureAtlasSprite selectedRunes;
 
-	public static IIcon warning;
-	public static IIcon checkmark;
-	public static IIcon newEntry;
+	public static TextureAtlasSprite warning;
+	public static TextureAtlasSprite checkmark;
+	public static TextureAtlasSprite newEntry;
 
 	public static TextureMap guiMap;
 
@@ -33,7 +34,7 @@ public class AMGuiIcons{
 
 	}
 
-	public void init(IIconRegister IIconRegister){
+	public void init(TextureMap IIconRegister){
 		manaBar = ResourceManager.RegisterTexture("arsmagica2:gui_icons/Mana_Bar", IIconRegister);
 		manaLevel = ResourceManager.RegisterTexture("arsmagica2:gui_icons/Mana_Level", IIconRegister);
 

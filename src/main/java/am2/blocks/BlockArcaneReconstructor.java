@@ -1,20 +1,22 @@
 package am2.blocks;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import am2.AMCore;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntityArcaneReconstructor;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.utility.KeystoneUtilities;
-import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 
 
 public class BlockArcaneReconstructor extends AMSpecialRenderPoweredBlock{
@@ -32,25 +34,25 @@ public class BlockArcaneReconstructor extends AMSpecialRenderPoweredBlock{
 	}
 
 	@Override
-	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
-		if (handleSpecialItems(par1World, par5EntityPlayer, par2, par3, par4)){
+	public boolean onBlockActivated(World par1World, BlockPos pos, IBlockState state, EntityPlayer par5EntityPlayer, EnumFacing par6, float par7, float par8, float par9){
+		if (handleSpecialItems(par1World, par5EntityPlayer, pos)){
 			return true;
 		}
 		if (!par1World.isRemote){
-			if (KeystoneUtilities.HandleKeystoneRecovery(par5EntityPlayer, ((IKeystoneLockable)par1World.getTileEntity(par2, par3, par4))))
+			if (KeystoneUtilities.HandleKeystoneRecovery(par5EntityPlayer, ((IKeystoneLockable)par1World.getTileEntity(pos))))
 				return true;
-			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)par1World.getTileEntity(par2, par3, par4), par5EntityPlayer, KeystoneAccessType.USE)){
-				FMLNetworkHandler.openGui(par5EntityPlayer, AMCore.instance, ArsMagicaGuiIdList.GUI_ARCANE_RECONSTRUCTOR, par1World, par2, par3, par4);
-				super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
+			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)par1World.getTileEntity(pos), par5EntityPlayer, KeystoneAccessType.USE)){
+				par5EntityPlayer.openGui(AMCore.instance, ArsMagicaGuiIdList.GUI_ARCANE_RECONSTRUCTOR, par1World, pos.getX(), pos.getY(), pos.getZ());
+				super.onBlockActivated(par1World, pos, state, par5EntityPlayer, par6, par7, par8, par9);
 			}
 		}
 		return true;
 	}
-
+		
 	@Override
-	public void breakBlock(World world, int i, int j, int k, Block par5, int metadata){
+	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		if (!world.isRemote){
-			TileEntityArcaneReconstructor reconstructor = (TileEntityArcaneReconstructor)world.getTileEntity(i, j, k);
+			TileEntityArcaneReconstructor reconstructor = (TileEntityArcaneReconstructor)world.getTileEntity(pos);
 			if (reconstructor == null) return;
 			for (int l = 0; l < reconstructor.getSizeInventory() - 3; l++){
 				ItemStack itemstack = reconstructor.getStackInSlot(l);
@@ -71,7 +73,7 @@ public class BlockArcaneReconstructor extends AMSpecialRenderPoweredBlock{
 					itemstack.stackSize -= i1;
 					ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
 					newItem.setTagCompound(itemstack.getTagCompound());
-					EntityItem entityitem = new EntityItem(world, i + f, j + f1, k + f2, newItem);
+					EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, newItem);
 					float f3 = 0.05F;
 					entityitem.motionX = (float)world.rand.nextGaussian() * f3;
 					entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
@@ -80,18 +82,14 @@ public class BlockArcaneReconstructor extends AMSpecialRenderPoweredBlock{
 				}while (true);
 			}
 		}
-		super.breakBlock(world, i, j, k, par5, metadata);
+		super.breakBlock(world, pos, state);
 	}
-
+	
 	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
-	}
-
-	@Override
-	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z){
-		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(x, y, z);
+	public boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player, boolean willHarvest){
+		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(pos);
 		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player, KeystoneAccessType.BREAK)) return false;
 
-		return super.removedByPlayer(world, player, x, y, z);
+		return super.removedByPlayer(world, pos, player, willHarvest);
 	}
 }

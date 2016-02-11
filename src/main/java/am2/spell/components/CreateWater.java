@@ -4,12 +4,14 @@ import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
 import am2.items.ItemsCommonProxy;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockCauldron;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -20,11 +22,10 @@ public class CreateWater implements ISpellComponent{
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 
-		Block block = world.getBlock(blockx, blocky, blockz);
+		Block block = world.getBlockState(new BlockPos(blockx, blocky, blockz)).getBlock();
 
 		if (block == Blocks.cauldron){
-			world.setBlockMetadataWithNotify(blockx, blocky, blockz, 3, 2);
-			world.notifyBlockChange(blockx, blocky, blockz, block);
+			world.setBlockState(new BlockPos(blockx, blocky, blockz), Blocks.cauldron.getDefaultState().withProperty(BlockCauldron.LEVEL, 3));
 			return true;
 		}
 
@@ -49,8 +50,8 @@ public class CreateWater implements ISpellComponent{
 			break;
 		}
 
-		block = world.getBlock(blockx, blocky, blockz);
-		if (world.isAirBlock(blockx, blocky, blockz) || block == Blocks.snow || block == Blocks.water || block == Blocks.flowing_water || block instanceof BlockFlower){
+		block = world.getBlockState(new BlockPos(blockx, blocky, blockz)).getBlock();
+		if (world.isAirBlock(new BlockPos(blockx, blocky, blockz)) || block == Blocks.snow || block == Blocks.water || block == Blocks.flowing_water || block instanceof BlockFlower){
 			world.setBlock(blockx, blocky, blockz, Blocks.water);
 			Blocks.water.onNeighborBlockChange(world, blockx, blocky, blockz, Blocks.air);
 			return true;

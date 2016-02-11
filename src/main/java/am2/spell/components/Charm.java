@@ -68,7 +68,7 @@ public class Charm implements ISpellComponent, IRitualInteraction{
 		}
 
 		if (target instanceof EntityAnimal){
-			((EntityAnimal)target).func_146082_f(null);
+			((EntityAnimal)target).setInLove(null);
 			return true;
 		}
 

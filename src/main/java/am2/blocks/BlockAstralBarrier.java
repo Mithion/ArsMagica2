@@ -97,7 +97,7 @@ public class BlockAstralBarrier extends AMSpecialRenderPoweredBlock{
 	}
 
 	@Override
-	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z){
+	public boolean removedByPlayer(World world, EntityPlayer player, BlockPos pos){
 		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(x, y, z);
 		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player, KeystoneAccessType.BREAK)) return false;
 

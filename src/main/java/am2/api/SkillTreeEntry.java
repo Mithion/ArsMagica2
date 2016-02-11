@@ -1,18 +1,18 @@
 package am2.api;
 
 import am2.api.spell.component.interfaces.ISkillTreeEntry;
-import am2.api.spell.enums.SkillTrees;
+import am2.api.spell.enums.SkillTree;
 
 public class SkillTreeEntry{
 	public final int x;
 	public final int y;
-	public final SkillTrees tree;
+	public final SkillTree tree;
 	public final SkillTreeEntry[] prerequisites;
 	public final ISkillTreeEntry registeredItem;
 	public final int tier;
 	public boolean enabled;
 
-	public SkillTreeEntry(int x, int y, SkillTrees tree, SkillTreeEntry[] prerequisites, ISkillTreeEntry registeredItem, boolean enabled){
+	public SkillTreeEntry(int x, int y, SkillTree tree, SkillTreeEntry[] prerequisites, ISkillTreeEntry registeredItem, boolean enabled){
 		this.x = x;
 		this.y = y;
 		this.tree = tree;

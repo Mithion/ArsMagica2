@@ -34,7 +34,7 @@ public class BlockFlickerHabitat extends PoweredBlock{
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float impx, float impy, float impz){
+	public boolean onBlockActivated(World world, BlockPos pos, EntityPlayer player, int meta, float impx, float impy, float impz){
 		super.onBlockActivated(world, x, y, z, player, meta, impx, impy, impz);
 
 		if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == ItemsCommonProxy.crystalWrench){
@@ -64,18 +64,18 @@ public class BlockFlickerHabitat extends PoweredBlock{
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase elb, ItemStack stack){
+	public void onBlockPlacedBy(World world, BlockPos pos, EntityLivingBase elb, ItemStack stack){
 		setBlockMode(world, x, y, z);
 		super.onBlockPlacedBy(world, x, y, z, elb, stack);
 	}
 
 	@Override
-	public void onBlockAdded(World world, int x, int y, int z){
+	public void onBlockAdded(World world, BlockPos pos){
 		setBlockMode(world, x, y, z);
 		super.onBlockAdded(world, x, y, z);
 	}
 
-	protected void setBlockMode(World world, int x, int y, int z){
+	protected void setBlockMode(World world, BlockPos pos){
 		if (world.isRemote)
 			return;
 
@@ -105,7 +105,7 @@ public class BlockFlickerHabitat extends PoweredBlock{
 	}
 
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block neighborBlockID){
+	public void onNeighborBlockChange(World world, BlockPos pos, Block neighborBlockID){
 		if (world.isRemote)
 			return;
 
@@ -146,7 +146,7 @@ public class BlockFlickerHabitat extends PoweredBlock{
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block oldBlockID, int oldMetadata){
+	public void breakBlock(World world, BlockPos pos, Block oldBlockID, int oldMetadata){
 		TileEntityFlickerHabitat habitat = (TileEntityFlickerHabitat)world.getTileEntity(x, y, z);
 
 		//if there is no habitat at the location break out
@@ -198,7 +198,7 @@ public class BlockFlickerHabitat extends PoweredBlock{
 	}
 
 	@Override
-	public boolean canPlaceBlockOnSide(World world, int x, int y, int z, int meta){
+	public boolean canPlaceBlockOnSide(World world, BlockPos pos, int meta){
 		return true;
 	}
 }

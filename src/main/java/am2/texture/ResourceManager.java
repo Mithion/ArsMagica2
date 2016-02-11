@@ -14,7 +14,19 @@ public class ResourceManager{
 	public static String getOverrideBlockTexturePath(){
 		return "textures/blocks";
 	}
-
+	
+	public static ResourceLocation getShape(String name) {
+		return new ResourceLocation("arsmagica2:textures/items/spells/shapes/" + name + ".png");
+	}
+	
+	public static ResourceLocation getComponent(String name) {
+		return new ResourceLocation("arsmagica2:textures/items/spells/components/" + name + ".png");
+	}
+	
+	public static ResourceLocation getModifier(String name) {
+		return new ResourceLocation("arsmagica2:textures/items/spells/modifiers/" + name + ".png");
+	}
+	
 	public static String getOverrideTexturesPath(){
 		return "textures";
 	}

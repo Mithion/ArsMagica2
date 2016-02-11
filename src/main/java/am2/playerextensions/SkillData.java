@@ -11,7 +11,7 @@ import am2.api.spell.component.interfaces.ISpellModifier;
 import am2.api.spell.component.interfaces.ISpellShape;
 import am2.api.spell.enums.LearnStates;
 import am2.api.spell.enums.SkillPointTypes;
-import am2.api.spell.enums.SkillTrees;
+import am2.api.spell.enums.SkillTree;
 import am2.network.AMDataReader;
 import am2.network.AMDataWriter;
 import am2.network.AMNetHandler;
@@ -52,7 +52,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 	private ArrayList<Integer> componentsKnown;
 	private ArrayList<Integer> modifiersKnown;
 	private ArrayList<Integer> talentsKnown;
-	private SkillTrees primaryTree;
+	private SkillTree primaryTree;
 	private final EntityPlayer player;
 
 	private int[] spellPoints;
@@ -69,7 +69,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 		modifiersKnown = new ArrayList<Integer>();
 		talentsKnown = new ArrayList<Integer>();
 		spellPoints = new int[]{3, 0, 0, 0};
-		this.primaryTree = SkillTrees.None;
+		this.primaryTree = SkillTree.None;
 		this.player = player;
 	}
 
@@ -89,7 +89,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 		return talentsKnown.contains(skillID);
 	}
 
-	public SkillTrees getPrimaryTree(){
+	public SkillTree getPrimaryTree(){
 		return primaryTree;
 	}
 
@@ -142,10 +142,10 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 	private void setShapeKnown(int shapeID){
 		if (!isShapeKnown(shapeID)){
 			shapesKnown.add(shapeID);
-			if (primaryTree == SkillTrees.None){
+			if (primaryTree == SkillTree.None){
 				ISkillTreeEntry part = SkillManager.instance.getSkill(shapeID);
 				SkillTreeEntry ste = SkillTreeManager.instance.getSkillTreeEntry(part);
-				if (ste != null && ste.tree != SkillTrees.Talents && ste.tree != SkillTrees.None){
+				if (ste != null && ste.tree != SkillTree.Talents && ste.tree != SkillTree.None){
 					primaryTree = ste.tree;
 				}
 			}
@@ -155,10 +155,10 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 	private void setComponentKnown(int componentID){
 		if (!isComponentKnown(componentID)){
 			componentsKnown.add(componentID);
-			if (primaryTree == SkillTrees.None){
+			if (primaryTree == SkillTree.None){
 				ISkillTreeEntry part = SkillManager.instance.getSkill(componentID);
 				SkillTreeEntry ste = SkillTreeManager.instance.getSkillTreeEntry(part);
-				if (ste != null && ste.tree != SkillTrees.Talents && ste.tree != SkillTrees.None){
+				if (ste != null && ste.tree != SkillTree.Talents && ste.tree != SkillTree.None){
 					primaryTree = ste.tree;
 				}
 			}
@@ -168,10 +168,10 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 	private void setModifierKnown(int modifierID){
 		if (!isModifierKnown(modifierID)){
 			modifiersKnown.add(modifierID);
-			if (primaryTree == SkillTrees.None){
+			if (primaryTree == SkillTree.None){
 				ISkillTreeEntry part = SkillManager.instance.getSkill(modifierID);
 				SkillTreeEntry ste = SkillTreeManager.instance.getSkillTreeEntry(part);
-				if (ste != null && ste.tree != SkillTrees.Talents && ste.tree != SkillTrees.None){
+				if (ste != null && ste.tree != SkillTree.Talents && ste.tree != SkillTree.None){
 					primaryTree = ste.tree;
 				}
 			}
@@ -337,7 +337,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 				int flags = rdr.getInt();
 
 				if (rdr.getBoolean()){
-					this.primaryTree = SkillTrees.values()[rdr.getInt()];
+					this.primaryTree = SkillTreeManager.instance.getTrees().get(rdr.getInt());
 				}
 
 				if ((flags & KNOWN_SHAPE_UPDATE) == KNOWN_SHAPE_UPDATE){
@@ -423,7 +423,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 		writer.add(updateFlags);
 
 		writer.add(this.primaryTree != null);
-		if (this.primaryTree != null) writer.add(this.primaryTree.ordinal());
+		if (this.primaryTree != null) writer.add(this.primaryTree.getId());
 
 		if ((updateFlags & KNOWN_SHAPE_UPDATE) == KNOWN_SHAPE_UPDATE){
 			writer.add(shapesKnown.size());
@@ -500,7 +500,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 		spellKnowledgeData.setIntArray("KnownModifiers", arrayListToIntArray(modifiersKnown));
 		spellKnowledgeData.setIntArray("KnownTalents", arrayListToIntArray(talentsKnown));
 		spellKnowledgeData.setIntArray("SpellPoints", spellPoints);
-		spellKnowledgeData.setInteger("PrimarySkillTree", primaryTree != null ? primaryTree.ordinal() : -1);
+		spellKnowledgeData.setInteger("PrimarySkillTree", primaryTree != null ? primaryTree.getId() : -1);
 		compound.setTag("SpellKnowledge", spellKnowledgeData);
 	}
 
@@ -524,7 +524,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 
 			int ordinal = spellKnowledgeData.getInteger("PrimarySkillTree");
 			if (ordinal > -1){
-				this.primaryTree = SkillTrees.values()[ordinal];
+				this.primaryTree = SkillTreeManager.instance.getTrees().get(ordinal);
 			}
 		}
 	}
@@ -540,7 +540,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 		componentsKnown.clear();
 		modifiersKnown.clear();
 		talentsKnown.clear();
-		this.primaryTree = SkillTrees.None;
+		this.primaryTree = SkillTree.None;
 		this.spellPoints = new int[]{0, 0, 0, 0};
 		this.setFullSync();
 	}
@@ -577,7 +577,7 @@ public class SkillData implements IExtendedEntityProperties, ISkillData{
 			}
 		}
 
-		if (sk.getPrimaryTree() != SkillTrees.None && entry.tree != SkillTrees.Talents && sk.getPrimaryTree() != entry.tree && entry.tier >= AMCore.config.getSkillTreeSecondaryTierCap()){
+		if (sk.getPrimaryTree() != SkillTree.None && entry.tree != SkillTree.Talents && sk.getPrimaryTree() != entry.tree && entry.tier >= AMCore.config.getSkillTreeSecondaryTierCap()){
 			state = LearnStates.LOCKED;
 		}
 
