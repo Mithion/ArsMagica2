@@ -14,7 +14,7 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
     }
 }
-apply plugin: 'scala'
+
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply from: 'https://raw.githubusercontent.com/dsirius/Gradle-repo/1.8.9/index/index.gradle'
 
