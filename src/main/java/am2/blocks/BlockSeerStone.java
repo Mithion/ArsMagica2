@@ -95,30 +95,30 @@ public class BlockSeerStone extends AMSpecialRenderPoweredBlock{
 		int var10 = meta;
 		var10 = -1;
 
-		if (facing == EnumFacing.DOWN && world.getBlockState(pos.add(x, y + 1, z)).getBlock().isSideSolid(world, pos.up(), EnumFacing.DOWN)){
+		if (facing == EnumFacing.DOWN && world.getBlockState(pos.up()).getBlock().isSideSolid(world, pos.up(), EnumFacing.DOWN)){
 			var10 = 1;
 		}
 
-		if (facing == EnumFacing.UP && world.getBlockState(pos.add(x, y - 1, z)).getBlock().isSideSolid(world, pos.down(), EnumFacing.UP)){
+		if (facing == EnumFacing.UP && world.getBlockState(pos.down()).getBlock().isSideSolid(world, pos.down(), EnumFacing.UP)){
 			var10 = 2;
 		}
 
-		if (facing == EnumFacing.NORTH && world.getBlockState(pos.add(x, y, z + 1)).getBlock().isSideSolid(world, pos.south(), EnumFacing.NORTH)) //-z
+		if (facing == EnumFacing.NORTH && world.getBlockState(pos.south()).getBlock().isSideSolid(world, pos.south(), EnumFacing.NORTH)) //-z
 		{
 			var10 = 3;
 		}
 
-		if (facing == EnumFacing.SOUTH && world.getBlockState(pos.add(x, y, z - 1)).getBlock().isSideSolid(world, pos.north(), EnumFacing.SOUTH)) //+z
+		if (facing == EnumFacing.SOUTH && world.getBlockState(pos.north()).getBlock().isSideSolid(world, pos.north(), EnumFacing.SOUTH)) //+z
 		{
 			var10 = 4;
 		}
 
-		if (facing == EnumFacing.WEST && world.getBlockState(pos.add(x + 1, y, z)).getBlock().isSideSolid(world, pos.east(), EnumFacing.WEST)) //-x
+		if (facing == EnumFacing.WEST && world.getBlockState(pos.east()).getBlock().isSideSolid(world, pos.east(), EnumFacing.WEST)) //-x
 		{
 			var10 = 5;
 		}
 
-		if (facing == EnumFacing.EAST && world.getBlockState(pos.add(x - 1, y, z)).getBlock().isSideSolid(world, pos.west(), EnumFacing.EAST)) //+x
+		if (facing == EnumFacing.EAST && world.getBlockState(pos.west()).getBlock().isSideSolid(world, pos.west(), EnumFacing.EAST)) //+x
 		{
 			var10 = 6;
 		}

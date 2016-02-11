@@ -65,17 +65,17 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 	}
 
 	private EnumFacing getNeighboringFacing(TileEntity neighbor){
-		if (neighbor.getPos() == pos.south())
+		if (neighbor.getPos().equals(pos.south()))
 			return EnumFacing.SOUTH;
-		else if (neighbor.getPos() == pos.north())
+		else if (neighbor.getPos().equals(pos.north()))
 			return EnumFacing.NORTH;
-		else if (neighbor.getPos() == pos.east())
+		else if (neighbor.getPos().equals(pos.east()))
 			return EnumFacing.EAST;
-		else if (neighbor.getPos() == pos.west())
+		else if (neighbor.getPos().equals(pos.west()))
 			return EnumFacing.WEST;
-		else if (neighbor.getPos() == pos.up())
+		else if (neighbor.getPos().equals(pos.up()))
 			return EnumFacing.UP;
-		else if (neighbor.getPos() == pos.down())
+		else if (neighbor.getPos().equals(pos.down()))
 			return EnumFacing.DOWN;
 
 		return null;

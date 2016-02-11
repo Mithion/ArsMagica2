@@ -160,7 +160,7 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements IInvent
 		this.powerConsumed = nbttagcompound.getFloat("powerConsumed");
 	}
 
-	public void updateEntity(){
+	public void update(){
 		super.update();
 
 		if (!worldObj.isRemote && phylactery != null && ((ItemCrystalPhylactery)phylactery.getItem()).isFull(phylactery) && worldObj.isBlockIndirectlyGettingPowered(pos.add(pos.getX(), pos.getY(), pos.getZ())) == 0){
