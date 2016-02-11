@@ -9,6 +9,9 @@ import am2.guis.ArsMagicaGuiIdList;
 import am2.items.ItemsCommonProxy;
 import am2.texture.ResourceManager;
 import am2.utility.KeystoneUtilities;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,12 +32,6 @@ import net.minecraft.world.World;
 
 
 public class BlockSpellSealedDoor extends BlockDoor implements ITileEntityProvider{
-
-	@SideOnly(Side.CLIENT)
-	private IIcon[] upperIcons;
-	@SideOnly(Side.CLIENT)
-	private IIcon[] lowerIcons;
-
 	protected BlockSpellSealedDoor(){
 		super(Material.wood);
 		this.setHardness(2.5f);
@@ -42,82 +39,21 @@ public class BlockSpellSealedDoor extends BlockDoor implements ITileEntityProvid
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister register){
-		this.upperIcons = new IIcon[4];
-		this.lowerIcons = new IIcon[2];
-		this.upperIcons[0] = ResourceManager.RegisterTexture("keystone_door_upper", register);
-		this.lowerIcons[0] = ResourceManager.RegisterTexture("keystone_door_lower", register);
-		this.upperIcons[1] = new IconFlipped(this.upperIcons[0], true, false);
-		this.lowerIcons[1] = new IconFlipped(this.lowerIcons[0], true, false);
-
-		this.upperIcons[2] = ResourceManager.RegisterTexture("keystone_door_upper", register);
-		this.upperIcons[3] = new IconFlipped(this.upperIcons[2], true, false);
-	}
-
-	@Override
-	public IIcon getIcon(IBlockAccess access, int x, int y, int z, int face){
-		if (face != 1 && face != 0){
-			int i1 = access.getBlockMetadata(x, y, z);
-			int j1 = i1 & 3;
-			boolean thirdBit = (i1 & 4) != 0;
-			boolean flag = false;
-			boolean fourthBit = (i1 & 8) != 0;
-
-			if (thirdBit){
-				if (j1 == 0 && face == 2){
-					flag = !flag;
-				}else if (j1 == 1 && face == 5){
-					flag = !flag;
-				}else if (j1 == 2 && face == 3){
-					flag = !flag;
-				}else if (j1 == 3 && face == 4){
-					flag = !flag;
-				}
-			}else{
-				if (j1 == 0 && face == 5){
-					flag = !flag;
-				}else if (j1 == 1 && face == 3){
-					flag = !flag;
-				}else if (j1 == 2 && face == 4){
-					flag = !flag;
-				}else if (j1 == 3 && face == 2){
-					flag = !flag;
-				}
-
-				if ((i1 & 16) != 0){
-					flag = !flag;
-				}
-			}
-
-			return fourthBit ? this.upperIcons[flag ? 1 : 0] : this.lowerIcons[flag ? 1 : 0];
-		}else{
-			return this.lowerIcons[0];
-		}
-	}
-
-	@Override
-	public IIcon getIcon(int par1, int par2){
-		return this.lowerIcons[0];
-	}
-
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int direction, float xOffset, float yOffset, float zOffset){
-
-		if (world.getBlock(x, y - 1, z) == BlocksCommonProxy.spellSealedDoor)
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (world.getBlockState(pos.down()).getBlock() == BlocksCommonProxy.spellSealedDoor)
 			y--;
 
-		TileEntity te = world.getTileEntity(x, y, z);
+		TileEntity te = world.getTileEntity(pos);
 
 		player.swingItem();
 
 		if (!world.isRemote){
-
 			if (KeystoneUtilities.HandleKeystoneRecovery(player, (IKeystoneLockable)te))
 				return true;
 
 			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)te, player, KeystoneAccessType.USE)){
 				if (player.isSneaking()){
-					FMLNetworkHandler.openGui(player, AMCore.instance, ArsMagicaGuiIdList.GUI_SPELL_SEALED_DOOR, world, x, y, z);
+					FMLNetworkHandler.openGui(player, AMCore.instance, ArsMagicaGuiIdList.GUI_SPELL_SEALED_DOOR, world, pos.getX(), pos.getY(), pos.getZ());
 				}else{
 					return false;
 				}
@@ -127,29 +63,15 @@ public class BlockSpellSealedDoor extends BlockDoor implements ITileEntityProvid
 		return false;
 	}
 
-	@Override
-	public boolean canBlockStay(World p_149718_1_, int p_149718_2_, int p_149718_3_, int p_149718_4_){
-		return true;
-	}
 
 	@Override
-	public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_){
-		//intentionally left blank
-	}
-
-	@Override
-	public void onNeighborChange(IBlockAccess world, int x, int y, int z, int tileX, int tileY, int tileZ){
-		//intentionally left blank
-	}
-
-	@Override
-	public void breakBlock(World world, int i, int j, int k, Block par5, int metadata){
+	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		if (world.isRemote){
-			super.breakBlock(world, i, j, k, par5, metadata);
+			super.breakBlock(world, pos, state);
 			return;
 		}
 
-		if (world.getBlock(i, j - 1, k) == BlocksCommonProxy.spellSealedDoor)
+		if (world.getBlockState(i, j - 1, k).getBlock() == BlocksCommonProxy.spellSealedDoor)
 			j--;
 
 		TileEntitySpellSealedDoor door = (TileEntitySpellSealedDoor)world.getTileEntity(i, j, k);
@@ -180,7 +102,7 @@ public class BlockSpellSealedDoor extends BlockDoor implements ITileEntityProvid
 			world.spawnEntityInWorld(entityitem);
 		}while (true);
 
-		world.setBlockToAir(i, j + 1, k);
+		world.setBlockToAir(pos.up());
 
 		super.breakBlock(world, i, j, k, par5, metadata);
 	}

@@ -51,9 +51,4 @@ public class BlockEssenceConduit extends AMSpecialRenderPoweredBlock{
 	public TileEntity createNewTileEntity(World par1World, int i){
 		return new TileEntityEssenceConduit();
 	}
-
-	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
-		this.blockIcon = ResourceManager.RegisterTexture("CasterRuneSide", par1IconRegister);
-	}
 }

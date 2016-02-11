@@ -27,74 +27,10 @@ import net.minecraft.world.World;
 
 public class BlockKeystoneDoor extends BlockDoor implements ITileEntityProvider{
 
-	@SideOnly(Side.CLIENT)
-	private IIcon[] upperIcons;
-	@SideOnly(Side.CLIENT)
-	private IIcon[] lowerIcons;
-
 	protected BlockKeystoneDoor(){
 		super(Material.wood);
 		this.setHardness(2.5f);
 		this.setResistance(2.0f);
-	}
-
-	@Override
-	public void registerBlockIcons(IIconRegister register){
-		this.upperIcons = new IIcon[4];
-		this.lowerIcons = new IIcon[2];
-		this.upperIcons[0] = ResourceManager.RegisterTexture("keystone_door_upper", register);
-		this.lowerIcons[0] = ResourceManager.RegisterTexture("keystone_door_lower", register);
-		this.upperIcons[1] = new IconFlipped(this.upperIcons[0], true, false);
-		this.lowerIcons[1] = new IconFlipped(this.lowerIcons[0], true, false);
-
-		this.upperIcons[2] = ResourceManager.RegisterTexture("keystone_door_upper", register);
-		this.upperIcons[3] = new IconFlipped(this.upperIcons[2], true, false);
-	}
-
-	@Override
-	public IIcon getIcon(IBlockAccess access, int x, int y, int z, int face){
-		if (face != 1 && face != 0){
-			int i1 = access.getBlockMetadata(x, y, z);
-			int j1 = i1 & 3;
-			boolean thirdBit = (i1 & 4) != 0;
-			boolean flag = false;
-			boolean fourthBit = (i1 & 8) != 0;
-
-			if (thirdBit){
-				if (j1 == 0 && face == 2){
-					flag = !flag;
-				}else if (j1 == 1 && face == 5){
-					flag = !flag;
-				}else if (j1 == 2 && face == 3){
-					flag = !flag;
-				}else if (j1 == 3 && face == 4){
-					flag = !flag;
-				}
-			}else{
-				if (j1 == 0 && face == 5){
-					flag = !flag;
-				}else if (j1 == 1 && face == 3){
-					flag = !flag;
-				}else if (j1 == 2 && face == 4){
-					flag = !flag;
-				}else if (j1 == 3 && face == 2){
-					flag = !flag;
-				}
-
-				if ((i1 & 16) != 0){
-					flag = !flag;
-				}
-			}
-
-			return fourthBit ? this.upperIcons[flag ? 1 : 0] : this.lowerIcons[flag ? 1 : 0];
-		}else{
-			return this.lowerIcons[0];
-		}
-	}
-
-	@Override
-	public IIcon getIcon(int par1, int par2){
-		return this.lowerIcons[0];
 	}
 
 	@Override

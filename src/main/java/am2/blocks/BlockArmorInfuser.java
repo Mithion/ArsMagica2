@@ -1,75 +1,29 @@
 package am2.blocks;
 
 import am2.AMCore;
-// import am2.api.blocks.IKeystoneLockable;
-// import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntityArmorImbuer;
 import am2.guis.ArsMagicaGuiIdList;
-import am2.texture.ResourceManager;
-
-import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
+
+// import am2.api.blocks.IKeystoneLockable;
+// import am2.api.items.KeystoneAccessType;
 
 public class BlockArmorInfuser extends PoweredBlock{
-
-	@SideOnly(Side.CLIENT)
-	private IIcon[] icons;
-	private String[] textureNames = {"armor_infuser_side", "armor_infuser_top", "armor_infuser_bottom"};
 
 	protected BlockArmorInfuser(){
 		super(Material.iron);
 		setHardness(4.0f);
 		setResistance(4.0f);
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void registerBlockIcons(IIconRegister IIconRegister){
-		this.icons = new IIcon[textureNames.length];
-
-		for (int i = 0; i < textureNames.length; ++i){
-			this.icons[i] = ResourceManager.RegisterTexture(textureNames[i], IIconRegister);
-		}
-	}
-
-	@Override
-	public IIcon getIcon(IBlockAccess iblockaccess, int i, int j, int k, int side){
-		if (side == 1) //top
-		{
-			return icons[1];
-		}
-		if (side == 0) //bottom
-		{
-			return icons[2];
-		}
-
-		return icons[0];
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta){
-		if (side == 1) //top
-		{
-			return icons[1];
-		}
-		if (side == 0) //bottom
-		{
-			return icons[2];
-		}
-
-		return icons[0];
 	}
 
 	@Override
@@ -78,14 +32,14 @@ public class BlockArmorInfuser extends PoweredBlock{
 	}
 
 	@Override
-	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
-		super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
-		if (handleSpecialItems(par1World, par5EntityPlayer, par2, par3, par4)){
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
+		super.onBlockActivated(world, pos, state, player, side, hitX, hitY, hitZ);
+		if (handleSpecialItems(world, player, pos)){
 			return true;
 		}
-		if (!par1World.isRemote){
-			super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
-			FMLNetworkHandler.openGui(par5EntityPlayer, AMCore.instance, ArsMagicaGuiIdList.GUI_ARMOR_INFUSION, par1World, par2, par3, par4);
+		if (!world.isRemote){
+			super.onBlockActivated(world, pos, state, player, side, hitX, hitY, hitZ);
+			FMLNetworkHandler.openGui(player, AMCore.instance, ArsMagicaGuiIdList.GUI_ARMOR_INFUSION, world, pos.getX(), pos.getY(), pos.getZ());
 			/*
 			if (KeystoneUtilities.HandleKeystoneRecovery(par5EntityPlayer, ((IKeystoneLockable)par1World.getTileEntity(par2, par3, par4))))
 				return true;
@@ -99,12 +53,12 @@ public class BlockArmorInfuser extends PoweredBlock{
 	}
 
 	@Override
-	public void breakBlock(World world, int i, int j, int k, Block par5, int metadata){
+	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		if (world.isRemote){
-			super.breakBlock(world, i, j, k, par5, metadata);
+			super.breakBlock(world, pos, state);
 			return;
 		}
-		TileEntityArmorImbuer imbuer = (TileEntityArmorImbuer)world.getTileEntity(i, j, k);
+		TileEntityArmorImbuer imbuer = (TileEntityArmorImbuer)world.getTileEntity(pos);
 		if (imbuer == null) return;
 		for (int l = 0; l < imbuer.getSizeInventory() - 3; l++){
 			ItemStack itemstack = imbuer.getStackInSlot(l);
@@ -125,7 +79,7 @@ public class BlockArmorInfuser extends PoweredBlock{
 				itemstack.stackSize -= i1;
 				ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
 				newItem.setTagCompound(itemstack.getTagCompound());
-				EntityItem entityitem = new EntityItem(world, i + f, j + f1, k + f2, newItem);
+				EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, newItem);
 				float f3 = 0.05F;
 				entityitem.motionX = (float)world.rand.nextGaussian() * f3;
 				entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
@@ -133,6 +87,6 @@ public class BlockArmorInfuser extends PoweredBlock{
 				world.spawnEntityInWorld(entityitem);
 			}while (true);
 		}
-		super.breakBlock(world, i, j, k, par5, metadata);
+		super.breakBlock(world, pos, state);
 	}
 }

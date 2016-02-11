@@ -7,6 +7,7 @@ import am2.particles.AMParticle;
 import am2.particles.ParticleHoldPosition;
 import am2.playerextensions.ExtendedProperties;
 import am2.utility.NPCSpells;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -189,4 +190,8 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 		return this.ticksInCurrentAction;
 	}
 
+	@Override
+	public World getWorld() {
+		return Minecraft.getMinecraft().theWorld;
+	}
 }

@@ -108,7 +108,7 @@ public class GuiButtonCompendiumTab extends GuiButton{
 
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		Tessellator var9 = Tessellator.instance;
+		Tessellator var9 = Tessellator.getInstance();
 
 		var9.startDrawingQuads();
 		var9.addVertexWithUV(dst_x + 0, dst_y + dst_height, this.zLevel, (src_x + 0) * var7, (src_y + src_height) * var8);

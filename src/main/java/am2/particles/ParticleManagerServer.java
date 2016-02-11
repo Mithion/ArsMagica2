@@ -39,7 +39,7 @@ public class ParticleManagerServer{
 			writer.add(targetX);
 			writer.add(targetY);
 			writer.add(targetZ);
-			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.dimensionId, x, y, z, 32, AMPacketIDs.PARTICLE_SPAWN_SPECIAL, writer.generate());
+			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.getDimensionId(), x, y, z, 32, AMPacketIDs.PARTICLE_SPAWN_SPECIAL, writer.generate());
 		}
 		return null;
 	}
@@ -53,7 +53,7 @@ public class ParticleManagerServer{
 			writer.add(y);
 			writer.add(z);
 			writer.add(target.getEntityId());
-			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.dimensionId, x, y, z, 32, AMPacketIDs.PARTICLE_SPAWN_SPECIAL, writer.generate());
+			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.getDimensionId(), x, y, z, 32, AMPacketIDs.PARTICLE_SPAWN_SPECIAL, writer.generate());
 		}
 		return null;
 	}
@@ -65,7 +65,7 @@ public class ParticleManagerServer{
 			writer.add(name);
 			writer.add(source.getEntityId());
 			writer.add(target.getEntityId());
-			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.dimensionId, source.posX, source.posY, source.posZ, 32, AMPacketIDs.PARTICLE_SPAWN_SPECIAL, writer.generate());
+			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.getDimensionId(), source.posX, source.posY, source.posZ, 32, AMPacketIDs.PARTICLE_SPAWN_SPECIAL, writer.generate());
 		}
 		return null;
 	}
@@ -81,7 +81,7 @@ public class ParticleManagerServer{
 			writer.add(damage);
 			writer.add(type);
 			writer.add(color);
-			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.dimensionId, caster.posX, caster.posY, caster.posZ, 32, AMPacketIDs.PARTICLE_SPAWN_SPECIAL, writer.generate());
+			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.getDimensionId(), caster.posX, caster.posY, caster.posZ, 32, AMPacketIDs.PARTICLE_SPAWN_SPECIAL, writer.generate());
 		}
 	}
 
@@ -114,7 +114,7 @@ public class ParticleManagerServer{
 			writer.add(endZ);
 			writer.add(type);
 			writer.add(color);
-			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.dimensionId, startX, startY, startZ, 32, AMPacketIDs.PARTICLE_SPAWN_SPECIAL, writer.generate());
+			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.getDimensionId(), startX, startY, startZ, 32, AMPacketIDs.PARTICLE_SPAWN_SPECIAL, writer.generate());
 		}
 	}
 
@@ -128,7 +128,7 @@ public class ParticleManagerServer{
 			writer.add(target.getEntityId());
 			writer.add(damage);
 			writer.add(color);
-			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.dimensionId, caster.posX, caster.posY, caster.posZ, 32, AMPacketIDs.PARTICLE_SPAWN_SPECIAL, writer.generate());
+			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.getDimensionId(), caster.posX, caster.posY, caster.posZ, 32, AMPacketIDs.PARTICLE_SPAWN_SPECIAL, writer.generate());
 		}
 		return null;
 	}
@@ -145,7 +145,7 @@ public class ParticleManagerServer{
 			writer.add(endY);
 			writer.add(endZ);
 			writer.add(color);
-			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.dimensionId, startX, startY, startZ, 32, AMPacketIDs.PARTICLE_SPAWN_SPECIAL, writer.generate());
+			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.getDimensionId(), startX, startY, startZ, 32, AMPacketIDs.PARTICLE_SPAWN_SPECIAL, writer.generate());
 		}
 		return null;
 	}
@@ -180,7 +180,7 @@ public class ParticleManagerServer{
 			writer.add(target.getEntityId());
 			writer.add(damage);
 			writer.add(type);
-			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.dimensionId, caster.posX, caster.posY, caster.posZ, 32, AMPacketIDs.PARTICLE_SPAWN_SPECIAL, writer.generate());
+			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.getDimensionId(), caster.posX, caster.posY, caster.posZ, 32, AMPacketIDs.PARTICLE_SPAWN_SPECIAL, writer.generate());
 		}
 	}
 
@@ -212,7 +212,7 @@ public class ParticleManagerServer{
 			writer.add(endY);
 			writer.add(endZ);
 			writer.add(type);
-			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.dimensionId, startX, startY, startZ, 32, AMPacketIDs.PARTICLE_SPAWN_SPECIAL, writer.generate());
+			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.getDimensionId(), startX, startY, startZ, 32, AMPacketIDs.PARTICLE_SPAWN_SPECIAL, writer.generate());
 		}
 	}
 

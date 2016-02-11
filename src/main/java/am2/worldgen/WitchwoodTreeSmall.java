@@ -4,10 +4,10 @@ import am2.blocks.BlocksCommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Random;
 
@@ -22,7 +22,10 @@ public class WitchwoodTreeSmall extends WorldGenAbstractTree{
   
   // this function is copied from WorldGenTrees.java
   // variable names have been changed for readability, and some un-used parts (vine, cocoa generation) have been removed
-  public boolean generate(World world, Random random, int x, int y, int z){
+  public boolean generate(World world, Random random, BlockPos pos){
+	  int x = pos.getX();
+	  int y = pos.getY();
+	  int z = pos.getZ();
 	  int height = random.nextInt(3) + this.minTreeHeight;
 	  boolean isValidPlantingSpot = true;
 	  
@@ -44,9 +47,9 @@ public class WitchwoodTreeSmall extends WorldGenAbstractTree{
 			  for (int i = x - leafMaxRadius; i <= x + leafMaxRadius && isValidPlantingSpot; i++){
 				  for (int k = z - leafMaxRadius; k <= z + leafMaxRadius && isValidPlantingSpot; k++){
 					  if (j >= 0 && j < 256){
-						  block = world.getBlock(i, j, k);
+						  block = world.getBlockState(pos).getBlock();
 						  
-						  if (!this.isReplaceable(world, i, j, k)){
+						  if (!this.isReplaceable(world, pos)){
 							  isValidPlantingSpot = false;
 						  }
 					  }
@@ -61,11 +64,11 @@ public class WitchwoodTreeSmall extends WorldGenAbstractTree{
 			  return false;
 		  }
 		  else{
-			  Block block2 = world.getBlock(x, y - 1, z);
+			  Block block2 = world.getBlockState(pos.down()).getBlock();
 			  
-			  boolean isSoil = block2.canSustainPlant(world, x, y - 1, z, ForgeDirection.UP, (BlockSapling)Blocks.sapling);
+			  boolean isSoil = block2.canSustainPlant(world, pos.down(), EnumFacing.UP, (BlockSapling)Blocks.sapling);
 			  if (isSoil && y < 256 - height - 1){
-				  block2.onPlantGrow(world, x, y - 1, z, x, y, z);
+				  block2.onPlantGrow(world, pos.down(), pos);
 				  leafMaxRadius = 3;
 				  byte b1 = 0;
 				  
@@ -80,10 +83,10 @@ public class WitchwoodTreeSmall extends WorldGenAbstractTree{
 							  int leafGenDeltaZ = k - z;
 							  
 							  if (Math.abs(leafGenDeltaX) != leafGenRadius || Math.abs(leafGenDeltaZ) != leafGenRadius || random.nextInt(2) != 0 && treeHeightLayer != 0){
-								  Block block1 = world.getBlock(i, j, k);
+								  Block block1 = world.getBlockState(pos.add(i, j, k)).getBlock();
 								  
-								  if (block1.isAir(world, i, j, k) || block1.isLeaves(world, i, j, k)){
-									  this.setBlockAndNotifyAdequately(world, i, j, k, leafBlock, leafMeta);
+								  if (block1.isAir(world, pos.add(i, j, k)) || block1.isLeaves(world, pos.add(i, j, k))){
+									  this.setBlockAndNotifyAdequately(world, pos.add(i, j, k), leafBlock.getStateFromMeta(leafMeta));
 								  }
 							  }
 						  }
@@ -91,10 +94,10 @@ public class WitchwoodTreeSmall extends WorldGenAbstractTree{
 				  }
 				  
 				  for (int j = 0; j < height; j++){
-					  block = world.getBlock(x, y + j, z);
+					  block = world.getBlockState(pos.add(x, y + j, z)).getBlock();
 					  
-					  if (block.isAir(world, x, y + j, z) || block.isLeaves(world, x, y + j, z)){
-						  this.setBlockAndNotifyAdequately(world, x, y + j, z, logBlock, logMeta);
+					  if (block.isAir(world, pos.add(x, y + j, z)) || block.isLeaves(world, pos.add(x, y + j, z))){
+						  this.setBlockAndNotifyAdequately(world, pos.add(x, y + j, z), logBlock.getStateFromMeta(logMeta));
 					  }
 				  }
 				  

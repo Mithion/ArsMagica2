@@ -6,6 +6,7 @@ import am2.bosses.ai.*;
 import am2.buffs.BuffList;
 import am2.damage.DamageSources;
 import am2.items.ItemsCommonProxy;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -280,8 +281,12 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 	}
 
 	@Override
-	protected void fall(float par1){
+	public void fall(float distance, float damageMultiplier) {
 
 	}
 
+	@Override
+	public World getWorld() {
+		return Minecraft.getMinecraft().theWorld;
+	}
 }
