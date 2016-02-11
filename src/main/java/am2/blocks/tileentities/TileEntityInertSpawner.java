@@ -8,15 +8,17 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 
-public class TileEntityInertSpawner extends TileEntityAMPower implements IInventory{
+public class TileEntityInertSpawner extends TileEntityAMPower implements IInventory, ISidedInventory{
 
 	private ItemStack phylactery;
 	private float powerConsumed = 0.0f;
@@ -97,28 +99,52 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements IInvent
 	}
 
 	@Override
+	public void openInventory(EntityPlayer player) {
+
+	}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {
+
+	}
+
+	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack){
 		return i == 0 && stack != null && stack.getItem() == ItemsCommonProxy.crystalPhylactery;
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_){
-		return new int[]{0};
+	public int getField(int id) {
+		return 0;
 	}
 
 	@Override
-	public boolean canInsertItem(int i, ItemStack stack, int face){
-		return
-				i == 0 &&
-						this.getStackInSlot(0) == null &&
-						stack != null &&
-						stack.getItem() == ItemsCommonProxy.crystalPhylactery &&
-						stack.stackSize == 1 &&
-						((ItemCrystalPhylactery)stack.getItem()).isFull(stack);
+	public void setField(int id, int value) {
+
 	}
 
 	@Override
-	public boolean canExtractItem(int p_102008_1_, ItemStack p_102008_2_, int p_102008_3_){
+	public int getFieldCount() {
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+
+	}
+
+	@Override
+	public int[] getSlotsForFace(EnumFacing side) {
+		return new int[0];
+	}
+
+	@Override
+	public boolean canInsertItem(int index, ItemStack stack, EnumFacing direction) {
+		return index == 0 && this.getStackInSlot(0) == null && stack != null && stack.getItem() == ItemsCommonProxy.crystalPhylactery && stack.stackSize == 1 && ((ItemCrystalPhylactery)stack.getItem()).isFull(stack);
+	}
+
+	@Override
+	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
 		return true;
 	}
 
@@ -209,5 +235,20 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements IInvent
 	@Override
 	public PowerTypes[] getValidPowerTypes(){
 		return valid;
+	}
+
+	@Override
+	public String getName() {
+		return "inertSpawner";
+	}
+
+	@Override
+	public boolean hasCustomName() {
+		return false;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		return null;
 	}
 }
