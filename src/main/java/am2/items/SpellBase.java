@@ -8,16 +8,14 @@ import am2.api.spell.component.interfaces.ISpellShape;
 import am2.api.spell.enums.Affinity;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.playerextensions.SkillData;
-import am2.spell.*;
+import am2.spell.SkillManager;
+import am2.spell.SkillTreeManager;
+import am2.spell.SpellHelper;
+import am2.spell.SpellUtils;
 import am2.spell.SpellUtils.SpellRequirements;
 import am2.spell.shapes.MissingShape;
-import am2.texture.ResourceManager;
 import am2.utility.MathUtilities;
-import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -30,6 +28,9 @@ import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
@@ -45,13 +46,7 @@ public class SpellBase extends ItemSpellBase{
 
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack){
-		return EnumAction.block;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister){
-		this.itemIcon = ResourceManager.RegisterTexture("spellFrame", par1IconRegister);
+		return EnumAction.BLOCK;
 	}
 
 	@Override
@@ -60,32 +55,8 @@ public class SpellBase extends ItemSpellBase{
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean requiresMultipleRenderPasses(){
-		return true;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int par1){
-		if (par1 == -1){
-			return this.itemIcon;
-		}
-		return SpellTextureHelper.instance.getIcon(par1);
-	}
-
-	@Override
-	public IIcon getIcon(ItemStack stack, int pass){
-		if (pass == 0){
-			return getIconFromDamage(stack.getItemDamage());
-		}else{
-			return this.itemIcon;
-		}
-	}
-
-	@Override
 	public String getItemStackDisplayName(ItemStack par1ItemStack){
-		if (par1ItemStack.stackTagCompound == null) return "\247bMalformed Spell";
+		if (par1ItemStack.getTagCompound() == null) return "\247bMalformed Spell";
 		ISpellShape shape = SpellUtils.instance.getShapeForStage(par1ItemStack, 0);
 		if (shape instanceof MissingShape){
 			return "Unnamed Spell";
@@ -122,8 +93,8 @@ public class SpellBase extends ItemSpellBase{
 				list.add(String.format("%s (%.2f%%)", aff.toString(), affinityData.get(aff) * 100));
 			}
 
-			if (stack.stackTagCompound.hasKey("Lore")){
-				NBTTagList nbttaglist1 = stack.stackTagCompound.getTagList("Lore", Constants.NBT.TAG_COMPOUND);
+			if (stack.getTagCompound().hasKey("Lore")){
+				NBTTagList nbttaglist1 = stack.getTagCompound().getTagList("Lore", Constants.NBT.TAG_COMPOUND);
 
 				if (nbttaglist1.tagCount() > 0){
 					for (int j = 0; j < nbttaglist1.tagCount(); ++j){
@@ -152,12 +123,12 @@ public class SpellBase extends ItemSpellBase{
 		return stack;
 	}
 
-	@Override
-	public boolean hasEffect(ItemStack par1ItemStack, int pass){
-		return false;
-	}
+    @Override
+    public boolean hasEffect(ItemStack stack) {
+        return false;
+    }
 
-	@Override
+    @Override
 	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int ticksUsed){
 		ItemStack classicStack = SpellUtils.instance.constructSpellStack(stack);
 		ISpellShape shape = SpellUtils.instance.getShapeForStage(classicStack, 0);

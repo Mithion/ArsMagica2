@@ -7,7 +7,6 @@ import am2.utility.DummyEntityPlayer;
 import com.google.common.collect.Multimap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -15,6 +14,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -31,7 +31,7 @@ public class ItemNatureGuardianSickle extends ArsMagicaItem{
 	@Override
 	public Multimap getItemAttributeModifiers(){
 		Multimap multimap = super.getItemAttributeModifiers();
-		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", 7, 0));
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Weapon modifier", 7, 0));
 		return multimap;
 	}
 
@@ -41,41 +41,36 @@ public class ItemNatureGuardianSickle extends ArsMagicaItem{
 		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 	}
 
-	@Override
-	public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World, Block par3, int par4, int par5, int par6, EntityLivingBase par7EntityLivingBase){
+    @Override
+    public boolean onBlockDestroyed(ItemStack stack, World world, Block block, BlockPos pos, EntityLivingBase living) {
+        int radius = 1;
 
-		int radius = 1;
+        for (int i = -radius; i <= radius; ++i){
+            for (int j = -radius; j <= radius; ++j){
+                for (int k = -radius; k <= radius; ++k){
 
-		for (int i = -radius; i <= radius; ++i){
-			for (int j = -radius; j <= radius; ++j){
-				for (int k = -radius; k <= radius; ++k){
+                    if (ExtendedProperties.For(living).getCurrentMana() < 5f){
+                        if (world.isRemote)
+                            AMCore.proxy.flashManaBar();
+                        return false;
+                    }
 
-					if (ExtendedProperties.For(par7EntityLivingBase).getCurrentMana() < 5f){
-						if (par2World.isRemote)
-							AMCore.proxy.flashManaBar();
-						return false;
-					}
+                    Block nextBlock = world.getBlockState(new BlockPos(pos.getX() + i, pos.getY() + j, pos.getZ() + k)).getBlock();
+                    if (nextBlock == null) continue;
+                    if (nextBlock instanceof BlockLeaves){
+                        if (ForgeEventFactory.doPlayerHarvestCheck(DummyEntityPlayer.fromEntityLiving(living), nextBlock, true))
+                            if (!world.isRemote)
+                                world.canSnowAt(new BlockPos(pos.getX() + i, pos.getY() + j, pos.getZ() + k), true);
+                        ExtendedProperties.For(living).deductMana(5f);
+                    }
+                }
+            }
+        }
 
-					Block nextBlock = par2World.getBlock(par4 + i, par5 + j, par6 + k);
-					if (nextBlock == null) continue;
-					if (nextBlock instanceof BlockLeaves){
-						if (ForgeEventFactory.doPlayerHarvestCheck(DummyEntityPlayer.fromEntityLiving(par7EntityLivingBase), nextBlock, true))
-							if (!par2World.isRemote)
-								par2World.func_147478_e(par4 + i, par5 + j, par6 + k, true);
-						ExtendedProperties.For(par7EntityLivingBase).deductMana(5f);
-					}
-				}
-			}
-		}
+        return false;
+    }
 
-		return false;
-	}
-
-	@Override
-	public void registerIcons(IIconRegister par1IconRegister){
-	}
-
-	@Override
+    @Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
 		if (flingSickle(par1ItemStack, par2World, par3EntityPlayer)){
 			par3EntityPlayer.inventory.setInventorySlotContents(par3EntityPlayer.inventory.currentItem, null);

@@ -1,7 +1,5 @@
 package am2.items;
 
-import am2.texture.ResourceManager;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 
 public class ItemFocusGreater extends ItemFocus implements ISpellFocus{
@@ -28,10 +26,5 @@ public class ItemFocusGreater extends ItemFocus implements ISpellFocus{
 	@Override
 	public int getFocusLevel(){
 		return 2;
-	}
-
-	@Override
-	public void registerIcons(IIconRegister par1IconRegister){
-		this.itemIcon = ResourceManager.RegisterTexture("focus_greater", par1IconRegister);
 	}
 }

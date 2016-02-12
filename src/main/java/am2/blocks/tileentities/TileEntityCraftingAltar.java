@@ -514,7 +514,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 	private void updateLecternInformation(){
 		if (podiumLocation == null) return;
-		TileEntityLectern lectern = (TileEntityLectern)worldObj.getTileEntity(pos.add(pos.getX() + podiumLocation.getX(), pos.getY() + podiumLocation.getY(), pos.getZ() + podiumLocation.getZ()));
+		TileEntityLectern lectern = (TileEntityLectern)worldObj.getTileEntity(pos.add(podiumLocation));
 		if (lectern != null){
 			if (lectern.hasStack()){
 				ItemStack lecternStack = lectern.getStack();
@@ -561,7 +561,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 	public boolean switchIsOn(){
 		if (switchLocation == null) return false;
-		Block block = worldObj.getBlockState(pos.add(pos.getX() + switchLocation.getX(), pos.getY() + switchLocation.getY(), pos.getZ() + switchLocation.getZ())).getBlock();
+		Block block = worldObj.getBlockState(pos.add(podiumLocation)).getBlock();
 		boolean b = false;
 		if (block == Blocks.lever){
 			for (int i = 0; i < 6; ++i){
@@ -574,9 +574,9 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 	public void flipSwitch(){
 		if (switchLocation == null) return;
-		Block block = worldObj.getBlockState(pos.add(pos.getX() + switchLocation.getX(), pos.getY() + switchLocation.getY(), pos.getZ() + switchLocation.getZ())).getBlock();
+		Block block = worldObj.getBlockState(pos.add(podiumLocation)).getBlock();
 		if (block == Blocks.lever){
-			Blocks.lever.onBlockActivated(worldObj, pos.add(xCoord + switchLocation.getX(), yCoord + switchLocation.getY(), zCoord + switchLocation.getZ()), null, 0, 0, 0, 0);
+			Blocks.lever.onBlockActivated(worldObj, pos.add(switchLocation), null, 0, 0, 0, 0);
 		}
 	}
 

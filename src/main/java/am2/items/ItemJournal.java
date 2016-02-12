@@ -1,14 +1,9 @@
 package am2.items;
 
 import am2.utility.EntityUtilities;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
@@ -24,12 +19,7 @@ public class ItemJournal extends ArsMagicaItem{
 	}
 
 	@Override
-	public IIcon getIconFromDamage(int par1){
-		return Items.book.getIconFromDamage(par1);
-	}
-
-	@Override
-	public boolean hasEffect(ItemStack par1ItemStack, int pass){
+	public boolean hasEffect(ItemStack stack) {
 		return true;
 	}
 
@@ -84,9 +74,9 @@ public class ItemJournal extends ArsMagicaItem{
 	}
 
 	private void addXPToJournal(ItemStack journal, int amount){
-		if (!journal.hasTagCompound())
-			journal.stackTagCompound = new NBTTagCompound();
-		journal.stackTagCompound.setInteger(KEY_NBT_XP, journal.stackTagCompound.getInteger(KEY_NBT_XP) + amount);
+		/*if (!journal.hasTagCompound())
+			journal.getTagCompound() = new NBTTagCompound();*/
+		journal.getTagCompound().setInteger(KEY_NBT_XP, journal.getTagCompound().getInteger(KEY_NBT_XP) + amount);
 	}
 
 	private void deductXPFromJournal(ItemStack journal, int amount){
@@ -96,23 +86,18 @@ public class ItemJournal extends ArsMagicaItem{
 	private int getXPInJournal(ItemStack journal){
 		if (!journal.hasTagCompound())
 			return 0;
-		return journal.stackTagCompound.getInteger(KEY_NBT_XP);
+		return journal.getTagCompound().getInteger(KEY_NBT_XP);
 	}
 
 	private String getOwner(ItemStack journal){
 		if (!journal.hasTagCompound())
 			return null;
-		return journal.stackTagCompound.getString(KEY_NBT_OWNER);
+		return journal.getTagCompound().getString(KEY_NBT_OWNER);
 	}
 
 	private void setOwner(ItemStack journal, EntityPlayer player){
-		if (!journal.hasTagCompound())
-			journal.stackTagCompound = new NBTTagCompound();
-		journal.stackTagCompound.setString(KEY_NBT_OWNER, player.getName());
+		/*if (!journal.hasTagCompound())
+			journal.stackTagCompound = new NBTTagCompound();*/
+		journal.getTagCompound().setString(KEY_NBT_OWNER, player.getName());
 	}
-
-	@Override
-	public void registerIcons(IIconRegister par1IconRegister){
-	}
-
 }

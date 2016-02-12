@@ -11,11 +11,7 @@ import am2.spell.SkillManager;
 import am2.spell.SkillTreeManager;
 import am2.spell.SpellHelper;
 import am2.spell.SpellUtils;
-import am2.texture.ResourceManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -23,10 +19,13 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -38,12 +37,7 @@ public class ItemSpellStaff extends ArsMagicaItem{
 
 	private static final String NBT_CHARGE = "current_charge";
 	private static final String NBT_SPELL = "spell_to_cast";
-	private static final String NBT_SPELL_NAME = "spell_name";
-
-	@SideOnly(Side.CLIENT)
-	private IIcon[] icons;
-	@SideOnly(Side.CLIENT)
-	private String[] textureFiles;
+	private static final String NBT_SPELL_NAME = "spell_name";;
 
 	public ItemSpellStaff(int charge, int castingMode){
 		super();
@@ -51,17 +45,6 @@ public class ItemSpellStaff extends ArsMagicaItem{
 		this.maxCharge = charge;
 		this.maxStackSize = 1;
 		this.castingMode = castingMode;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister){
-		textureFiles = new String[]{"staff_lesser", "staff_standard", "staff_greater", "staff_magitech"};
-		icons = new IIcon[textureFiles.length];
-
-		for (int i = 0; i < icons.length; ++i){
-			icons[i] = ResourceManager.RegisterTexture(textureFiles[i], par1IconRegister);
-		}
 	}
 
 	/**
@@ -78,23 +61,10 @@ public class ItemSpellStaff extends ArsMagicaItem{
 		return this;
 	}
 
-	@Override
-	public boolean hasEffect(ItemStack par1ItemStack, int pass){
-		if (pass == 0) return false;
-		else return isMagiTechStaff() || getSpellStack(par1ItemStack) != null;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean requiresMultipleRenderPasses(){
-		return true;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamageForRenderPass(int dmg, int pass){
-		return icons[staffHeadIndex];
-	}
+    @Override
+    public boolean hasEffect(ItemStack stack) {
+        return isMagiTechStaff() || getSpellStack(stack) != null;
+    }
 
 	public boolean isMagiTechStaff(){
 		return this.castingMode == -1;
@@ -149,8 +119,8 @@ public class ItemSpellStaff extends ArsMagicaItem{
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack){
 		if (isMagiTechStaff())
-			return EnumAction.none;
-		return EnumAction.block;
+			return EnumAction.NONE;
+		return EnumAction.BLOCK;
 	}
 
 	@Override
@@ -167,10 +137,10 @@ public class ItemSpellStaff extends ArsMagicaItem{
 
 	public void setSpellScroll(ItemStack stack, ItemStack spell){
 		if (isMagiTechStaff()) return;
-		if (stack.stackTagCompound == null){
+		/*if (stack.stackTagCompound == null){
 			stack.stackTagCompound = new NBTTagCompound();
-		}
-		NBTTagCompound compound = stack.stackTagCompound;
+		}*/
+		NBTTagCompound compound = stack.getTagCompound();
 		NBTTagCompound spellCompound = spell.writeToNBT(new NBTTagCompound());
 		compound.setTag(NBT_SPELL, spellCompound);
 		compound.setString(NBT_SPELL_NAME, spell.getDisplayName());
@@ -180,18 +150,18 @@ public class ItemSpellStaff extends ArsMagicaItem{
 
 	public void copyChargeFrom(ItemStack my_stack, ItemStack stack){
 		if (isMagiTechStaff()) return;
-		if (stack.getItem() instanceof ItemSpellStaff && stack.stackTagCompound != null && stack.stackTagCompound.hasKey("current_charge")){
-			if (my_stack.stackTagCompound == null){
-				my_stack.stackTagCompound = new NBTTagCompound();
-			}
-			my_stack.stackTagCompound.setFloat("current_charge", stack.stackTagCompound.getFloat("current_charge"));
+		if (stack.getItem() instanceof ItemSpellStaff && stack.getTagCompound() != null && stack.getTagCompound().hasKey("current_charge")){
+			/*if (my_stack.getTagCompound() == null){
+				my_stack.getTagCompound() = new NBTTagCompound();
+			}*/
+			my_stack.getTagCompound().setFloat("current_charge", stack.getTagCompound().getFloat("current_charge"));
 		}
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List par3List, boolean par4){
-		if (stack.stackTagCompound == null || isMagiTechStaff()) return;
+		if (stack.getTagCompound() == null || isMagiTechStaff()) return;
 		float chargeCost = 1;
 
 		ItemStack spell = getSpellStack(stack);
@@ -202,7 +172,7 @@ public class ItemSpellStaff extends ArsMagicaItem{
 		if (chargeCost == 0)
 			chargeCost = 1;
 
-		float chargeRemaining = stack.stackTagCompound.getFloat(NBT_CHARGE);
+		float chargeRemaining = stack.getTagCompound().getFloat(NBT_CHARGE);
 		int chargesRemaining = (int)Math.ceil(chargeRemaining / chargeCost);
 
 		par3List.add(StatCollector.translateToLocal("am2.tooltip.charge") + ": " + (int)chargeRemaining + " / " + maxCharge);
@@ -225,41 +195,40 @@ public class ItemSpellStaff extends ArsMagicaItem{
 		return true;
 	}
 
-	@Override
-	public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int X, int Y, int Z, int side, float par8, float par9, float par10){
-		if (isMagiTechStaff()){
-			return true;
-		}
+    @Override
+    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if (isMagiTechStaff()) {
+            return true;
+        }
+        return false;
+    }
 
-		return false;
-	}
+    @Override
+    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if (isMagiTechStaff()){
+            if (!world.isRemote){
+                TileEntity te = world.getTileEntity(pos);
+                if (te != null && te instanceof IPowerNode){
+                    if (player.isSneaking()){
+                        AMNetHandler.INSTANCE.syncPowerPaths((IPowerNode)te, (EntityPlayerMP)player);
+                    }else{
+                        PowerTypes[] types = ((IPowerNode)te).getValidPowerTypes();
+                        for (PowerTypes type : types){
+                            float power = PowerNodeRegistry.For(world).getPower((IPowerNode)te, type);
+                            player.addChatMessage(
+                                    new ChatComponentText(
+                                            String.format(
+                                                    StatCollector.translateToLocal("am2.tooltip.det_eth"),
+                                                    type.chatColor(), type.name(), String.format("%.2f", power))));
+                        }
+                    }
+                    return true;
+                }
+            }
+        }
 
-	@Override
-	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		if (isMagiTechStaff()){
-			if (!world.isRemote){
-				TileEntity te = world.getTileEntity(x, y, z);
-				if (te != null && te instanceof IPowerNode){
-					if (player.isSneaking()){
-						AMNetHandler.INSTANCE.syncPowerPaths((IPowerNode)te, (EntityPlayerMP)player);
-					}else{
-						PowerTypes[] types = ((IPowerNode)te).getValidPowerTypes();
-						for (PowerTypes type : types){
-							float power = PowerNodeRegistry.For(world).getPower((IPowerNode)te, type);
-							player.addChatMessage(
-									new ChatComponentText(
-											String.format(
-													StatCollector.translateToLocal("am2.tooltip.det_eth"),
-													type.chatColor(), type.name(), String.format("%.2f", power))));
-						}
-					}
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}
+        return false;
+    }
 
 	@Override
 	public void onPlayerStoppedUsing(ItemStack itemstack, World world, EntityPlayer entityplayer, int i){
@@ -302,7 +271,7 @@ public class ItemSpellStaff extends ArsMagicaItem{
 	}
 
 	private ItemStack getSpellStack(ItemStack staffStack){
-		if (!staffStack.hasTagCompound() || !staffStack.stackTagCompound.hasKey(NBT_SPELL))
+		if (!staffStack.hasTagCompound() || !staffStack.getTagCompound().hasKey(NBT_SPELL))
 			return null;
 		ItemStack stack = new ItemStack(ItemsCommonProxy.spell);
 		stack.readFromNBT(staffStack.getTagCompound().getCompoundTag(NBT_SPELL));
@@ -335,7 +304,7 @@ public class ItemSpellStaff extends ArsMagicaItem{
 	public int getDamage(ItemStack stack){
 		if (!stack.hasTagCompound())
 			return super.getDamage(stack);
-		float chargeRemaining = stack.stackTagCompound.getFloat(NBT_CHARGE);
+		float chargeRemaining = stack.getTagCompound().getFloat(NBT_CHARGE);
 		return maxCharge - (int)Math.floor(chargeRemaining);
 	}
 
@@ -350,9 +319,9 @@ public class ItemSpellStaff extends ArsMagicaItem{
 		if (chargeCost == 0)
 			chargeCost = 1;
 
-		float chargeRemaining = staffStack.stackTagCompound.getFloat(NBT_CHARGE);
+		float chargeRemaining = staffStack.getTagCompound().getFloat(NBT_CHARGE);
 		chargeRemaining -= chargeCost;
-		staffStack.stackTagCompound.setFloat(NBT_CHARGE, chargeRemaining);
+		staffStack.getTagCompound().setFloat(NBT_CHARGE, chargeRemaining);
 
 		if (chargeRemaining <= 0){
 			if (!caster.worldObj.isRemote){

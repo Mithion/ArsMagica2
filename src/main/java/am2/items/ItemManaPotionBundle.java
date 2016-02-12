@@ -1,59 +1,26 @@
 package am2.items;
 
 import am2.playerextensions.ExtendedProperties;
-import am2.texture.ResourceManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
 public class ItemManaPotionBundle extends ArsMagicaItem{
-
-	private IIcon[] icons;
 	private final String[] textureFiles = {"potion_bundle_lesser", "potion_bundle_standard", "potion_bundle_greater", "potion_bundle_epic", "potion_bundle_legendary"};
 
 	public ItemManaPotionBundle(){
 		super();
 		this.setMaxDamage(0);
 		this.setMaxStackSize(1);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister){
-		icons = new IIcon[textureFiles.length];
-
-		for (int i = 0; i < textureFiles.length; ++i){
-			icons[i] = ResourceManager.RegisterTexture(textureFiles[i], par1IconRegister);
-		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int par1){
-		Item potion = getPotion(par1);
-		if (potion == ItemsCommonProxy.lesserManaPotion){
-			return icons[0];
-		}else if (potion == ItemsCommonProxy.standardManaPotion){
-			return icons[1];
-		}else if (potion == ItemsCommonProxy.greaterManaPotion){
-			return icons[2];
-		}else if (potion == ItemsCommonProxy.epicManaPotion){
-			return icons[3];
-		}else if (potion == ItemsCommonProxy.legendaryManaPotion){
-			return icons[4];
-		}
-		return icons[0];
 	}
 
 	private Item getPotion(int damage){
@@ -84,7 +51,7 @@ public class ItemManaPotionBundle extends ArsMagicaItem{
 
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack){
-		return EnumAction.drink;
+		return EnumAction.DRINK;
 	}
 
 	@Override
@@ -96,35 +63,34 @@ public class ItemManaPotionBundle extends ArsMagicaItem{
 		return par1ItemStack;
 	}
 
+    @Override
+    public ItemStack onItemUseFinish(ItemStack stack, World world, EntityPlayer player) {
+        Item potion = getPotion(stack.getItemDamage());
+        if (potion == ItemsCommonProxy.lesserManaPotion){
+            ItemsCommonProxy.lesserManaPotion.onItemUseFinish(stack, world, player);
+        }else if (potion == ItemsCommonProxy.standardManaPotion){
+            ItemsCommonProxy.standardManaPotion.onItemUseFinish(stack, world, player);
+        }else if (potion == ItemsCommonProxy.greaterManaPotion){
+            ItemsCommonProxy.greaterManaPotion.onItemUseFinish(stack, world, player);
+        }else if (potion == ItemsCommonProxy.epicManaPotion){
+            ItemsCommonProxy.epicManaPotion.onItemUseFinish(stack, world, player);
+        }else if (potion == ItemsCommonProxy.legendaryManaPotion){
+            ItemsCommonProxy.legendaryManaPotion.onItemUseFinish(stack, world, player);
+        }
 
-	@Override
-	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
-		Item potion = getPotion(par1ItemStack.getItemDamage());
-		if (potion == ItemsCommonProxy.lesserManaPotion){
-			ItemsCommonProxy.lesserManaPotion.onEaten(par1ItemStack, par2World, par3EntityPlayer);
-		}else if (potion == ItemsCommonProxy.standardManaPotion){
-			ItemsCommonProxy.standardManaPotion.onEaten(par1ItemStack, par2World, par3EntityPlayer);
-		}else if (potion == ItemsCommonProxy.greaterManaPotion){
-			ItemsCommonProxy.greaterManaPotion.onEaten(par1ItemStack, par2World, par3EntityPlayer);
-		}else if (potion == ItemsCommonProxy.epicManaPotion){
-			ItemsCommonProxy.epicManaPotion.onEaten(par1ItemStack, par2World, par3EntityPlayer);
-		}else if (potion == ItemsCommonProxy.legendaryManaPotion){
-			ItemsCommonProxy.legendaryManaPotion.onEaten(par1ItemStack, par2World, par3EntityPlayer);
-		}
+        stack.setItemDamage(((stack.getItemDamage() >> 8) << 8) + getUses(stack.getItemDamage()) - 1);
 
-		par1ItemStack.setItemDamage(((par1ItemStack.getItemDamage() >> 8) << 8) + getUses(par1ItemStack.getItemDamage()) - 1);
+        if (getUses(stack.getItemDamage()) == 0){
+            giveOrDropItem(player, new ItemStack(Items.string));
+            player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+        }
 
-		if (getUses(par1ItemStack.getItemDamage()) == 0){
-			giveOrDropItem(par3EntityPlayer, new ItemStack(Items.string));
-			par3EntityPlayer.inventory.setInventorySlotContents(par3EntityPlayer.inventory.currentItem, null);
-		}
+        giveOrDropItem(player, new ItemStack(Items.glass_bottle));
 
-		giveOrDropItem(par3EntityPlayer, new ItemStack(Items.glass_bottle));
+        return stack;
+    }
 
-		return par1ItemStack;
-	}
-
-	private void giveOrDropItem(EntityPlayer player, ItemStack stack){
+    private void giveOrDropItem(EntityPlayer player, ItemStack stack){
 		if (!player.inventory.addItemStackToInventory(stack))
 			player.dropPlayerItemWithRandomChoice(stack, true);
 	}

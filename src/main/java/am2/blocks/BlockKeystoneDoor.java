@@ -35,7 +35,6 @@ public class BlockKeystoneDoor extends BlockDoor implements ITileEntityProvider{
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int direction, float xOffset, float yOffset, float zOffset){
-
 		if (world.getBlock(x, y - 1, z) == BlocksCommonProxy.keystoneDoor)
 			y--;
 

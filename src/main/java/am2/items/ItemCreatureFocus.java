@@ -1,7 +1,5 @@
 package am2.items;
 
-import am2.texture.ResourceManager;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -35,10 +33,4 @@ public class ItemCreatureFocus extends ItemFilterFocus{
 	public Class getFilterClass(){
 		return EntityCreature.class;
 	}
-
-	@Override
-	public void registerIcons(IIconRegister par1IconRegister){
-		this.itemIcon = ResourceManager.RegisterTexture("focus_seer_creature", par1IconRegister);
-	}
-
 }

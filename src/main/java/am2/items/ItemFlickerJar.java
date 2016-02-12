@@ -2,54 +2,19 @@ package am2.items;
 
 import am2.api.spell.enums.Affinity;
 import am2.entities.EntityFlicker;
-import am2.texture.ResourceManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 
 import java.util.List;
 
 public class ItemFlickerJar extends ArsMagicaItem{
 
-	@SideOnly(Side.CLIENT)
-	private IIcon flickerIcon;
-
 	public ItemFlickerJar(){
 		super();
 		this.setMaxDamage(0);
 		setHasSubtypes(true);
-	}
-
-	@Override
-	public void registerIcons(IIconRegister par1IconRegister){
-		itemIcon = ResourceManager.RegisterTexture("flickerjar_bottle", par1IconRegister);
-		flickerIcon = ResourceManager.RegisterTexture("flickerjar_flicker", par1IconRegister);
-	}
-
-	@Override
-	public int getRenderPasses(int metadata){
-		return metadata == 0 ? 1 : 2;
-	}
-
-	@Override
-	public boolean requiresMultipleRenderPasses(){
-		return true;
-	}
-
-	@Override
-	public IIcon getIcon(ItemStack stack, int pass){
-		if (stack.getItemDamage() == 0)
-			return itemIcon;
-
-		if (pass == 0)
-			return flickerIcon;
-		else
-			return itemIcon;
 	}
 
 	@Override

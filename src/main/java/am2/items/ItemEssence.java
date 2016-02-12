@@ -1,26 +1,16 @@
 package am2.items;
 
 import am2.api.power.PowerTypes;
-import am2.particles.AMParticleIcons;
-import am2.texture.ResourceManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
 public class ItemEssence extends ArsMagicaItem{
-
-	@SideOnly(Side.CLIENT)
-	private String[] textures;
-	@SideOnly(Side.CLIENT)
-	private IIcon[] icons;
-
 	public static final int META_ARCANE = 0;
 	public static final int META_EARTH = 1;
 	public static final int META_AIR = 2;
@@ -88,33 +78,6 @@ public class ItemEssence extends ArsMagicaItem{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister iconRegister){
-		textures = new String[]{"essence_arcane", "essence_earth", "essence_air", "essence_fire", "essence_water", "essence_plant", "essence_ice", "essence_lightning", "essence_life", "essence_ender", "pure_essence", "high_essence_core", "base_essence_core"};
-		this.icons = new IIcon[this.textures.length];
-
-		for (int i = 0; i < this.textures.length; ++i){
-			this.icons[i] = ResourceManager.RegisterTexture(this.textures[i], iconRegister);
-		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int damage){
-		if (this.icons != null && damage <= META_MAX){
-			return this.icons[damage];
-		}else{
-			return AMParticleIcons.instance.getIconByName("mystic");
-		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean requiresMultipleRenderPasses(){
-		return false;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack par1ItemStack, int par2){
 		if (par1ItemStack.getItemDamage() > META_MAX){
 			int flags = par1ItemStack.getItemDamage() - META_MAX;
@@ -138,7 +101,7 @@ public class ItemEssence extends ArsMagicaItem{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List){
-		for (int i = 0; i < this.textures.length; ++i){
+		for (int i = 0; i < 12; ++i){
 			par3List.add(new ItemStack(par1, 1, i));
 		}
 	}

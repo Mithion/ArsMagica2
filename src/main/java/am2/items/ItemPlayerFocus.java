@@ -1,7 +1,5 @@
 package am2.items;
 
-import am2.texture.ResourceManager;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -30,10 +28,4 @@ public class ItemPlayerFocus extends ItemFilterFocus{
 	public String getInGameName(){
 		return "Player Focus";
 	}
-
-	@Override
-	public void registerIcons(IIconRegister par1IconRegister){
-		this.itemIcon = ResourceManager.RegisterTexture("focus_seer_player", par1IconRegister);
-	}
-
 }

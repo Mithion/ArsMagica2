@@ -1,21 +1,15 @@
 package am2.items;
 
-import am2.texture.ResourceManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
 public class ItemOre extends ArsMagicaItem{
-
-	@SideOnly(Side.CLIENT)
-	private IIcon[] icons;
 	@SideOnly(Side.CLIENT)
 	private String[] textures;
 
@@ -74,40 +68,8 @@ public class ItemOre extends ArsMagicaItem{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister){
-		textures = new String[]{"vinteum_dust", "arcane_compound", "arcane_ash", "purified_vinteum", "chimerite_gem", "blue_topaz_gem", "sunstone_gem", "moonstone_gem", "animalFat"};
-
-		icons = new IIcon[textures.length];
-
-		int count = 0;
-		for (String s : textures){
-			icons[count++] = ResourceManager.RegisterTexture(s, par1IconRegister);
-		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int meta){
-		return icons[meta % icons.length];
-	}
-
-	@Override
-	public String getPotionEffect(ItemStack stack){
-		switch (stack.getItemDamage()){
-		case META_VINTEUMDUST:
-			return "+0+1+2-3&4-4+13";
-		case META_ARCANEASH:
-			return "+0+1-2+3&4-4+13";
-		case META_PURIFIEDVINTEUM:
-			return "+0-1+2+3&4-4+13";
-		}
-		return "";
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List){
-		for (int i = 0; i < icons.length; ++i){
+		for (int i = 0; i < 9; ++i){
 			par3List.add(new ItemStack(this, 1, i));
 		}
 	}

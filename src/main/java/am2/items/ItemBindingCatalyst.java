@@ -1,15 +1,11 @@
 package am2.items;
 
-import am2.texture.ResourceManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -49,45 +45,6 @@ public class ItemBindingCatalyst extends ArsMagicaItem{
 			return baseName + StatCollector.translateToLocal("item.arsmagica2:bindingCatalystBow.name");
 		}
 		return baseName;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister IIconRegister){
-		itemIcon = ResourceManager.RegisterTexture("bindingCatalyst", IIconRegister);
-	}
-
-	@Override
-	public boolean requiresMultipleRenderPasses(){
-		return true;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int damage){
-		return itemIcon;
-	}
-
-	@Override
-	public IIcon getIconFromDamageForRenderPass(int dmg, int pass){
-		if (pass == 0){
-			switch (dmg){
-			case META_PICK:
-				return ItemsCommonProxy.BoundPickaxe.getIconFromDamage(0);
-			case META_AXE:
-				return ItemsCommonProxy.BoundAxe.getIconFromDamage(0);
-			case META_SHOVEL:
-				return ItemsCommonProxy.BoundShovel.getIconFromDamage(0);
-			case META_SWORD:
-				return ItemsCommonProxy.BoundSword.getIconFromDamage(0);
-			case META_HOE:
-				return ItemsCommonProxy.BoundHoe.getIconFromDamage(0);
-			case META_BOW:
-				return Items.bow.getIconFromDamage(0);
-			}
-		}
-
-		return itemIcon;
 	}
 
 	@Override

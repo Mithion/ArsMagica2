@@ -9,29 +9,21 @@ import am2.particles.AMLineArc;
 import am2.playerextensions.ExtendedProperties;
 import am2.playerextensions.SkillData;
 import am2.spell.SpellUtils;
-import am2.texture.ResourceManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
-
-import java.util.List;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemRune extends ArsMagicaItem{
 
 	@SideOnly(Side.CLIENT)
 	private String[] textures;
-	@SideOnly(Side.CLIENT)
-	private IIcon[] icons;
 
 	public static final int META_BLACK = 0;
 	public static final int META_BLANK = 1;
@@ -118,89 +110,51 @@ public class ItemRune extends ArsMagicaItem{
 		return getKeyIndex(stack.getItemDamage());
 	}
 
-	public int getKeyIndex(int meta){
-		switch (meta){
-		case META_BLACK:
-			return 0x1;
-		case META_BLANK:
-			return 0x2;
-		case META_BLUE:
-			return 0x4;
-		case META_BROWN:
-			return 0x8;
-		case META_CYAN:
-			return 0x10;
-		case META_GRAY:
-			return 0x20;
-		case META_GREEN:
-			return 0x40;
-		case META_LIGHTBLUE:
-			return 0x80;
-		case META_LIGHTGRAY:
-			return 0x100;
-		case META_LIME:
-			return 0x200;
-		case META_MAGENTA:
-			return 0x400;
-		case META_ORANGE:
-			return 0x800;
-		case META_PINK:
-			return 0x1000;
-		case META_PURPLE:
-			return 0x2000;
-		case META_RED:
-			return 0x4000;
-		case META_WHITE:
-			return 0x8000;
-		case META_YELLOW:
-			return 0x10000;
-		default:
-			return 0;
-		}
-	}
-
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister IIconRegister){
-		textures = new String[]{"rune_black", "rune_blank", "rune_blue", "rune_brown", "rune_cyan", "rune_gray", "rune_green", "rune_light_blue", "rune_light_gray", "rune_lime", "rune_magenta", "rune_orange", "rune_pink", "rune_purple", "rune_red", "rune_white", "rune_yellow", "infinityorb_blue", "infinityorb_green", "infinityorb_red", "debug_placeholder"};
-		this.icons = new IIcon[this.textures.length];
-
-		for (int i = 0; i < this.textures.length; ++i){
-			if (i == META_DEBUGRUNE){
-				this.icons[i] = this.icons[META_RED];
-			}else{
-				this.icons[i] = ResourceManager.RegisterTexture(this.textures[i], IIconRegister);
-			}
-		}
-	}
+	public int getKeyIndex(int meta) {
+        switch (meta) {
+            case META_BLACK:
+                return 0x1;
+            case META_BLANK:
+                return 0x2;
+            case META_BLUE:
+                return 0x4;
+            case META_BROWN:
+                return 0x8;
+            case META_CYAN:
+                return 0x10;
+            case META_GRAY:
+                return 0x20;
+            case META_GREEN:
+                return 0x40;
+            case META_LIGHTBLUE:
+                return 0x80;
+            case META_LIGHTGRAY:
+                return 0x100;
+            case META_LIME:
+                return 0x200;
+            case META_MAGENTA:
+                return 0x400;
+            case META_ORANGE:
+                return 0x800;
+            case META_PINK:
+                return 0x1000;
+            case META_PURPLE:
+                return 0x2000;
+            case META_RED:
+                return 0x4000;
+            case META_WHITE:
+                return 0x8000;
+            case META_YELLOW:
+                return 0x10000;
+            default:
+                return 0;
+        }
+    }
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack par1ItemStack){
 		return par1ItemStack.getItemDamage() > 16;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int damage){
-		if (damage < 0 || damage >= this.icons.length)
-			return this.icons[0];
-		return this.icons[damage];
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean requiresMultipleRenderPasses(){
-		return false;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List){
-		for (int i = 0; i < this.icons.length; ++i){
-			par3List.add(new ItemStack(par1, 1, i));
-		}
 	}
 
 	@Override
@@ -268,11 +222,11 @@ public class ItemRune extends ArsMagicaItem{
 		if (world.isRemote){
 			MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, true);
 			if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK){
-				Block block = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
-				int meta = world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
+				Block block = world.getBlockState(mop.getBlockPos()).getBlock();
+				/*int meta = world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);*/
 				player.addChatMessage(
 						new ChatComponentText(
-								String.format("%s, Meta: %d", block.getLocalizedName(), meta)
+								String.format("%s, Meta: %d", block.getLocalizedName())
 						));
 			}
 		}
@@ -367,11 +321,11 @@ public class ItemRune extends ArsMagicaItem{
 		if (!world.isRemote){
 			MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, true);
 			if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK){
-				TileEntity te = world.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
+				TileEntity te = world.getTileEntity(mop.getBlockPos());
 				if (te instanceof IInventory){
 					EntityBroom broom = new EntityBroom(world);
 					broom.setPosition(player.posX, player.posY, player.posZ);
-					broom.setChestLocation(new AMVector3(mop.blockX, mop.blockY, mop.blockZ));
+					broom.setChestLocation(new AMVector3(mop.getBlockPos().getX(), mop.getBlockPos().getZ(), mop.getBlockPos().getZ()));
 					world.spawnEntityInWorld(broom);
 				}
 			}

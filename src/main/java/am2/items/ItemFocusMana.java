@@ -1,7 +1,5 @@
 package am2.items;
 
-import am2.texture.ResourceManager;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 
 public class ItemFocusMana extends ItemFocus{
@@ -22,10 +20,5 @@ public class ItemFocusMana extends ItemFocus{
 	@Override
 	public String getInGameName(){
 		return "Mana Focus";
-	}
-
-	@Override
-	public void registerIcons(IIconRegister par1IconRegister){
-		this.itemIcon = ResourceManager.RegisterTexture("focus_machinery_mana", par1IconRegister);
 	}
 }

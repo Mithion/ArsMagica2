@@ -1,23 +1,15 @@
 package am2.items;
 
-import am2.texture.ResourceManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
 public class InscriptionTableUpgrade extends ArsMagicaItem{
-
-	@SideOnly(Side.CLIENT)
-	private IIcon[] icons;
-	@SideOnly(Side.CLIENT)
-	private String[] textures;
 
 	public InscriptionTableUpgrade(){
 		super();
@@ -28,24 +20,8 @@ public class InscriptionTableUpgrade extends ArsMagicaItem{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister){
-		textures = new String[]{"inscrip_upgrade_1", "inscrip_upgrade_2", "inscrip_upgrade_3"};
-		icons = new IIcon[textures.length];
-		for (int i = 0; i < textures.length; ++i){
-			icons[i] = ResourceManager.RegisterTexture(textures[i], par1IconRegister);
-		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int par1){
-		return icons[par1];
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List){
-		for (int i = 0; i < textures.length; ++i){
+		for (int i = 0; i < 2; ++i){
 			par3List.add(new ItemStack(this, 1, i));
 		}
 	}

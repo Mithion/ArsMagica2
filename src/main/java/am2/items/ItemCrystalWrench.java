@@ -10,27 +10,17 @@ import am2.particles.AMParticle;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleMoveOnHeading;
 import am2.power.PowerNodeRegistry;
-import am2.texture.ResourceManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class ItemCrystalWrench extends ArsMagicaRotatedItem{
-
-	@SideOnly(Side.CLIENT)
-	private IIcon wrenchStoredIcon;
-
-	@SideOnly(Side.CLIENT)
-	private IIcon wrenchDisconnectIcon;
-
 	private static String KEY_PAIRLOC = "PAIRLOC";
 	private static String HAB_PAIRLOC = "HABLOC";
 	private static String KEEP_BINDING = "KEEPBINDING";
@@ -44,15 +34,8 @@ public class ItemCrystalWrench extends ArsMagicaRotatedItem{
 	}
 
 	@Override
-	public void registerIcons(IIconRegister par1IconRegister){
-		this.itemIcon = ResourceManager.RegisterTexture("crystal_wrench", par1IconRegister);
-		wrenchStoredIcon = ResourceManager.RegisterTexture("crystal_wrench_stored", par1IconRegister);
-		wrenchDisconnectIcon = ResourceManager.RegisterTexture("crystal_wrench_disconnect", par1IconRegister);
-	}
-
-	@Override
-	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		TileEntity te = world.getTileEntity(x, y, z);
+	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+		TileEntity te = world.getTileEntity(pos);
 
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
@@ -65,17 +48,17 @@ public class ItemCrystalWrench extends ArsMagicaRotatedItem{
 
 		if (te != null && te instanceof IPowerNode){
 			if (cMode == MODE_DISCONNECT){
-				doDisconnect((IPowerNode)te, world, x + hitX, y + hitY, z + hitZ, player);
+				doDisconnect((IPowerNode)te, world, pos.getX() + hitX, pos.getY() + hitY, pos.getZ() + hitZ, player);
 				return false;
 			}
 
-			if (stack.stackTagCompound.hasKey(KEY_PAIRLOC)){
-				doPairNodes(world, x, y, z, stack, player, hitX, hitY, hitZ, te);
+			if (stack.getTagCompound().hasKey(KEY_PAIRLOC)){
+				doPairNodes(world, pos, stack, player, hitX, hitY, hitZ, te);
 			}else{
-				storePairLocation(world, te, stack, player, x + hitX, y + hitY, z + hitZ);
+				storePairLocation(world, te, stack, player, pos.getX() + hitX, pos.getY() + hitY, pos.getZ() + hitZ);
 			}
-		}else if (te != null && te instanceof TileEntityCrystalMarker && stack.stackTagCompound != null && stack.stackTagCompound.hasKey(HAB_PAIRLOC)){
-			handleCMPair(stack, world, player, te, x + hitX, y + hitY, z + hitZ);
+		}else if (te != null && te instanceof TileEntityCrystalMarker && stack.getTagCompound() != null && stack.getTagCompound().hasKey(HAB_PAIRLOC)){
+			handleCMPair(stack, world, player, te, pos.getX() + hitX, pos.getY() + hitY, pos.getZ() + hitZ);
 		}else if (player.isSneaking()){
 			handleModeChanges(stack);
 
@@ -84,7 +67,7 @@ public class ItemCrystalWrench extends ArsMagicaRotatedItem{
 	}
 
 	private void handleCMPair(ItemStack stack, World world, EntityPlayer player, TileEntity te, double hitX, double hitY, double hitZ){
-		AMVector3 habLocation = AMVector3.readFromNBT(stack.stackTagCompound.getCompoundTag(HAB_PAIRLOC));
+		AMVector3 habLocation = AMVector3.readFromNBT(stack.getTagCompound().getCompoundTag(HAB_PAIRLOC));
 		if (world.isRemote){
 			spawnLinkParticles(world, hitX, hitY, hitZ);
 		}else{
@@ -92,8 +75,8 @@ public class ItemCrystalWrench extends ArsMagicaRotatedItem{
 
 			tecm.linkToHabitat(habLocation, player);
 
-			if (!stack.stackTagCompound.hasKey(KEEP_BINDING))
-				stack.stackTagCompound.removeTag(HAB_PAIRLOC);
+			if (!stack.getTagCompound().hasKey(KEEP_BINDING))
+				stack.getTagCompound().removeTag(HAB_PAIRLOC);
 		}
 	}
 
@@ -103,31 +86,31 @@ public class ItemCrystalWrench extends ArsMagicaRotatedItem{
 			if (te instanceof TileEntityFlickerHabitat){
 				NBTTagCompound habLoc = new NBTTagCompound();
 				destination.writeToNBT(habLoc);
-				stack.stackTagCompound.setTag(HAB_PAIRLOC, habLoc);
+				stack.getTagCompound().setTag(HAB_PAIRLOC, habLoc);
 			}else{
 				NBTTagCompound pairLoc = new NBTTagCompound();
 				destination.writeToNBT(pairLoc);
-				stack.stackTagCompound.setTag(KEY_PAIRLOC, pairLoc);
+				stack.getTagCompound().setTag(KEY_PAIRLOC, pairLoc);
 			}
 
 			if (player.isSneaking()){
-				stack.stackTagCompound.setBoolean(KEEP_BINDING, true);
+				stack.getTagCompound().setBoolean(KEEP_BINDING, true);
 			}
 		}else{
 			spawnLinkParticles(world, hitX, hitY, hitZ);
 		}
 	}
 
-	private void doPairNodes(World world, int x, int y, int z, ItemStack stack, EntityPlayer player, double hitX, double hitY, double hitZ, TileEntity te){
-		AMVector3 source = AMVector3.readFromNBT(stack.stackTagCompound.getCompoundTag(KEY_PAIRLOC));
-		TileEntity sourceTE = world.getTileEntity((int)source.x, (int)source.y, (int)source.z);
+	private void doPairNodes(World world, BlockPos pos, ItemStack stack, EntityPlayer player, double hitX, double hitY, double hitZ, TileEntity te){
+		AMVector3 source = AMVector3.readFromNBT(stack.getTagCompound().getCompoundTag(KEY_PAIRLOC));
+		TileEntity sourceTE = world.getTileEntity(new BlockPos((int)source.x, (int)source.y, (int)source.z));
 		if (sourceTE != null && sourceTE instanceof IPowerNode && !world.isRemote){
 			player.addChatMessage(new ChatComponentText(PowerNodeRegistry.For(world).tryPairNodes((IPowerNode)sourceTE, (IPowerNode)te)));
 		}else if (world.isRemote){
-			spawnLinkParticles(world, x + hitX, y + hitY, z + hitZ);
+			spawnLinkParticles(world, pos.getX() + hitX, pos.getY() + hitY, pos.getZ() + hitZ);
 		}
-		if (!stack.stackTagCompound.hasKey(KEEP_BINDING))
-			stack.stackTagCompound.removeTag(KEY_PAIRLOC);
+		if (!stack.getTagCompound().hasKey(KEEP_BINDING))
+			stack.getTagCompound().removeTag(KEY_PAIRLOC);
 	}
 
 	private void doDisconnect(IPowerNode node, World world, double hitX, double hitY, double hitZ, EntityPlayer player){
@@ -140,26 +123,26 @@ public class ItemCrystalWrench extends ArsMagicaRotatedItem{
 	}
 
 	private void handleModeChanges(ItemStack stack){
-		if (stack.stackTagCompound.hasKey(KEEP_BINDING)){
-			stack.stackTagCompound.removeTag(KEEP_BINDING);
+		if (stack.getTagCompound().hasKey(KEEP_BINDING)){
+			stack.getTagCompound().removeTag(KEEP_BINDING);
 
-			if (stack.stackTagCompound.hasKey(KEY_PAIRLOC))
-				stack.stackTagCompound.removeTag(KEY_PAIRLOC);
+			if (stack.getTagCompound().hasKey(KEY_PAIRLOC))
+				stack.getTagCompound().removeTag(KEY_PAIRLOC);
 
-			if (stack.stackTagCompound.hasKey(HAB_PAIRLOC))
-				stack.stackTagCompound.removeTag(HAB_PAIRLOC);
+			if (stack.getTagCompound().hasKey(HAB_PAIRLOC))
+				stack.getTagCompound().removeTag(HAB_PAIRLOC);
 		}else{
 			if (getMode(stack) == MODE_PAIR)
-				stack.stackTagCompound.setInteger(MODE, MODE_DISCONNECT);
+				stack.getTagCompound().setInteger(MODE, MODE_DISCONNECT);
 			else
-				stack.stackTagCompound.setInteger(MODE, MODE_PAIR);
+				stack.getTagCompound().setInteger(MODE, MODE_PAIR);
 
 		}
 	}
 
 	public static int getMode(ItemStack stack){
-		if (stack.stackTagCompound.hasKey(MODE)){
-			return stack.stackTagCompound.getInteger(MODE);
+		if (stack.getTagCompound().hasKey(MODE)){
+			return stack.getTagCompound().getInteger(MODE);
 		}
 		return 0;
 	}
@@ -187,34 +170,6 @@ public class ItemCrystalWrench extends ArsMagicaRotatedItem{
 	@Override
 	public boolean getShareTag(){
 		return true;
-	}
-
-	@Override
-	public IIcon getIcon(ItemStack stack, int pass){
-		return GetWrenchIcon(stack, pass);
-	}
-
-	@Override
-	public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining){
-		return GetWrenchIcon(stack, renderPass);
-	}
-
-	@Override
-	public IIcon getIconIndex(ItemStack par1ItemStack){
-		return GetWrenchIcon(par1ItemStack, 0);
-	}
-
-	private IIcon GetWrenchIcon(ItemStack stack, int pass){
-		if (stack.stackTagCompound != null && pass == 0){
-			if (stack.stackTagCompound.hasKey(KEEP_BINDING))
-				return wrenchStoredIcon;
-			else if (stack.stackTagCompound.hasKey(MODE) && stack.stackTagCompound.getInteger(MODE) == MODE_DISCONNECT)
-				return wrenchDisconnectIcon;
-			else
-				return this.itemIcon;
-		}else{
-			return this.itemIcon;
-		}
 	}
 
 	@Override

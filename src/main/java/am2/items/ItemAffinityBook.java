@@ -2,25 +2,21 @@ package am2.items;
 
 import am2.api.spell.enums.Affinity;
 import am2.playerextensions.AffinityData;
-import am2.texture.ResourceManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
 public class ItemAffinityBook extends ArsMagicaItem{
-
-	@SideOnly(Side.CLIENT)
-	private IIcon[] icons;
 	@SideOnly(Side.CLIENT)
 	private String[] textures;
 
@@ -56,29 +52,13 @@ public class ItemAffinityBook extends ArsMagicaItem{
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister){
-		textures = new String[]{"affinity_tome_general", "affinity_tome_arcane", "affinity_tome_water", "affinity_tome_fire", "affinity_tome_earth", "affinity_tome_air", "affinity_tome_lightning", "affinity_tome_ice", "affinity_tome_nature", "affinity_tome_life", "affinity_tome_ender"};
-		icons = new IIcon[textures.length];
-		for (int i = 0; i < textures.length; ++i){
-			icons[i] = ResourceManager.RegisterTexture(textures[i], par1IconRegister);
-		}
-	}
-
-	@Override
-	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
+	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 		return false;
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int par1){
-		return icons[par1];
-	}
-
-	@Override
 	public EnumRarity getRarity(ItemStack par1ItemStack){
-		return EnumRarity.uncommon;
+		return EnumRarity.UNCOMMON;
 	}
 
 	@Override

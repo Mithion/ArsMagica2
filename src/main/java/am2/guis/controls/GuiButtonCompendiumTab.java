@@ -86,7 +86,7 @@ public class GuiButtonCompendiumTab extends GuiButton{
 				par1Minecraft.renderEngine.bindTexture(GuiArcaneCompendium.items);
 				AMGuiHelper.DrawIconAtXY(displayIcon, this.xPosition + (this.width / 3), this.yPosition + 2, this.zLevel, 14, 14, true);
 			}else{
-				Minecraft.getMinecraft().fontRenderer.drawString(this.displayString, this.xPosition + (this.width / 4), this.yPosition + 2, 0x000000);
+				Minecraft.getMinecraft().fontRendererObj.drawString(this.displayString, this.xPosition + (this.width / 4), this.yPosition + 2, 0x000000);
 			}
 			GL11.glEnable(GL11.GL_LIGHTING);
 
@@ -94,7 +94,7 @@ public class GuiButtonCompendiumTab extends GuiButton{
 				List list = new ArrayList<String>();
 				list.add(this.displayString);
 
-				drawHoveringText(list, par2, par3, Minecraft.getMinecraft().fontRenderer);
+				drawHoveringText(list, par2, par3, Minecraft.getMinecraft().fontRendererObj);
 			}
 		}
 	}

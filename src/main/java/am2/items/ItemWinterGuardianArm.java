@@ -6,7 +6,6 @@ import am2.entities.EntityWinterGuardianArm;
 import am2.particles.AMParticle;
 import am2.playerextensions.ExtendedProperties;
 import com.google.common.collect.Multimap;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -30,7 +29,7 @@ public class ItemWinterGuardianArm extends ArsMagicaItem{
 	@Override
 	public Multimap getItemAttributeModifiers(){
 		Multimap multimap = super.getItemAttributeModifiers();
-		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", 6, 0));
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Weapon modifier", 6, 0));
 		return multimap;
 	}
 
@@ -88,9 +87,5 @@ public class ItemWinterGuardianArm extends ArsMagicaItem{
 	@Override
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List){
 		par3List.add(ItemsCommonProxy.winterArmEnchanted.copy());
-	}
-
-	@Override
-	public void registerIcons(IIconRegister par1IconRegister){
 	}
 }

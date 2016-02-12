@@ -9,12 +9,7 @@ import am2.guis.ArsMagicaGuiIdList;
 import am2.playerextensions.SkillData;
 import am2.spell.SkillManager;
 import am2.spell.SkillTreeManager;
-import am2.texture.ResourceManager;
-import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,10 +17,14 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 import java.util.Map;
@@ -36,63 +35,10 @@ public class ItemSpellBook extends ArsMagicaItem{
 	public static final byte ID_NEXT_SPELL = 0;
 	public static final byte ID_PREV_SPELL = 1;
 
-	@SideOnly(Side.CLIENT)
-	private IIcon[] npc_icons;
-	private final String[] npc_textureFiles = {"affinity_tome_general", "affinity_tome_ice", "affinity_tome_life", "affinity_tome_fire", "affinity_tome_lightning", "affinity_tome_ender"};
-
-	@SideOnly(Side.CLIENT)
-	private IIcon[] player_icons;
-	private final String[] player_textureFiles = {"spell_book_cover", "spell_book_decoration"};
-
 	public ItemSpellBook(){
 		super();
 		this.setMaxDamage(0);
 		this.setMaxStackSize(1);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean requiresMultipleRenderPasses(){
-		return true;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister){
-		npc_icons = new IIcon[npc_textureFiles.length];
-
-		for (int i = 0; i < npc_textureFiles.length; ++i){
-			npc_icons[i] = ResourceManager.RegisterTexture(npc_textureFiles[i], par1IconRegister);
-		}
-
-		player_icons = new IIcon[player_textureFiles.length];
-
-		for (int i = 0; i < player_textureFiles.length; ++i){
-			player_icons[i] = ResourceManager.RegisterTexture(player_textureFiles[i], par1IconRegister);
-		}
-	}
-
-	/**
-	 * Required for light/dark magi
-	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int par1){
-		switch (par1){
-		case 6: //orange
-			return npc_icons[3];
-		case 11: //red
-			return npc_icons[4];
-		case 5: //black
-			return npc_icons[5];
-		case 1: //light blue
-			return npc_icons[0];
-		case 8: //blue
-			return npc_icons[1];
-		case 4: //white
-			return npc_icons[2];
-		}
-		return npc_icons[0];
 	}
 
 	@Override
@@ -102,21 +48,6 @@ public class ItemSpellBook extends ArsMagicaItem{
 			return String.format("\2477%s (" + activeSpell.getDisplayName() + "\2477)", StatCollector.translateToLocal("item.arsmagica2:spellBook.name"));
 		}
 		return StatCollector.translateToLocal("item.arsmagica2:spellBook.name");
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamageForRenderPass(int damage, int renderPass){
-		if (renderPass == 0){
-			return player_icons[0];
-		}else{
-			return player_icons[1];
-		}
-	}
-
-	@Override
-	public int getRenderPasses(int metadata){
-		return 2;
 	}
 
 	@Override
@@ -168,9 +99,9 @@ public class ItemSpellBook extends ArsMagicaItem{
 	@Override
 	public EnumAction getItemUseAction(ItemStack itemstack){
 		if (getMaxItemUseDuration(itemstack) == 0){
-			return EnumAction.none;
+			return EnumAction.NONE;
 		}
-		return EnumAction.block;
+		return EnumAction.BLOCK;
 	}
 
 	@Override
@@ -242,18 +173,18 @@ public class ItemSpellBook extends ArsMagicaItem{
 		}
 	}
 
-	@Override
-	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		return false;
-	}
+    @Override
+    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+        return false;
+    }
 
-	@Override
-	public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int X, int Y, int Z, int side, float par8, float par9, float par10){
-		return false;
-	}
+    @Override
+    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+        return false;
+    }
 
 	public void UpdateStackTagCompound(ItemStack itemStack, ItemStack[] values){
-		if (itemStack.stackTagCompound == null){
+		if (itemStack.getTagCompound() == null){
 			itemStack.setTagCompound(new NBTTagCompound());
 		}
 
@@ -264,14 +195,14 @@ public class ItemSpellBook extends ArsMagicaItem{
 			if (stack != null){
 				spell.setInteger("meta", stack.getItemDamage());
 				spell.setInteger("index", i);
-				if (stack.stackTagCompound != null){
-					spell.setTag("data", stack.stackTagCompound);
+				if (stack.getTagCompound() != null){
+					spell.setTag("data", stack.getTagCompound());
 				}
 				list.appendTag(spell);
 			}
 		}
 
-		itemStack.stackTagCompound.setTag("spell_book_inventory", list);
+		itemStack.getTagCompound().setTag("spell_book_inventory", list);
 
 		ItemStack active = GetActiveItemStack(itemStack);
 		boolean Soulbound = EnchantmentHelper.getEnchantmentLevel(AMEnchantments.soulbound.effectId, itemStack) > 0;
@@ -282,12 +213,12 @@ public class ItemSpellBook extends ArsMagicaItem{
 	}
 
 	public void SetActiveSlot(ItemStack itemStack, int slot){
-		if (itemStack.stackTagCompound == null){
+		if (itemStack.getTagCompound() == null){
 			itemStack.setTagCompound(new NBTTagCompound());
 		}
 		if (slot < 0) slot = 0;
 		if (slot > 7) slot = 7;
-		itemStack.stackTagCompound.setInteger("spellbookactiveslot", slot);
+		itemStack.getTagCompound().setInteger("spellbookactiveslot", slot);
 
 		ItemStack active = GetActiveItemStack(itemStack);
 		boolean Soulbound = EnchantmentHelper.getEnchantmentLevel(AMEnchantments.soulbound.effectId, itemStack) > 0;
@@ -322,15 +253,15 @@ public class ItemSpellBook extends ArsMagicaItem{
 	}
 
 	public int GetActiveSlot(ItemStack itemStack){
-		if (itemStack.stackTagCompound == null){
+		if (itemStack.getTagCompound() == null){
 			SetActiveSlot(itemStack, 0);
 			return 0;
 		}
-		return itemStack.stackTagCompound.getInteger("spellbookactiveslot");
+		return itemStack.getTagCompound().getInteger("spellbookactiveslot");
 	}
 
 	public ItemStack[] ReadFromStackTagCompound(ItemStack itemStack){
-		if (itemStack.stackTagCompound == null){
+		if (itemStack.getTagCompound() == null){
 			return new ItemStack[InventorySpellBook.inventorySize];
 		}
 		ItemStack[] items = new ItemStack[InventorySpellBook.inventorySize];
@@ -353,7 +284,7 @@ public class ItemSpellBook extends ArsMagicaItem{
 			}
 		}*/
 
-		NBTTagList list = itemStack.stackTagCompound.getTagList("spell_book_inventory", Constants.NBT.TAG_COMPOUND);
+		NBTTagList list = itemStack.getTagCompound().getTagList("spell_book_inventory", Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < list.tagCount(); ++i){
 			NBTTagCompound spell = (NBTTagCompound)list.getCompoundTagAt(i);
 			int meta = spell.getInteger("meta");

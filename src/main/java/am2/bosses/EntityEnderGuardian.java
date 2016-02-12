@@ -287,6 +287,6 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 
 	@Override
 	public World getWorld() {
-		return Minecraft.getMinecraft().theWorld;
+		return worldObj;
 	}
 }
