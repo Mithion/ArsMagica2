@@ -1,7 +1,12 @@
 ArsMagica2
 ==========
 
-Ars Magica 2 Bug Tracker
+Ars Magica 2 Repository
+
+### IRC
+ #ArsMagica on Espernet
+
+Webchat link: http://webchat.esper.net/?nick=&channels=ArsMagica
 
 ### Useful Links
 * [Homepage](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1292222)
