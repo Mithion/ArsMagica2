@@ -1,24 +1,23 @@
 package am2.blocks;
 
-import am2.AMCore;
-import am2.blocks.tileentities.TileEntityFlickerHabitat;
-import am2.guis.ArsMagicaGuiIdList;
-import am2.items.ItemsCommonProxy;
-import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.EnumFaceDirection;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
-
-import java.util.Random;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
+import am2.AMCore;
+import am2.blocks.tileentities.TileEntityFlickerHabitat;
+import am2.guis.ArsMagicaGuiIdList;
+import am2.items.ItemsCommonProxy;
 
 public class BlockFlickerHabitat extends PoweredBlock{
 
@@ -34,8 +33,8 @@ public class BlockFlickerHabitat extends PoweredBlock{
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, EntityPlayer player, int meta, float impx, float impy, float impz){
-		super.onBlockActivated(world, x, y, z, player, meta, impx, impy, impz);
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing face, float impx, float impy, float impz){
+		super.onBlockActivated(world, pos, state, player, face, impx, impy, impz);
 
 		if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == ItemsCommonProxy.crystalWrench){
 			if (world.isRemote){
@@ -43,7 +42,7 @@ public class BlockFlickerHabitat extends PoweredBlock{
 			}
 			return false;
 		}else{
-			FMLNetworkHandler.openGui(player, AMCore.instance, ArsMagicaGuiIdList.GUI_FLICKER_HABITAT, world, x, y, z);
+			player.openGui(AMCore.instance, ArsMagicaGuiIdList.GUI_FLICKER_HABITAT, world, pos.getX(), pos.getY(), pos.getZ());
 			return true;
 		}
 	}
@@ -52,9 +51,9 @@ public class BlockFlickerHabitat extends PoweredBlock{
 	public int getRenderType(){
 		return BlocksCommonProxy.blockRenderID;
 	}
-
+	
 	@Override
-	public boolean renderAsNormalBlock(){
+	public boolean isNormalCube() {
 		return false;
 	}
 
@@ -64,15 +63,16 @@ public class BlockFlickerHabitat extends PoweredBlock{
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, BlockPos pos, EntityLivingBase elb, ItemStack stack){
-		setBlockMode(world, x, y, z);
-		super.onBlockPlacedBy(world, x, y, z, elb, stack);
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+		setBlockMode(world, pos);
+		super.onBlockPlacedBy(world, pos, state, placer, stack);
 	}
-
+	
+	
 	@Override
-	public void onBlockAdded(World world, BlockPos pos){
-		setBlockMode(world, x, y, z);
-		super.onBlockAdded(world, x, y, z);
+	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+		setBlockMode(worldIn, pos);
+		super.onBlockAdded(worldIn, pos, state);
 	}
 
 	protected void setBlockMode(World world, BlockPos pos){
@@ -84,7 +84,7 @@ public class BlockFlickerHabitat extends PoweredBlock{
 
 		if (ent instanceof TileEntityFlickerHabitat){
 			TileEntityFlickerHabitat hab = (TileEntityFlickerHabitat)ent;
-			for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS){
+			for (EnumFacing direction : Enu.VALID_DIRECTIONS){
 				Block block = world.getBlock(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ);
 				TileEntity te = world.getTileEntity(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ);
 				if (block == BlocksCommonProxy.elementalAttuner && te != null && te instanceof TileEntityFlickerHabitat){

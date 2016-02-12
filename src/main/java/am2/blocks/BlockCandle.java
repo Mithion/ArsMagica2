@@ -1,17 +1,20 @@
 package am2.blocks;
 
-import am2.blocks.tileentities.TileEntityCandle;
-import am2.items.ItemsCommonProxy;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
-import java.util.ArrayList;
-import java.util.Random;
+import am2.blocks.tileentities.TileEntityCandle;
+import am2.items.ItemsCommonProxy;
 
 public class BlockCandle extends AMSpecialRenderBlockContainer{
 
@@ -31,12 +34,10 @@ public class BlockCandle extends AMSpecialRenderBlockContainer{
 	public int getRenderType(){
 		return BlocksCommonProxy.blockRenderID;
 	}
-
+	
 	@Override
-	public ArrayList<ItemStack> getDrops(World arg0, int arg1, int arg2, int arg3, int arg4, int arg5){
-		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
-		drops.add(new ItemStack(ItemsCommonProxy.wardingCandle));
-		return drops;
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+		return Arrays.asList(new ItemStack(ItemsCommonProxy.wardingCandle));
 	}
 
 	@Override
@@ -50,11 +51,7 @@ public class BlockCandle extends AMSpecialRenderBlockContainer{
 	}
 
 	@Override
-	public void randomDisplayTick(World world, BlockPos pos, Random rand){
-		world.spawnParticle("flame", x + 0.5, y + 0.65, z + 0.5, 0, 0, 0);
-	}
-
-	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
+	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand){
+		world.spawnParticle(EnumParticleTypes.FLAME, pos.getX() + 0.5, pos.getY() + 0.65, pos.getZ() + 0.5, 0, 0, 0);
 	}
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.BlockOre;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -19,6 +21,8 @@ import am2.items.ItemsCommonProxy;
 
 public class BlockAMOre extends BlockOre{
 
+	public static final PropertyInteger TYPE = PropertyInteger.create("type", 0, 9);
+	
 	@SideOnly(Side.CLIENT)
 	private String[] textures;
 
@@ -38,8 +42,24 @@ public class BlockAMOre extends BlockOre{
 	public BlockAMOre(){
 		super();
 		this.setHarvestLevel("pickaxe", 2);
+		setDefaultState(blockState.getBaseState().withProperty(TYPE, META_VINTEUM_ORE));
+	}
+	
+	@Override
+	protected BlockState createBlockState() {
+		return new BlockState(this, TYPE);
 	}
 
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(TYPE);
+	}
+	
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return this.getDefaultState().withProperty(TYPE, MathHelper.clamp_int(meta, 0, 9));
+	}
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){

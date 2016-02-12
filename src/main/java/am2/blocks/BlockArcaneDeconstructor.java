@@ -1,7 +1,7 @@
 package am2.blocks;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -10,22 +10,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import am2.AMCore;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntityArcaneDeconstructor;
 import am2.guis.ArsMagicaGuiIdList;
-import am2.texture.ResourceManager;
 import am2.utility.KeystoneUtilities;
 
 public class BlockArcaneDeconstructor extends PoweredBlock{
-
+	
+	public static final PropertyEnum<EnumFacing> FACING = PropertyEnum.create("facing", EnumFacing.class, EnumFacing.HORIZONTALS);
+	
 	public BlockArcaneDeconstructor(){
 		super(Material.iron);
 		setHardness(2.0f);
@@ -50,22 +47,7 @@ public class BlockArcaneDeconstructor extends PoweredBlock{
 	
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entityliving, ItemStack stack){
-
-		int l = MathHelper.floor_double((entityliving.rotationYaw * 4F) / 360F + 0.5D) & 3;
-		if (l == 0){
-			world.setBlockMetadataWithNotify(i, j, k, 2, 2);
-		}
-		if (l == 1){
-			world.setBlockMetadataWithNotify(i, j, k, 5, 2);
-		}
-		if (l == 2){
-			world.setBlockMetadataWithNotify(i, j, k, 3, 2);
-		}
-		if (l == 3){
-			world.setBlockMetadataWithNotify(i, j, k, 4, 2);
-		}
-
-		super.onBlockPlacedBy(world, pos, state, entityliving, stack);
+		super.onBlockPlacedBy(world, pos, state.withProperty(FACING, entityliving.getHorizontalFacing().getOpposite()), entityliving, stack);
 	}
 
 	@Override
