@@ -3,6 +3,7 @@ package am2.blocks;
 import java.util.HashSet;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
@@ -19,18 +20,17 @@ public class BlockTarmaRoot extends AMFlower{
 		super();
 	}
 
-	@Override
-	public EnumPlantType getPlantType(IBlockAccess world, int x, int y, int z){
-		return EnumPlantType.Cave;
-	}
+    @Override
+    public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos) {
+        return EnumPlantType.Cave;
+    }
 
-	//EoD: restrict Tarma Roots growth by the blocks in canPlaceBlockOn()
-	@Override
-	public boolean canBlockStay(World worldIn, int x, int y, int z){
-		return canPlaceBlockOn(worldIn.getBlock(x, y - 1, z)) && super.canBlockStay(worldIn, x, y, z);
-	}
+    @Override
+    public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state) {
+        return canPlaceBlockOn(worldIn.getBlockState(pos.down()).getBlock()) && super.canBlockStay(worldIn, pos, state);
+    }
 
-	@Override
+    @Override
 	protected boolean canPlaceBlockOn(Block block){
 		if (block == Blocks.stone || block == Blocks.cobblestone){
 			return true;
@@ -53,7 +53,9 @@ public class BlockTarmaRoot extends AMFlower{
 
 	//EoD: Tarmas should only grow in dark places
 	@Override
-	public boolean canGrowOn(World worldIn, BlockPos pos) {
-		return canBlockStay(worldIn, x, y, z) && worldIn.getFullBlockLightValue(x, y, z) < 4;
+	public boolean canGrowOn(World worldIn, BlockPos pos, IBlockState state) {
+		return canBlockStay(worldIn, pos, state) && worldIn.getLight(pos) < 4;
 	}
+
+
 }

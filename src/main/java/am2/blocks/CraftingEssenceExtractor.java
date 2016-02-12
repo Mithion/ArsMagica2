@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IChatComponent;
 
 public class CraftingEssenceExtractor implements IInventory{
 
@@ -22,21 +23,31 @@ public class CraftingEssenceExtractor implements IInventory{
 	}
 
 	@Override
-	public String getInventoryName(){
-		return "Extracting";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName(){
-		return false;
-	}
-
-	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack){
 		return false;
 	}
 
-	public ItemStack getStackInSlot(int i){
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
+
+    @Override
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    public ItemStack getStackInSlot(int i){
 		if (i >= getSizeInventory()){
 			return null;
 		}else{
@@ -67,7 +78,7 @@ public class CraftingEssenceExtractor implements IInventory{
 		}
 	}
 
-	public void setInventorySlotContents(int i, ItemStack itemstack){
+    public void setInventorySlotContents(int i, ItemStack itemstack){
 		stackList[i] = itemstack;
 		eventHandler.onCraftMatrixChanged(this);
 	}
@@ -83,8 +94,18 @@ public class CraftingEssenceExtractor implements IInventory{
 		return true;
 	}
 
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
+    @Override
+    public void openInventory(EntityPlayer player) {
+
+    }
+
+    @Override
+    public void closeInventory(EntityPlayer player) {
+
+    }
+
+    @Override
+	public ItemStack removeStackFromSlot(int i){
 		if (stackList[i] != null){
 			ItemStack itemstack = stackList[i];
 			stackList[i] = null;
@@ -95,14 +116,21 @@ public class CraftingEssenceExtractor implements IInventory{
 	}
 
 	@Override
-	public void closeInventory(){
-	}
-
-	@Override
 	public void markDirty(){
 	}
 
-	@Override
-	public void openInventory(){
-	}
+    @Override
+    public String getName() {
+        return "Extracting";
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return false;
+    }
+
+    @Override
+    public IChatComponent getDisplayName() {
+        return null;
+    }
 }

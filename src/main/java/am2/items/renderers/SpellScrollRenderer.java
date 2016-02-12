@@ -13,9 +13,11 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.IIcon;
@@ -181,13 +183,13 @@ public class SpellScrollRenderer implements IItemRenderer{
 
 	private void doRender(float TLX, float TLY, float BRX, float BRY){
 		//ItemRenderer.renderItemIn2D(Tessellator.instance, TLX, TLY, BRX, BRY, 1, 1, 0.0625F);
-		Tessellator t = Tessellator.instance;
-		t.startDrawingQuads();
-		t.setNormal(0.0F, 0.0F, 1.0F);
-		t.addVertexWithUV(0.0D, 0.0D, 0.0D, TLX, BRY);
-		t.addVertexWithUV(1.0D, 0.0D, 0.0D, BRX, BRY);
-		t.addVertexWithUV(1.0D, 1.0D, 0.0D, BRX, TLY);
-		t.addVertexWithUV(0.0D, 1.0D, 0.0D, TLX, TLY);
+		Tessellator t = Tessellator.getInstance();
+		t.getWorldRenderer().startDrawingQuads();
+		t.getWorldRenderer().setNormal(0.0F, 0.0F, 1.0F);
+		t.getWorldRenderer().addVertexWithUV(0.0D, 0.0D, 0.0D, TLX, BRY);
+		t.getWorldRenderer().addVertexWithUV(1.0D, 0.0D, 0.0D, BRX, BRY);
+		t.getWorldRenderer().addVertexWithUV(1.0D, 1.0D, 0.0D, BRX, TLY);
+		t.getWorldRenderer().addVertexWithUV(0.0D, 1.0D, 0.0D, TLX, TLY);
 		t.draw();
 	}
 
@@ -197,7 +199,7 @@ public class SpellScrollRenderer implements IItemRenderer{
 		float par1 = 0.5f;
 
 		float f1 = 1.0F;
-		EntityClientPlayerMP entityclientplayermp = this.mc.thePlayer;
+		EntityPlayerSP entityclientplayermp = this.mc.thePlayer;
 		float f2 = entityclientplayermp.prevRotationPitch + (entityclientplayermp.rotationPitch - entityclientplayermp.prevRotationPitch) * par1;
 		GL11.glPushMatrix();
 		GL11.glRotatef(f2, 1.0F, 0.0F, 0.0F);

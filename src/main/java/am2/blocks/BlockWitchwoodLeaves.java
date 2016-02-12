@@ -4,27 +4,24 @@ import am2.AMCore;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
 import am2.particles.ParticlePendulum;
-import am2.texture.ResourceManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockLeaves;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class BlockWitchwoodLeaves extends BlockLeaves{
-
-	@SideOnly(Side.CLIENT)
-	private IIcon opaqueIcon;
-
 	protected BlockWitchwoodLeaves(){
 		super();
 		setHardness(0.2F);
@@ -38,9 +35,6 @@ public class BlockWitchwoodLeaves extends BlockLeaves{
 		return 0xFFFFFF;
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-
 	/**
 	 * Returns the color this block should be rendered. Used by leaves.
 	 */
@@ -48,93 +42,88 @@ public class BlockWitchwoodLeaves extends BlockLeaves{
 		return 0xFFFFFF;
 	}
 
-	@Override
-	public int colorMultiplier(IBlockAccess par1IBlockAccess, int par2, int par3, int par4){
-		return 0xFFFFFF;
-	}
+    @Override
+    public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
+        return 0xFFFFFF;
+    }
 
-	@Override
+    @Override
 	public int quantityDropped(Random par1Random){
 		return par1Random.nextInt(300) == 0 ? 1 : 0;
 	}
 
-	@Override
-	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune){
-		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
-		return drops;
-	}
+    @Override
+    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+        ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
+        return drops;
+    }
 
-	@Override
-	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int par5, float par6, int par7){
-		if (!world.isRemote){
-			int j1 = 300;
+    @Override
+    public void dropBlockAsItemWithChance(World world, BlockPos pos, IBlockState state, float chance, int fortune) {
+        if (!world.isRemote){
+            int j1 = 300;
 
-			if (world.rand.nextInt(j1) == 0){
-				dropBlockAsItem(world, x, y, z, new ItemStack(BlocksCommonProxy.witchwoodSapling));
-			}
-		}
-	}
+            if (world.rand.nextInt(j1) == 0){
+                dropBlockAsItem(world, pos, BlocksCommonProxy.witchwoodLeaves.getDefaultState(), fortune); // might be broken not sure
+            }
+        }
+    }
 
-	@Override
-	public int damageDropped(int par1){
-		return 0;
-	}
+    @Override
+    public int damageDropped(IBlockState state) {
+        return 0;
+    }
 
-	@Override
-	public IIcon getIcon(int par1, int par2){
-		return this.blockIcon;
-	}
-
-	@Override
+    @Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List){
 		par3List.add(new ItemStack(this));
 	}
 
-	@Override
-	protected ItemStack createStackedBlock(int par1){
-		return new ItemStack(this, 1, par1);
-	}
+    @Override
+    protected ItemStack createStackedBlock(IBlockState state) {
+        return new ItemStack(this, 1, state.getBlock().getMetaFromState(state));
+    }
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister par1IconRegister){
-		this.blockIcon = ResourceManager.RegisterTexture("WitchwoodLeaves", par1IconRegister);
-		opaqueIcon = ResourceManager.RegisterTexture("WitchwoodLeavesOpaque", par1IconRegister);
-	}
-
-	@Override
+    @Override
 	public boolean isOpaqueCube(){
 		return false;
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean shouldSideBeRendered(IBlockAccess par1iBlockAccess, int par2, int par3, int par4, int par5){
-		return true;
-	}
+    @Override
+    public BlockPlanks.EnumType getWoodType(int meta) {
+        return null;
+    }
 
-	@Override
-	public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random){
+    @Override
+    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+        return true;
+    }
 
-		if (!AMCore.config.witchwoodLeafPFX())
-			return;
+    @Override
+    public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random) {
+        if (!AMCore.config.witchwoodLeafPFX())
+            return;
 
-		if (par5Random.nextInt(300) == 0 && par1World.isAirBlock(par2, par3 - 1, par4)){
-			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(par1World, "leaf", par2 + par5Random.nextDouble(), par3 + par5Random.nextDouble(), par4 + par5Random.nextDouble());
-			if (particle != null){
-				particle.AddParticleController(new ParticleFloatUpward(particle, 0, -0.05f, 1, false));
-				particle.setMaxAge(120);
-				particle.noClip = false;
-				particle.setParticleScale(0.1f + par5Random.nextFloat() * 0.1f);
-				particle.AddParticleController(new ParticlePendulum(particle, 0.2f, 0.15f + par5Random.nextFloat() * 0.2f, 2, false));
-			}
-		}
-	}
+        if (random.nextInt(300) == 0 && world.isAirBlock(pos.down())){
+            AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, "leaf", pos.getX() + random.nextDouble(), pos.getY() + random.nextDouble(), pos.getZ() + random.nextDouble());
+            if (particle != null){
+                particle.AddParticleController(new ParticleFloatUpward(particle, 0, -0.05f, 1, false));
+                particle.setMaxAge(120);
+                particle.noClip = false;
+                particle.setParticleScale(0.1f + random.nextFloat() * 0.1f);
+                particle.AddParticleController(new ParticlePendulum(particle, 0.2f, 0.15f + random.nextFloat() * 0.2f, 2, false));
+            }
+        }
+    }
 
-	@Override
+	/*@Override
 	public String[] func_150125_e(){
 		return new String[]{"Witchwood"};
-	}
+	}*/
 
+    @Override
+    public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
+        return null;
+    }
 }

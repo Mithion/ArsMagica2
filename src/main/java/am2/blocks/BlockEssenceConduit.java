@@ -17,41 +17,36 @@ public class BlockEssenceConduit extends AMSpecialRenderPoweredBlock{
 		setBlockBounds(0.125f, 0.0f, 0.125f, 0.875f, 1.0f, 0.875f);
 	}
 
-	@Override
-	public int onBlockPlaced(World par1World, int par2, int par3, int par4, int facing, float par6, float par7, float par8, int meta){
-		int var10 = meta;
-		var10 = -1;
-
-		if (facing == 0){
-			var10 = 1;
-		}
-
-		if (facing == 1){
-			var10 = 2;
-		}
-
-		if (facing == 2){
-			var10 = 3;
-		}
-
-		if (facing == 3){
-			var10 = 4;
-		}
-
-		if (facing == 4){
-			var10 = 5;
-		}
-
-		if (facing == 5){
-			var10 = 6;
-		}
-
-		return var10;
-	}
-
     @Override
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-        return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
+        int var10 = meta;
+        var10 = -1;
+
+        if (facing == EnumFacing.DOWN){
+            var10 = 1;
+        }
+
+        if (facing == EnumFacing.UP){
+            var10 = 2;
+        }
+
+        if (facing == EnumFacing.NORTH){
+            var10 = 3;
+        }
+
+        if (facing == EnumFacing.SOUTH){
+            var10 = 4;
+        }
+
+        if (facing == EnumFacing.WEST){
+            var10 = 5;
+        }
+
+        if (facing == EnumFacing.EAST){
+            var10 = 6;
+        }
+
+        return getStateFromMeta(var10);
     }
 
     @Override

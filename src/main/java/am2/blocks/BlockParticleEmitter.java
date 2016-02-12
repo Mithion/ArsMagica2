@@ -2,22 +2,16 @@ package am2.blocks;
 
 import am2.AMCore;
 import am2.blocks.tileentities.TileEntityParticleEmitter;
-import am2.items.ItemsCommonProxy;
 import am2.items.ItemCrystalWrench;
-import am2.texture.ResourceManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import am2.items.ItemsCommonProxy;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -28,137 +22,114 @@ public class BlockParticleEmitter extends AMBlockContainer{
 		super(Material.glass);
 	}
 
-	@Override
-	public boolean isAir(IBlockAccess world, int x, int y, int z){
-		return false;
-	}
+    @Override
+    public boolean isAir(IBlockAccess world, BlockPos pos) {
+        return false;
+    }
 
-	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z){
-		return null;
-	}
+    @Override
+    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+        return null;
+    }
 
-	@Override
+    @Override
 	public boolean isOpaqueCube(){
 		return false;
 	}
 
-	@Override
-	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z){
-		TileEntityParticleEmitter tile = (TileEntityParticleEmitter)world.getTileEntity(x, y, z);
-		if(tile != null && !tile.getShow())
-			return false;
-		
-		return super.removedByPlayer(world, player, x, y, z);
-	}
+    @Override
+    public boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+        TileEntityParticleEmitter tile = (TileEntityParticleEmitter)world.getTileEntity(pos);
+        if(tile != null && !tile.getShow())
+            return false;
 
-	@Override
-	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion){
-	  TileEntity te = world.getTileEntity(x, y, z);
-	  TileEntityParticleEmitter te2 = null;
-	  if (te instanceof TileEntityParticleEmitter)
-	    te2 = (TileEntityParticleEmitter)te;
-	  if (te2 == null)
-	    super.onBlockExploded(world, x, y, z, explosion);
-	  if (te2 != null && te2.getShow())
-	    super.onBlockExploded(world, x, y, z, explosion);
-	  // do not explode the block if it's invisible
-	}
+        return super.removedByPlayer(world, pos, player, willHarvest);
+    }
 
-	@Override
-	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLiving, ItemStack stack){
-		int p = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4F) / 360F + 0.5D) & 3;
+    @Override
+    public void onBlockExploded(World world, BlockPos pos, Explosion explosion) {
+        TileEntity te = world.getTileEntity(pos);
+        TileEntityParticleEmitter te2 = null;
+        if (te instanceof TileEntityParticleEmitter)
+            te2 = (TileEntityParticleEmitter)te;
+        if (te2 == null)
+            super.onBlockExploded(world, pos, explosion);
+        if (te2 != null && te2.getShow())
+            super.onBlockExploded(world, pos, explosion);
+    }
 
-		byte byte0 = 3;
+    @Override
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        int p = MathHelper.floor_double((placer.rotationYaw * 4F) / 360F + 0.5D) & 3;
 
-		if (p == 0){
-			byte0 = 1;
-		}
-		if (p == 1){
-			byte0 = 0;
-		}
-		if (p == 2){
-			byte0 = 3;
-		}
-		if (p == 3){
-			byte0 = 2;
-		}
-		par1World.setBlockMetadataWithNotify(par2, par3, par4, byte0, 2);
+        byte byte0 = 3;
 
-		super.onBlockPlacedBy(par1World, par2, par3, par4, par5EntityLiving, stack);
-	}
+        if (p == 0){
+            byte0 = 1;
+        }
+        if (p == 1){
+            byte0 = 0;
+        }
+        if (p == 2){
+            byte0 = 3;
+        }
+        if (p == 3){
+            byte0 = 2;
+        }
+        world.setBlockState(pos, world.getBlockState(pos).getBlock().getStateFromMeta(byte0), 2);
+
+        super.onBlockPlacedBy(world, pos, state, placer, stack);
+    }
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int i){
 		return new TileEntityParticleEmitter();
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(IBlockAccess par1iBlockAccess, int x, int y, int z, int l){
-		int meta = par1iBlockAccess.getBlockMetadata(x, y, z);
-		if ((meta & 0x8) == 0x8)
-			return null;
-		else
-			return blockIcon;
-	}
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess access, BlockPos pos) {
+        int meta = access.getBlockState(pos).getBlock().getMetaFromState(access.getBlockState(pos));
+        if ((meta & 0x8) == 0x8){
+            this.setBlockBounds(0, 0, 0, 0.01f, 0.01f, 0.01f);
+        }else{
+            this.setBlockBounds(0, 0, 0, 1, 1, 1);
+        }
+    }
 
-	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess access, int x, int y, int z){
-		int meta = access.getBlockMetadata(x, y, z);
-		if ((meta & 0x8) == 0x8){
-			this.setBlockBounds(0, 0, 0, 0.01f, 0.01f, 0.01f);
-		}else{
-			this.setBlockBounds(0, 0, 0, 1, 1, 1);
-		}
-	}
-
-	@Override
+    @Override
 	public void setBlockBoundsForItemRender(){
 		this.setBlockBounds(0, 0, 0, 1, 1, 1);
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int meta, int pass){
-		return blockIcon;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister par1IconRegister){
-		this.blockIcon = ResourceManager.RegisterTexture("decoBlockFrame", par1IconRegister);
-	}
-
-	@Override
-	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
-		if (par1World.isRemote){
-			TileEntity te = par1World.getTileEntity(par2, par3, par4);
-			if (te != null && te instanceof TileEntityParticleEmitter){
-			      if (par5EntityPlayer.inventory.getCurrentItem() != null && par5EntityPlayer.inventory.getCurrentItem().getItem() == ItemsCommonProxy.crystalWrench){
-				      if (ItemCrystalWrench.getMode(par5EntityPlayer.inventory.getCurrentItem()) == 0){
-					AMCore.proxy.openParticleBlockGUI(par1World, par5EntityPlayer, (TileEntityParticleEmitter)te);
-				      }
-				      else{
-					      if (AMCore.proxy.cwCopyLoc == null){
-						      par5EntityPlayer.addChatMessage(new ChatComponentText("Settings Copied."));
-						      AMCore.proxy.cwCopyLoc = new NBTTagCompound();
-						      ((TileEntityParticleEmitter)te).writeSettingsToNBT(AMCore.proxy.cwCopyLoc);
-					      }else{
-						      par5EntityPlayer.addChatMessage(new ChatComponentText("Settings Applied."));
-						      ((TileEntityParticleEmitter)te).readSettingsFromNBT(AMCore.proxy.cwCopyLoc);
-						      ((TileEntityParticleEmitter)te).syncWithServer();
-						      AMCore.proxy.cwCopyLoc = null;
-					      }
-				      }
-				      return true;
-			      }
-			      else{
-				AMCore.proxy.openParticleBlockGUI(par1World, par5EntityPlayer, (TileEntityParticleEmitter)te);
-				      return true;
-			      }
-			}
-		}
-		return false;
-	}
+    @Override
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if (world.isRemote){
+            TileEntity te = world.getTileEntity(pos);
+            if (te != null && te instanceof TileEntityParticleEmitter){
+                if (player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem() == ItemsCommonProxy.crystalWrench){
+                    if (ItemCrystalWrench.getMode(player.inventory.getCurrentItem()) == 0){
+                        AMCore.proxy.openParticleBlockGUI(world, player, (TileEntityParticleEmitter)te);
+                    }
+                    else{
+                        if (AMCore.proxy.cwCopyLoc == null){
+                            player.addChatMessage(new ChatComponentText("Settings Copied."));
+                            AMCore.proxy.cwCopyLoc = new NBTTagCompound();
+                            ((TileEntityParticleEmitter)te).writeSettingsToNBT(AMCore.proxy.cwCopyLoc);
+                        }else{
+                            player.addChatMessage(new ChatComponentText("Settings Applied."));
+                            ((TileEntityParticleEmitter)te).readSettingsFromNBT(AMCore.proxy.cwCopyLoc);
+                            ((TileEntityParticleEmitter)te).syncWithServer();
+                            AMCore.proxy.cwCopyLoc = null;
+                        }
+                    }
+                    return true;
+                }
+                else{
+                    AMCore.proxy.openParticleBlockGUI(world, player, (TileEntityParticleEmitter)te);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

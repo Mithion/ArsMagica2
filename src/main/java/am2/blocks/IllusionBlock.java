@@ -3,13 +3,9 @@ package am2.blocks;
 import am2.api.math.AMVector3;
 import am2.buffs.BuffList;
 import am2.items.ItemsCommonProxy;
-import am2.texture.ResourceManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,13 +13,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 import java.util.Random;
@@ -61,35 +56,31 @@ public class IllusionBlock extends AMBlock{
 	 * Gets the direction the illusion block is facing
 	 *
 	 * @param blockAccess The block access instance, used to get metadata
-	 * @param x           X coord of the block
-	 * @param y           Y coord of the block
-	 * @param z           Z coord of the block
+	 * @param pos         The position of the block.
 	 * @return ForgeDirection representing the forward vector
 	 */
-	private ForgeDirection getFacing(IBlockAccess blockAccess, int x, int y, int z){
-		int meta = blockAccess.getBlockMetadata(x, y, z) & 7;
-		return ForgeDirection.values()[meta];
+	private EnumFacing getFacing(IBlockAccess blockAccess, BlockPos pos){
+		int meta = blockAccess.getBlockState(pos).getBlock().getMetaFromState(blockAccess.getBlockState(pos)) & 7;
+		return EnumFacing.values()[meta];
 	}
 
 	/**
 	 * Gets the location of the block to mimic
 	 *
 	 * @param blockAccess The block access instance, used to get metadata
-	 * @param x           X coord of the block
-	 * @param y           Y coord of the block
-	 * @param z           Z coord of the block
+	 * @param pos         The position of the block.
 	 * @return the x,y,z coordinates of the mimic block, or null, if no mimic was found.
 	 */
-	public AMVector3 getMimicLocation(IBlockAccess blockAccess, int x, int y, int z){
-		ForgeDirection dir = getFacing(blockAccess, x, y, z);
-		AMVector3 position = new AMVector3(x, y, z);
-		AMVector3 offset = new AMVector3(dir.offsetX, dir.offsetY, dir.offsetZ);
+	public AMVector3 getMimicLocation(IBlockAccess blockAccess, BlockPos pos){
+		EnumFacing dir = getFacing(blockAccess, pos);
+		AMVector3 position = new AMVector3(pos.getX(), pos.getY(), pos.getZ());
+		AMVector3 offset = new AMVector3(dir.getFrontOffsetX(), dir.getFrontOffsetY(), dir.getFrontOffsetZ());
 		int count = 0;
 
 		while (count++ < SEARCH_MAX_DIST){
 			position = position.add(offset);
-			Block block = blockAccess.getBlock((int)position.x, (int)position.y, (int)position.z);
-			if (block != Blocks.air && block.renderAsNormalBlock() && block != this){
+			Block block = blockAccess.getBlockState(new BlockPos((int)position.x, (int)position.y, (int)position.z)).getBlock();
+			if (block != Blocks.air && block != this){
 				return position;
 			}
 		}
@@ -105,7 +96,7 @@ public class IllusionBlock extends AMBlock{
 	 * @return The block instance to mimic, or null if not found.
 	 */
 	public Block getMimicBlock(IBlockAccess blockAccess, AMVector3 position){
-		return blockAccess.getBlock((int)position.x, (int)position.y, (int)position.z);
+		return blockAccess.getBlockState(new BlockPos((int)position.x, (int)position.y, (int)position.z)).getBlock();
 	}
 
 	/**
@@ -113,113 +104,80 @@ public class IllusionBlock extends AMBlock{
 	 *
 	 * @return True if the meta of the block has the 4th bit on meta set
 	 */
-	public boolean alwaysPassable(IBlockAccess blockAccess, int x, int y, int z){
-		int meta = blockAccess.getBlockMetadata(x, y, z);
+	public boolean alwaysPassable(IBlockAccess blockAccess, BlockPos pos){
+		int meta = blockAccess.getBlockState(pos).getBlock().getMetaFromState(blockAccess.getBlockState(pos));
 		return (meta & 0x8) == 0x8;
 	}
 
-	/**
-	 * Calculates a forward facing direction based on the yaw and pitch of the player who placed it
-	 */
-	@Override
-	public void onBlockPlacedBy(World par1World, int x, int y, int z, EntityLivingBase entityLiving, ItemStack stack){
-		//get the nearest 90 degree angle from the placing entity's yaw, as a bit flag
-		int yaw = MathHelper.floor_double((entityLiving.rotationYaw * 4F) / 360F + 0.5D) & 3;
+    @Override
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entityLiving, ItemStack stack) {
+        //get the nearest 90 degree angle from the placing entity's yaw, as a bit flag
+        int yaw = MathHelper.floor_double((entityLiving.rotationYaw * 4F) / 360F + 0.5D) & 3;
 
-		//get the pitch angle, again, as a bit flag
-		Vec3 look = entityLiving.getLook(1.0f);
-		int pitch = (int)(Math.round(look.yCoord * 0.6) + 1) & 3;
+        //get the pitch angle, again, as a bit flag
+        Vec3 look = entityLiving.getLook(1.0f);
+        int pitch = (int)(Math.round(look.yCoord * 0.6) + 1) & 3;
 
-		int meta = 3;
+        int meta = 3;
 
-		if (yaw == 0){
-			meta = ForgeDirection.SOUTH.ordinal();
-		}else if (yaw == 1){
-			meta = ForgeDirection.WEST.ordinal();
-		}else if (yaw == 2){
-			meta = ForgeDirection.NORTH.ordinal();
-		}else if (yaw == 3){
-			meta = ForgeDirection.EAST.ordinal();
-		}
+        if (yaw == 0){
+            meta = EnumFacing.SOUTH.ordinal();
+        }else if (yaw == 1){
+            meta = EnumFacing.WEST.ordinal();
+        }else if (yaw == 2){
+            meta = EnumFacing.NORTH.ordinal();
+        }else if (yaw == 3){
+            meta = EnumFacing.EAST.ordinal();
+        }
 
-		//pitch overrides, as at this point yaw wouldn't matter anyways
-		if (pitch == 0){
-			meta = ForgeDirection.DOWN.ordinal();
-		}else if (pitch == 2){
-			meta = ForgeDirection.UP.ordinal();
-		}
+        //pitch overrides, as at this point yaw wouldn't matter anyways
+        if (pitch == 0){
+            meta = EnumFacing.DOWN.ordinal();
+        }else if (pitch == 2){
+            meta = EnumFacing.UP.ordinal();
+        }
 
-		//ethereal blocks are always passable, indicated by the 4th bit of meta
-		if (stack.getItemDamage() == 1){
-			meta |= 0x8;
-		}
+        //ethereal blocks are always passable, indicated by the 4th bit of meta
+        if (stack.getItemDamage() == 1){
+            meta |= 0x8;
+        }
 
-		par1World.setBlockMetadataWithNotify(x, y, z, meta, 2);
-		super.onBlockPlacedBy(par1World, x, y, z, entityLiving, stack);
-	}
+        world.setBlockState(pos, world.getBlockState(pos).getBlock().getStateFromMeta(meta), 2);
+        super.onBlockPlacedBy(world, pos, state, entityLiving, stack);
+    }
 
-	/**
-	 * Get the mimic'd hardness versus tools
-	 */
-	@Override
-	public float getBlockHardness(World world, int x, int y, int z){
-		AMVector3 mimicLocation = getMimicLocation(world, x, y, z);
-		if (mimicLocation != null){
-			Block mimicBlock = getMimicBlock(world, mimicLocation);
-			if (mimicBlock != null && mimicBlock != Blocks.air){
-				return mimicBlock.getBlockHardness(world, (int)mimicLocation.x, (int)mimicLocation.y, (int)mimicLocation.z);
-			}
-		}
-		return super.getBlockHardness(world, x, y, z);
-	}
+    @Override
+    public float getBlockHardness(World world, BlockPos pos) {
+        AMVector3 mimicLocation = getMimicLocation(world, pos);
+        if (mimicLocation != null){
+            Block mimicBlock = getMimicBlock(world, mimicLocation);
+            if (mimicBlock != null && mimicBlock != Blocks.air){
+                pos = new BlockPos((int)mimicLocation.x, (int)mimicLocation.y, (int)mimicLocation.z);
+                return mimicBlock.getBlockHardness(world, pos);
+            }
+        }
+        return super.getBlockHardness(world, pos);
+    }
 
-	/**
-	 * Get the mimic'd explosion resistance
-	 */
-	@Override
-	public float getExplosionResistance(Entity par1Entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ){
-		AMVector3 mimicLocation = getMimicLocation(world, x, y, z);
-		if (mimicLocation != null){
-			Block mimicBlock = getMimicBlock(world, mimicLocation);
-			if (mimicBlock != null && mimicBlock != Blocks.air){
-				return mimicBlock.getExplosionResistance(par1Entity, world, (int)mimicLocation.x, (int)mimicLocation.y, (int)mimicLocation.z, explosionX, explosionY, explosionZ);
-			}
-		}
-		return super.getExplosionResistance(par1Entity, world, x, y, z, explosionX, explosionY, explosionZ);
-	}
+    @Override
+    public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion) {
+        AMVector3 mimicLocation = getMimicLocation(world, pos);
+        if (mimicLocation != null){
+            Block mimicBlock = getMimicBlock(world, mimicLocation);
+            if (mimicBlock != null && mimicBlock != Blocks.air){
+                return mimicBlock.getExplosionResistance(world, new BlockPos((int)mimicLocation.x, (int)mimicLocation.y, (int)mimicLocation.z), exploder, explosion);
+            }
+        }
+        return super.getExplosionResistance(world, pos, exploder, explosion);
+    }
 
-	/**
-	 * Looks at mimic'd blocks, nearby players with true sight and meta flags to determine the IIcon to use.
-	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int face){
-		if (Minecraft.getMinecraft().thePlayer.isPotionActive(BuffList.trueSight.id) && !alwaysPassable(blockAccess, x, y, z)){
-			return revealedIcon;
-		}
-		AMVector3 mimicLocation = getMimicLocation(blockAccess, x, y, z);
-		if (mimicLocation == null){
-			return revealedIcon;
-		}else{
-			Block mimicBlock = getMimicBlock(blockAccess, mimicLocation);
-			if (mimicBlock != null && mimicBlock != Blocks.air){
-				return mimicBlock.getIcon(blockAccess, (int)mimicLocation.x, (int)mimicLocation.y, (int)mimicLocation.z, face);
-			}
-		}
-		return revealedIcon;
-	}
+    @Override
+    public int damageDropped(IBlockState state) {
+        if ((state.getBlock().getMetaFromState(state)& 0x8) == 0x8) return 1;
+        return 0;
+    }
 
-	/**
-	 * Drop as either an illusion block or an ethereal illusion block
-	 */
-	@Override
-	public int damageDropped(int par1){
-		if ((par1 & 0x8) == 0x8)
-			return 1;
-		return 0;
-	}
-
-	@Override
+    @Override
 	protected boolean canSilkHarvest(){
 		return false;
 	}
@@ -228,12 +186,6 @@ public class IllusionBlock extends AMBlock{
 	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List){
 		par3List.add(new ItemStack(this, 1, 0));
 		par3List.add(new ItemStack(this, 1, 1));
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int par1, int par2){
-		return revealedIcon;
 	}
 
 	/**
@@ -260,85 +212,68 @@ public class IllusionBlock extends AMBlock{
 		return 4;
 	}
 
-	/**
-	 * Spawns true sight particles randomly
-	 */
-	@Override
-	public void randomDisplayTick(World world, int i, int j, int k, Random random){
-		// int meta = world.getBlockMetadata(i, j, k);
+    @Override
+    public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random) {
+        int i = pos.getX();
+        int j = pos.getY();
+        int k = pos.getZ();
+        EntityPlayer closest = world.getClosestPlayer(5, 5, 5, 5);
+        if (closest == null){
+            world.markBlockForUpdate(pos);
+            return;
+        }else if (closest.isPotionActive(BuffList.trueSight.id)){
+            world.markBlockForUpdate(pos);
+            if (tickCount++ == 20){
+                this.tickCount = 0;
+                for (int x = 0; x < 10; ++x){
+                    double movement = 2;
+                    world.spawnParticle(EnumParticleTypes.REDSTONE,
+                            i + ((random.nextDouble() * 2 - 1) * movement),
+                            j + ((random.nextDouble() * 2 - 1) * movement),
+                            k + ((random.nextDouble() * 2 - 1) * movement),
+                            random.nextDouble() / 4 + 0.75,
+                            0.5f,
+                            random.nextDouble() / 2 + 0.75);
+                }
+            }
+        }else{
+            world.markBlockForUpdate(pos);
+        }
+    }
 
-		EntityPlayer closest = world.getClosestPlayer(i, j, k, 5.0);
-		if (closest == null){
-			world.markBlockForUpdate(i, j, k);
-			return;
-		}else if (closest.isPotionActive(BuffList.trueSight.id)){
-			world.markBlockForUpdate(i, j, k);
-			if (tickCount++ == 20){
-				this.tickCount = 0;
-				for (int x = 0; x < 10; ++x){
-					double movement = 2;
-					world.spawnParticle("reddust",
-							i + ((random.nextDouble() * 2 - 1) * movement),
-							j + ((random.nextDouble() * 2 - 1) * movement),
-							k + ((random.nextDouble() * 2 - 1) * movement),
-							random.nextDouble() / 4 + 0.75,
-							0.5f,
-							random.nextDouble() / 2 + 0.75);
-				}
-			}
-		}else{
-			world.markBlockForUpdate(i, j, k);
-		}
-	}
+    @Override
+    public void addCollisionBoxesToList(World world, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity entity) {
+        if (alwaysPassable(world, pos))
+            return;
 
-	/**
-	 * Handles the actual collisions, or rather lack thereof
-	 */
-	@Override
-	public void addCollisionBoxesToList(World par1World, int par2, int par3, int par4, AxisAlignedBB par5AxisAlignedBB, List par6List, Entity par7Entity){
+        if (entity instanceof EntityLivingBase && ((EntityLivingBase)entity).isPotionActive(BuffList.trueSight.id)){
+            return;
+        }
+        super.addCollisionBoxesToList(world, pos, state, mask, list, entity);
+    }
 
-		if (alwaysPassable(par1World, par2, par3, par4))
-			return;
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int colorMultiplier(IBlockAccess blockAccess, BlockPos pos, int renderPass) {
+        AMVector3 mimicLocation = getMimicLocation(blockAccess, pos);
+        if (mimicLocation != null){
+            Block mimicBlock = getMimicBlock(blockAccess, mimicLocation);
+            if (mimicBlock != null && mimicBlock != Blocks.air){
+                return mimicBlock.colorMultiplier(blockAccess, new BlockPos((int)mimicLocation.x, (int)mimicLocation.y, (int)mimicLocation.z));
+            }
+        }
+        return super.colorMultiplier(blockAccess, pos, renderPass);
+    }
 
-		if (par7Entity instanceof EntityLivingBase && ((EntityLivingBase)par7Entity).isPotionActive(BuffList.trueSight.id)){
-			return;
-		}
-		super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
-	}
+    @Override
+    public boolean isBlockNormalCube() {
+        return false;
+    }
 
-	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_){
-		return super.getCollisionBoundingBoxFromPool(p_149668_1_, p_149668_2_, p_149668_3_, p_149668_4_);
-	}
-
-	/**
-	 * Mimics color multiplier so as to blend in better
-	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z){
-		AMVector3 mimicLocation = getMimicLocation(blockAccess, x, y, z);
-		if (mimicLocation != null){
-			Block mimicBlock = getMimicBlock(blockAccess, mimicLocation);
-			if (mimicBlock != null && mimicBlock != Blocks.air){
-				return mimicBlock.colorMultiplier(blockAccess, (int)mimicLocation.x, (int)mimicLocation.y, (int)mimicLocation.z);
-			}
-		}
-		return super.colorMultiplier(blockAccess, x, y, z);
-	}
-
-	/**
-	 * Can't be normal since entities can pass through it - if it is normal then the "inside block" ui overlay happens and is annoying
-	 */
-	@Override
-	public boolean isNormalCube(IBlockAccess world, int x, int y, int z){
-		return false;
-	}
-
-	@Override
-	public boolean isBlockSolid(IBlockAccess p_149747_1_, int p_149747_2_, int p_149747_3_, int p_149747_4_, int p_149747_5_){
-		return false;
-	}
+    @Override
+    public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+        return false;
+    }
 
 	@Override
 	public boolean isNormalCube(){
@@ -353,46 +288,37 @@ public class IllusionBlock extends AMBlock{
 		return false;
 	}
 
-	/**
-	 * Must be able to render with transparency, render pass 1 allows this.
-	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getRenderBlockPass(){
-		return 1;
-	}
+    @Override
+    public int getLightOpacity(IBlockAccess world, BlockPos pos) {
+        AMVector3 mimicLocation = getMimicLocation(world, pos);
+        if (mimicLocation != null){
+            Block mimicBlock = getMimicBlock(world, mimicLocation);
+            if (mimicBlock != null && mimicBlock != Blocks.air){
+                return mimicBlock.getLightOpacity(world, new BlockPos((int)mimicLocation.x, (int)mimicLocation.y, (int)mimicLocation.z));
+            }
+        }
+        return super.getLightOpacity(world, pos);
+    }
 
-	@Override
-	public int getLightOpacity(IBlockAccess world, int x, int y, int z){
-		AMVector3 mimicLocation = getMimicLocation(world, x, y, z);
-		if (mimicLocation != null){
-			Block mimicBlock = getMimicBlock(world, mimicLocation);
-			if (mimicBlock != null && mimicBlock != Blocks.air){
-				return mimicBlock.getLightOpacity(world, (int)mimicLocation.x, (int)mimicLocation.y, (int)mimicLocation.z);
-			}
-		}
-		return super.getLightOpacity(world, x, y, z);
-	}
-
-	@Override
-	public int getLightValue(IBlockAccess world, int x, int y, int z){
-		AMVector3 mimicLocation = getMimicLocation(world, x, y, z);
-		if (mimicLocation != null){
-			Block mimicBlock = getMimicBlock(world, mimicLocation);
-			if (mimicBlock != null && mimicBlock != Blocks.air){
-				return mimicBlock.getLightValue(world, (int)mimicLocation.x, (int)mimicLocation.y, (int)mimicLocation.z);
-			}
-		}
-		return super.getLightValue(world, x, y, z);
-	}
+    @Override
+    public int getLightValue(IBlockAccess world, BlockPos pos) {
+        AMVector3 mimicLocation = getMimicLocation(world, pos);
+        if (mimicLocation != null){
+            Block mimicBlock = getMimicBlock(world, mimicLocation);
+            if (mimicBlock != null && mimicBlock != Blocks.air){
+                return mimicBlock.getLightValue(world, new BlockPos((int)mimicLocation.x, (int)mimicLocation.y, (int)mimicLocation.z));
+            }
+        }
+        return super.getLightValue(world, pos);
+    }
 
 	@Override
 	public float getAmbientOcclusionLightValue(){
 		return 1.0f;
 	}
 
-	@Override
-	public int getMixedBrightnessForBlock(IBlockAccess world, int x, int y, int z){
-		return super.getMixedBrightnessForBlock(world, x, y, z);
-	}
+    @Override
+    public int getMixedBrightnessForBlock(IBlockAccess worldIn, BlockPos pos) {
+        return super.getMixedBrightnessForBlock(worldIn, pos);
+    }
 }

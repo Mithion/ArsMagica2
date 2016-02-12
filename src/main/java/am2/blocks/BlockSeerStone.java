@@ -6,9 +6,6 @@ import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntitySeerStone;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.utility.KeystoneUtilities;
-
-import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,6 +18,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 
 import java.util.Random;
 
@@ -34,7 +32,7 @@ public class BlockSeerStone extends AMSpecialRenderPoweredBlock{
 
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos){
-		int meta = world.getBlockState(pos).getBlock().getMetaFromState(); // TODO figure out how to make this work
+		int meta = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
 		switch (meta){
 		case 1:
 			this.setBlockBounds(0.0f, 0.6f, 0.0f, 1.0f, 1.0f, 1.0f);

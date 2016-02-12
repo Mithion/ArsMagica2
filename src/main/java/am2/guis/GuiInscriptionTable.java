@@ -19,7 +19,6 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
@@ -234,43 +233,38 @@ public class GuiInscriptionTable extends GuiContainer{
 		}
 	}
 
+    @Override
+    protected void mouseReleased(int x, int y, int action) {
+        int l = (width - xSize) / 2;
+        int i1 = (height - ySize) / 2;
+        x -= l;
+        y -= i1;
 
-
-	@Override
-	protected void mouseMovedOrUp(int x, int y, int action){
-		super.mouseMovedOrUp(x, y, action);
-
-		int l = (width - xSize) / 2;
-		int i1 = (height - ySize) / 2;
-		x -= l;
-		y -= i1;
-
-		if (action == 0 || action == 1){
-			if (dragging){
-				dragging = false;
-				//lower section
-				if (x >= IIconXStart_lower && x <= IIconXStart_lower + 150){
-					if (y >= IIconYStart_lower && y <= IIconYStart_lower + 18){
-						((ContainerInscriptionTable)this.inventorySlots).addRecipePart((ISpellPart)hoveredItem);
-						result = ((ContainerInscriptionTable)this.inventorySlots).validateCurrentDefinition();
-					}
-				}
-				//spell stage groups
-				int sg = ((ContainerInscriptionTable)this.inventorySlots).getNumStageGroups();
-				for (int i = 0; i < sg; ++i){
-					int SGX = shapeGroupX + ((shapeGroupWidth + shapeGroupPadding) * i);
-					int SGY = shapeGroupY;
-					if (x >= SGX && x <= SGX + shapeGroupWidth){
-						if (y >= SGY && y <= SGY + shapeGroupWidth){
-							((ContainerInscriptionTable)this.inventorySlots).addRecipePartToGroup(i, (ISpellPart)hoveredItem);
-							result = ((ContainerInscriptionTable)this.inventorySlots).validateCurrentDefinition();
-						}
-					}
-				}
-			}
-		}
-	}
-
+        if (action == 0 || action == 1){
+            if (dragging){
+                dragging = false;
+                //lower section
+                if (x >= IIconXStart_lower && x <= IIconXStart_lower + 150){
+                    if (y >= IIconYStart_lower && y <= IIconYStart_lower + 18){
+                        ((ContainerInscriptionTable)this.inventorySlots).addRecipePart((ISpellPart)hoveredItem);
+                        result = ((ContainerInscriptionTable)this.inventorySlots).validateCurrentDefinition();
+                    }
+                }
+                //spell stage groups
+                int sg = ((ContainerInscriptionTable)this.inventorySlots).getNumStageGroups();
+                for (int i = 0; i < sg; ++i){
+                    int SGX = shapeGroupX + ((shapeGroupWidth + shapeGroupPadding) * i);
+                    int SGY = shapeGroupY;
+                    if (x >= SGX && x <= SGX + shapeGroupWidth){
+                        if (y >= SGY && y <= SGY + shapeGroupWidth){
+                            ((ContainerInscriptionTable)this.inventorySlots).addRecipePartToGroup(i, (ISpellPart)hoveredItem);
+                            result = ((ContainerInscriptionTable)this.inventorySlots).validateCurrentDefinition();
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 
 	private void drawDropZones(){
@@ -400,7 +394,7 @@ public class GuiInscriptionTable extends GuiContainer{
 
 	}
 
-	/*private void drawBookIcon(){
+	private void drawBookIcon(){
 		int bookX = this.inventorySlots.getSlot(0).xDisplayPosition;
 		int bookY = this.inventorySlots.getSlot(0).yDisplayPosition;
 
@@ -410,7 +404,7 @@ public class GuiInscriptionTable extends GuiContainer{
 			GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.7f);
 		AMGuiHelper.DrawIconAtXY(icon, bookX, bookY, this.zLevel, 16, 16, true);
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	}*/
+	}
 
 	private boolean drawCurrentRecipe(ArrayList<String> labelText, int l, int i1){
 

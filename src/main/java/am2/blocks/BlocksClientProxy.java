@@ -29,9 +29,6 @@ public class BlocksClientProxy extends BlocksCommonProxy{
 	public static TileEntityOtherworldAura otherworldAuraInventoryRenderer;
 
 	public BlocksClientProxy(){
-		blockRenderID = RenderingRegistry.getNextAvailableRenderId();
-		commonBlockRenderID = RenderingRegistry.getNextAvailableRenderId();
-
 		essenceConduitInventoryRender = new TileEntityEssenceConduit();
 		calefactorInventoryRenderer = new TileEntityCalefactor();
 		keystoneRecepticleInventoryRenderer = new TileEntityKeystoneRecepticle();

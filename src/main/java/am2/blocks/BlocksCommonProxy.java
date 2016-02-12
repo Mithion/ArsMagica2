@@ -120,8 +120,8 @@ public class BlocksCommonProxy{
 		return arsMagicaBlocksList;
 	}
 
-	public void registerKeystonePortal(int x, int y, int z, int dimension){
-		AMVector3 location = new AMVector3(x, y, z);
+	public void registerKeystonePortal(BlockPos pos, int dimension){
+		AMVector3 location = new AMVector3(pos.getX(), pos.getY(), pos.getZ());
 		if (!KeystonePortalLocations.containsKey(dimension))
 			KeystonePortalLocations.put(dimension, new ArrayList<AMVector3>());
 
@@ -131,8 +131,8 @@ public class BlocksCommonProxy{
 			dimensionList.add(location);
 	}
 
-	public void removeKeystonePortal(int x, int y, int z, int dimension){
-		AMVector3 location = new AMVector3(x, y, z);
+	public void removeKeystonePortal(BlockPos pos, int dimension){
+		AMVector3 location = new AMVector3(pos.getX(), pos.getY(), pos.getZ());
 		if (KeystonePortalLocations.containsKey(dimension)){
 			ArrayList<AMVector3> dimensionList = KeystonePortalLocations.get(dimension);
 

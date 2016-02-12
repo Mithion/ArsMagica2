@@ -1,10 +1,8 @@
 package am2.blocks;
 
 import am2.blocks.tileentities.TileEntityLectern;
-import am2.texture.ResourceManager;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,11 +10,11 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings.GameType;
-
-import java.util.Random;
 
 public class BlockLectern extends AMSpecialRenderBlockContainer{
 
@@ -31,108 +29,101 @@ public class BlockLectern extends AMSpecialRenderBlockContainer{
 		return new TileEntityLectern();
 	}
 
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9){
+    @Override
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
+        super.onBlockActivated(world, pos, state, player, side, hitX, hitY, hitZ);
 
-		super.onBlockActivated(world, x, y, z, player, par6, par7, par8, par9);
+        TileEntityLectern te = getTileEntity(world, pos);
+        if (te == null){
+            return true;
+        }
+        if (te.hasStack()){
+            if (player.isSneaking()){
+                if (!world.isRemote && ((player instanceof EntityPlayerMP) && ((EntityPlayerMP)player).theItemInWorldManager.getGameType() != GameType.ADVENTURE)){
+                    float f = world.rand.nextFloat() * 0.8F + 0.1F;
+                    float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
+                    float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
+                    ItemStack newItem = new ItemStack(te.getStack().getItem(), 1, te.getStack().getItemDamage());
+                    if (te.getStack().getTagCompound() != null)
+                        newItem.setTagCompound((NBTTagCompound)te.getStack().getTagCompound().copy());
+                    EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, newItem);
+                    float f3 = 0.05F;
+                    entityitem.motionX = (float)world.rand.nextGaussian() * f3;
+                    entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
+                    entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
+                    world.spawnEntityInWorld(entityitem);
+                    te.setStack(null);
+                }
+            }else{
+                te.getStack().getItem().onItemRightClick(te.getStack(), world, player);
+            }
+        }else{
+            if (player.getCurrentEquippedItem() != null){
+                if (te.setStack(player.getCurrentEquippedItem())){
+                    player.getCurrentEquippedItem().stackSize--;
+                    if (player.getCurrentEquippedItem().stackSize <= 0){
+                        player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+                    }
+                }
+            }
+        }
 
-		TileEntityLectern te = getTileEntity(world, x, y, z);
-		if (te == null){
-			return true;
-		}
-		if (te.hasStack()){
-			if (player.isSneaking()){
-				if (!world.isRemote && ((player instanceof EntityPlayerMP) && ((EntityPlayerMP)player).theItemInWorldManager.getGameType() != GameType.ADVENTURE)){
-					float f = world.rand.nextFloat() * 0.8F + 0.1F;
-					float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
-					float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
-					ItemStack newItem = new ItemStack(te.getStack().getItem(), 1, te.getStack().getItemDamage());
-					if (te.getStack().stackTagCompound != null)
-						newItem.setTagCompound((NBTTagCompound)te.getStack().stackTagCompound.copy());
-					EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, newItem);
-					float f3 = 0.05F;
-					entityitem.motionX = (float)world.rand.nextGaussian() * f3;
-					entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
-					entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
-					world.spawnEntityInWorld(entityitem);
-					te.setStack(null);
-				}
-			}else{
-				te.getStack().getItem().onItemRightClick(te.getStack(), world, player);
-			}
-		}else{
-			if (player.getCurrentEquippedItem() != null){
-				if (te.setStack(player.getCurrentEquippedItem())){
-					player.getCurrentEquippedItem().stackSize--;
-					if (player.getCurrentEquippedItem().stackSize <= 0){
-						player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
-					}
-				}
-			}
-		}
+        return true;
+    }
 
-		return true;
-	}
+    @Override
+    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+        TileEntityLectern te = getTileEntity(world, pos);
+        if (te == null){
+            return;
+        }
+        if (!world.isRemote){
+            if (te.hasStack()){
+                float f = world.rand.nextFloat() * 0.8F + 0.1F;
+                float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
+                float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
+                ItemStack newItem = new ItemStack(te.getStack().getItem(), 1, te.getStack().getItemDamage());
+                if (te.getStack().getTagCompound() != null)
+                    newItem.setTagCompound((NBTTagCompound)te.getStack().getTagCompound().copy());
+                EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, newItem);
+                float f3 = 0.05F;
+                entityitem.motionX = (float)world.rand.nextGaussian() * f3;
+                entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
+                entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
+                world.spawnEntityInWorld(entityitem);
+            }
+        }
+        super.breakBlock(world, pos, state);
+    }
 
-	@Override
-	public void breakBlock(World world, int x, int y, int z, Block par5, int par6){
-		TileEntityLectern te = getTileEntity(world, x, y, z);
-		if (te == null){
-			return;
-		}
-		if (!world.isRemote){
-			if (te.hasStack()){
-				float f = world.rand.nextFloat() * 0.8F + 0.1F;
-				float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
-				float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
-				ItemStack newItem = new ItemStack(te.getStack().getItem(), 1, te.getStack().getItemDamage());
-				if (te.getStack().stackTagCompound != null)
-					newItem.setTagCompound((NBTTagCompound)te.getStack().stackTagCompound.copy());
-				EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, newItem);
-				float f3 = 0.05F;
-				entityitem.motionX = (float)world.rand.nextGaussian() * f3;
-				entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
-				entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
-				world.spawnEntityInWorld(entityitem);
-			}
-		}
-		super.breakBlock(world, x, y, z, par5, par6);
-	}
-
-	private TileEntityLectern getTileEntity(World world, int x, int y, int z){
-		TileEntity te = world.getTileEntity(x, y, z);
+	private TileEntityLectern getTileEntity(World world, BlockPos pos){
+		TileEntity te = world.getTileEntity(pos);
 		if (te != null && te instanceof TileEntityLectern){
 			return (TileEntityLectern)te;
 		}
 		return null;
 	}
 
-	@Override
-	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLiving, ItemStack par6ItemStack){
-		int p = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4F) / 360F + 0.5D) & 3;
+    @Override
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        int p = MathHelper.floor_double((placer.rotationYaw * 4F) / 360F + 0.5D) & 3;
 
-		byte byte0 = 3;
+        byte byte0 = 3;
 
-		if (p == 0){
-			byte0 = 4;
-		}
-		if (p == 1){
-			byte0 = 3;
-		}
-		if (p == 2){
-			byte0 = 2;
-		}
-		if (p == 3){
-			byte0 = 1;
-		}
+        if (p == 0){
+            byte0 = 4;
+        }
+        if (p == 1){
+            byte0 = 3;
+        }
+        if (p == 2){
+            byte0 = 2;
+        }
+        if (p == 3){
+            byte0 = 1;
+        }
 
-		par1World.setBlockMetadataWithNotify(par2, par3, par4, byte0, 2);
-		super.onBlockPlacedBy(par1World, par2, par3, par4, par5EntityLiving, par6ItemStack);
-	}
-
-	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
-		this.blockIcon = ResourceManager.RegisterTexture("Witchwood", par1IconRegister);
-	}
-
+        world.setBlockState(pos, world.getBlockState(pos).getBlock().getStateFromMeta(byte0), 2);
+        super.onBlockPlacedBy(world, pos, state, placer, stack);
+    }
 }

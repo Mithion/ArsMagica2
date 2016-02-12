@@ -1,8 +1,6 @@
 package am2.armor;
 
 import am2.playerextensions.ExtendedProperties;
-import am2.texture.ResourceManager;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
@@ -19,11 +17,6 @@ public class ItemEnderBoots extends AMArmor{
 	@Override
 	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot){
 		return 0;
-	}
-
-	@Override
-	public void registerIcons(IIconRegister par1IconRegister){
-		this.itemIcon = ResourceManager.RegisterTexture("ender_boots", par1IconRegister);
 	}
 
 	@Override

@@ -1,63 +1,41 @@
 package am2.blocks;
 
 import am2.items.ItemsCommonProxy;
-import am2.texture.ResourceManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BlockWizardsChalk extends AMSpecialRenderBlock{
-
-	@SideOnly(Side.CLIENT)
-	private IIcon[] blockIcons;
 
 	public BlockWizardsChalk(){
 		super(Material.circuits);
 		setBlockBounds(0, 0, 0, 1, 0.02f, 1);
 	}
 
-	@Override
-	public int getLightOpacity(IBlockAccess world, int x, int y, int z){
-		return 0;
-	}
+    @Override
+    public int getLightOpacity() {
+        return 0;
+    }
 
-	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
-		blockIcons = new IIcon[16];
-
-		for (int i = 0; i < 16; ++i)
-			blockIcons[i] = ResourceManager.RegisterTexture("wizardchalk/WizardChalk" + (i + 1), par1IconRegister);
-	}
-
-	@Override
+    @Override
 	public int getRenderType(){
 		return BlocksCommonProxy.commonBlockRenderID;
 	}
 
-	@Override
-	public IIcon getIcon(int side, int meta){
-		return blockIcons[meta];
-	}
+    @Override
+    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+        return new ArrayList<ItemStack>();
+    }
 
-	@Override
-	public int getRenderBlockPass(){
-		return 1;
-	}
-
-	@Override
-	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune){
-		return new ArrayList<ItemStack>();
-	}
-
-	@Override
+    @Override
 	public float getAmbientOcclusionLightValue(){
 		return 1.0f;
 	}
@@ -67,9 +45,8 @@ public class BlockWizardsChalk extends AMSpecialRenderBlock{
 		return 0xFFFFFF;
 	}
 
-	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world,
-								  int x, int y, int z){
-		return new ItemStack(ItemsCommonProxy.wizardChalk);
-	}
+    @Override
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player) {
+        return new ItemStack(ItemsCommonProxy.wizardChalk);
+    }
 }

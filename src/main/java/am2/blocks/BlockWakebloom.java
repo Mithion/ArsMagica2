@@ -2,14 +2,18 @@ package am2.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BlockWakebloom extends AMFlower{
 
@@ -17,30 +21,30 @@ public class BlockWakebloom extends AMFlower{
 		super();
 	}
 
-	@Override
-	public EnumPlantType getPlantType(IBlockAccess world, int x, int y, int z){
-		return EnumPlantType.Water;
-	}
+    @Override
+    public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos) {
+        return EnumPlantType.Water;
+    }
 
-	@Override
+    @Override
 	protected boolean canPlaceBlockOn(Block block){
 		return block == Blocks.water;
 	}
 
-	@Override
-	public boolean canBlockStay(World par1World, int par2, int par3, int par4){
-		return par3 >= 0 && par3 < 256 ? par1World.getBlock(par2, par3 - 1, par4).getMaterial() == Material.water && par1World.getBlockMetadata(par2, par3 - 1, par4) == 0 : false;
-	}
+    @Override
+    public boolean canBlockStay(World world, BlockPos pos, IBlockState state) {
+        return pos.getY() >= 0 && pos.getY() < 256 ? world.getBlockState(pos.down()).getBlock().getMaterial() == Material.water && world.getBlockState(pos.down()).getBlock().getMetaFromState(world.getBlockState(pos)) == 0 : false;
+    }
 
-	@Override
-	public ArrayList<ItemStack> getDrops(World arg0, int arg1, int arg2, int arg3, int arg4, int arg5){
-		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
-		drops.add(new ItemStack(BlocksCommonProxy.wakebloom));
-		return drops;
-	}
+    @Override
+    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+        ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
+        drops.add(new ItemStack(BlocksCommonProxy.wakebloom));
+        return drops;
+    }
 
-	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z){
-		return new ItemStack(BlocksCommonProxy.wakebloom);
-	}
+    @Override
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player) {
+        return new ItemStack(BlocksCommonProxy.wakebloom);
+    }
 }

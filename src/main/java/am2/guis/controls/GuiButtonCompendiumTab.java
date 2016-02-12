@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -33,7 +34,7 @@ public class GuiButtonCompendiumTab extends GuiButton{
 
 	public GuiButtonCompendiumTab(int id, int xPos, int yPos, String categoryDisplay, String categoryID, IIcon displayIcon){
 		super(id, xPos, yPos, sourceWidth, sourceHeight, categoryDisplay);
-		this.width = displayIcon == null ? Minecraft.getMinecraft().fontRenderer.getStringWidth(categoryDisplay) : 20;
+		this.width = displayIcon == null ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(categoryDisplay) : 20;
 		this.categoryID = categoryID;
 		this.displayIcon = displayIcon;
 	}
@@ -108,14 +109,15 @@ public class GuiButtonCompendiumTab extends GuiButton{
 
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		Tessellator var9 = Tessellator.getInstance();
+		Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer var9 = tessellator.getWorldRenderer();
 
 		var9.startDrawingQuads();
 		var9.addVertexWithUV(dst_x + 0, dst_y + dst_height, this.zLevel, (src_x + 0) * var7, (src_y + src_height) * var8);
 		var9.addVertexWithUV(dst_x + dst_width, dst_y + dst_height, this.zLevel, (src_x + src_width) * var7, (src_y + src_height) * var8);
 		var9.addVertexWithUV(dst_x + dst_width, dst_y + 0, this.zLevel, (src_x + src_width) * var7, (src_y + 0) * var8);
 		var9.addVertexWithUV(dst_x + 0, dst_y + 0, this.zLevel, (src_x + 0) * var7, (src_y + 0) * var8);
-		var9.draw();
+		tessellator.draw();
 		GL11.glDisable(GL11.GL_BLEND);
 	}
 

@@ -2,7 +2,6 @@ package am2.armor;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 
 public class ItemMagitechGoggles extends AMArmor{
 

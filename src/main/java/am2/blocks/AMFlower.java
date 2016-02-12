@@ -1,6 +1,7 @@
 package am2.blocks;
 
 import net.minecraft.block.BlockFlower;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -32,7 +33,7 @@ public class AMFlower extends BlockFlower{
 		list.add(new ItemStack(Item.getItemFromBlock(this), 1, 0));
 	}
 
-	public boolean canGrowOn(World worldIn, BlockPos pos) {
-		return canBlockStay(worldIn, pos);
+	public boolean canGrowOn(World worldIn, BlockPos pos, IBlockState state) {
+		return canBlockStay(worldIn, pos, state);
 	}
 }
