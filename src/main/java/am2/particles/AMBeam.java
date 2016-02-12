@@ -3,16 +3,15 @@ package am2.particles;
 import am2.AMCore;
 import am2.api.particles.IBeamParticle;
 import am2.texture.ResourceManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
@@ -171,7 +170,7 @@ public class AMBeam extends EntityFX implements IBeamParticle{
 		return 2;
 	}
 
-	@Override
+	/*@Override
 	public void renderParticle(Tessellator tessellator, float par2, float par3, float par4, float par5, float par6, float par7){
 
 		tessellator.draw();
@@ -266,7 +265,7 @@ public class AMBeam extends EntityFX implements IBeamParticle{
 
 
 		tessellator.startDrawingQuads();
-	}
+	}*/
 
 	@Override
 	public void setRGBColorF(float r, float g, float b){

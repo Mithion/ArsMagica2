@@ -29,14 +29,9 @@ import am2.spell.SpellHelper;
 import am2.spell.SpellUtils;
 import am2.spell.modifiers.Colour;
 import am2.utility.MathUtilities;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
-import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.server.FMLServerHandler;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -45,9 +40,16 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.server.FMLServerHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -128,7 +130,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 				handleStarFall(remaining);
 				break;
 			case AMPacketIDs.HIDDEN_COMPONENT_UNLOCK:
-				Minecraft.getMinecraft().guiAchievement.func_146256_a(ArcaneCompendium.componentUnlock);
+				Minecraft.getMinecraft().guiAchievement.displayAchievement(ArcaneCompendium.componentUnlock);
 				break;
 			case AMPacketIDs.SPELL_APPLY_EFFECT:
 				handleSpellApplyEffect(remaining);
@@ -171,21 +173,21 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 
 	private void handleObeliskData(byte[] remaining){
 		AMDataReader rdr = new AMDataReader(remaining, false);
-		TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(rdr.getInt(), rdr.getInt(), rdr.getInt());
+		TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(new BlockPos(rdr.getInt(), rdr.getInt(), rdr.getInt()));
 		if (te == null || !(te instanceof TileEntityObelisk)) return;
 		((TileEntityObelisk)te).handlePacket(rdr.getRemainingBytes());
 	}
 
 	private void handleCalefactorData(byte[] remaining){
 		AMDataReader rdr = new AMDataReader(remaining, false);
-		TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(rdr.getInt(), rdr.getInt(), rdr.getInt());
+		TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(new BlockPos(rdr.getInt(), rdr.getInt(), rdr.getInt()));
 		if (te == null || !(te instanceof TileEntityCalefactor)) return;
 		((TileEntityCalefactor)te).handlePacket(rdr.getRemainingBytes());
 	}
 
 	private void handleLecternData(byte[] data){
 		AMDataReader rdr = new AMDataReader(data, false);
-		TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(rdr.getInt(), rdr.getInt(), rdr.getInt());
+		TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(new BlockPos(rdr.getInt(), rdr.getInt(), rdr.getInt()));
 		if (te == null || !(te instanceof TileEntityLectern)) return;
 		if (rdr.getBoolean())
 			((TileEntityLectern)te).setStack(rdr.getItemStack());
@@ -195,7 +197,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 
 	private void handleCraftingAltarData(byte[] data){
 		AMDataReader rdr = new AMDataReader(data, false);
-		TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(rdr.getInt(), rdr.getInt(), rdr.getInt());
+		TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(new BlockPos(rdr.getInt(), rdr.getInt(), rdr.getInt()));
 		if (te == null || !(te instanceof TileEntityCraftingAltar)) return;
 		((TileEntityCraftingAltar)te).HandleUpdatePacket(rdr.getRemainingBytes());
 	}
@@ -227,7 +229,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 			int y = rdr.getInt();
 			int z = rdr.getInt();
 			AMCore.proxy.setTrackedPowerCompound((NBTTagCompound)compound.copy());
-			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(x, y, z);
+			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(new BlockPos(x, y, z));
 			if (te != null && te instanceof IPowerNode)
 				PowerNodeRegistry.For(Minecraft.getMinecraft().theWorld).setDataCompoundForNode((IPowerNode)te, compound);
 		}
@@ -242,7 +244,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		World world = Minecraft.getMinecraft().theWorld;
 
 		for (int i = 0; i < 10 * AMCore.config.getGFXLevel(); ++i){
-			world.spawnParticle("flame", x, y + 1, z, world.rand.nextDouble() - 0.5, world.rand.nextDouble() - 0.5, world.rand.nextDouble() - 0.5);
+			world.spawnParticle(EnumParticleTypes.FLAME, x, y + 1, z, world.rand.nextDouble() - 0.5, world.rand.nextDouble() - 0.5, world.rand.nextDouble() - 0.5);
 		}
 	}
 
@@ -509,7 +511,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 	private void handleRemoveBuffEffect(byte[] data){
 		AMDataReader rdr = new AMDataReader(data, false);
 		int buffID = rdr.getInt();
-		EntityClientPlayerMP localPlayer = Minecraft.getMinecraft().thePlayer;
+		EntityPlayerSP localPlayer = Minecraft.getMinecraft().thePlayer;
 		if (buffID == BuffList.temporalAnchor.id){
 			localPlayer.prevTimeInPortal = 1f;
 			localPlayer.timeInPortal = 1f;

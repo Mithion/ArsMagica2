@@ -1,6 +1,5 @@
 package am2.blocks;
 
-import java.util.Random;
 import am2.AMCore;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.items.KeystoneAccessType;
@@ -8,22 +7,17 @@ import am2.blocks.tileentities.TileEntityKeystoneDoor;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.items.ItemsCommonProxy;
 import am2.lore.CompendiumUnlockHandler;
-import am2.texture.ResourceManager;
 import am2.utility.KeystoneUtilities;
-import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.IconFlipped;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
+
+import java.util.Random;
 
 public class BlockKeystoneDoor extends BlockDoor implements ITileEntityProvider{
 

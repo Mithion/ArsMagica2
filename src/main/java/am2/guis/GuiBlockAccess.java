@@ -1,5 +1,6 @@
 package am2.guis;
 
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -7,7 +8,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class GuiBlockAccess implements IBlockAccess{
 
@@ -48,13 +48,18 @@ public class GuiBlockAccess implements IBlockAccess{
 
 	@Override
 	public TileEntity getTileEntity(int i, int j, int k){
-		if (i == overridex && j == overridey && k == overridez) return controllingTileEntity;
-		if (outerBlockAccess != null)
-			return outerBlockAccess.getTileEntity(i, j, k);
-		return null;
+
 	}
 
-	@Override
+    @Override
+    public TileEntity getTileEntity(BlockPos pos) {
+        if (pos.equals(overridex, overridey, overridez)) return controllingTileEntity;
+        if (outerBlockAccess != null)
+            return outerBlockAccess.getTileEntity(pos);
+        return null;
+    }
+
+    @Override
 	@SideOnly(Side.CLIENT)
 	public int getLightBrightnessForSkyBlocks(int i, int j, int k, int l){
 		if (outerBlockAccess != null)
@@ -71,25 +76,23 @@ public class GuiBlockAccess implements IBlockAccess{
 		return 0;
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean isAirBlock(int i, int j, int k){
-		return false;
-	}
+    @Override
+    public boolean isAirBlock(BlockPos pos) {
+        return false;
+    }
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public BiomeGenBase getBiomeGenForCoords(int i, int j){
-		return BiomeGenBase.plains;
-	}
-
-	@Override
+    @Override
 	@SideOnly(Side.CLIENT)
 	public int getHeight(){
 		return 0;
 	}
 
-	@Override
+    @Override
+    public BiomeGenBase getBiomeGenForCoords(BlockPos pos) {
+        return BiomeGenBase.plains;
+    }
+
+    @Override
 	@SideOnly(Side.CLIENT)
 	public boolean extendedLevelsInChunkCache(){
 		return false;

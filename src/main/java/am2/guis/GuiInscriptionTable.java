@@ -26,6 +26,7 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -104,11 +105,11 @@ public class GuiInscriptionTable extends GuiContainer{
 		super.initGui();
 		searchFieldPosition = new AMVector2(39, 59);
 		searchFieldDimensions = new AMVector2(141, 12);
-		searchBar = new GuiTextField(Minecraft.getMinecraft().fontRenderer, searchFieldPosition.iX, searchFieldPosition.iY, searchFieldDimensions.iX, searchFieldDimensions.iY);
+		searchBar = new GuiTextField(1 /* TODO get actual ID */, Minecraft.getMinecraft().fontRendererObj, searchFieldPosition.iX,  searchFieldPosition.iY, searchFieldDimensions.iX, searchFieldDimensions.iY);
 
 		nameFieldPosition = new AMVector2(39, 93);
 		nameFieldDimensions = new AMVector2(141, 12);
-		nameBar = new GuiTextField(Minecraft.getMinecraft().fontRenderer, nameFieldPosition.iX, nameFieldPosition.iY, nameFieldDimensions.iX, nameFieldDimensions.iY);
+		nameBar = new GuiTextField(1 /* TODO get actual ID */, Minecraft.getMinecraft().fontRendererObj, nameFieldPosition.iX, nameFieldPosition.iY, nameFieldDimensions.iX, nameFieldDimensions.iY);
 
 
 		int l = (width - xSize) / 2;
@@ -148,8 +149,12 @@ public class GuiInscriptionTable extends GuiContainer{
 
 	@Override
 	protected void mouseClicked(int par1, int par2, int par3){
-		super.mouseClicked(par1, par2, par3);
-		int l = (width - xSize) / 2;
+        try {
+            super.mouseClicked(par1, par2, par3);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int l = (width - xSize) / 2;
 		int i1 = (height - ySize) / 2;
 		par1 -= l;
 		par2 -= i1;
@@ -229,6 +234,8 @@ public class GuiInscriptionTable extends GuiContainer{
 		}
 	}
 
+
+
 	@Override
 	protected void mouseMovedOrUp(int x, int y, int action){
 		super.mouseMovedOrUp(x, y, action);
@@ -264,6 +271,8 @@ public class GuiInscriptionTable extends GuiContainer{
 		}
 	}
 
+
+
 	private void drawDropZones(){
 
 		int l = (width - xSize) / 2;
@@ -295,8 +304,12 @@ public class GuiInscriptionTable extends GuiContainer{
 		}else if (nameBar.textboxKeyTyped(par1, par2)){
 			((ContainerInscriptionTable)this.inventorySlots).setSpellName(nameBar.getText());
 		}else{
-			super.keyTyped(par1, par2);
-		}
+            try {
+                super.keyTyped(par1, par2);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 	}
 
 	@Override
@@ -354,7 +367,7 @@ public class GuiInscriptionTable extends GuiContainer{
 		if (result.valid){
 			if (((ContainerInscriptionTable)this.inventorySlots).slotHasStack(0)){
 				if (((ContainerInscriptionTable)this.inventorySlots).slotIsBook(0)){
-					Minecraft.getMinecraft().fontRenderer.drawSplitString(StatCollector.translateToLocal("am2.gui.bookOut"), 225, 5, 100, 0xFF7700);
+					Minecraft.getMinecraft().fontRendererObj.drawSplitString(StatCollector.translateToLocal("am2.gui.bookOut"), 225, 5, 100, 0xFF7700);
 				}else{
 					resetSpellButton.visible = true;
 				}
@@ -369,13 +382,13 @@ public class GuiInscriptionTable extends GuiContainer{
 			}else{
 				resetSpellButton.visible = false;
 			}
-			Minecraft.getMinecraft().fontRenderer.drawSplitString(result.message, 225, 5, 100, 0xFF7700);
+			Minecraft.getMinecraft().fontRendererObj.drawSplitString(result.message, 225, 5, 100, 0xFF7700);
 			createSpellButton.enabled = false;
 		}
 
 		if (!dragging){
 			if (hovering){
-				drawHoveringText(label, lastMouseX, lastMouseY, Minecraft.getMinecraft().fontRenderer);
+				drawHoveringText(label, lastMouseX, lastMouseY, Minecraft.getMinecraft().fontRendererObj);
 			}else{
 				hoveredItem = null;
 				hoveredIcon = null;
@@ -387,11 +400,9 @@ public class GuiInscriptionTable extends GuiContainer{
 
 	}
 
-	private void drawBookIcon(){
+	/*private void drawBookIcon(){
 		int bookX = this.inventorySlots.getSlot(0).xDisplayPosition;
 		int bookY = this.inventorySlots.getSlot(0).yDisplayPosition;
-
-		IIcon icon = Items.writable_book.getIconFromDamage(0);
 
 		if (AMGuiHelper.instance.getFastTicker() < 20)
 			GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.4f);
@@ -399,7 +410,7 @@ public class GuiInscriptionTable extends GuiContainer{
 			GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.7f);
 		AMGuiHelper.DrawIconAtXY(icon, bookX, bookY, this.zLevel, 16, 16, true);
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	}
+	}*/
 
 	private boolean drawCurrentRecipe(ArrayList<String> labelText, int l, int i1){
 

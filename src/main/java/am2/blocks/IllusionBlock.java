@@ -34,7 +34,7 @@ public class IllusionBlock extends AMBlock{
 	private int tickCount;
 
 	//The IIcon to show when "revealed"
-	private IIcon revealedIcon;
+	//private IIcon revealedIcon;
 
 	//types represent ethereal or standard illusion blocks
 	public static final String[] illusion_block_types = new String[]{"default", "nobarrier"};
@@ -55,12 +55,6 @@ public class IllusionBlock extends AMBlock{
 	@Override
 	public int tickRate(World par1World){
 		return 20;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister){
-		revealedIcon = ResourceManager.RegisterTexture("illusionBlockRevealed", iconRegister);
 	}
 
 	/**

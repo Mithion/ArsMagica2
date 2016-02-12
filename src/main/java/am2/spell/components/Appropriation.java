@@ -309,7 +309,7 @@ public class Appropriation implements ISpellComponent{
 
 
 					if (storageCompound.hasKey("tileEntity")){
-						TileEntity te = world.getTileEntity(x, y, z);
+						TileEntity te = world.getTileEntity(new BlockPos(x ,y, z));
 						if (te != null){
 							te.readFromNBT(storageCompound.getCompoundTag("tileEntity"));
 							te.xCoord = x;

@@ -1,58 +1,40 @@
 package am2.items;
 
 import am2.blocks.BlocksCommonProxy;
-import am2.texture.ResourceManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemChalk extends ArsMagicaItem{
 
-	public ItemChalk(){
-		setMaxDamage(50);
-		setMaxStackSize(1);
-	}
+	public ItemChalk() {
+        setMaxDamage(50);
+        setMaxStackSize(1);
+    }
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean requiresMultipleRenderPasses(){
-		return true;
-	}
+    @Override
+    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if (side != EnumFacing.UP || !canBeUsed(world, pos.up())){
+            return false;
+        }
 
-	@Override
-	public int getRenderPasses(int metadata){
-		return 2;
-	}
+        if (!world.isRemote){
+            world.setBlockState(pos.up(), BlocksCommonProxy.wizardChalk.getDefaultState(), world.rand.nextInt(16));
+            stack.damageItem(1, player);
+        }
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister){
-		this.itemIcon = ResourceManager.RegisterTexture("chalk_wizard", par1IconRegister);
-	}
+        return false;
+    }
 
-	@Override
-	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-
-		if (side != 1 || !canBeUsed(world, x, y + 1, z)){
+    public boolean canBeUsed(World world, BlockPos pos){
+		if (world.getBlockState(pos.down()).getBlock() == BlocksCommonProxy.wizardChalk){
 			return false;
 		}
-
-		if (!world.isRemote){
-			world.setBlock(x, y + 1, z, BlocksCommonProxy.wizardChalk, world.rand.nextInt(16), 2);
-			stack.damageItem(1, player);
-		}
-
-		return false;
-	}
-
-	public boolean canBeUsed(World world, int x, int y, int z){
-		if (world.getBlock(x, y - 1, z) == BlocksCommonProxy.wizardChalk){
-			return false;
-		}
-		if (!world.isAirBlock(x, y, z)){
+		if (!world.isAirBlock(pos)){
 			return false;
 		}
 		return true;
