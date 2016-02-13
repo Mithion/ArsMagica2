@@ -145,25 +145,25 @@ public class BlockInlay extends BlockRailBase{
     @Override
     public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
         if (!world.isRemote){
-            int meta = world.getBlockMetadata(x, y, z);
+            int meta = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
             if (meta == 6)
-                checkPattern(world, x, y, z);
-            world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
+                checkPattern(world, pos);
+            world.scheduleBlockUpdate(pos, this, tickRate(world), 1);
         }
     }
 
-	private void checkPattern(World world, int x, int y, int z){
+	private void checkPattern(World world, BlockPos pos){
 		boolean allGood = true;
 		for (int i = 0; i <= 2; ++i){
 			for (int j = 0; j <= 2; ++j){
 				if (i == 1 && j == 1) continue;
-				allGood &= world.getBlock(x + i, y, z + j) == this;
+				allGood &= world.getBlockState(new BlockPos(pos.getX() + i, pos.getY(), pos.getZ() + j)).getBlock()== this; // FIXME ew
 			}
 		}
 
 		if (allGood){
 			if (!world.isRemote){
-				if (!checkForIceEffigy(world, x, y, z))
+				if (!checkForIceEffigy(world, pos.getX(), pos.getY(), pos.getZ()))
 					checkForLightningEffigy(world, x, y, z);
 			}
 		}
@@ -196,7 +196,6 @@ public class BlockInlay extends BlockRailBase{
 	}
 
 	private boolean checkForLightningEffigy(World world, int x, int y, int z){
-
 		if (!world.isRaining())
 			return false;
 
@@ -225,13 +224,13 @@ public class BlockInlay extends BlockRailBase{
 		return false;
 	}
 
-	@Override
-	public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4){
-		Block block = par1World.getBlock(par2, par3 - 1, par4);
-		return block != null && block.isOpaqueCube();
-	}
+    @Override
+    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+        Block block = worldIn.getBlockState(pos.down()).getBlock();
+        return block != null && block.isOpaqueCube();
+    }
 
-	@Override
+    @Override
 	public int getRenderType(){
 		return BlocksCommonProxy.commonBlockRenderID;
 	}

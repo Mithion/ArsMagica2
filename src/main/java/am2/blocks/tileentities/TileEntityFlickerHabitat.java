@@ -18,8 +18,9 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,19 +52,19 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	private float floatOffset = 0;
 	private boolean floatUp = true;
 	private boolean isUpgrade = false;
-	private ForgeDirection mainHabitatDirection = ForgeDirection.UNKNOWN;
+	private EnumFacing mainHabitatDirection = null;
 
 
 	public boolean isUpgrade(){
 		return isUpgrade;
 	}
 
-	public void setUpgrade(boolean isUpgrade, ForgeDirection direction){
+	public void setUpgrade(boolean isUpgrade, EnumFacing direction){
 		this.isUpgrade = isUpgrade;
 		this.mainHabitatDirection = direction;
 	}
 
-	public ForgeDirection getMainHabitatDirection(){
+	public EnumFacing getMainHabitatDirection(){
 		return mainHabitatDirection;
 	}
 
@@ -143,9 +144,6 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 		return inList.get(index);
 	}
 
-	/**
-	 * @param inList the inList to set
-	 */
 	public void setInListAt(int index, AMVector3 value){
 		this.inList.set(index, value);
 	}
@@ -212,12 +210,12 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	public void AddMarkerLocationOut(AMVector3 markerLocation){
 
-		Block out = this.worldObj.getBlock((int)markerLocation.x, (int)markerLocation.y, (int)markerLocation.z);
+		Block out = this.worldObj.getBlockState(new BlockPos((int)markerLocation.x, (int)markerLocation.y, (int)markerLocation.z)).getBlock();
 		if (out != BlocksCommonProxy.crystalMarker)
 			return;
 
-		TileEntity te = this.worldObj.getTileEntity((int)markerLocation.x, (int)markerLocation.y, (int)markerLocation.z);
-		if (te == null || te instanceof TileEntityCrystalMarker == false)
+		TileEntity te = this.worldObj.getTileEntity(new BlockPos((int)markerLocation.x, (int)markerLocation.y, (int)markerLocation.z));
+		if (te == null || !(te instanceof TileEntityCrystalMarker))
 			return;
 
 		int priority = ((TileEntityCrystalMarker)te).getPriority();
@@ -268,7 +266,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 		//write upgrade status
 		nbttagcompound.setBoolean("upgrade", isUpgrade);
 		if (this.isUpgrade){
-			nbttagcompound.setInteger("mainHabitatDirection", mainHabitatDirection.flag);
+			nbttagcompound.setInteger("mainHabitatDirection", mainHabitatDirection.ordinal()); // TODO find what to actually put here, ForgeDirection.flag was replaced
 		}
 	}
 
@@ -410,7 +408,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 		if (this.isUpgrade){
 			int flag = nbttagcompound.getInteger("mainHabitatDirection");
 
-			for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS){
+			for (EnumFacing direction : EnumFacing.VALUES){
 				if (direction.flag == flag){
 					this.mainHabitatDirection = direction;
 					break;
@@ -495,7 +493,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
+	public ItemStack removeStackFromSlot(int i){
 		if (i <= getSizeInventory() && flickerJar != null){
 			ItemStack jar = flickerJar;
 			flickerJar = null;
@@ -514,7 +512,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	@Override
-	public String getInventoryName(){
+	public String getName(){
 		return "Flicker Habitat";
 	}
 
@@ -525,19 +523,19 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
+		if (worldObj.getTileEntity(pos) != this){
 			return false;
 		}
 
-		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
+		return entityplayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64D;
 	}
 
 	@Override
-	public void openInventory(){
+	public void openInventory(EntityPlayer player){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer player){
 		if (!this.isUpgrade){
 			setOperatorBasedOnFlicker();
 			scanForNearbyUpgrades();
@@ -547,7 +545,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	private void setUpgradeOfMainHabitat(){
-		if (this.mainHabitatDirection != ForgeDirection.UNKNOWN){
+		if (this.mainHabitatDirection != null){
 			TileEntity te = worldObj.getTileEntity(this.xCoord + this.mainHabitatDirection.offsetX, this.yCoord + this.mainHabitatDirection.offsetY, this.zCoord + this.mainHabitatDirection.offsetZ);
 			if (te != null && te instanceof TileEntityFlickerHabitat){
 				((TileEntityFlickerHabitat)te).notifyOfNearbyUpgradeChange(this);
@@ -573,17 +571,17 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	public Packet getDescriptionPacket(){
 		NBTTagCompound nbt = new NBTTagCompound();
 		this.writeToNBT(nbt);
-		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbt);
+		return new S35PacketUpdateTileEntity(pos, 1, nbt);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
+		super.update();
 
 		if (fadeCounter++ >= 30){
 			colorCounter++;
@@ -617,10 +615,9 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean hasCustomName(){
 		return false;
 	}
-
 
 	public void switchMarkerPriority(AMVector3 vec, int oldPriority, int priority){
 		if (this.outList.containsKey(oldPriority))
