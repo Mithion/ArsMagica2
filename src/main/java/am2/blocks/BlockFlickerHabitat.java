@@ -79,14 +79,14 @@ public class BlockFlickerHabitat extends PoweredBlock{
 		if (world.isRemote)
 			return;
 
-		TileEntity ent = world.getTileEntity(x, y, z);
+		TileEntity ent = world.getTileEntity(pos);
 		int habCount = 0;
 
 		if (ent instanceof TileEntityFlickerHabitat){
 			TileEntityFlickerHabitat hab = (TileEntityFlickerHabitat)ent;
-			for (EnumFacing direction : Enu.VALID_DIRECTIONS){
-				Block block = world.getBlock(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ);
-				TileEntity te = world.getTileEntity(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ);
+			for (EnumFacing direction : EnumFacing.values()){
+				Block block = world.getBlockState(pos.add(direction.getDirectionVec())).getBlock();
+				TileEntity te = world.getTileEntity(pos.add(direction.getDirectionVec()));
 				if (block == BlocksCommonProxy.elementalAttuner && te != null && te instanceof TileEntityFlickerHabitat){
 					TileEntityFlickerHabitat foundHab = (TileEntityFlickerHabitat)te;
 					if (foundHab.isUpgrade() == false){
@@ -105,19 +105,19 @@ public class BlockFlickerHabitat extends PoweredBlock{
 	}
 
 	@Override
-	public void onNeighborBlockChange(World world, BlockPos pos, Block neighborBlockID){
+	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighborBlockID){
 		if (world.isRemote)
 			return;
 
-		TileEntity te = world.getTileEntity(x, y, z);
+		TileEntity te = world.getTileEntity(pos);
 
 		if (te instanceof TileEntityFlickerHabitat){
 			TileEntityFlickerHabitat hab = (TileEntityFlickerHabitat)te;
 
 			if (hab.isUpgrade()){
 				int habCount = 0;
-				for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS){
-					te = world.getTileEntity(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ);
+				for (EnumFacing direction : EnumFacing.values()){
+					te = world.getTileEntity(pos.add(direction.getDirectionVec()));
 					if (te != null && te instanceof TileEntityFlickerHabitat){
 						TileEntityFlickerHabitat foundHab = (TileEntityFlickerHabitat)te;
 						if (foundHab.isUpgrade() == false){
@@ -144,10 +144,10 @@ public class BlockFlickerHabitat extends PoweredBlock{
 			}
 		}
 	}
-
+	
 	@Override
-	public void breakBlock(World world, BlockPos pos, Block oldBlockID, int oldMetadata){
-		TileEntityFlickerHabitat habitat = (TileEntityFlickerHabitat)world.getTileEntity(x, y, z);
+	public void breakBlock(World world, BlockPos pos, IBlockState state){
+		TileEntityFlickerHabitat habitat = (TileEntityFlickerHabitat)world.getTileEntity(pos);
 
 		//if there is no habitat at the location break out
 		if (habitat == null)
@@ -162,7 +162,7 @@ public class BlockFlickerHabitat extends PoweredBlock{
 			float offsetZ = world.rand.nextFloat() * 0.8F + 0.1F;
 			float force = 0.05F;
 
-			EntityItem entityItem = new EntityItem(world, x + offsetX, y + offsetY, z + offsetZ, stack);
+			EntityItem entityItem = new EntityItem(world, pos.getX() + offsetX, pos.getY() + offsetY, pos.getZ() + offsetZ, stack);
 			entityItem.motionX = (float)world.rand.nextGaussian() * force;
 			entityItem.motionY = (float)world.rand.nextGaussian() * force + 0.2F;
 			entityItem.motionZ = (float)world.rand.nextGaussian() * force;
@@ -170,35 +170,20 @@ public class BlockFlickerHabitat extends PoweredBlock{
 		}
 
 		if (!habitat.isUpgrade()){
-			for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS){
-				TileEntity te = world.getTileEntity(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ);
+			for (EnumFacing direction : EnumFacing.values()){
+				TileEntity te = world.getTileEntity(pos.add(direction.getDirectionVec()));
 				if (te != null && te instanceof TileEntityFlickerHabitat){
 					TileEntityFlickerHabitat upgHab = (TileEntityFlickerHabitat)te;
 
 					if (upgHab.isUpgrade()){
-						world.func_147480_a(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ, true);
-						world.setTileEntity(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ, null);
+						world.func_147480_a(pos.add(direction.getDirectionVec()), true);
+						world.setTileEntity(pos.add(direction.getDirectionVec()), null);
 					}
 				}
 			}
 		}
 
-		super.breakBlock(world, x, y, z, oldBlockID, oldMetadata);
+		super.breakBlock(world, pos, state);
 		return;
-	}
-
-	@Override
-	public void registerBlockIcons(IIconRegister p_149651_1_){
-		//intentionally do nothing
-	}
-
-	@Override
-	public IIcon getIcon(int par1, int par2){
-		return Blocks.iron_bars.getIcon(par1, par2);
-	}
-
-	@Override
-	public boolean canPlaceBlockOnSide(World world, BlockPos pos, int meta){
-		return true;
 	}
 }

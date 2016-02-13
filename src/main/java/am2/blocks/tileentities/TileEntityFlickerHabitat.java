@@ -18,6 +18,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -51,19 +52,19 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	private float floatOffset = 0;
 	private boolean floatUp = true;
 	private boolean isUpgrade = false;
-	private ForgeDirection mainHabitatDirection = ForgeDirection.UNKNOWN;
+	private EnumFacing mainHabitatDirection = null;
 
 
 	public boolean isUpgrade(){
 		return isUpgrade;
 	}
 
-	public void setUpgrade(boolean isUpgrade, ForgeDirection direction){
+	public void setUpgrade(boolean isUpgrade, EnumFacing direction){
 		this.isUpgrade = isUpgrade;
 		this.mainHabitatDirection = direction;
 	}
 
-	public ForgeDirection getMainHabitatDirection(){
+	public EnumFacing getMainHabitatDirection(){
 		return mainHabitatDirection;
 	}
 

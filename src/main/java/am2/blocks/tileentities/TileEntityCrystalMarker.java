@@ -15,13 +15,16 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.List;
 
-public class TileEntityCrystalMarker extends TileEntity implements IInventory, ISidedInventory{
+public class TileEntityCrystalMarker extends TileEntity implements ISidedInventory{
 	private static final int SEARCH_RADIUS = 400;
 	public static final int FILTER_SIZE = 9;
 
@@ -32,12 +35,6 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	protected ItemStack[] filterItems;
 	private int markerType;
 	private AxisAlignedBB connectedBoundingBox;
-
-
-	@Override
-	public boolean canUpdate(){
-		return false;
-	}
 
 	public void setFacing(int face){
 		this.facing = face;
@@ -55,7 +52,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 		this.priority++;
 		this.priority %= TileEntityFlickerHabitat.PRIORITY_LEVELS;
 		if (!this.worldObj.isRemote){
-			for (EntityPlayerMP player : (List<EntityPlayerMP>)this.worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(64, 64, 64))){
+			for (EntityPlayerMP player : (List<EntityPlayerMP>)this.worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(pos , pos.add(new BlockPos(1, 1, 1))).expand(64, 64, 64))){
 				player.playerNetServerHandler.sendPacket(getDescriptionPacket());
 			}
 		}
@@ -309,32 +306,11 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
-		if (filterItems[i] != null){
-			ItemStack itemstack = filterItems[i];
-			filterItems[i] = null;
-			return itemstack;
-		}else{
-			return null;
-		}
-	}
-
-	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		filterItems[i] = itemstack;
 		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
 			itemstack.stackSize = getInventoryStackLimit();
 		}
-	}
-
-	@Override
-	public String getInventoryName(){
-		return "Crystal Marker";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName(){
-		return false;
 	}
 
 	@Override
@@ -348,20 +324,10 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
+		if (worldObj.getTileEntity(pos) != this){
 			return false;
 		}
-		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
-	}
-
-	@Override
-	public void openInventory(){
-
-	}
-
-	@Override
-	public void closeInventory(){
-
+		return entityplayer.getDistanceSq(pos.add(0.5, 0.5, 0.5))<= 64D;
 	}
 
 	@Override
@@ -373,33 +339,33 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	public Packet getDescriptionPacket(){
 		NBTTagCompound nbt = new NBTTagCompound();
 		this.writeToNBT(nbt);
-		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbt);
+		return new S35PacketUpdateTileEntity(pos, 1, nbt);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
 	public AxisAlignedBB getRenderBoundingBox(){
-		return new AxisAlignedBB(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
+		return new AxisAlignedBB(pos, pos.add(1, 1, 1));
 	}
 
 	public void linkToHabitat(AMVector3 habLocation, EntityPlayer player){
-		TileEntity te = worldObj.getTileEntity((int)habLocation.x, (int)habLocation.y, (int)habLocation.z);
+		TileEntity te = worldObj.getTileEntity(habLocation.toBlockPos());
 
 		if (te instanceof TileEntityFlickerHabitat){
-			AMVector3 myLocation = new AMVector3(this.xCoord, this.yCoord, this.zCoord);
+			AMVector3 myLocation = new AMVector3(pos);
 			boolean setElementalAttuner = false;
 
 			if (myLocation.distanceSqTo(habLocation) <= SEARCH_RADIUS){
-				if (BlockCrystalMarker.isInputMarker(worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord))){
+				if (BlockCrystalMarker.isInputMarker(worldObj.getBlockState(pos))){
 					((TileEntityFlickerHabitat)te).AddMarkerLocationIn(myLocation);
 					setElementalAttuner = true;
 				}
 
-				if (BlockCrystalMarker.isOutputMarker(worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord))){
+				if (BlockCrystalMarker.isOutputMarker(worldObj.getBlockState(pos))){
 					((TileEntityFlickerHabitat)te).AddMarkerLocationOut(myLocation);
 					setElementalAttuner = true;
 				}
@@ -413,17 +379,63 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int var1){
+	public String getName() {
+		return "Crystal Marker";
+	}
+
+	@Override
+	public boolean hasCustomName() {
+		return false;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		return null;
+	}
+
+	@Override
+	public int[] getSlotsForFace(EnumFacing side) {
 		return new int[0];
 	}
 
 	@Override
-	public boolean canInsertItem(int i, ItemStack itemstack, int j){
+	public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
 		return false;
 	}
 
 	@Override
-	public boolean canExtractItem(int i, ItemStack itemstack, int j){
+	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
 		return false;
+	}
+
+	@Override
+	public ItemStack removeStackFromSlot(int index) {
+		return null;
+	}
+
+	@Override
+	public void openInventory(EntityPlayer player) {}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {}
+
+	@Override
+	public int getField(int id) {
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		
 	}
 }

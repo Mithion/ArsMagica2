@@ -27,11 +27,22 @@ public class BlockArcaneDeconstructor extends PoweredBlock{
 		super(Material.iron);
 		setHardness(2.0f);
 		setResistance(2.0f);
+		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int i){
 		return new TileEntityArcaneDeconstructor();
+	}
+	
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(FACING).ordinal() - 2;
+	}
+	
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return getDefaultState().withProperty(FACING, EnumFacing.values()[meta + 2]);
 	}
 	
 	@Override
