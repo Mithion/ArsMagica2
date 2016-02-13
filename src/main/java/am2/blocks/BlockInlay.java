@@ -6,12 +6,9 @@ import am2.bosses.BossSpawnHelper;
 import am2.damage.DamageSources;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
-import am2.texture.ResourceManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRailBase;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityMinecart;
@@ -19,7 +16,7 @@ import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -27,9 +24,6 @@ import java.util.List;
 import java.util.Random;
 
 public class BlockInlay extends BlockRailBase{
-
-	@SideOnly(Side.CLIENT)
-	private IIcon[] icons;
 
 	private final int material;
 
@@ -50,121 +44,93 @@ public class BlockInlay extends BlockRailBase{
 		this.setTickRandomly(true);
 	}
 
-	@Override
-	public void registerBlockIcons(IIconRegister IIconRegister){
-		String[] textures = new String[]{"Inlay_Straight_Redstone", "Inlay_Straight_Iron", "Inlay_Straight_Gold", "Inlay_Corner_Redstone", "Inlay_Corner_Iron", "Inlay_Corner_Gold"};
-
-		icons = new IIcon[textures.length];
-		int count = 0;
-		for (String s : textures){
-			icons[count++] = ResourceManager.RegisterTexture(s, IIconRegister);
-		}
-	}
-
-	@Override
-	public IIcon getIcon(int side, int meta){
-		if (side > 1) return null;
-
-		boolean corner = meta >= 6;
-
-		int index = material;
-		if (corner) index += 3;
-
-		return icons[index];
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(IBlockAccess par1iBlockAccess, int par2, int par3, int par4, int par5){
-		return getIcon(par5, par1iBlockAccess.getBlockMetadata(par2, par3, par4));
-	}
-
-	private void setValid(World world, int x, int y, int z, boolean valid){
-		int meta = world.getBlockMetadata(x, y, z);
+	private void setValid(World world, BlockPos pos, boolean valid){
+		int meta = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
 		if (valid) meta |= 0x8;
 		else meta &= ~0x8;
-		world.setBlockMetadataWithNotify(x, y, z, meta, 2);
+		world.setBlockState(pos, world.getBlockState(pos).getBlock().getStateFromMeta(meta), 2);
 	}
 
-	@Override
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
-		int meta = world.getBlockMetadata(x, y, z);
+    @Override
+    public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand) {
+        int meta = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
 
-		if (world.isRemote && world.getBlock(x, y - 1, z).isAir(world, x, y, z) && AMCore.config.FullGFX() && rand.nextInt(10) < 4){
-			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, AMCore.config.FullGFX() ? "radiant" : "sparkle2", x + rand.nextFloat(), y, z + rand.nextFloat());
-			if (particle != null){
-				particle.setMaxAge(20);
-				particle.setParticleScale(AMCore.config.FullGFX() ? 0.015f : 0.15f);
-				particle.AddParticleController(new ParticleFloatUpward(particle, 0.01f, -0.025f, 1, false));
-				if (this == BlocksCommonProxy.redstoneInlay)
-					particle.setRGBColorF(1.0f, 0.4f, 0.4f);
-				else if (this == BlocksCommonProxy.ironInlay)
-					particle.setRGBColorF(1.0f, 1.0f, 1.0f);
-				else if (this == BlocksCommonProxy.goldInlay)
-					particle.setRGBColorF(1.0f, 1.0f, 0.2f);
-			}
-		}
-	}
+        if (world.isRemote && world.isAirBlock(pos) && AMCore.config.FullGFX() && rand.nextInt(10) < 4){
+            AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, AMCore.config.FullGFX() ? "radiant" : "sparkle2", pos.getX() + rand.nextFloat(), pos.getY(), pos.getZ() + rand.nextFloat());
+            if (particle != null){
+                particle.setMaxAge(20);
+                particle.setParticleScale(AMCore.config.FullGFX() ? 0.015f : 0.15f);
+                particle.AddParticleController(new ParticleFloatUpward(particle, 0.01f, -0.025f, 1, false));
+                if (this == BlocksCommonProxy.redstoneInlay)
+                    particle.setRGBColorF(1.0f, 0.4f, 0.4f);
+                else if (this == BlocksCommonProxy.ironInlay)
+                    particle.setRGBColorF(1.0f, 1.0f, 1.0f);
+                else if (this == BlocksCommonProxy.goldInlay)
+                    particle.setRGBColorF(1.0f, 1.0f, 0.2f);
+            }
+        }
+    }
 
 	@Override
 	public boolean isOpaqueCube(){
 		return false;
 	}
 
-	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4){
-	}
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+    }
 
-	@Override
-	public boolean canMakeSlopes(IBlockAccess world, int x, int y, int z){
-		return false;
-	}
+    @Override
+    public boolean canMakeSlopes(IBlockAccess world, BlockPos pos) {
+        return false;
+    }
 
-	@Override
-	public float getRailMaxSpeed(World world, EntityMinecart cart, int y, int x, int z){
-		if (this.material == TYPE_REDSTONE)
-			return 0.7f;
-		return 0.4f;
-	}
+    @Override
+    public float getRailMaxSpeed(World world, EntityMinecart cart, BlockPos pos) {
+        if (this.material == TYPE_REDSTONE)
+            return 0.7f;
+        return 0.4f;
+    }
 
-	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase placingEntity, ItemStack stack){
-		super.onBlockPlacedBy(world, x, y, z, placingEntity, stack);
-		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
-	}
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+        worldIn.scheduleBlockUpdate(pos, this, tickRate(worldIn), 1);
+    }
 
-	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4){
-		return new AxisAlignedBB(par2 + this.minX, par3 + this.minY, par4 + this.minZ, par2 + this.maxX, par3 + this.maxY, par4 + this.maxZ);
-	}
+    @Override
+    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+        int par2 = pos.getX(), par3 = pos.getY(), par4 = pos.getZ();
+        return new AxisAlignedBB(par2 + this.minX, par3 + this.minY, par4 + this.minZ, par2 + this.maxX, par3 + this.maxY, par4 + this.maxZ);
+    }
 
-	@Override
-	public void addCollisionBoxesToList(World par1World, int par2, int par3, int par4, AxisAlignedBB par5AxisAlignedBB, List par6List, Entity par7Entity){
-		if (par7Entity instanceof EntityMinecart){
-			return;
-		}
-		super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
-	}
+    @Override
+    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+        if (collidingEntity instanceof EntityMinecart)
+            return;
+        super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+    }
 
-	@Override
-	public void onBlockAdded(World world, int x, int y, int z){
-		super.onBlockAdded(world, x, y, z);
-		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
-	}
+    @Override
+    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+        super.onBlockAdded(worldIn, pos, state);
+        worldIn.scheduleBlockUpdate(pos, this, tickRate(worldIn), 1);
+    }
 
-	@Override
-	public void breakBlock(World world, int x, int y, int z, Block blockID, int meta){
-		checkNeighbors(world, x, y, z);
-	}
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+        checkNeighbors(worldIn, pos);
+    }
 
-	private void checkNeighbors(World world, int x, int y, int z){
-		int myMeta = world.getBlockMetadata(x, y, z);
+    private void checkNeighbors(World world, BlockPos pos){ // FIXME this whole method is bad
+        int x = pos.getX(), y = pos.getY(), z = pos.getZ();
+		int myMeta = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
 		if ((myMeta & 0x8) != 0){
-			world.setBlockMetadataWithNotify(x, y, z, myMeta & ~0x8, 2);
+			world.setBlockState(pos, world.getBlockState(pos).getBlock().getStateFromMeta(myMeta & ~0x8), 2);
 			for (int i = -1; i <= 1; ++i){
 				for (int j = -1; j <= 1; ++j){
-					if (world.getBlock(x + i, y, z + j) == this && (world.getBlockMetadata(x + i, y, z + j) & 0x8) != 0){
-						checkNeighbors(world, x + i, y, z + j);
+					if (world.getBlockState(new BlockPos(x + i, y, z + j)).getBlock() == this && (world.getBlockState(new BlockPos(x + i, y, z + j)).getBlock().getMetaFromState(world.getBlockState(pos)) & 0x8) != 0){
+						checkNeighbors(world, new BlockPos(x + i, y, z + j));
 					}
 				}
 			}
@@ -176,15 +142,15 @@ public class BlockInlay extends BlockRailBase{
 		return 60 + par1World.rand.nextInt(80);
 	}
 
-	@Override
-	public void updateTick(World world, int x, int y, int z, Random rand){
-		if (!world.isRemote){
-			int meta = world.getBlockMetadata(x, y, z);
-			if (meta == 6)
-				checkPattern(world, x, y, z);
-			world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
-		}
-	}
+    @Override
+    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+        if (!world.isRemote){
+            int meta = world.getBlockMetadata(x, y, z);
+            if (meta == 6)
+                checkPattern(world, x, y, z);
+            world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
+        }
+    }
 
 	private void checkPattern(World world, int x, int y, int z){
 		boolean allGood = true;

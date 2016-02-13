@@ -6,18 +6,16 @@ import am2.api.items.KeystoneAccessType;
 import am2.blocks.tileentities.TileEntityKeystoneRecepticle;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.items.ItemKeystone;
-import am2.texture.ResourceManager;
 import am2.utility.KeystoneUtilities;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.*;
-import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 
 public class BlockKeystoneReceptacle extends AMSpecialRenderPoweredBlock{
 	public BlockKeystoneReceptacle(){
@@ -94,26 +92,21 @@ public class BlockKeystoneReceptacle extends AMSpecialRenderPoweredBlock{
 
         world.setBlockState(pos, world.getBlockState(pos).getBlock().getStateFromMeta(byte0), 2);
 
-        TileEntityKeystoneRecepticle receptacle = (TileEntityKeystoneRecepticle)world.getTileEntity(par2, par3, par4);
+        TileEntityKeystoneRecepticle receptacle = (TileEntityKeystoneRecepticle)world.getTileEntity(pos);
         receptacle.onPlaced();
 
         super.onBlockPlacedBy(world, pos, state, placer, stack);
     }
 
     @Override
-	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLiving, ItemStack stack){
+    public boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+        IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(pos);
+        if (KeystoneUtilities.instance.getKeyFromRunes(lockable.getRunesInKey()) != 0){
+            if (!world.isRemote)
+                player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.clearKey")));
+            return false;
+        }
 
-	}
-
-	@Override
-	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z){
-		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(x, y, z);
-		if (KeystoneUtilities.instance.getKeyFromRunes(lockable.getRunesInKey()) != 0){
-			if (!world.isRemote)
-				player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.clearKey")));
-			return false;
-		}
-
-		return super.removedByPlayer(world, player, x, y, z);
-	}
+        return super.removedByPlayer(world, pos, player, willHarvest);
+    }
 }
