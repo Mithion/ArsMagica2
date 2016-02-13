@@ -19,6 +19,7 @@ import am2.power.PowerNodeEntry;
 import am2.utility.CloakUtils;
 import am2.utility.EntityUtilities;
 import am2.utility.RenderUtilities;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
@@ -110,7 +111,7 @@ public class AMClientEventHandler{
 	}
 
 	private void renderPriorityText(DrawBlockHighlightEvent event, TileEntityCrystalMarker te){
-		int meta = event.player.worldObj.getBlockMetadata(event.target.blockX, event.target.blockY, event.target.blockZ);
+		int meta = event.player.worldObj.getBlockState(event.target.getBlockPos()).getBlock().getMetaFromState(event.player.worldObj.getBlockState(event.target.getBlockPos()));
 		if (meta == BlockCrystalMarker.META_IN) //no priority for these blocks
 			return;
 
@@ -187,7 +188,7 @@ public class AMClientEventHandler{
 						for (int i = 0; i < list.tagCount(); ++i){
 							NBTBase tag = list.getCompoundTagAt(i);
 							if (tag instanceof NBTTagString){
-								event.toolTip.add((((NBTTagString)tag).func_150285_a_()));
+								event.toolTip.add((((NBTTagString)tag).getString()));
 							}
 						}
 					}
@@ -318,7 +319,7 @@ public class AMClientEventHandler{
 				for (int i = 0; i <= 16; ++i){
 					int bit = 1 << i;
 					if ((runeCombo & bit) == bit){
-						RenderUtilities.DrawIconInWorldAtOffset(ItemsCommonProxy.rune.getIconFromDamage(i), xOffset, 0.5f, 0, 0.25f, 0.25f);
+						//RenderUtilities.DrawIconInWorldAtOffset(ItemsCommonProxy.rune.getIconFromDamage(i), xOffset, 0.5f, 0, 0.25f, 0.25f);
 						xOffset += step;
 					}
 				}

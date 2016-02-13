@@ -12,7 +12,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
@@ -278,7 +280,7 @@ public class AffinityData implements IExtendedEntityProperties, IAffinityData{
 
 		if (!entity.worldObj.isRemote && this.hasUpdate()){
 			byte[] data = this.getUpdateData();
-			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(entity.worldObj.provider.dimensionId, entity.posX, entity.posY, entity.posZ, 32, AMPacketIDs.SYNC_AFFINITY_DATA, data);
+			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(entity.worldObj.provider.getDimensionId(), entity.posX, entity.posY, entity.posZ, 32, AMPacketIDs.SYNC_AFFINITY_DATA, data);
 		}
 	}
 
@@ -450,7 +452,7 @@ public class AffinityData implements IExtendedEntityProperties, IAffinityData{
 	private void spawnParticlesAt(AMVector3 pos){
 		int numParticles = entity.worldObj.rand.nextInt(25) + 1;
 		for (int i = 0; i < numParticles; ++i){
-			this.entity.worldObj.spawnParticle("portal",
+			this.entity.worldObj.spawnParticle(EnumParticleTypes.PORTAL,
 					pos.x + entity.worldObj.rand.nextDouble() - 0.5f,
 					pos.y - 1 + entity.worldObj.rand.nextDouble() - 0.5f,
 					pos.z + entity.worldObj.rand.nextDouble() - 0.5f,
@@ -461,10 +463,10 @@ public class AffinityData implements IExtendedEntityProperties, IAffinityData{
 		}
 	}
 
-	private boolean positionIsValid(AMVector3 pos){
+	private boolean positionIsValid(AMVector3 v){ // fixme possibly change from new BlockPos
 		return
-				this.entity.worldObj.isAirBlock((int)Math.floor(pos.x), (int)Math.floor(pos.y + 1), (int)Math.floor(pos.z)) &&
-						this.entity.worldObj.isAirBlock((int)Math.floor(pos.x), (int)Math.floor(pos.y + 2), (int)Math.floor(pos.z));
+				this.entity.worldObj.isAirBlock(new BlockPos((int)Math.floor(v.x), (int)Math.floor(v.y + 1), (int)Math.floor(v.z))) &&
+						this.entity.worldObj.isAirBlock(new BlockPos((int)Math.floor(v.x), (int)Math.floor(v.y + 2), (int)Math.floor(v.z)));
 	}
 
 	public AMVector3 getLastGroundPosition(){

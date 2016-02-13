@@ -30,6 +30,8 @@ import am2.spell.SpellUtils;
 import am2.spell.components.Telekinesis;
 import am2.utility.DimensionUtilities;
 import am2.worldgen.RetroactiveWorldgenerator;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -171,20 +173,19 @@ public class ClientTickHandler{
 									continue;
 								}
 
-
-								TileEntity teStart = Minecraft.getMinecraft().theWorld.getTileEntity((int)start.x, (int)start.y, (int)start.z);
-								TileEntity teEnd = Minecraft.getMinecraft().theWorld.getTileEntity((int)end.x, (int)end.y, (int)end.z);
+								TileEntity teStart = Minecraft.getMinecraft().theWorld.getTileEntity(new BlockPos((int)start.x, (int)start.y, (int)start.z));
+								TileEntity teEnd = Minecraft.getMinecraft().theWorld.getTileEntity(new BlockPos((int)end.x, (int)end.y, (int)end.z));
 
 								if (teEnd == null || !(teEnd instanceof IPowerNode))
 									break;
 
-								double startX = start.x + ((teStart != null && teStart instanceof IPowerNode) ? ((IPowerNode)teStart).particleOffset(0) : 0.5f);
-								double startY = start.y + ((teStart != null && teStart instanceof IPowerNode) ? ((IPowerNode)teStart).particleOffset(1) : 0.5f);
-								double startZ = start.z + ((teStart != null && teStart instanceof IPowerNode) ? ((IPowerNode)teStart).particleOffset(2) : 0.5f);
+								double startX = start.x + ((teStart != null && teStart instanceof IPowerNode) ? ((IPowerNode)teStart).particleOffset(EnumFacing.Axis.X) : 0.5f);
+								double startY = start.y + ((teStart != null && teStart instanceof IPowerNode) ? ((IPowerNode)teStart).particleOffset(EnumFacing.Axis.Y) : 0.5f);
+								double startZ = start.z + ((teStart != null && teStart instanceof IPowerNode) ? ((IPowerNode)teStart).particleOffset(EnumFacing.Axis.Z) : 0.5f);
 
-								double endX = end.x + ((IPowerNode)teEnd).particleOffset(0);
-								double endY = end.y + ((IPowerNode)teEnd).particleOffset(1);
-								double endZ = end.z + ((IPowerNode)teEnd).particleOffset(2);
+								double endX = end.x + ((IPowerNode)teEnd).particleOffset(EnumFacing.Axis.X);
+								double endY = end.y + ((IPowerNode)teEnd).particleOffset(EnumFacing.Axis.Y);
+								double endZ = end.z + ((IPowerNode)teEnd).particleOffset(EnumFacing.Axis.Z);
 
 								AMLineArc arc = (AMLineArc)AMCore.proxy.particleManager.spawn(
 										Minecraft.getMinecraft().theWorld,

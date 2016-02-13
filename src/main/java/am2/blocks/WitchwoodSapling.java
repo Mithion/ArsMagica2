@@ -5,11 +5,13 @@ import am2.worldgen.AM2FlowerGen;
 import am2.worldgen.WitchwoodTreeHuge;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
@@ -19,20 +21,25 @@ import java.util.Random;
 public class WitchwoodSapling extends BlockFlower{
 
 	protected WitchwoodSapling(){
-		super(0);
+		super();
 	}
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand){
-		if (!world.isRemote){
-			super.updateTick(world, x, y, z, rand);
 
-			int nearbyEssence = countNearbyEssencePools(world, x, y, z, rand);
-			updateOrGrowTree(world, x, y, z, rand, nearbyEssence);
-		}
 	}
 
-	private void updateOrGrowTree(World world, int x, int y, int z, Random rand, int numNearbyPools){
+    @Override
+    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+        if (!world.isRemote){
+            super.updateTick(world, pos, state, rand);
+
+            int nearbyEssence = countNearbyEssencePools(world, x, y, z, rand);
+            updateOrGrowTree(world, x, y, z, rand, nearbyEssence);
+        }
+    }
+
+    private void updateOrGrowTree(World world, int x, int y, int z, Random rand, int numNearbyPools){
 		if (rand.nextInt(7) == 0){
 			int meta = world.getBlockMetadata(x, y, z) + numNearbyPools;
 			if (meta > 15)
@@ -65,16 +72,6 @@ public class WitchwoodSapling extends BlockFlower{
 		}
 
 		return essenceNearby;
-	}
-
-	@Override
-	public IIcon getIcon(int par1, int par2){
-		return this.blockIcon;
-	}
-
-	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
-		this.blockIcon = ResourceManager.RegisterTexture("witchwoodSapling", par1IconRegister);
 	}
 
 	@Override

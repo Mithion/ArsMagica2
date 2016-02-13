@@ -20,7 +20,7 @@ public class AM2FlowerGen extends WorldGenFlowers{
 	}
 
 	@Override
-	public boolean generate(World par1World, Random par2Random, BlockPos pos){
+	public boolean generate(World par1World, Random par2Random, BlockPos pos){ // TODO test this when the mod compiles
 
 		for (int l = 0; l < 8; ++l){
 			BlockPos pos_ = pos.add(
@@ -29,8 +29,8 @@ public class AM2FlowerGen extends WorldGenFlowers{
 					par2Random.nextInt(8) - par2Random.nextInt(8)
 			);
 
-			if (par1World.isAirBlock(pos_) && (!par1World.provider.getHasNoSky() || pos_.getY() < 255) && this.plantBlock.canGrowOn(par1World, pos_)){
-				par1World.setBlockState(pos_, this.plantBlock, this.plantBlockMeta, 2);
+			if (par1World.isAirBlock(pos_) && (!par1World.provider.getHasNoSky() || pos_.getY() < 255) && this.plantBlock.canGrowOn(par1World, pos_, par1World.getBlockState(pos_))){
+				par1World.setBlockState(pos_, par1World.getBlockState(pos_).getBlock().getStateFromMeta(this.plantBlockMeta), 2);
 			}
 		}
 

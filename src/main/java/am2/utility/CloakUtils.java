@@ -24,7 +24,7 @@ public class CloakUtils{
 		if (!AMCore.proxy.playerTracker.hasCLDM(player.getUniqueID().toString()))
 			return;
 		
-		if (!player.getHideCape()) return; //cloaks obey the inverse of show cape
+		//if (!player.getHideCape()) return; //cloaks obey the inverse of show cape
 		
 		int dm = AMCore.proxy.playerTracker.getCLDM(player.getUniqueID().toString());
 		ResourceLocation capeLoc = getCapeLocation(player.getUniqueID().toString());
@@ -37,7 +37,7 @@ public class CloakUtils{
 		double dx = (player.prevPosX + (player.posX - player.prevPosX) * partialRenderTick) - (localPlayer.prevPosX + (localPlayer.posX - localPlayer.prevPosX) * partialRenderTick);
 		double dy = (player.prevPosY + (player.posY - player.prevPosY) * partialRenderTick) - (localPlayer.prevPosY + (localPlayer.posY - localPlayer.prevPosY) * partialRenderTick);
 		if (player != localPlayer)
-			dy += player.height - player.yOffset - 0.125f;
+			dy += player.height - player.getYOffset() - 0.125f;
 		double dz = (player.prevPosZ + (player.posZ - player.prevPosZ) * partialRenderTick) - (localPlayer.prevPosZ + (localPlayer.posZ - localPlayer.prevPosZ) * partialRenderTick);
 
 

@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
@@ -34,7 +35,7 @@ public class DimensionUtilities{
 			Entity e = EntityList.createEntityByName(EntityList.getEntityString(entity), worldserver1);
 
 			if (e != null){
-				e.copyDataFrom(entity, true);
+				e.copyDataFromOld(entity);
 				worldserver1.spawnEntityInWorld(e);
 			}
 
@@ -46,14 +47,14 @@ public class DimensionUtilities{
 		}
 	}
 
-	public static TileEntityAstralBarrier GetBlockingAstralBarrier(World world, int x, int y, int z, ArrayList<Long> keys){
+	public static TileEntityAstralBarrier GetBlockingAstralBarrier(World world, BlockPos pos, ArrayList<Long> keys){
 		//check for Astral Barrier
 		for (int i = -20; i <= 20; ++i){
 			for (int j = -20; j <= 20; ++j){
 				for (int k = -20; k <= 20; ++k){
-					if (world.getBlock(x + i, y + j, z + k) == BlocksCommonProxy.astralBarrier){
+					if (world.getBlockState(new BlockPos(pos.getX() + i, pos.getY() + j, pos.getZ() + k)).getBlock() == BlocksCommonProxy.astralBarrier){ // TODO find proper way to do this
 
-						TileEntity te = world.getTileEntity(x + i, y + j, z + k);
+						TileEntity te = world.getTileEntity(new BlockPos(pos.getX() + i, pos.getY() + j, pos.getZ() + k)); // TODO fix this one too
 						if (te == null || !(te instanceof TileEntityAstralBarrier)){
 							continue;
 						}
@@ -62,9 +63,9 @@ public class DimensionUtilities{
 						long barrierKey = KeystoneUtilities.instance.getKeyFromRunes(barrier.getRunesInKey());
 						if ((barrierKey != 0 && keys.contains(barrierKey)) || !barrier.IsActive()) continue;
 
-						int dx = x - barrier.xCoord;
-						int dy = y - barrier.yCoord;
-						int dz = z - barrier.zCoord;
+						int dx = pos.getX() - barrier.getPos().getX();
+						int dy = pos.getY() - barrier.getPos().getY();
+						int dz = pos.getZ() - barrier.getPos().getZ();
 
 						int sqDist = (dx * dx + dy * dy + dz * dz);
 

@@ -26,27 +26,28 @@ public class AMTeleporter extends Teleporter{
 	// Move the Entity to the portal
 	public void teleport(EntityLivingBase entity, World world){
 		// Set Dimension
-		if (entity.worldObj.provider.dimensionId != world.provider.dimensionId){
+		if (entity.worldObj.provider.getDimensionId() != world.provider.getDimensionId()){
 			AMVector3 teleportPos = clearTeleportPath(world, entity);
 
 			entity.motionX = entity.motionY = entity.motionZ = 0.0D;
 			entity.fallDistance = 0;
 			entity.setPosition(teleportPos.x, teleportPos.y, teleportPos.z);
 
-			MinecraftServer.getServer().getConfigurationManager().transferPlayerToDimension((EntityPlayerMP)entity, world.provider.dimensionId, this);
+			MinecraftServer.getServer().getConfigurationManager().transferPlayerToDimension((EntityPlayerMP)entity, world.provider.getDimensionId(), this);
 		}
 
 		//AMCore.log.info("Teleported to dim " + world.provider.dimensionId + ": " + teleportPos.x + "/" + teleportPos.y + "/" + teleportPos.z);
 	}
 
-	@Override
-	public void placeInPortal(Entity par1Entity, double par2, double par4, double par6, float par8){
-	}
+    @Override
+    public void placeInPortal(Entity entityIn, float rotationYaw) {
 
-	@Override
-	public boolean placeInExistingPortal(Entity p_77184_1_, double p_77184_2_, double p_77184_4_, double p_77184_6_, float p_77184_8_){
-		return false;
-	}
+    }
+
+    @Override
+    public boolean placeInExistingPortal(Entity entityIn, float rotationYaw) {
+        return false;
+    }
 
 	@Override
 	public void removeStalePortalLocations(long p_85189_1_){

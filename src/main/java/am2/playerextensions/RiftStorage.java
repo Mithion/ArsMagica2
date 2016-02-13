@@ -7,6 +7,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.common.util.Constants;
@@ -99,7 +100,7 @@ public class RiftStorage implements IExtendedEntityProperties, IInventory{
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
+	public ItemStack removeStackFromSlot(int i){
 		if (inventory[i] != null){
 			ItemStack itemstack = inventory[i];
 			inventory[i] = null;
@@ -118,16 +119,21 @@ public class RiftStorage implements IExtendedEntityProperties, IInventory{
 	}
 
 	@Override
-	public String getInventoryName(){
+	public String getName(){
 		return "Void Storage";
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean hasCustomName(){
 		return false;
 	}
 
-	@Override
+    @Override
+    public IChatComponent getDisplayName() {
+        return null;
+    }
+
+    @Override
 	public int getInventoryStackLimit(){
 		return 64;
 	}
@@ -139,11 +145,11 @@ public class RiftStorage implements IExtendedEntityProperties, IInventory{
 	}
 
 	@Override
-	public void openInventory(){
+	public void openInventory(EntityPlayer player){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer player){
 	}
 
 	@Override
@@ -151,7 +157,27 @@ public class RiftStorage implements IExtendedEntityProperties, IInventory{
 		return true;
 	}
 
-	@Override
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
+
+    @Override
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
 	public void markDirty(){
 	}
 

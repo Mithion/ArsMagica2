@@ -9,6 +9,7 @@ import am2.network.AMNetHandler;
 import am2.network.AMPacketIDs;
 import am2.playerextensions.RiftStorage;
 import am2.utility.InventoryUtilities;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -20,7 +21,7 @@ public class ServerGuiManager implements IGuiHandler{
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z){
-		TileEntity te = world.getTileEntity(x, y, z);
+		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		if (te == null && ID != ArsMagicaGuiIdList.GUI_SPELL_BOOK && ID != ArsMagicaGuiIdList.GUI_KEYSTONE && ID != ArsMagicaGuiIdList.GUI_ESSENCE_BAG && ID != ArsMagicaGuiIdList.GUI_RUNE_BAG && ID != ArsMagicaGuiIdList.GUI_RIFT && ID != ArsMagicaGuiIdList.GUI_SPELL_CUSTOMIZATION){
 			return null;
 		}

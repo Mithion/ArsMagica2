@@ -10,6 +10,7 @@ import am2.entities.ai.selectors.SummonEntitySelector;
 import am2.items.ItemCrystalPhylactery;
 import am2.items.ItemsCommonProxy;
 import am2.playerextensions.ExtendedProperties;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -48,8 +49,9 @@ public class EntityUtilities{
 	private static final String summonTileZKey = "AM2_Summon_Tile_Z";
 
 	private static Method ptrSetSize = null;
+    private static double yOffset;
 
-	public static boolean isAIEnabled(EntityCreature ent){
+    public static boolean isAIEnabled(EntityCreature ent){
 		Method m = null;
 		try{
 			m = EntityLiving.class.getDeclaredMethod("func_70650_aV");
@@ -112,23 +114,23 @@ public class EntityUtilities{
 				float speed = entityliving.getAIMoveSpeed();
 				if (speed <= 0) speed = 1.0f;
 				entityliving.tasks.addTask(3, new EntityAIAttackOnCollide(entityliving, EntityMob.class, speed, true));
-				entityliving.tasks.addTask(3, new EntityAIAttackOnCollide(entityliving, IMob.class, speed, true));
+				//entityliving.tasks.addTask(3, new EntityAIAttackOnCollide(entityliving, IMob.class, speed, true));
 				entityliving.tasks.addTask(3, new EntityAIAttackOnCollide(entityliving, EntitySlime.class, speed, true));
 			}
 
 			entityliving.targetTasks.taskEntries.clear();
 
 			entityliving.targetTasks.addTask(1, new EntityAIHurtByTarget(entityliving, true));
-			entityliving.targetTasks.addTask(2, new EntityAINearestAttackableTarget(entityliving, EntityMob.class, 0, true, false, SummonEntitySelector.instance));
-			entityliving.targetTasks.addTask(2, new EntityAINearestAttackableTarget(entityliving, EntitySlime.class, 0, true));
-			entityliving.targetTasks.addTask(2, new EntityAINearestAttackableTarget(entityliving, EntityGhast.class, 0, true));
+			//entityliving.targetTasks.addTask(2, new EntityAINearestAttackableTarget(entityliving, EntityMob.class, false, true, false, SummonEntitySelector.instance));
+			entityliving.targetTasks.addTask(2, new EntityAINearestAttackableTarget(entityliving, EntitySlime.class, false, true));
+			entityliving.targetTasks.addTask(2, new EntityAINearestAttackableTarget(entityliving, EntityGhast.class, false, true));
 
 			if (!entityliving.worldObj.isRemote && entityliving.getAttackTarget() != null && entityliving.getAttackTarget() instanceof EntityPlayer)
 				AMCore.proxy.addDeferredTargetSet(entityliving, null);
 
 			if (entityliving instanceof EntityTameable){
 				((EntityTameable)entityliving).setTamed(true);
-				((EntityTameable)entityliving).func_152115_b(player.getName());
+				((EntityTameable)entityliving).setOwnerId(player.getName());
 			}
 
 			entityliving.getEntityData().setBoolean(isSummonKey, true);
@@ -142,7 +144,7 @@ public class EntityUtilities{
 				storedTasks.put(entityliving.getEntityId(), new ArrayList(entityliving.targetTasks.taskEntries));
 			entityliving.targetTasks.taskEntries.clear();
 			entityliving.targetTasks.addTask(1, new EntityAIHurtByTarget(entityliving, true));
-			entityliving.targetTasks.addTask(2, new EntityAINearestAttackableTarget(entityliving, EntityPlayer.class, 0, true));
+			entityliving.targetTasks.addTask(2, new EntityAINearestAttackableTarget(entityliving, EntityPlayer.class, false, true));
 			if (!entityliving.worldObj.isRemote && entityliving.getAttackTarget() != null && entityliving.getAttackTarget() instanceof EntityMob)
 				AMCore.proxy.addDeferredTargetSet(entityliving, null);
 
@@ -214,9 +216,9 @@ public class EntityUtilities{
 	}
 
 	public static void setTileSpawned(EntityLivingBase entityliving, TileEntitySummoner summoner){
-		entityliving.getEntityData().setInteger(summonTileXKey, summoner.xCoord);
-		entityliving.getEntityData().setInteger(summonTileYKey, summoner.yCoord);
-		entityliving.getEntityData().setInteger(summonTileZKey, summoner.zCoord);
+		entityliving.getEntityData().setInteger(summonTileXKey, summoner.getPos().getX());
+		entityliving.getEntityData().setInteger(summonTileYKey, summoner.getPos().getY());
+		entityliving.getEntityData().setInteger(summonTileZKey, summoner.getPos().getZ());
 	}
 
 	public static boolean isTileSpawnedAndValid(EntityLivingBase entityliving){
@@ -225,7 +227,7 @@ public class EntityUtilities{
 		Integer tileZ = entityliving.getEntityData().getInteger(summonTileZKey);
 		if (tileX == null || tileY == null || tileZ == null) return false;
 
-		TileEntity te = entityliving.worldObj.getTileEntity(tileX, tileY, tileZ);
+		TileEntity te = entityliving.worldObj.getTileEntity(new BlockPos(tileX, tileY, tileZ));
 
 		return te != null && te instanceof TileEntitySummoner;
 	}
@@ -264,7 +266,8 @@ public class EntityUtilities{
 			try{
 				ptrSetSize.setAccessible(true);
 				ptrSetSize.invoke(entityliving, width, height);
-				entityliving.yOffset = entityliving.height * 0.8f;
+                yOffset = entityliving.getYOffset();
+                yOffset = entityliving.height * 0.8f;
 			}catch (Throwable t){
 				t.printStackTrace();
 				return;

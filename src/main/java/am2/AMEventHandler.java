@@ -22,6 +22,7 @@ import am2.playerextensions.ExtendedProperties;
 import am2.playerextensions.RiftStorage;
 import am2.playerextensions.SkillData;
 import am2.utility.*;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -100,7 +101,7 @@ public class AMEventHandler{
 
 
 		ArrayList<Long> keystoneKeys = KeystoneUtilities.instance.GetKeysInInvenory(ent);
-		TileEntityAstralBarrier blockingBarrier = DimensionUtilities.GetBlockingAstralBarrier(event.entityLiving.worldObj, (int)event.targetX, (int)event.targetY, (int)event.targetZ, keystoneKeys);
+		TileEntityAstralBarrier blockingBarrier = DimensionUtilities.GetBlockingAstralBarrier(event.entityLiving.worldObj, new BlockPos((int)event.targetX, (int)event.targetY, (int)event.targetZ), keystoneKeys);
 
 		if (ent.isPotionActive(BuffList.astralDistortion.id) || blockingBarrier != null){
 			event.setCanceled(true);

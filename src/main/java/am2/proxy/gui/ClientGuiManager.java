@@ -9,13 +9,14 @@ import am2.utility.InventoryUtilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class ClientGuiManager extends ServerGuiManager{
 
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z){
-		TileEntity te = world.getTileEntity(x, y, z);
+		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		if (te == null && ID != ArsMagicaGuiIdList.GUI_SPELL_BOOK && ID != ArsMagicaGuiIdList.GUI_KEYSTONE && ID != ArsMagicaGuiIdList.GUI_ESSENCE_BAG && ID != ArsMagicaGuiIdList.GUI_RUNE_BAG && ID != ArsMagicaGuiIdList.GUI_RIFT && ID != ArsMagicaGuiIdList.GUI_SPELL_CUSTOMIZATION){
 			return null;
 		}

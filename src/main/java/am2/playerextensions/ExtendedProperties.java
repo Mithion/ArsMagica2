@@ -648,7 +648,7 @@ public class ExtendedProperties implements IExtendedProperties, IExtendedEntityP
 		setOriginalSize(new AMVector2(entity.width, entity.height));
 		hasInitialized = true;
 		isCritical = entity instanceof EntityPlayerMP;
-		yOffsetOrig = entity.yOffset;
+		yOffsetOrig = (float)entity.getYOffset(); // this will maybe work?
 
 		if (isCritical)
 			ticksToRegen = 5;

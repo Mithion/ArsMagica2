@@ -12,7 +12,10 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 
 public class ShrinkHandler{
 
-	@SubscribeEvent
+    private double yOffset;
+    private double yOffset1;
+
+    @SubscribeEvent
 	public void onEntityLiving(LivingEvent event){
 		if (!(event.entityLiving instanceof EntityPlayer)) return;
 
@@ -39,11 +42,12 @@ public class ShrinkHandler{
 		if (!player.worldObj.isRemote && shrunk && !player.isPotionActive(BuffList.shrink)){
 			exProps.setIsShrunk(false);
 			shrunk = false;
-			player.yOffset = (float)exProps.getOriginalSize().y * 0.9f;
+            yOffset = player.getYOffset();
+            yOffset = (float)exProps.getOriginalSize().y * 0.9f;
 		}else if (!player.worldObj.isRemote && !shrunk && player.isPotionActive(BuffList.shrink)){
 			exProps.setIsShrunk(true);
 			shrunk = true;
-			player.yOffset = 0.0F;
+            yOffset = 0.0F;
 		}
 
 		float shrinkPct = exProps.getShrinkPct();
@@ -62,7 +66,7 @@ public class ShrinkHandler{
 				exProps.shrinkAmount = 0.5f;
 				EntityUtilities.setSize(player, player.width * exProps.shrinkAmount, player.height * exProps.shrinkAmount);
 				player.eyeHeight = player.getDefaultEyeHeight() * exProps.shrinkAmount;
-				player.yOffset = 0.0f;
+				yOffset = 0.0f;
 			}
 		}else{
 			if (exProps.shrinkAmount != 0f){
@@ -70,7 +74,7 @@ public class ShrinkHandler{
 				EntityUtilities.setSize(player, (float)(size.x), (float)(size.y));
 				exProps.shrinkAmount = 0f;
 				player.eyeHeight = player.getDefaultEyeHeight();
-				player.yOffset = 0.0f;
+				yOffset = 0.0f;
 				if (exProps.getIsFlipped()){
 					event.entityLiving.moveEntity(0, -1, 0);
 				}
@@ -80,7 +84,7 @@ public class ShrinkHandler{
 		// update Y offset
 		if (player.worldObj.isRemote && exProps.getPrevShrinkPct() != exProps.getShrinkPct()){
 			// Vanilla player is 1.8f height with 1.62f yOffset => 0.9f
-			player.yOffset = (float)exProps.getOriginalSize().y * 0.9f * (1f - 0.5f * exProps.getShrinkPct());
+			yOffset = (float)exProps.getOriginalSize().y * 0.9f * (1f - 0.5f * exProps.getShrinkPct());
 		}
 	}
 }
