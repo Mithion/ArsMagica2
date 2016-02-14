@@ -28,7 +28,7 @@ public class TileEntityManaBattery extends TileEntityAMPower{
 	public void setPowerType(PowerTypes type, boolean forceSubNodes){
 		this.outputPowerType = type;
 		if (worldObj != null && worldObj.isRemote)
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			worldObj.markBlockForUpdate(pos);
 	}
 
 	public void setActive(boolean active){
@@ -41,8 +41,8 @@ public class TileEntityManaBattery extends TileEntityAMPower{
 	}
 
 	@Override
-	public void updateEntity(){
-		if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)){
+	public void update(){
+		if (worldObj.isBlockIndirectlyGettingPowered(pos) > 0){
 			this.setPowerRequests();
 		}else{
 			this.setNoPowerRequests();
@@ -53,17 +53,17 @@ public class TileEntityManaBattery extends TileEntityAMPower{
 			float amt = PowerNodeRegistry.For(worldObj).getPower(this, highest);
 			if (amt > 0){
 				this.outputPowerType = highest;
-				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+				worldObj.markBlockForUpdate(pos);
 			}
 		}
 
 		tickCounter++;
 		if (tickCounter % 600 == 0){
-			worldObj.notifyBlockChange(xCoord, yCoord, zCoord, BlocksCommonProxy.manaBattery);
+			worldObj.notifyBlockOfStateChange(pos, BlocksCommonProxy.manaBattery);
 			tickCounter = 0;
 		}
 
-		super.updateEntity();
+		super.update();
 	}
 
 	@Override
@@ -85,13 +85,13 @@ public class TileEntityManaBattery extends TileEntityAMPower{
 	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		this.writeToNBT(compound);
-		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
+		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(pos, 0, compound);
 		return packet;
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override

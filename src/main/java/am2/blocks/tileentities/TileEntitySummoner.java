@@ -1,15 +1,5 @@
 package am2.blocks.tileentities;
 
-import am2.api.blocks.IKeystoneLockable;
-import am2.api.power.PowerTypes;
-import am2.damage.DamageSources;
-import am2.items.ItemFocusCharge;
-import am2.items.ItemFocusMana;
-import am2.power.PowerNodeRegistry;
-import am2.spell.SkillManager;
-import am2.spell.components.Summon;
-import am2.utility.DummyEntityPlayer;
-import am2.utility.EntityUtilities;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +10,18 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.util.Constants;
+import am2.api.blocks.IKeystoneLockable;
+import am2.api.power.PowerTypes;
+import am2.damage.DamageSources;
+import am2.items.ItemFocusCharge;
+import am2.items.ItemFocusMana;
+import am2.power.PowerNodeRegistry;
+import am2.spell.SkillManager;
+import am2.spell.components.Summon;
+import am2.utility.DummyEntityPlayer;
+import am2.utility.EntityUtilities;
 
 public class TileEntitySummoner extends TileEntityAMPower implements IInventory, IKeystoneLockable{
 
@@ -42,19 +43,19 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 	}
 
 	private boolean isRedstonePowered(){
-		return this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
+		return this.worldObj.isBlockIndirectlyGettingPowered(pos) > 0;
 	}
 
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
+		super.update();
 
 		prevSummonCooldown = summonCooldown;
 		summonCooldown--;
 		if (summonCooldown < 0) summonCooldown = 0;
 
 		if (!worldObj.isRemote && summonCooldown == 0 && prevSummonCooldown > 0){
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			worldObj.markBlockForUpdate(pos);
 		}
 
 		if (!worldObj.isRemote){
@@ -108,15 +109,15 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 		if (dummyCaster == null){
 			dummyCaster = new DummyEntityPlayer(worldObj);
 		}
-		EntityLiving summon = ((Summon)SkillManager.instance.getSkill("Summon")).summonCreature(inventory[SUMMON_SLOT], dummyCaster, dummyCaster, worldObj, xCoord, yCoord, zCoord);
+		EntityLiving summon = ((Summon)SkillManager.instance.getSkill("Summon")).summonCreature(inventory[SUMMON_SLOT], dummyCaster, dummyCaster, worldObj, pos.getX(), pos.getY(), pos.getZ());
 		if (summon != null){
 			if (summon instanceof EntityCreature)
-				EntityUtilities.setGuardSpawnLocation((EntityCreature)summon, xCoord, yCoord, zCoord);
+				EntityUtilities.setGuardSpawnLocation((EntityCreature)summon, pos.getX(), pos.getY(), pos.getZ());
 			this.summonEntityID = summon.getEntityId();
 			PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerNodeRegistry.For(this.worldObj).getHighestPowerType(this), summonCost);
 			this.summonCooldown = this.maxSummonCooldown;
 			EntityUtilities.setTileSpawned(summon, this);
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			worldObj.markBlockForUpdate(pos);
 		}
 	}
 
@@ -126,7 +127,7 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 		if (ent == null) return;
 		ent.attackEntityFrom(DamageSources.unsummon, 1000000);
 		this.summonEntityID = -1;
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		worldObj.markBlockForUpdate(pos);
 	}
 
 	private EntityLiving getSummonedCreature(){
@@ -183,7 +184,7 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
+	public ItemStack removeStackFromSlot(int i){
 		if (inventory[i] != null){
 			ItemStack itemstack = inventory[i];
 			inventory[i] = null;
@@ -202,12 +203,12 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 	}
 
 	@Override
-	public String getInventoryName(){
+	public String getName(){
 		return "Summoner";
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean hasCustomName(){
 		return false;
 	}
 
@@ -218,18 +219,18 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
+		if (worldObj.getTileEntity(pos) != this){
 			return false;
 		}
-		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
+		return entityplayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64D;
 	}
 
 	@Override
-	public void openInventory(){
+	public void openInventory(EntityPlayer p){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer p){
 	}
 
 	@Override
@@ -285,13 +286,13 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		this.writeToNBT(compound);
-		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
+		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(pos, 0, compound);
 		return packet;
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
@@ -303,5 +304,35 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 	@Override
 	public boolean canRelayPower(PowerTypes type){
 		return false;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -10,17 +10,22 @@ import am2.texture.ResourceManager;
 import am2.utility.KeystoneUtilities;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class BlockKeystoneReceptacle extends AMSpecialRenderPoweredBlock{
+	
+	public static final PropertyEnum<EnumFacing> FACING = PropertyEnum.create("facing", EnumFacing.class, EnumFacing.HORIZONTALS)
+	
 	public BlockKeystoneReceptacle(){
 		super(Material.rock);
 		setHardness(4.5f);

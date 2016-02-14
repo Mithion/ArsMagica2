@@ -10,11 +10,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ITickable;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.ArrayList;
 
-public class TileEntitySpellSealedDoor extends TileEntity implements IInventory, IKeystoneLockable{
+public class TileEntitySpellSealedDoor extends TileEntity implements IInventory, IKeystoneLockable, ITickable{
 
 	private ItemStack[] inventory;
 
@@ -82,7 +84,7 @@ public class TileEntitySpellSealedDoor extends TileEntity implements IInventory,
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
+	public ItemStack removeStackFromSlot(int i){
 		if (inventory[i] != null){
 			ItemStack itemstack = inventory[i];
 			inventory[i] = null;
@@ -101,7 +103,7 @@ public class TileEntitySpellSealedDoor extends TileEntity implements IInventory,
 	}
 
 	@Override
-	public String getInventoryName(){
+	public String getName(){
 		return "Spell Sealed Door";
 	}
 
@@ -112,23 +114,23 @@ public class TileEntitySpellSealedDoor extends TileEntity implements IInventory,
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
+		if (worldObj.getTileEntity(pos) != this){
 			return false;
 		}
-		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
+		return entityplayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64D;
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean hasCustomName(){
 		return false;
 	}
 
 	@Override
-	public void openInventory(){
+	public void openInventory(EntityPlayer p){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer p){
 		analyzeSpellForKey();
 	}
 
@@ -170,9 +172,7 @@ public class TileEntitySpellSealedDoor extends TileEntity implements IInventory,
 	}
 
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
-
+	public void update(){
 		if (!worldObj.isRemote){
 			curTime++;
 
@@ -197,7 +197,7 @@ public class TileEntitySpellSealedDoor extends TileEntity implements IInventory,
 	}
 
 	private void setOpenState(boolean open){
-		BlocksCommonProxy.spellSealedDoor.setDoorState(worldObj, xCoord, yCoord, zCoord, null, open);
+		BlocksCommonProxy.spellSealedDoor.setDoorState(worldObj, pos, null, open);
 	}
 
 	public void addPartToCurrentKey(ISpellComponent component){
@@ -232,5 +232,35 @@ public class TileEntitySpellSealedDoor extends TileEntity implements IInventory,
 			}
 		}
 
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 }

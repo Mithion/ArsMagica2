@@ -21,16 +21,16 @@ public class TileEntityFlickerLure extends TileEntityAMPower{
 	}
 
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
+		super.update();
 
 		if (worldObj.isRemote)
 			return;
 
-		if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)){
+		if (worldObj.isBlockIndirectlyGettingPowered(pos) > 0){
 			if (worldObj.rand.nextDouble() < 0.005f && PowerNodeRegistry.For(worldObj).checkPower(this, 100)){
 				EntityFlicker flicker = new EntityFlicker(worldObj);
-				flicker.setPosition(xCoord + 0.5f, yCoord + 1.5f, zCoord + 0.5f);
+				flicker.setPosition(pos.getX() + 0.5f, pos.getY() + 1.5f, pos.getZ() + 0.5f);
 				worldObj.spawnEntityInWorld(flicker);
 				PowerNodeRegistry.For(worldObj).consumePower(this, PowerNodeRegistry.For(worldObj).getHighestPowerType(this), 100);
 			}

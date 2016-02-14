@@ -22,10 +22,10 @@ public class AMChunkLoader implements LoadingCallback{
 		tickets = new HashMap<TicketIdentifier, ForgeChunkManager.Ticket>();
 	}
 
-	private Ticket requestTicket(int x, int y, int z, World world){
+	private Ticket requestTicket(BlockPos pos, World world){
 		Ticket ticket = ForgeChunkManager.requestTicket(AMCore.instance, world, ForgeChunkManager.Type.NORMAL);
 		if (ticket != null){
-			cacheTicket(new TicketIdentifier(x, y, z, world.provider.getDimensionId()), ticket);
+			cacheTicket(new TicketIdentifier(pos, world.provider.getDimensionId()), ticket);
 			return ticket;
 		}
 		return null;
@@ -52,29 +52,29 @@ public class AMChunkLoader implements LoadingCallback{
 	 * @param z     the z coordinate of the tile entity
 	 * @param world The world object of the tile entity
 	 */
-	public void requestStaticChunkLoad(Class clazz, int x, int y, int z, World world){
-		Ticket ticket = requestTicket(x, y, z, world);
+	public void requestStaticChunkLoad(Class clazz, BlockPos pos, World world){
+		Ticket ticket = requestTicket(pos, world);
 		if (ticket == null){
-			LogHelper.warn("Unable to get a ticket for chunk loading!  The chunk identified by %d, %d is *not* loaded!", x, z);
+			LogHelper.warn("Unable to get a ticket for chunk loading!  The chunk identified by %d, %d is *not* loaded!", pos.getX(), pos.getZ());
 			return;
 		}
 
 		NBTTagCompound compound = ticket.getModData();
-		compound.setIntArray("StaticLoadCoords", new int[]{x, y, z});
+		compound.setIntArray("StaticLoadCoords", new int[]{pos.getX(), pos.getY(), pos.getZ()});
 		compound.setString("ChunkLoadClass", clazz.getName());
 
-		ChunkCoordIntPair pair = new ChunkCoordIntPair(x >> 4, z >> 4);
+		ChunkCoordIntPair pair = new ChunkCoordIntPair(pos.getX() >> 4, pos.getZ() >> 4);
 		ForgeChunkManager.forceChunk(ticket, pair);
 	}
 
-	public void releaseStaticChunkLoad(Class clazz, int x, int y, int z, World world){
-		Ticket ticket = getTicket(new TicketIdentifier(x, y, z, world.provider.getDimensionId()));
+	public void releaseStaticChunkLoad(Class clazz, BlockPos pos, World world){
+		Ticket ticket = getTicket(new TicketIdentifier(pos, world.provider.getDimensionId()));
 		if (ticket == null){
 			LogHelper.warn("No ticket for specified location.  No chunk to unload!");
 			return;
 		}
 
-		ChunkCoordIntPair pair = new ChunkCoordIntPair(x >> 4, z >> 4);
+		ChunkCoordIntPair pair = new ChunkCoordIntPair(pos.getX() >> 4, pos.getZ() >> 4);
 		ForgeChunkManager.unforceChunk(ticket, pair);
 	}
 
@@ -105,20 +105,16 @@ public class AMChunkLoader implements LoadingCallback{
 
 	private class TicketIdentifier implements Comparable<TicketIdentifier>{
 		public final int dimension;
-		public final int x;
-		public final int y;
-		public final int z;
+		public final BlockPos pos;
 
-		public TicketIdentifier(int x, int y, int z, int dimension){
+		public TicketIdentifier(BlockPos pos, int dimension){
 			this.dimension = dimension;
-			this.x = x;
-			this.y = y;
-			this.z = z;
+			this.pos = pos;
 		}
 
 		@Override
 		public int compareTo(TicketIdentifier o){
-			if (o.x == this.x && o.y == this.y && o.z == this.z && o.dimension == this.dimension)
+			if (this.pos.equals(o.pos) && o.dimension == this.dimension)
 				return 0;
 			return -1;
 		}

@@ -14,10 +14,11 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ITickable;
 
 import java.util.Random;
 
-public class TileEntityParticleEmitter extends TileEntity{
+public class TileEntityParticleEmitter extends TileEntity implements ITickable{
 
 	private int particleType;
 	private int particleQuantity;
@@ -52,7 +53,7 @@ public class TileEntityParticleEmitter extends TileEntity{
 	}
 
 	@Override
-	public void updateEntity(){
+	public void update(){
 		if (worldObj.isRemote && spawnTicks++ >= spawnRate){
 			for (int i = 0; i < particleQuantity; ++i)
 				doSpawn();
@@ -64,31 +65,31 @@ public class TileEntityParticleEmitter extends TileEntity{
 			forceShow = false;
 			EntityPlayer localPlayer = AMCore.proxy.getLocalPlayer();
 			if (localPlayer != null && localPlayer.inventory.getCurrentItem() != null && localPlayer.inventory.getCurrentItem().getItem() == ItemsCommonProxy.crystalWrench){
-				AMVector3 myLoc = new AMVector3(xCoord, yCoord, zCoord);
+				AMVector3 myLoc = new AMVector3(pos.getX(), pos.getY(), pos.getZ());
 				AMVector3 playerLoc = new AMVector3(localPlayer);
 				if (myLoc.distanceSqTo(playerLoc) < 64D){
 					forceShow = true;
 				}
 			}
 
-			int oldMeta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+			int oldMeta = worldObj.getBlockState(pos).getBlock().getMetaFromState(worldObj.getBlockState(pos));
 
 			if (forceShow){
-				this.worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, oldMeta & ~0x8, 2);
+				this.worldObj.setBlockMetadataWithNotify(pos.getX(), pos.getY(), pos.getZ(), oldMeta & ~0x8, 2);
 			}else{
-				this.worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, oldMeta | 0x8, 2);
+				this.worldObj.setBlockMetadataWithNotify(pos.getX(), pos.getY(), pos.getZ(), oldMeta | 0x8, 2);
 			}
 		}
 	}
 
 	private void doSpawn(){
 		if (!hasReceivedFullUpdate) return;
-		double x = randomizeCoord(xCoord + 0.5);
-		double y = randomizeCoord(yCoord + 0.5);
-		double z = randomizeCoord(zCoord + 0.5);
+		double x = randomizeCoord(pos.getX() + 0.5);
+		double y = randomizeCoord(pos.getY() + 0.5);
+		double z = randomizeCoord(pos.getZ() + 0.5);
 		AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, AMParticle.particleTypes[particleType], x, y, z);
 		if (particle != null){
-			particle.AddParticleController(AMCore.proxy.particleManager.createDefaultParticleController(particleBehaviour, particle, new AMVector3(x, y, z), speed, worldObj.getBlockMetadata(xCoord, yCoord, zCoord)));
+			particle.AddParticleController(AMCore.proxy.particleManager.createDefaultParticleController(particleBehaviour, particle, new AMVector3(x, y, z), speed, worldObj.getBlockState(pos).getBlock().getMetaFromState(worldObj.getBlockState(pos))));
 			particle.setParticleAge(Math.min(Math.max(spawnRate, 10), 40));
 			particle.setIgnoreMaxAge(false);
 			particle.setParticleScale(particleScale);
@@ -110,13 +111,13 @@ public class TileEntityParticleEmitter extends TileEntity{
 	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		this.writeToNBT(compound);
-		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
+		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(pos, 0, compound);
 		return packet;
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 		applyParamConstraints();
 		hasReceivedFullUpdate = true;
 	}
@@ -211,7 +212,7 @@ public class TileEntityParticleEmitter extends TileEntity{
 			showTicks = 0;
 			EntityPlayer localPlayer = AMCore.proxy.getLocalPlayer();
 			if (localPlayer != null && localPlayer.inventory.getCurrentItem() != null && localPlayer.inventory.getCurrentItem().getItem() == ItemsCommonProxy.crystalWrench){
-				AMVector3 myLoc = new AMVector3(xCoord, yCoord, zCoord);
+				AMVector3 myLoc = new AMVector3(pos.getX(), pos.getY(), pos.getZ());
 				AMVector3 playerLoc = new AMVector3(localPlayer);
 				if (myLoc.distanceSqTo(playerLoc) < 64D){
 					forceShow = true;
@@ -219,9 +220,9 @@ public class TileEntityParticleEmitter extends TileEntity{
 			}
 		}
 
-		int oldMeta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+		int oldMeta = worldObj.getBlockState(pos).getBlock().getMetaFromState(worldObj.getBlockState(pos));
 
-		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, show ? oldMeta & ~0x8 : oldMeta | 0x8, 2);
+		worldObj.setBlockMetadataWithNotify(pos.getX(), pos.getY(), pos.getZ(), show ? oldMeta & ~0x8 : oldMeta | 0x8, 2);
 	}
 
 	public int getParticleType(){
@@ -284,9 +285,9 @@ public class TileEntityParticleEmitter extends TileEntity{
 	public void syncWithServer(){
 		if (this.worldObj.isRemote){
 			AMDataWriter writer = new AMDataWriter();
-			writer.add(this.xCoord);
-			writer.add(this.yCoord);
-			writer.add(this.zCoord);
+			writer.add(this.pos.getX());
+			writer.add(this.pos.getY());
+			writer.add(this.pos.getZ());
 			NBTTagCompound compound = new NBTTagCompound();
 			this.writeToNBT(compound);
 			writer.add(compound);

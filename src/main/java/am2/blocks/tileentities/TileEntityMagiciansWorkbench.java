@@ -16,11 +16,14 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ITickable;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.LinkedList;
 
-public class TileEntityMagiciansWorkbench extends TileEntity implements IInventory, IKeystoneLockable, ISidedInventory{
+public class TileEntityMagiciansWorkbench extends TileEntity implements IInventory, IKeystoneLockable, ISidedInventory, ITickable{
 
 	private ItemStack[] inventory;
 	public IInventory firstCraftResult;
@@ -51,7 +54,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 	}
 
 	@Override
-	public void updateEntity(){
+	public void update(){
 		setPrevDrawerOffset(getDrawerOffset());
 
 		if (numPlayersUsing > 0){
@@ -65,7 +68,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 			}
 		}else{
 			if (getDrawerOffset() == drawerMax){
-				this.worldObj.playSoundEffect(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+				this.worldObj.playSoundEffect(this.pos.getX() + 0.5D, this.pos.getY() + 0.5D, this.pos.getZ() + 0.5D, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 			}
 			if (getDrawerOffset() - drawerIncrement > drawerMin){
 				setDrawerOffset(getDrawerOffset() - drawerIncrement);
@@ -102,20 +105,20 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 	}
 
 	@Override
-	public void openInventory(){
+	public void openInventory(EntityPlayer p){
 		if (this.numPlayersUsing < 0){
 			this.numPlayersUsing = 0;
 		}
 
 		++this.numPlayersUsing;
-		this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1, this.numPlayersUsing);
+		this.worldObj.addBlockEvent(pos, this.getBlockType(), 1, this.numPlayersUsing);
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer p){
 		if (this.getBlockType() != null && this.getBlockType() instanceof BlockMagiciansWorkbench){
 			--this.numPlayersUsing;
-			this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1, this.numPlayersUsing);
+			this.worldObj.addBlockEvent(pos, this.getBlockType(), 1, this.numPlayersUsing);
 		}
 	}
 
@@ -130,7 +133,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 			upgradeState &= ~flag;
 
 		if (!worldObj.isRemote)
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			worldObj.markBlockForUpdate(pos);
 	}
 
 	public void rememberRecipe(ItemStack output, ItemStack[] recipeItems, boolean is2x2){
@@ -148,7 +151,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 
 		rememberedRecipes.add(new RememberedRecipe(output, recipeItems, is2x2));
 
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		worldObj.markBlockForUpdate(pos);
 	}
 
 	private boolean popRecipe(){
@@ -203,7 +206,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
+	public ItemStack removeStackFromSlot(int i){
 		if (inventory[i] != null){
 			ItemStack itemstack = inventory[i];
 			inventory[i] = null;
@@ -222,12 +225,12 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 	}
 
 	@Override
-	public String getInventoryName(){
+	public String getName(){
 		return "Magician's Workbench";
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean hasCustomName(){
 		return false;
 	}
 
@@ -238,10 +241,10 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
+		if (worldObj.getTileEntity(pos) != this){
 			return false;
 		}
-		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
+		return entityplayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64D;
 	}
 
 	@Override
@@ -281,13 +284,13 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		this.writeToNBT(compound);
-		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
+		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(pos, 0, compound);
 		return packet;
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	public void setRecipeLocked(int index, boolean locked){
@@ -296,9 +299,9 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 
 		if (worldObj.isRemote){
 			AMDataWriter writer = new AMDataWriter();
-			writer.add(xCoord);
-			writer.add(yCoord);
-			writer.add(zCoord);
+			writer.add(pos.getX());
+			writer.add(pos.getY());
+			writer.add(pos.getZ());
 			writer.add(index);
 			writer.add(locked);
 			AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.M_BENCH_LOCK_RECIPE, writer.generate());
@@ -423,7 +426,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int var1){
+	public int[] getSlotsForFace(EnumFacing var1){
 		int[] slots = new int[getStorageSize()];
 		for (int i = 0; i < slots.length; ++i){
 			slots[i] = i + getStorageStart();
@@ -433,7 +436,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 
 
 	@Override
-	public boolean canInsertItem(int i, ItemStack itemstack, int j){
+	public boolean canInsertItem(int i, ItemStack itemstack, EnumFacing j){
 		if (i > getStorageStart())
 			return true;
 		return false;
@@ -441,9 +444,39 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements IInvento
 
 
 	@Override
-	public boolean canExtractItem(int i, ItemStack itemstack, int j){
+	public boolean canExtractItem(int i, ItemStack itemstack, EnumFacing j){
 		if (i > getStorageStart())
 			return true;
 		return false;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 }

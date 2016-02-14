@@ -47,11 +47,11 @@ public class TileEntityLectern extends TileEntityEnchantmentTable{
 	}
 
 	@Override
-	public void updateEntity(){
+	public void update(){
 		if (worldObj.isRemote){
 			updateBookRender();
 			if (tooltipStack != null && field_145926_a % 2 == 0){
-				AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "sparkle", xCoord + 0.5 + ((worldObj.rand.nextDouble() * 0.2) - 0.1), yCoord + 1, zCoord + 0.5 + ((worldObj.rand.nextDouble() * 0.2) - 0.1));
+				AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "sparkle", pos.getX() + 0.5 + ((worldObj.rand.nextDouble() * 0.2) - 0.1), pos.getY() + 1, pos.getZ() + 0.5 + ((worldObj.rand.nextDouble() * 0.2) - 0.1));
 				if (particle != null){
 					particle.AddParticleController(new ParticleMoveOnHeading(particle, worldObj.rand.nextDouble() * 360, -45 - worldObj.rand.nextInt(90), 0.05f, 1, false));
 					particle.AddParticleController(new ParticleFadeOut(particle, 2, false).setFadeSpeed(0.05f).setKillParticleOnFinish(true));
@@ -200,11 +200,6 @@ public class TileEntityLectern extends TileEntityEnchantmentTable{
 		this.pageFlip += this.field_70374_e;*/
 	}
 
-	@Override
-	public boolean canUpdate(){
-		return worldObj != null && worldObj.isRemote;
-	}
-
 	public ItemStack getStack(){
 		return stack;
 	}
@@ -214,16 +209,16 @@ public class TileEntityLectern extends TileEntityEnchantmentTable{
 			this.stack = stack;
 			if (!this.worldObj.isRemote){
 				AMDataWriter writer = new AMDataWriter();
-				writer.add(xCoord);
-				writer.add(yCoord);
-				writer.add(zCoord);
+				writer.add(pos.getX());
+				writer.add(pos.getY());
+				writer.add(pos.getZ());
 				if (stack == null){
 					writer.add(false);
 				}else{
 					writer.add(true);
 					writer.add(stack);
 				}
-				AMNetHandler.INSTANCE.sendPacketToAllClientsNear(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 32, AMPacketIDs.LECTERN_DATA, writer.generate());
+				AMNetHandler.INSTANCE.sendPacketToAllClientsNear(worldObj.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 32, AMPacketIDs.LECTERN_DATA, writer.generate());
 			}
 			return true;
 		}
@@ -238,13 +233,13 @@ public class TileEntityLectern extends TileEntityEnchantmentTable{
 	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		writeToNBT(compound);
-		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
+		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(pos, 0, compound);
 		return packet;
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	private ArrayList<Item> getValidItems(){

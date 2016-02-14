@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.util.Constants;
 
 public class TileEntityKeystoneDoor extends TileEntity implements IInventory, IKeystoneLockable{
@@ -67,7 +68,7 @@ public class TileEntityKeystoneDoor extends TileEntity implements IInventory, IK
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
+	public ItemStack removeStackFromSlot(int i){
 		if (inventory[i] != null){
 			ItemStack itemstack = inventory[i];
 			inventory[i] = null;
@@ -86,7 +87,7 @@ public class TileEntityKeystoneDoor extends TileEntity implements IInventory, IK
 	}
 
 	@Override
-	public String getInventoryName(){
+	public String getName(){
 		return "Keystone Recepticle";
 	}
 
@@ -97,23 +98,23 @@ public class TileEntityKeystoneDoor extends TileEntity implements IInventory, IK
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
+		if (worldObj.getTileEntity(pos) != this){
 			return false;
 		}
-		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
+		return entityplayer.getDistanceSq(pos.getZ() + 0.5D, pos.getY() + 0.5D, pos.getX() + 0.5D) <= 64D;
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean hasCustomName(){
 		return false;
 	}
 
 	@Override
-	public void openInventory(){
+	public void openInventory(EntityPlayer p){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer p){
 	}
 
 	@Override
@@ -151,5 +152,35 @@ public class TileEntityKeystoneDoor extends TileEntity implements IInventory, IK
 		}
 
 		nbttagcompound.setTag("KeystoneDoorInventory", nbttaglist);
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 }

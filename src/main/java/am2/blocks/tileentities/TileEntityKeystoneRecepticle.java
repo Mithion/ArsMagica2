@@ -1,15 +1,7 @@
 package am2.blocks.tileentities;
 
-import am2.AMChunkLoader;
-import am2.AMCore;
-import am2.api.blocks.IKeystoneLockable;
-import am2.api.blocks.MultiblockStructureDefinition;
-import am2.api.math.AMVector3;
-import am2.api.power.PowerTypes;
-import am2.blocks.BlocksCommonProxy;
-import am2.buffs.BuffList;
-import am2.multiblock.IMultiblockStructureController;
-import am2.power.PowerNodeRegistry;
+import java.util.ArrayList;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -25,18 +17,26 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
-
-import java.util.ArrayList;
-import java.util.Random;
+import am2.AMChunkLoader;
+import am2.AMCore;
+import am2.api.blocks.IKeystoneLockable;
+import am2.api.blocks.MultiblockStructureDefinition;
+import am2.api.math.AMVector3;
+import am2.api.power.PowerTypes;
+import am2.blocks.BlockKeystoneReceptacle;
+import am2.blocks.BlocksCommonProxy;
+import am2.buffs.BuffList;
+import am2.multiblock.IMultiblockStructureController;
+import am2.power.PowerNodeRegistry;
 
 public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements IInventory, IMultiblockStructureController, IKeystoneLockable{
 
 	private boolean isActive;
 	private long key;
-	private final int boltType = 2;
 	private int surroundingCheckTicks = 20;
 
 	private final MultiblockStructureDefinition primary = new MultiblockStructureDefinition("gateways_alt");
@@ -117,16 +117,16 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 
 	public void onPlaced(){
 		if (!worldObj.isRemote){
-			AMChunkLoader.INSTANCE.requestStaticChunkLoad(this.getClass(), this.xCoord, this.yCoord, this.zCoord, this.worldObj);
+			AMChunkLoader.INSTANCE.requestStaticChunkLoad(this.getClass(), pos, this.worldObj);
 		}
 	}
 
 	@Override
 	public void invalidate(){
-		AMCore.instance.proxy.blocks.removeKeystonePortal(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+		AMCore.instance.proxy.blocks.removeKeystonePortal(pos, worldObj.provider.getDimensionId());
 
 		if (!worldObj.isRemote){
-			AMChunkLoader.INSTANCE.releaseStaticChunkLoad(this.getClass(), this.xCoord, this.yCoord, this.zCoord, this.worldObj);
+			AMChunkLoader.INSTANCE.releaseStaticChunkLoad(this.getClass(), pos, this.worldObj);
 		}
 
 		super.invalidate();
@@ -135,7 +135,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 	public void setActive(long key){
 		this.isActive = true;
 		this.key = key;
-		int myMeta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+		int myMeta = worldObj.getBlockState(pos).getBlock().getMetaFromState(worldObj.getBlockState(pos));
 
 		if (PowerNodeRegistry.For(worldObj).getHighestPowerType(this) == PowerTypes.DARK){
 			myMeta |= 8;
@@ -150,7 +150,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 				}
 			}
 		}else{
-			worldObj.playSound(xCoord, yCoord, zCoord, "arsmagica2:misc.gateway.open", 1.0f, 1.0f, true);
+			worldObj.playSound(pos.getX(), pos.getY(), pos.getZ(), "arsmagica2:misc.gateway.open", 1.0f, 1.0f, true);
 		}
 	}
 
@@ -159,11 +159,11 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 	}
 
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
+		super.update();
 
-		AxisAlignedBB bb = new AxisAlignedBB(xCoord + 0.3, yCoord - 3, zCoord + 0.3, xCoord + 0.7, yCoord, zCoord + 0.7);
-		ArrayList<Entity> entities = (ArrayList<Entity>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bb);
+		AxisAlignedBB bb = new AxisAlignedBB(pos.getX() + 0.3, pos.getY() - 3, pos.getZ() + 0.3, pos.getX() + 0.7, pos.getY(), pos.getZ() + 0.7);
+		ArrayList<EntityLivingBase> entities = (ArrayList<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bb);
 
 		if (this.isActive){
 			surroundingCheckTicks--;
@@ -175,7 +175,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 				doTeleport(entities.get(0));
 			}
 		}else{
-			if (entities.size() == 1 && worldObj.canBlockSeeTheSky(xCoord, yCoord, zCoord)){
+			if (entities.size() == 1 && worldObj.canBlockSeeSky(pos)){
 				Entity entity = entities.get(0);
 				if (entity instanceof EntityPlayer){
 					EntityPlayer player = (EntityPlayer)entity;
@@ -184,7 +184,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 						//player.addStat(AMCore.achievements.EightyEightMilesPerHour, 1);
 						this.key = 0;
 						if (!worldObj.isRemote){
-							EntityLightningBolt elb = new EntityLightningBolt(worldObj, xCoord, yCoord, zCoord);
+							EntityLightningBolt elb = new EntityLightningBolt(worldObj, pos.getX(), pos.getY(), pos.getZ());
 							worldObj.spawnEntityInWorld(elb);
 						}
 						doTeleport(player);
@@ -197,9 +197,9 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 
 	public boolean canActivate(){
 		boolean allGood = true;
-		allGood &= worldObj.isAirBlock(xCoord, yCoord - 1, zCoord);
-		allGood &= worldObj.isAirBlock(xCoord, yCoord - 2, zCoord);
-		allGood &= worldObj.isAirBlock(xCoord, yCoord - 3, zCoord);
+		allGood &= worldObj.isAirBlock(pos.add(0, -1, 0));
+		allGood &= worldObj.isAirBlock(pos.add(0, -2, 0));
+		allGood &= worldObj.isAirBlock(pos.add(0, -3, 0));
 		allGood &= checkStructure();
 		allGood &= PowerNodeRegistry.For(this.worldObj).checkPower(this);
 		allGood &= !this.isActive;
@@ -213,17 +213,17 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 	}
 
 	private boolean checkStructure(){
-		int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord) & 0x3;
+		int meta = worldObj.getBlockState(pos).getBlock().getMetaFromState(worldObj.getBlockState(pos));
 		boolean remainActive = true;
 
 		switch (meta){
 		case 0:
 		case 2:
-			remainActive &= primary.checkStructure(worldObj, xCoord, yCoord, zCoord);
+			remainActive &= primary.checkStructure(worldObj, pos);
 			break;
 		case 1:
 		default:
-			remainActive &= secondary.checkStructure(worldObj, xCoord, yCoord, zCoord);
+			remainActive &= secondary.checkStructure(worldObj, pos);
 			break;
 		}
 		return remainActive;
@@ -232,20 +232,20 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 	public void deactivate(){
 		this.isActive = false;
 		if (!this.worldObj.isRemote){
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			worldObj.markBlockForUpdate(pos);
 		}
 	}
 
 	private void doTeleport(Entity entity){
 		deactivate();
 
-		AMVector3 newLocation = AMCore.instance.proxy.blocks.getNextKeystonePortalLocation(this.worldObj, xCoord, yCoord, zCoord, false, this.key);
-		AMVector3 myLocation = new AMVector3(xCoord, yCoord, zCoord);
+		AMVector3 newLocation = AMCore.instance.proxy.blocks.getNextKeystonePortalLocation(this.worldObj, pos, false, this.key);
+		AMVector3 myLocation = new AMVector3(pos.getX(), pos.getY(), pos.getZ());
 
 		double distance = myLocation.distanceTo(newLocation);
 		float essenceCost = (float)(Math.pow(distance, 2) * 0.00175f);
 
-		int meta = worldObj.getBlockMetadata((int)newLocation.x, (int)newLocation.y, (int)newLocation.z);
+		//int meta = worldObj.getBlockMetadata(newLocation);
 
 		if (AMCore.config.getHazardousGateways()){
 			//uh-oh!  Not enough power!  The teleporter will still send you though, but I wonder where...
@@ -259,15 +259,13 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 				double deltaX = newLocation.x - myLocation.x;
 				double angleH = Math.atan2(deltaZ, deltaX);
 				//interpolate the distance at that angle - this is the new position
-				double newX = myLocation.x + (Math.cos(angleH) * distanceWeCanGo);
-				double newZ = myLocation.z + (Math.sin(angleH) * distanceWeCanGo);
-				double newY = myLocation.y;
+				BlockPos vec = myLocation.toBlockPos().add((Math.cos(angleH) * distanceWeCanGo), 0, (Math.sin(angleH) * distanceWeCanGo));
 
-				while (worldObj.isAirBlock((int)newX, (int)newY, (int)newZ)){
-					newY++;
+				while (worldObj.isAirBlock(vec)) {
+					vec = vec.add(0, 1, 0);
 				}
 
-				newLocation = new AMVector3(newX, newY, newZ);
+				newLocation = new AMVector3(vec);
 			}
 		}else{
 			this.worldObj.playSoundEffect(newLocation.x, newLocation.y, newLocation.z, "mob.endermen.portal", 1.0F, 1.0F);
@@ -276,17 +274,17 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 
 
 		float newRotation = 0;
-		switch (meta){
-		case 0:
+		switch (worldObj.getBlockState(pos).getValue(BlockKeystoneReceptacle.FACING)){
+		case NORTH:
 			newRotation = 270;
 			break;
-		case 1:
+		case EAST:
 			newRotation = 180;
 			break;
-		case 2:
+		case SOUTH:
 			newRotation = 90;
 			break;
-		case 3:
+		case WEST:
 			newRotation = 0;
 			break;
 		}
@@ -348,7 +346,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
+	public ItemStack removeStackFromSlot(int i){
 		if (inventory[i] != null){
 			ItemStack itemstack = inventory[i];
 			inventory[i] = null;
@@ -367,7 +365,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 	}
 
 	@Override
-	public String getInventoryName(){
+	public String getName(){
 		return "Keystone Recepticle";
 	}
 
@@ -378,18 +376,18 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
+		if (worldObj.getTileEntity(pos) != this){
 			return false;
 		}
-		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
+		return entityplayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64D;
 	}
 
 	@Override
-	public void openInventory(){
+	public void openInventory(EntityPlayer p){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer p){
 	}
 
 	@Override
@@ -405,7 +403,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 				inventory[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
 			}
 		}
-		AMCore.instance.proxy.blocks.registerKeystonePortal(xCoord, yCoord, zCoord, nbttagcompound.getInteger("keystone_receptacle_dimension_id"));
+		AMCore.instance.proxy.blocks.registerKeystonePortal(pos, nbttagcompound.getInteger("keystone_receptacle_dimension_id"));
 
 		this.isActive = nbttagcompound.getBoolean("isActive");
 	}
@@ -424,7 +422,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 			}
 		}
 
-		nbttagcompound.setInteger("keystone_receptacle_dimension_id", worldObj.provider.dimensionId);
+		nbttagcompound.setInteger("keystone_receptacle_dimension_id", worldObj.provider.getDimensionId());
 		nbttagcompound.setTag("KeystoneRecepticleInventory", nbttaglist);
 		nbttagcompound.setBoolean("isActive", this.isActive);
 	}
@@ -438,17 +436,17 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		this.writeToNBT(compound);
-		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
+		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(pos, 0, compound);
 		return packet;
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean hasCustomName(){
 		return false;
 	}
 
@@ -464,7 +462,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 
 	@Override
 	public AxisAlignedBB getRenderBoundingBox(){
-		return new AxisAlignedBB(xCoord - 3, yCoord - 3, zCoord - 3, xCoord + 3, yCoord + 3, zCoord + 3);
+		return new AxisAlignedBB(pos.getX() - 3, pos.getY() - 3, pos.getZ() - 3, pos.getX() + 3, pos.getY() + 3, pos.getZ() + 3);
 	}
 
 	@Override
@@ -480,5 +478,29 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 	@Override
 	public boolean canRelayPower(PowerTypes type){
 		return false;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		return null;
+	}
+
+	@Override
+	public int getField(int id) {
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		return 0;
+	}
+
+	@Override
+	public void clear() {
 	}
 }

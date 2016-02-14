@@ -9,12 +9,14 @@ import net.minecraft.item.ItemWritableBook;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ITickable;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.ArrayList;
 
-public class TileEntityOcculus extends TileEntity implements IInventory{
+public class TileEntityOcculus extends TileEntity implements IInventory, ITickable{
 
 	private ItemStack[] inventory;
 	private final ArrayList<String> log;
@@ -26,7 +28,7 @@ public class TileEntityOcculus extends TileEntity implements IInventory{
 	}
 
 	@Override
-	public void updateEntity(){
+	public void update(){
 		if (!hasBook() && log.size() > 0) log.clear();
 	}
 
@@ -40,8 +42,8 @@ public class TileEntityOcculus extends TileEntity implements IInventory{
 
 	private void logMessage(String message){
 		log.add(message);
-		if (!inventory[0].hasTagCompound()) inventory[0].stackTagCompound = new NBTTagCompound();
-		Story.WritePartToNBT(inventory[0].stackTagCompound, Story.splitStoryPartIntoPages(concatLog()));
+		if (!inventory[0].hasTagCompound()) inventory[0].setTagCompound(new NBTTagCompound());
+		Story.WritePartToNBT(inventory[0].getTagCompound(), Story.splitStoryPartIntoPages(concatLog()));
 	}
 
 	private String concatLog(){
@@ -83,7 +85,7 @@ public class TileEntityOcculus extends TileEntity implements IInventory{
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
+	public ItemStack removeStackFromSlot(int i){
 		if (inventory[i] != null){
 			ItemStack itemstack = inventory[i];
 			inventory[i] = null;
@@ -102,12 +104,12 @@ public class TileEntityOcculus extends TileEntity implements IInventory{
 	}
 
 	@Override
-	public String getInventoryName(){
+	public String getName(){
 		return "Occulus";
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean hasCustomName(){
 		return false;
 	}
 
@@ -118,18 +120,18 @@ public class TileEntityOcculus extends TileEntity implements IInventory{
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
+		if (worldObj.getTileEntity(pos) != this){
 			return false;
 		}
-		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
+		return entityplayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64D;
 	}
 
 	@Override
-	public void openInventory(){
+	public void openInventory(EntityPlayer p){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer p){
 	}
 
 	@Override
@@ -171,5 +173,35 @@ public class TileEntityOcculus extends TileEntity implements IInventory{
 		}
 
 		nbttagcompound.setTag("OcculusInventory", nbttaglist);
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 }

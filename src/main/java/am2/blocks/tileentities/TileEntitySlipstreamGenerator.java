@@ -32,8 +32,8 @@ public class TileEntitySlipstreamGenerator extends TileEntityAMPower{
 	}
 
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
+		super.update();
 
 		if (updateTicks++ > 10){
 			refreshPlayerList();
@@ -94,10 +94,10 @@ public class TileEntitySlipstreamGenerator extends TileEntityAMPower{
 		if (player == null || player.isDead)
 			return false;
 		float tolerance = 0.2f;
-		AxisAlignedBB bb = new AxisAlignedBB(xCoord - tolerance, yCoord + 1, zCoord - tolerance, xCoord + 1 + tolerance, yCoord + 1 + this.EFFECT_HEIGHT, zCoord + 1 + tolerance);
-		Vec3 myLoc = new Vec3(xCoord + 0.5, yCoord + 1, zCoord + 0.5);
+		AxisAlignedBB bb = new AxisAlignedBB(pos.getX() - tolerance, pos.getY() + 1, pos.getZ() - tolerance, pos.getX() + 1 + tolerance, pos.getY() + 1 + this.EFFECT_HEIGHT, pos.getZ() + 1 + tolerance);
+		Vec3 myLoc = new Vec3(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
 		Vec3 playerLoc = new Vec3(player.posX, player.posY, player.posZ);
-		return bb.intersectsWith(player.boundingBox) && worldObj.rayTraceBlocks(myLoc, playerLoc, true) == null;
+		return bb.intersectsWith(player.getCollisionBoundingBox()) && worldObj.rayTraceBlocks(myLoc, playerLoc, true) == null;
 	}
 
 	private void refreshPlayerList(){

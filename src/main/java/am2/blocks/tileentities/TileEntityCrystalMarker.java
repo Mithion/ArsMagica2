@@ -1,11 +1,9 @@
 package am2.blocks.tileentities;
 
-import am2.api.math.AMVector3;
-import am2.blocks.BlockCrystalMarker;
-import am2.utility.InventoryUtilities;
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,8 +19,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.Constants;
-
-import java.util.List;
+import am2.api.math.AMVector3;
+import am2.blocks.BlockCrystalMarker;
+import am2.utility.InventoryUtilities;
 
 public class TileEntityCrystalMarker extends TileEntity implements ISidedInventory{
 	private static final int SEARCH_RADIUS = 400;

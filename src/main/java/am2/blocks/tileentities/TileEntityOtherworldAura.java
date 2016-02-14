@@ -10,6 +10,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -71,7 +72,7 @@ public class TileEntityOtherworldAura extends TileEntityAMPower{
 			for (int j = -radius; j <= radius; ++j){
 				for (int k = -radius; k <= radius; ++k){
 					if (i == 0 && j == 0 && k == 0) continue;
-					TileEntity te = worldObj.getTileEntity(xCoord + i, yCoord + j, zCoord + k);
+					TileEntity te = worldObj.getTileEntity(pos.add(i, j, k));
 					if (te == null) continue;
 					if (!(te instanceof IInventory)) continue;
 					nearbyInventories.add(new AMVector3(te));
@@ -84,7 +85,7 @@ public class TileEntityOtherworldAura extends TileEntityAMPower{
 		Iterator<AMVector3> it = this.nearbyInventories.iterator();
 		while (it.hasNext()){
 			AMVector3 vec = it.next();
-			TileEntity te = worldObj.getTileEntity((int)vec.x, (int)vec.y, (int)vec.z);
+			TileEntity te = worldObj.getTileEntity(vec.toBlockPos());
 			if (te == null || !(te instanceof IInventory)){
 				//not found, prune list and move on
 				it.remove();
@@ -93,7 +94,7 @@ public class TileEntityOtherworldAura extends TileEntityAMPower{
 			IInventory inventory = ((IInventory)te);
 			//search from all 6 sides
 			for (int i = 0; i < 6; ++i){
-				if (InventoryUtilities.inventoryHasItem(inventory, search, 1, i)){
+				if (InventoryUtilities.inventoryHasItem(inventory, search, 1, EnumFacing.values()[i])){
 					return vec;
 				}
 			}
@@ -106,21 +107,21 @@ public class TileEntityOtherworldAura extends TileEntityAMPower{
 			return;
 
 		this.helper = new EntityShadowHelper(worldObj);
-		this.helper.setPosition(xCoord, yCoord + 1, zCoord);
+		this.helper.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
 		if (this.watchTarget != null)
 			this.helper.setAltarTarget(watchTarget);
 		this.worldObj.spawnEntityInWorld(helper);
 
 		if (this.watchTarget != null){
-			this.helper.setDropoffLocation(new AMVector3(watchTarget.xCoord, watchTarget.yCoord - 2, watchTarget.zCoord));
+			this.helper.setDropoffLocation(new AMVector3(watchTarget));
 			if (placedByUsername != null && !placedByUsername.isEmpty())
 				this.helper.setMimicUser(placedByUsername);
 		}
 	}
 
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
+		super.update();
 
 		//sanity check
 		if (nearbyInventories == null) return;

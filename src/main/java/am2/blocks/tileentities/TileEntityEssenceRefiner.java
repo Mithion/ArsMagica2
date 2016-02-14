@@ -1,9 +1,5 @@
 package am2.blocks.tileentities;
 
-import am2.api.blocks.IKeystoneLockable;
-import am2.api.power.PowerTypes;
-import am2.blocks.RecipesEssenceRefiner;
-import am2.power.PowerNodeRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -13,7 +9,12 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.Constants;
+import am2.api.blocks.IKeystoneLockable;
+import am2.api.power.PowerTypes;
+import am2.blocks.RecipesEssenceRefiner;
+import am2.power.PowerNodeRegistry;
 
 public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInventory, IKeystoneLockable, ISidedInventory{
 
@@ -68,7 +69,7 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 	}
 
 	@Override
-	public String getInventoryName(){
+	public String getName(){
 		return "Essence Refiner";
 	}
 
@@ -134,17 +135,17 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		this.writeToNBT(compound);
-		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
+		return new S35PacketUpdateTileEntity(pos, 0, compound);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
+		super.update();
 
 		if (!worldObj.isRemote){
 			boolean wasEssenceRefined = false;
@@ -153,12 +154,12 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 				if (remainingRefineTime <= 0){
 					//start refining
 					remainingRefineTime = getRefineTime();
-					worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+					worldObj.markBlockForUpdate(pos);
 				}
 			}else{
 				if (remainingRefineTime != 0){
 					remainingRefineTime = 0;
-					worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+					worldObj.markBlockForUpdate(pos);
 				}
 			}
 
@@ -167,7 +168,7 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 				if (PowerNodeRegistry.For(this.worldObj).checkPower(this, TICK_REFINE_COST)){
 					remainingRefineTime--;
 					if (remainingRefineTime % 10 == 0)
-						worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+						worldObj.markBlockForUpdate(pos);
 					if (remainingRefineTime <= 0){
 						remainingRefineTime = 0;
 						if (!worldObj.isRemote){
@@ -257,22 +258,22 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
+		if (worldObj.getTileEntity(pos) != this){
 			return false;
 		}
-		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
+		return entityplayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64D;
 	}
 
 	@Override
-	public void openInventory(){
+	public void openInventory(EntityPlayer p){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer p){
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
+	public ItemStack removeStackFromSlot(int i){
 		if (inventory[i] != null){
 			ItemStack itemstack = inventory[i];
 			inventory[i] = null;
@@ -283,7 +284,7 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean hasCustomName(){
 		return false;
 	}
 
@@ -331,19 +332,19 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int side){
+	public int[] getSlotsForFace(EnumFacing side){
 		return new int[]{5};
 	}
 
 
 	@Override
-	public boolean canInsertItem(int p_102007_1_, ItemStack p_102007_2_, int p_102007_3_){
+	public boolean canInsertItem(int p_102007_1_, ItemStack p_102007_2_, EnumFacing p_102007_3_){
 		return false;
 	}
 
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack item, int side){
+	public boolean canExtractItem(int slot, ItemStack item, EnumFacing side){
 		return slot == 5;
 	}
 }

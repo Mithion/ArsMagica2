@@ -1,5 +1,21 @@
 package am2.blocks.tileentities;
 
+import java.util.ArrayList;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumFacing.Axis;
+import net.minecraft.util.IChatComponent;
+import net.minecraftforge.common.util.Constants;
 import am2.AMCore;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.power.PowerTypes;
@@ -13,21 +29,6 @@ import am2.particles.ParticleFloatUpward;
 import am2.particles.ParticleMoveOnHeading;
 import am2.power.PowerNodeRegistry;
 import am2.utility.KeystoneUtilities;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.Constants;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class TileEntitySeerStone extends TileEntityAMPower implements IInventory, IKeystoneLockable{
 
@@ -83,10 +84,10 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	}
 
 	@Override
-	public float particleOffset(int axis){
-		int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+	public float particleOffset(Axis axis){
+		int meta = worldObj.getBlockState(pos).getBlock().getMetaFromState(worldObj.getBlockState(pos));
 
-		if (axis == 0){
+		if (axis == Axis.X){
 			switch (meta){
 			case 6:
 				return 0.15f;
@@ -95,7 +96,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 			default:
 				return 0.5f;
 			}
-		}else if (axis == 1){
+		}else if (axis == Axis.Y){
 			switch (meta){
 			case 1:
 				return 0.85f;
@@ -104,7 +105,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 			default:
 				return 0.5f;
 			}
-		}else if (axis == 2){
+		}else if (axis == Axis.Z){
 			switch (meta){
 			case 4:
 				return 0.15f;
@@ -156,17 +157,17 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		this.writeToNBT(compound);
-		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
+		return new S35PacketUpdateTileEntity(pos, 0, compound);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
+		super.update();
 
 		if (!worldObj.isRemote && isActive()){
 			if (hasSight)
@@ -185,7 +186,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 			Class searchClass = GetSearchClass();
 			ArrayList<Entity> nearbyMobs = new ArrayList<Entity>();
 			if (searchClass != null){
-				nearbyMobs = (ArrayList<Entity>)this.worldObj.getEntitiesWithinAABB(searchClass, new AxisAlignedBB(xCoord - radius, yCoord - radius, zCoord - radius, xCoord + radius, yCoord + radius, zCoord + radius));
+				nearbyMobs = (ArrayList<Entity>)this.worldObj.getEntitiesWithinAABB(searchClass, new AxisAlignedBB(pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius, pos.getX() + radius, pos.getY() + radius, pos.getZ() + radius));
 
 				if (key > 0){
 					ArrayList<Entity> mobsToIgnore = new ArrayList<Entity>();
@@ -261,12 +262,12 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 
 			if (isActive() && hasSight){
 
-				int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+				int meta = worldObj.getBlockState(pos).getBlock().getMetaFromState(worldObj.getBlockState(pos));
 
 				double yaw = 0;
-				double y = yCoord + 0.5;
-				double x = xCoord + 0.5;
-				double z = zCoord + 0.5;
+				double y = pos.getY() + 0.5;
+				double x = pos.getX() + 0.5;
+				double z = pos.getZ() + 0.5;
 
 				switch (meta){
 				case 1:
@@ -319,28 +320,28 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	}
 
 	private void notifyNeighborsOfPowerChange(){
-		this.worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, BlocksCommonProxy.seerStone);
+		this.worldObj.notifyBlockOfStateChange(pos, BlocksCommonProxy.seerStone);
 		switch (this.getBlockMetadata()){
 		case 0:
-			this.worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord + 1, zCoord, BlocksCommonProxy.seerStone);
+			this.worldObj.notifyBlockOfStateChange(pos.add(0, 1, 0), BlocksCommonProxy.seerStone);
 			break;
 		case 1:
-			this.worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord + 1, zCoord, BlocksCommonProxy.seerStone);
+			this.worldObj.notifyBlockOfStateChange(pos.add(0, 1, 0), BlocksCommonProxy.seerStone);
 			break;
 		case 2:
-			this.worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord - 1, zCoord, BlocksCommonProxy.seerStone);
+			this.worldObj.notifyBlockOfStateChange(pos.add(0, -1, 0), BlocksCommonProxy.seerStone);
 			break;
 		case 3:
-			this.worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord + 1, BlocksCommonProxy.seerStone);
+			this.worldObj.notifyBlockOfStateChange(pos.add(0, 0, 1), BlocksCommonProxy.seerStone);
 			break;
 		case 4:
-			this.worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord - 1, BlocksCommonProxy.seerStone);
+			this.worldObj.notifyBlockOfStateChange(pos.add(0, 0, -1), BlocksCommonProxy.seerStone);
 			break;
 		case 5:
-			this.worldObj.notifyBlocksOfNeighborChange(xCoord + 1, yCoord, zCoord, BlocksCommonProxy.seerStone);
+			this.worldObj.notifyBlockOfStateChange(pos.add(1, 0, 0), BlocksCommonProxy.seerStone);
 			break;
 		case 6:
-			this.worldObj.notifyBlocksOfNeighborChange(xCoord - 1, yCoord, zCoord, BlocksCommonProxy.seerStone);
+			this.worldObj.notifyBlockOfStateChange(pos.add(-1, 0, 0), BlocksCommonProxy.seerStone);
 			break;
 		}
 	}
@@ -428,7 +429,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
+	public ItemStack removeStackFromSlot(int i){
 		if (inventory[i] != null){
 			ItemStack itemstack = inventory[i];
 			inventory[i] = null;
@@ -447,7 +448,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	}
 
 	@Override
-	public String getInventoryName(){
+	public String getName(){
 		return "Seer Stone";
 	}
 
@@ -458,18 +459,18 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
+		if (worldObj.getTileEntity(pos) != this){
 			return false;
 		}
-		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
+		return entityplayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64D;
 	}
 
 	@Override
-	public void openInventory(){
+	public void openInventory(EntityPlayer p){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer p){
 	}
 
 	@Override
@@ -526,7 +527,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean hasCustomName(){
 		return false;
 	}
 
@@ -548,5 +549,35 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	@Override
 	public boolean canRelayPower(PowerTypes type){
 		return false;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 }

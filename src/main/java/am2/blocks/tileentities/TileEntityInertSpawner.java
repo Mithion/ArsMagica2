@@ -1,23 +1,24 @@
 package am2.blocks.tileentities;
 
-import am2.api.power.PowerTypes;
-import am2.items.ItemCrystalPhylactery;
-import am2.items.ItemsCommonProxy;
-import am2.power.PowerNodeRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
+import am2.api.power.PowerTypes;
+import am2.items.ItemCrystalPhylactery;
+import am2.items.ItemsCommonProxy;
+import am2.power.PowerNodeRegistry;
 
-public class TileEntityInertSpawner extends TileEntityAMPower implements IInventory{
+public class TileEntityInertSpawner extends TileEntityAMPower implements ISidedInventory{
 
 	private ItemStack phylactery;
 	private float powerConsumed = 0.0f;
@@ -103,12 +104,12 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements IInvent
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_){
+	public int[] getSlotsForFace(EnumFacing facing){
 		return new int[]{0};
 	}
 
 	@Override
-	public boolean canInsertItem(int i, ItemStack stack, int face){
+	public boolean canInsertItem(int i, ItemStack stack, EnumFacing face){
 		return
 				i == 0 &&
 						this.getStackInSlot(0) == null &&
@@ -119,7 +120,7 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements IInvent
 	}
 
 	@Override
-	public boolean canExtractItem(int p_102008_1_, ItemStack p_102008_2_, int p_102008_3_){
+	public boolean canExtractItem(int p_102008_1_, ItemStack p_102008_2_, EnumFacing p_102008_3_){
 		return true;
 	}
 
@@ -210,5 +211,61 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements IInvent
 	@Override
 	public PowerTypes[] getValidPowerTypes(){
 		return valid;
+	}
+
+	@Override
+	public ItemStack removeStackFromSlot(int index) {
+		ItemStack tmp = phylactery.copy();
+		phylactery = null;
+		return tmp;
+	}
+
+	@Override
+	public void openInventory(EntityPlayer player) {
+	}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {
+	}
+
+	@Override
+	public int getField(int id) {
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return "Inert Spawner";
+	}
+
+	@Override
+	public boolean hasCustomName() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -1,13 +1,8 @@
 package am2.blocks.tileentities;
 
-import am2.LogHelper;
-import am2.api.math.AMVector3;
-import am2.api.spell.enums.Affinity;
-import am2.blocks.BlocksCommonProxy;
-import am2.blocks.tileentities.flickers.FlickerOperatorRegistry;
-import am2.blocks.tileentities.flickers.TileEntityFlickerControllerBase;
-import am2.items.ItemFlickerJar;
-import am2.items.ItemsCommonProxy;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -19,12 +14,16 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.common.util.ForgeDirection;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
+import am2.LogHelper;
+import am2.api.math.AMVector3;
+import am2.api.spell.enums.Affinity;
+import am2.blocks.BlocksCommonProxy;
+import am2.blocks.tileentities.flickers.FlickerOperatorRegistry;
+import am2.blocks.tileentities.flickers.TileEntityFlickerControllerBase;
+import am2.items.ItemFlickerJar;
+import am2.items.ItemsCommonProxy;
 
 public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase implements IInventory{
 	private static final float FULL_CIRCLE = 360.0f;
@@ -213,11 +212,11 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	public void AddMarkerLocationOut(AMVector3 markerLocation){
 
-		Block out = this.worldObj.getBlock((int)markerLocation.x, (int)markerLocation.y, (int)markerLocation.z);
+		Block out = this.worldObj.getBlockState(markerLocation.toBlockPos()).getBlock();
 		if (out != BlocksCommonProxy.crystalMarker)
 			return;
 
-		TileEntity te = this.worldObj.getTileEntity((int)markerLocation.x, (int)markerLocation.y, (int)markerLocation.z);
+		TileEntity te = this.worldObj.getTileEntity(markerLocation.toBlockPos());
 		if (te == null || te instanceof TileEntityCrystalMarker == false)
 			return;
 
@@ -269,7 +268,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 		//write upgrade status
 		nbttagcompound.setBoolean("upgrade", isUpgrade);
 		if (this.isUpgrade){
-			nbttagcompound.setInteger("mainHabitatDirection", mainHabitatDirection.flag);
+			nbttagcompound.setInteger("mainHabitatDirection", mainHabitatDirection.ordinal());
 		}
 	}
 
@@ -411,12 +410,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 		if (this.isUpgrade){
 			int flag = nbttagcompound.getInteger("mainHabitatDirection");
 
-			for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS){
-				if (direction.flag == flag){
-					this.mainHabitatDirection = direction;
-					break;
-				}
-			}
+			mainHabitatDirection = EnumFacing.values()[flag];
 		}
 	}
 
@@ -496,7 +490,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
+	public ItemStack removeStackFromSlot(int i){
 		if (i <= getSizeInventory() && flickerJar != null){
 			ItemStack jar = flickerJar;
 			flickerJar = null;
@@ -515,7 +509,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	@Override
-	public String getInventoryName(){
+	public String getName(){
 		return "Flicker Habitat";
 	}
 
@@ -526,19 +520,19 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
+		if (worldObj.getTileEntity(pos) != this){
 			return false;
 		}
 
-		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
+		return entityplayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64D;
 	}
 
 	@Override
-	public void openInventory(){
+	public void openInventory(EntityPlayer p){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer p){
 		if (!this.isUpgrade){
 			setOperatorBasedOnFlicker();
 			scanForNearbyUpgrades();
@@ -548,8 +542,8 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	private void setUpgradeOfMainHabitat(){
-		if (this.mainHabitatDirection != ForgeDirection.UNKNOWN){
-			TileEntity te = worldObj.getTileEntity(this.xCoord + this.mainHabitatDirection.offsetX, this.yCoord + this.mainHabitatDirection.offsetY, this.zCoord + this.mainHabitatDirection.offsetZ);
+		if (this.mainHabitatDirection != null){
+			TileEntity te = worldObj.getTileEntity(pos.add(mainHabitatDirection.getDirectionVec()));
 			if (te != null && te instanceof TileEntityFlickerHabitat){
 				((TileEntityFlickerHabitat)te).notifyOfNearbyUpgradeChange(this);
 			}
@@ -574,17 +568,17 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	public Packet getDescriptionPacket(){
 		NBTTagCompound nbt = new NBTTagCompound();
 		this.writeToNBT(nbt);
-		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbt);
+		return new S35PacketUpdateTileEntity(pos, 1, nbt);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
+		super.update();
 
 		if (fadeCounter++ >= 30){
 			colorCounter++;
@@ -618,7 +612,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean hasCustomName(){
 		return false;
 	}
 
@@ -631,6 +625,36 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 			this.outList.put(priority, new ArrayList<AMVector3>());
 
 		this.outList.get(priority).add(vec);
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

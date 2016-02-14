@@ -8,9 +8,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ITickable;
 import net.minecraftforge.common.util.Constants;
 
-public class TileEntityKeystoneChest extends TileEntity implements IInventory, IKeystoneLockable{
+public class TileEntityKeystoneChest extends TileEntity implements IInventory, IKeystoneLockable, ITickable{
 
 	private ItemStack[] inventory;
 	public static final int keystoneSlot = 27;
@@ -30,11 +32,11 @@ public class TileEntityKeystoneChest extends TileEntity implements IInventory, I
 	}
 
 	@Override
-	public void updateEntity(){
+	public void update(){
 		setPrevLidAngle(getLidAngle());
 		if (numPlayersUsing > 0){
 			if (getLidAngle() == 0){
-				this.worldObj.playSoundEffect(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+				this.worldObj.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 			}
 			if (getLidAngle() < 1.0f){
 				setLidAngle(getLidAngle() + lidIncrement);
@@ -43,7 +45,7 @@ public class TileEntityKeystoneChest extends TileEntity implements IInventory, I
 			}
 		}else{
 			if (getLidAngle() == 1.0f){
-				this.worldObj.playSoundEffect(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+				this.worldObj.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 			}
 			if (getLidAngle() - lidIncrement > 0f){
 				setLidAngle(getLidAngle() - lidIncrement);
@@ -64,20 +66,20 @@ public class TileEntityKeystoneChest extends TileEntity implements IInventory, I
 	}
 
 	@Override
-	public void openInventory(){
+	public void openInventory(EntityPlayer p){
 		if (this.numPlayersUsing < 0){
 			this.numPlayersUsing = 0;
 		}
 
 		++this.numPlayersUsing;
-		this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1, this.numPlayersUsing);
+		this.worldObj.addBlockEvent(pos, this.getBlockType(), 1, this.numPlayersUsing);
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer p){
 		if (this.getBlockType() != null && this.getBlockType() instanceof BlockKeystoneChest){
 			--this.numPlayersUsing;
-			this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1, this.numPlayersUsing);
+			this.worldObj.addBlockEvent(pos, this.getBlockType(), 1, this.numPlayersUsing);
 		}
 	}
 
@@ -107,7 +109,7 @@ public class TileEntityKeystoneChest extends TileEntity implements IInventory, I
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
+	public ItemStack removeStackFromSlot(int i){
 		if (inventory[i] != null){
 			ItemStack itemstack = inventory[i];
 			inventory[i] = null;
@@ -126,7 +128,7 @@ public class TileEntityKeystoneChest extends TileEntity implements IInventory, I
 	}
 
 	@Override
-	public String getInventoryName(){
+	public String getName(){
 		return "KeystoneChestInventory";
 	}
 
@@ -137,11 +139,11 @@ public class TileEntityKeystoneChest extends TileEntity implements IInventory, I
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
+		if (worldObj.getTileEntity(pos) != this){
 			return false;
 		}
 
-		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
+		return entityplayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64D;
 	}
 
 	@Override
@@ -177,7 +179,7 @@ public class TileEntityKeystoneChest extends TileEntity implements IInventory, I
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean hasCustomName(){
 		return false;
 	}
 
@@ -219,5 +221,35 @@ public class TileEntityKeystoneChest extends TileEntity implements IInventory, I
 	@Override
 	public boolean keystoneMustBeInActionBar(){
 		return false;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 }
