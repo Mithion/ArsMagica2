@@ -1,10 +1,12 @@
 package am2.blocks;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -61,59 +63,38 @@ public class BlockArcaneDeconstructor extends PoweredBlock{
 		super.onBlockPlacedBy(world, pos, state.withProperty(FACING, entityliving.getHorizontalFacing().getOpposite()), entityliving, stack);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player, boolean willHarvest){
-		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(pos);
+		IKeystoneLockable<TileEntityArcaneDeconstructor> lockable = (IKeystoneLockable<TileEntityArcaneDeconstructor>)world.getTileEntity(pos);
 		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player, KeystoneAccessType.BREAK)) return false;
 
 		return super.removedByPlayer(world, pos, player, willHarvest);
 	}
-
 	
 	@Override
-	public void breakBlock(World world, BlockPos pos, IBlockState state){
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		TileEntityArcaneDeconstructor deconstructor = (TileEntityArcaneDeconstructor)world.getTileEntity(pos);
-		if (deconstructor == null) return;
-		for (int l = 0; l < deconstructor.getSizeInventory() - 3; l++){
-			ItemStack itemstack = deconstructor.getStackInSlot(l);
-			if (itemstack == null){
-				continue;
-			}
-			float f = world.rand.nextFloat() * 0.8F + 0.1F;
-			float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
-			float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
-			do{
-				if (itemstack.stackSize <= 0){
-					break;
-				}
-				int i1 = world.rand.nextInt(21) + 10;
-				if (i1 > itemstack.stackSize){
-					i1 = itemstack.stackSize;
-				}
-				itemstack.stackSize -= i1;
-				ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
-				newItem.setTagCompound(itemstack.getTagCompound());
-				EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getX() + f1, pos.getZ() + f2, newItem);
-				float f3 = 0.05F;
-				entityitem.motionX = (float)world.rand.nextGaussian() * f3;
-				entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
-				entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
-				world.spawnEntityInWorld(entityitem);
-			}while (true);
-
+		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
+		drops.addAll(super.getDrops(world, pos, state, fortune));
+		if (deconstructor == null) return drops;
+		for (int i = 0; i < deconstructor.getSizeInventory(); i++) {
+			if (deconstructor.getStackInSlot(i) != null)
+				drops.add(deconstructor.getStackInSlot(i));
 		}
-		super.breakBlock(world, pos, state);
+		return drops;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean onBlockActivated(World par1World, BlockPos pos, IBlockState state, EntityPlayer par5EntityPlayer, EnumFacing par6, float par7, float par8, float par9){
 		if (handleSpecialItems(par1World, par5EntityPlayer, pos)){
 			return true;
 		}
 		if (!par1World.isRemote){
-			if (KeystoneUtilities.HandleKeystoneRecovery(par5EntityPlayer, ((IKeystoneLockable)par1World.getTileEntity(pos))))
+			if (KeystoneUtilities.HandleKeystoneRecovery(par5EntityPlayer, ((IKeystoneLockable<TileEntityArcaneDeconstructor>)par1World.getTileEntity(pos))))
 				return true;
-			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)par1World.getTileEntity(pos), par5EntityPlayer, KeystoneAccessType.USE)){
+			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable<TileEntityArcaneDeconstructor>)par1World.getTileEntity(pos), par5EntityPlayer, KeystoneAccessType.USE)){
 				par5EntityPlayer.openGui(AMCore.instance, ArsMagicaGuiIdList.GUI_ARCANE_DECONSTRUCTOR, par1World, pos.getX(), pos.getY(), pos.getZ());
 				super.onBlockActivated(par1World, pos, state, par5EntityPlayer, par6, par7, par8, par9);
 			}

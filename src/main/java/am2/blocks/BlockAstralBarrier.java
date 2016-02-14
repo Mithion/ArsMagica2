@@ -25,6 +25,7 @@ public class BlockAstralBarrier extends AMSpecialRenderPoweredBlock{
 		setResistance(2.0f);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean onBlockActivated(World par1World, BlockPos pos, IBlockState state, EntityPlayer par5EntityPlayer, EnumFacing par6, float par7, float par8, float par9){
 
@@ -40,10 +41,10 @@ public class BlockAstralBarrier extends AMSpecialRenderPoweredBlock{
 			return true;
 		}
 		if (!par1World.isRemote)
-			if (KeystoneUtilities.HandleKeystoneRecovery(par5EntityPlayer, ((IKeystoneLockable)par1World.getTileEntity(pos))))
+			if (KeystoneUtilities.HandleKeystoneRecovery(par5EntityPlayer, ((IKeystoneLockable<TileEntityAstralBarrier>)par1World.getTileEntity(pos))))
 				return true;
 
-		if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)par1World.getTileEntity(pos), par5EntityPlayer, KeystoneAccessType.USE)){
+		if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable<TileEntityAstralBarrier>)par1World.getTileEntity(pos), par5EntityPlayer, KeystoneAccessType.USE)){
 			if (par5EntityPlayer.isSneaking()){
 				if (par1World.isRemote){
 					abte.ToggleAuraDisplay();
@@ -99,8 +100,9 @@ public class BlockAstralBarrier extends AMSpecialRenderPoweredBlock{
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player, boolean willHarvest){
-		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(pos);
+		IKeystoneLockable<TileEntityAstralBarrier> lockable = (IKeystoneLockable<TileEntityAstralBarrier>)world.getTileEntity(pos);
 		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player, KeystoneAccessType.BREAK)) return false;
 
 		return super.removedByPlayer(world, pos, player, willHarvest);

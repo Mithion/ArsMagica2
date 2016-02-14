@@ -58,6 +58,7 @@ public class BlockDesertNova extends AMFlower{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
+	@SuppressWarnings("static-access")
 	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random par5Random){
 
 		if (par5Random.nextInt(10) != 0) return;

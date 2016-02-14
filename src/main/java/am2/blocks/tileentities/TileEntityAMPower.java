@@ -3,6 +3,7 @@ package am2.blocks.tileentities;
 import am2.api.power.IPowerNode;
 import am2.api.power.PowerTypes;
 import am2.power.PowerNodeRegistry;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -54,7 +55,7 @@ public abstract class TileEntityAMPower extends TileEntity implements IPowerNode
 			}
 		}
 	}
-
+	
 	@Override
 	public float particleOffset(EnumFacing.Axis axis) {
 		return 0.5F;

@@ -1,8 +1,29 @@
 package am2.blocks.tileentities;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockLever;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.util.Constants;
 import am2.AMCore;
 import am2.api.blocks.MultiblockStructureDefinition;
-import am2.api.blocks.MultiblockStructureDefinition.BlockCoord;
 import am2.api.blocks.MultiblockStructureDefinition.BlockDec;
 import am2.api.blocks.MultiblockStructureDefinition.StructureGroup;
 import am2.api.math.AMVector3;
@@ -29,24 +50,6 @@ import am2.spell.SpellUtils;
 import am2.spell.components.Summon;
 import am2.spell.shapes.Binding;
 import am2.utility.KeyValuePair;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.Constants;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class TileEntityCraftingAltar extends TileEntityAMPower implements IMultiblockStructureController{
 
@@ -64,8 +67,8 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private int currentKey = -1;
 	private int checkCounter;
 	private boolean structureValid;
-	private BlockCoord podiumLocation;
-	private BlockCoord switchLocation;
+	private BlockPos podiumLocation;
+	private BlockPos switchLocation;
 	private int maxEffects;
 
 	private ItemStack addedPhylactery = null;
@@ -466,8 +469,8 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	}
 
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
+		super.update();
 		this.ticksExisted++;
 
 		checkStructure();
@@ -477,12 +480,12 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			checkForEndCondition();
 			updatePowerRequestData();
 			if (!worldObj.isRemote && !currentDefinitionIsWithinStructurePower() && this.ticksExisted > 100){
-				worldObj.newExplosion(null, xCoord + 0.5, yCoord - 1.5, zCoord + 0.5, 5, false, true);
+				worldObj.newExplosion(null, pos.getX() + 0.5, pos.getY() - 1.5, pos.getX() + 0.5, 5, false, true);
 				setCrafting(false);
 				return;
 			}
 			if (worldObj.isRemote && checkCounter == 1){
-				AMCore.proxy.particleManager.RibbonFromPointToPoint(worldObj, xCoord + 0.5, yCoord - 2, zCoord + 0.5, xCoord + 0.5, yCoord - 3, zCoord + 0.5);
+				AMCore.proxy.particleManager.RibbonFromPointToPoint(worldObj, pos.getX() + 0.5, pos.getY() - 2, pos.getZ() + 0.5, pos.getX() + 0.5, pos.getY() - 3, pos.getZ() + 0.5);
 			}
 			List<EntityItem> components = lookForValidItems();
 			ItemStack stack = getNextPlannedItem();
@@ -494,7 +497,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 						updateCurrentRecipe(item);
 						item.setDead();
 					}else{
-						worldObj.playSound(xCoord, yCoord, zCoord, "arsmagica2:misc.craftingaltar.component_added", 1.0f, 0.4f + worldObj.rand.nextFloat() * 0.6f, false);
+						worldObj.playSound(pos.getX(), pos.getY(), pos.getZ(), "arsmagica2:misc.craftingaltar.component_added", 1.0f, 0.4f + worldObj.rand.nextFloat() * 0.6f, false);
 						for (int i = 0; i < 5 * AMCore.config.getGFXLevel(); ++i){
 							AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "radiant", item.posX, item.posY, item.posZ);
 							if (particle != null){
@@ -513,7 +516,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 	private void updateLecternInformation(){
 		if (podiumLocation == null) return;
-		TileEntityLectern lectern = (TileEntityLectern)worldObj.getTileEntity(xCoord + podiumLocation.getX(), yCoord + podiumLocation.getY(), zCoord + podiumLocation.getZ());
+		TileEntityLectern lectern = (TileEntityLectern)worldObj.getTileEntity(pos.add(podiumLocation));
 		if (lectern != null){
 			if (lectern.hasStack()){
 				ItemStack lecternStack = lectern.getStack();
@@ -554,17 +557,17 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		}
 	}
 
-	public BlockCoord getSwitchLocation(){
+	public BlockPos getSwitchLocation(){
 		return this.switchLocation;
 	}
 
 	public boolean switchIsOn(){
 		if (switchLocation == null) return false;
-		Block block = worldObj.getBlock(xCoord + switchLocation.getX(), yCoord + switchLocation.getY(), zCoord + switchLocation.getZ());
+		IBlockState block = worldObj.getBlockState(pos.add(switchLocation));
 		boolean b = false;
 		if (block == Blocks.lever){
 			for (int i = 0; i < 6; ++i){
-				b |= (Blocks.lever.isProvidingStrongPower(worldObj, xCoord + switchLocation.getX(), yCoord + switchLocation.getY(), zCoord + switchLocation.getZ(), i) > 0);
+				b |= block.getValue(BlockLever.POWERED);
 				if (b) break;
 			}
 		}
@@ -573,9 +576,9 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 	public void flipSwitch(){
 		if (switchLocation == null) return;
-		Block block = worldObj.getBlock(xCoord + switchLocation.getX(), yCoord + switchLocation.getY(), zCoord + switchLocation.getZ());
+		IBlockState block = worldObj.getBlockState(pos.add(switchLocation));
 		if (block == Blocks.lever){
-			Blocks.lever.onBlockActivated(worldObj, xCoord + switchLocation.getX(), yCoord + switchLocation.getY(), zCoord + switchLocation.getZ(), null, 0, 0, 0, 0);
+			Blocks.lever.onBlockActivated(worldObj, pos.add(switchLocation), block, null, EnumFacing.UP, 0, 0, 0);
 		}
 	}
 
@@ -640,12 +643,12 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 		if (!worldObj.isRemote){
 			AMDataWriter writer = new AMDataWriter();
-			writer.add(xCoord);
-			writer.add(yCoord);
-			writer.add(zCoord);
+			writer.add(pos.getX());
+			writer.add(pos.getY());
+			writer.add(pos.getZ());
 			writer.add(COMPONENT_ADDED);
 			writer.add(stack);
-			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 32, AMPacketIDs.CRAFTING_ALTAR_DATA, writer.generate());
+			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(worldObj.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 32, AMPacketIDs.CRAFTING_ALTAR_DATA, writer.generate());
 		}
 
 		if (matchCurrentRecipe()){
@@ -707,7 +710,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private List<EntityItem> lookForValidItems(){
 		if (!isCrafting) return new ArrayList<EntityItem>();
 		double radius = worldObj.isRemote ? 2.1 : 2;
-		List<EntityItem> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(xCoord - radius, yCoord - 3, zCoord - radius, xCoord + radius, yCoord, zCoord + radius));
+		List<EntityItem> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos.add(-radius, -3, -radius), pos.add(radius, 0, radius)));
 		return items;
 	}
 
@@ -718,8 +721,8 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		}
 		checkCounter = 0;
 
-		boolean primaryvalid = primary.checkStructure(worldObj, xCoord, yCoord, zCoord);
-		boolean secondaryvalid = secondary.checkStructure(worldObj, xCoord, yCoord, zCoord);
+		boolean primaryvalid = primary.checkStructure(worldObj, pos);
+		boolean secondaryvalid = secondary.checkStructure(worldObj, pos);
 		if (!primaryvalid && !secondaryvalid){
 			if (isCrafting) setCrafting(false);
 		}
@@ -731,20 +734,20 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			ArrayList<StructureGroup> augmatlGroups = null;
 			ArrayList<StructureGroup> mainmatlGroups = null;
 			if (primaryvalid){
-				lecternGroups = primary.getMatchedGroups(lectern_mutex, worldObj, xCoord, yCoord, zCoord);
-				augmatlGroups = primary.getMatchedGroups(augmatl_mutex, worldObj, xCoord, yCoord, zCoord);
-				mainmatlGroups = primary.getMatchedGroups(MultiblockStructureDefinition.MAINGROUP_MUTEX, worldObj, xCoord, yCoord, zCoord);
+				lecternGroups = primary.getMatchedGroups(lectern_mutex, worldObj, pos);
+				augmatlGroups = primary.getMatchedGroups(augmatl_mutex, worldObj, pos);
+				mainmatlGroups = primary.getMatchedGroups(MultiblockStructureDefinition.MAINGROUP_MUTEX, worldObj, pos);
 			}else if (secondaryvalid){
-				lecternGroups = secondary.getMatchedGroups(lectern_mutex, worldObj, xCoord, yCoord, zCoord);
-				augmatlGroups = secondary.getMatchedGroups(augmatl_mutex, worldObj, xCoord, yCoord, zCoord);
-				mainmatlGroups = secondary.getMatchedGroups(MultiblockStructureDefinition.MAINGROUP_MUTEX, worldObj, xCoord, yCoord, zCoord);
+				lecternGroups = secondary.getMatchedGroups(lectern_mutex, worldObj, pos);
+				augmatlGroups = secondary.getMatchedGroups(augmatl_mutex, worldObj, pos);
+				mainmatlGroups = secondary.getMatchedGroups(MultiblockStructureDefinition.MAINGROUP_MUTEX, worldObj, pos);
 			}
 			if (lecternGroups != null && lecternGroups.size() > 0){
 				StructureGroup group = lecternGroups.get(0);
-				HashMap<BlockCoord, ArrayList<BlockDec>> blocks = group.getAllowedBlocks();
+				HashMap<BlockPos, ArrayList<BlockDec>> blocks = group.getAllowedBlocks();
 
-				for (BlockCoord bc : blocks.keySet()){
-					Block block = worldObj.getBlock(xCoord + bc.getX(), yCoord + bc.getY(), zCoord + bc.getZ());
+				for (BlockPos bc : blocks.keySet()){
+					Block block = worldObj.getBlockState(pos.add(bc)).getBlock();
 					if (block == BlocksCommonProxy.blockLectern){
 						podiumLocation = bc;
 					}else if (block == Blocks.lever){
@@ -789,7 +792,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private void checkForStartCondition(){
 		if (this.worldObj.isRemote || !structureValid || this.isCrafting) return;
 
-		List<Entity> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(xCoord - 2, yCoord - 3, zCoord - 2, xCoord + 2, yCoord, zCoord + 2));
+		List<EntityItem> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos.add(-2, -3, -2), pos.add(2, 0, 2)));
 		if (items.size() == 1){
 			EntityItem item = (EntityItem)items.get(0);
 			if (item != null && !item.isDead && item.getEntityItem().getItem() == ItemsCommonProxy.rune && item.getEntityItem().getItemDamage() == ItemsCommonProxy.rune.META_BLANK){
@@ -804,7 +807,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 		double radius = worldObj.isRemote ? 2.2 : 2;
 
-		List<Entity> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(xCoord - radius, yCoord - 3, zCoord - radius, xCoord + radius, yCoord, zCoord + radius));
+		List<EntityItem> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos.add(-radius, -3, -radius), pos.add(radius, 0, radius)));
 		if (items.size() == 1){
 			EntityItem item = (EntityItem)items.get(0);
 			if (item != null && !item.isDead && item.getEntityItem() != null && item.getEntityItem().getItem() == ItemsCommonProxy.spellParchment){
@@ -812,21 +815,21 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 					item.setDead();
 					setCrafting(false);
 					EntityItem craftedItem = new EntityItem(worldObj);
-					craftedItem.setPosition(xCoord + 0.5, yCoord - 1.5, zCoord + 0.5);
+					craftedItem.setPosition(pos.getX() + 0.5, pos.getY() - 1.5, pos.getZ() + 0.5);
 
 					ItemStack craftStack = SpellUtils.instance.createSpellStack(shapeGroups, spellDef);
 					if (!craftStack.hasTagCompound())
-						craftStack.stackTagCompound = new NBTTagCompound();
+						craftStack.setTagCompound(new NBTTagCompound());
 					AddSpecialMetadata(craftStack);
 
-					craftStack.stackTagCompound.setString("suggestedName", currentSpellName != null ? currentSpellName : "");
+					craftStack.getTagCompound().setString("suggestedName", currentSpellName != null ? currentSpellName : "");
 					craftedItem.setEntityItemStack(craftStack);
 					worldObj.spawnEntityInWorld(craftedItem);
 
 					allAddedItems.clear();
 					currentAddedItems.clear();
 				}else{
-					worldObj.playSound(xCoord, yCoord, zCoord, "arsmagica2:misc.craftingaltar.create_spell", 1.0f, 1.0f, true);
+					worldObj.playSound(pos.getX(), pos.getY(), pos.getZ(), "arsmagica2:misc.craftingaltar.create_spell", 1.0f, 1.0f, true);
 				}
 			}
 		}
@@ -849,12 +852,12 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		this.isCrafting = crafting;
 		if (!worldObj.isRemote){
 			AMDataWriter writer = new AMDataWriter();
-			writer.add(xCoord);
-			writer.add(yCoord);
-			writer.add(zCoord);
+			writer.add(pos.getX());
+			writer.add(pos.getY());
+			writer.add(pos.getZ());
 			writer.add(CRAFTING_CHANGED);
 			writer.add(crafting);
-			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 32, AMPacketIDs.CRAFTING_ALTAR_DATA, writer.generate());
+			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(worldObj.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 32, AMPacketIDs.CRAFTING_ALTAR_DATA, writer.generate());
 		}
 		if (crafting){
 			allAddedItems.clear();
@@ -878,7 +881,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private void setStructureValid(boolean valid){
 		if (this.structureValid == valid) return;
 		this.structureValid = valid;
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		worldObj.markBlockForUpdate(pos);
 	}
 
 	public void deactivate(){
@@ -888,7 +891,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 				if (stack.getItem() == ItemsCommonProxy.essence && stack.getItemDamage() > ItemsCommonProxy.essence.META_MAX)
 					continue;
 				EntityItem eItem = new EntityItem(worldObj);
-				eItem.setPosition(xCoord, yCoord - 1, zCoord);
+				eItem.setPosition(pos.getX(), pos.getY() - 1, pos.getZ());
 				eItem.setEntityItemStack(stack);
 				worldObj.spawnEntityInWorld(eItem);
 			}
@@ -1092,13 +1095,13 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		this.writeToNBT(compound);
-		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
+		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(pos, worldObj.getBlockState(pos).getBlock().getMetaFromState(worldObj.getBlockState(pos)), compound);
 		return packet;
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 }

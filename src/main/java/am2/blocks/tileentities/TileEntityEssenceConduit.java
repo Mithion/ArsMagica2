@@ -1,8 +1,7 @@
 package am2.blocks.tileentities;
 
+import net.minecraft.util.EnumFacing.Axis;
 import am2.api.power.PowerTypes;
-
-import java.util.Random;
 
 public class TileEntityEssenceConduit extends TileEntityAMPower{
 
@@ -25,7 +24,7 @@ public class TileEntityEssenceConduit extends TileEntityAMPower{
 	}
 
 	@Override
-	public void updateEntity(){
+	public void update(){
 		if (isFirstTick) {
 			rotationX = worldObj.rand.nextInt(360);
 			rotationY = worldObj.rand.nextInt(360);
@@ -35,19 +34,19 @@ public class TileEntityEssenceConduit extends TileEntityAMPower{
 			rotationIncrementZ = worldObj.rand.nextFloat() * 0.002f + 0.005f;
 			isFirstTick = false;
 		}
-		if (worldObj != null && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)){
+		if (worldObj != null && worldObj.isBlockIndirectlyGettingPowered(pos) > 0){
 			redstonePowered = true;
 		}else{
 			redstonePowered = false;
 		}
-		super.updateEntity();
+		super.update();
 	}
 
 	@Override
-	public float particleOffset(int axis){
-		int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+	public float particleOffset(Axis axis){
+		int meta = worldObj.getBlockState(pos).getBlock().getMetaFromState(worldObj.getBlockState(pos));
 
-		if (axis == 0){
+		if (axis.equals(Axis.X)){
 			switch (meta){
 			case 6:
 				return 0.8f;
@@ -56,7 +55,7 @@ public class TileEntityEssenceConduit extends TileEntityAMPower{
 			default:
 				return 0.5f;
 			}
-		}else if (axis == 1){
+		}else if (axis.equals(Axis.Y)){
 			switch (meta){
 			case 1:
 				return 0.2f;
@@ -65,7 +64,7 @@ public class TileEntityEssenceConduit extends TileEntityAMPower{
 			default:
 				return 0.5f;
 			}
-		}else if (axis == 2){
+		}else if (axis.equals(Axis.Z)){
 			switch (meta){
 			case 4:
 				return 0.8f;

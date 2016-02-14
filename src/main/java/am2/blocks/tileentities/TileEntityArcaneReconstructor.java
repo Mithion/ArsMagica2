@@ -1,5 +1,21 @@
 package am2.blocks.tileentities;
 
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
+import net.minecraft.util.IChatComponent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.Constants;
 import am2.AMCore;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.events.ReconstructorRepairEvent;
@@ -12,19 +28,6 @@ import am2.particles.AMParticle;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleFloatUpward;
 import am2.power.PowerNodeRegistry;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.Constants;
 
 public class TileEntityArcaneReconstructor extends TileEntityAMPower implements IInventory, ISidedInventory, IKeystoneLockable{
 
@@ -61,27 +64,27 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 	}
 
 	@Override
-	public float particleOffset(int axis){
-		if (axis == 1)
+	public float particleOffset(Axis axis){
+		if (axis.equals(Axis.Y))
 			return 0.25f;
 		return 0.5f;
 	}
-
+	
 	@Override
 	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		writeToNBT(compound);
-		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
+		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(pos, worldObj.getBlockState(pos).getBlock().getMetaFromState(worldObj.getBlockState(pos)), compound);
 		return packet;
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
-	public void updateEntity(){
+	public void update(){
 		if (isFirstTick) {
 			outerRingRotationSpeeds = new AMVector3(worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2);
 			middleRingRotationSpeeds = new AMVector3(worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2, worldObj.rand.nextDouble() * 4 - 2);
@@ -103,13 +106,13 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 				deactivationDelayTicks = 0;
 				this.active = false;
 				if (!worldObj.isRemote)
-					worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+					worldObj.markBlockForUpdate(pos);
 			}
 		}
 		if (worldObj.isRemote){
 			updateRotations();
 			if (shouldRenderItemStack()){
-				AMParticle p = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "sparkle2", xCoord + 0.2 + (worldObj.rand.nextDouble() * 0.6), yCoord + 0.4, zCoord + 0.2 + (worldObj.rand.nextDouble() * 0.6));
+				AMParticle p = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "sparkle2", pos.getX() + 0.2 + (worldObj.rand.nextDouble() * 0.6), pos.getY() + 0.4, pos.getZ() + 0.2 + (worldObj.rand.nextDouble() * 0.6));
 				if (p != null){
 					p.AddParticleController(new ParticleFloatUpward(p, 0.0f, 0.02f, 1, false));
 					p.setIgnoreMaxAge(true);
@@ -120,7 +123,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 			}
 		}
 
-		super.updateEntity();
+		super.update();
 	}
 
 	public AMVector3 getOuterRingRotationSpeed(){
@@ -237,7 +240,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 			if (!active) {
 				this.active = true;
 				if (!worldObj.isRemote)
-					worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+					worldObj.markBlockForUpdate(pos);
 			}
 			return false;
 		}
@@ -247,13 +250,13 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 				inventory[i] = null;
 				this.active = true;
 				if (!worldObj.isRemote)
-					worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+					worldObj.markBlockForUpdate(pos);
 				return true;
 			}
 		}
 		this.active = false;
 		if (!worldObj.isRemote)
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			worldObj.markBlockForUpdate(pos);
 		return true;
 	}
 
@@ -291,7 +294,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 					break;
 				}
 			}
-			worldObj.playSound(xCoord, yCoord, zCoord, "arsmagica2:misc.reconstructor.complete", 1.0f, 1.0f, true);
+			worldObj.playSound(pos.getX(), pos.getY(), pos.getZ(), "arsmagica2:misc.reconstructor.complete", 1.0f, 1.0f, true);
 
 			return did_copy;
 		}
@@ -329,17 +332,6 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
-		if (inventory[i] != null){
-			ItemStack itemstack = inventory[i];
-			inventory[i] = null;
-			return itemstack;
-		}else{
-			return null;
-		}
-	}
-
-	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		inventory[i] = itemstack;
 		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
@@ -348,7 +340,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 	}
 
 	@Override
-	public String getInventoryName(){
+	public String getName(){
 		return "ArcaneReconstructor";
 	}
 
@@ -359,18 +351,18 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
+		if (worldObj.getTileEntity(pos) != this){
 			return false;
 		}
-		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
+		return entityplayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64D;
 	}
 
 	@Override
-	public void openInventory(){
+	public void openInventory(EntityPlayer player){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer player){
 	}
 
 	@Override
@@ -442,7 +434,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean hasCustomName(){
 		return false;
 	}
 
@@ -457,17 +449,17 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int var1){
+	public int[] getSlotsForFace(EnumFacing var1){
 		return new int[]{4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
 	}
 
 	@Override
-	public boolean canInsertItem(int i, ItemStack itemstack, int j){
+	public boolean canInsertItem(int i, ItemStack itemstack, EnumFacing j){
 		return i >= 4 && i < 10 && itemStackIsValid(itemstack);
 	}
 
 	@Override
-	public boolean canExtractItem(int i, ItemStack itemstack, int j){
+	public boolean canExtractItem(int i, ItemStack itemstack, EnumFacing j){
 		return i >= 10 && i < 16;
 	}
 
@@ -499,5 +491,41 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 	@Override
 	public boolean keystoneMustBeInActionBar(){
 		return false;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		return null;
+	}
+
+	@Override
+	public ItemStack removeStackFromSlot(int index) {
+		ItemStack stack = inventory[index].copy();
+		inventory[index] = null;
+		return stack;
+	}
+
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -28,7 +28,6 @@ import am2.AMCore;
 import am2.blocks.tileentities.TileEntityEverstone;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
-import am2.texture.ResourceManager;
 
 import com.google.common.collect.Lists;
 
@@ -104,7 +103,7 @@ public class BlockEverstone extends PoweredBlock{
 			if (player.getHeldItem().getItem() == ItemsCommonProxy.crystalWrench){
 				if (!world.isRemote){
 					if (everstone.getFacade() != null){
-						everstone.setFacade(null, -1);
+						everstone.setFacade(null);
 						return true;
 					}else{
 						world.setBlockToAir(pos);
@@ -120,7 +119,7 @@ public class BlockEverstone extends PoweredBlock{
 				}
 			}
 			if (everstone.getFacade() == null && block != null){
-				everstone.setFacade(block, meta);
+				everstone.setFacade(block.getStateFromMeta(meta));
 				world.notifyBlockOfStateChange(pos, this);
 				return true;
 			}
@@ -172,9 +171,9 @@ public class BlockEverstone extends PoweredBlock{
 	public float getBlockHardness(World world, BlockPos pos){
 		TileEntityEverstone everstone = getTE(world, pos);
 		if (everstone == null) return this.blockHardness;
-		Block block = everstone.getFacade();
+		IBlockState block = everstone.getFacade();
 		if (block == null || block == this) return this.blockHardness;
-		return block.getBlockHardness(world, pos);
+		return block.getBlock().getBlockHardness(world, pos);
 	}
 	
 	@Override
@@ -185,15 +184,15 @@ public class BlockEverstone extends PoweredBlock{
 		TileEntityEverstone everstone = getTE(world, pos);
 
 		for (int i = 0; i < 5 * AMCore.config.getGFXLevel(); ++i){
-			Block block = Blocks.air;
+			IBlockState block = Blocks.air.getDefaultState();
 			if (everstone == null || everstone.getFacade() == null){
-				block = this;
+				block = this.getDefaultState();
 			}else{
 				block = everstone.getFacade();
-				if (block == null) block = this;
+				if (block == null) block = this.getDefaultState();
 			}
 
-			effectRenderer.addBlockDestroyEffects(pos, block.getDefaultState());
+			effectRenderer.addBlockDestroyEffects(pos, block);
 
 		}
 
@@ -204,18 +203,14 @@ public class BlockEverstone extends PoweredBlock{
 	@SideOnly(Side.CLIENT)
 	public boolean addHitEffects(World worldObj, MovingObjectPosition target, EffectRenderer effectRenderer){
 		TileEntityEverstone everstone = getTE(worldObj, target.getBlockPos());
-		AMParticle particle;
-		Block block;
-		int blockMeta = 0;
+		IBlockState block;
 		if (everstone == null || everstone.getFacade() == null){
-			block = this;
+			block = this.getDefaultState();
 		}else{
 			block = everstone.getFacade();
-			if (block == null) block = this;
-			blockMeta = everstone.getFacadeMeta();
+			if (block == null) block = this.getDefaultState();
 		}
-		effectRenderer.addBlockHitEffects(target.getBlockPos(), target.sideHit);
-
+		effectRenderer.addBlockHitEffects(target.getBlockPos(), target);
 		return true;
 	}
 }

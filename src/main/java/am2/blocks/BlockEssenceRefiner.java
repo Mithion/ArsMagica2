@@ -30,15 +30,16 @@ public class BlockEssenceRefiner extends PoweredBlock{
 		setHardness(2.0f);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean onBlockActivated(World par1World, BlockPos pos, IBlockState state, EntityPlayer par5EntityPlayer, EnumFacing par6, float par7, float par8, float par9){
 		if (this.handleSpecialItems(par1World, par5EntityPlayer, pos)){
 			return true;
 		}
 		if (!par1World.isRemote){
-			if (KeystoneUtilities.HandleKeystoneRecovery(par5EntityPlayer, ((IKeystoneLockable)par1World.getTileEntity(pos))))
+			if (KeystoneUtilities.HandleKeystoneRecovery(par5EntityPlayer, ((IKeystoneLockable<TileEntityEssenceRefiner>)par1World.getTileEntity(pos))))
 				return true;
-			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)par1World.getTileEntity(pos), par5EntityPlayer, KeystoneAccessType.USE)){
+			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable<TileEntityEssenceRefiner>)par1World.getTileEntity(pos), par5EntityPlayer, KeystoneAccessType.USE)){
 				super.onBlockActivated(par1World, pos, state, par5EntityPlayer, par6, par7, par8, par9);
 				par5EntityPlayer.openGui(AMCore.instance, ArsMagicaGuiIdList.GUI_ESSENCE_REFINER, par1World, pos.getX(), pos.getY(), pos.getZ());
 			}
@@ -61,9 +62,10 @@ public class BlockEssenceRefiner extends PoweredBlock{
 		return stack;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player, boolean willHarvest){
-		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(pos);
+		IKeystoneLockable<TileEntityEssenceRefiner> lockable = (IKeystoneLockable<TileEntityEssenceRefiner>)world.getTileEntity(pos);
 		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player, KeystoneAccessType.BREAK)) return false;
 
 		return super.removedByPlayer(world, pos, player, willHarvest);

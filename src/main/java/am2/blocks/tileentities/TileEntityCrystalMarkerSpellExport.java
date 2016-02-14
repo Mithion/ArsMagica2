@@ -9,11 +9,12 @@ import am2.particles.ParticleFloatUpward;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ITickable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class TileEntityCrystalMarkerSpellExport extends TileEntityCrystalMarker{
+public class TileEntityCrystalMarkerSpellExport extends TileEntityCrystalMarker implements ITickable{
 	static final int RESCAN_INTERVAL = 600;
 	static final int UPDATE_INTERVAL = 100;
 
@@ -30,13 +31,7 @@ public class TileEntityCrystalMarkerSpellExport extends TileEntityCrystalMarker{
 	}
 
 	@Override
-	public boolean canUpdate(){
-		return true;
-	}
-
-	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
 		if (this.updateCounter % RESCAN_INTERVAL == 0){
 			scanForCraftingAltars();
 		}
@@ -51,7 +46,7 @@ public class TileEntityCrystalMarkerSpellExport extends TileEntityCrystalMarker{
 
 	private void spawnParticles(){
 		for (int i = 0; i < 15; ++i){
-			AMParticle effect = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "sparkle2", xCoord, yCoord, zCoord);
+			AMParticle effect = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "sparkle2", pos.getX(), pos.getY(), pos.getZ());
 			if (effect != null){
 				effect.AddParticleController(new ParticleFloatUpward(effect, 0, worldObj.rand.nextFloat() * 0.1f, 1, false));
 				effect.AddParticleController(new ParticleFadeOut(effect, 2, false).setFadeSpeed(0.035f).setKillParticleOnFinish(true));
@@ -70,9 +65,9 @@ public class TileEntityCrystalMarkerSpellExport extends TileEntityCrystalMarker{
 					if (i == 0 && j == 0 && k == 0)
 						continue;
 
-					Block block = this.worldObj.getBlock(this.xCoord + i, this.yCoord + j, this.zCoord + k);
+					Block block = this.worldObj.getBlockState(pos.add(i, j, k)).getBlock();
 					if (block == BlocksCommonProxy.craftingAltar){
-						craftingAltarCache.add(new AMVector3(xCoord + i, yCoord + j, zCoord + k));
+						craftingAltarCache.add(new AMVector3(pos.add(i, j, k)));
 					}
 				}
 			}
@@ -100,7 +95,7 @@ public class TileEntityCrystalMarkerSpellExport extends TileEntityCrystalMarker{
 	}
 
 	private TileEntityCraftingAltar getCATE(AMVector3 vec){
-		TileEntity te = this.worldObj.getTileEntity((int)vec.x, (int)vec.y, (int)vec.z);
+		TileEntity te = this.worldObj.getTileEntity(vec.toBlockPos());
 		if (te != null && te instanceof TileEntityCraftingAltar)
 			return (TileEntityCraftingAltar)te;
 

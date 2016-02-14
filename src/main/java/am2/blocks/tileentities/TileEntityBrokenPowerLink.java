@@ -7,11 +7,6 @@ public class TileEntityBrokenPowerLink extends TileEntity{
 
 	private String highlightText = "";
 
-	@Override
-	public boolean canUpdate(){
-		return false;
-	}
-
 	public void setHighlightText(String text){
 		this.highlightText = text;
 	}

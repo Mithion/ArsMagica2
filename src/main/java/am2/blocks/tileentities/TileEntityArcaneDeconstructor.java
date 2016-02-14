@@ -27,11 +27,13 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.ArrayList;
 
-public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements IInventory, ISidedInventory, IKeystoneLockable{
+public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements ISidedInventory, IKeystoneLockable{
 
 	private int particleCounter;
 	private static final float DECONSTRUCTION_POWER_COST = 1.25f; //power cost per tick
@@ -61,15 +63,15 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 	public int getChargeRate(){
 		return 250;
 	}
-
+	
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
+		super.update();
 
 		if (worldObj.isRemote){
 			if (particleCounter == 0 || particleCounter++ > 1000){
 				particleCounter = 1;
-				radiant = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "radiant", xCoord + 0.5f, yCoord + 0.5f, zCoord + 0.5f);
+				radiant = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "radiant", pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f);
 				if (radiant != null){
 					radiant.setMaxAge(1000);
 					radiant.setRGBColorF(0.1f, 0.1f, 0.1f);
@@ -86,7 +88,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 				if (inventory[0] == null){
 					current_deconstruction_time = 0;
 					deconstructionRecipe = null;
-					worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+					worldObj.markBlockForUpdate(pos);
 				}else{
 					if (PowerNodeRegistry.For(worldObj).checkPower(this, PowerTypes.DARK, DECONSTRUCTION_POWER_COST)){
 						if (deconstructionRecipe == null){
@@ -106,7 +108,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 								current_deconstruction_time = 0;
 							}
 							if (current_deconstruction_time % 10 == 0)
-								worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+								worldObj.markBlockForUpdate(pos);
 						}
 						PowerNodeRegistry.For(worldObj).consumePower(this, PowerTypes.DARK, DECONSTRUCTION_POWER_COST);
 					}
@@ -242,9 +244,9 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 				for (int k = -1; k <= 1; ++k){
 					if (i == 0 && j == 0 && k == 0)
 						continue;
-					TileEntity te = worldObj.getTileEntity(xCoord + i, yCoord + j, zCoord + k);
+					TileEntity te = worldObj.getTileEntity(pos.add(i, j, k));
 					if (te != null && te instanceof IInventory){
-						for (int side = 0; side < 6; ++side){
+						for (EnumFacing side : EnumFacing.values()){
 							if (InventoryUtilities.mergeIntoInventory((IInventory)te, stack, stack.stackSize, side))
 								return;
 						}
@@ -255,7 +257,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 
 		//eject the remainder
 		EntityItem item = new EntityItem(worldObj);
-		item.setPosition(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5);
+		item.setPosition(pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5);
 		item.setEntityItemStack(stack);
 		worldObj.spawnEntityInWorld(item);
 	}
@@ -296,32 +298,11 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
-		if (inventory[i] != null){
-			ItemStack itemstack = inventory[i];
-			inventory[i] = null;
-			return itemstack;
-		}else{
-			return null;
-		}
-	}
-
-	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		inventory[i] = itemstack;
 		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
 			itemstack.stackSize = getInventoryStackLimit();
 		}
-	}
-
-	@Override
-	public String getInventoryName(){
-		return "ArcaneDeconstructor";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName(){
-		return false;
 	}
 
 	@Override
@@ -331,38 +312,15 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
+		if (worldObj.getTileEntity(pos) != this){
 			return false;
 		}
-		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
-	}
-
-	@Override
-	public void openInventory(){
-	}
-
-	@Override
-	public void closeInventory(){
+		return entityplayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64D;
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack){
 		return i <= 9;
-	}
-
-	@Override
-	public int[] getAccessibleSlotsFromSide(int var1){
-		return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-	}
-
-	@Override
-	public boolean canInsertItem(int i, ItemStack itemstack, int j){
-		return i == 0;
-	}
-
-	@Override
-	public boolean canExtractItem(int i, ItemStack itemstack, int j){
-		return i >= 1 && i <= 9;
 	}
 
 	@Override
@@ -430,5 +388,75 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 
 	public int getProgressScaled(int i){
 		return current_deconstruction_time * i / DECONSTRUCTION_TIME;
+	}
+
+	@Override
+	public ItemStack removeStackFromSlot(int index) {
+		ItemStack stack = inventory[index].copy();
+		inventory[index] = null;
+		return stack;
+	}
+
+	@Override
+	public void openInventory(EntityPlayer player) {
+	}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {
+	}
+
+	@Override
+	public int getField(int id) {
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+	}
+
+	@Override
+	public int getFieldCount() {
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		for (int i = 0; i < getSizeInventory(); i++)
+			inventory[i] = null;
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return "ArcaneDeconstructor";
+	}
+
+	@Override
+	public boolean hasCustomName() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int[] getSlotsForFace(EnumFacing side) {
+		return null;
+	}
+
+	@Override
+	public boolean canInsertItem(int index, ItemStack itemStackIn,
+			EnumFacing direction) {
+		return index == 0;
+	}
+
+	@Override
+	public boolean canExtractItem(int index, ItemStack stack,
+			EnumFacing direction) {
+		return index >= 1 && index <= 9;
 	}
 }

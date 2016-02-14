@@ -74,10 +74,10 @@ public class MultiblockStructureDefinition{
 			return allowedBlocks.get(coord);
 		}
 
-		boolean matchGroup(World world, int originX, int originY, int originZ){
+		boolean matchGroup(World world, BlockPos pos){
 			for (BlockPos offset : allowedBlocks.keySet()){
-				Block block = world.getBlockState(new BlockPos (originX, originY, originZ).add(offset)).getBlock();
-				int meta = block.getMetaFromState(world.getBlockState(new BlockPos (originX, originY, originZ).add(offset)));
+				Block block = world.getBlockState(pos.add(offset)).getBlock();
+				int meta = block.getMetaFromState(world.getBlockState(pos.add(offset)));
 				ArrayList<BlockDec> positionReplacements = allowedBlocks.get(offset);
 				boolean valid = false;
 				for (BlockDec bd : positionReplacements){
@@ -287,11 +287,11 @@ public class MultiblockStructureDefinition{
 		return copyGroup(originalName, destinationName, -1);
 	}
 
-	public ArrayList<StructureGroup> getMatchedGroups(int mutex, World world, int originX, int originY, int originZ){
+	public ArrayList<StructureGroup> getMatchedGroups(int mutex, World world, BlockPos pos){
 		ArrayList<StructureGroup> toReturn = new ArrayList<StructureGroup>();
 		for (StructureGroup group : blockGroups){
 			if ((group.mutex & mutex) == group.mutex){
-				if (group.matchGroup(world, originX, originY, originZ)){
+				if (group.matchGroup(world, pos)){
 					toReturn.add(group);
 				}
 			}
@@ -299,10 +299,10 @@ public class MultiblockStructureDefinition{
 		return toReturn;
 	}
 
-	private boolean matchMutex(int mutex, World world, int originX, int originY, int originZ){
+	private boolean matchMutex(int mutex, World world, BlockPos pos){
 		for (StructureGroup group : blockGroups){
 			if ((group.mutex & mutex) == group.mutex){
-				if (group.matchGroup(world, originX, originY, originZ)){
+				if (group.matchGroup(world, pos)){
 					return true;
 				}
 			}
@@ -310,10 +310,10 @@ public class MultiblockStructureDefinition{
 		return false;
 	}
 
-	public boolean checkStructure(World world, int originX, int originY, int originZ){
+	public boolean checkStructure(World world, BlockPos pos){
 		boolean valid = true;
 		for (int i : mutexCache){
-			valid &= matchMutex(i, world, originX, originY, originZ);
+			valid &= matchMutex(i, world, pos);
 			if (!valid) break;
 		}
 		return valid;

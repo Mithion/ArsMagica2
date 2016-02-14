@@ -25,6 +25,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 	}
 
 	protected void checkNearbyBlockState(){
-		ArrayList<StructureGroup> groups = structure.getMatchedGroups(7, worldObj, xCoord, yCoord, zCoord);
+		ArrayList<StructureGroup> groups = structure.getMatchedGroups(7, worldObj, pos);
 
 		float capsLevel = 1;
 		boolean pillarsFound = false;
@@ -148,7 +149,7 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 	}
 
 	protected void callSuperUpdate(){
-		super.updateEntity();
+		super.update();
 	}
 
 	private void setMaxBurnTime(int burnTime){
@@ -161,13 +162,13 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		this.writeToNBT(compound);
-		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
+		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(pos, worldObj.getBlockState(pos).getBlock().getMetaFromState(worldObj.getBlockState(pos)), compound);
 		return packet;
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	private void sendCookUpdateToClients(){
@@ -183,7 +184,7 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 	}
 
 	@Override
-	public void updateEntity(){
+	public void update(){
 		surroundingCheckTicks++;
 
 		if (isActive()){
@@ -191,7 +192,7 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 				checkNearbyBlockState();
 				surroundingCheckTicks = 1;
 				if (!worldObj.isRemote && PowerNodeRegistry.For(this.worldObj).checkPower(this, this.capacity * 0.1f)){
-					List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.xCoord - 2, this.yCoord, this.zCoord - 2, this.xCoord + 2, this.yCoord + 3, this.zCoord + 2));
+					List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(pos.add(-2,  0, -2), pos.add(2, 3, 2)));
 					for (EntityPlayer p : nearbyPlayers){
 						if (p.isPotionActive(BuffList.manaRegen.id)) continue;
 						p.addPotionEffect(new BuffEffectManaRegen(600, 2));
@@ -237,13 +238,13 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 
 		}
 
-		super.updateEntity();
+		super.update();
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox(){
-		return new AxisAlignedBB(xCoord - 1, yCoord, zCoord - 1, xCoord + 2, yCoord + 0.3, zCoord + 2);
+		return new AxisAlignedBB(pos.add(-1, 0, -1), pos.add(2, 0.3D, 2));
 	}
 
 	@Override
@@ -344,7 +345,7 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
+	public ItemStack removeStackFromSlot(int i){
 		if (inventory[i] != null){
 			ItemStack itemstack = inventory[i];
 			inventory[i] = null;
@@ -363,12 +364,12 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 	}
 
 	@Override
-	public String getInventoryName(){
+	public String getName(){
 		return "obelisk";
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean hasCustomName(){
 		return false;
 	}
 
@@ -376,21 +377,21 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 	public int getInventoryStackLimit(){
 		return 64;
 	}
-
+	
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
+		if (worldObj.getTileEntity(pos) != this){
 			return false;
 		}
-		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
+		return entityplayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64D;
 	}
 
 	@Override
-	public void openInventory(){
+	public void openInventory(EntityPlayer player){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer player){
 	}
 
 	@Override
@@ -401,5 +402,28 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 	@Override
 	public boolean canRelayPower(PowerTypes type){
 		return false;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		return null;
+	}
+
+	@Override
+	public int getField(int id) {
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+	}
+
+	@Override
+	public int getFieldCount() {
+		return 0;
+	}
+
+	@Override
+	public void clear() {
 	}
 }

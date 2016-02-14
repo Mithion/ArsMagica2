@@ -83,7 +83,7 @@ public class TileEntityCelestialPrism extends TileEntityObelisk implements IMult
 
 	@Override
 	protected void checkNearbyBlockState(){
-		ArrayList<StructureGroup> groups = structure.getMatchedGroups(7, worldObj, xCoord, yCoord, zCoord);
+		ArrayList<StructureGroup> groups = structure.getMatchedGroups(7, worldObj, pos);
 
 		float capsLevel = 1;
 		boolean pillarsFound = false;
@@ -122,13 +122,13 @@ public class TileEntityCelestialPrism extends TileEntityObelisk implements IMult
 	}
 
 	@Override
-	public void updateEntity(){
+	public void update(){
 
 		if (surroundingCheckTicks++ % 100 == 0){
 			checkNearbyBlockState();
 			surroundingCheckTicks = 1;
 			if (!worldObj.isRemote && PowerNodeRegistry.For(this.worldObj).checkPower(this, this.capacity * 0.1f)){
-				List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.xCoord - 2, this.yCoord, this.zCoord - 2, this.xCoord + 2, this.yCoord + 3, this.zCoord + 2));
+				List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(pos.add(-2, 0, -2), pos.add(2, 3, 2)));
 				for (EntityPlayer p : nearbyPlayers){
 					if (p.isPotionActive(BuffList.manaRegen.id)) continue;
 					p.addPotionEffect(new BuffEffectManaRegen(600, 1));
@@ -142,7 +142,7 @@ public class TileEntityCelestialPrism extends TileEntityObelisk implements IMult
 
 				if (particleCounter++ % 180 == 0){
 					particleCounter = 1;
-					AMCore.proxy.particleManager.RibbonFromPointToPoint(worldObj, xCoord + worldObj.rand.nextFloat(), yCoord + (worldObj.rand.nextFloat() * 2), zCoord + worldObj.rand.nextFloat(), xCoord + worldObj.rand.nextFloat(), yCoord + (worldObj.rand.nextFloat() * 2), zCoord + worldObj.rand.nextFloat());
+					AMCore.proxy.particleManager.RibbonFromPointToPoint(worldObj, pos.getX() + worldObj.rand.nextFloat(), pos.getY() + (worldObj.rand.nextFloat() * 2), pos.getZ() + worldObj.rand.nextFloat(), pos.getX() + worldObj.rand.nextFloat(), pos.getY() + (worldObj.rand.nextFloat() * 2), pos.getZ() + worldObj.rand.nextFloat());
 				}
 			}
 		}

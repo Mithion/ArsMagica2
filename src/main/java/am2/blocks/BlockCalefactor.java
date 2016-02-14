@@ -28,6 +28,7 @@ public class BlockCalefactor extends AMSpecialRenderPoweredBlock{
 		return new TileEntityCalefactor();
 	}
 		
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
 
@@ -35,9 +36,9 @@ public class BlockCalefactor extends AMSpecialRenderPoweredBlock{
 			return true;
 		}
 		if (!world.isRemote){
-			if (KeystoneUtilities.HandleKeystoneRecovery(player, ((IKeystoneLockable)world.getTileEntity(pos))))
+			if (KeystoneUtilities.HandleKeystoneRecovery(player, ((IKeystoneLockable<TileEntityCalefactor>)world.getTileEntity(pos))))
 				return true;
-			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable)world.getTileEntity(pos), player, KeystoneAccessType.USE)){
+			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable<TileEntityCalefactor>)world.getTileEntity(pos), player, KeystoneAccessType.USE)){
 				super.onBlockActivated(world, pos, state, player, side, hitX, hitY, hitZ);
 				player.openGui(AMCore.instance, ArsMagicaGuiIdList.GUI_CALEFACTOR, world, pos.getX(), pos.getY(), pos.getZ());
 			}
@@ -84,9 +85,10 @@ public class BlockCalefactor extends AMSpecialRenderPoweredBlock{
 		super.breakBlock(world, pos, state);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player, boolean willHarvest){
-		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(pos);
+		IKeystoneLockable<TileEntityCalefactor> lockable = (IKeystoneLockable<TileEntityCalefactor>)world.getTileEntity(pos);
 		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player, KeystoneAccessType.BREAK)) return false;
 
 		return super.removedByPlayer(world, pos, player, willHarvest);

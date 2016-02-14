@@ -13,6 +13,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.util.Constants;
 
 // public class TileEntityArmorImbuer extends TileEntityAMPower implements IInventory, IKeystoneLockable, IMultiblockStructureController{
@@ -52,18 +53,26 @@ public class TileEntityArmorImbuer extends TileEntityAMPower implements IInvento
 		};
 	}
 	*/
-
+	
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer entityplayer){
+		if (worldObj.getTileEntity(pos) != this){
+			return false;
+		}
+		return entityplayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64D;
+	}
+	
 	@Override
 	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		writeToNBT(compound);
-		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
+		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(pos, worldObj.getBlockState(pos).getBlock().getMetaFromState(worldObj.getBlockState(pos)), compound);
 		return packet;
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	/*
@@ -109,17 +118,6 @@ public class TileEntityArmorImbuer extends TileEntityAMPower implements IInvento
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
-		if (inventory[i] != null){
-			ItemStack itemstack = inventory[i];
-			inventory[i] = null;
-			return itemstack;
-		}else{
-			return null;
-		}
-	}
-
-	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		inventory[i] = itemstack;
 		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
@@ -128,7 +126,7 @@ public class TileEntityArmorImbuer extends TileEntityAMPower implements IInvento
 	}
 
 	@Override
-	public String getInventoryName(){
+	public String getName(){
 		return "ArmorInfuserInventory";
 	}
 
@@ -138,20 +136,11 @@ public class TileEntityArmorImbuer extends TileEntityAMPower implements IInvento
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
-			return false;
-		}
-
-		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
+	public void openInventory(EntityPlayer player){
 	}
 
 	@Override
-	public void openInventory(){
-	}
-
-	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer player){
 	}
 
 	@Override
@@ -192,7 +181,7 @@ public class TileEntityArmorImbuer extends TileEntityAMPower implements IInvento
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean hasCustomName(){
 		return false;
 	}
 
@@ -212,6 +201,40 @@ public class TileEntityArmorImbuer extends TileEntityAMPower implements IInvento
 
 	public void setCreativeModeAllowed(boolean creative){
 		this.creativeModeAllowed = creative;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		return null;
+	}
+
+	@Override
+	public ItemStack removeStackFromSlot(int index) {
+		if (inventory[index] != null){
+			ItemStack itemstack = inventory[index];
+			inventory[index] = null;
+			return itemstack;
+		}else{
+			return null;
+		}
+	}
+
+	@Override
+	public int getField(int id) {
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+	}
+
+	@Override
+	public int getFieldCount() {
+		return 0;
+	}
+
+	@Override
+	public void clear() {
 	}
 
 }

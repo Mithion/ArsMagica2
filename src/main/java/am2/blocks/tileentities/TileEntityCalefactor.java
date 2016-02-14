@@ -1,17 +1,5 @@
 package am2.blocks.tileentities;
 
-import am2.AMCore;
-import am2.api.blocks.IKeystoneLockable;
-import am2.api.power.PowerTypes;
-import am2.items.ItemFocusCharge;
-import am2.items.ItemFocusMana;
-import am2.items.ItemsCommonProxy;
-import am2.network.AMDataReader;
-import am2.network.AMDataWriter;
-import am2.network.AMNetHandler;
-import am2.particles.AMParticle;
-import am2.particles.ParticleFloatUpward;
-import am2.power.PowerNodeRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -24,9 +12,21 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.util.Constants;
-
-import java.util.Random;
+import am2.AMCore;
+import am2.api.blocks.IKeystoneLockable;
+import am2.api.power.PowerTypes;
+import am2.items.ItemFocusCharge;
+import am2.items.ItemFocusMana;
+import am2.items.ItemsCommonProxy;
+import am2.network.AMDataReader;
+import am2.network.AMDataWriter;
+import am2.network.AMNetHandler;
+import am2.particles.AMParticle;
+import am2.particles.ParticleFloatUpward;
+import am2.power.PowerNodeRegistry;
 
 public class TileEntityCalefactor extends TileEntityAMPower implements IInventory, ISidedInventory, IKeystoneLockable{
 
@@ -48,42 +48,6 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 		calefactorItemStacks = new ItemStack[getSizeInventory()];
 
 		isCooking = false;
-	}
-
-	@Override
-	public float particleOffset(int axis){
-		int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-
-		if (axis == 0){
-			switch (meta){
-			case 6:
-				return 0.25f;
-			case 5:
-				return 0.75f;
-			default:
-				return 0.5f;
-			}
-		}else if (axis == 1){
-			switch (meta){
-			case 1:
-				return 0.75f;
-			case 2:
-				return 0.25f;
-			default:
-				return 0.5f;
-			}
-		}else if (axis == 2){
-			switch (meta){
-			case 4:
-				return 0.25f;
-			case 3:
-				return 0.75f;
-			default:
-				return 0.5f;
-			}
-		}
-
-		return 0.5f;
 	}
 
 	public void incrementRotations(){
@@ -123,7 +87,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 		if (this.calefactorItemStacks[0] == null){
 			return false;
 		}else{
-			ItemStack var1 = FurnaceRecipes.smelting().getSmeltingResult(this.calefactorItemStacks[0]);
+			ItemStack var1 = FurnaceRecipes.instance().getSmeltingResult(this.calefactorItemStacks[0]);
 			if (var1 == null) return false;
 			if (this.calefactorItemStacks[1] == null) return true;
 			if (!this.calefactorItemStacks[1].isItemEqual(var1)) return false;
@@ -134,7 +98,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 
 	public void smeltItem(){
 		if (this.canSmelt()){
-			ItemStack var1 = FurnaceRecipes.smelting().getSmeltingResult(this.calefactorItemStacks[0]);
+			ItemStack var1 = FurnaceRecipes.instance().getSmeltingResult(this.calefactorItemStacks[0]);
 
 			ItemStack smeltStack = var1.copy();
 
@@ -234,8 +198,8 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	}
 
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
+		super.update();
 		if (isFirstTick) {
 			rotationStepX = worldObj.rand.nextFloat() * 0.03f - 0.015f;
 			isFirstTick = false;
@@ -247,13 +211,13 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 				particleCount--;
 				if (particleCount <= 0){
 					particleCount = (int)(Math.random() * 20);
-					double rStartX = Math.random() > 0.5 ? this.xCoord + 0.01 : this.xCoord + 1.01;
-					double rStartY = this.yCoord + 1.1;
-					double rStartZ = Math.random() > 0.5 ? this.zCoord + 0.01 : this.zCoord + 1.01;
+					double rStartX = Math.random() > 0.5 ? this.pos.getX() + 0.01 : this.pos.getX() + 1.01;
+					double rStartY = this.pos.getY() + 1.1;
+					double rStartZ = Math.random() > 0.5 ? this.pos.getZ() + 0.01 : this.pos.getZ() + 1.01;
 
-					double endX = this.xCoord + 0.5f;
-					double endY = this.yCoord + 0.7f + (worldObj.rand.nextDouble() * 0.5f);
-					double endZ = this.zCoord + 0.5f;
+					double endX = this.pos.getX() + 0.5f;
+					double endY = this.pos.getY() + 0.7f + (worldObj.rand.nextDouble() * 0.5f);
+					double endZ = this.pos.getZ() + 0.5f;
 
 					AMCore.proxy.particleManager.BeamFromPointToPoint(worldObj, rStartX, rStartY, rStartZ, endX, endY, endZ, 0xFF8811);
 					if (worldObj.rand.nextBoolean()){
@@ -288,7 +252,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 				if (!this.worldObj.isRemote){
 					this.smeltItem();
 				}else{
-					worldObj.playSound(xCoord, yCoord, zCoord, "arsmagica2:misc.calefactor.burn", 0.2f, 1.0f, true);
+					worldObj.playSound(pos.getX(), pos.getY(), pos.getZ(), "arsmagica2:misc.calefactor.burn", 0.2f, 1.0f, true);
 				}
 				this.timeSpentCooking = 0;
 				if (!worldObj.isRemote){
@@ -324,10 +288,10 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
+		if (worldObj.getTileEntity(pos) != this){
 			return false;
 		}
-		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
+		return entityplayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64D;
 	}
 
 	@Override
@@ -377,7 +341,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
+	public ItemStack removeStackFromSlot(int i){
 		if (calefactorItemStacks[i] != null){
 			ItemStack itemstack = calefactorItemStacks[i];
 			calefactorItemStacks[i] = null;
@@ -396,7 +360,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	}
 
 	@Override
-	public String getInventoryName(){
+	public String getName(){
 		return "Calefactor";
 	}
 
@@ -406,11 +370,11 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	}
 
 	@Override
-	public void openInventory(){
+	public void openInventory(EntityPlayer player){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer player){
 	}
 
 	@Override
@@ -446,7 +410,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean hasCustomName(){
 		return false;
 	}
 
@@ -456,17 +420,17 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int var1){
+	public int[] getSlotsForFace(EnumFacing var1){
 		return new int[]{0, 1, 5};
 	}
 
 	@Override
-	public boolean canInsertItem(int i, ItemStack itemstack, int j){
+	public boolean canInsertItem(int i, ItemStack itemstack, EnumFacing j){
 		return i == 0;
 	}
 
 	@Override
-	public boolean canExtractItem(int i, ItemStack itemstack, int j){
+	public boolean canExtractItem(int i, ItemStack itemstack, EnumFacing j){
 		return i == 1 || i == 5;
 	}
 
@@ -509,12 +473,42 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		this.writeToNBT(compound);
-		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
+		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(pos, worldObj.getBlockState(pos).getBlock().getMetaFromState(worldObj.getBlockState(pos)), compound);
 		return packet;
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 }

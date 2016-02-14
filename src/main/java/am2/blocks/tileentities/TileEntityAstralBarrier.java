@@ -20,6 +20,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.Random;
@@ -54,25 +55,25 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 	}
 
 	public boolean IsActive(){
-		return PowerNodeRegistry.For(this.worldObj).checkPower(this, 0.35f * getRadius()) && worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && getRadius() > 0;
+		return PowerNodeRegistry.For(this.worldObj).checkPower(this, 0.35f * getRadius()) && worldObj.isBlockIndirectlyGettingPowered(pos) > 0 && getRadius() > 0;
 	}
 
 	@Override
 	public Packet getDescriptionPacket(){
 		NBTTagCompound compound = new NBTTagCompound();
 		writeToNBT(compound);
-		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, worldObj.getBlockMetadata(xCoord, yCoord, zCoord), compound);
+		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(pos, worldObj.getBlockState(pos).getBlock().getMetaFromState(worldObj.getBlockState(pos)), compound);
 		return packet;
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt){
-		this.readFromNBT(pkt.func_148857_g());
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
+		super.update();
 
 		int radius = getRadius();
 
@@ -83,12 +84,12 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 		if (worldObj.isRemote){
 			if (IsActive()){
 				if (displayAura){
-					AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "symbols", xCoord, yCoord + 0.5, zCoord);
+					AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "symbols", pos.getX(), pos.getY() + 0.5, pos.getZ());
 					if (effect != null){
 						effect.setIgnoreMaxAge(false);
 						effect.setMaxAge(100);
 						effect.setParticleScale(0.5f);
-						effect.AddParticleController(new ParticleOrbitPoint(effect, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 1, false).SetOrbitSpeed(0.03).SetTargetDistance(radius));
+						effect.AddParticleController(new ParticleOrbitPoint(effect, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, false).SetOrbitSpeed(0.03).SetTargetDistance(radius));
 					}
 				}
 
@@ -99,13 +100,13 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 					particleTickCounter = 0;
 
 					String particleName = "";
-					AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "sparkle", xCoord + 0.5, yCoord + 0.1 + worldObj.rand.nextDouble() * 0.5, zCoord + 0.5);
+					AMParticle effect = (AMParticle)AMCore.instance.proxy.particleManager.spawn(worldObj, "sparkle", pos.getX() + 0.5, pos.getY() + 0.1 + worldObj.rand.nextDouble() * 0.5, pos.getZ() + 0.5);
 					if (effect != null){
 						effect.setIgnoreMaxAge(false);
 						effect.setMaxAge(100);
 						effect.setParticleScale(0.5f);
 						float color = worldObj.rand.nextFloat() * 0.2f + 0.8f;
-						effect.AddParticleController(new ParticleOrbitPoint(effect, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 1, false).SetOrbitSpeed(0.005).SetTargetDistance(worldObj.rand.nextDouble() * 0.6 - 0.3));
+						effect.AddParticleController(new ParticleOrbitPoint(effect, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, false).SetOrbitSpeed(0.005).SetTargetDistance(worldObj.rand.nextDouble() * 0.6 - 0.3));
 						effect.AddParticleController(new ParticleHoldPosition(effect, 80, 2, true));
 						effect.AddParticleController(new ParticleFadeOut(effect, 3, false).setFadeSpeed(0.05f));
 					}
@@ -116,9 +117,9 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 
 	public void onEntityBlocked(EntityLivingBase entity){
 		if (this.worldObj.isRemote){
-			if (PowerNodeRegistry.For(getWorldObj()).checkPower(this, PowerTypes.DARK, 50)){
+			if (PowerNodeRegistry.For(worldObj).checkPower(this, PowerTypes.DARK, 50)){
 				entity.attackEntityFrom(DamageSource.magic, 5);
-				PowerNodeRegistry.For(getWorldObj()).consumePower(this, PowerTypes.DARK, 50);
+				PowerNodeRegistry.For(worldObj).consumePower(this, PowerTypes.DARK, 50);
 			}
 		}
 	}
@@ -154,7 +155,7 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
+	public ItemStack removeStackFromSlot(int i){
 		if (inventory[i] != null){
 			ItemStack itemstack = inventory[i];
 			inventory[i] = null;
@@ -173,7 +174,7 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 	}
 
 	@Override
-	public String getInventoryName(){
+	public String getName(){
 		return "Astral Barrier";
 	}
 
@@ -184,18 +185,18 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this){
+		if (worldObj.getTileEntity(pos) != this){
 			return false;
 		}
-		return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;
+		return entityplayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64D;
 	}
 
 	@Override
-	public void openInventory(){
+	public void openInventory(EntityPlayer player){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer player){
 	}
 
 	@Override
@@ -248,7 +249,7 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean hasCustomName(){
 		return false;
 	}
 
@@ -284,5 +285,35 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 	@Override
 	public boolean keystoneMustBeInActionBar(){
 		return false;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 }
