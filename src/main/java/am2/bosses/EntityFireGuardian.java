@@ -87,7 +87,7 @@ public class EntityFireGuardian extends AM2Boss{
 				}
 			}
 		}else{
-			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.boundingBox.expand(2.5, 2.5, 2.5).addCoord(0, -3, 0));
+			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(2.5, 2.5, 2.5).addCoord(0, -3, 0));
 			for (EntityLivingBase ent : entities){
 				if (ent == this)
 					continue;
@@ -107,7 +107,7 @@ public class EntityFireGuardian extends AM2Boss{
 				particle.setIgnoreMaxAge(false);
 			}
 		}else{
-			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.boundingBox.expand(2.5, 2.5, 2.5).addCoord(look.xCoord * 3, 0, look.zCoord * 3));
+			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(2.5, 2.5, 2.5).addCoord(look.xCoord * 3, 0, look.zCoord * 3));
 			for (EntityLivingBase ent : entities){
 				if (ent == this)
 					continue;
@@ -152,16 +152,16 @@ public class EntityFireGuardian extends AM2Boss{
 		super.onUpdate();
 	}
 
-	@Override
-	protected void fall(float par1){
-		if (this.getCurrentAction() == BossActions.SPINNING){
-			this.isUnderground = true;
-			return;
-		}
-		super.fall(par1);
-	}
+    @Override
+    public void fall(float distance, float damageMultiplier) {
+        if (this.getCurrentAction() == BossActions.SPINNING){
+            this.isUnderground = true;
+            return;
+        }
+        super.fall(distance, damageMultiplier);
+    }
 
-	@Override
+    @Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
 
 		if (par1DamageSource.isFireDamage()){
@@ -240,4 +240,9 @@ public class EntityFireGuardian extends AM2Boss{
 			this.entityDropItem(ItemsCommonProxy.fireEarsEnchanted.copy(), 0.0f);
 		}
 	}
+
+    @Override
+    public World getWorld() {
+        return worldObj;
+    }
 }
