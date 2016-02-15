@@ -13,7 +13,7 @@ import am2.configuration.SkillConfiguration;
 import am2.enchantments.AMEnchantmentHelper;
 import am2.entities.EntityManager;
 import am2.entities.SpawnBlacklists;
-import am2.interop.TC4Interop;
+import am2.interop.TC5Interop;
 import am2.items.ItemsCommonProxy;
 import am2.network.AMNetHandler;
 import am2.network.SeventhSanctum;
@@ -100,6 +100,7 @@ public class AMCore{
 	public void init(FMLInitializationEvent event){
 
 		FMLInterModComms.sendMessage("Waila", "register", "am2.interop.WailaSupport.callbackRegister");
+        FMLInterModComms.sendMessage("Thaumcraft", "portableHoleBlacklist", "am2:everstone");
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, AMChunkLoader.INSTANCE);
 		proxy.init();
@@ -134,7 +135,7 @@ public class AMCore{
 		/*if (Loader.isModLoaded("BetterDungeons"))
 			BetterDungeons.init();*/
 		if (Loader.isModLoaded("Thaumcraft"))
-			TC4Interop.initialize();
+			TC5Interop.initialize();
 		/*if (Loader.isModLoaded("MineFactoryReloaded"))
 			MFRInterop.init();*/
 

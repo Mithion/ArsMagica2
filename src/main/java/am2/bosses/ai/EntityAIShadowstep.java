@@ -4,15 +4,14 @@ import am2.bosses.BossActions;
 import am2.bosses.EntityEnderGuardian;
 import am2.bosses.IArsMagicaBoss;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.util.Vec3;
-import thehippomaster.AnimationAPI.AIAnimation;
-import thehippomaster.AnimationAPI.IAnimatedEntity;
 
-public class EntityAIShadowstep extends AIAnimation{
+public class EntityAIShadowstep extends EntityAIBase{
 
 	private int cooldownTicks = 0;
 
-	public EntityAIShadowstep(IAnimatedEntity entity){
+	public EntityAIShadowstep(EntityAIBase entity){
 		super(entity);
 	}
 
@@ -32,7 +31,7 @@ public class EntityAIShadowstep extends AIAnimation{
 	}
 
 	@Override
-	public boolean shouldAnimate(){
+	public boolean shouldExecute(){
 		//accessor method in AIAnimation that gives access to the entity
 		EntityLiving living = getEntity();
 

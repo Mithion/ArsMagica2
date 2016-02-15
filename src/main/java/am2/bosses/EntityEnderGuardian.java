@@ -15,9 +15,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import thehippomaster.AnimationAPI.IAnimatedEntity;
 
-public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
+public class EntityEnderGuardian extends AM2Boss{
 
 	private int wingFlapTime = 0;
 	private int ticksSinceLastAttack = 0;
