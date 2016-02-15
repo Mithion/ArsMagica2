@@ -13,6 +13,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -24,7 +26,7 @@ import java.util.Random;
 public class RandomTeleport implements ISpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
 		return false;
 	}
 
@@ -65,11 +67,13 @@ public class RandomTeleport implements ISpellComponent{
 		int k = MathHelper.floor_double(target.posZ);
 		Block l;
 
-		if (target.worldObj.blockExists(i, j, k)){
+		BlockPos newPos = new BlockPos(i, j, k);
+		if (target.worldObj.getBlockState(newPos).getBlock() != null) {
 			boolean targetBlockIsSolid = false;
 
 			while (!targetBlockIsSolid && j > 0){
-				l = target.worldObj.getBlock(i, j - 1, k);
+				BlockPos blockUnder = new BlockPos(i, j - 1, k);
+				l = target.worldObj.getBlockState(blockUnder).getBlock();
 
 				if (l != Blocks.air && l.getMaterial().blocksMovement()){
 					targetBlockIsSolid = true;
@@ -81,7 +85,7 @@ public class RandomTeleport implements ISpellComponent{
 
 			if (targetBlockIsSolid){
 				target.setPosition(target.posX, target.posY, target.posZ);
-				if (target.worldObj.getCollidingBoundingBoxes(target, target.boundingBox).isEmpty()){
+				if (target.worldObj.getCollidingBoundingBoxes(target, target.getCollisionBoundingBox()).isEmpty()){
 					locationValid = true;
 				}
 			}

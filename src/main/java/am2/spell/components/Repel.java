@@ -14,6 +14,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -24,7 +26,7 @@ import java.util.Random;
 public class Repel implements ISpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
 		return false;
 	}
 
@@ -38,7 +40,7 @@ public class Repel implements ISpellComponent{
 			if (target instanceof EntityLivingBase)
 				source = (EntityLivingBase)target;
 
-			List<Entity> ents = world.getEntitiesWithinAABB(Entity.class, source.boundingBox.expand(2, 2, 2));
+			List<Entity> ents = world.getEntitiesWithinAABB(Entity.class, source.getCollisionBoundingBox().expand(2, 2, 2));
 
 			for (Entity e : ents){
 				performRepel(world, caster, e);

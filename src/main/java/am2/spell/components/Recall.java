@@ -21,7 +21,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
@@ -32,9 +34,7 @@ import java.util.Random;
 public class Recall implements ISpellComponent, IRitualInteraction{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx,
-									int blocky, int blockz, int blockFace, double impactX,
-									double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
 		return false;
 	}
 
@@ -121,8 +121,8 @@ public class Recall implements ISpellComponent, IRitualInteraction{
 				return false;
 			}else{
 				RitualShapeHelper.instance.consumeRitualReagents(this, world, x, y, z);
-				if (target.worldObj.provider.dimensionId != caster.worldObj.provider.dimensionId){
-					DimensionUtilities.doDimensionTransfer(player, caster.worldObj.provider.dimensionId);
+				if (target.worldObj.provider.getDimensionId() != caster.worldObj.provider.getDimensionId()){
+					DimensionUtilities.doDimensionTransfer(player, caster.worldObj.provider.getDimensionId());
 				}
 				((EntityLivingBase)target).setPositionAndUpdate(x, y, z);
 				return true;

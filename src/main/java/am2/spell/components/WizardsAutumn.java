@@ -13,6 +13,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -36,20 +38,20 @@ public class WizardsAutumn implements ISpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
 		if (!world.isRemote){
 			int radius = 2;
 			radius = SpellUtils.instance.getModifiedInt_Add(radius, stack, caster, caster, world, 0, SpellModifiers.RADIUS);
 			for (int i = -radius; i <= radius; ++i){
 				for (int j = -radius; j <= radius; ++j){
 					for (int k = -radius; k <= radius; ++k){
-						Block block = world.getBlock(blockx + i, blocky + j, blockz + k);
+						BlockPos position = new BlockPos(pos.getX() + i, pos.getY() + k, pos.getZ() + k);
+						Block block = world.getBlockState(position).getBlock();
 						int meta = world.getBlockMetadata(blockx + i, blocky + j, blockz + k);
-						if (block != null && block.isLeaves(world, blockx + i, blocky + j, blockz + k)){
+						if (block != null && block.isLeaves(world, position)){
 							if (block.removedByPlayer(world, DummyEntityPlayer.fromEntityLiving(caster), blockx + i, blocky + j, blockz + k)){
-								block.onBlockDestroyedByPlayer(world, blockx + i, blocky + j, blockz + k, meta);
-								block.harvestBlock(world, DummyEntityPlayer.fromEntityLiving(caster), blockx + i, blocky + j, blockz + k, meta);
+								block.onBlockDestroyedByPlayer(world, position, world.getBlockState(position));
+								block.harvestBlock(world, DummyEntityPlayer.fromEntityLiving(caster), blockx + i, blocky + j, blockz + k, world.getBlockState(position).getBlock().getMetaFromState(world.getBlockState(position)));
 								//TODO: play sound
 							}
 						}

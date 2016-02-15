@@ -18,6 +18,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -26,17 +28,17 @@ import java.util.Random;
 public class Freeze implements ISpellComponent, IRitualInteraction{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		Block block = world.getBlock(blockx, blocky, blockz);
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+		Block block = world.getBlockState(pos).getBlock();
 		if (block == Blocks.water || block == Blocks.flowing_water) //flowing or still water
 		{
-			world.setBlock(blockx, blocky, blockz, Blocks.ice);
+			world.setBlockState(pos, Blocks.ice.getDefaultState());
 			return true;
 		}else if (block == Blocks.lava){
-			world.setBlock(blockx, blocky, blockz, Blocks.obsidian);
+			world.setBlockState(pos, Blocks.obsidian.getDefaultState());
 			return true;
 		}else if (block == Blocks.flowing_lava){
-			world.setBlock(blockx, blocky, blockz, Blocks.cobblestone);
+			world.setBlockState(pos, Blocks.cobblestone.getDefaultState());
 			return true;
 		}
 		return false;

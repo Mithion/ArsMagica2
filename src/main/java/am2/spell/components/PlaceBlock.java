@@ -17,6 +17,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
@@ -45,26 +47,26 @@ public class PlaceBlock implements ISpellComponent{
 	}
 
 	private BlockDec getPlaceBlock(ItemStack stack){
-		if (stack.hasTagCompound() && stack.stackTagCompound.hasKey(KEY_BLOCKID)){
-			return RitualShapeHelper.instance.hourglass.new BlockDec(Block.getBlockById(stack.stackTagCompound.getInteger(KEY_BLOCKID)), stack.stackTagCompound.getInteger(KEY_META));
+		if (stack.hasTagCompound() && stack.getTagCompound().hasKey(KEY_BLOCKID)){
+			return RitualShapeHelper.instance.hourglass.new BlockDec(Block.getBlockById(stack.getTagCompound().getInteger(KEY_BLOCKID)), stack.stackTagCompound.getInteger(KEY_META));
 		}
 		return null;
 	}
 
 	private void setPlaceBlock(ItemStack stack, Block block, int meta){
 		if (!stack.hasTagCompound())
-			stack.stackTagCompound = new NBTTagCompound();
+			stack.setTagCompound(new NBTTagCompound());
 
-		stack.stackTagCompound.setInteger(KEY_BLOCKID, Block.getIdFromBlock(block));
-		stack.stackTagCompound.setInteger(KEY_META, meta);
+		stack.getTagCompound().setInteger(KEY_BLOCKID, Block.getIdFromBlock(block));
+		stack.getTagCompound().setInteger(KEY_META, meta);
 
 		//set lore entry so that the stack displays the name of the block to place
-		if (!stack.stackTagCompound.hasKey("Lore"))
-			stack.stackTagCompound.setTag("Lore", new NBTTagList());
+		if (!stack.getTagCompound().hasKey("Lore"))
+			stack.getTagCompound().setTag("Lore", new NBTTagList());
 
 		ItemStack blockStack = new ItemStack(block, 1, meta);
 
-		NBTTagList tagList = stack.stackTagCompound.getTagList("Lore", Constants.NBT.TAG_COMPOUND);
+		NBTTagList tagList = stack.getTagCompound().getTagList("Lore", Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < tagList.tagCount(); ++i){
 			String str = tagList.getStringTagAt(i);
 			if (str.startsWith(String.format(StatCollector.translateToLocal("am2.tooltip.placeBlockSpell"), ""))){
@@ -73,12 +75,11 @@ public class PlaceBlock implements ISpellComponent{
 		}
 		tagList.appendTag(new NBTTagString(String.format(StatCollector.translateToLocal("am2.tooltip.placeBlockSpell"), blockStack.getDisplayName())));
 
-		stack.stackTagCompound.setTag("Lore", tagList);
+		stack.getTagCompound().setTag("Lore", tagList);
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
 		if (!(caster instanceof EntityPlayer))
 			return false;
 
@@ -90,31 +91,31 @@ public class PlaceBlock implements ISpellComponent{
 		BlockDec bd = getPlaceBlock(spellStack);
 
 		if (bd != null && !caster.isSneaking()){
-			if (world.isAirBlock(blockx, blocky, blockz) || !world.getBlock(blockx, blocky, blockz).getMaterial().isSolid())
-				blockFace = -1;
-			if (blockFace != -1){
-				switch (blockFace){
-				case 0:
-					blocky--;
-					break;
-				case 1:
-					blocky++;
-					break;
-				case 2:
-					blockz--;
-					break;
-				case 3:
-					blockz++;
-					break;
-				case 4:
-					blockx--;
-					break;
-				case 5:
-					blockx++;
-					break;
+			if (world.isAirBlock(pos) || !world.getBlockState(pos).getBlock().getMaterial().isSolid())
+				facing = null;
+			if (facing != null){
+				switch (facing){
+					case DOWN:
+						pos = pos.down();
+						break;
+					case UP:
+						pos = pos.up();
+						break;
+					case NORTH:
+						pos = pos.north();
+						break;
+					case SOUTH:
+						pos = pos.south();
+						break;
+					case WEST:
+						pos = pos.west();
+						break;
+					case EAST:
+						pos = pos.east();
+						break;
 				}
 			}
-			if (world.isAirBlock(blockx, blocky, blockz) || !world.getBlock(blockx, blocky, blockz).getMaterial().isSolid()){
+			if (world.isAirBlock(pos) || !world.getBlockState(pos).getBlock().getMaterial().isSolid()){
 				ItemStack searchStack = new ItemStack(bd.getBlock(), 1, bd.getMeta());
 				if (!world.isRemote && (player.capabilities.isCreativeMode || InventoryUtilities.inventoryHasItem(player.inventory, searchStack, 1))){
 					world.setBlock(blockx, blocky, blockz, bd.getBlock(), bd.getMeta(), 3);
@@ -124,8 +125,8 @@ public class PlaceBlock implements ISpellComponent{
 				return true;
 			}
 		}else if (caster.isSneaking()){
-			if (!world.isRemote && !world.isAirBlock(blockx, blocky, blockz)){
-				setPlaceBlock(spellStack, world.getBlock(blockx, blocky, blockz), world.getBlockMetadata(blockx, blocky, blockz));
+			if (!world.isRemote && !world.isAirBlock(pos)){
+				setPlaceBlock(spellStack, world.getBlockState(pos).getBlock(), world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos)));
 			}
 			return true;
 		}

@@ -15,9 +15,10 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -26,8 +27,8 @@ import java.util.Random;
 public class Plant implements ISpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		Block soil = world.getBlock(blockx, blocky, blockz);
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+		Block soil = world.getBlockState(pos).getBlock();
 		IInventory inventory = DummyEntityPlayer.fromEntityLiving(caster).inventory;
 		HashMap<Integer, ItemStack> seeds = GetAllSeedsInInventory(inventory);
 		int currentSlot = 0;
@@ -37,8 +38,9 @@ public class Plant implements ISpellComponent{
 
 			IPlantable seed = (IPlantable)seedStack.getItem();
 
-			if (soil != null && soil.canSustainPlant(world, blockx, blocky, blockz, ForgeDirection.UP, seed) && world.isAirBlock(blockx, blocky + 1, blockz)){
-				world.setBlock(blockx, blocky + 1, blockz, seed.getPlant(world, blockx, blocky, blockz));
+			BlockPos pos1 = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ());
+			if (soil != null && soil.canSustainPlant(world, pos, facing.UP, seed) && world.isAirBlock(pos1)){
+				world.setBlockState(pos1, seed.getPlant(world, pos));
 
 				seedStack.stackSize--;
 				if (seedStack.stackSize <= 0){

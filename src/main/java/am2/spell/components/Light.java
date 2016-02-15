@@ -23,67 +23,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
 import java.util.Random;
 
 public class Light implements ISpellComponent, IRitualInteraction{
-
-	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-
-		if (world.getBlock(blockx, blocky, blockz) == BlocksCommonProxy.obelisk){
-			ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, blockx, blocky, blockz);
-			if (reagents != null){
-				if (!world.isRemote){
-					RitualShapeHelper.instance.consumeRitualReagents(this, world, blockx, blocky, blockz);
-					RitualShapeHelper.instance.consumeRitualShape(this, world, blockx, blocky, blockz);
-					world.setBlock(blockx, blocky, blockz, BlocksCommonProxy.celestialPrism);
-					PowerNodeRegistry.For(world).registerPowerNode((IPowerNode)world.getTileEntity(blockx, blocky, blockz));
-				}else{
-
-				}
-
-				return true;
-			}
-		}
-
-		if (world.getBlock(blockx, blocky, blockz) == Blocks.air) blockFace = -1;
-		if (blockFace != -1){
-			switch (blockFace){
-			case 0:
-				blocky--;
-				break;
-			case 1:
-				blocky++;
-				break;
-			case 2:
-				blockz--;
-				break;
-			case 3:
-				blockz++;
-				break;
-			case 4:
-				blockx--;
-				break;
-			case 5:
-				blockx++;
-				break;
-			}
-		}
-
-		if (world.getBlock(blockx, blocky, blockz) != Blocks.air){
-			return false;
-		}
-
-		if (!world.isRemote){
-			world.setBlock(blockx, blocky, blockz, BlocksCommonProxy.blockMageTorch, getColorMeta(stack), 2);
-		}
-
-
-		return true;
-	}
 
 	private int getColorMeta(ItemStack spell){
 		int meta = 15;
@@ -107,6 +54,61 @@ public class Light implements ISpellComponent, IRitualInteraction{
 		}
 
 		return meta;
+	}
+
+	@Override
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+
+		if (world.getBlockState(pos).getBlock() == BlocksCommonProxy.obelisk){
+			ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, pos.getX(), pos.getY(), pos.getZ());
+			if (reagents != null){
+				if (!world.isRemote){
+					RitualShapeHelper.instance.consumeRitualReagents(this, world, pos.getX(), pos.getY(), pos.getZ());
+					RitualShapeHelper.instance.consumeRitualShape(this, world, pos.getX(), pos.getY(), pos.getZ());
+					world.setBlockState(pos, BlocksCommonProxy.celestialPrism.getDefaultState());
+					PowerNodeRegistry.For(world).registerPowerNode((IPowerNode)world.getTileEntity(pos));
+				}else{
+
+				}
+
+				return true;
+			}
+		}
+
+		if (world.isAirBlock(pos)) facing = null;
+		if (facing != null){
+			switch (facing){
+				case DOWN:
+					pos = pos.down();
+					break;
+				case UP:
+					pos = pos.up();
+					break;
+				case NORTH:
+					pos = pos.north();
+					break;
+				case SOUTH:
+					pos = pos.south();
+					break;
+				case EAST:
+					pos = pos.east();
+					break;
+				case WEST:
+					pos = pos.west();
+					break;
+			}
+		}
+
+		if (world.isAirBlock(pos)){
+			return false;
+		}
+
+		if (!world.isRemote){
+			world.setBlock(blockx, blocky, blockz, BlocksCommonProxy.blockMageTorch, getColorMeta(stack), 2);
+		}
+
+
+		return true;
 	}
 
 	@Override

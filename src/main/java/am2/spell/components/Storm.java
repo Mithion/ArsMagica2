@@ -15,7 +15,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -25,7 +27,7 @@ import java.util.Random;
 public class Storm implements ISpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
 		applyEffect(caster, world);
 		return true;
 	}
@@ -47,11 +49,13 @@ public class Storm implements ISpellComponent{
 					int randPosZ = (int)caster.posZ + world.rand.nextInt(xzradius * 2) - xzradius;
 					int posY = (int)caster.posY;
 
-					while (!world.canBlockSeeTheSky(randPosX, posY, randPosZ)){
-						posY++;
+					BlockPos newPos = new BlockPos(randPosX, posY, randPosZ);
+					while (!world.canBlockSeeSky(newPos)){
+						newPos = new BlockPos(randPosX, posY++, randPosZ);
 					}
-					while (world.getBlock(randPosX, posY - 1, randPosZ) == Blocks.air){
-						posY--;
+					BlockPos newPos2 = new BlockPos(randPosX, posY - 1, randPosZ);
+					while (world.isAirBlock(newPos2)){
+						newPos2 = new BlockPos(randPosX, posY--, randPosZ);
 					}
 
 					EntityLightningBolt bolt = new EntityLightningBolt(world, randPosX, posY, randPosZ);
@@ -62,7 +66,8 @@ public class Storm implements ISpellComponent{
 						return;
 					}
 					Entity target = entities.get(world.rand.nextInt(entities.size()));
-					if (target != null && world.canBlockSeeTheSky((int)target.posX, (int)target.posY, (int)target.posZ)){
+					BlockPos targetBlock = new BlockPos(target.posX, target.posY, target.posZ);
+					if (target != null && world.canBlockSeeSky(targetBlock)){
 						if (caster instanceof EntityPlayer){
 							target.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)caster), 1);
 						}

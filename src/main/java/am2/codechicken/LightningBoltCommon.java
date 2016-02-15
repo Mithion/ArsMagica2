@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
@@ -168,7 +169,8 @@ public class LightningBoltCommon{
 			return prevresistance;
 		}
 		if (mop.typeOfHit == MovingObjectType.BLOCK){
-			Block block = this.world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+			BlockPos pos = new BlockPos(mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ());
+			Block block = this.world.getBlockState(pos).getBlock();
 			if (block == Blocks.air){
 				return prevresistance;
 			}
