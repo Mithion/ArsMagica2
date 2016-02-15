@@ -35,7 +35,7 @@ public class FlickerOperatorButchery implements IFlickerFunctionality{
 	public boolean DoOperation(World worldObj, IFlickerController habitat, boolean powered){
 		HashMap<Class, Integer> entityCount = new HashMap<Class, Integer>();
 		int radius = 6;
-		List<EntityAnimal> creatures = worldObj.getEntitiesWithinAABB(EntityAnimal.class, new AxisAlignedBB(((TileEntity)habitat).xCoord - radius, ((TileEntity)habitat).yCoord - radius, ((TileEntity)habitat).zCoord - radius, ((TileEntity)habitat).xCoord + radius + 1, ((TileEntity)habitat).yCoord + radius + 1, ((TileEntity)habitat).zCoord + radius + 1));
+		List<EntityAnimal> creatures = worldObj.getEntitiesWithinAABB(EntityAnimal.class, new AxisAlignedBB(((TileEntity)habitat).getPos().getX() - radius, ((TileEntity)habitat).getPos().getY() - radius, ((TileEntity)habitat).getPos().getZ() - radius, ((TileEntity)habitat).getPos().getX() + radius + 1, ((TileEntity)habitat).getPos().getY() + radius + 1, ((TileEntity)habitat).getPos().getZ() + radius + 1));
 		for (EntityAnimal creature : creatures){
 			Class clazz = creature.getClass();
 			if (!SpawnBlacklists.canButcheryAffect(clazz))
@@ -48,7 +48,7 @@ public class FlickerOperatorButchery implements IFlickerFunctionality{
 			entityCount.put(clazz, count);
 			if (count > 2){
 				if (worldObj.isRemote){
-					AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "ghost", ((TileEntity)habitat).xCoord + 0.5, ((TileEntity)habitat).yCoord + 0.7, ((TileEntity)habitat).zCoord + 0.5);
+					AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "ghost", ((TileEntity)habitat).getPos().getX() + 0.5, ((TileEntity)habitat).getPos().getY() + 0.7, ((TileEntity)habitat).getPos().getZ() + 0.5);
 					if (particle != null){
 						particle.setMaxAge(20);
 						particle.AddParticleController(new ParticleFloatUpward(particle, 0, 0.05f, 1, false));

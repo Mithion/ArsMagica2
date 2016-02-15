@@ -1,17 +1,14 @@
 package am2.blocks;
 
-import am2.AMCore;
-import am2.api.math.AMVector3;
-import am2.bosses.BossSpawnHelper;
-import am2.damage.DamageSources;
-import am2.particles.AMParticle;
-import am2.particles.ParticleFloatUpward;
-import am2.texture.ResourceManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRailBase;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityMinecart;
@@ -19,18 +16,27 @@ import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
-import java.util.List;
-import java.util.Random;
+import am2.AMCore;
+import am2.api.math.AMVector3;
+import am2.bosses.BossSpawnHelper;
+import am2.damage.DamageSources;
+import am2.particles.AMParticle;
+import am2.particles.ParticleFloatUpward;
 
 public class BlockInlay extends BlockRailBase{
-
-	@SideOnly(Side.CLIENT)
-	private IIcon[] icons;
-
+	
+	public static final PropertyInteger TYPE = PropertyInteger.create("type", 0, 2);
+	public static final PropertyEnum<EnumRailDirection> SHAPE = PropertyEnum.<EnumRailDirection>create("shape", EnumRailDirection.class,
+			EnumRailDirection.EAST_WEST,
+			EnumRailDirection.NORTH_EAST,
+			EnumRailDirection.NORTH_SOUTH,
+			EnumRailDirection.NORTH_WEST,
+			EnumRailDirection.SOUTH_EAST,
+			EnumRailDirection.SOUTH_WEST);
+	
 	private final int material;
 
 	public static final int TYPE_REDSTONE = 0;
@@ -48,50 +54,43 @@ public class BlockInlay extends BlockRailBase{
 		this.setBlockBounds(0f, 0f, 0f, 1f, 0.01f, 1f);
 		this.setLightOpacity(0);
 		this.setTickRandomly(true);
+		setDefaultState(blockState.getBaseState().withProperty(TYPE, type).withProperty(SHAPE, EnumRailDirection.EAST_WEST));
 	}
-
+	
 	@Override
-	public void registerBlockIcons(IIconRegister IIconRegister){
-		String[] textures = new String[]{"Inlay_Straight_Redstone", "Inlay_Straight_Iron", "Inlay_Straight_Gold", "Inlay_Corner_Redstone", "Inlay_Corner_Iron", "Inlay_Corner_Gold"};
-
-		icons = new IIcon[textures.length];
-		int count = 0;
-		for (String s : textures){
-			icons[count++] = ResourceManager.RegisterTexture(s, IIconRegister);
+	public int getMetaFromState(IBlockState state) {
+		EnumRailDirection direction = state.getValue(SHAPE);
+		switch (direction) {
+		case EAST_WEST: return 0;
+		case NORTH_SOUTH: return 1;
+		case NORTH_EAST: return 2;
+		case NORTH_WEST: return 3;
+		case SOUTH_EAST: return 4;
+		case SOUTH_WEST: return 5;
+		default:
+			break;
 		}
+		return super.getMetaFromState(state);
 	}
-
+	
 	@Override
-	public IIcon getIcon(int side, int meta){
-		if (side > 1) return null;
-
-		boolean corner = meta >= 6;
-
-		int index = material;
-		if (corner) index += 3;
-
-		return icons[index];
+	public IBlockState getStateFromMeta(int meta) {
+		EnumRailDirection direction = EnumRailDirection.EAST_WEST;
+		switch (meta) {
+			case 0: direction = EnumRailDirection.EAST_WEST;
+			case 1: direction = EnumRailDirection.NORTH_SOUTH;
+			case 2: direction = EnumRailDirection.NORTH_EAST;
+			case 3: direction = EnumRailDirection.NORTH_WEST;
+			case 4: direction = EnumRailDirection.SOUTH_EAST;
+			case 5: direction = EnumRailDirection.SOUTH_WEST;
+		}
+		return getDefaultState().withProperty(SHAPE, direction).withProperty(TYPE, material);
 	}
-
+	
 	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(IBlockAccess par1iBlockAccess, int par2, int par3, int par4, int par5){
-		return getIcon(par5, par1iBlockAccess.getBlockMetadata(par2, par3, par4));
-	}
-
-	private void setValid(World world, int x, int y, int z, boolean valid){
-		int meta = world.getBlockMetadata(x, y, z);
-		if (valid) meta |= 0x8;
-		else meta &= ~0x8;
-		world.setBlockMetadataWithNotify(x, y, z, meta, 2);
-	}
-
-	@Override
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
-		int meta = world.getBlockMetadata(x, y, z);
-
-		if (world.isRemote && world.getBlock(x, y - 1, z).isAir(world, x, y, z) && AMCore.config.FullGFX() && rand.nextInt(10) < 4){
-			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, AMCore.config.FullGFX() ? "radiant" : "sparkle2", x + rand.nextFloat(), y, z + rand.nextFloat());
+	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand){
+		if (world.isRemote && world.getBlockState(pos.add(0, -1, 0)).getBlock().isAir(world, pos) && AMCore.config.FullGFX() && rand.nextInt(10) < 4){
+			AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, AMCore.config.FullGFX() ? "radiant" : "sparkle2", pos.getX() + rand.nextFloat(), pos.getY(), pos.getZ() + rand.nextFloat());
 			if (particle != null){
 				particle.setMaxAge(20);
 				particle.setParticleScale(AMCore.config.FullGFX() ? 0.015f : 0.15f);
@@ -110,65 +109,47 @@ public class BlockInlay extends BlockRailBase{
 	public boolean isOpaqueCube(){
 		return false;
 	}
-
+	
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4){
+	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
 	}
-
+	
 	@Override
-	public boolean canMakeSlopes(IBlockAccess world, int x, int y, int z){
-		return false;
-	}
-
-	@Override
-	public float getRailMaxSpeed(World world, EntityMinecart cart, int y, int x, int z){
-		if (this.material == TYPE_REDSTONE)
+	public float getRailMaxSpeed(World world, EntityMinecart cart, BlockPos pos) {
+		int type = world.getBlockState(pos).getValue(TYPE);
+		if (type == TYPE_REDSTONE)
 			return 0.7f;
 		return 0.4f;
 	}
-
+	
+	
+	
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase placingEntity, ItemStack stack){
-		super.onBlockPlacedBy(world, x, y, z, placingEntity, stack);
-		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placingEntity, ItemStack stack){
+		super.onBlockPlacedBy(world, pos, state, placingEntity, stack);
+		world.scheduleBlockUpdate(pos, this, tickRate(world), 1);
 	}
-
+	
+	
+	
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4){
-		return new AxisAlignedBB(par2 + this.minX, par3 + this.minY, par4 + this.minZ, par2 + this.maxX, par3 + this.maxY, par4 + this.maxZ);
+	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+		return new AxisAlignedBB(pos.add(minX, minY, minZ), pos.add(maxX, maxY, maxZ));
 	}
-
+	
 	@Override
-	public void addCollisionBoxesToList(World par1World, int par2, int par3, int par4, AxisAlignedBB par5AxisAlignedBB, List par6List, Entity par7Entity){
-		if (par7Entity instanceof EntityMinecart){
+	public void addCollisionBoxesToList(World worldIn, BlockPos pos,
+			IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list,
+			Entity collidingEntity) {
+		if (collidingEntity instanceof EntityMinecart)
 			return;
-		}
-		super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
+		super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
 	}
-
+	
 	@Override
-	public void onBlockAdded(World world, int x, int y, int z){
-		super.onBlockAdded(world, x, y, z);
-		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
-	}
-
-	@Override
-	public void breakBlock(World world, int x, int y, int z, Block blockID, int meta){
-		checkNeighbors(world, x, y, z);
-	}
-
-	private void checkNeighbors(World world, int x, int y, int z){
-		int myMeta = world.getBlockMetadata(x, y, z);
-		if ((myMeta & 0x8) != 0){
-			world.setBlockMetadataWithNotify(x, y, z, myMeta & ~0x8, 2);
-			for (int i = -1; i <= 1; ++i){
-				for (int j = -1; j <= 1; ++j){
-					if (world.getBlock(x + i, y, z + j) == this && (world.getBlockMetadata(x + i, y, z + j) & 0x8) != 0){
-						checkNeighbors(world, x + i, y, z + j);
-					}
-				}
-			}
-		}
+	public void onBlockAdded(World world, BlockPos pos, IBlockState state){
+		super.onBlockAdded(world, pos, state);
+		world.scheduleBlockUpdate(pos, this, tickRate(world), 0);
 	}
 
 	@Override
@@ -177,50 +158,45 @@ public class BlockInlay extends BlockRailBase{
 	}
 
 	@Override
-	public void updateTick(World world, int x, int y, int z, Random rand){
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand){
 		if (!world.isRemote){
-			int meta = world.getBlockMetadata(x, y, z);
-			if (meta == 6)
-				checkPattern(world, x, y, z);
-			world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
+			if (state.getValue(SHAPE).equals(EnumRailDirection.SOUTH_WEST))
+				checkPattern(world, pos);
+			world.scheduleBlockUpdate(pos, this, tickRate(world), 1);
 		}
 	}
 
-	private void checkPattern(World world, int x, int y, int z){
+	private void checkPattern(World world, BlockPos pos){
 		boolean allGood = true;
 		for (int i = 0; i <= 2; ++i){
 			for (int j = 0; j <= 2; ++j){
 				if (i == 1 && j == 1) continue;
-				allGood &= world.getBlock(x + i, y, z + j) == this;
+				allGood &= world.getBlockState(pos.add(i, 0, j)).getBlock().equals(this);
 			}
 		}
 
 		if (allGood){
 			if (!world.isRemote){
-				if (!checkForIceEffigy(world, x, y, z))
-					checkForLightningEffigy(world, x, y, z);
+				if (!checkForIceEffigy(world, pos))
+					checkForLightningEffigy(world, pos);
 			}
 		}
 	}
 
-	private boolean checkForIceEffigy(World world, int x, int y, int z){
-		if (world.getBlock(x + 1, y, z + 1) == BlocksCommonProxy.AMOres && world.getBlockMetadata(x + 1, y, z + 1) == BlockAMOre.META_BLUE_TOPAZ_BLOCK){
-			if (world.getBlock(x + 1, y + 1, z + 1) == BlocksCommonProxy.AMOres && world.getBlockMetadata(x + 1, y + 1, z + 1) == BlockAMOre.META_BLUE_TOPAZ_BLOCK){
-				if (world.getBlock(x + 1, y + 2, z + 1) == Blocks.ice){
-					int iceMeta = world.getBlockMetadata(x + 1, y + 2, z + 1);
-					if (iceMeta > 0){
-						AMCore.proxy.particleManager.RibbonFromPointToPoint(world, x + 1.5, y + 2, z + 1.5, x + 2, y + 3, z + 2);
-					}
-					if (iceMeta >= 3){
-						BossSpawnHelper.instance.onIceEffigyBuilt(world, x + 1, y, z + 1);
-					}else{
-						List<EntitySnowman> snowmen = world.getEntitiesWithinAABB(EntitySnowman.class, new AxisAlignedBB(x - 9, y - 2, z - 9, x + 10, y + 4, z + 10));
-						if (snowmen.size() > 0){
-							snowmen.get(0).attackEntityFrom(DamageSources.unsummon, 5000);
-							iceMeta++;
-							world.setBlockMetadataWithNotify(x + 1, y + 2, z + 1, iceMeta, 2);
-							AMCore.proxy.particleManager.BeamFromEntityToPoint(world, snowmen.get(0), x + 1.5, y + 2.5, z + 1.5);
+	private boolean checkForIceEffigy(World world, BlockPos pos){
+		if (world.getBlockState(pos.add(1, 0, 1)).equals(BlocksCommonProxy.AMOres.getDefaultState().withProperty(BlockAMOre.TYPE, BlockAMOre.META_BLUE_TOPAZ_BLOCK))){
+			if (world.getBlockState(pos.add(1, 1, 1)).equals(BlocksCommonProxy.AMOres.getDefaultState().withProperty(BlockAMOre.TYPE, BlockAMOre.META_BLUE_TOPAZ_BLOCK))){
+				if (world.getBlockState(pos.add(1, 2, 1)).equals(Blocks.ice.getDefaultState())){
+					List<EntitySnowman> snowmen = world.getEntitiesWithinAABB(EntitySnowman.class, new AxisAlignedBB(pos.add(-9, -2, -9), pos.add(10, 4, 10)));
+					//TODO Progress
+					if (snowmen.size() >= 4) {
+						for (int i = 0; i < 4; i++) {
+							snowmen.get(i).attackEntityFrom(DamageSources.unsummon, 5000);
+							AMCore.proxy.particleManager.BeamFromEntityToPoint(world, snowmen.get(i), pos.getX() + 1.5, pos.getY() + 2.5, pos.getZ() + 1.5);
 						}
+						BossSpawnHelper.instance.onIceEffigyBuilt(world, pos.getX() + 1, pos.getY(), pos.getZ() + 1);
+					} else if (snowmen.size() > 0) {
+						AMCore.proxy.particleManager.RibbonFromPointToPoint(world, pos.getX() + 1.5, pos.getY() + 2, pos.getZ() + 1.5, pos.getX() + 2, pos.getY() + 3, pos.getZ() + 2);
 					}
 					return true;
 				}
@@ -229,25 +205,25 @@ public class BlockInlay extends BlockRailBase{
 		return false;
 	}
 
-	private boolean checkForLightningEffigy(World world, int x, int y, int z){
+	private boolean checkForLightningEffigy(World world, BlockPos pos){
 
 		if (!world.isRaining())
 			return false;
 
-		if (world.getBlock(x + 1, y, z + 1) == BlocksCommonProxy.manaBattery){
-			if (world.getBlock(x + 1, y + 1, z + 1) == Blocks.iron_bars){
-				if (world.getBlock(x + 1, y + 2, z + 1) == Blocks.iron_bars){
+		if (world.getBlockState(pos.add(1, 0, 1)).getBlock().equals(BlocksCommonProxy.manaBattery)){
+			if (world.getBlockState(pos.add(1, 1, 1)).getBlock().equals(Blocks.iron_bars)){
+				if (world.getBlockState(pos.add(1, 2, 1)).getBlock().equals(Blocks.iron_bars)){
 					int fenceMeta = world.getBlockMetadata(x + 1, y + 2, z + 1);
 					if (fenceMeta > 0){
 						AMCore.proxy.particleManager.RibbonFromPointToPoint(world, x + 1.5, y + 2, z + 1.5, x + 2, y + 3, z + 2);
 					}
+					//TODO Progress
 					fenceMeta++;
-					world.setBlockMetadataWithNotify(x + 1, y + 2, z + 1, fenceMeta, 2);
 					if (!world.isRemote){
 						for (int i = 0; i < 5; ++i)
 							AMCore.proxy.particleManager.BoltFromPointToPoint(world, x + 1.5, y + 30, z + 1.5, x + 1.5, y + 2, z + 1.5);
 						for (int i = 0; i < fenceMeta; ++i)
-							world.playSoundEffect(x, y, z, "ambient.weather.thunder", 1.0f, world.rand.nextFloat() + 0.5f);
+							world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), "ambient.weather.thunder", 1.0f, world.rand.nextFloat() + 0.5f);
 					}
 					if (fenceMeta >= 3){
 						BossSpawnHelper.instance.onLightningEffigyBuilt(world, x + 1, y, z + 1);
@@ -260,8 +236,8 @@ public class BlockInlay extends BlockRailBase{
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4){
-		Block block = par1World.getBlock(par2, par3 - 1, par4);
+	public boolean canPlaceBlockAt(World par1World, BlockPos pos){
+		Block block = par1World.getBlockState(pos.add(0, -1, 0)).getBlock();
 		return block != null && block.isOpaqueCube();
 	}
 
@@ -269,85 +245,90 @@ public class BlockInlay extends BlockRailBase{
 	public int getRenderType(){
 		return BlocksCommonProxy.commonBlockRenderID;
 	}
-
+	
 	@Override
-	public void onMinecartPass(World world, EntityMinecart cart, int x, int y, int z){
+	public void onMinecartPass(World world, EntityMinecart cart, BlockPos pos){
 		if (cart == null) return;
 
 		long millisSinceLastTeleport = cart.getEntityData().getLong(minecartGoldInlayKey);
 
-		int meta = world.getBlockMetadata(x, y, z);
+		EnumRailDirection meta = world.getBlockState(pos).getValue(SHAPE);
 		if (this.material == TYPE_REDSTONE){
 			float limit = 2f;
-			if (meta == 1){
+			if (meta.equals(EnumRailDirection.EAST_WEST)){
 				if (cart.motionX > 0 && cart.motionX < limit)
 					cart.motionX *= 1.1f;
 				else if (cart.motionX < 0 && cart.motionX > -limit)
 					cart.motionX *= 1.1f;
-			}else if (meta == 0){
+			}else if (meta.equals(EnumRailDirection.NORTH_SOUTH)){
 				if (cart.motionZ > 0 && cart.motionZ < limit)
 					cart.motionZ *= 1.1f;
 				else if (cart.motionZ < 0 && cart.motionZ > -limit)
 					cart.motionZ *= 1.1f;
 			}
 		}else if (this.material == TYPE_IRON){
-			if (meta == 1){
+			if (meta.equals(EnumRailDirection.EAST_WEST)){
 				cart.motionX = -cart.motionX * 0.5f;
 				if (cart.motionX < 0)
-					cart.setPosition(x - 0.02, cart.posY, cart.posZ);
+					cart.setPosition(pos.getX() - 0.02, cart.posY, cart.posZ);
 				else if (cart.motionX > 0)
-					cart.setPosition(x + 1.02, cart.posY, cart.posZ);
-			}else if (meta == 0){
+					cart.setPosition(pos.getX() + 1.02, cart.posY, cart.posZ);
+			}else if (meta.equals(EnumRailDirection.NORTH_SOUTH)){
 				cart.motionZ = -cart.motionZ * 0.5f;
 				if (cart.motionZ < 0)
-					cart.setPosition(cart.posX, cart.posY, z - 0.02);
+					cart.setPosition(cart.posX, cart.posY, pos.getZ() - 0.02);
 				else if (cart.motionZ > 0)
-					cart.setPosition(cart.posX, cart.posY, z + 1.02);
+					cart.setPosition(cart.posX, cart.posY, pos.getZ() + 1.02);
 			}
 		}else if (this.material == TYPE_GOLD){
 			AMVector3 teleportLocation = null;
-			if (meta == 1){
+			if (meta.equals(EnumRailDirection.EAST_WEST)){
 				if (cart.motionX > 0){
 					for (int i = 1; i <= 8; ++i){
-						if (world.getBlock(x + i, y, z) == BlocksCommonProxy.goldInlay){
-							teleportLocation = new AMVector3(x + i, y, z);
+						if (world.getBlockState(pos.add(i, 0, 0)).getBlock().equals(BlocksCommonProxy.goldInlay)){
+							teleportLocation = new AMVector3(pos.add(i, 0, 0));
 							break;
 						}
 					}
 				}else if (cart.motionX < 0){
 					for (int i = 1; i <= 8; ++i){
-						if (world.getBlock(x - i, y, z) == BlocksCommonProxy.goldInlay){
-							teleportLocation = new AMVector3(x - i, y, z);
+						if (world.getBlockState(pos.add(-i, 0, 0)).getBlock().equals(BlocksCommonProxy.goldInlay)){
+							teleportLocation = new AMVector3(pos.add(-i, 0, 0));
 							break;
 						}
 					}
 				}
-			}else if (meta == 0){
+			}else if (meta.equals(EnumRailDirection.NORTH_SOUTH)){
 				if (cart.motionZ > 0){
 					for (int i = 1; i <= 8; ++i){
-						if (world.getBlock(x, y, z + i) == BlocksCommonProxy.goldInlay){
-							teleportLocation = new AMVector3(x, y, z + i);
+						if (world.getBlockState(pos.add(0, 0, i)).getBlock().equals(BlocksCommonProxy.goldInlay)){
+							teleportLocation = new AMVector3(pos.add(0, 0, i));
 							break;
 						}
 					}
 				}else if (cart.motionZ < 0){
 					for (int i = 1; i <= 8; ++i){
-						if (world.getBlock(x, y, z - i) == BlocksCommonProxy.goldInlay){
-							teleportLocation = new AMVector3(x, y, z - i);
+						if (world.getBlockState(pos.add(0, 0, -i)).getBlock().equals(BlocksCommonProxy.goldInlay)){
+							teleportLocation = new AMVector3(pos.add(0, 0, -i));
 							break;
 						}
 					}
 				}
 			}
-			int teleportMeta = teleportLocation != null ? world.getBlockMetadata((int)teleportLocation.x, (int)teleportLocation.x, (int)teleportLocation.z) : -1;
+			EnumRailDirection teleportMeta = teleportLocation != null ? world.getBlockState(teleportLocation.toBlockPos()).getValue(SHAPE) : EnumRailDirection.ASCENDING_NORTH;
 			long time = System.currentTimeMillis();
 			boolean cooldownPassed = (time - millisSinceLastTeleport) > 5000;
-			if (teleportLocation != null && (teleportMeta == 1 || teleportMeta == 0) && cooldownPassed){
+			if (teleportLocation != null && (teleportMeta.equals(EnumRailDirection.NORTH_SOUTH) || teleportMeta.equals(EnumRailDirection.EAST_WEST)) && cooldownPassed){
 				world.playSoundEffect(teleportLocation.x, teleportLocation.y, teleportLocation.z, "mob.endermen.portal", 1.0F, 1.0F);
 				world.playSoundEffect(cart.posX, cart.posY, cart.posZ, "mob.endermen.portal", 1.0F, 1.0F);
 				cart.setPosition(teleportLocation.x, teleportLocation.y, teleportLocation.z);
 				cart.getEntityData().setLong(minecartGoldInlayKey, time);
 			}
 		}
+	}
+
+	@Override
+	public IProperty<EnumRailDirection> getShapeProperty() {
+		return SHAPE;
 	}
 }

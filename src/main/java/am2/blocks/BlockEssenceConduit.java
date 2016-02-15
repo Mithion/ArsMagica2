@@ -2,6 +2,7 @@ package am2.blocks;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
@@ -30,5 +31,10 @@ public class BlockEssenceConduit extends AMSpecialRenderPoweredBlock{
 	@Override
 	public TileEntity createNewTileEntity(World par1World, int i){
 		return new TileEntityEssenceConduit();
+	}
+	
+	@Override
+	public BlockState getBlockState() {
+		return new BlockState(this, FACING);
 	}
 }
