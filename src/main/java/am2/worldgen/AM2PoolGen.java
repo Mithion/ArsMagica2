@@ -1,5 +1,6 @@
 package am2.worldgen;
 
+import am2.LogHelper;
 import am2.blocks.BlocksCommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -26,7 +27,7 @@ public class AM2PoolGen{
 			world.setBlockToAir(pos.north().up());
 			world.setBlockToAir(pos.east().north().up());
 
-			//AMCore.log.info("Generated pool at: %d %d %d", x, y ,z);
+			LogHelper.info("Generated pool at: %d %d %d", pos.getX(), pos.getY(), pos.getZ());
 		}
 	}
 

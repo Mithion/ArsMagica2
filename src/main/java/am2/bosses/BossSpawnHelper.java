@@ -178,7 +178,7 @@ public class BossSpawnHelper{
 
 		for (int i = -1; i <= 1; ++i)
 			for (int j = -1; j <= 1; ++j)
-				if (!world.canBlockSeeTheSky(x + i, y + 1, z + j))
+				if (!world.canBlockSeeSky(x + i, y + 1, z + j))
 					return;
 
 		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1));

@@ -21,13 +21,13 @@ import java.util.Random;
 
 import static net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.LAKE;
 
-public class AM2WorldDecorator implements IWorldGenerator{
+public class AM2WorldDecorator implements IWorldGenerator{ // TODO: get worldgen working once blockstates are actually working
 
 	//ores
-	private final WorldGenMinable vinteum;
+	/*private final WorldGenMinable vinteum;
 	private final WorldGenMinable blueTopaz;
 	private final WorldGenMinable chimerite;
-	private final WorldGenMinable sunstone;
+	private final WorldGenMinable sunstone;*/
 
 	//flowers
 	private final AM2FlowerGen blueOrchid;
@@ -53,10 +53,10 @@ public class AM2WorldDecorator implements IWorldGenerator{
 			dimensionBlacklist.add(i);
 		}
 
-		vinteum = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_VINTEUM_ORE, 4, Blocks.stone);
-		chimerite = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_CHIMERITE_ORE, 6, Blocks.stone);
-		blueTopaz = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_BLUE_TOPAZ_ORE, 6, Blocks.stone);
-		sunstone = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_SUNSTONE_ORE, 3, Blocks.lava);
+		/*vinteum = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_VINTEUM_ORE, 4);
+		chimerite = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_CHIMERITE_ORE, 6);
+		blueTopaz = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_BLUE_TOPAZ_ORE, 6);
+		sunstone = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_SUNSTONE_ORE, 3, Blocks.lava);*/
 
 		blueOrchid = new AM2FlowerGen(BlocksCommonProxy.cerublossom, 0);
 		desertNova = new AM2FlowerGen(BlocksCommonProxy.desertNova, 0);
@@ -91,14 +91,14 @@ public class AM2WorldDecorator implements IWorldGenerator{
 	}
 
 	public void generateNether(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider){
-		generateOre(sunstone, 20, world, random, 5, 120, chunkX, chunkZ);
+		//generateOre(sunstone, 20, world, random, 5, 120, chunkX, chunkZ);
 	}
 
 	public void generateOverworld(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider){
-		generateOre(vinteum, 6, world, random, 10, 45, chunkX, chunkZ);
+		/*generateOre(vinteum, 6, world, random, 10, 45, chunkX, chunkZ);
 		generateOre(chimerite, 8, world, random, 10, 80, chunkX, chunkZ);
 		generateOre(blueTopaz, 8, world, random, 10, 80, chunkX, chunkZ);
-		generateOre(sunstone, 20, world, random, 5, 120, chunkX, chunkZ);
+		generateOre(sunstone, 20, world, random, 5, 120, chunkX, chunkZ);*/
 
 		generateFlowers(blueOrchid, world, random, chunkX, chunkZ);
 		generateFlowers(desertNova, world, random, chunkX, chunkZ);
@@ -110,7 +110,7 @@ public class AM2WorldDecorator implements IWorldGenerator{
 		for (Type type : biomeTypes){
 			if (type == Type.BEACH || type == Type.SWAMP || type == Type.JUNGLE || type == Type.PLAINS || type == Type.WATER){
 				typeValid = true;
-			}else if (type == Type.FROZEN){
+			}else if (type == Type.SNOWY){
 				typeValid = false;
 				break;
 			}

@@ -41,8 +41,9 @@ public class EntityThrownRock extends EntityLiving{
 	private static final int IS_MOONSTONE_METEOR = 20;
 	private static final int IS_SHOOTING_STAR = 21;
 	private static final int SPELL_STACK = 22;
+    private double yOffset;
 
-	public EntityThrownRock(World par1World){
+    public EntityThrownRock(World par1World){
 		super(par1World);
 		ticksExisted = 0;
 		maxTicksToExist = 120;
@@ -80,7 +81,8 @@ public class EntityThrownRock extends EntityLiving{
 		posY -= 0.10000000149011612D;
 		posZ -= MathHelper.sin((rotationYaw / 180F) * 3.141593F) * 0.16F;
 		setPosition(posX, posY, posZ);
-		yOffset = 0.0F;
+        yOffset = getYOffset();
+        yOffset = 0.0F;
 		float f = 0.05F;
 		motionX = -MathHelper.sin((rotationYaw / 180F) * 3.141593F) * MathHelper.cos((rotationPitch / 180F) * 3.141593F) * f;
 		motionZ = MathHelper.cos((rotationYaw / 180F) * 3.141593F) * MathHelper.cos((rotationPitch / 180F) * 3.141593F) * f;
@@ -230,7 +232,7 @@ public class EntityThrownRock extends EntityLiving{
 			vec3d1 = new Vec3(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
 		}
 		Entity entity = null;
-		List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
+		List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
 		double d = 0.0D;
 		for (int j = 0; j < list.size(); j++){
 			Entity entity1 = (Entity)list.get(j);
@@ -238,7 +240,7 @@ public class EntityThrownRock extends EntityLiving{
 				continue;
 			}
 			float f2 = 0.3F;
-			AxisAlignedBB axisalignedbb = entity1.boundingBox.expand(f2, f2, f2);
+			AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand(f2, f2, f2);
 			MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3d, vec3d1);
 			if (movingobjectposition1 == null){
 				continue;
@@ -276,14 +278,14 @@ public class EntityThrownRock extends EntityLiving{
 		setPosition(posX, posY, posZ);
 	}
 
-	protected void HitObject(MovingObjectPosition movingobjectposition){
+	protected void HitObject(MovingObjectPosition mop){
 		if (worldObj.isRemote){
 			return;
 		}
 
 		if (getIsShootingStar()){
-			AMNetHandler.INSTANCE.sendStarImpactToClients(posX, posY + ((movingobjectposition.typeOfHit == MovingObjectType.ENTITY) ? -movingobjectposition.entityHit.getEyeHeight() : 1.5f), posZ, worldObj, this.getSpellStack());
-			List<EntityLivingBase> ents = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, boundingBox.expand(5, 5, 5));
+			AMNetHandler.INSTANCE.sendStarImpactToClients(posX, posY + ((mop.typeOfHit == MovingObjectType.ENTITY) ? -mop.entityHit.getEyeHeight() : 1.5f), posZ, worldObj, this.getSpellStack());
+			List<EntityLivingBase> ents = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, getEntityBoundingBox().expand(5, 5, 5));
 			for (EntityLivingBase e : ents){
 				if (e == throwingEntity) continue;
 				if (this.getEntitySenses().canSee(e))
@@ -291,23 +293,23 @@ public class EntityThrownRock extends EntityLiving{
 			}
 		}else{
 
-			if (movingobjectposition.entityHit != null && movingobjectposition.entityHit instanceof EntityLivingBase){
-				if (movingobjectposition.entityHit == throwingEntity || throwingEntity == null) return;
+			if (mop.entityHit != null && mop.entityHit instanceof EntityLivingBase){
+				if (mop.entityHit == throwingEntity || throwingEntity == null) return;
 				if (throwingEntity != null){
-					movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeMobDamage(throwingEntity), 10);
+					mop.entityHit.attackEntityFrom(DamageSource.causeMobDamage(throwingEntity), 10);
 				}
-			}else if (movingobjectposition.typeOfHit == MovingObjectType.BLOCK){
+			}else if (mop.typeOfHit == MovingObjectType.BLOCK){
 				if (this.getIsMoonstoneMeteor()){
 
 					if (this.target == null){
-						this.target = new AMVector3(movingobjectposition.hitVec);
+						this.target = new AMVector3(mop.hitVec);
 					}
 					this.worldObj.newExplosion(this, this.target.x, this.target.y, this.target.z, 0.8f, false, AMCore.config.moonstoneMeteorsDestroyTerrain());
 
 					int numOres = rand.nextInt(6) + 1;
 
 					for (int i = 0; i < numOres; ++i){
-						generateSurfaceOreAtOffset(worldObj, (int)Math.floor(this.target.x), (int)Math.floor(this.target.y), (int)Math.floor(this.target.z), i == 0);
+						generateSurfaceOreAtOffset(worldObj, new BlockPos((int)Math.floor(this.target.x), (int)Math.floor(this.target.y), (int)Math.floor(this.target.z)), i == 0); // dirty, but whatever
 					}
 
 					if (this.worldObj.isRemote){
@@ -322,17 +324,21 @@ public class EntityThrownRock extends EntityLiving{
 		setDead();
 	}
 
-	private void generateSurfaceOreAtOffset(World world, int x, int y, int z, boolean force){
+	private void generateSurfaceOreAtOffset(World world, BlockPos pos, boolean force){
+        int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
 		x = x + rand.nextInt(4) - 2;
 		z = z + rand.nextInt(4) - 2;
 
-		while (!world.isAirBlock(x, y, z) && y < world.getActualHeight())
+		while (!world.isAirBlock(pos) && y < world.getActualHeight())
 			y++;
 
 		if (rand.nextInt(4) < 2 || force)
-			world.setBlock(x, y, z, BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_MOONSTONE_ORE, 2);
-		else
-			world.setBlock(x, y, z, Blocks.stone);
+			//world.setBlock(x, y, z, BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_MOONSTONE_ORE, 2);
+            world.setBlockState(pos, Blocks.stone.getDefaultState()); // TODO: fix this once we have blockstates properly
+        else
+			world.setBlockState(pos, Blocks.stone.getDefaultState());
 	}
 
 	@Override

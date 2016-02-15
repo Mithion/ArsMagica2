@@ -241,4 +241,9 @@ public class EntityWaterGuardian extends AM2Boss{
 	public String getAttackSound(){
 		return "arsmagica2:mob.waterguardian.attack";
 	}
+
+    @Override
+    public World getWorld() {
+        return worldObj;
+    }
 }

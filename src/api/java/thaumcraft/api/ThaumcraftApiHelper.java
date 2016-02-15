@@ -1,43 +1,25 @@
 package thaumcraft.api;
 
-import java.lang.reflect.Method;
-import java.util.HashMap;
+import java.nio.ByteBuffer;
+import java.util.Iterator;
+import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
-import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IEssentiaTransport;
-import cpw.mods.fml.common.FMLLog;
 
 public class ThaumcraftApiHelper {
-	
-	public static AspectList cullTags(AspectList temp) {
-		AspectList temp2 = new AspectList();
-		for (Aspect tag:temp.getAspects()) {
-			if (tag!=null)
-				temp2.add(tag, temp.getAmount(tag));
-		}
-		while (temp2!=null && temp2.size()>10) {
-			Aspect lowest = null;
-			int low = Integer.MAX_VALUE;
-			for (Aspect tag:temp2.getAspects()) {
-				if (tag==null) continue;
-				if (temp2.getAmount(tag)<low) {
-					low = temp2.getAmount(tag);
-					lowest = tag;
-				}
-			}
-			temp2.aspects.remove(lowest);
-		}
-		return temp2; 
-	}
 	
 	public static boolean areItemsEqual(ItemStack s1,ItemStack s2)
     {
@@ -47,85 +29,24 @@ public class ThaumcraftApiHelper {
 		} else
 			return s1.getItem() == s2.getItem() && s1.getItemDamage() == s2.getItemDamage();
     }
-
-	static Method isResearchComplete;
-	static Method getObjectTags;
-	static Method getBonusTags;
-	static Method generateTags;
-	public static boolean isResearchComplete(String username, String researchkey) {
-		boolean ot = false;
-	    try {
-	        if(isResearchComplete == null) {
-	            Class fake = Class.forName("thaumcraft.common.lib.research.ResearchManager");
-	            isResearchComplete = fake.getMethod("isResearchComplete", String.class, String.class);
-	        }
-	        ot = (Boolean) isResearchComplete.invoke(null, username, researchkey);
-	    } catch(Exception ex) { 
-	    	FMLLog.warning("[Thaumcraft API] Could not invoke thaumcraft.common.lib.research.ResearchManager method isResearchComplete");
-	    }
-		return ot;
-	}
-
-	public static ItemStack getStackInRowAndColumn(Object instance, int row, int column) {
-		ItemStack ot = null;
-	    try {
-	        Class fake = Class.forName("thaumcraft.common.tiles.TileMagicWorkbench");
-	        Method getStackInRowAndColumn = fake.getMethod("getStackInRowAndColumn", int.class, int.class);
-	        ot = (ItemStack) getStackInRowAndColumn.invoke(instance, row, column);
-	    } catch(Exception ex) { 
-	    	FMLLog.warning("[Thaumcraft API] Could not invoke thaumcraft.common.tiles.TileMagicWorkbench method getStackInRowAndColumn");
-	    }
-		return ot;
-	}
-
-	public static AspectList getObjectAspects(ItemStack is) {
-		AspectList ot = null;
-	    try {
-	        if(getObjectTags == null) {
-	            Class fake = Class.forName("thaumcraft.common.lib.crafting.ThaumcraftCraftingManager");
-	            getObjectTags = fake.getMethod("getObjectTags", ItemStack.class);
-	        }
-	        ot = (AspectList) getObjectTags.invoke(null, is);
-	    } catch(Exception ex) { 
-	    	FMLLog.warning("[Thaumcraft API] Could not invoke thaumcraft.common.lib.crafting.ThaumcraftCraftingManager method getObjectTags");
-	    }
-		return ot;
-	}
-
-	public static AspectList getBonusObjectTags(ItemStack is,AspectList ot) {
-		
-	    try {
-	        if(getBonusTags == null) {
-	            Class fake = Class.forName("thaumcraft.common.lib.crafting.ThaumcraftCraftingManager");
-	            getBonusTags = fake.getMethod("getBonusTags", ItemStack.class, AspectList.class);
-	        }
-	        ot = (AspectList) getBonusTags.invoke(null, is, ot);
-	    } catch(Exception ex) { 
-	    	FMLLog.warning("[Thaumcraft API] Could not invoke thaumcraft.common.lib.crafting.ThaumcraftCraftingManager method getBonusTags");
-	    }
-		return ot;
-	}
-
-	public static AspectList generateTags(Item item, int meta) {
-	    try {
-	        if(generateTags == null) {
-	            Class fake = Class.forName("thaumcraft.common.lib.crafting.ThaumcraftCraftingManager");
-	            generateTags = fake.getMethod("generateTags", Item.class, int.class);
-	        }
-	        return (AspectList) generateTags.invoke(null, item, meta);
-	    } catch(Exception ex) { 
-	    	FMLLog.warning("[Thaumcraft API] Could not invoke thaumcraft.common.lib.crafting.ThaumcraftCraftingManager method generateTags");
-	    }
-		return null;
+	
+	/**
+	 * Notifies thaumcraft that something with regards to runic shielding has changed and that it should
+	 * rescan worn items to determine what the max shielding value is. 
+	 * It automatically rescans once every 5 seconds, but this makes it happen sooner.
+	 * @param entity
+	 */
+	public static void markRunicDirty(Entity entity) {
+		ThaumcraftApi.internalMethods.markRunicDirty(entity);
 	}
 	
-	public static boolean containsMatch(boolean strict, ItemStack[] inputs, ItemStack... targets)
+	public static boolean containsMatch(boolean strict, ItemStack[] inputs, List<ItemStack> targets)
     {
         for (ItemStack input : inputs)
         {
             for (ItemStack target : targets)
             {
-                if (itemMatches(target, input, strict))
+                if (OreDictionary.itemMatches(target, input, strict))
                 {
                     return true;
                 }
@@ -133,136 +54,316 @@ public class ThaumcraftApiHelper {
         }
         return false;
     }
-
-    public static boolean itemMatches(ItemStack target, ItemStack input, boolean strict)
+	
+	public static boolean areItemStacksEqualForCrafting(ItemStack stack0, Object in)
     {
-        if (input == null && target != null || input != null && target == null)
+		if (stack0==null && in!=null) return false;
+		if (stack0!=null && in==null) return false;
+		if (stack0==null && in==null) return true;
+		
+		if (in instanceof Object[]) return true;
+		
+		if (in instanceof String) {
+			List<ItemStack> l = OreDictionary.getOres((String) in);
+			return containsMatch(false, new ItemStack[]{stack0}, l);
+		}
+		
+		if (in instanceof ItemStack) {
+			//nbt
+			boolean t1=areItemStackTagsEqualForCrafting(stack0, (ItemStack) in);		
+			if (!t1) return false;	
+	        return OreDictionary.itemMatches((ItemStack) in, stack0, false);
+		}
+		
+		return false;
+    }
+	
+	public static boolean areItemStackTagsEqualForCrafting(ItemStack slotItem,ItemStack recipeItem)
+    {
+    	if (recipeItem == null || slotItem == null) return false;
+    	if (recipeItem.getTagCompound()!=null && slotItem.getTagCompound()==null ) return false;
+    	if (recipeItem.getTagCompound()==null ) return true;
+    	
+    	Iterator iterator = recipeItem.getTagCompound().getKeySet().iterator();
+        while (iterator.hasNext())
         {
-            return false;
+            String s = (String)iterator.next();
+            if (slotItem.getTagCompound().hasKey(s)) {
+            	if (!slotItem.getTagCompound().getTag(s).toString().equals(
+            			recipeItem.getTagCompound().getTag(s).toString())) {
+            		return false;
+            	}
+            } else {
+        		return false;
+            }
+            
         }
-        return (target.getItem() == input.getItem() && ((target.getItemDamage() == OreDictionary.WILDCARD_VALUE && !strict) || target.getItemDamage() == input.getItemDamage()));
+        return true;
     }
+   
     
-    
-    public static TileEntity getConnectableTile(World world, int x, int y, int z, ForgeDirection face) {
-		TileEntity te = world.getTileEntity(x+face.offsetX, y+face.offsetY, z+face.offsetZ);
+    public static TileEntity getConnectableTile(World world, BlockPos pos, EnumFacing face) {
+		TileEntity te = world.getTileEntity(pos.offset(face));
 		if (te instanceof IEssentiaTransport && ((IEssentiaTransport)te).isConnectable(face.getOpposite())) 
 			return te;
 		else
 			return null;
 	}
     
-    public static TileEntity getConnectableTile(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
-		TileEntity te = world.getTileEntity(x+face.offsetX, y+face.offsetY, z+face.offsetZ);
+    public static TileEntity getConnectableTile(IBlockAccess world, BlockPos pos, EnumFacing face) {
+		TileEntity te = world.getTileEntity(pos.offset(face));
 		if (te instanceof IEssentiaTransport && ((IEssentiaTransport)te).isConnectable(face.getOpposite())) 
 			return te;
 		else
 			return null;
 	}
     
-    private static HashMap<Integer, AspectList> allAspects= new HashMap<Integer, AspectList>();
-    private static HashMap<Integer, AspectList> allCompoundAspects= new HashMap<Integer, AspectList>();
+//    private static HashMap<Integer, AspectList> allAspects= new HashMap<Integer, AspectList>();
+//    private static HashMap<Integer, AspectList> allCompoundAspects= new HashMap<Integer, AspectList>();
+//    
+//    public static AspectList getAllAspects(int amount) {
+//    	if (allAspects.get(amount)==null) {
+//    		AspectList al = new AspectList();
+//    		for (Aspect aspect:Aspect.aspects.values()) {
+//    			al.add(aspect, amount);
+//    		}
+//    		allAspects.put(amount, al);
+//    	} 
+//    	return allAspects.get(amount);
+//    }
+//    
+//    public static AspectList getAllCompoundAspects(int amount) {
+//    	if (allCompoundAspects.get(amount)==null) {
+//    		AspectList al = new AspectList();
+//    		for (Aspect aspect:Aspect.getCompoundAspects()) {
+//    			al.add(aspect, amount);
+//    		}
+//    		allCompoundAspects.put(amount, al);
+//    	} 
+//    	return allCompoundAspects.get(amount);
+//    }
     
-    public static AspectList getAllAspects(int amount) {
-    	if (allAspects.get(amount)==null) {
-    		AspectList al = new AspectList();
-    		for (Aspect aspect:Aspect.aspects.values()) {
-    			al.add(aspect, amount);
-    		}
-    		allAspects.put(amount, al);
-    	} 
-    	return allAspects.get(amount);
-    }
     
-    public static AspectList getAllCompoundAspects(int amount) {
-    	if (allCompoundAspects.get(amount)==null) {
-    		AspectList al = new AspectList();
-    		for (Aspect aspect:Aspect.getCompoundAspects()) {
-    			al.add(aspect, amount);
-    		}
-    		allCompoundAspects.put(amount, al);
-    	} 
-    	return allCompoundAspects.get(amount);
-    }
-    
-    static Method consumeVisFromWand;
-	/**
-	 * Use to subtract vis from a wand for most operations
-	 * Wands store vis differently so "real" vis costs need to be multiplied by 100 before calling this method
-	 * @param wand the wand itemstack
-	 * @param player the player using the wand
-	 * @param cost the cost of the operation. 
-	 * @param doit actually subtract the vis from the wand if true - if false just simulate the result
-	 * @param crafting is this a crafting operation or not - if 
-	 * false then things like frugal and potency will apply to the costs
-	 * @return was the vis successfully subtracted
-	 */
-	public static boolean consumeVisFromWand(ItemStack wand, EntityPlayer player, 
-			AspectList cost, boolean doit, boolean crafting) {
-		boolean ot = false;
-	    try {
-	        if(consumeVisFromWand == null) {
-	            Class fake = Class.forName("thaumcraft.common.items.wands.ItemWandCasting");
-	            consumeVisFromWand = fake.getMethod("consumeAllVis", 
-	            		ItemStack.class, EntityPlayer.class, AspectList.class, boolean.class, boolean.class);
+	public static MovingObjectPosition rayTraceIgnoringSource(World world, Vec3 v1, Vec3 v2, 
+			boolean bool1, boolean bool2, boolean bool3)
+	{
+	    if (!Double.isNaN(v1.xCoord) && !Double.isNaN(v1.yCoord) && !Double.isNaN(v1.zCoord))
+	    {
+	        if (!Double.isNaN(v2.xCoord) && !Double.isNaN(v2.yCoord) && !Double.isNaN(v2.zCoord))
+	        {
+	            int i = MathHelper.floor_double(v2.xCoord);
+	            int j = MathHelper.floor_double(v2.yCoord);
+	            int k = MathHelper.floor_double(v2.zCoord);
+	            int l = MathHelper.floor_double(v1.xCoord);
+	            int i1 = MathHelper.floor_double(v1.yCoord);
+	            int j1 = MathHelper.floor_double(v1.zCoord);
+	            IBlockState block = world.getBlockState(new BlockPos(l, i1, j1));
+	
+	            MovingObjectPosition movingobjectposition2 = null;
+	            int k1 = 200;
+	
+	            while (k1-- >= 0)
+	            {
+	                if (Double.isNaN(v1.xCoord) || Double.isNaN(v1.yCoord) || Double.isNaN(v1.zCoord))
+	                {
+	                    return null;
+	                }
+	
+	                if (l == i && i1 == j && j1 == k)
+	                {
+	                    continue;
+	                }
+	
+	                boolean flag6 = true;
+	                boolean flag3 = true;
+	                boolean flag4 = true;
+	                double d0 = 999.0D;
+	                double d1 = 999.0D;
+	                double d2 = 999.0D;
+	
+	                if (i > l)
+	                {
+	                    d0 = (double)l + 1.0D;
+	                }
+	                else if (i < l)
+	                {
+	                    d0 = (double)l + 0.0D;
+	                }
+	                else
+	                {
+	                    flag6 = false;
+	                }
+	
+	                if (j > i1)
+	                {
+	                    d1 = (double)i1 + 1.0D;
+	                }
+	                else if (j < i1)
+	                {
+	                    d1 = (double)i1 + 0.0D;
+	                }
+	                else
+	                {
+	                    flag3 = false;
+	                }
+	
+	                if (k > j1)
+	                {
+	                    d2 = (double)j1 + 1.0D;
+	                }
+	                else if (k < j1)
+	                {
+	                    d2 = (double)j1 + 0.0D;
+	                }
+	                else
+	                {
+	                    flag4 = false;
+	                }
+	
+	                double d3 = 999.0D;
+                    double d4 = 999.0D;
+                    double d5 = 999.0D;
+                    double d6 = v2.xCoord - v1.xCoord;
+                    double d7 = v2.yCoord - v1.yCoord;
+                    double d8 = v2.zCoord - v1.zCoord;
+
+                    if (flag6)
+                    {
+                        d3 = (d0 - v1.xCoord) / d6;
+                    }
+
+                    if (flag3)
+                    {
+                        d4 = (d1 - v1.yCoord) / d7;
+                    }
+
+                    if (flag4)
+                    {
+                        d5 = (d2 - v1.zCoord) / d8;
+                    }
+
+                    if (d3 == -0.0D)
+                    {
+                        d3 = -1.0E-4D;
+                    }
+
+                    if (d4 == -0.0D)
+                    {
+                        d4 = -1.0E-4D;
+                    }
+
+                    if (d5 == -0.0D)
+                    {
+                        d5 = -1.0E-4D;
+                    }
+	
+	                EnumFacing enumfacing;
+
+                    if (d3 < d4 && d3 < d5)
+                    {
+                        enumfacing = i > l ? EnumFacing.WEST : EnumFacing.EAST;
+                        v1 = new Vec3(d0, v1.yCoord + d7 * d3, v1.zCoord + d8 * d3);
+                    }
+                    else if (d4 < d5)
+                    {
+                        enumfacing = j > i1 ? EnumFacing.DOWN : EnumFacing.UP;
+                        v1 = new Vec3(v1.xCoord + d6 * d4, d1, v1.zCoord + d8 * d4);
+                    }
+                    else
+                    {
+                        enumfacing = k > j1 ? EnumFacing.NORTH : EnumFacing.SOUTH;
+                        v1 = new Vec3(v1.xCoord + d6 * d5, v1.yCoord + d7 * d5, d2);
+                    }
+
+                    l = MathHelper.floor_double(v1.xCoord) - (enumfacing == EnumFacing.EAST ? 1 : 0);
+                    i1 = MathHelper.floor_double(v1.yCoord) - (enumfacing == EnumFacing.UP ? 1 : 0);
+                    j1 = MathHelper.floor_double(v1.zCoord) - (enumfacing == EnumFacing.SOUTH ? 1 : 0);
+	
+	                IBlockState block1 = world.getBlockState(new BlockPos(l, i1, j1));
+	
+	                if (!bool2 || block1.getBlock().getCollisionBoundingBox(world, new BlockPos(l, i1, j1), block1) != null)
+	                {
+	                    if (block1.getBlock().canCollideCheck(block1, bool1))
+	                    {
+	                        MovingObjectPosition movingobjectposition1 = block1.getBlock().collisionRayTrace(world, new BlockPos(l, i1, j1), v1, v2);
+	
+	                        if (movingobjectposition1 != null)
+	                        {
+	                            return movingobjectposition1;
+	                        }
+	                    }
+	                    else
+	                    {
+	                        movingobjectposition2 = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, v1, enumfacing, new BlockPos(l, i1, j1));
+	                    }
+	                }
+	            }
+	
+	            return bool3 ? movingobjectposition2 : null;
 	        }
-	        ot = (Boolean) consumeVisFromWand.invoke(
-	        		consumeVisFromWand.getDeclaringClass().cast(wand.getItem()), wand, player, cost, doit, crafting);
-	    } catch(Exception ex) { 
-	    	FMLLog.warning("[Thaumcraft API] Could not invoke thaumcraft.common.items.wands.ItemWandCasting method consumeAllVis");
+	        else
+	        {
+	            return null;
+	        }
 	    }
-		return ot;
+	    else
+	    {
+	        return null;
+	    }
 	}
 	
-	static Method consumeVisFromWandCrafting;
-	/**
-	 * Subtract vis for use by a crafting mechanic. Costs are calculated slightly 
-	 * differently and things like the frugal enchant is ignored
-	 * Must NOT be multiplied by 100 - send the actual vis cost
-	 * @param wand the wand itemstack
-	 * @param player the player using the wand
-	 * @param cost the cost of the operation. 
-	 * @param doit actually subtract the vis from the wand if true - if false just simulate the result
-	 * @return was the vis successfully subtracted
-	 */
-	public static boolean consumeVisFromWandCrafting(ItemStack wand, EntityPlayer player, 
-			AspectList cost, boolean doit) {
-		boolean ot = false;
-	    try {
-	        if(consumeVisFromWandCrafting == null) {
-	            Class fake = Class.forName("thaumcraft.common.items.wands.ItemWandCasting");
-	            consumeVisFromWandCrafting = fake.getMethod("consumeAllVisCrafting", 
-	            		ItemStack.class, EntityPlayer.class, AspectList.class, boolean.class);
-	        }
-	        ot = (Boolean) consumeVisFromWandCrafting.invoke(
-	        		consumeVisFromWandCrafting.getDeclaringClass().cast(wand.getItem()), wand, player, cost, doit);
-	    } catch(Exception ex) { 
-	    	FMLLog.warning("[Thaumcraft API] Could not invoke thaumcraft.common.items.wands.ItemWandCasting method consumeAllVisCrafting");
-	    }
-		return ot;
+	public static Object getNBTDataFromId(NBTTagCompound nbt, byte id, String key) {
+		switch (id) {
+		case 1: return nbt.getByte(key);
+		case 2: return nbt.getShort(key);
+		case 3: return nbt.getInteger(key);
+		case 4: return nbt.getLong(key);
+		case 5: return nbt.getFloat(key);
+		case 6: return nbt.getDouble(key);
+		case 7: return nbt.getByteArray(key);
+		case 8: return nbt.getString(key);
+		case 9: return nbt.getTagList(key, (byte) 10);
+		case 10: return nbt.getTag(key);
+		case 11: return nbt.getIntArray(key);
+		default: return null;
+		}
 	}
 	
-	static Method consumeVisFromInventory;
-	/**
-	 * Subtract vis from a wand the player is carrying. Works like consumeVisFromWand in that actual vis
-	 * costs should be multiplied by 100. The costs are handled like crafting however and things like 
-	 * frugal don't effect them
-	 * @param player the player using the wand
-	 * @param cost the cost of the operation. 
-	 * @return was the vis successfully subtracted
-	 */
-	public static boolean consumeVisFromInventory(EntityPlayer player, AspectList cost) {
-		boolean ot = false;
-	    try {
-	        if(consumeVisFromInventory == null) {
-	            Class fake = Class.forName("thaumcraft.common.items.wands.WandManager");
-	            consumeVisFromInventory = fake.getMethod("consumeVisFromInventory", 
-	            		EntityPlayer.class, AspectList.class);
-	        }
-	        ot = (Boolean) consumeVisFromInventory.invoke(null, player, cost);
-	    } catch(Exception ex) { 
-	    	FMLLog.warning("[Thaumcraft API] Could not invoke thaumcraft.common.items.wands.WandManager method consumeVisFromInventory");
-	    }
-		return ot;
+	public static int setByteInInt(int data, byte b, int index)
+	{
+		ByteBuffer bb = ByteBuffer.allocate(4);
+		bb.putInt(0,data);
+		bb.put(index, b);
+	    return bb.getInt(0);
 	}
+	
+	public static byte getByteInInt(int data, int index) {
+		ByteBuffer bb = ByteBuffer.allocate(4);
+		bb.putInt(0,data);
+		return bb.get(index);
+	}	
+	
+	public static long setByteInLong(long data, byte b, int index)
+	{
+		ByteBuffer bb = ByteBuffer.allocate(8);
+		bb.putLong(0,data);
+		bb.put(index, b);
+	    return bb.getLong(0);
+	}
+	
+	public static byte getByteInLong(long data, int index) {
+		ByteBuffer bb = ByteBuffer.allocate(8);
+		bb.putLong(0,data);
+		return bb.get(index);
+	}	
+	
+	public static int setNibbleInInt(int data, int nibble, int nibbleIndex)
+	{
+	    int shift = nibbleIndex * 4;
+	    return (data & ~(0xf << shift)) | (nibble << shift);
+	}
+	
+	public static int getNibbleInInt(int data, int nibbleIndex) {
+		return (data >> (nibbleIndex << 2)) & 0xF;
+	}	
 }

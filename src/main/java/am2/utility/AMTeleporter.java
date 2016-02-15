@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -65,7 +66,7 @@ public class AMTeleporter extends Teleporter{
 				vec.y = 5;
 
 			while (true){
-				if (world.getBlock((int)vec.x, (int)vec.y, (int)vec.z) == Blocks.air || vec.y >= world.getActualHeight()){
+				if (world.isAirBlock(new BlockPos((int)vec.x, (int)vec.y, (int)vec.z)) || vec.y >= world.getActualHeight()){
 					canFindHigherGround = true;
 					break;
 				}
@@ -73,7 +74,7 @@ public class AMTeleporter extends Teleporter{
 			}
 
 			if (canFindHigherGround){
-				while (world.getBlock((int)vec.x, (int)vec.y - 1, (int)vec.z) == Blocks.air && vec.y > 0){
+				while (world.isAirBlock(new BlockPos((int)vec.x, (int)vec.y - 1, (int)vec.z)) && vec.y > 0){
 					vec.y--;
 				}
 			}else{
@@ -86,7 +87,7 @@ public class AMTeleporter extends Teleporter{
 					for (int i = (int)Math.floor(vec.x) - 1; i < vec.x + 1; ++i){
 						for (int k = (int)Math.floor(vec.z) - 1; k < vec.z + 1; ++k){
 							if (q == (int)Math.floor(vec.y - 2)){
-								world.setBlock(i, q, k, Blocks.air);
+								world.setBlockToAir(new BlockPos(i, q, k));
 							}
 						}
 					}
@@ -95,7 +96,7 @@ public class AMTeleporter extends Teleporter{
 		}else if (entity.dimension == -1){
 			boolean canFindHigherGround = false;
 			while (true){
-				if (world.getBlock((int)vec.x, (int)vec.y, (int)vec.z) == Blocks.air || vec.y >= 256){
+				if (world.isAirBlock(new BlockPos((int)vec.x, (int)vec.y, (int)vec.z)) || vec.y >= 256){
 					canFindHigherGround = true;
 					break;
 				}
@@ -107,9 +108,9 @@ public class AMTeleporter extends Teleporter{
 					for (int i = (int)Math.floor(vec.x) - 1; i < vec.x + 1; ++i){
 						for (int k = (int)Math.floor(vec.z) - 1; k < vec.z + 1; ++k){
 							if (q == (int)Math.floor(vec.y - 2)){
-								world.setBlock(i, q, k, Blocks.netherrack);
+								world.setBlockState(new BlockPos(i, q, k), Blocks.netherrack.getDefaultState());
 							}else{
-								world.setBlock(i, q, k, Blocks.air);
+								world.setBlockToAir(new BlockPos(i, q, k));
 							}
 						}
 					}

@@ -5,10 +5,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Random;
 
@@ -387,7 +387,7 @@ public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 		int[] aint1 = new int[]{this.basePos[0], this.basePos[1] + this.heightLimit - 1, this.basePos[2]};
 		Block soil = this.worldObj.getBlock(this.basePos[0], this.basePos[1] - 1, this.basePos[2]);
 
-		boolean isValidSoil = (soil != null && soil.canSustainPlant(worldObj, basePos[0], basePos[1] - 1, basePos[2], ForgeDirection.UP, (BlockSapling)Blocks.sapling));
+		boolean isValidSoil = (soil != null && soil.canSustainPlant(worldObj, basePos[0], basePos[1] - 1, basePos[2], EnumFacing.UP, (BlockSapling)Blocks.sapling));
 		if (!isValidSoil){
 			return false;
 		}else{
@@ -418,7 +418,12 @@ public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 		this.leafDensity = par5;
 	}
 
-	public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5){
+
+
+	public boolean generate(World par1World, Random par2Random, BlockPos pos){
+        int par3 = pos.getX();
+        int par4 = pos.getY();
+        int par5 = pos.getZ();
 		this.worldObj = par1World;
 		long l = par2Random.nextLong();
 		this.rand.setSeed(l);

@@ -46,8 +46,7 @@ public class BiomeWitchwoodForest extends BiomeGenBase{
 	}
 	
 	@Override
-	public WorldGenAbstractTree genBigTreeChance(Random p_150567_1_)
-	{
+	public WorldGenAbstractTree genBigTreeChance(Random p_150567_1_) {
 	  return (WorldGenAbstractTree)(p_150567_1_.nextInt(10) == 0 ? hugeTree : smallTree);
 	}
 }

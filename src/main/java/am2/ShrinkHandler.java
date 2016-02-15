@@ -12,14 +12,12 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 
 public class ShrinkHandler{
 
-    private double yOffset;
-    private double yOffset1;
-
     @SubscribeEvent
 	public void onEntityLiving(LivingEvent event){
 		if (!(event.entityLiving instanceof EntityPlayer)) return;
 
 		EntityPlayer player = (EntityPlayer) event.entityLiving;
+        double yOffset;
 
 		if (SkillTreeManager.instance.isSkillDisabled(SkillManager.instance.getSkill("Shrink")))
 			return;
