@@ -14,6 +14,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -22,51 +24,49 @@ import java.util.Random;
 public class Drought implements ISpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-
-
-		Block block = world.getBlock(blockx, blocky, blockz);
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+		Block block = world.getBlockState(pos).getBlock();
 		if (block instanceof BlockFlower || block instanceof BlockTallGrass){
-			world.setBlock(blockx, blocky, blockz, Blocks.tallgrass, 0, 2);
+			world.setBlockState(pos, Blocks.tallgrass.getDefaultState());
 			return true;
 		}else if (block == Blocks.grass || block == Blocks.mycelium || block == Blocks.sandstone || block == Blocks.dirt){
-			world.setBlock(blockx, blocky, blockz, Blocks.sand);
+			world.setBlockState(pos, Blocks.sand.getDefaultState());
 			return true;
 		}else if (block == Blocks.stone){
-			world.setBlock(blockx, blocky, blockz, Blocks.cobblestone);
+			world.setBlockState(pos, Blocks.cobblestone.getDefaultState());
 			return true;
-		}else if (block == Blocks.stonebrick && world.getBlockMetadata(blockx, blocky, blockz) != 2){
+		}else if (block == Blocks.stonebrick && world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos)) != 2){
 			world.setBlockMetadataWithNotify(blockx, blocky, blockz, 2, 2);
 			return true;
 		}
 
 		if (block == Blocks.water || block == Blocks.flowing_water){
-			world.setBlock(blockx, blocky, blockz, Blocks.air);
+			world.setBlockState(pos, Blocks.air.getDefaultState());
 			return true;
 		}else{
 			switch (blockFace){
-			case 5:
-				blockx++;
-				break;
-			case 2:
-				blockz--;
-				break;
-			case 3:
-				blockz++;
-				break;
-			case 4:
-				blockx--;
-				break;
-			case 0:
-				blocky--;
-				break;
-			case 1:
-				blocky++;
-				break;
+				case 5:
+					blockx++;
+					break;
+				case 2:
+					blockz--;
+					break;
+				case 3:
+					blockz++;
+					break;
+				case 4:
+					blockx--;
+					break;
+				case 0:
+					blocky--;
+					break;
+				case 1:
+					blocky++;
+					break;
 			}
-			block = world.getBlock(blockx, blocky, blockz);
+			block = world.getBlockState(pos).getBlock();
 			if (block == Blocks.water || block == Blocks.flowing_water){
-				world.setBlock(blockx, blocky, blockz, Blocks.air);
+				world.setBlockState(pos, Blocks.air.getDefaultState());
 				return true;
 			}
 		}

@@ -14,6 +14,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -22,10 +24,10 @@ import java.util.Random;
 public class BanishRain implements ISpellComponent, IRitualInteraction{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, blockx, blocky, blockz, true);
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+		ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, pos.getX(), pos.getY(), pos.getZ(), true);
 		if (reagents != null && reagents.length > 0){
-			RitualShapeHelper.instance.consumeRitualReagents(this, world, blockx, blocky, blockz);
+			RitualShapeHelper.instance.consumeRitualReagents(this, world, pos.getX(), pos.getY(), pos.getZ());
 			world.getWorldInfo().setRainTime(0);
 			world.getWorldInfo().setRaining(true);
 			return true;

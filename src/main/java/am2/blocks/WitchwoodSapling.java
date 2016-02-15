@@ -24,10 +24,7 @@ public class WitchwoodSapling extends BlockFlower{
 		super();
 	}
 
-	@Override
-	public void updateTick(World world, int x, int y, int z, Random rand){
 
-	}
 
     @Override
     public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {

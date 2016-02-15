@@ -97,7 +97,7 @@ public class Appropriation implements ISpellComponent{
 
 					EntityPlayerMP casterPlayer = (EntityPlayerMP)DummyEntityPlayer.fromEntityLiving(caster);
 					world.captureBlockSnapshots = true;
-					restore((EntityPlayer)caster, world, originalSpellStack, blockx, blocky, blockz, impactX, impactY, impactZ);
+					restore((EntityPlayer)caster, world, originalSpellStack, pos.getX(), pos.getY(), pos.getZ(), impactX, impactY, impactZ);
 					world.captureBlockSnapshots = false;
 
 					// save new spell data
@@ -162,7 +162,7 @@ public class Appropriation implements ISpellComponent{
 				data.setString(storageType, "block");
 				//data.setString("blockName", block.getUnlocalizedName().replace("tile.", ""));
 				data.setInteger("blockID", Block.getIdFromBlock(block));
-				int meta = world.getBlockMetadata(blockx, blocky, blockz);
+				int meta = getBlockMetadata(blockx, blocky, blockz);
 				data.setInteger("meta", meta);
 
 				EntityPlayerMP casterPlayer = (EntityPlayerMP)DummyEntityPlayer.fromEntityLiving(caster);

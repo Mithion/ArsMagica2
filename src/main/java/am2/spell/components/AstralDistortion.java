@@ -21,6 +21,8 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -29,17 +31,16 @@ import java.util.Random;
 public class AstralDistortion implements ISpellComponent, IRitualInteraction{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-
-		if (world.getBlock(blockx, blocky, blockz) == Blocks.mob_spawner){
-			ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, blockx, blocky, blockz);
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+		if (world.getBlockState(pos).getBlock() == Blocks.mob_spawner){
+			ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, pos.getX(), pos.getY(), pos.getZ());
 			if (reagents != null){
 				if (!world.isRemote){
-					world.setBlockToAir(blockx, blocky, blockz);
-					RitualShapeHelper.instance.consumeRitualReagents(this, world, blockx, blocky, blockz);
-					RitualShapeHelper.instance.consumeRitualShape(this, world, blockx, blocky, blockz);
+					world.setBlockToAir(pos);
+					RitualShapeHelper.instance.consumeRitualReagents(this, world, pos.getX(), pos.getY(), pos.getZ());
+					RitualShapeHelper.instance.consumeRitualShape(this, world, pos.getX(), pos.getY(), pos.getZ());
 					EntityItem item = new EntityItem(world);
-					item.setPosition(blockx + 0.5, blocky + 0.5, blockz + 0.5);
+					item.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
 					item.setEntityItemStack(new ItemStack(BlocksCommonProxy.inertSpawner));
 					world.spawnEntityInWorld(item);
 				}else{

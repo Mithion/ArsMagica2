@@ -73,11 +73,13 @@ public class InventorySpellBook implements IInventory{
 	}
 
 	@Override
-	public void openInventory(){
+	public void openInventory(EntityPlayer player) {
+
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer player) {
+
 	}
 
 	public ItemStack[] GetInventoryContents(){
@@ -94,6 +96,8 @@ public class InventorySpellBook implements IInventory{
 			return null;
 		}
 	}
+
+
 
 	@Override
 	public boolean hasCustomInventoryName(){

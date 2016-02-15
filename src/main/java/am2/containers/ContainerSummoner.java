@@ -119,7 +119,7 @@ public class ContainerSummoner extends AM2Container{
 
 			ItemStack castStack = new ItemStack(stack.getItem(), 1, stack.getItemDamage());
 			if (stack.hasTagCompound()){
-				castStack.setTagCompound((NBTTagCompound)stack.stackTagCompound.copy());
+				castStack.setTagCompound((NBTTagCompound)stack.getTagCompound().copy());
 			}
 			scrollSlot.putStack(castStack);
 			scrollSlot.onSlotChanged();

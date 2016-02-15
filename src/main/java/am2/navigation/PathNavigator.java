@@ -4,6 +4,7 @@ import am2.api.math.AMVector3;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -69,7 +70,8 @@ public class PathNavigator{
 			newY = (int)Math.round(pathEntity.posY + (world.rand.nextDouble() * 8 - (4)));
 			newZ = (int)Math.round(pathEntity.posZ + (world.rand.nextDouble() * MaxPathDistance - (MaxPathDistance / 2)));
 
-			if (world.getBlock(newX, newY, newZ) == Blocks.air && newY > 5){
+			BlockPos pos = new BlockPos(newX, newY, newZ);
+			if (world.getBlockState(pos).getBlock() == Blocks.air && newY > 5){
 				getEntityLocation(world);
 				SetWaypoint(world, newX, newY, newZ, entity);
 				GetPathToWaypoint(world, entity);
@@ -85,8 +87,8 @@ public class PathNavigator{
 			newX = (int)Math.round(pathEntity.posX + (world.rand.nextDouble() * MaxPathDistance - (MaxPathDistance / 2)));
 			newY = (int)Math.round(minY + (world.rand.nextDouble() * (maxY - minY)));
 			newZ = (int)Math.round(pathEntity.posZ + (world.rand.nextDouble() * MaxPathDistance - (MaxPathDistance / 2)));
-
-			if (world.getBlock(newX, newY, newZ) == Blocks.air && newY > 5){
+			BlockPos pos = new BlockPos(newX, newY, newZ);
+			if (world.getBlockState(pos).getBlock() == Blocks.air && newY > 5){
 				getEntityLocation(world);
 				SetWaypoint(world, newX, newY, newZ, entity);
 				GetPathToWaypoint(world, entity);
@@ -239,7 +241,8 @@ public class PathNavigator{
 	}
 
 	private boolean BlockIsAir(World world, Point3D point){
-		return world.isAirBlock(point.x, point.y, point.z);
+		BlockPos pos = new BlockPos(point.x, point.y, point.z);
+		return world.isAirBlock(pos);
 	}
 
 	private void checkStuck(){

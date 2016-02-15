@@ -140,8 +140,8 @@ public class ContainerArcaneReconstructor extends AM2Container{
 				if (repairSlot.getHasStack()) continue;
 
 				ItemStack input = new ItemStack(stack.getItem(), 1, stack.getItemDamage());
-				if (stack.stackTagCompound != null){
-					input.setTagCompound((NBTTagCompound)stack.stackTagCompound.copy());
+				if (stack.getTagCompound() != null){
+					input.setTagCompound((NBTTagCompound)stack.getTagCompound().copy());
 				}
 				repairSlot.putStack(input);
 				repairSlot.onSlotChanged();

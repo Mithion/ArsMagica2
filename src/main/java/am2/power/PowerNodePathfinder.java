@@ -4,6 +4,7 @@ import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
 import am2.api.power.PowerTypes;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
@@ -25,10 +26,11 @@ public class PowerNodePathfinder extends AStar<AMVector3>{
 	}
 
 	private IPowerNode getPowerNode(World world, AMVector3 location){
-		if (world.checkChunksExist((int)location.x, (int)location.y, (int)location.z, (int)location.x, (int)location.y, (int)location.z)){
-			Chunk chunk = world.getChunkFromBlockCoords((int)location.x, (int)location.z);
-			if (chunk.isChunkLoaded){
-				TileEntity te = world.getTileEntity((int)location.x, (int)location.y, (int)location.z);
+		BlockPos pos = new BlockPos(location.x, location.y, location.z);
+		if (world.getChunkProvider().chunkExists((int)location.x, (int)location.z)){
+			Chunk chunk = world.getChunkFromBlockCoords(pos);
+			if (chunk.isLoaded()){
+				TileEntity te = world.getTileEntity(pos);
 				if (te instanceof IPowerNode)
 					return (IPowerNode)te;
 			}

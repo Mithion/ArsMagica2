@@ -31,7 +31,7 @@ public class AMEnchantments{
 				break;
 			}
 			enchID++;
-			enchID %= Enchantment.enchantmentsList.length;
+			enchID %= Enchantment.enchantmentsBookList.length;
 		}while (enchID != start_value);
 
 		if (fullcircle){

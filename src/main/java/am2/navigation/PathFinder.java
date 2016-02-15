@@ -3,6 +3,7 @@ package am2.navigation;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public final class PathFinder{
@@ -131,7 +132,8 @@ public final class PathFinder{
 		if (!isDiagonalMovement(point, Current)){
 			Block[] blocks = new Block[height];
 			for (int i = 0; i < height; ++i){
-				Block block = world.getBlock(unshifted.x, unshifted.y + i, unshifted.z);
+				BlockPos pos = new BlockPos(unshifted.x, unshifted.y + i, unshifted.z);
+				Block block = world.getBlockState(pos).getBlock();
 				blocks[i] = block;
 			}
 			for (Block b : blocks){
@@ -149,13 +151,17 @@ public final class PathFinder{
 				int deltaX = unshifted.x - currentUnshifted.x;
 				int deltaY = unshifted.y - currentUnshifted.y;
 				int deltaZ = unshifted.z - currentUnshifted.z;
-				Block block = world.getBlock(unshifted.x, unshifted.y + i, unshifted.z);
+				BlockPos pos = new BlockPos(unshifted.x, unshifted.y + i, unshifted.z);
+				Block block = world.getBlockState(pos).getBlock();
 				blocks[i] = block;
-				block = world.getBlock(unshifted.x + deltaX, unshifted.y + i, unshifted.z);
+				pos = new BlockPos(unshifted.x + deltaX, unshifted.y + i, unshifted.z);
+				block = world.getBlockState(pos).getBlock();
 				blocks[i + 1] = block;
-				block = world.getBlock(unshifted.x, unshifted.y + i, unshifted.z + deltaZ);
+				pos = new BlockPos(unshifted.x, unshifted.y + i, unshifted.z + deltaZ);
+				block = world.getBlockState(pos).getBlock();
 				blocks[i + 2] = block;
-				block = world.getBlock(unshifted.x, unshifted.y + i + deltaY, unshifted.z);
+				pos = new BlockPos(unshifted.x, unshifted.y + i + deltaY, unshifted.z);
+				block = world.getBlockState(pos).getBlock();
 				blocks[i + 3] = block;
 			}
 			for (Block b : blocks){

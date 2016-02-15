@@ -77,8 +77,8 @@ public class ContainerSpellCustomization extends Container{
 		if (slot == null || !slot.getHasStack()) return "";
 		ItemStack stack = slot.getStack();
 		if (!stack.hasTagCompound()) return "";
-		if (!stack.stackTagCompound.hasKey("suggestedName")) return "";
-		return stack.stackTagCompound.getString("suggestedName");
+		if (!stack.getTagCompound().hasKey("suggestedName")) return "";
+		return stack.getTagCompound().getString("suggestedName");
 
 	}
 

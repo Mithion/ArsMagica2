@@ -19,7 +19,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -28,9 +30,9 @@ import java.util.Random;
 public class Forge implements ISpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		if (!CanApplyFurnaceToBlockAtCoords(caster, world, blockx, blocky, blockz)) return false;
-		ApplyFurnaceToBlockAtCoords(caster, world, blockx, blocky, blockz);
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+		if (!CanApplyFurnaceToBlockAtCoords(caster, world, pos.getX(), pos.getY(), pos.getZ())) return false;
+		ApplyFurnaceToBlockAtCoords(caster, world, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 
@@ -85,7 +87,8 @@ public class Forge implements ISpellComponent{
 
 	private boolean ApplyFurnaceToBlockAtCoords(EntityLivingBase entity, World world, int x, int y, int z){
 
-		Block block = world.getBlock(x, y, z);
+		BlockPos pos = new BlockPos(x, y, z);
+		Block block = world.getBlockState(pos).getBlock();
 
 		if (block == Blocks.air){
 			return false;
@@ -93,12 +96,12 @@ public class Forge implements ISpellComponent{
 
 		if (block == Blocks.ice){
 			if (!world.isRemote){
-				world.setBlock(x, y, z, Blocks.water);
+				world.setBlockState(pos, Blocks.water.getDefaultState());
 			}
 			return true;
 		}
 
-		int meta = world.getBlockMetadata(x, y, z);
+		int meta = block.getMetaFromState(world.getBlockState(pos));
 		ItemStack smelted = FurnaceRecipes.smelting().getSmeltingResult(new ItemStack(block, 1, meta));
 		if (smelted == null){
 			return false;
@@ -108,7 +111,7 @@ public class Forge implements ISpellComponent{
 				world.setBlock(x, y, z, ((ItemBlock)smelted.getItem()).field_150939_a);
 			}else{
 				entity.entityDropItem(new ItemStack(smelted.getItem(), 1, smelted.getItemDamage()), 0);
-				world.setBlock(x, y, z, Blocks.air);
+				world.setBlockState(pos, Blocks.air.getDefaultState());
 			}
 		}
 		return true;
@@ -116,7 +119,8 @@ public class Forge implements ISpellComponent{
 
 	private boolean CanApplyFurnaceToBlockAtCoords(EntityLivingBase entity, World world, int x, int y, int z){
 
-		Block block = world.getBlock(x, y, z);
+		BlockPos pos = new BlockPos(x, y, z);
+		Block block = world.getBlockState(pos).getBlock();
 
 		if (block == Blocks.air){
 			return false;
