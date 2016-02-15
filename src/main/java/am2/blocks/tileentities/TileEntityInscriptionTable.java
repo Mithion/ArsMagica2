@@ -7,6 +7,7 @@ import am2.api.power.PowerTypes;
 import am2.api.spell.component.interfaces.*;
 import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellModifiers;
+import am2.blocks.BlockInscriptionTable;
 import am2.containers.ContainerInscriptionTable;
 import am2.items.ItemsCommonProxy;
 import am2.lore.Story;
@@ -38,6 +39,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.MinecraftForge;
@@ -156,7 +158,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	}
 
 	private boolean isRenderingLeft(){
-		return (worldObj.getBlockMetadata(pos.getX(), pos.getY(), pos.getZ()) & 0x8) == 0x8;
+		return worldObj.getBlockState(getPos()).getValue(BlockInscriptionTable.LEFT);
 	}
 
 	@Override
@@ -178,25 +180,25 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		if (isRenderingLeft()){
 			if (ticksToNextParticle == 0 || ticksToNextParticle == 15){
 
-				int meta = worldObj.getBlockMetadata(pos.getX(), pos.getY(), pos.getZ()) & ~0x8;
+				EnumFacing facing = worldObj.getBlockState(pos).getValue(BlockInscriptionTable.FACING);
 
 				double particleX = 0;
 				double particleZ = 0;
 
-				switch (meta){
-				case 1:
+				switch (facing){
+				case NORTH:
 					particleX = this.pos.getX() + 0.15;
 					particleZ = this.pos.getZ() + 0.22;
 					break;
-				case 2:
+				case EAST:
 					particleX = this.pos.getX() + 0.22;
 					particleZ = this.pos.getZ() + 0.85;
 					break;
-				case 3:
+				case SOUTH:
 					particleX = this.pos.getX() + 0.83;
 					particleZ = this.pos.getZ() + 0.78;
 					break;
-				case 4:
+				case WEST:
 					particleX = this.pos.getX() + 0.79;
 					particleZ = this.pos.getZ() + 0.15;
 					break;
@@ -223,25 +225,25 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			}
 			if (ticksToNextParticle == 10 || ticksToNextParticle == 25){
 
-				int meta = worldObj.getBlockMetadata(pos.getX(), pos.getY(), pos.getZ()) & ~0x8;
+				EnumFacing facing = worldObj.getBlockState(pos).getValue(BlockInscriptionTable.FACING);
 
 				double particleX = 0;
 				double particleZ = 0;
 
-				switch (meta){
-				case 1:
+				switch (facing){
+				case NORTH:
 					particleX = this.pos.getX() + 0.59;
 					particleZ = this.pos.getZ() - 0.72;
 					break;
-				case 2:
+				case EAST:
 					particleX = this.pos.getX() - 0.72;
 					particleZ = this.pos.getZ() + 0.41;
 					break;
-				case 3:
+				case SOUTH:
 					particleX = this.pos.getX() + 0.41;
 					particleZ = this.pos.getZ() + 1.72;
 					break;
-				case 4:
+				case WEST:
 					particleX = this.pos.getX() + 1.72;
 					particleZ = this.pos.getZ() + 0.60;
 					break;

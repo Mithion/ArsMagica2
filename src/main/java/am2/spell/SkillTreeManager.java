@@ -16,10 +16,6 @@ import am2.api.spell.enums.SkillTree;
 
 public class SkillTreeManager implements ISkillTreeManager{
 
-	private final ArrayList<SkillTreeEntry> offenseTree = new ArrayList<SkillTreeEntry>();
-	private final ArrayList<SkillTreeEntry> defenseTree = new ArrayList<SkillTreeEntry>();
-	private final ArrayList<SkillTreeEntry> utilityTree = new ArrayList<SkillTreeEntry>();
-	private final ArrayList<SkillTreeEntry> talentTree = new ArrayList<SkillTreeEntry>();
 	private final ArrayList<SkillTree> trees = new ArrayList<SkillTree>();
 	private final HashMap<Integer, ArrayList<SkillTreeEntry>> treeSkills = new HashMap<Integer, ArrayList<SkillTreeEntry>>();
 	private final HashMap<Integer, SkillPointTypes> skillPointTypeList;
@@ -216,7 +212,6 @@ public class SkillTreeManager implements ISkillTreeManager{
 		RegisterPart(SkillManager.instance.getSkill("BuffPower"), 30, 135, SkillTree.Defense, SkillPointTypes.SILVER);
 
 		//utility tree
-		utilityTree.clear();
 		treeSkills.put(2, new ArrayList<SkillTreeEntry>());
 		RegisterPart(SkillManager.instance.getSkill("Touch"), 275, 75, SkillTree.Utility, SkillPointTypes.BLUE);
 
@@ -305,18 +300,12 @@ public class SkillTreeManager implements ISkillTreeManager{
 
 	public int[] getDisabledSkillIDs(){
 		ArrayList<Integer> disableds = new ArrayList<Integer>();
-		for (SkillTreeEntry entry : offenseTree)
-			if (!entry.enabled)
-				disableds.add(SkillManager.instance.getShiftedPartID(entry.registeredItem));
-		for (SkillTreeEntry entry : defenseTree)
-			if (!entry.enabled)
-				disableds.add(SkillManager.instance.getShiftedPartID(entry.registeredItem));
-		for (SkillTreeEntry entry : utilityTree)
-			if (!entry.enabled)
-				disableds.add(SkillManager.instance.getShiftedPartID(entry.registeredItem));
-		for (SkillTreeEntry entry : talentTree)
-			if (!entry.enabled)
-				disableds.add(SkillManager.instance.getShiftedPartID(entry.registeredItem));
+		for (Entry<Integer, ArrayList<SkillTreeEntry>> entry : treeSkills.entrySet()) {
+			for (SkillTreeEntry entry2 : entry.getValue())
+				if (!entry2.enabled)
+					disableds.add(SkillManager.instance.getShiftedPartID(entry2.registeredItem));
+			
+		}
 
 		int[] toReturn = new int[disableds.size()];
 
@@ -337,11 +326,9 @@ public class SkillTreeManager implements ISkillTreeManager{
 	}
 
 	private void calculateHighestOverallTier(){
-		int offense = calculateHighestTier(offenseTree);
-		int defense = calculateHighestTier(defenseTree);
-		int utility = calculateHighestTier(utilityTree);
-
-		highestSkillDepth = Math.max(offense, Math.max(defense, utility));
+		for (Entry<Integer, ArrayList<SkillTreeEntry>> entry : treeSkills.entrySet()) {
+			highestSkillDepth = Math.max(highestSkillDepth, calculateHighestTier(entry.getValue()));
+		}
 	}
 
 	private int calculateHighestTier(ArrayList<SkillTreeEntry> tree){
@@ -360,14 +347,10 @@ public class SkillTreeManager implements ISkillTreeManager{
 
 	public void disableAllSkillsIn(int[] disabledSkills){
 		//enable all skills
-		for (SkillTreeEntry entry : offenseTree)
-			entry.enabled = true;
-		for (SkillTreeEntry entry : defenseTree)
-			entry.enabled = true;
-		for (SkillTreeEntry entry : utilityTree)
-			entry.enabled = true;
-		for (SkillTreeEntry entry : talentTree)
-			entry.enabled = true;
+		for (Entry<Integer, ArrayList<SkillTreeEntry>> entry : treeSkills.entrySet()) {
+			for (SkillTreeEntry entry2 : entry.getValue())
+				entry2.enabled = true;			
+		}
 		//disable all server-disabled skills
 		for (int i : disabledSkills){
 			SkillTreeEntry entry = getSkillTreeEntry(SkillManager.instance.getSkill(i));

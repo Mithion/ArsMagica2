@@ -1,20 +1,24 @@
 package am2.blocks;
 
+import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 import am2.AMCore;
 import am2.blocks.tileentities.TileEntityOcculus;
 import am2.playerextensions.ExtendedProperties;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
 
 public class BlockOcculus extends AMSpecialRenderBlockContainer{
-
+	
+	public final static PropertyEnum<EnumFacing> FACING = PropertyEnum.create("facing", EnumFacing.class, EnumFacing.HORIZONTALS);
+	
 	protected BlockOcculus(){
 		super(Material.rock);
 		setHardness(3.0f);
@@ -25,34 +29,20 @@ public class BlockOcculus extends AMSpecialRenderBlockContainer{
 	public TileEntity createNewTileEntity(World world, int i){
 		return new TileEntityOcculus();
 	}
-
+	
 	@Override
-	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLiving, ItemStack stack){
-		int p = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4F) / 360F + 0.5D) & 3;
-
-		byte byte0 = 3;
-
-		if (p == 0){
-			byte0 = 4;
-		}
-		if (p == 1){
-			byte0 = 3;
-		}
-		if (p == 2){
-			byte0 = 2;
-		}
-		if (p == 3){
-			byte0 = 1;
-		}
-
-		par1World.setBlockMetadataWithNotify(par2, par3, par4, byte0, 2);
-
-		super.onBlockPlacedBy(par1World, par2, par3, par4, par5EntityLiving, stack);
+	protected BlockState createBlockState() {
+		return new BlockState(this, FACING);
+	}
+	
+	@Override
+	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+		return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, placer.getHorizontalFacing().getOpposite());
 	}
 
 	@Override
-	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
-		super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
+	public boolean onBlockActivated(World par1World, BlockPos pos, IBlockState state, EntityPlayer par5EntityPlayer, EnumFacing par6, float par7, float par8, float par9){
+		super.onBlockActivated(par1World, pos, state, par5EntityPlayer, par6, par7, par8, par9);
 
 		if (par1World.isRemote){
 			if (ExtendedProperties.For(par5EntityPlayer).getMagicLevel() > 0)
@@ -61,9 +51,5 @@ public class BlockOcculus extends AMSpecialRenderBlockContainer{
 				par5EntityPlayer.addChatMessage(new ChatComponentText("You cannot comprehend what you see inside the occulus."));
 		}
 		return true;
-	}
-
-	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
 	}
 }
