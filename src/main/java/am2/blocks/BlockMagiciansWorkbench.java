@@ -63,7 +63,7 @@ public class BlockMagiciansWorkbench extends AMSpecialRenderBlockContainer{
 	}
 
 	@Override
-	public boolean renderAsNormalBlock(){
+	public boolean isFullCube(){
 		return false;
 	}
 

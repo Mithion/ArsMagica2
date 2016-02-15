@@ -5,6 +5,7 @@ import am2.blocks.tileentities.TileEntityEverstone;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.texture.ResourceManager;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -45,24 +46,29 @@ public class BlockEverstone extends PoweredBlock{
 		return new TileEntityEverstone();
 	}
 
-	@Override
+    @Override
+    public boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+        TileEntityEverstone everstone = getTE(world, pos);
+        if (everstone == null){
+            if (player.capabilities.isCreativeMode){
+                world.setTileEntity(pos, null);
+                world.setBlockToAir(pos);
+                return true;
+            }
+            return false;
+        }
+        everstone.onBreak();
+        if (player.capabilities.isCreativeMode){
+            world.setTileEntity(x, y, z, null);
+            world.setBlockToAir(x, y, z);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z){
-		TileEntityEverstone everstone = getTE(world, x, y, z);
-		if (everstone == null){
-			if (player.capabilities.isCreativeMode){
-				world.setTileEntity(x, y, z, null);
-				world.setBlockToAir(x, y, z);
-				return true;
-			}
-			return false;
-		}
-		everstone.onBreak();
-		if (player.capabilities.isCreativeMode){
-			world.setTileEntity(x, y, z, null);
-			world.setBlockToAir(x, y, z);
-			return true;
-		}
-		return false;
+
 	}
 
 	@Override
@@ -79,11 +85,11 @@ public class BlockEverstone extends PoweredBlock{
 		return 10000f;
 	}
 
-	private TileEntityEverstone getTE(IBlockAccess world, int x, int y, int z){
+	private TileEntityEverstone getTE(IBlockAccess world, BlockPos pos){
 		if (world == null)
 			return null;
 
-		TileEntity te = world.getTileEntity(x, y, z);
+		TileEntity te = world.getTileEntity(pos);
 		if (te == null)
 			return null;
 
@@ -264,15 +270,5 @@ public class BlockEverstone extends PoweredBlock{
 		));
 
 		return true;
-	}
-
-	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
-		this.blockIcon = ResourceManager.RegisterTexture("everstone", par1IconRegister);
-	}
-
-	@Override
-	public int getRenderBlockPass(){
-		return 1;
 	}
 }

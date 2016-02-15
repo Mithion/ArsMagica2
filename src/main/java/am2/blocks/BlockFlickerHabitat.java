@@ -52,7 +52,7 @@ public class BlockFlickerHabitat extends PoweredBlock{
 	}
 
     @Override
-    public boolean isNormalCube(IBlockAccess world, BlockPos pos) {
+    public boolean isFullCube() {
         return false;
     }
 

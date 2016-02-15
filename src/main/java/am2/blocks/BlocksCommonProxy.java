@@ -224,7 +224,7 @@ public class BlocksCommonProxy{
 		witchwoodPlanks = (WitchwoodPlanks)new WitchwoodPlanks().setRegistryName("arsmagica2:planksWitchwood").setCreativeTab(blockTab);
 		witchwoodSingleSlab = (WitchwoodSlabs)new WitchwoodSlabs(false).setRegistryName("arsmagica2:witchwoodSingleSlab").setCreativeTab(blockTab);
 		witchwoodDoubleSlab = (WitchwoodSlabs)new WitchwoodSlabs(true).setRegistryName("arsmagica2:witchwoodDoubleSlab");
-		witchwoodStairs = (WitchwoodStairs)new WitchwoodStairs(witchwoodPlanks, 0).setRegistryName("arsmagica2:stairsWitchwood").setCreativeTab(blockTab);
+		//witchwoodStairs = (WitchwoodStairs)new WitchwoodStairs(witchwoodPlanks, 0).setRegistryName("arsmagica2:stairsWitchwood").setCreativeTab(blockTab);
 		witchwoodSapling = (WitchwoodSapling)new WitchwoodSapling().setRegistryName("arsmagica2:saplingWitchwood").setCreativeTab(blockTab);
 		magiciansWorkbench = (BlockMagiciansWorkbench)new BlockMagiciansWorkbench().setRegistryName("arsmagica2:magiciansWorkbench").setCreativeTab(blockTab);
 		everstone = (BlockEverstone)new BlockEverstone().setRegistryName("arsmagica2:everstone").setCreativeTab(blockTab);

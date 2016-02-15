@@ -2,6 +2,7 @@ package am2.api.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -74,10 +75,11 @@ public class MultiblockStructureDefinition{
 			return allowedBlocks.get(coord);
 		}
 
-		boolean matchGroup(World world, int originX, int originY, int originZ){
+		boolean matchGroup(World world, BlockPos origin){
 			for (BlockPos offset : allowedBlocks.keySet()){
-				Block block = world.getBlock(originX + offset.x, originY + offset.y, originZ + offset.z);
-				int meta = world.getBlockMetadata(originX + offset.x, originY + offset.y, originZ + offset.z);
+				Block block = world.getBlockState(origin.add(offset)).getBlock();
+				//int meta = world.getBlockMetadata(originX + offset.x, originY + offset.y, originZ + offset.z);
+                int meta = 0; // TODO get actual meta once blockstates are a thing
 				ArrayList<BlockDec> positionReplacements = allowedBlocks.get(offset);
 				boolean valid = false;
 				for (BlockDec bd : positionReplacements){
@@ -98,7 +100,7 @@ public class MultiblockStructureDefinition{
 			}
 
 			for (BlockPos bc : allowedBlocks.keySet()){
-				if (bc.y == layer){
+				if (bc.getY() == layer){
 					toReturn.put(bc, allowedBlocks.get(bc));
 				}
 			}
@@ -128,9 +130,9 @@ public class MultiblockStructureDefinition{
 			return (HashMap<BlockPos, ArrayList<BlockDec>>)allowedBlocks.clone();
 		}
 
-		public void deleteBlocksFromWorld(World world, int x, int y, int z){
+		public void deleteBlocksFromWorld(World world, BlockPos origin){
 			for (BlockPos offset : allowedBlocks.keySet()){
-				world.setBlockToAir(x + offset.x, y + offset.y, z + offset.z);
+				world.setBlockToAir(origin.add(offset));
 			}
 		}
 	}
@@ -274,7 +276,7 @@ public class MultiblockStructureDefinition{
 
 		for (BlockPos bc : copyGroup.allowedBlocks.keySet()){
 			for (BlockDec bd : copyGroup.allowedBlocks.get(bc)){
-				newGroup.addAllowedBlock(bc.x, bc.y, bc.z, bd.block, bd.meta);
+				newGroup.addAllowedBlock(bc.getX(), bc.getY(), bc.getZ(), bd.block, bd.meta);
 			}
 		}
 
@@ -287,11 +289,11 @@ public class MultiblockStructureDefinition{
 		return copyGroup(originalName, destinationName, -1);
 	}
 
-	public ArrayList<StructureGroup> getMatchedGroups(int mutex, World world, int originX, int originY, int originZ){
+	public ArrayList<StructureGroup> getMatchedGroups(int mutex, World world, BlockPos origin){
 		ArrayList<StructureGroup> toReturn = new ArrayList<StructureGroup>();
 		for (StructureGroup group : blockGroups){
 			if ((group.mutex & mutex) == group.mutex){
-				if (group.matchGroup(world, originX, originY, originZ)){
+				if (group.matchGroup(world, origin)){
 					toReturn.add(group);
 				}
 			}
@@ -299,10 +301,10 @@ public class MultiblockStructureDefinition{
 		return toReturn;
 	}
 
-	private boolean matchMutex(int mutex, World world, int originX, int originY, int originZ){
+	private boolean matchMutex(int mutex, World world, BlockPos origin){
 		for (StructureGroup group : blockGroups){
 			if ((group.mutex & mutex) == group.mutex){
-				if (group.matchGroup(world, originX, originY, originZ)){
+				if (group.matchGroup(world, origin)){
 					return true;
 				}
 			}
@@ -310,10 +312,10 @@ public class MultiblockStructureDefinition{
 		return false;
 	}
 
-	public boolean checkStructure(World world, int originX, int originY, int originZ){
+	public boolean checkStructure(World world, BlockPos origin){
 		boolean valid = true;
 		for (int i : mutexCache){
-			valid &= matchMutex(i, world, originX, originY, originZ);
+			valid &= matchMutex(i, world, origin);
 			if (!valid) break;
 		}
 		return valid;
@@ -347,10 +349,10 @@ public class MultiblockStructureDefinition{
 		return group.getStructureLayer(layer);
 	}
 
-	public void removeMutex(int mutex, World world, int x, int y, int z){
+	public void removeMutex(int mutex, World world, BlockPos pos){
 		for (StructureGroup group : blockGroups){
 			if (group.mutex == mutex){
-				group.deleteBlocksFromWorld(world, x, y, z);
+				group.deleteBlocksFromWorld(world, pos);
 			}
 		}
 	}

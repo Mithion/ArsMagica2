@@ -24,18 +24,13 @@ public class WitchwoodSapling extends BlockFlower{
 		super();
 	}
 
-	@Override
-	public void updateTick(World world, int x, int y, int z, Random rand){
-
-	}
-
     @Override
     public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
         if (!world.isRemote){
             super.updateTick(world, pos, state, rand);
 
-            int nearbyEssence = countNearbyEssencePools(world, x, y, z, rand);
-            updateOrGrowTree(world, x, y, z, rand, nearbyEssence);
+            int nearbyEssence = countNearbyEssencePools(world, pos, rand);
+            updateOrGrowTree(world, pos, rand, nearbyEssence);
         }
     }
 

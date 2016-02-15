@@ -8,6 +8,7 @@ import am2.utility.InventoryUtilities;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.*;
@@ -24,14 +25,14 @@ public class RitualShapeHelper{
 		init();
 	}
 
-	public ItemStack[] checkForRitual(IRitualInteraction interaction, World world, int x, int y, int z, boolean itemsMustMatch){
-		if (interaction.getRitualShape().checkStructure(world, x, y, z)){
+	public ItemStack[] checkForRitual(IRitualInteraction interaction, World world, BlockPos pos, boolean itemsMustMatch){
+		if (interaction.getRitualShape().checkStructure(world, pos)){
 			ItemStack[] reagents = interaction.getReagents();
 			if (reagents.length == 0)
 				return reagents;
 
 			int r = interaction.getReagentSearchRadius();
-			ArrayList<EntityItem> items = (ArrayList<EntityItem>)world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(x - r, y, z - r, x + r + 1, y + 1, z + r + 1));
+			ArrayList<EntityItem> items = (ArrayList<EntityItem>)world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos.getX() - r, pos.getY(), pos.getZ() - r, pos.getX() + r + 1, pos.getY() + 1, pos.getZ() + r + 1));
 
 			Collections.sort(items, new EntityItemComparator());
 
@@ -45,8 +46,8 @@ public class RitualShapeHelper{
 		return null;
 	}
 
-	public ItemStack[] checkForRitual(IRitualInteraction interaction, World world, int x, int y, int z){
-		return checkForRitual(interaction, world, x, y, z, true);
+	public ItemStack[] checkForRitual(IRitualInteraction interaction, World world, BlockPos pos){
+		return checkForRitual(interaction, world, pos, true);
 	}
 
 	private boolean matchReagents(List<EntityItem> items, ItemStack[] check){
@@ -77,9 +78,9 @@ public class RitualShapeHelper{
 		return true;
 	}
 
-	public void consumeRitualShape(IRitualInteraction interaction, World world, int x, int y, int z){
+	public void consumeRitualShape(IRitualInteraction interaction, World world, BlockPos pos){
 		for (int i : interaction.getRitualShape().getMutexList()){
-			interaction.getRitualShape().removeMutex(i, world, x, y, z);
+			interaction.getRitualShape().removeMutex(i, world, pos);
 		}
 	}
 

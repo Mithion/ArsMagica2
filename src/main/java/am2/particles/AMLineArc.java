@@ -2,6 +2,7 @@ package am2.particles;
 
 import am2.AMCore;
 import am2.api.math.AMVector3;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -161,7 +162,7 @@ public class AMLineArc extends EntityFX{
 		double interpolatedY = player.prevPosY + (player.posY - player.prevPosY) * partialTicks;
 		double interpolatedZ = player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks;
 
-		Tessellator tessellator = Tessellator.instance;
+		WorldRenderer tessellator = Tessellator.getInstance().getWorldRenderer();
 
 		double deltaX = srcX - dstX;
 		double deltaY = srcY - dstY;
@@ -178,7 +179,7 @@ public class AMLineArc extends EntityFX{
 
 		GL11.glTranslated(-interpolatedX + dstX, -interpolatedY + dstY, -interpolatedZ + dstZ);
 
-		tessellator.startDrawing(GL11.GL_TRIANGLE_STRIP);
+		tessellator.begin(GL11.GL_TRIANGLE_STRIP, null);
 
 		double wGain = (width * 3) / (length * distance);
 		float curWidth = width * 3;

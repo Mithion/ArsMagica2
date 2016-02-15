@@ -7,6 +7,9 @@ import am2.blocks.tileentities.TileEntityArcaneDeconstructor;
 import am2.guis.ArsMagicaGuiIdList;
 import am2.texture.ResourceManager;
 import am2.utility.KeystoneUtilities;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -25,9 +28,6 @@ import net.minecraft.world.World;
 
 public class BlockArcaneDeconstructor extends PoweredBlock{
 
-	@SideOnly(Side.CLIENT)
-	private IIcon[] icons;
-
 	public BlockArcaneDeconstructor(){
 		super(Material.iron);
 		setHardness(2.0f);
@@ -39,94 +39,42 @@ public class BlockArcaneDeconstructor extends PoweredBlock{
 		return new TileEntityArcaneDeconstructor();
 	}
 
-	@Override
-	public boolean shouldSideBeRendered(IBlockAccess par1iBlockAccess, int par2, int par3, int par4, int par5){
-		return true;
-	}
-
-	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister){
-		icons = new IIcon[4];
-		icons[0] = ResourceManager.RegisterTexture("deconstruction_table_bottom", par1IconRegister);
-		icons[1] = ResourceManager.RegisterTexture("deconstruction_table_top", par1IconRegister);
-		icons[2] = ResourceManager.RegisterTexture("deconstruction_table_side", par1IconRegister);
-		icons[3] = ResourceManager.RegisterTexture("deconstruction_table_front", par1IconRegister);
-		this.blockIcon = icons[1];
-	}
-
-	@Override
-	public IIcon getIcon(IBlockAccess iblockaccess, int i, int j, int k, int side){
-		if (side == 1) //top
-		{
-			return icons[1];
-		}
-		if (side == 0) //bottom
-		{
-			return icons[0];
-		}
-		int i1 = iblockaccess.getBlockMetadata(i, j, k);
-		int rawMeta = i1 & 0x7;
-		if (side != rawMeta){
-			return icons[2];
-		}else{
-			return icons[3];
-		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta){
-		if (side == 1) //top
-		{
-			return icons[1];
-		}
-		if (side == 0) //bottom
-		{
-			return icons[0];
-		}
-
-		int rawMeta = meta & 0x7;
-		if (side != rawMeta){
-			return icons[2];
-		}else{
-			return icons[3];
-		}
-	}
+    @Override
+    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+        return true;
+    }
 
 	@Override
 	public boolean isOpaqueCube(){
 		return false;
 	}
 
-	@Override
-	public void onBlockPlacedBy(World world, int i, int j, int k, EntityLivingBase entityliving, ItemStack stack){
+    @Override
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        int l = MathHelper.floor_double((placer.rotationYaw * 4F) / 360F + 0.5D) & 3;
+        if (l == 0){
+            world.setBlockMetadataWithNotify(i, j, k, 2, 2);
+        }
+        if (l == 1){
+            world.setBlockMetadataWithNotify(i, j, k, 5, 2);
+        }
+        if (l == 2){
+            world.setBlockMetadataWithNotify(i, j, k, 3, 2);
+        }
+        if (l == 3){
+            world.setBlockMetadataWithNotify(i, j, k, 4, 2);
+        }
+        super.onBlockPlacedBy(world, pos, state, placer, stack);
+    }
 
-		int l = MathHelper.floor_double((entityliving.rotationYaw * 4F) / 360F + 0.5D) & 3;
-		if (l == 0){
-			world.setBlockMetadataWithNotify(i, j, k, 2, 2);
-		}
-		if (l == 1){
-			world.setBlockMetadataWithNotify(i, j, k, 5, 2);
-		}
-		if (l == 2){
-			world.setBlockMetadataWithNotify(i, j, k, 3, 2);
-		}
-		if (l == 3){
-			world.setBlockMetadataWithNotify(i, j, k, 4, 2);
-		}
+    @Override
+    public boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+        IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(pos);
+        if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player, KeystoneAccessType.BREAK)) return false;
+        return super.removedByPlayer(world, pos, player, willHarvest);
+    }
 
-		super.onBlockPlacedBy(world, i, j, k, entityliving, stack);
-	}
-
-	@Override
-	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z){
-		IKeystoneLockable lockable = (IKeystoneLockable)world.getTileEntity(x, y, z);
-		if (!KeystoneUtilities.instance.canPlayerAccess(lockable, player, KeystoneAccessType.BREAK)) return false;
-
-		return super.removedByPlayer(world, player, x, y, z);
-	}
-
-	@Override
+    @Override
 	public void breakBlock(World world, int i, int j, int k, Block par5, int metadata){
 		TileEntityArcaneDeconstructor deconstructor = (TileEntityArcaneDeconstructor)world.getTileEntity(i, j, k);
 		if (deconstructor == null) return;

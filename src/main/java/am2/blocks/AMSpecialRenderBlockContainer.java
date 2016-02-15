@@ -9,11 +9,11 @@ public abstract class AMSpecialRenderBlockContainer extends AMBlockContainer{
 	}
 
 	@Override
-	public boolean renderAsNormalBlock(){
+	public boolean isFullCube(){
 		return false;
 	}
 
-	@Override
+    @Override
 	public int getRenderType(){
 		return BlocksCommonProxy.blockRenderID;
 	}
@@ -22,5 +22,4 @@ public abstract class AMSpecialRenderBlockContainer extends AMBlockContainer{
 	public boolean isOpaqueCube(){
 		return false;
 	}
-
 }
