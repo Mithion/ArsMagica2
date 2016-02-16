@@ -59,7 +59,7 @@ public class EntityAIShieldBash extends EntityAIBase{
 
 			double offsetX = Math.cos(host.rotationYaw) * 2;
 			double offsetZ = Math.sin(host.rotationYaw) * 2;
-			List<EntityLivingBase> aoeEntities = host.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, host.boundingBox.getOffsetBoundingBox(offsetX, 0, offsetZ).expand(2.5, 2, 2.5));
+			List<EntityLivingBase> aoeEntities = host.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, host.getEntityBoundingBox().expand(offsetX, 0, offsetZ).expand(2.5, 2, 2.5));
 			for (EntityLivingBase ent : aoeEntities){
 				if (ent == host) continue;
 

@@ -20,8 +20,8 @@ public class BuffEffectIllumination extends BuffEffect{
 	@Override
 	public void performEffect(EntityLivingBase entityliving){
 		if (!entityliving.worldObj.isRemote && entityliving.ticksExisted % 10 == 0){
-			if (entityliving.worldObj.isAirBlock((int)entityliving.posX, (int)(entityliving.posY + entityliving.getEyeHeight()), (int)entityliving.posZ)){
-				entityliving.worldObj.setBlock((int)entityliving.posX, (int)(entityliving.posY + entityliving.getEyeHeight()), (int)entityliving.posZ, BlocksCommonProxy.invisibleUtility, getAmplifier(), 2);
+			if (entityliving.worldObj.isAirBlock(entityliving.getPosition().add(0, entityliving.getEyeHeight(), 0))){ // meh
+				entityliving.worldObj.setBlockState(entityliving.getPosition().add(0, entityliving.getEyeHeight(), 0), BlocksCommonProxy.invisibleUtility.getDefaultState(), 2);
 			}
 		}
 	}

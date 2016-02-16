@@ -21,7 +21,7 @@ public class EntityDryad extends EntityCreature{
 
 	public EntityDryad(World par1World){
 		super(par1World);
-		getNavigator().setAvoidsWater(true);
+		//getNavigator().setAvoidsWater(true);
 
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(1, new EntityAIPanic(this, 0.68F));
@@ -31,12 +31,12 @@ public class EntityDryad extends EntityCreature{
 		tasks.addTask(7, new EntityAILookIdle(this));
 	}
 
-	@Override
-	public boolean isAIEnabled(){
-		return true;
-	}
+    @Override
+    public boolean isAIDisabled() {
+        return false;
+    }
 
-	@Override
+    @Override
 	public boolean canTriggerWalking(){
 		return false;
 	}

@@ -12,7 +12,7 @@ public class EntityAIShadowstep extends EntityAIBase{
 	private int cooldownTicks = 0;
 
 	public EntityAIShadowstep(EntityAIBase entity){
-		super(entity);
+		super();
 	}
 
 	@Override

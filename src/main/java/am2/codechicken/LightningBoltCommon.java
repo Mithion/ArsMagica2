@@ -54,7 +54,7 @@ public class LightningBoltCommon{
 		this.multiplier = 1.0F;
 		this.particleAge = (-(int)(this.length * 3.0F));
 		this.boundingBox = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
-		this.boundingBox.setBB(new AxisAlignedBB(Math.min(this.start.x, this.end.x), Math.min(this.start.y, this.end.y), Math.min(this.start.z, this.end.z), Math.max(this.start.x, this.end.x), Math.max(this.start.y, this.end.y), Math.max(this.start.z, this.end.z)).expand(this.length / 2.0F, this.length / 2.0F, this.length / 2.0F));
+		this.boundingBox.union(new AxisAlignedBB(Math.min(this.start.x, this.end.x), Math.min(this.start.y, this.end.y), Math.min(this.start.z, this.end.z), Math.max(this.start.x, this.end.x), Math.max(this.start.y, this.end.y), Math.max(this.start.z, this.end.z)).expand(this.length / 2.0F, this.length / 2.0F, this.length / 2.0F));
 
 		this.segments.add(new Segment(this.start, this.end));
 	}
@@ -168,7 +168,7 @@ public class LightningBoltCommon{
 			return prevresistance;
 		}
 		if (mop.typeOfHit == MovingObjectType.BLOCK){
-			Block block = this.world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+			Block block = this.world.getBlockState(mop.getBlockPos()).getBlock();
 			if (block == Blocks.air){
 				return prevresistance;
 			}

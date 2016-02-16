@@ -40,7 +40,7 @@ public class EntityAIOtherworldlyRoar extends AIAnimation{
 		//must have an attack target
 		if (living.getAttackTarget() == null) return false;
 
-		if (living.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, living.boundingBox.expand(9, 3, 9)).size() < 2){
+		if (living.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, living.getEntityBoundingBox().expand(9, 3, 9)).size() < 2){
 			return false;
 		}
 

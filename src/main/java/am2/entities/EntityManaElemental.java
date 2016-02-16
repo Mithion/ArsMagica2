@@ -45,13 +45,12 @@ public class EntityManaElemental extends EntityMob{
 	public void setOnGroudFloat(float onGround){
 	}
 
+    @Override
+    public boolean isAIDisabled() {
+        return false;
+    }
 
-	@Override
-	public boolean isAIEnabled(){
-		return true;
-	}
-
-	@Override
+    @Override
 	public int getTotalArmorValue(){
 		return 12;
 	}
@@ -73,6 +72,8 @@ public class EntityManaElemental extends EntityMob{
 	protected void dropRareDrop(int par1){
 		this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, 0), 0.0f);
 	}
+
+
 
 	@Override
 	protected Item getDropItem(){
@@ -102,7 +103,7 @@ public class EntityManaElemental extends EntityMob{
 		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true, true));
 	}
 
 	@Override

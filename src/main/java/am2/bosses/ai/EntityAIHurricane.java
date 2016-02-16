@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 
 import java.util.List;
 
@@ -54,15 +55,15 @@ public class EntityAIHurricane extends EntityAIBase{
 				int y = (int)host.posY + 1;
 				for (int x = -1; x <= 1; ++x){
 					for (int z = -1; z <= 1; ++z){
-						while (!host.worldObj.canBlockSeeTheSky((int)host.posX + x, y, (int)host.posZ + z) && host.worldObj.getBlock((int)host.posX + x, y, (int)host.posZ + z) != Blocks.bedrock){
-							host.worldObj.func_147478_e((int)host.posX + x, y++, (int)host.posZ + z, true);
+						while (!host.worldObj.canBlockSeeSky(new BlockPos((int)host.posX + x, y, (int)host.posZ + z)) && host.worldObj.getBlockState(new BlockPos((int)host.posX + x, y, (int)host.posZ + z)).getBlock() != Blocks.bedrock){
+							host.worldObj.canSnowAt(new BlockPos((int)host.posX + x, y++, (int)host.posZ + z), true);
 						}
 						y = (int)host.posY + 2;
 					}
 				}
 			}
 
-			List<EntityLivingBase> nearbyEntities = host.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, host.boundingBox.expand(2, 2, 2));
+			List<EntityLivingBase> nearbyEntities = host.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, host.getEntityBoundingBox().expand(2, 2, 2));
 			for (EntityLivingBase ent : nearbyEntities){
 				if (ent == host) continue;
 				AMVector3 movement = MathUtilities.GetMovementVectorBetweenPoints(new AMVector3(host), new AMVector3(ent));
@@ -92,7 +93,7 @@ public class EntityAIHurricane extends EntityAIBase{
 	public void updateTask(){
 		host.getLookHelper().setLookPositionWithEntity(target, 30, 30);
 		//host.getNavigator().tryMoveToEntityLiving(target, moveSpeed);
-		List<EntityLivingBase> nearbyEntities = host.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, host.boundingBox.expand(6, 3, 6));
+		List<EntityLivingBase> nearbyEntities = host.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, host.getCollisionBoundingBox().expand(6, 3, 6));
 		for (EntityLivingBase ent : nearbyEntities){
 			if (ent == host) continue;
 

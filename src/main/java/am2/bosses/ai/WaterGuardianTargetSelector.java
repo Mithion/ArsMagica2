@@ -1,14 +1,15 @@
 package am2.bosses.ai;
 
 import am2.bosses.EntityWaterGuardian;
-import net.minecraft.command.IEntitySelector;
+import com.google.common.base.Predicate;
 import net.minecraft.entity.Entity;
 
-public class WaterGuardianTargetSelector implements IEntitySelector{
+import javax.annotation.Nullable;
 
-	@Override
-	public boolean isEntityApplicable(Entity entity){
-		return !(entity instanceof EntityWaterGuardian);
-	}
+public class WaterGuardianTargetSelector implements Predicate{
 
+    @Override
+    public boolean apply(@Nullable Object input) {
+        return !((Entity) input instanceof EntityWaterGuardian);
+    }
 }

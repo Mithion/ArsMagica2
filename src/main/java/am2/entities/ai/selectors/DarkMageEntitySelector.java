@@ -1,23 +1,21 @@
 package am2.entities.ai.selectors;
 
 import am2.entities.EntityDarkMage;
-import net.minecraft.command.IEntitySelector;
-import net.minecraft.entity.Entity;
+import com.google.common.base.Predicate;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 
-public class DarkMageEntitySelector implements IEntitySelector{
+import javax.annotation.Nullable;
+
+public class DarkMageEntitySelector implements Predicate{
 
 	public static final DarkMageEntitySelector instance = new DarkMageEntitySelector();
 
 	private DarkMageEntitySelector(){
 	}
 
-	@Override
-	public boolean isEntityApplicable(Entity entity){
-		if (entity instanceof EntityDarkMage || (entity instanceof EntityLivingBase && ((EntityLivingBase)entity).getCreatureAttribute() == EnumCreatureAttribute.UNDEAD))
-			return false;
-		return true;
-	}
-
+    @Override
+    public boolean apply(@Nullable Object entity) { // may work, not sure
+        return (entity instanceof EntityDarkMage || (entity instanceof EntityLivingBase && ((EntityLivingBase)entity).getCreatureAttribute() == EnumCreatureAttribute.UNDEAD));
+    }
 }

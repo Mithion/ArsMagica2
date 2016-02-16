@@ -72,8 +72,8 @@ public class EntityDarkMage extends EntityMob{
 		this.tasks.addTask(4, new EntityAIRangedAttackSpell(this, MovementSpeed(), 40, NPCSpells.instance.darkMage_DiminishedAttack));
 
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLightMage.class, 0, true));
-		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLightMage.class, false, true));
+		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, false, true));
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLivingBase.class, 0, true, false, DarkMageEntitySelector.instance));
 
 	}
@@ -91,12 +91,12 @@ public class EntityDarkMage extends EntityMob{
 		return 0.5f;
 	}
 
-	@Override
-	public boolean isAIEnabled(){
-		return true;
-	}
+    @Override
+    public boolean isAIDisabled() {
+        return false;
+    }
 
-	@Override
+    @Override
 	protected void dropFewItems(boolean par1, int par2){
 		if (par1 && getRNG().nextDouble() < 0.2)
 			for (int j = 0; j < getRNG().nextInt(3); ++j)
@@ -166,10 +166,6 @@ public class EntityDarkMage extends EntityMob{
 		hasUpdated = true;
 
 		return super.getCanSpawnHere();
-	}
-
-	@Override
-	protected void dropRareDrop(int par1){
 	}
 
 	@SideOnly(Side.CLIENT)

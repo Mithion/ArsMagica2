@@ -31,7 +31,7 @@ public class AMEnchantments{
 				break;
 			}
 			enchID++;
-			enchID %= Enchantment.enchantmentsList.length;
+			//enchID %= Enchantment.enchantmentsList.length; TODO fix this without using ATs
 		}while (enchID != start_value);
 
 		if (fullcircle){

@@ -3,6 +3,7 @@ package am2.entities;
 import am2.LogHelper;
 import com.google.common.collect.ArrayListMultimap;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
@@ -38,9 +39,9 @@ public class SpawnBlacklists{
 	}
 
 	public static boolean entityCanSpawnHere(double x, double z, World world, EntityLivingBase entity){
-		if (blacklistedDimensionSpawns.containsEntry(world.provider.dimensionId, entity.getClass()))
+		if (blacklistedDimensionSpawns.containsEntry(world.provider.getDimensionId(), entity.getClass()))
 			return false;
-		BiomeGenBase biome = world.getBiomeGenForCoords((int)x, (int)z);
+		BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
 		if (blacklistedBiomeSpawns.containsEntry(biome.biomeID, entity.getClass()))
 			return false;
 
