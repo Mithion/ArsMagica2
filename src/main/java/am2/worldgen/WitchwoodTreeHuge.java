@@ -210,7 +210,7 @@ public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 	/**
 	 * Places a line of the specified block ID into the world from the first coordinate triplet to the second.
 	 */
-	void placeBlockLine(int[] par1ArrayOfInteger, int[] par2ArrayOfInteger, Block par3){
+	void placeBlockLine(int[] par1ArrayOfInteger, int[] par2ArrayOfInteger, Block par3){ // TODO rewrite this method for blockstates
 		int[] aint2 = new int[]{0, 0, 0};
 		byte b0 = 0;
 		byte b1;
@@ -256,7 +256,7 @@ public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 					}
 				}
 
-				this.setBlockAndNotifyAdequately(this.worldObj, aint3[0], aint3[1], aint3[2], par3, b5);
+				//this.setBlockAndNotifyAdequately(this.worldObj, aint3[0], aint3[1], aint3[2], par3, b5);
 			}
 		}
 	}
@@ -367,7 +367,7 @@ public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 				aint3[b1] = par1ArrayOfInteger[b1] + i;
 				aint3[b2] = MathHelper.floor_double((double)par1ArrayOfInteger[b2] + (double)i * d0);
 				aint3[b3] = MathHelper.floor_double((double)par1ArrayOfInteger[b3] + (double)i * d1);
-				Block k = this.worldObj.getBlock(aint3[0], aint3[1], aint3[2]);
+				Block k = this.worldObj.getBlockState(new BlockPos(aint3[0], aint3[1], aint3[2])).getBlock();
 
 				if (k != Blocks.air && k != BlocksCommonProxy.witchwoodLeaves){
 					break;
@@ -385,9 +385,9 @@ public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 	boolean validTreeLocation(){
 		int[] aint = new int[]{this.basePos[0], this.basePos[1], this.basePos[2]};
 		int[] aint1 = new int[]{this.basePos[0], this.basePos[1] + this.heightLimit - 1, this.basePos[2]};
-		Block soil = this.worldObj.getBlock(this.basePos[0], this.basePos[1] - 1, this.basePos[2]);
+		Block soil = this.worldObj.getBlockState(new BlockPos(this.basePos[0], this.basePos[1] - 1, this.basePos[2])).getBlock();
 
-		boolean isValidSoil = (soil != null && soil.canSustainPlant(worldObj, basePos[0], basePos[1] - 1, basePos[2], EnumFacing.UP, (BlockSapling)Blocks.sapling));
+		boolean isValidSoil = (soil != null && soil.canSustainPlant(worldObj, new BlockPos(basePos[0], basePos[1] - 1, basePos[2]), EnumFacing.UP, (BlockSapling)Blocks.sapling));
 		if (!isValidSoil){
 			return false;
 		}else{

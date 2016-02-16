@@ -42,7 +42,7 @@ public class ContainerSpellSealedDoor extends AM2Container{
 	@Override
 	public void onContainerClosed(EntityPlayer p_75134_1_){
 		super.onContainerClosed(p_75134_1_);
-		if (!this.door.getWorldObj().isRemote){
+		if (!this.door.getWorld().isRemote){
 			this.door.closeInventory();
 		}
 	}

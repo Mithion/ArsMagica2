@@ -3,6 +3,7 @@ package am2.containers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IChatComponent;
 
 public class InventorySpellBook implements IInventory{
 	public static int inventorySize = 40;
@@ -58,7 +59,7 @@ public class InventorySpellBook implements IInventory{
 	}
 
 	@Override
-	public String getInventoryName(){
+	public String getName(){
 		return "Spell Book";
 	}
 
@@ -73,11 +74,11 @@ public class InventorySpellBook implements IInventory{
 	}
 
 	@Override
-	public void openInventory(){
+	public void openInventory(EntityPlayer player){
 	}
 
 	@Override
-	public void closeInventory(){
+	public void closeInventory(EntityPlayer player){
 	}
 
 	public ItemStack[] GetInventoryContents(){
@@ -85,7 +86,7 @@ public class InventorySpellBook implements IInventory{
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i){
+	public ItemStack removeStackFromSlot(int i){
 		if (inventoryItems[i] != null){
 			ItemStack itemstack = inventoryItems[i];
 			inventoryItems[i] = null;
@@ -96,16 +97,41 @@ public class InventorySpellBook implements IInventory{
 	}
 
 	@Override
-	public boolean hasCustomInventoryName(){
+	public boolean hasCustomName(){
 		return false;
 	}
 
-	@Override
+    @Override
+    public IChatComponent getDisplayName() {
+        return null;
+    }
+
+    @Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack){
 		return false;
 	}
 
-	@Override
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
+
+    @Override
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
 	public void markDirty(){
 	}
 

@@ -9,7 +9,7 @@ import am2.items.ItemFocusCharge;
 import am2.items.ItemFocusMana;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnace;
+import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 
@@ -26,7 +26,7 @@ public class ContainerCalefactor extends AM2Container{
 		//input slot
 		addSlotToContainer(new Slot(calefactor, 0, 80, 48)); //inventory, index, x, y
 		//output slot
-		addSlotToContainer(new SlotFurnace(player, calefactor, 1, 80, 88));
+		addSlotToContainer(new SlotFurnaceOutput(player, calefactor, 1, 80, 88));
 		//focus slots
 		addSlotToContainer(new SlotChargeManaFociOnly(calefactor, 2, 62, 28));
 		addSlotToContainer(new SlotChargeManaFociOnly(calefactor, 3, 80, 28));
@@ -114,7 +114,7 @@ public class ContainerCalefactor extends AM2Container{
 				}
 				return true;
 			}
-		}else if (FurnaceRecipes.smelting().getSmeltingResult(stack) != null){
+		}else if (FurnaceRecipes.instance().getSmeltingResult(stack) != null){
 			Slot focusSlot = (Slot)inventorySlots.get(0);
 			boolean b = mergeItemStack(stack, 0, 1, false);
 			if (stack.stackSize == 0){
