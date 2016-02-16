@@ -197,11 +197,11 @@ public class ClientProxy extends CommonProxy{
 	}
 
 	@Override
-	public void setMouseDWheel(int dwheel){
-		if (dwheel == 0) return;
+	public boolean setMouseDWheel(int dwheel){
+		if (dwheel == 0) return false;
 
 		ItemStack stack = Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem();
-		if (stack == null) return;
+		if (stack == null) return false;
 
 		boolean store = checkForTKMove(stack);
 		if (!store && stack.getItem() instanceof ItemSpellBook){
@@ -210,9 +210,11 @@ public class ClientProxy extends CommonProxy{
 
 		if (store){
 			clientTickHandler.setDWheel(dwheel / 120, Minecraft.getMinecraft().thePlayer.inventory.currentItem, Minecraft.getMinecraft().thePlayer.isUsingItem());
+			return true;
 		}else{
 			clientTickHandler.setDWheel(0, -1, false);
 		}
+		return false;
 	}
 
 	private boolean checkForTKMove(ItemStack stack){

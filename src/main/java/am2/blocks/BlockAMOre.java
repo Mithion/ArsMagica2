@@ -40,6 +40,7 @@ public class BlockAMOre extends BlockOre{
 
 	public BlockAMOre(){
 		super();
+		this.setHarvestLevel("pickaxe", 2);
 	}
 
 	@Override
@@ -132,15 +133,5 @@ public class BlockAMOre extends BlockOre{
 			return MathHelper.clamp_int(random.nextInt(2) + random.nextInt(fortune + 1), 1, 6);
 		}
 		return 1;
-	}
-
-	@Override
-	public int getHarvestLevel(int metadata){
-		return 2;
-	}
-
-	@Override
-	public String getHarvestTool(int metadata){
-		return "pickaxe";
 	}
 }

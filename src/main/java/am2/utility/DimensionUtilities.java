@@ -20,6 +20,7 @@ public class DimensionUtilities{
 			EntityPlayerMP player = (EntityPlayerMP)entity;
 			new AMTeleporter(player.mcServer.worldServerForDimension(dimension)).teleport(entity);
 		}else{
+			entity.worldObj.theProfiler.startSection("changeDimension");
 			MinecraftServer minecraftserver = MinecraftServer.getServer();
 			int j = entity.dimension;
 			WorldServer worldserver = minecraftserver.worldServerForDimension(j);
@@ -27,9 +28,9 @@ public class DimensionUtilities{
 			entity.dimension = dimension;
 			entity.worldObj.removeEntity(entity);
 			entity.isDead = false;
-
+			entity.worldObj.theProfiler.startSection("reposition");
 			minecraftserver.getConfigurationManager().transferEntityToWorld(entity, j, worldserver, worldserver1, new AMTeleporter(worldserver1));
-
+			entity.worldObj.theProfiler.endStartSection("reloading");
 			Entity e = EntityList.createEntityByName(EntityList.getEntityString(entity), worldserver1);
 
 			if (e != null){
@@ -38,9 +39,10 @@ public class DimensionUtilities{
 			}
 
 			entity.isDead = true;
-
+			entity.worldObj.theProfiler.endSection();
 			worldserver.resetUpdateEntityTick();
 			worldserver1.resetUpdateEntityTick();
+			entity.worldObj.theProfiler.endSection();
 		}
 	}
 

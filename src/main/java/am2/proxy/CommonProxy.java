@@ -231,7 +231,8 @@ public class CommonProxy{
 	public void openParticleBlockGUI(World world, EntityPlayer player, TileEntityParticleEmitter te){
 	}
 
-	public void setMouseDWheel(int dwheel){
+	public boolean setMouseDWheel(int dwheel){
+		return false;
 	}
 
 	public void renderGameOverlay(){

@@ -66,7 +66,9 @@ public class ServerTickHandler{
 			RetroactiveWorldgenerator.instance.continueRetrogen(event.world);
 
 		applyDeferredPotionEffects();
-		applyDeferredDimensionTransfers();
+		if (event.phase == TickEvent.Phase.END){
+			applyDeferredDimensionTransfers();
+		}
 	}
 
 	private void applyDeferredPotionEffects(){
