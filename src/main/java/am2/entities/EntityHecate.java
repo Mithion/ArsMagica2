@@ -17,6 +17,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
@@ -77,8 +78,8 @@ public class EntityHecate extends EntityZombie{
 	}
 
 	private void initAI(){
-		this.getNavigator().setBreakDoors(true);
-		this.getNavigator().setAvoidSun(true);
+        ((PathNavigateGround)this.getNavigator()).setBreakDoors(true);
+        ((PathNavigateGround)this.getNavigator()).setAvoidSun(true);
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(2, new EntityAIBreakDoor(this));
 		this.tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityPlayer.class, this.hostileSpeed, false));
@@ -89,17 +90,17 @@ public class EntityHecate extends EntityZombie{
 		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityGolem.class, 0, false));
-		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
-		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityVillager.class, 0, false));
+		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityGolem.class, false, false));
+		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityPlayer.class, false, true));
+		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityVillager.class, false, false));
 	}
 
-	@Override
-	public boolean isAIEnabled(){
-		return true;
-	}
+    @Override
+    public boolean isAIDisabled() {
+        return false;
+    }
 
-	@Override
+    @Override
 	public int getTotalArmorValue(){
 		return 5;
 	}
@@ -159,7 +160,7 @@ public class EntityHecate extends EntityZombie{
 				updateArmRotations();
 				updateForwardRotation();
 			}
-			if (this.worldObj.difficultySetting == EnumDifficulty.HARD && this.getAttackTarget() != null && this.invisibilityCooldown == 0){
+			if (this.worldObj.getDifficulty() == EnumDifficulty.HARD && this.getAttackTarget() != null && this.invisibilityCooldown == 0){
 				this.addPotionEffect(new PotionEffect(Potion.invisibility.id, 60, 2));
 				this.invisibilityCooldown = 600;
 			}
@@ -240,10 +241,10 @@ public class EntityHecate extends EntityZombie{
 		rightArmRotationOffset = Math.cos(rightArmAnimTicks) * .3;
 	}
 
-	@Override
+	/*@Override
 	protected void dropRareDrop(int par1){
 		this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, 9), 0.0f);
-	}
+	}*/
 
 	@Override
 	protected Item getDropItem(){
@@ -265,14 +266,9 @@ public class EntityHecate extends EntityZombie{
 		return "arsmagica2:mob.hecate.idle";
 	}
 
-	@Override
-	public float getShadowSize(){
-		return 0;
-	}
-
 	private int getAverageNearbyPlayerMagicLevel(){
 		if (this.worldObj == null) return 0;
-		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(250, 250, 250));
+		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(250, 250, 250));
 		if (players.size() == 0) return 0;
 		int avgLvl = 0;
 		for (EntityPlayer player : players){
@@ -283,7 +279,7 @@ public class EntityHecate extends EntityZombie{
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (!SpawnBlacklists.entityCanSpawnHere(this.posX, this.posZ, worldObj, this))
+		if (!SpawnBlacklists.entityCanSpawnHere(getPosition(), worldObj, this))
 			return false;
 		if (getAverageNearbyPlayerMagicLevel() < 20){
 			return false;

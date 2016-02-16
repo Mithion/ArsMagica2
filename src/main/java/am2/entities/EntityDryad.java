@@ -12,6 +12,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
@@ -21,7 +22,7 @@ public class EntityDryad extends EntityCreature{
 
 	public EntityDryad(World par1World){
 		super(par1World);
-		//getNavigator().setAvoidsWater(true);
+        ((PathNavigateGround)this.getNavigator()).setAvoidsWater(true);
 
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(1, new EntityAIPanic(this, 0.68F));
@@ -104,7 +105,7 @@ public class EntityDryad extends EntityCreature{
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (!SpawnBlacklists.entityCanSpawnHere(this.posX, this.posZ, worldObj, this))
+		if (!SpawnBlacklists.entityCanSpawnHere(getPosition(), worldObj, this))
 			return false;
 		return super.getCanSpawnHere();
 	}

@@ -38,10 +38,10 @@ public class SpawnBlacklists{
 		}
 	}
 
-	public static boolean entityCanSpawnHere(double x, double z, World world, EntityLivingBase entity){
+	public static boolean entityCanSpawnHere(BlockPos pos, World world, EntityLivingBase entity){
 		if (blacklistedDimensionSpawns.containsEntry(world.provider.getDimensionId(), entity.getClass()))
 			return false;
-		BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
+		BiomeGenBase biome = world.getBiomeGenForCoords(pos);
 		if (blacklistedBiomeSpawns.containsEntry(biome.biomeID, entity.getClass()))
 			return false;
 

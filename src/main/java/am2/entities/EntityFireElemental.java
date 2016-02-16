@@ -11,6 +11,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
@@ -33,7 +34,7 @@ public class EntityFireElemental extends EntityMob{
 	}
 
 	private void initAI(){
-		this.getNavigator().setBreakDoors(true);
+        ((PathNavigateGround)this.getNavigator()).setBreakDoors(true);
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(2, new EntityAIBreakDoor(this));
 		this.tasks.addTask(2, new EntityAIFireballAttack(this, 0.5f, 1, 20));
@@ -161,7 +162,7 @@ public class EntityFireElemental extends EntityMob{
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (!SpawnBlacklists.entityCanSpawnHere(this.posX, this.posZ, worldObj, this))
+		if (!SpawnBlacklists.entityCanSpawnHere(getPosition(), worldObj, this))
 			return false;
 		return super.getCanSpawnHere();
 	}

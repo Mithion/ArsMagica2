@@ -30,7 +30,7 @@ public class EntityAirSled extends EntityLiving{
 
 		if (worldObj.isRemote){
 			rotation += 1f;
-			if (this.worldObj.isAirBlock((int)this.posX, (int)(this.posY - 1), (int)this.posZ)){
+			if (this.worldObj.isAirBlock(getPosition().down())){
 				for (int i = 0; i < AMCore.config.getGFXLevel(); ++i){
 					AMParticle cloud = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "sparkle2", posX, posY + 0.5, posZ);
 					if (cloud != null){
@@ -147,14 +147,14 @@ public class EntityAirSled extends EntityLiving{
 	}
 
 	@Override
-	public void playSound(String par1Str, float par2, float par3){
-	}
+	public void playSound(String par1Str, float par2, float par3) {
+    }
 
-	@Override
-	protected void fall(float par1){
-	}
+    @Override
+    public void fall(float distance, float damageMultiplier) {
+    }
 
-	@Override
+    @Override
 	public boolean canBeCollidedWith(){
 		return true;
 	}

@@ -77,7 +77,7 @@ public class EntityWinterGuardian extends AM2Boss{
 
 	@Override
 	public void onUpdate(){
-		if (worldObj.getBiomeGenForCoords((int)posX, (int)posZ).getEnableSnow() && worldObj.getWorldInfo().isRaining()){
+		if (worldObj.getBiomeGenForCoords(getPosition()).getEnableSnow() && worldObj.getWorldInfo().isRaining()){
 			if (worldObj.isRemote){
 				AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(worldObj, "ember", posX + (rand.nextFloat() * 6 - 3), posY + 2 + (rand.nextFloat() * 2 - 1), posZ + (rand.nextFloat() * 6 - 3));
 				if (particle != null){
@@ -97,7 +97,7 @@ public class EntityWinterGuardian extends AM2Boss{
 			spawnParticles();
 		}else{
 			if (this.ticksExisted % 100 == 0){
-				List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.boundingBox.expand(2, 2, 2));
+				List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(2, 2, 2));
 				for (EntityLivingBase entity : entities){
 					if (entity == this)
 						continue;
@@ -193,4 +193,9 @@ public class EntityWinterGuardian extends AM2Boss{
 	public String getAttackSound(){
 		return "arsmagica2:mob.winterguardian.attack";
 	}
+
+    @Override
+    public World getWorld() {
+        return worldObj;
+    }
 }

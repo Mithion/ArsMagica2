@@ -6,13 +6,15 @@ import am2.bosses.IArsMagicaBoss;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.util.Vec3;
+import thehippomaster.AnimationAPI.AIAnimation;
+import thehippomaster.AnimationAPI.IAnimatedEntity;
 
-public class EntityAIShadowstep extends EntityAIBase{
+public class EntityAIShadowstep extends AIAnimation{
 
 	private int cooldownTicks = 0;
 
 	public EntityAIShadowstep(EntityAIBase entity){
-		super();
+		super((IAnimatedEntity) entity);
 	}
 
 	@Override

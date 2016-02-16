@@ -8,6 +8,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
@@ -68,10 +69,10 @@ public class EntityManaElemental extends EntityMob{
 		super.onUpdate();
 	}
 
-	@Override
+	/*@Override
 	protected void dropRareDrop(int par1){
 		this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, 0), 0.0f);
-	}
+	}*/
 
 
 
@@ -96,7 +97,7 @@ public class EntityManaElemental extends EntityMob{
 	}
 
 	private void initAI(){
-		this.getNavigator().setAvoidsWater(true);
+        ((PathNavigateGround)this.getNavigator()).setAvoidsWater(true);
 		this.tasks.addTask(3, new EntityAIManaDrainBolt(this, this.hostileSpeed, 35, 1, 10));
 		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, this.getAIMoveSpeed()));
 		this.tasks.addTask(7, new EntityAIWander(this, this.getAIMoveSpeed()));
@@ -108,7 +109,7 @@ public class EntityManaElemental extends EntityMob{
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (!SpawnBlacklists.entityCanSpawnHere(this.posX, this.posZ, worldObj, this))
+		if (!SpawnBlacklists.entityCanSpawnHere(getPosition(), worldObj, this))
 			return false;
 		return super.getCanSpawnHere();
 	}

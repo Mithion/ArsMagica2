@@ -5,6 +5,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
@@ -17,8 +18,8 @@ public class EntityEarthElemental extends EntityMob{
 	}
 
 	private void initAI(){
-		this.getNavigator().setBreakDoors(true);
-		this.getNavigator().setAvoidSun(true);
+        ((PathNavigateGround)this.getNavigator()).setBreakDoors(true);
+        ((PathNavigateGround)this.getNavigator()).setAvoidSun(true);
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(2, new EntityAIBreakDoor(this));
 		this.tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.5f, false));
@@ -26,15 +27,15 @@ public class EntityEarthElemental extends EntityMob{
 		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityPlayer.class, false, true));
 	}
 
-	@Override
-	protected boolean isAIEnabled(){
-		return true;
-	}
+    @Override
+    public boolean isAIDisabled() {
+        return false;
+    }
 
-	@Override
+    @Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(12);
@@ -66,7 +67,7 @@ public class EntityEarthElemental extends EntityMob{
 
 	@Override
 	protected void attackEntity(Entity entity, float f){
-		if (f < 1.5f && entity.boundingBox.maxY >= boundingBox.minY && entity.boundingBox.minY <= boundingBox.maxY){
+		if (f < 1.5f && entity.getEntityBoundingBox().maxY >= getEntityBoundingBox().minY && entity.getEntityBoundingBox().minY <= getEntityBoundingBox().maxY){
 			if (onGround){
 				entity.attackEntityFrom(DamageSource.causeMobDamage(this), 1);
 			}
@@ -75,7 +76,7 @@ public class EntityEarthElemental extends EntityMob{
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (!SpawnBlacklists.entityCanSpawnHere(this.posX, this.posZ, worldObj, this))
+		if (!SpawnBlacklists.entityCanSpawnHere(getPosition(), worldObj, this))
 			return false;
 		return super.getCanSpawnHere();
 	}

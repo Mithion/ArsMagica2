@@ -141,7 +141,7 @@ public class EntityLightMage extends EntityCreature{
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (!SpawnBlacklists.entityCanSpawnHere(this.posX, this.posZ, worldObj, this))
+		if (!SpawnBlacklists.entityCanSpawnHere(getPosition(), worldObj, this))
 			return false;
 		if (getAverageNearbyPlayerMagicLevel() < 8){
 			return false;

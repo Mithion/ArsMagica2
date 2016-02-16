@@ -115,10 +115,4 @@ public class EntityWhirlwind extends EntityFlying{
 	public boolean canBePushed(){
 		return false;
 	}
-
-	@Override
-	public ItemStack[] getLastActiveItems(){
-		return new ItemStack[0];
-	}
-
 }

@@ -10,12 +10,14 @@ import am2.particles.AMParticle;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleFloatUpward;
 import am2.utility.InventoryUtilities;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
@@ -44,15 +46,15 @@ public class EntityBroom extends EntityCreature{
 		return false;
 	}
 
-	@Override
-	protected void updateFallState(double par1, boolean par3){
-		if (par3){
+    @Override
+    protected void updateFallState(double y, boolean onGroundIn, Block blockIn, BlockPos pos){
+		if (onGroundIn){
 			if (this.fallDistance > 0.0F){
-				this.fall(this.fallDistance);
+				this.fall(this.fallDistance, 1);
 				this.fallDistance = 0.0F;
 			}
-		}else if (par1 < 0.0D){
-			this.fallDistance = (float)(this.fallDistance - par1);
+		}else if (y < 0.0D){
+			this.fallDistance = (float)(this.fallDistance - y);
 		}
 
 		if (!this.isInWater()){
@@ -119,7 +121,7 @@ public class EntityBroom extends EntityCreature{
 	}
 
 	@Override
-	protected boolean isAIEnabled(){
+	public boolean isAIDisabled(){
 		return true;
 	}
 

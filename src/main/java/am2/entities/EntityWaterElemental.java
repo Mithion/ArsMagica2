@@ -28,8 +28,8 @@ public class EntityWaterElemental extends EntityMob{
 	}
 
 	@Override
-	public boolean isAIEnabled(){
-		return true;
+	public boolean isAIDisabled(){
+		return false;
 	}
 
 	private void initAI(){
@@ -39,7 +39,7 @@ public class EntityWaterElemental extends EntityMob{
 		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityPlayer.class, false, true));
 	}
 
 	@Override
@@ -52,10 +52,10 @@ public class EntityWaterElemental extends EntityMob{
 		super.onUpdate();
 	}
 
-	@Override
+	/*@Override
 	protected void dropRareDrop(int par1){
 		this.entityDropItem(new ItemStack(ItemsCommonProxy.essence, 1, 4), 0.0f);
-	}
+	}*/
 
 	private void spawnLivingParticles(){
 		if (rand.nextBoolean()){
@@ -79,12 +79,12 @@ public class EntityWaterElemental extends EntityMob{
 	 */
 	@Override
 	public boolean isInWater(){
-		return this.worldObj.handleMaterialAcceleration(this.boundingBox.expand(0.0D, -0.6000000238418579D, 0.0D), Material.water, this);
+		return this.worldObj.handleMaterialAcceleration(this.getEntityBoundingBox().expand(0.0D, -0.6000000238418579D, 0.0D), Material.water, this);
 	}
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (!SpawnBlacklists.entityCanSpawnHere(this.posX, this.posZ, worldObj, this))
+		if (!SpawnBlacklists.entityCanSpawnHere(getPosition(), worldObj, this))
 			return false;
 		return super.getCanSpawnHere();
 	}

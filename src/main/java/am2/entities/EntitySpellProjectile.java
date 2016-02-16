@@ -197,7 +197,7 @@ public class EntitySpellProjectile extends Entity{
 			EntityLivingBase entitylivingbase = (EntityLivingBase)entity;
 			deltaY = entitylivingbase.posY + (double)entitylivingbase.getEyeHeight() - (this.posY + (double)this.getEyeHeight());
 		}else{
-			deltaY = (entity.boundingBox.minY + entity.boundingBox.maxY) / 2.0D - (this.posY + (double)this.getEyeHeight());
+			deltaY = (entity.getEntityBoundingBox().minY + entity.getEntityBoundingBox().maxY) / 2.0D - (this.posY + (double)this.getEyeHeight());
 		}
 
 		double hypotenuse = (double)MathHelper.sqrt_double(deltaX * deltaX + deltaZ * deltaZ);
@@ -267,7 +267,7 @@ public class EntitySpellProjectile extends Entity{
 			vec3d1 = new Vec3(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
 		}
 		Entity entity = null;
-		List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
+		List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
 		double d = 0.0D;
 		for (int j = 0; j < list.size(); j++){
 			Entity entity1 = (Entity)list.get(j);
@@ -275,7 +275,7 @@ public class EntitySpellProjectile extends Entity{
 				continue;
 			}
 			float f2 = 0.3F;
-			AxisAlignedBB axisalignedbb = entity1.boundingBox.expand(f2, f2, f2);
+			AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand(f2, f2, f2);
 			MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3d, vec3d1);
 			if (movingobjectposition1 == null){
 				continue;
@@ -376,7 +376,7 @@ public class EntitySpellProjectile extends Entity{
 		if (isInWater()){
 			for (int k = 0; k < 4; k++){
 				float f3 = 0.25F;
-				worldObj.spawnParticle("bubble", posX - motionX * f3, posY - motionY * f3, posZ - motionZ * f3, motionX, motionY, motionZ);
+				worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX - motionX * f3, posY - motionY * f3, posZ - motionZ * f3, motionX, motionY, motionZ);
 			}
 
 			f1 = 0.8F;
@@ -410,7 +410,7 @@ public class EntitySpellProjectile extends Entity{
 				this.entityHits.add(movingobjectposition.entityHit.getEntityId());
 			}
 		}else{
-			AMVector3 blockLoc = new AMVector3(movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ);
+			AMVector3 blockLoc = new AMVector3(movingobjectposition.getBlockPos().getX(), movingobjectposition.getBlockPos().getY(), movingobjectposition.getBlockPos().getZ());
 			if (getShootingEntity() != null && !this.blockhits.contains(blockLoc)){
 				SpellHelper.instance.applyStageToGround(getEffectStack(), getShootingEntity(), worldObj, movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ, movingobjectposition.sideHit, movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord, 0, true);
 				SpellHelper.instance.applyStackStage(SpellUtils.instance.popStackStage(getEffectStack()), getShootingEntity(), getShootingEntity(), movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ, movingobjectposition.sideHit, worldObj, false, true, 0);
