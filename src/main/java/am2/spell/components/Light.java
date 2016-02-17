@@ -77,26 +77,7 @@ public class Light implements ISpellComponent, IRitualInteraction{
 
 		if (world.isAirBlock(pos)) facing = null;
 		if (facing != null){
-			switch (facing){
-				case DOWN:
-					pos = pos.down();
-					break;
-				case UP:
-					pos = pos.up();
-					break;
-				case NORTH:
-					pos = pos.north();
-					break;
-				case SOUTH:
-					pos = pos.south();
-					break;
-				case EAST:
-					pos = pos.east();
-					break;
-				case WEST:
-					pos = pos.west();
-					break;
-			}
+			pos = pos.offset(facing);
 		}
 
 		if (world.isAirBlock(pos)){

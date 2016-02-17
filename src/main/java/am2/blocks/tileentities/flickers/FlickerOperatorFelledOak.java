@@ -16,6 +16,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -34,15 +36,16 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 		for (int xPos = x - 1; xPos <= x + 1; xPos++){
 			for (int yPos = y; yPos <= y + 1; yPos++){
 				for (int zPos = z - 1; zPos <= z + 1; zPos++){
-					Block localblock = world.getBlock(xPos, yPos, zPos);
+					Block localblock = world.getBlockState(new BlockPos(xPos, yPos, zPos)).getBlock();
 					if (block == localblock){
 						meta = world.getBlockMetadata(xPos, yPos, zPos);
 						if (localblock == block && world.getBlockMetadata(xPos, yPos, zPos) % 4 == meta % 4){
-							if (block.removedByPlayer(world, dummyPlayer, xPos, yPos, zPos)){
-								block.onBlockDestroyedByPlayer(world, xPos, yPos, zPos, meta);
+							if (block.removedByPlayer(world, new BlockPos(xPos, yPos, zPos), dummyPlayer, true)){
+								block.onBlockDestroyedByPlayer(world, new BlockPos(xPos, yPos, zPos), world.getBlockState(new BlockPos(xPos, yPos, zPos)));
 							}
-							block.harvestBlock(world, dummyPlayer, xPos, yPos, zPos, meta);
-							block.onBlockHarvested(world, xPos, yPos, zPos, meta, dummyPlayer);
+							BlockPos pos = new BlockPos(xPos, yPos, zPos);
+							block.harvestBlock(world, dummyPlayer, pos, world.getBlockState(pos), world.getTileEntity(pos));
+							block.onBlockHarvested(world, pos, world.getBlockState(pos), dummyPlayer);
 							destroyTree(world, xPos, yPos, zPos, block, meta);
 						}
 					}
@@ -52,22 +55,22 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 	}
 
 	void beginTreeFelling(World world, int x, int y, int z){
-		Block wood = world.getBlock(x, y, z);
-		while (wood.isWood(world, x, y, z)){
+		Block wood = world.getBlockState(new BlockPos(x, y, z)).getBlock();
+		while (wood.isWood(world, new BlockPos(x, y, z))){
 			y--;
-			wood = world.getBlock(x, y, z);
+			wood = world.getBlockState(new BlockPos(x, y, z)).getBlock();
 		}
 
 		y++;
 
-		wood = world.getBlock(x, y, z);
+		wood = world.getBlockState(new BlockPos(x, y, z)).getBlock();
 
-		if (wood.isWood(world, x, y, z)){
+		if (wood.isWood(world, new BlockPos(x, y, z))){
 			int height = y;
 			boolean foundTop = false;
 			do{
 				height++;
-				Block block = world.getBlock(x, height, z);
+				Block block = world.getBlockState(new BlockPos(x, height, z)).getBlock();
 				if (block != wood){
 					height--;
 					foundTop = true;
@@ -79,8 +82,8 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 				for (int xPos = x - 1; xPos <= x + 1; xPos++){
 					for (int yPos = height - 1; yPos <= height + 1; yPos++){
 						for (int zPos = z - 1; zPos <= z + 1; zPos++){
-							Block leaves = world.getBlock(xPos, yPos, zPos);
-							if (leaves != null && leaves.isLeaves(world, xPos, yPos, zPos))
+							Block leaves = world.getBlockState(new BlockPos(xPos, yPos, zPos)).getBlock();
+							if (leaves != null && leaves.isLeaves(world, new BlockPos(xPos, yPos, zPos)))
 								numLeaves++;
 						}
 					}
@@ -123,19 +126,19 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 		byte[] data = habitat.getMetadata(this);
 		AMVector3 offset = null;
 		if (data == null || data.length == 0){
-			offset = new AMVector3(te.xCoord - radius_horiz, te.yCoord - radius_vert, te.zCoord - radius_horiz);
+			offset = new AMVector3(te.getPos().getX() - radius_horiz, te.getPos().getY() - radius_vert, te.getPos().getZ() - radius_horiz);
 		}else{
 			AMDataReader reader = new AMDataReader(data, false);
-			offset = new AMVector3(reader.getInt(), te.yCoord - radius_vert, reader.getInt());
+			offset = new AMVector3(reader.getInt(), te.getPos().getY() - radius_vert, reader.getInt());
 		}
 
 		Block treeBlock = ((ItemBlock)sapling.getItem()).field_150939_a;
 
-		for (int i = (int)offset.x; i <= te.xCoord + radius_horiz; i += 2){
-			for (int k = (int)offset.z; k <= te.zCoord + radius_horiz; k += 2){
-				for (int j = (int)offset.y; j <= te.yCoord + radius_vert; ++j){
-					Block block = worldObj.getBlock(i, j, k);
-					if (block.isReplaceable(worldObj, i, j, k) && treeBlock.canPlaceBlockAt(worldObj, i, j, k)){
+		for (int i = (int)offset.x; i <= te.getPos().getX() + radius_horiz; i += 2){
+			for (int k = (int)offset.z; k <= te.getPos().getZ() + radius_horiz; k += 2){
+				for (int j = (int)offset.y; j <= te.getPos().getY() + radius_vert; ++j){
+					Block block = worldObj.getBlockState(new BlockPos(i, j, k)).getBlock();
+					if (block.isReplaceable(worldObj, new BlockPos(i, j, k)) && treeBlock.canPlaceBlockAt(worldObj, new BlockPos(i, j, k))){
 						AMDataWriter writer = new AMDataWriter();
 						writer.add(i).add(k);
 						habitat.setMetadata(this, writer.generate());
@@ -146,7 +149,7 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 		}
 
 		AMDataWriter writer = new AMDataWriter();
-		writer.add(te.xCoord - radius_horiz).add(te.zCoord - radius_horiz);
+		writer.add(te.getPos().getX() - radius_horiz).add(te.getPos().getZ() - radius_horiz);
 		habitat.setMetadata(this, writer.generate());
 
 		return null;
@@ -158,7 +161,7 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 	 * @return
 	 */
 	private ItemStack getSaplingFromNearbyChest(World worldObj, IFlickerController habitat){
-		for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+		for (EnumFacing dir : EnumFacing.VALUES){
 			IInventory inv = getOffsetInventory(worldObj, habitat, dir);
 			if (inv == null)
 				continue;
@@ -173,7 +176,7 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 	}
 
 	private void deductSaplingFromNearbyChest(World worldObj, IFlickerController habitat){
-		for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS){
+		for (EnumFacing dir : EnumFacing.VALUES){
 			IInventory inv = getOffsetInventory(worldObj, habitat, dir);
 			if (inv == null)
 				continue;
@@ -188,9 +191,10 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 	/**
 	 * Gets an instance of the adjacent IInventory at direction offset.  Returns null if not found or invalid type adjacent.
 	 */
-	private IInventory getOffsetInventory(World worldObj, IFlickerController habitat, ForgeDirection direction){
+	private IInventory getOffsetInventory(World worldObj, IFlickerController habitat, EnumFacing direction){
 		TileEntity te = (TileEntity)habitat;
-		TileEntity adjacent = worldObj.getTileEntity(te.xCoord + direction.offsetX, te.yCoord + direction.offsetY, te.zCoord + direction.offsetZ);
+		BlockPos position = new BlockPos(te.getPos().getX() + direction.getFrontOffsetX(), te.getPos().getY() + direction.getFrontOffsetY(), te.getPos().getZ() + direction.getFrontOffsetZ());
+		TileEntity adjacent = worldObj.getTileEntity(position);
 		if (adjacent != null && adjacent instanceof IInventory)
 			return (IInventory)adjacent;
 		return null;
@@ -214,11 +218,11 @@ public class FlickerOperatorFelledOak implements IFlickerFunctionality{
 
 		for (int i = -radius; i <= radius; ++i){
 			for (int j = -radius; j <= radius; ++j){
-				Block block = worldObj.getBlock(((TileEntity)habitat).xCoord + i, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord + j);
+				Block block = worldObj.getBlockState(new BlockPos(((TileEntity)habitat).getPos().getX() + i, ((TileEntity)habitat).getPos().getY(), ((TileEntity)habitat).getPos().getZ() + j)).getBlock();
 				if (block == Blocks.air) continue;
-				if (block.isWood(worldObj, ((TileEntity)habitat).xCoord + i, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord + j)){
+				if (block.isWood(worldObj, new BlockPos(((TileEntity)habitat).getPos().getX() + i, ((TileEntity)habitat).getPos().getY(), ((TileEntity)habitat).getPos().getZ() + j))){
 					if (!worldObj.isRemote)
-						beginTreeFelling(worldObj, ((TileEntity)habitat).xCoord + i, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord + j);
+						beginTreeFelling(worldObj, ((TileEntity)habitat).getPos().getX() + i, ((TileEntity)habitat).getPos().getY(), ((TileEntity)habitat).getPos().getZ() + j);
 					return true;
 				}
 			}

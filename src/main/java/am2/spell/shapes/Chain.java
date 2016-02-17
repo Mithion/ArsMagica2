@@ -52,7 +52,7 @@ public class Chain implements ISpellShape{
 				do{
 					targets.add((EntityLivingBase)e);
 
-					List<EntityLivingBase> nearby = world.getEntitiesWithinAABB(EntityLivingBase.class, e.boundingBox.expand(range, range, range));
+					List<EntityLivingBase> nearby = world.getEntitiesWithinAABB(EntityLivingBase.class, e.getCollisionBoundingBox().expand(range, range, range));
 					EntityLivingBase closest = null;
 					for (EntityLivingBase near : nearby){
 						if (targets.contains(near) || near == caster) continue;

@@ -9,6 +9,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -56,18 +57,19 @@ public class FireProtection implements IArmorImbuement{
 				for (int i = -1; i <= 1; ++i){
 					for (int j = -2; j <= 2; ++j){
 						for (int k = -1; k <= 1; ++k){
-							Block block = world.getBlock(x + i, y + j, z + k);
+							BlockPos position = new BlockPos(x + i, y + j, z + k);
+							Block block = world.getBlockState(position).getBlock();
 							if (block == Blocks.flowing_lava){
 								if (i == 0 && k == 0 && j != -2){
-									world.setBlockToAir(x + i, y + j, z + k);
+									world.setBlockToAir(position);
 								}else{
-									world.setBlock(x + i, y + j, z + k, Blocks.cobblestone);
+									world.setBlockState(position, Blocks.cobblestone.getDefaultState());
 								}
 							}else if (block == Blocks.lava){
 								if (i == 0 && k == 0 && j != -2){
-									world.setBlockToAir(x + i, y + j, z + k);
+									world.setBlockToAir(position);
 								}else{
-									world.setBlock(x + i, y + j, z + k, Blocks.obsidian);
+									world.setBlockState(position, Blocks.obsidian.getDefaultState());
 								}
 							}
 						}

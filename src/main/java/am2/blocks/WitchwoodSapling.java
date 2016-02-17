@@ -24,44 +24,49 @@ public class WitchwoodSapling extends BlockFlower{
 		super();
 	}
 
+	@Override
+	public EnumFlowerColor getBlockType() {
+		return null;
+	}
 
 
-    @Override
+	@Override
     public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
         if (!world.isRemote){
             super.updateTick(world, pos, state, rand);
 
-            int nearbyEssence = countNearbyEssencePools(world, x, y, z, rand);
-            updateOrGrowTree(world, x, y, z, rand, nearbyEssence);
+            int nearbyEssence = countNearbyEssencePools(world, pos, rand);
+            updateOrGrowTree(world, pos, rand, nearbyEssence);
         }
     }
 
-    private void updateOrGrowTree(World world, int x, int y, int z, Random rand, int numNearbyPools){
+    private void updateOrGrowTree(World world, BlockPos pos, Random rand, int numNearbyPools){
 		if (rand.nextInt(7) == 0){
 			int meta = world.getBlockMetadata(x, y, z) + numNearbyPools;
 			if (meta > 15)
-				growTree(world, x, y, z, rand);
+				growTree(world, pos, rand);
 			else
 				world.setBlockMetadataWithNotify(x, y, z, meta, 2);
 		}
 	}
 
-	private void growTree(World world, int x, int y, int z, Random rand){
+	private void growTree(World world, BlockPos pos, Random rand){
 		WitchwoodTreeHuge generator = new WitchwoodTreeHuge(true);
 
-		world.setBlock(x, y, z, Blocks.air, 0, 4);
-		if (!generator.generate(world, rand, x, y, z))
+		world.setBlockState(pos, Blocks.air.getDefaultState(), 4);
+		if (!generator.generate(world, rand, pos))
 			world.setBlock(x, y, z, this, 15, 4);
 		else
 			new AM2FlowerGen(BlocksCommonProxy.aum, 0).generate(world, rand, x, y, z);
 	}
 
-	private int countNearbyEssencePools(World world, int x, int y, int z, Random rand){
+	private int countNearbyEssencePools(World world, BlockPos pos, Random rand){
 		int essenceNearby = 0;
 
 		for (int i = -1; i <= 1; i++){
 			for (int j = -1; j <= 1; j++){
-				Block block = world.getBlock(x + i, y - 1, z + j);
+				BlockPos newPos = new BlockPos(pos.getX() + i, pos.getY() - 1, pos.getZ() + j);
+				Block block = world.getBlockState(newPos).getBlock();
 				int blockMeta = world.getBlockMetadata(x + i, y - 1, z + j);
 				if (block == BlocksCommonProxy.liquidEssence && blockMeta == 0)
 					essenceNearby++;

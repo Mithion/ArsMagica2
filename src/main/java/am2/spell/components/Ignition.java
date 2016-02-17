@@ -25,20 +25,7 @@ public class Ignition implements ISpellComponent{
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
-		switch (facing){
-			case EAST:
-				pos = pos.east();
-				break;
-			case NORTH:
-				pos = pos.north();
-				break;
-			case SOUTH:
-				pos = pos.south();
-				break;
-			case WEST:
-				pos = pos.west();
-				break;
-		}
+		pos = pos.offset(facing);
 
 		Block block = world.getBlockState(pos).getBlock();
 

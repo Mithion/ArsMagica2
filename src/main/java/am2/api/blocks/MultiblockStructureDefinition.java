@@ -76,8 +76,9 @@ public class MultiblockStructureDefinition{
 
 		boolean matchGroup(World world, int originX, int originY, int originZ){
 			for (BlockPos offset : allowedBlocks.keySet()){
-				Block block = world.getBlock(originX + offset.x, originY + offset.y, originZ + offset.z);
-				int meta = world.getBlockMetadata(originX + offset.x, originY + offset.y, originZ + offset.z);
+				BlockPos position = new BlockPos(originX + offset.getX(), originY + offset.getY(), originZ + offset.getZ());
+				Block block = world.getBlockState(position).getBlock();
+				int meta = world.getBlockState(position).getBlock().getMetaFromState(world.getBlockState(position));
 				ArrayList<BlockDec> positionReplacements = allowedBlocks.get(offset);
 				boolean valid = false;
 				for (BlockDec bd : positionReplacements){
@@ -98,7 +99,7 @@ public class MultiblockStructureDefinition{
 			}
 
 			for (BlockPos bc : allowedBlocks.keySet()){
-				if (bc.y == layer){
+				if (bc.getY() == layer){
 					toReturn.put(bc, allowedBlocks.get(bc));
 				}
 			}
@@ -130,7 +131,8 @@ public class MultiblockStructureDefinition{
 
 		public void deleteBlocksFromWorld(World world, int x, int y, int z){
 			for (BlockPos offset : allowedBlocks.keySet()){
-				world.setBlockToAir(x + offset.x, y + offset.y, z + offset.z);
+				BlockPos position = new BlockPos(x + offset.getX(), y + offset.getY(), z + offset.getZ());
+				world.setBlockToAir(position);
 			}
 		}
 	}
@@ -274,7 +276,7 @@ public class MultiblockStructureDefinition{
 
 		for (BlockPos bc : copyGroup.allowedBlocks.keySet()){
 			for (BlockDec bd : copyGroup.allowedBlocks.get(bc)){
-				newGroup.addAllowedBlock(bc.x, bc.y, bc.z, bd.block, bd.meta);
+				newGroup.addAllowedBlock(bc.getX(), bc.getY(), bc.getZ(), bd.block, bd.meta);
 			}
 		}
 

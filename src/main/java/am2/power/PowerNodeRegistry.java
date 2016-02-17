@@ -464,7 +464,7 @@ public class PowerNodeRegistry{
 
 			BlockPos tePos1 = te1.getPos();
 			BlockPos tePos2 = te2.getPos();
-			if (tePos1.getX() == tePos2.getX() && tePos1.getZ() == tePos2.getZ() && tePos1.getY() == tePos2.getY())
+			if (te1.getPos().equals(te2.getPos()))
 				return 0;
 
 			if (tePos1.getX() > tePos2.getX()){

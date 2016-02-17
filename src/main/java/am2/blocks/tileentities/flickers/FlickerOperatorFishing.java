@@ -13,9 +13,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemFishFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.WeightedRandom;
-import net.minecraft.util.WeightedRandomFishable;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 import java.util.Arrays;
@@ -46,25 +44,25 @@ public class FlickerOperatorFishing implements IFlickerFunctionality{
 	@Override
 	public boolean DoOperation(World worldObj, IFlickerController controller, boolean powered, Affinity[] flickers){
 		TileEntity te = (TileEntity)controller;
-		if (!powered || !checkSurroundings(worldObj, te.xCoord, te.yCoord, te.zCoord) || !worldObj.isBlockIndirectlyGettingPowered(te.xCoord, te.yCoord, te.zCoord))
+		if (!powered || !checkSurroundings(worldObj, new BlockPos(te.getPos().getX(), te.getPos().getY(), te.getPos().getZ())) || !worldObj.isBlockIndirectlyGettingPowered(te.xCoord, te.yCoord, te.zCoord))
 			return false;
 
 		transferOrEjectItem(
 				worldObj,
 				pickFishingItem(worldObj.rand),
-				te.xCoord,
-				te.yCoord,
-				te.zCoord
+				te.getPos().getX(),
+				te.getPos().getY(),
+				te.getPos().getZ()
 		);
 
 		return true;
 	}
 
-	private boolean checkSurroundings(World world, int x, int y, int z){
+	private boolean checkSurroundings(World world, BlockPos pos){
 		for (int i = -1; i <= 1; ++i){
 			for (int j = -1; j >= -2; --j){
 				for (int k = -1; k <= 1; ++k){
-					Block block = world.getBlock(x + i, y + j, z + k);
+					Block block = world.getBlockState(new BlockPos(pos.getX() + i, pos.getY() + j, pos.getZ() + k)).getBlock();
 					if (block != Blocks.water && block != Blocks.flowing_water)
 						return false;
 				}
@@ -103,10 +101,10 @@ public class FlickerOperatorFishing implements IFlickerFunctionality{
 				for (int k = -1; k <= 1; ++k){
 					if (i == 0 && j == 0 && k == 0)
 						continue;
-					TileEntity te = worldObj.getTileEntity(xCoord + i, yCoord + j, zCoord + k);
+					TileEntity te = worldObj.getTileEntity(new BlockPos(xCoord + i, yCoord + j, zCoord + k));
 					if (te != null && te instanceof IInventory){
 						for (int side = 0; side < 6; ++side){
-							if (InventoryUtilities.mergeIntoInventory((IInventory)te, stack, stack.stackSize, side))
+							if (InventoryUtilities.mergeIntoInventory((IInventory)te, stack, stack.stackSize, EnumFacing.getHorizontal(side)))
 								return;
 						}
 					}

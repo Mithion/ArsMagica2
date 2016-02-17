@@ -4,6 +4,8 @@ import am2.api.items.armor.IArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import am2.api.math.AMVector3;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -42,17 +44,17 @@ public class WaterWalking implements IArmorImbuement{
 	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 		Block[] blocks = new Block[4];
 		AMVector3[] vectors = new AMVector3[4];
-		int posY = (int)Math.floor(player.posY - player.yOffset);
+		int posY = (int)Math.floor(player.posY - player.getYOffset());
 
 		vectors[0] = new AMVector3((int)Math.floor(player.posX), posY, (int)Math.floor(player.posZ));
 		vectors[1] = new AMVector3((int)Math.ceil(player.posX), posY, (int)Math.floor(player.posZ));
 		vectors[2] = new AMVector3((int)Math.floor(player.posX), posY, (int)Math.ceil(player.posZ));
 		vectors[3] = new AMVector3((int)Math.ceil(player.posX), posY, (int)Math.ceil(player.posZ));
 
-		blocks[0] = world.getBlock((int)vectors[0].x, (int)vectors[0].y, (int)vectors[0].z);
-		blocks[1] = world.getBlock((int)vectors[1].x, (int)vectors[1].y, (int)vectors[1].z);
-		blocks[2] = world.getBlock((int)vectors[2].x, (int)vectors[2].y, (int)vectors[2].z);
-		blocks[3] = world.getBlock((int)vectors[3].x, (int)vectors[3].y, (int)vectors[3].z);
+		blocks[0] = world.getBlockState( new BlockPos((int)vectors[0].x, (int)vectors[0].y, (int)vectors[0].z)).getBlock();
+		blocks[1] = world.getBlockState(new BlockPos((int)vectors[1].x, (int)vectors[1].y, (int)vectors[1].z)).getBlock();
+		blocks[2] = world.getBlockState(new BlockPos((int)vectors[2].x, (int)vectors[2].y, (int)vectors[2].z)).getBlock();
+		blocks[3] = world.getBlockState(new BlockPos((int)vectors[3].x, (int)vectors[3].y, (int)vectors[3].z)).getBlock();
 
 		boolean onWater = false;
 		int index = 0;
@@ -76,7 +78,7 @@ public class WaterWalking implements IArmorImbuement{
 				for (float l = 0; l < 5; ++l){
 					float f5 = (player.getRNG().nextFloat() * 2.0F - 1.0F) * player.width;
 					float f4 = (player.getRNG().nextFloat() * 2.0F - 1.0F) * player.width;
-					player.worldObj.spawnParticle("splash", player.posX + f5, player.posY - player.yOffset, player.posZ + f4, (player.getRNG().nextFloat() - 0.5f) * 0.2f, player.getRNG().nextFloat() * 0.1f, (player.getRNG().nextFloat() - 0.5f) * 0.2f);
+					player.worldObj.spawnParticle(EnumParticleTypes.WATER_SPLASH, player.posX + f5, player.posY - player.getYOffset(), player.posZ + f4, (player.getRNG().nextFloat() - 0.5f) * 0.2f, player.getRNG().nextFloat() * 0.1f, (player.getRNG().nextFloat() - 0.5f) * 0.2f);
 				}
 			}
 		}

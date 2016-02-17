@@ -94,26 +94,7 @@ public class PlaceBlock implements ISpellComponent{
 			if (world.isAirBlock(pos) || !world.getBlockState(pos).getBlock().getMaterial().isSolid())
 				facing = null;
 			if (facing != null){
-				switch (facing){
-					case DOWN:
-						pos = pos.down();
-						break;
-					case UP:
-						pos = pos.up();
-						break;
-					case NORTH:
-						pos = pos.north();
-						break;
-					case SOUTH:
-						pos = pos.south();
-						break;
-					case WEST:
-						pos = pos.west();
-						break;
-					case EAST:
-						pos = pos.east();
-						break;
-				}
+				pos = pos.offset(facing);
 			}
 			if (world.isAirBlock(pos) || !world.getBlockState(pos).getBlock().getMaterial().isSolid()){
 				ItemStack searchStack = new ItemStack(bd.getBlock(), 1, bd.getMeta());

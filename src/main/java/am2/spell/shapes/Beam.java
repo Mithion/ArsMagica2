@@ -73,13 +73,13 @@ public class Beam implements ISpellShape{
 			spellVec = beamHitVec;
 		}else{
 			if (shouldApplyEffect){
-				result = SpellHelper.instance.applyStageToGround(stack, caster, world, mop.blockX, mop.blockY, mop.blockZ, mop.sideHit, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0, giveXP);
+				result = SpellHelper.instance.applyStageToGround(stack, caster, world, mop.getBlockPos(), mop.sideHit, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0, giveXP);
 				if (result != SpellCastResult.SUCCESS){
 					return result;
 				}
 			}
 			beamHitVec = mop.hitVec;
-			spellVec = new Vec3(mop.blockX, mop.blockY, mop.blockZ);
+			spellVec = new Vec3(mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ());
 		}
 
 		if (world.isRemote && beamHitVec != null){

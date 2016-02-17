@@ -10,6 +10,7 @@ import am2.network.AMDataWriter;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class FlickerOperatorContainment implements IFlickerFunctionality{
@@ -18,7 +19,7 @@ public class FlickerOperatorContainment implements IFlickerFunctionality{
 
 	protected void setUtilityBlock(World world, int x, int y, int z, int meta){
 
-		if (world.getBlock(x, y, z) == BlocksCommonProxy.invisibleUtility){
+		if (world.getBlockState(new BlockPos(x, y, z)).getBlock() == BlocksCommonProxy.invisibleUtility){
 			int exMeta = world.getBlockMetadata(x, y, z);
 			if (meta == exMeta) return;
 			if ((meta == 3 || meta == 4) && exMeta == 7) return;
@@ -28,16 +29,16 @@ public class FlickerOperatorContainment implements IFlickerFunctionality{
 			else if ((meta == 5 && exMeta == 6) || (meta == 6 && exMeta == 5))
 				meta = 8;
 
-			world.setBlock(x, y, z, BlocksCommonProxy.invisibleUtility, meta, 2);
+			world.setBlockState(x, y, z, BlocksCommonProxy.invisibleUtility, meta, 2);
 		}else{
-			if (world.isAirBlock(x, y, z))
+			if (world.isAirBlock(new BlockPos(x, y, z)));
 				world.setBlock(x, y, z, BlocksCommonProxy.invisibleUtility, meta, 2);
 		}
 	}
 
 	protected void clearUtilityBlock(World world, int x, int y, int z){
-		if (world.getBlock(x, y, z) == BlocksCommonProxy.invisibleUtility){
-			world.setBlockToAir(x, y, z);
+		if (world.getBlockState(new BlockPos(x, y, z)).getBlock() == BlocksCommonProxy.invisibleUtility){
+			world.setBlockToAir(new BlockPos(x, y, z));
 		}
 	}
 
@@ -102,22 +103,22 @@ public class FlickerOperatorContainment implements IFlickerFunctionality{
 
 			if (hasArcaneAugment){
 				//-x
-				setUtilityBlock(worldObj, ((TileEntity)habitat).xCoord - calcRadius, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord + calcRadius + 1 - i, 9);
+				setUtilityBlock(worldObj, ((TileEntity)habitat).getPos().getX() - calcRadius, ((TileEntity)habitat).getPos().getY(), ((TileEntity)habitat).getPos().getZ() + calcRadius + 1 - i, 9);
 				//+x
-				setUtilityBlock(worldObj, ((TileEntity)habitat).xCoord + calcRadius + 1, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord - calcRadius + i, 9);
+				setUtilityBlock(worldObj, ((TileEntity)habitat).getPos().getX() + calcRadius + 1, ((TileEntity)habitat).getPos().getY(), ((TileEntity)habitat).getPos().getZ() - calcRadius + i, 9);
 				//-z
-				setUtilityBlock(worldObj, ((TileEntity)habitat).xCoord - calcRadius + i, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord - calcRadius, 9);
+				setUtilityBlock(worldObj, ((TileEntity)habitat).getPos().getX() - calcRadius + i, ((TileEntity)habitat).getPos().getY(), ((TileEntity)habitat).getPos().getZ() - calcRadius, 9);
 				//+z
-				setUtilityBlock(worldObj, ((TileEntity)habitat).xCoord + calcRadius + 1 - i, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord + calcRadius + 1, 9);
+				setUtilityBlock(worldObj, ((TileEntity)habitat).getPos().getX() + calcRadius + 1 - i, ((TileEntity)habitat).getPos().getY(), ((TileEntity)habitat).getPos().getZ() + calcRadius + 1, 9);
 			}else{
 				//-x
-				setUtilityBlock(worldObj, ((TileEntity)habitat).xCoord - calcRadius, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord + calcRadius + 1 - i, i == 0 ? 9 : 3);
+				setUtilityBlock(worldObj, ((TileEntity)habitat).getPos().getX() - calcRadius, ((TileEntity)habitat).getPos().getY(), ((TileEntity)habitat).getPos().getZ() + calcRadius + 1 - i, i == 0 ? 9 : 3);
 				//+x
-				setUtilityBlock(worldObj, ((TileEntity)habitat).xCoord + calcRadius + 1, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord - calcRadius + i, i == 0 ? 9 : 4);
+				setUtilityBlock(worldObj, ((TileEntity)habitat).getPos().getX() + calcRadius + 1, ((TileEntity)habitat).getPos().getY(), ((TileEntity)habitat).getPos().getZ() - calcRadius + i, i == 0 ? 9 : 4);
 				//-z
-				setUtilityBlock(worldObj, ((TileEntity)habitat).xCoord - calcRadius + i, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord - calcRadius, i == 0 ? 9 : 5);
+				setUtilityBlock(worldObj, ((TileEntity)habitat).getPos().getX() - calcRadius + i, ((TileEntity)habitat).getPos().getY(), ((TileEntity)habitat).getPos().getZ() - calcRadius, i == 0 ? 9 : 5);
 				//+z
-				setUtilityBlock(worldObj, ((TileEntity)habitat).xCoord + calcRadius + 1 - i, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord + calcRadius + 1, i == 0 ? 9 : 6);
+				setUtilityBlock(worldObj, ((TileEntity)habitat).getPos().getX() + calcRadius + 1 - i, ((TileEntity)habitat).getPos().getY(), ((TileEntity)habitat).getPos().getZ() + calcRadius + 1, i == 0 ? 9 : 6);
 			}
 		}
 
@@ -132,13 +133,13 @@ public class FlickerOperatorContainment implements IFlickerFunctionality{
 
 		for (int i = 0; i < radius * 2 + 1; ++i){
 			//-x
-			clearUtilityBlock(worldObj, ((TileEntity)habitat).xCoord - radius, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord + radius + 1 - i);
+			clearUtilityBlock(worldObj, ((TileEntity)habitat).getPos().getX() - radius, ((TileEntity)habitat).getPos().getY(), ((TileEntity)habitat).getPos().getZ() + radius + 1 - i);
 			//+x
-			clearUtilityBlock(worldObj, ((TileEntity)habitat).xCoord + radius + 1, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord - radius + i);
+			clearUtilityBlock(worldObj, ((TileEntity)habitat).getPos().getX() + radius + 1, ((TileEntity)habitat).getPos().getY(), ((TileEntity)habitat).getPos().getZ() - radius + i);
 			//-z
-			clearUtilityBlock(worldObj, ((TileEntity)habitat).xCoord - radius + i, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord - radius);
+			clearUtilityBlock(worldObj, ((TileEntity)habitat).getPos().getX() - radius + i, ((TileEntity)habitat).getPos().getY(), ((TileEntity)habitat).getPos().getZ() - radius);
 			//+z
-			clearUtilityBlock(worldObj, ((TileEntity)habitat).xCoord + radius + 1 - i, ((TileEntity)habitat).yCoord, ((TileEntity)habitat).zCoord + radius + 1);
+			clearUtilityBlock(worldObj, ((TileEntity)habitat).getPos().getX() + radius + 1 - i, ((TileEntity)habitat).getPos().getY(), ((TileEntity)habitat).getPos().getZ() + radius + 1);
 		}
 	}
 

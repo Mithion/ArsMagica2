@@ -44,26 +44,7 @@ public class Drought implements ISpellComponent{
 			world.setBlockState(pos, Blocks.air.getDefaultState());
 			return true;
 		}else{
-			switch (facing){
-				case EAST:
-					pos = pos.east();
-					break;
-				case NORTH:
-					pos = pos.north();
-					break;
-				case SOUTH:
-					pos = pos.south();
-					break;
-				case WEST:
-					pos = pos.west();
-					break;
-				case DOWN:
-					pos = pos.down();
-					break;
-				case UP:
-					pos = pos.up();
-					break;
-			}
+			pos = pos.offset(facing);
 			block = world.getBlockState(pos).getBlock();
 			if (block == Blocks.water || block == Blocks.flowing_water){
 				world.setBlockState(pos, Blocks.air.getDefaultState());
