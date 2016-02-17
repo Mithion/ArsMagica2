@@ -29,6 +29,7 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Iterator;
@@ -105,7 +106,7 @@ public class GuiSkillTrees extends GuiScreen{
 
 	@SuppressWarnings("incomplete-switch")
 	@Override
-	protected void actionPerformed(GuiButton par1GuiButton){
+	protected void actionPerformed(GuiButton par1GuiButton) throws IOException{
 		if (par1GuiButton instanceof GuiButtonSkillTreeTab){
 			this.activeTree = ((GuiButtonSkillTreeTab)par1GuiButton).getTree();
 			skillTree = SkillTreeManager.instance.getTree(activeTree);
@@ -193,19 +194,19 @@ public class GuiSkillTrees extends GuiScreen{
 
 
 		String quantity = String.format("%d", sk.getSpellPoints(SkillPointTypes.BLUE));
-		Minecraft.getMinecraft().fontRenderer.drawString(quantity, l + xSize - 24 - (Minecraft.getMinecraft().fontRenderer.getStringWidth(quantity) / 2), i1 + 5, 0x0000FF);
+		Minecraft.getMinecraft().fontRendererObj.drawString(quantity, l + xSize - 24 - (Minecraft.getMinecraft().fontRendererObj.getStringWidth(quantity) / 2), i1 + 5, 0x0000FF);
 
 		quantity = String.format("%d", sk.getSpellPoints(SkillPointTypes.GREEN));
-		Minecraft.getMinecraft().fontRenderer.drawString(quantity, l + xSize - 12 - (Minecraft.getMinecraft().fontRenderer.getStringWidth(quantity) / 2), i1 + 5, 0x00FF00);
+		Minecraft.getMinecraft().fontRendererObj.drawString(quantity, l + xSize - 12 - (Minecraft.getMinecraft().fontRendererObj.getStringWidth(quantity) / 2), i1 + 5, 0x00FF00);
 
 		quantity = String.format("%d", sk.getSpellPoints(SkillPointTypes.RED));
-		Minecraft.getMinecraft().fontRenderer.drawString(quantity, l + xSize - 18 - (Minecraft.getMinecraft().fontRenderer.getStringWidth(quantity) / 2), i1 + 15, 0xFF0000);
+		Minecraft.getMinecraft().fontRendererObj.drawString(quantity, l + xSize - 18 - (Minecraft.getMinecraft().fontRendererObj.getStringWidth(quantity) / 2), i1 + 15, 0xFF0000);
 
 		super.drawScreen(par1, par2, par3);
 
 		if (hoveredItem != null){
 			ArrayList<String> text = new ArrayList<String>();
-			FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
+			FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 			String s = SkillManager.instance.getDisplayName(hoveredItem.registeredItem);
 			LearnStates state = sk.getLearnState(hoveredItem, Minecraft.getMinecraft().thePlayer);
 			if (state == LearnStates.LEARNED) s += " (" + StatCollector.translateToLocal("am2.gui.known") + ")";
@@ -400,7 +401,7 @@ public class GuiSkillTrees extends GuiScreen{
 	}
 
 	@Override
-	protected void mouseClicked(int par1, int par2, int par3){
+	protected void mouseClicked(int par1, int par2, int par3) throws IOException{
 		super.mouseClicked(par1, par2, par3);
 		if (par3 == 0){
 			if (hoveredItem != null){
@@ -420,9 +421,11 @@ public class GuiSkillTrees extends GuiScreen{
 		}
 	}
 
+
+
 	@Override
-	protected void mouseMovedOrUp(int par1, int par2, int par3){
-		super.mouseMovedOrUp(par1, par2, par3);
+	protected void mouseReleased(int par1, int par2, int par3){
+		super.mouseReleased(par1, par2, par3);
 		if (par3 != -1){
 			this.isDragging = false;
 		}

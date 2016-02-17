@@ -88,79 +88,80 @@ public class BlockInscriptionTable extends AMSpecialRenderBlockContainer{
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) { // TODO rewrite the logic for this
-        super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) { // TODO fine tune this later
+        super.onBlockActivated(world, pos, state, player, side, hitX, hitY, hitZ);
 
-        if (par1World.isRemote){
+        if (world.isRemote){
             return true;
         }
 
-        TileEntityInscriptionTable te = (TileEntityInscriptionTable)par1World.getTileEntity(par2, par3, par4);
+        TileEntityInscriptionTable te = (TileEntityInscriptionTable)world.getTileEntity(pos);
         TileEntityInscriptionTable tealt = te;
 
-        int meta = par1World.getBlockMetadata(par2, par3, par4);
+        //int meta = world.getBlockMetadata(par2, par3, par4);
+        int meta = 0; // TODO blockstate stuff
         boolean isLeft = (meta & 0x8) == 0x0;
         if (te != null){
             int checkMeta = meta & ~0x8;
             if (!isLeft){
                 switch (checkMeta){
                     case 1:
-                        par4--;
+                        pos = pos.north();
                         break;
                     case 2:
-                        par2--;
+                        pos = pos.west();
                         break;
                     case 3:
-                        par4++;
+                        pos = pos.south();
                         break;
                     case 4:
-                        par2++;
+                        pos = pos.east();
                         break;
                 }
 
-                te = (TileEntityInscriptionTable)par1World.getTileEntity(par2, par3, par4);
+                te = (TileEntityInscriptionTable)world.getTileEntity(pos);
             }else{
-                int tx = par2;
-                int ty = par3;
-                int tz = par4;
+                int tx = pos.getX();
+                int ty = pos.getY();
+                int tz = pos.getZ();
                 switch (checkMeta){
                     case 1:
-                        tz++;
+                        pos = pos.add(pos.north());
                         break;
                     case 2:
-                        tx++;
+                        pos = pos.add(pos.west());
                         break;
                     case 3:
-                        tz--;
+                        pos = pos.add(pos.south());
                         break;
                     case 4:
-                        tx--;
+                        pos = pos.add(pos.east());
                         break;
                 }
 
-                tealt = (TileEntityInscriptionTable)par1World.getTileEntity(tx, ty, tz);
+                tealt = (TileEntityInscriptionTable)world.getTileEntity(pos);
             }
         }
 
         if (te == null)
             return true;
 
-        if (te.isInUse(par5EntityPlayer)){
-            par5EntityPlayer.addChatMessage(new ChatComponentText("Someone else is using this."));
+        if (te.isInUse(player)){
+            player.addChatMessage(new ChatComponentText("Someone else is using this."));
             return true;
         }
 
-        ItemStack curItem = par5EntityPlayer.getCurrentEquippedItem();
+        ItemStack curItem = player.getCurrentEquippedItem();
         if (curItem != null && curItem.getItem() == ItemsCommonProxy.inscriptionUpgrade){
             if (te.getUpgradeState() == curItem.getItemDamage()){
-                par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, null);
+                player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
                 te.incrementUpgradeState();
                 tealt.incrementUpgradeState();
                 return true;
             }
         }
 
-        FMLNetworkHandler.openGui(par5EntityPlayer, AMCore.instance, ArsMagicaGuiIdList.GUI_INSCRIPTION_TABLE, par1World, par2, par3, par4);
+        FMLNetworkHandler.openGui(player, AMCore.instance, ArsMagicaGuiIdList.GUI_INSCRIPTION_TABLE, world, pos.getX(), pos.getY(), pos.getZ());
 
         return true;
     }

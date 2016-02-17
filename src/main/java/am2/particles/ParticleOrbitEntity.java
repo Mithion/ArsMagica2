@@ -1,10 +1,8 @@
 package am2.particles;
 
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-
-import java.util.Random;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 public final class ParticleOrbitEntity extends ParticleController{
 
@@ -100,7 +98,7 @@ public final class ParticleOrbitEntity extends ParticleController{
 				posY = (target.posY + target.getEyeHeight()) + orbitY;
 			}else{
 				int offset = 0;
-				if (target instanceof EntityPlayer && !(target instanceof EntityClientPlayerMP))
+				if (target instanceof EntityPlayer && !(target instanceof EntityPlayerMP))
 					offset += 2 * target.height;
 				posY = target.posY - target.getEyeHeight() + curYOffset + offset;
 			}

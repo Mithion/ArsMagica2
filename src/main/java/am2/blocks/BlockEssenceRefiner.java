@@ -60,62 +60,6 @@ public class BlockEssenceRefiner extends PoweredBlock{
 		world.setBlockMetadataWithNotify(i, j, k, byte0, 0);
 	}
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void registerBlockIcons(IIconRegister iconRegister){
-		this.icons = new IIcon[textureNames.length];
-
-		for (int i = 0; i < textureNames.length; ++i){
-			this.icons[i] = ResourceManager.RegisterTexture(textureNames[i], iconRegister);
-		}
-	}
-
-	@Override
-	public IIcon getIcon(IBlockAccess iblockaccess, int i, int j, int k, int side){
-		if (side == 1) //top
-		{
-			return icons[1];
-		}
-		if (side == 0) //bottom
-		{
-			return icons[0];
-		}
-		int i1 = iblockaccess.getBlockMetadata(i, j, k);
-		int rawMeta = i1 & 0x7;
-		boolean flag = (i1 & 0x8) == 0x8;
-		if (side != rawMeta){
-			return icons[0];
-		}else{
-			if (flag){
-				return icons[3];
-			}
-			return icons[2];
-		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta){
-		if (side == 1) //top
-		{
-			return icons[1];
-		}
-		if (side == 0) //bottom
-		{
-			return icons[0];
-		}
-
-		int rawMeta = meta & 0x7;
-		boolean flag = (meta & 0x8) == 0x8;
-		if (side != rawMeta){
-			return icons[0];
-		}else{
-			if (flag)
-				return icons[3];
-			return icons[2];
-		}
-	}
-
 	@Override
 	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
 		if (this.handleSpecialItems(par1World, par5EntityPlayer, par2, par3, par4)){

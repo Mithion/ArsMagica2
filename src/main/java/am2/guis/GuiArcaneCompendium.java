@@ -60,6 +60,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import java.io.IOException;
 import java.util.*;
 
 public class GuiArcaneCompendium extends GuiScreen{
@@ -470,12 +471,12 @@ public class GuiArcaneCompendium extends GuiScreen{
 	}
 
 	@Override
-	protected void mouseClicked(int par1, int par2, int par3){
+	protected void mouseClicked(int par1, int par2, int par3) throws IOException{
 		if (stackTip != null){
 			GuiArcaneCompendium newGuiToDisplay = null;
 			if (stackTip.getItem() instanceof ItemBlock){
 				ItemBlock item = (ItemBlock)stackTip.getItem();
-				Block block = item.field_150939_a;
+				Block block = item.getBlock();
 
 				String name = block.getUnlocalizedName().replace("arsmagica2:", "").replace("tile.", "");
 				String metaname = name + "@" + stackTip.getItemDamage();
@@ -535,14 +536,14 @@ public class GuiArcaneCompendium extends GuiScreen{
 		}
 	}
 
-	@Override
-	protected void mouseMovedOrUp(int par1, int par2, int par3){
+    @Override
+	protected void mouseReleased(int par1, int par2, int par3){
 		if (isDragging){
 			if (par3 == 1){
 				isDragging = false;
 			}
 		}
-		super.mouseMovedOrUp(par1, par2, par3);
+		super.mouseReleased(par1, par2, par3);
 	}
 
 	@Override
@@ -648,7 +649,7 @@ public class GuiArcaneCompendium extends GuiScreen{
 	}
 
 	@Override
-	protected void keyTyped(char par1, int par2){
+	protected void keyTyped(char par1, int par2) throws IOException{
 		if (par2 == 1){
 			storeBreadcrumb();
 			onGuiClosed();
