@@ -125,7 +125,7 @@ public class BlockManaBattery extends PoweredBlock{
 		destroy(world, x, y, z);
 		super.onBlockExploded(world, x, y, z, explosion);
 	}
-	
+
 	@Override
 	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta){
 		//destroy(world, x, y, z);
