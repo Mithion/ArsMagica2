@@ -62,7 +62,7 @@ public class BlockManaBattery extends PoweredBlock{
 		if (par5EntityPlayer.isSneaking()){
 			//Cheating slightly.
 			if (!par1World.isRemote){
-				destroy(par1World, par2, par3, par4);
+				collect(par1World, par2, par3, par4);
 				par1World.setBlockToAir(par2, par3, par4);
 			}
 					
@@ -122,13 +122,13 @@ public class BlockManaBattery extends PoweredBlock{
 
 	@Override
 	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion){
-		destroy(world, x, y, z);
+		//destroy(world, x, y, z);
 		super.onBlockExploded(world, x, y, z, explosion);
 	}
 
 	@Override
 	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta){
-		//destroy(world, x, y, z);
+		destroy(world, x, y, z);
 	}
 
 	@Override
@@ -143,8 +143,9 @@ public class BlockManaBattery extends PoweredBlock{
 		super.onBlockPreDestroy(par1World, par2, par3, par4, par5);
 	}
 
-	private void destroy(World world, int i, int j, int k){
+	private void collect(World world, int i, int j, int k){
 		TileEntityManaBattery te = getTileEntity(world, i, j, k);
+
 		if (te != null && !world.isRemote){
 			float f = world.rand.nextFloat() * 0.8F + 0.1F;
 			float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
@@ -160,6 +161,7 @@ public class BlockManaBattery extends PoweredBlock{
 			if (!stack.stackTagCompound.hasKey("Lore"))
 				stack.stackTagCompound.setTag("Lore", new NBTTagList());
 
+			//"Lore" tag does not function currently.
 			NBTTagList tagList = new NBTTagList();
 			PowerTypes powerType = te.getPowerType();
 			float amt = PowerNodeRegistry.For(world).getPower(te, powerType);
@@ -173,6 +175,21 @@ public class BlockManaBattery extends PoweredBlock{
 			entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
 			world.spawnEntityInWorld(entityitem);
 		}
+	}
+	
+	private void destroy(World world, int i, int j, int k){
+		float f = world.rand.nextFloat() * 0.8F + 0.1F;
+		float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
+		float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
+		
+		ItemStack stack = new ItemStack(this);	
+		
+		EntityItem entityitem = new EntityItem(world, i + f, j + f1, k + f2, stack);
+		float f3 = 0.05F;
+		entityitem.motionX = (float)world.rand.nextGaussian() * f3;
+		entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
+		entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
+		world.spawnEntityInWorld(entityitem);
 	}
 
 	@Override
