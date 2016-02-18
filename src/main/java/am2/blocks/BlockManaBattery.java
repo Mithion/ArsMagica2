@@ -145,7 +145,6 @@ public class BlockManaBattery extends PoweredBlock{
 
 	private void destroy(World world, int i, int j, int k){
 		TileEntityManaBattery te = getTileEntity(world, i, j, k);
-		
 		if (te != null && !world.isRemote){
 			float f = world.rand.nextFloat() * 0.8F + 0.1F;
 			float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
