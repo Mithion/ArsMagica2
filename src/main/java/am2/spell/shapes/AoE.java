@@ -21,6 +21,8 @@ import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -33,7 +35,7 @@ public class AoE implements ISpellShape{
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount){
+	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
 		double radius = SpellUtils.instance.getModifiedDouble_Add(1, stack, caster, target, world, 0, SpellModifiers.RADIUS);
 		List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(x - radius, y - radius, z - radius, x + radius, y + radius, z + radius));
 
@@ -47,21 +49,21 @@ public class AoE implements ISpellShape{
 				appliedToAtLeastOneEntity = true;
 		}
 
-		if (side == 0 || side == 1){ //top/bottom
+		if (side == EnumFacing.UP || side == EnumFacing.DOWN){ //top/bottom
 			if (world.isRemote)
-				spawnAoEParticles(stack, caster, world, x + 0.5f, y + ((side == 1) ? 0.5f : (target != null ? target.getEyeHeight() : -2.0f)), z + 0.5f, (int)radius);
+				spawnAoEParticles(stack, caster, world, x + 0.5f, y + ((side == EnumFacing.UP) ? 0.5f : (target != null ? target.getEyeHeight() : -2.0f)), z + 0.5f, (int)radius);
 			int gravityMagnitude = SpellUtils.instance.countModifiers(SpellModifiers.GRAVITY, stack, 0);
-			return applyStageHorizontal(stack, caster, world, (int)Math.floor(x), (int)Math.ceil(y), (int)Math.floor(z), side, (int)Math.floor(radius), gravityMagnitude, giveXP);
-		}else if (side == 2 || side == 3){ // +/- x
+			return applyStageHorizontal(stack, caster, world, new BlockPos((int)Math.floor(x), (int)Math.ceil(y), (int)Math.floor(z)), side, (int)Math.floor(radius), gravityMagnitude, giveXP);
+		}else if (side == EnumFacing.NORTH || side == EnumFacing.SOUTH){ // +/- x
 			//if (side == 3) z--;
 			if (world.isRemote)
-				spawnAoEParticles(stack, caster, world, x, y, (side == 2) ? z - 0.5f : z + 1.5f, (int)radius);
-			return applyStageVerticalZ(stack, caster, world, (int)Math.floor(x), (int)Math.ceil(y), (int)Math.floor(z), side, (int)Math.floor(radius), giveXP);
-		}else if (side == 4 || side == 5){ // +/- z
+				spawnAoEParticles(stack, caster, world, x, y, (side == EnumFacing.NORTH) ? z - 0.5f : z + 1.5f, (int)radius);
+			return applyStageVerticalZ(stack, caster, world, new BlockPos((int)Math.floor(x), (int)Math.ceil(y), (int)Math.floor(z)), side, (int)Math.floor(radius), giveXP);
+		}else if (side == EnumFacing.WEST || side == EnumFacing.EAST){ // +/- z
 			//if (side == 5) x--;
 			if (world.isRemote)
-				spawnAoEParticles(stack, caster, world, x, y, (side == 5) ? z - 0.5f : z + 1.5f, (int)radius);
-			return applyStageVerticalX(stack, caster, world, (int)Math.floor(x), (int)Math.ceil(y), (int)Math.floor(z), side, (int)Math.floor(radius), giveXP);
+				spawnAoEParticles(stack, caster, world, x, y, (side == EnumFacing.EAST) ? z - 0.5f : z + 1.5f, (int)radius);
+			return applyStageVerticalX(stack, caster, world, new BlockPos ((int)Math.floor(x), (int)Math.ceil(y), (int)Math.floor(z)), side, (int)Math.floor(radius), giveXP);
 		}
 
 		if (appliedToAtLeastOneEntity){
@@ -107,22 +109,21 @@ public class AoE implements ISpellShape{
 		}
 	}
 
-	private SpellCastResult applyStageHorizontal(ItemStack stack, EntityLivingBase caster, World world, int x, int y, int z, int face, int radius, int gravityMagnitude, boolean giveXP){
+	private SpellCastResult applyStageHorizontal(ItemStack stack, EntityLivingBase caster, World world, BlockPos pos, EnumFacing face, int radius, int gravityMagnitude, boolean giveXP){
 
 		for (int i = -radius; i <= radius; ++i){
 			for (int j = -radius; j <= radius; ++j){
-				int searchY = y;
-				Block block = world.getBlock(x + i, searchY, z + j);
+				Block block = world.getBlockState(pos.add(i, 0, j)).getBlock();
 				int searchDist = 0;
 				if (gravityMagnitude > 0){
 					while (block == Blocks.air && searchDist < gravityMagnitude){
-						searchY--;
+						pos = pos.down(searchDist);
 						searchDist++;
-						block = world.getBlock(x + i, searchY, z + j);
+						block = world.getBlockState(pos.add(i, 0, j)).getBlock();
 					}
 				}
 				if (block == Blocks.air) continue;
-				SpellCastResult result = SpellHelper.instance.applyStageToGround(stack, caster, world, x + i, searchY, z + j, face, x + i, searchY, z + i, 0, giveXP);
+				SpellCastResult result = SpellHelper.instance.applyStageToGround(stack, caster, world, pos.add(i, 0, j), face, pos.getX() + i, pos.getY(), pos.getZ() + i, 0, giveXP);
 				if (result != SpellCastResult.SUCCESS)
 					return result;
 			}
@@ -130,13 +131,12 @@ public class AoE implements ISpellShape{
 		return SpellCastResult.SUCCESS;
 	}
 
-	private SpellCastResult applyStageVerticalX(ItemStack stack, EntityLivingBase caster, World world, int x, int y, int z, int face, int radius, boolean giveXP){
+	private SpellCastResult applyStageVerticalX(ItemStack stack, EntityLivingBase caster, World world, BlockPos pos, EnumFacing face, int radius, boolean giveXP){
 		for (int i = -radius; i <= radius; ++i){
 			for (int j = -radius; j <= radius; ++j){
-				int searchY = y;
-				Block block = world.getBlock(x, searchY + i, z + j);
+				Block block = world.getBlockState(pos.add(0, i, j)).getBlock();
 				if (block == Blocks.air) continue;
-				SpellCastResult result = SpellHelper.instance.applyStageToGround(stack, caster, world, x, searchY + i, z + j, face, x, searchY + i, z + j, 0, giveXP);
+				SpellCastResult result = SpellHelper.instance.applyStageToGround(stack, caster, world, pos.add(0, i, j), face, pos.getX(), pos.getY() + i, pos.getZ() + j, 0, giveXP);
 				if (result != SpellCastResult.SUCCESS)
 					return result;
 			}
@@ -144,13 +144,12 @@ public class AoE implements ISpellShape{
 		return SpellCastResult.SUCCESS;
 	}
 
-	private SpellCastResult applyStageVerticalZ(ItemStack stack, EntityLivingBase caster, World world, int x, int y, int z, int face, int radius, boolean giveXP){
+	private SpellCastResult applyStageVerticalZ(ItemStack stack, EntityLivingBase caster, World world, BlockPos pos, EnumFacing face, int radius, boolean giveXP){
 		for (int i = -radius; i <= radius; ++i){
 			for (int j = -radius; j <= radius; ++j){
-				int searchY = y;
-				Block block = world.getBlock(x + j, searchY + i, z);
+				Block block = world.getBlockState(pos.add(j, i, 0)).getBlock();
 				if (block == Blocks.air) continue;
-				SpellCastResult result = SpellHelper.instance.applyStageToGround(stack, caster, world, x + j, searchY + i, z, face, x + j, searchY + i, z, 0, giveXP);
+				SpellCastResult result = SpellHelper.instance.applyStageToGround(stack, caster, world, pos.add(j, i, 0), face, pos.getX() + j, pos.getY() + i, pos.getZ(), 0, giveXP);
 				if (result != SpellCastResult.SUCCESS)
 					return result;
 			}

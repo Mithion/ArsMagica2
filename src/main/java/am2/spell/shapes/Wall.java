@@ -9,9 +9,11 @@ import am2.blocks.BlocksCommonProxy;
 import am2.entities.EntitySpellEffect;
 import am2.items.ItemsCommonProxy;
 import am2.spell.SpellUtils;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class Wall implements ISpellShape{
@@ -22,7 +24,7 @@ public class Wall implements ISpellShape{
 				new ItemStack(ItemsCommonProxy.itemOre, 1, ItemsCommonProxy.itemOre.META_VINTEUMDUST),
 				BlocksCommonProxy.magicWall,
 				Blocks.cobblestone_wall,
-				Blocks.fence,
+				Blocks.oak_fence,
 				BlocksCommonProxy.magicWall,
 				"E:*", 2500
 		};
@@ -34,7 +36,7 @@ public class Wall implements ISpellShape{
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount){
+	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
 		if (world.isRemote) return SpellCastResult.SUCCESS;
 		int radius = SpellUtils.instance.getModifiedInt_Mul(3, stack, caster, target, world, 0, SpellModifiers.RADIUS);
 		double gravity = SpellUtils.instance.getModifiedDouble_Add(0, stack, caster, target, world, 0, SpellModifiers.GRAVITY);

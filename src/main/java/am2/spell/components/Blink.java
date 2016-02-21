@@ -21,9 +21,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -33,7 +31,7 @@ import java.util.Random;
 public class Blink implements ISpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing side, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		return false;
 	}
 
@@ -85,14 +83,14 @@ public class Blink implements ISpellComponent{
 				newZ = caster.posZ;
 			}
 
-			TileEntityAstralBarrier blocker = DimensionUtilities.GetBlockingAstralBarrier(world, (int)newX, (int)newY, (int)newZ, keystoneKeys);
+			TileEntityAstralBarrier blocker = DimensionUtilities.getBlockingAstralBarrier(world, caster.getPosition(), keystoneKeys);
 			while (blocker != null){
 				finalBlocker = blocker;
 				astralBarrierBlocked = true;
 
-				int dx = (int)newX - blocker.xCoord;
-				int dy = (int)newY - blocker.yCoord;
-				int dz = (int)newZ - blocker.zCoord;
+				int dx = (int)newX - blocker.getPos().getX();
+				int dy = (int)newY - blocker.getPos().getY();
+				int dz = (int)newZ - blocker.getPos().getZ();
 
 				int sqDist = (dx * dx + dy * dy + dz * dz);
 				int delta = blocker.getRadius() - (int)Math.floor(Math.sqrt(sqDist));
@@ -123,7 +121,7 @@ public class Blink implements ISpellComponent{
 				newZ = target.posZ + motionZ;
 				newY = target.posY + motionY;
 
-				blocker = DimensionUtilities.GetBlockingAstralBarrier(world, (int)newX, (int)newY, (int)newZ, keystoneKeys);
+				blocker = DimensionUtilities.getBlockingAstralBarrier(world, target.getPosition().add(newX, newY, newZ), keystoneKeys);
 			}
 			if (distance < 0){
 				coordsValid = false;
@@ -131,47 +129,47 @@ public class Blink implements ISpellComponent{
 			}
 
 			//rounding combinations, normal y
-			if (CheckCoords(world, (int)Math.floor(newX), (int)newY, (int)Math.floor(newZ))){
+			if (CheckCoords(world, new BlockPos((int)Math.floor(newX), (int)newY, (int)Math.floor(newZ)))){
 				newX = Math.floor(newX) + 0.5;
 				newZ = Math.floor(newZ) + 0.5;
 				coordsValid = true;
 				break;
-			}else if (CheckCoords(world, (int)Math.floor(newX), (int)newY, (int)Math.ceil(newZ))){
+			}else if (CheckCoords(world, new BlockPos((int)Math.floor(newX), (int)newY, (int)Math.ceil(newZ)))){
 				newX = Math.floor(newX) + 0.5;
 				newZ = Math.ceil(newZ) + 0.5;
 				coordsValid = true;
 				break;
-			}else if (CheckCoords(world, (int)Math.ceil(newX), (int)newY, (int)Math.floor(newZ))){
+			}else if (CheckCoords(world, new BlockPos((int)Math.ceil(newX), (int)newY, (int)Math.floor(newZ)))){
 				newX = Math.ceil(newX) + 0.5;
 				newZ = Math.floor(newZ) + 0.5;
 				coordsValid = true;
 				break;
-			}else if (CheckCoords(world, (int)Math.ceil(newX), (int)newY, (int)Math.ceil(newZ))){
+			}else if (CheckCoords(world, new BlockPos((int)Math.ceil(newX), (int)newY, (int)Math.ceil(newZ)))){
 				newX = Math.ceil(newX) + 0.5;
 				newZ = Math.ceil(newZ) + 0.5;
 				coordsValid = true;
 				break;
 			}
 			//rounding combinations, y-1
-			if (CheckCoords(world, (int)Math.floor(newX), (int)newY - 1, (int)Math.floor(newZ))){
+			if (CheckCoords(world, new BlockPos((int)Math.floor(newX), (int)newY - 1, (int)Math.floor(newZ)))){
 				newX = Math.floor(newX) + 0.5;
 				newZ = Math.floor(newZ) + 0.5;
 				newY--;
 				coordsValid = true;
 				break;
-			}else if (CheckCoords(world, (int)Math.floor(newX), (int)newY - 1, (int)Math.ceil(newZ))){
+			}else if (CheckCoords(world, new BlockPos((int)Math.floor(newX), (int)newY - 1, (int)Math.ceil(newZ)))){
 				newX = Math.floor(newX) + 0.5;
 				newZ = Math.ceil(newZ) + 0.5;
 				newY--;
 				coordsValid = true;
 				break;
-			}else if (CheckCoords(world, (int)Math.ceil(newX), (int)newY - 1, (int)Math.floor(newZ))){
+			}else if (CheckCoords(world, new BlockPos((int)Math.ceil(newX), (int)newY - 1, (int)Math.floor(newZ)))){
 				newX = Math.ceil(newX) + 0.5;
 				newZ = Math.floor(newZ) + 0.5;
 				newY--;
 				coordsValid = true;
 				break;
-			}else if (CheckCoords(world, (int)Math.ceil(newX), (int)newY - 1, (int)Math.ceil(newZ))){
+			}else if (CheckCoords(world, new BlockPos((int)Math.ceil(newX), (int)newY - 1, (int)Math.ceil(newZ)))){
 				newX = Math.ceil(newX) + 0.5;
 				newZ = Math.ceil(newZ) + 0.5;
 				newY--;
@@ -179,25 +177,25 @@ public class Blink implements ISpellComponent{
 				break;
 			}
 			//rounding combinations, y+1
-			if (CheckCoords(world, (int)Math.floor(newX), (int)newY + 1, (int)Math.floor(newZ))){
+			if (CheckCoords(world, new BlockPos((int)Math.floor(newX), (int)newY + 1, (int)Math.floor(newZ)))){
 				newX = Math.floor(newX) + 0.5;
 				newZ = Math.floor(newZ) + 0.5;
 				newY++;
 				coordsValid = true;
 				break;
-			}else if (CheckCoords(world, (int)Math.floor(newX), (int)newY + 1, (int)Math.ceil(newZ))){
+			}else if (CheckCoords(world, new BlockPos((int)Math.floor(newX), (int)newY + 1, (int)Math.ceil(newZ)))){
 				newX = Math.floor(newX) + 0.5;
 				newZ = Math.ceil(newZ) + 0.5;
 				newY++;
 				coordsValid = true;
 				break;
-			}else if (CheckCoords(world, (int)Math.ceil(newX), (int)newY + 1, (int)Math.floor(newZ))){
+			}else if (CheckCoords(world, new BlockPos((int)Math.ceil(newX), (int)newY + 1, (int)Math.floor(newZ)))){
 				newX = Math.ceil(newX) + 0.5;
 				newZ = Math.floor(newZ) + 0.5;
 				newY++;
 				coordsValid = true;
 				break;
-			}else if (CheckCoords(world, (int)Math.ceil(newX), (int)newY + 1, (int)Math.ceil(newZ))){
+			}else if (CheckCoords(world, new BlockPos((int)Math.ceil(newX), (int)newY + 1, (int)Math.ceil(newZ)))){
 				newX = Math.ceil(newX) + 0.5;
 				newZ = Math.ceil(newZ) + 0.5;
 				newY++;
@@ -290,23 +288,23 @@ public class Blink implements ISpellComponent{
 		return EnumSet.of(Affinity.ENDER);
 	}
 
-	private boolean CheckCoords(World world, int x, int y, int z){
+	private boolean CheckCoords(World world, BlockPos pos){
 
-		if (y < 0){
+		if (pos.getY() < 0){
 			return false;
 		}
 
-		Block firstBlock = world.getBlock(x, y, z);
-		Block secondBlock = world.getBlock(x, y + 1, z);
+		Block firstBlock = world.getBlockState(pos).getBlock();
+		Block secondBlock = world.getBlockState(pos.up()).getBlock();
 
 		AxisAlignedBB firstBlockBB = null;
 		AxisAlignedBB secondBlockBB = null;
 
 		if (firstBlock != null){
-			firstBlockBB = firstBlock.getCollisionBoundingBoxFromPool(world, x, y, z);
+			firstBlockBB = firstBlock.getCollisionBoundingBox(world, pos, firstBlock.getDefaultState());
 		}
 		if (secondBlock != null){
-			secondBlockBB = secondBlock.getCollisionBoundingBoxFromPool(world, x, y, z);
+			secondBlockBB = secondBlock.getCollisionBoundingBox(world, pos, secondBlock.getDefaultState());
 		}
 
 		if ((firstBlockBB == null && secondBlockBB == null)){

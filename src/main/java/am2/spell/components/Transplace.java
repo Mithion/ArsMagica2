@@ -28,7 +28,7 @@ import java.util.Random;
 public class Transplace implements ISpellComponent, IRitualInteraction{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, enumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		Block block = world.getBlock(blockx, blocky, blockz);
 		if (!world.isRemote && caster instanceof EntityPlayer && block == BlocksCommonProxy.inertSpawner){
 			ItemStack[] items = RitualShapeHelper.instance.checkForRitual(this, world, blockx, blocky, blockz);

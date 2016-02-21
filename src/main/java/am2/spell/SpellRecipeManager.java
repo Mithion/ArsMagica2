@@ -15,6 +15,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class SpellRecipeManager{
 	private final HashMap<ArrayList<Object>, ISpellPart> recipes;
@@ -143,7 +144,7 @@ public class SpellRecipeManager{
 						String potionDefinition = ((String)o).substring(2);
 						matches |= matchPotion(recipeItem, potionDefinition);
 					}else{
-						ArrayList<ItemStack> oreDictItems = OreDictionary.getOres((String)o);
+						List<ItemStack> oreDictItems = OreDictionary.getOres((String)o);
 						for (ItemStack stack : oreDictItems){
 							matches |= OreDictionary.itemMatches(stack, recipeItem, false);
 						}

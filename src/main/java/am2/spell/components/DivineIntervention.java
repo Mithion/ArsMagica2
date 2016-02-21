@@ -15,8 +15,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -25,7 +26,7 @@ import java.util.Random;
 public class DivineIntervention implements ISpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing side, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		return false;
 	}
 
@@ -44,15 +45,15 @@ public class DivineIntervention implements ISpellComponent{
 				((EntityPlayer)target).addChatMessage(new ChatComponentText("Nothing happens..."));
 			return true;
 		}else if (target.dimension == 0){
-			ChunkCoordinates coords = target instanceof EntityPlayer ? ((EntityPlayer)target).getBedLocation(target.dimension) : null;
-			if (coords == null || (coords.posX == 0 && coords.posY == 0 && coords.posZ == 0)){
+			BlockPos coords = target instanceof EntityPlayer ? ((EntityPlayer)target).getBedLocation(target.dimension) : null;
+			if (coords == null || (coords.getX() == 0 && coords.getY() == 0 && coords.getZ() == 0)){
 				coords = world.getSpawnPoint();
 			}
-			int yPos = coords.posY;
-			while (world.getBlock(coords.posX, yPos, coords.posZ) != Blocks.air && world.getBlock(coords.posX, yPos + 1, coords.posZ) != Blocks.air){
+			int yPos = coords.getY();
+			while (world.getBlockState(coords.add(0, yPos, 0)) != Blocks.air && world.getBlockState(coords.up()) != Blocks.air){
 				yPos++;
 			}
-			((EntityLivingBase)target).setPositionAndUpdate(coords.posX + 0.5, yPos, coords.posZ + 0.5);
+			((EntityLivingBase)target).setPositionAndUpdate(coords.getX() + 0.5, yPos, coords.getZ() + 0.5);
 		}else{
 			//DimensionUtilities.doDimensionTransfer((EntityLivingBase)target, 0);
 			AMCore.proxy.addDeferredDimensionTransfer((EntityLivingBase)target, 0);

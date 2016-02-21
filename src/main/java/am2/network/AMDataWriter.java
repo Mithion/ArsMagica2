@@ -1,6 +1,7 @@
 package am2.network;
 
 import am2.LogHelper;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;

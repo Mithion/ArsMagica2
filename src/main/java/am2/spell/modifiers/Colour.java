@@ -48,7 +48,7 @@ public class Colour implements ISpellModifier{
 	public byte[] getModifierMetadata(ItemStack[] matchedRecipe){
 		for (ItemStack stack : matchedRecipe){
 			if (stack.getItem() == Items.dye)
-				return ByteBuffer.allocate(4).putInt(((ItemDye)stack.getItem()).field_150922_c[stack.getItemDamage()]).array();
+				return ByteBuffer.allocate(4).putInt(((ItemDye)stack.getItem()).dyeColors[stack.getItemDamage()]).array();
 		}
 		return null;
 	}

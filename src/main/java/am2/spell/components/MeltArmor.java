@@ -11,6 +11,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -33,12 +35,12 @@ public class MeltArmor implements ISpellComponent{
 		return 60;
 	}
 
-	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		return false;
-	}
+    @Override
+    public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+        return false;
+    }
 
-	@Override
+    @Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
 		if (target instanceof EntityPlayer && !world.isRemote){
 			doMeltArmor(caster, ((EntityPlayer)target).inventory.armorInventory);
@@ -51,11 +53,11 @@ public class MeltArmor implements ISpellComponent{
 		double mmpsCharge = getMMPSCharge(armor);
 		for (ItemStack stack : armor){
 			if (stack == null) continue;
-			if (!stack.hasTagCompound() || !stack.stackTagCompound.hasKey(mmpsNBTTagName)){
+			if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey(mmpsNBTTagName)){
 				stack.damageItem((int)Math.ceil(stack.getItem().getMaxDamage() * 0.25f), caster);
 			}else{
-				NBTTagCompound subCompound = (NBTTagCompound)stack.stackTagCompound.getTag(mmpsNBTTagName);
-				double charge = stack.stackTagCompound.getDouble(mmpsChargeTagName);
+				NBTTagCompound subCompound = (NBTTagCompound)stack.getTagCompound().getTag(mmpsNBTTagName);
+				double charge = stack.getTagCompound().getDouble(mmpsChargeTagName);
 				charge -= mmpsCharge * 0.75f;
 				if (charge < 0) charge = 0;
 				subCompound.setDouble(mmpsChargeTagName, charge);
@@ -67,7 +69,7 @@ public class MeltArmor implements ISpellComponent{
 		double total = -1;
 		for (ItemStack stack : armor){
 			if (stack != null && stack.hasTagCompound()){
-				NBTTagCompound subCompound = (NBTTagCompound)stack.stackTagCompound.getTag(mmpsNBTTagName);
+				NBTTagCompound subCompound = (NBTTagCompound)stack.getTagCompound().getTag(mmpsNBTTagName);
 				if (subCompound != null && subCompound.hasKey(mmpsChargeTagName)){
 					total += subCompound.getDouble(mmpsChargeTagName);
 				}

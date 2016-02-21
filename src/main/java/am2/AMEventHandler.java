@@ -22,11 +22,12 @@ import am2.playerextensions.ExtendedProperties;
 import am2.playerextensions.RiftStorage;
 import am2.playerextensions.SkillData;
 import am2.utility.*;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.*;
 import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.*;
@@ -48,9 +49,6 @@ import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.stats.AchievementList;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.event.brewing.PotionBrewedEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
@@ -70,6 +68,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AMEventHandler{
+
+    @SubscribeEvent
+    public void loginNotify(PlayerEvent.PlayerLoggedInEvent event){
+        if (event.player != null){
+            event.player.addChatComponentMessage(new ChatComponentTranslation("am2.misc.alpha"));
+        }
+    }
 
 	@SubscribeEvent
 	public void onPotionBrewed(PotionBrewedEvent brewEvent){
@@ -101,7 +106,7 @@ public class AMEventHandler{
 
 
 		ArrayList<Long> keystoneKeys = KeystoneUtilities.instance.GetKeysInInvenory(ent);
-		TileEntityAstralBarrier blockingBarrier = DimensionUtilities.GetBlockingAstralBarrier(event.entityLiving.worldObj, new BlockPos((int)event.targetX, (int)event.targetY, (int)event.targetZ), keystoneKeys);
+		TileEntityAstralBarrier blockingBarrier = DimensionUtilities.getBlockingAstralBarrier(event.entityLiving.worldObj, new BlockPos((int)event.targetX, (int)event.targetY, (int)event.targetZ), keystoneKeys);
 
 		if (ent.isPotionActive(BuffList.astralDistortion.id) || blockingBarrier != null){
 			event.setCanceled(true);

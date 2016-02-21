@@ -17,6 +17,7 @@ import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
@@ -32,7 +33,7 @@ public class Chain implements ISpellShape{
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount){
+	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
 
 		MovingObjectPosition mop = item.getMovingObjectPosition(caster, world, 8.0f, true, false);
 		double range = SpellUtils.instance.getModifiedDouble_Mul(4, stack, caster, target, world, 0, SpellModifiers.RANGE);
@@ -52,7 +53,7 @@ public class Chain implements ISpellShape{
 				do{
 					targets.add((EntityLivingBase)e);
 
-					List<EntityLivingBase> nearby = world.getEntitiesWithinAABB(EntityLivingBase.class, e.boundingBox.expand(range, range, range));
+					List<EntityLivingBase> nearby = world.getEntitiesWithinAABB(EntityLivingBase.class, e.getEntityBoundingBox().expand(range, range, range));
 					EntityLivingBase closest = null;
 					for (EntityLivingBase near : nearby){
 						if (targets.contains(near) || near == caster) continue;
@@ -78,7 +79,7 @@ public class Chain implements ISpellShape{
 			if (e == caster)
 				continue;
 			result = SpellHelper.instance.applyStageToEntity(stack, caster, world, e, 0, giveXP);
-			SpellHelper.instance.applyStackStage(newItemStack, caster, e, e.posX, e.posY, e.posZ, 0, world, true, giveXP, 0);
+			SpellHelper.instance.applyStackStage(newItemStack, caster, e, e.posX, e.posY, e.posZ, EnumFacing.DOWN, world, true, giveXP, 0);
 
 			if (world.isRemote){
 				if (prevEntity == null)

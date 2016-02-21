@@ -25,6 +25,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -35,7 +37,7 @@ import java.util.Random;
 public class Disarm implements ISpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing side, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		return false;
 	}
 
@@ -86,7 +88,7 @@ public class Disarm implements ISpellComponent{
 				((EntityMob)target).tasks.addTask(5, new EntityAIAttackOnCollide((EntityCreature)target, 0.5, true));
 				((EntityMob)target).setCanPickUpLoot(true);
 			}
-		}else if (target instanceof EntityEnderman){
+		}/*else if (target instanceof EntityEnderman){ TODO fix this later
 			int blockID = ((EntityEnderman)target).getCarryingData();
 			int meta = ((EntityEnderman)target).getCarryingData();
 
@@ -99,7 +101,7 @@ public class Disarm implements ISpellComponent{
 				world.spawnEntityInWorld(item);
 			}
 			((EntityMob)target).setAttackTarget(caster);
-		}
+		}*/
 		return false;
 	}
 

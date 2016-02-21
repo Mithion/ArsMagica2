@@ -8,6 +8,7 @@ import am2.network.AMDataReader;
 import am2.particles.ribbon.AMRibbon;
 import am2.playerextensions.ExtendedProperties;
 import am2.utility.MathUtilities;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -84,7 +85,7 @@ public class ParticleManagerClient extends ParticleManagerServer{
 		px += vec3d.x * 0.25D;
 		py += vec3d.y * 0.25D;
 		pz += vec3d.z * 0.25D;
-		LightningBolt bolt = new LightningBolt(world, px, py, pz, xx, target.boundingBox.minY + target.height / 2.0F, zz, world.rand.nextLong(), 6, 0.3F, 6);
+		LightningBolt bolt = new LightningBolt(world, px, py, pz, xx, target.getEntityBoundingBox().minY + target.height / 2.0F, zz, world.rand.nextLong(), 6, 0.3F, 6);
 
 		bolt.defaultFractal();
 		bolt.setSourceEntity(caster);
@@ -149,7 +150,7 @@ public class ParticleManagerClient extends ParticleManagerServer{
 		py += vec3d.y * 0.25D;
 		pz += vec3d.z * 0.25D;
 
-		AMBeam fx = new AMBeam(world, px, py, pz, xx, target.boundingBox.minY + target.height / 2.0F, zz);
+		AMBeam fx = new AMBeam(world, px, py, pz, xx, target.getEntityBoundingBox().minY + target.height / 2.0F, zz);
 		fx.setRGBColor(color);
 		Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 
@@ -533,8 +534,8 @@ public class ParticleManagerClient extends ParticleManagerServer{
 				for (int i = -radius; i <= radius; ++i){
 					for (int j = -radius; j <= radius; ++j){
 						for (int k = -radius; k <= radius; ++k){
-							if (entityliving.worldObj.getBlock((int)entityliving.posX + i, (int)entityliving.posY + j, (int)entityliving.posZ + k) == Blocks.air
-							 && entityliving.worldObj.getBlockLightValue((int)entityliving.posX + i, (int)entityliving.posY + j, (int)entityliving.posZ + k) <= 7){
+							if (entityliving.worldObj.isAirBlock(new BlockPos((int)entityliving.posX + i, (int)entityliving.posY + j, (int)entityliving.posZ + k))
+							 && entityliving.worldObj.getLight(new BlockPos((int)entityliving.posX + i, (int)entityliving.posY + j, (int)entityliving.posZ + k)) <= 7){
 								AMParticle effect = spawn(world, "hr_sparkles_1",
 										(int)entityliving.posX - 1 + i + (world.rand.nextDouble() * 3),
 										(int)entityliving.posY - 1 + j + (world.rand.nextDouble() * 3),

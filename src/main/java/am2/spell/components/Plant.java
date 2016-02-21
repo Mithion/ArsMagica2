@@ -26,7 +26,7 @@ import java.util.Random;
 public class Plant implements ISpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, enumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		Block soil = world.getBlock(blockx, blocky, blockz);
 		IInventory inventory = DummyEntityPlayer.fromEntityLiving(caster).inventory;
 		HashMap<Integer, ItemStack> seeds = GetAllSeedsInInventory(inventory);

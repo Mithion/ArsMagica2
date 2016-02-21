@@ -14,6 +14,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -22,51 +24,51 @@ import java.util.Random;
 public class Drought implements ISpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 
 
-		Block block = world.getBlock(blockx, blocky, blockz);
+		Block block = world.getBlockState(pos).getBlock();
 		if (block instanceof BlockFlower || block instanceof BlockTallGrass){
-			world.setBlock(blockx, blocky, blockz, Blocks.tallgrass, 0, 2);
+			world.setBlockState(pos, Blocks.tallgrass.getStateFromMeta(0), 2);
 			return true;
 		}else if (block == Blocks.grass || block == Blocks.mycelium || block == Blocks.sandstone || block == Blocks.dirt){
-			world.setBlock(blockx, blocky, blockz, Blocks.sand);
+			world.setBlockState(pos, Blocks.sand.getDefaultState());
 			return true;
 		}else if (block == Blocks.stone){
-			world.setBlock(blockx, blocky, blockz, Blocks.cobblestone);
+			world.setBlockState(pos, Blocks.cobblestone.getDefaultState());
 			return true;
-		}else if (block == Blocks.stonebrick && world.getBlockMetadata(blockx, blocky, blockz) != 2){
-			world.setBlockMetadataWithNotify(blockx, blocky, blockz, 2, 2);
+		}else if (block == Blocks.stonebrick && world.getBlockState(pos).getBlock().getMetaFromState(Blocks.stonebrick.getDefaultState()) != 2){
+			world.setBlockState(pos, world.getBlockState(pos).getBlock().getStateFromMeta(2), 2);
 			return true;
 		}
 
 		if (block == Blocks.water || block == Blocks.flowing_water){
-			world.setBlock(blockx, blocky, blockz, Blocks.air);
+			world.setBlockToAir(pos);
 			return true;
 		}else{
 			switch (blockFace){
-			case 5:
-				blockx++;
+			case EAST:
+				pos = pos.east();
 				break;
-			case 2:
-				blockz--;
+            case NORTH:
+				pos = pos.north();
 				break;
-			case 3:
-				blockz++;
+            case SOUTH:
+				pos = pos.south();
 				break;
-			case 4:
-				blockx--;
+            case WEST:
+				pos = pos.west();
 				break;
-			case 0:
-				blocky--;
+            case DOWN:
+				pos = pos.down();
 				break;
-			case 1:
-				blocky++;
+			case UP:
+				pos = pos.up();
 				break;
 			}
-			block = world.getBlock(blockx, blocky, blockz);
+			block = world.getBlockState(pos).getBlock();
 			if (block == Blocks.water || block == Blocks.flowing_water){
-				world.setBlock(blockx, blocky, blockz, Blocks.air);
+				world.setBlockToAir(pos);
 				return true;
 			}
 		}

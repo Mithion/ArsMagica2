@@ -14,6 +14,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -22,10 +24,10 @@ import java.util.Random;
 public class BanishRain implements ISpellComponent, IRitualInteraction{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, blockx, blocky, blockz, true);
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+		ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, pos, true);
 		if (reagents != null && reagents.length > 0){
-			RitualShapeHelper.instance.consumeRitualReagents(this, world, blockx, blocky, blockz);
+			RitualShapeHelper.instance.consumeRitualReagents(this, world, pos);
 			world.getWorldInfo().setRainTime(0);
 			world.getWorldInfo().setRaining(true);
 			return true;
@@ -38,9 +40,9 @@ public class BanishRain implements ISpellComponent, IRitualInteraction{
 
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
-		ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, (int)Math.floor(target.posX), (int)Math.floor(target.posY), (int)Math.floor(target.posZ), true);
+		ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, target.getPosition(), true);
 		if (reagents != null && reagents.length > 0){
-			RitualShapeHelper.instance.consumeRitualReagents(this, world, (int)Math.floor(target.posX), (int)Math.floor(target.posY), (int)Math.floor(target.posZ));
+			RitualShapeHelper.instance.consumeRitualReagents(this, world, target.getPosition());
 			world.getWorldInfo().setRainTime(0);
 			world.getWorldInfo().setRaining(true);
 			return true;

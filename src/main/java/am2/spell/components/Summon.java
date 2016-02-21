@@ -136,7 +136,7 @@ public class Summon implements ISpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, enumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		if (!world.isRemote){
 			if (ExtendedProperties.For(caster).getCanHaveMoreSummons()){
 				if (summonCreature(stack, caster, caster, world, impactX, impactY, impactZ) == null){

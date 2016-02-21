@@ -47,14 +47,14 @@ public class DimensionUtilities{
 		}
 	}
 
-	public static TileEntityAstralBarrier GetBlockingAstralBarrier(World world, BlockPos pos, ArrayList<Long> keys){
+	public static TileEntityAstralBarrier getBlockingAstralBarrier(World world, BlockPos pos, ArrayList<Long> keys){
 		//check for Astral Barrier
 		for (int i = -20; i <= 20; ++i){
 			for (int j = -20; j <= 20; ++j){
 				for (int k = -20; k <= 20; ++k){
-					if (world.getBlockState(new BlockPos(pos.getX() + i, pos.getY() + j, pos.getZ() + k)).getBlock() == BlocksCommonProxy.astralBarrier){ // TODO find proper way to do this
+					if (world.getBlockState(pos.add(i, j, k)).getBlock() == BlocksCommonProxy.astralBarrier){
 
-						TileEntity te = world.getTileEntity(new BlockPos(pos.getX() + i, pos.getY() + j, pos.getZ() + k)); // TODO fix this one too
+						TileEntity te = world.getTileEntity(pos.add(i, j, k));
 						if (te == null || !(te instanceof TileEntityAstralBarrier)){
 							continue;
 						}

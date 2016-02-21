@@ -5,6 +5,7 @@ import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellCastResult;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public interface ISpellShape extends ISpellPart{
@@ -24,12 +25,12 @@ public interface ISpellShape extends ISpellPart{
 	 * @param useCount The number of ticks the spell item has been in use for
 	 * @return The result of the spell cast.
 	 */
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount);
+	 SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount);
 
 	/**
 	 * Is this shape a valid shape for a channeled/maintained spell?
 	 */
-	public boolean isChanneled();
+	 boolean isChanneled();
 
 	/**
 	 * Allows different shapes to vary the mana cost of a spell
@@ -37,20 +38,20 @@ public interface ISpellShape extends ISpellPart{
 	 * @param spellStack the itemstack representing the spell (useful if you want to vary based on added modifiers as well, for example)
 	 * @return
 	 */
-	public float manaCostMultiplier(ItemStack spellStack);
+	 float manaCostMultiplier(ItemStack spellStack);
 
 	/**
 	 * Is the spell a terminus shape?  Return true if this component does not continue the spell chain when proccing.
 	 */
-	public boolean isTerminusShape();
+	 boolean isTerminusShape();
 
 	/**
 	 * Is the shape a principal shape?  Return true if this spell requires another shape to proc (like runes and zones)
 	 */
-	public boolean isPrincipumShape();
+	 boolean isPrincipumShape();
 
 	/**
 	 * Play the sound for the specified affinity
 	 */
-	public String getSoundForAffinity(Affinity affinity, ItemStack stack, World world);
+	 String getSoundForAffinity(Affinity affinity, ItemStack stack, World world);
 }

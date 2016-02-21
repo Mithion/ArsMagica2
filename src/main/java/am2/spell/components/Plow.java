@@ -20,7 +20,7 @@ import java.util.Random;
 public class Plow implements ISpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, enumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		Block block = world.getBlock(blockx, blocky, blockz);
 		Block blockAbove = world.getBlock(blockx, blocky + 1, blockz);
 		if ((block == Blocks.dirt || block == Blocks.grass)){

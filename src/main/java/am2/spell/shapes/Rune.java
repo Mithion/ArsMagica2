@@ -10,6 +10,8 @@ import am2.items.ItemsCommonProxy;
 import am2.spell.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
@@ -22,21 +24,21 @@ public class Rune implements ISpellShape{
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean consumeMBR, int useCount){
+	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean consumeMBR, int useCount){
 		int procs = SpellUtils.instance.getModifiedInt_Add(1, stack, caster, target, world, 0, SpellModifiers.PROCS);
 		boolean targetWater = SpellUtils.instance.modifierIsPresent(SpellModifiers.TARGET_NONSOLID_BLOCKS, stack, 0);
 		MovingObjectPosition mop = item.getMovingObjectPosition(caster, world, 8.0f, true, targetWater);
 		if (mop == null || mop.typeOfHit == MovingObjectType.ENTITY) return SpellCastResult.EFFECT_FAILED;
 
-		if (!BlocksCommonProxy.spellRune.placeAt(world, mop.blockX, mop.blockY + 1, mop.blockZ, SpellUtils.instance.mainAffinityFor(stack).ordinal())){
+		if (!BlocksCommonProxy.spellRune.placeAt(world, mop.getBlockPos().add(0, 1, 0), SpellUtils.instance.mainAffinityFor(stack).ordinal())){
 			return SpellCastResult.EFFECT_FAILED;
 		}
 		if (!world.isRemote){
-			world.setTileEntity(mop.blockX, mop.blockY + 1, mop.blockZ, BlocksCommonProxy.spellRune.createTileEntity(world, 0));
-			BlocksCommonProxy.spellRune.setSpellStack(world, mop.blockX, mop.blockY + 1, mop.blockZ, SpellUtils.instance.popStackStage(stack));
-			BlocksCommonProxy.spellRune.setPlacedBy(world, mop.blockX, mop.blockY + 1, mop.blockZ, caster);
-			int meta = world.getBlockMetadata(mop.blockX, mop.blockY + 1, mop.blockZ);
-			BlocksCommonProxy.spellRune.setNumTriggers(world, mop.blockX, mop.blockY + 1, mop.blockZ, meta, procs);
+			world.setTileEntity(mop.getBlockPos().add(0, 1, 0), BlocksCommonProxy.spellRune.createTileEntity(world, world.getBlockState(new BlockPos(x, y, z)))); // TODO ew
+			BlocksCommonProxy.spellRune.setSpellStack(world, mop.getBlockPos().add(0, 1 ,0), SpellUtils.instance.popStackStage(stack));
+			BlocksCommonProxy.spellRune.setPlacedBy(world, mop.getBlockPos().add(0, 1, 0), caster);
+			int meta = world.getBlockState(mop.getBlockPos().add(0, 1, 0)).getBlock().getMetaFromState(world.getBlockState(mop.getBlockPos()));
+			BlocksCommonProxy.spellRune.setNumTriggers(world, mop.getBlockPos().add(0, 1, 0), meta, procs);
 		}
 
 		return SpellCastResult.SUCCESS;

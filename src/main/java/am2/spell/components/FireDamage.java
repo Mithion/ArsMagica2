@@ -24,6 +24,8 @@ import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -32,17 +34,17 @@ import java.util.Random;
 public class FireDamage implements ISpellComponent, IRitualInteraction{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		Block block = world.getBlock(blockx, blocky, blockz);
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing side, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+		Block block = world.getBlockState(pos).getBlock();
 
 		if (block == BlocksCommonProxy.obelisk){
-			ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, blockx, blocky, blockz);
+			ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, pos);
 			if (reagents != null){
 				if (!world.isRemote){
-					RitualShapeHelper.instance.consumeRitualReagents(this, world, blockx, blocky, blockz);
-					RitualShapeHelper.instance.consumeRitualShape(this, world, blockx, blocky, blockz);
-					world.setBlock(blockx, blocky, blockz, BlocksCommonProxy.blackAurem);
-					PowerNodeRegistry.For(world).registerPowerNode((IPowerNode)world.getTileEntity(blockx, blocky, blockz));
+					RitualShapeHelper.instance.consumeRitualReagents(this, world, pos);
+					RitualShapeHelper.instance.consumeRitualShape(this, world, pos);
+					world.setBlockState(pos, BlocksCommonProxy.blackAurem.getDefaultState());
+					PowerNodeRegistry.For(world).registerPowerNode((IPowerNode)world.getTileEntity(pos));
 				}else{
 
 				}

@@ -33,7 +33,7 @@ public class Recall implements ISpellComponent, IRitualInteraction{
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, int blockx,
-									int blocky, int blockz, int blockFace, double impactX,
+									int blocky, int blockz, enumFacing blockFace, double impactX,
 									double impactY, double impactZ, EntityLivingBase caster){
 		return false;
 	}

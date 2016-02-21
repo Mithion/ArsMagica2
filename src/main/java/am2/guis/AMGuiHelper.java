@@ -3,6 +3,7 @@ package am2.guis;
 import am2.LogHelper;
 import am2.buffs.BuffList;
 import am2.playerextensions.ExtendedProperties;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
@@ -197,7 +198,6 @@ public class AMGuiHelper{
 	}
 
 	public static void OpenBookGUI(ItemStack stack){
-		// TODO Auto-generated method stub
 	}
 
 	public static void OpenCompendiumGui(ItemStack stack){
@@ -226,7 +226,7 @@ public class AMGuiHelper{
 		}
 		Minecraft.getMinecraft().renderEngine.bindTexture(rl_items);
 
-		Tessellator tessellator = Tessellator.instance;
+		WorldRenderer tessellator = Tessellator.getInstance().getWorldRenderer();
 
 		boolean drawing = ReflectionHelper.getPrivateValue(Tessellator.class, tessellator, "field_78415_z", "isDrawing");
 		if (drawing)
@@ -271,7 +271,7 @@ public class AMGuiHelper{
 			success = ForgeHooksClient.renderInventoryItem(renderBlocks, Minecraft.getMinecraft().renderEngine, stack, true, zLevel, x + (x * invScale), y + (y * invScale));
 
 			if (!success){
-				itemRenderer.renderItemIntoGUI(Minecraft.getMinecraft().fontRenderer, Minecraft.getMinecraft().renderEngine, stack, (int)(x + (x * invScale)), (int)(y + (y * invScale)));
+				itemRenderer.renderItemIntoGUI(Minecraft.getMinecraft().fontRendererObj, Minecraft.getMinecraft().renderEngine, stack, (int)(x + (x * invScale)), (int)(y + (y * invScale)));
 			}
 
 			GL11.glPopMatrix();
@@ -279,7 +279,7 @@ public class AMGuiHelper{
 			success = ForgeHooksClient.renderInventoryItem(renderBlocks, Minecraft.getMinecraft().renderEngine, stack, true, zLevel, x, y);
 
 			if (!success){
-				itemRenderer.renderItemIntoGUI(Minecraft.getMinecraft().fontRenderer, Minecraft.getMinecraft().renderEngine, stack, (int)x, (int)y);
+				itemRenderer.renderItemIntoGUI(Minecraft.getMinecraft().fontRendererObj, Minecraft.getMinecraft().renderEngine, stack, (int)x, (int)y);
 			}
 		}
 		GL11.glPopAttrib();

@@ -22,6 +22,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
@@ -43,7 +44,7 @@ public class Beam implements ISpellShape{
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount){
+	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
 
 		boolean shouldApplyEffect = useCount % 10 == 0;
 
@@ -73,13 +74,13 @@ public class Beam implements ISpellShape{
 			spellVec = beamHitVec;
 		}else{
 			if (shouldApplyEffect){
-				result = SpellHelper.instance.applyStageToGround(stack, caster, world, mop.blockX, mop.blockY, mop.blockZ, mop.sideHit, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0, giveXP);
+				result = SpellHelper.instance.applyStageToGround(stack, caster, world, mop.getBlockPos(), mop.sideHit, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0, giveXP);
 				if (result != SpellCastResult.SUCCESS){
 					return result;
 				}
 			}
 			beamHitVec = mop.hitVec;
-			spellVec = new Vec3(mop.blockX, mop.blockY, mop.blockZ);
+			spellVec = new Vec3(mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ());
 		}
 
 		if (world.isRemote && beamHitVec != null){
@@ -134,7 +135,7 @@ public class Beam implements ISpellShape{
 
 		if (result != null && spellVec != null && shouldApplyEffect){
 			ItemStack newItemStack = SpellUtils.instance.popStackStage(stack);
-			return SpellHelper.instance.applyStackStage(newItemStack, caster, target, spellVec.xCoord, spellVec.yCoord, spellVec.zCoord, mop != null ? mop.sideHit : 0, world, true, giveXP, 0);
+			return SpellHelper.instance.applyStackStage(newItemStack, caster, target, spellVec.xCoord, spellVec.yCoord, spellVec.zCoord, mop != null ? mop.sideHit : EnumFacing.DOWN, world, true, giveXP, 0);
 		}else{
 			return SpellCastResult.SUCCESS_REDUCE_MANA;
 		}

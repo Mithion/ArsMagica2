@@ -22,6 +22,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -53,13 +55,13 @@ public class Dig implements ISpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		Block block = world.getBlock(blockx, blocky, blockz);
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing side, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+		Block block = world.getBlockState(pos).getBlock();
 		if (block == Blocks.air){
 			return false;
 		}
 
-		TileEntity te = world.getTileEntity(blockx, blocky, blockz);
+		TileEntity te = world.getTileEntity(pos);
 		if (te != null){
 			if (!AMCore.config.getDigBreaksTileEntities())
 				return false;
@@ -70,29 +72,29 @@ public class Dig implements ISpellComponent{
 
 		if (disallowedBlocks.contains(block)) return false;
 
-		if (block.getBlockHardness(world, blockx, blocky, blockz) == -1) return false;
+		if (block.getBlockHardness(world, pos) == -1) return false;
 
-		int meta = world.getBlockMetadata(blockx, blocky, blockz);
+		int meta = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
 
-		int harvestLevel = block.getHarvestLevel(meta);
+		int harvestLevel = block.getHarvestLevel(world.getBlockState(pos).getBlock().getStateFromMeta(meta));
 		int miningLevel = 2 + SpellUtils.instance.countModifiers(SpellModifiers.MINING_POWER, stack, 0);
 		if (harvestLevel > miningLevel) return false;
 
 		EntityPlayer casterPlayer = DummyEntityPlayer.fromEntityLiving(caster);
 		if (ForgeEventFactory.doPlayerHarvestCheck(casterPlayer, block, true)){
-			float xMana = block.getBlockHardness(world, blockx, blocky, blockz) * hardnessManaFactor;
+			float xMana = block.getBlockHardness(world, pos) * hardnessManaFactor;
 			float xBurnout = ArsMagicaApi.instance.getBurnoutFromMana(xMana);
 
 			if (!world.isRemote){
-				BreakEvent event = ForgeHooks.onBlockBreakEvent(world, ((EntityPlayerMP)casterPlayer).theItemInWorldManager.getGameType(), (EntityPlayerMP)casterPlayer, blockx, blocky, blockz);
+				/*BreakEvent event = ForgeHooks.onBlockBreakEvent(world, ((EntityPlayerMP)casterPlayer).theItemInWorldManager.getGameType(), (EntityPlayerMP)casterPlayer, pos);
 				if (event.isCanceled()){
 					return false;
-				}
-				block.onBlockHarvested(world, blockx, blocky, blockz, meta, casterPlayer);
-				boolean flag = block.removedByPlayer(world, casterPlayer, blockx, blocky, blockz, true);
+				}*/
+				block.onBlockHarvested(world, pos, world.getBlockState(pos).getBlock().getStateFromMeta(meta), casterPlayer);
+				boolean flag = block.removedByPlayer(world, pos, casterPlayer, true);
 				if(flag){
-					block.onBlockDestroyedByPlayer(world, blockx, blocky, blockz, meta);
-					block.harvestBlock(world, casterPlayer, blockx, blocky, blockz, meta);
+					block.onBlockDestroyedByPlayer(world, pos, world.getBlockState(pos));
+					block.harvestBlock(world, casterPlayer, pos, world.getBlockState(pos), te != null ? te : null);
 				}
 
 			}

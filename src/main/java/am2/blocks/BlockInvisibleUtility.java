@@ -8,14 +8,14 @@ import am2.particles.AMParticle;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleFloatUpward;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -42,199 +42,206 @@ import java.util.Random;
  */
 public class BlockInvisibleUtility extends AMBlock{
 
-	public BlockInvisibleUtility(){
-		super(Material.glass);
-		this.setBlockBounds(0, 0, 0, 0.01f, 0.01f, 0.01f);
-		this.setTickRandomly(true);
-	}
+    public static final PropertyEnum<EnumInvisibleBlocks> TYPE = PropertyEnum.create("type", EnumInvisibleBlocks.class);
 
-	@Override
-	public int tickRate(World par1World){
-		return 5;
-	}
-
-    @Override
-    public AxisAlignedBB getCollisionBoundingBox(World world, BlockPos pos, IBlockState state) {
-        int meta = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
-        if (meta == 0 || meta == 1 || meta == 2)
-            return null;
-        return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1).expand(1, 1, 1);
+    public BlockInvisibleUtility(){
+        super(Material.glass);
+        this.setBlockBounds(0, 0, 0, 0.01f, 0.01f, 0.01f);
+        this.setTickRandomly(true);
+        setDefaultState(blockState.getBaseState().withProperty(TYPE, EnumInvisibleBlocks.LOW_ILLUMINATED));
     }
 
     @Override
-    public void addCollisionBoxesToList(World world, BlockPos pos, IBlockState state, AxisAlignedBB axisAlignedBB, List<AxisAlignedBB> collisionList, Entity entity) {
+    public int tickRate(World par1World){
+        return 5;
+    }
+
+    @Override
+    public AxisAlignedBB getCollisionBoundingBox(World par1World, BlockPos pos, IBlockState state){
+        EnumInvisibleBlocks bState = state.getValue(TYPE);
+        if (bState.equals(EnumInvisibleBlocks.LOW_ILLUMINATED) || bState.equals(EnumInvisibleBlocks.MED_ILLUMINATED) || bState.equals(EnumInvisibleBlocks.HIGH_ILLUMINATED))
+            return null;
+        return new AxisAlignedBB(pos, pos.add(1, 1, 1)).expand(1, 1, 1);
+    }
+
+    @Override
+    public void addCollisionBoxesToList(World world, BlockPos pos, IBlockState state, AxisAlignedBB axisAlignedBB, List<AxisAlignedBB> collisionList, Entity entity){
+
         if (entity == null || world == null || entity instanceof EntityPlayer || entity instanceof EntityBroom)
             return;
 
-        int meta = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
         double distanceThreshold = 1.1;
         double shortDistanceThreshold = 0.1;
 
         boolean isCollided = false;
+        Vec3i vec = new Vec3i(1.25, 1.6, 1.25);
+
 
         if (entity.width < 0.5 || entity.height < 0.5){
             distanceThreshold = 0.5f;
             shortDistanceThreshold = -0.2f;
         }
 
-        if (meta > 2 && meta < 10){
-            switch (meta){
-                case 3: //+x
-                    if (entity.posX > pos.getX() + distanceThreshold){
-                        collisionList.add(new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1.25, pos.getY() + 1.6, pos.getZ() + 1.25));
-                        isCollided = true;
-                    }
-                    break;
-                case 4: //-x
-                    if (entity.posX < pos.getX() - shortDistanceThreshold){
-                        collisionList.add(new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1.25, pos.getY() + 1.6, pos.getZ() + 1.25));
-                        isCollided = true;
-                    }
-                    break;
-                case 5: //+z
-                    if (entity.posZ > pos.getZ() + distanceThreshold){
-                        collisionList.add(new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1.25, pos.getY() + 1.6, pos.getZ() + 1.25));
-                        isCollided = true;
-                    }
-                    break;
-                case 6: //-z
-                    if (entity.posZ < pos.getZ() - shortDistanceThreshold){
-                        collisionList.add(new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1.25, pos.getY() + 1.6, pos.getZ() + 1.25));
-                        isCollided = true;
-                    }
-                    break;
-                case 7: //+/- x
-                    if (entity.posX > pos.getX() + distanceThreshold || entity.posX < pos.getX() - shortDistanceThreshold){
-                        collisionList.add(new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1.25, pos.getY() + 1.6, pos.getZ() + 1.25));
-                        isCollided = true;
-                    }
-                    break;
-                case 8: //+/- z
-                    if (entity.posZ > pos.getZ() + distanceThreshold || entity.posZ < pos.getZ() - shortDistanceThreshold){
-                        collisionList.add(new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1.25, pos.getY() + 1.6, pos.getZ() + 1.25));
-                        isCollided = true;
-                    }
-                    break;
-                case 9: //all
-                    collisionList.add(new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1.25, pos.getY() + 1.6, pos.getZ() + 1.25));
+        EnumInvisibleBlocks collisionState = state.getValue(TYPE);
+
+        switch (collisionState){
+            case POSITIVE_X_COLLISION: //+x
+                if (entity.posX > pos.getX() + distanceThreshold){
+                    collisionList.add(new AxisAlignedBB(pos, pos.add(vec)));
                     isCollided = true;
-                    break;
+                }
+                break;
+            case NEGATIVE_X_COLLISION: //-x
+                if (entity.posX < pos.getX() - shortDistanceThreshold){
+                    collisionList.add(new AxisAlignedBB(pos, pos.add(vec)));
+                    isCollided = true;
+                }
+                break;
+            case POSITIVE_Z_COLLISION: //+z
+                if (entity.posZ > pos.getZ() + distanceThreshold){
+                    collisionList.add(new AxisAlignedBB(pos, pos.add(vec)));
+                    isCollided = true;
+                }
+                break;
+            case NEGATIVE_Z_COLLISION: //-z
+                if (entity.posZ < pos.getZ() - shortDistanceThreshold){
+                    collisionList.add(new AxisAlignedBB(pos, pos.add(vec)));
+                    isCollided = true;
+                }
+                break;
+            case FULL_X_COLLISION: //+/- x
+                if (entity.posX > pos.getX() + distanceThreshold || entity.posX < pos.getX() - shortDistanceThreshold){
+                    collisionList.add(new AxisAlignedBB(pos, pos.add(vec)));
+                    isCollided = true;
+                }
+                break;
+            case FULL_Z_COLLISION: //+/- z
+                if (entity.posZ > pos.getZ() + distanceThreshold || entity.posZ < pos.getZ() - shortDistanceThreshold){
+                    collisionList.add(new AxisAlignedBB(pos, pos.add(vec)));
+                    isCollided = true;
+                }
+                break;
+            case FULL_COLLISION: //all
+                collisionList.add(new AxisAlignedBB(pos, pos.add(vec)));
+                isCollided = true;
+                break;
+        }
+
+        if (world.isRemote && isCollided)
+            spawnBlockParticles(world, pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    @Override
+    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity){
+        if (world.isRemote){
+            EnumInvisibleBlocks bState = state.getValue(TYPE);
+            if (!bState.isIlluminated())
+                spawnBlockParticles(world, pos.getX(), pos.getY(), pos.getZ());
+        }
+    }
+
+    private void spawnBlockParticles(World world, int x, int y, int z){
+        AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, "symbols", x + 0.5, y + 0.5, z + 0.5);
+        if (particle != null){
+            particle.addRandomOffset(1, 1.6, 1);
+            particle.setParticleScale(0.1f);
+            particle.AddParticleController(new ParticleFloatUpward(particle, 0, 0.02f, 1, false));
+            particle.AddParticleController(new ParticleFadeOut(particle, 1, false).setFadeSpeed(0.05f));
+            particle.setMaxAge(20);
+            if (world.rand.nextBoolean()){
+                particle.setRGBColorI(0x481bc8);
+            }else{
+                particle.setRGBColorI(0x891bc8);
             }
-
-            if (world.isRemote && isCollided)
-                spawnBlockParticles(world, pos);
         }
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, Entity entityIn) {
-        if (worldIn.isRemote) {
-            int meta = worldIn.getBlockState(pos).getBlock().getMetaFromState(worldIn.getBlockState(pos));
-            if (meta > 2 && meta < 10)
-                spawnBlockParticles(worldIn, pos);
-        }
-    }
-
-	private void spawnBlockParticles(World world, BlockPos pos){
-        int x = pos.getX();
-        int y = pos.getY();
-        int z = pos.getZ();
-		AMParticle particle = (AMParticle)AMCore.proxy.particleManager.spawn(world, "symbols", x + 0.5, y + 0.5, z + 0.5);
-		if (particle != null){
-			particle.addRandomOffset(1, 1.6, 1);
-			particle.setParticleScale(0.1f);
-			particle.AddParticleController(new ParticleFloatUpward(particle, 0, 0.02f, 1, false));
-			particle.AddParticleController(new ParticleFadeOut(particle, 1, false).setFadeSpeed(0.05f));
-			particle.setMaxAge(20);
-			if (world.rand.nextBoolean()){
-				particle.setRGBColorI(0x481bc8);
-			}else{
-				particle.setRGBColorI(0x891bc8);
-			}
-		}
-	}
-
-    @Override
-    public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player) {
+    public ItemStack getPickBlock(MovingObjectPosition target, World world,
+                                  BlockPos pos, EntityPlayer player) {
         return null;
     }
 
     @Override
-	public boolean canDropFromExplosion(Explosion par1Explosion){
-		return false;
-	}
-
-    @Override
-    public boolean canHarvestBlock(IBlockAccess world, BlockPos pos, EntityPlayer player) {
+    public boolean canDropFromExplosion(Explosion par1Explosion){
         return false;
     }
 
     @Override
-    public boolean isAir(IBlockAccess world, BlockPos pos) {
+    public boolean canHarvestBlock(IBlockAccess world, BlockPos pos,
+                                   EntityPlayer player) {
+        return false;
+    }
+
+    @Override
+    public boolean isAir(IBlockAccess world, BlockPos pos){
         return true;
     }
 
     @Override
-    public int getLightValue(IBlockAccess world, BlockPos pos) {
-        int meta = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
-        switch (meta){
-            case 0:
+    public int getLightValue(IBlockAccess world, BlockPos pos){
+        EnumInvisibleBlocks bState = world.getBlockState(pos).getValue(TYPE);
+        switch (bState){
+            case LOW_ILLUMINATED:
                 return 8;
-            case 1:
+            case MED_ILLUMINATED:
                 return 12;
-            case 2:
-            case 10:
+            case HIGH_ILLUMINATED:
+            case SPECIAL_ILLUMINATED:
                 return 15;
         }
         return 0;
     }
 
     @Override
-    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-        if (!worldIn.isRemote)
-            worldIn.scheduleBlockUpdate(pos, this, this.tickRate(worldIn), 1); // priority??
-    }
-
-    @Override
-	public boolean isOpaqueCube(){
-		return false;
-	}
-
-    @Override
-    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
-        int meta = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
-        if (meta < 3) {
-            float r = 1.5f;
-            List<EntityLivingBase> ents = world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(pos.getX() - r, pos.getY() - r, pos.getZ() - r, pos.getX() + 1 + r, pos.getY() + 1 + r, pos.getZ() + 1 + r));
-            boolean buffNearby = false;
-            for (EntityLivingBase ent : ents) {
-                buffNearby |= ent.isPotionActive(BuffList.illumination.id) ||
-                        (ent instanceof EntityPlayer &&
-                                ((EntityPlayer) ent).inventory.getCurrentItem() != null &&
-                                ((EntityPlayer) ent).inventory.getCurrentItem().getItem() == ItemsCommonProxy.wardingCandle);
-            }
-            if (!buffNearby && world.getBlockState(pos).getBlock() == this)
-                world.setBlockToAir(pos);
-
-            world.scheduleBlockUpdate(pos, this, this.tickRate(world), 1); // priority??
+    public void onBlockAdded(World world, BlockPos pos, IBlockState state){
+        if (!world.isRemote){
+            world.scheduleBlockUpdate(pos, this, this.tickRate(world), 1);
         }
     }
 
     @Override
-    public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand) {
-        int meta = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
-        if (world.rand.nextInt(10) < 3 && world.isRemote && meta >= 3 && meta < 10){
-            List<Entity> ents = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(pos.getX() - 0.2, pos.getY() - 0.2, pos.getZ() - 0.2, pos.getX() + 1.2, pos.getY() + 1.2, pos.getZ() + 1.2));
+    public boolean isOpaqueCube(){
+        return false;
+    }
+
+    @Override
+    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand){
+        EnumInvisibleBlocks meta = state.getValue(TYPE);
+        if (meta.isIlluminated() && !meta.equals(EnumInvisibleBlocks.SPECIAL_ILLUMINATED)){
+            float r = 1.5f;
+            List<EntityLivingBase> ents = world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(pos.add(-r, -r, -r), pos.add(1 + r, 1 + r, 1 + r)));
+            boolean buffNearby = false;
+            for (EntityLivingBase ent : ents){
+                buffNearby |= ent.isPotionActive(BuffList.illumination.id) ||
+                        (ent instanceof EntityPlayer &&
+                                ((EntityPlayer)ent).inventory.getCurrentItem() != null &&
+                                ((EntityPlayer)ent).inventory.getCurrentItem().getItem() == ItemsCommonProxy.wardingCandle);
+            }
+            if (!buffNearby && world.getBlockState(pos).equals(this))
+                world.setBlockToAir(pos);
+
+            world.scheduleBlockUpdate(pos, this, this.tickRate(world), 1);
+        }
+    }
+
+    @Override
+    public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand){
+        EnumInvisibleBlocks meta = state.getValue(TYPE);
+        if (world.rand.nextInt(10) < 3 && world.isRemote && meta.isIlluminated()){
+            BlockPos pos1 = pos.add(-0.2, -0.2, -0.2);
+            BlockPos pos2 = pos.add(1.2, 1.2, 1.2);
+            List<Entity> ents = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(pos1, pos2));
             if (ents.size() > 0){
-                spawnBlockParticles(world, pos);
+                spawnBlockParticles(world, pos.getX(), pos.getY(), pos.getZ());
             }
         }
     }
 
     @Override
     public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion) {
-        int meta = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
-        if (meta > 2)
+        EnumInvisibleBlocks meta = world.getBlockState(pos).getValue(TYPE);
+        if (!meta.isIlluminated() || meta.equals(EnumInvisibleBlocks.SPECIAL_ILLUMINATED))
             return 100f;
         return super.getExplosionResistance(world, pos, exploder, explosion);
     }
@@ -242,5 +249,43 @@ public class BlockInvisibleUtility extends AMBlock{
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         return new ArrayList<ItemStack>();
+    }
+
+    @Override
+    public IBlockState getStateFromMeta(int meta) {
+        return getDefaultState().withProperty(TYPE, EnumInvisibleBlocks.values()[meta]);
+    }
+
+    @Override
+    public int getMetaFromState(IBlockState state) {
+        return state.getValue(TYPE).ordinal();
+    }
+
+    @Override
+    protected BlockState createBlockState() {
+        return new BlockState(this, TYPE);
+    }
+
+    public enum EnumInvisibleBlocks implements IStringSerializable {
+        LOW_ILLUMINATED,
+        MED_ILLUMINATED,
+        HIGH_ILLUMINATED,
+        POSITIVE_X_COLLISION,
+        NEGATIVE_X_COLLISION,
+        POSITIVE_Z_COLLISION,
+        NEGATIVE_Z_COLLISION,
+        FULL_X_COLLISION,
+        FULL_Z_COLLISION,
+        FULL_COLLISION,
+        SPECIAL_ILLUMINATED;
+
+        @Override
+        public String getName() {
+            return name().toLowerCase();
+        }
+
+        public boolean isIlluminated() {
+            return (this.equals(LOW_ILLUMINATED) || this.equals(MED_ILLUMINATED) || this.equals(MED_ILLUMINATED) || this.equals(SPECIAL_ILLUMINATED));
+        }
     }
 }

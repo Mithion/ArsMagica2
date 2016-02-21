@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
@@ -25,7 +26,7 @@ public class Touch implements ISpellShape{
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount){
+	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
 		if (target != null){
 			Entity e = target;
 			if (e instanceof EntityDragonPart && ((EntityDragonPart)e).entityDragonObj instanceof EntityLivingBase)
@@ -50,14 +51,14 @@ public class Touch implements ISpellShape{
 					return result;
 				}
 				ItemStack newItemStack = SpellUtils.instance.popStackStage(stack);
-				return SpellHelper.instance.applyStackStage(newItemStack, caster, target, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0, world, true, giveXP, 0);
+				return SpellHelper.instance.applyStackStage(newItemStack, caster, target, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, EnumFacing.DOWN, world, true, giveXP, 0);
 			}else{
-				SpellCastResult result = SpellHelper.instance.applyStageToGround(stack, caster, world, mop.blockX, mop.blockY, mop.blockZ, mop.sideHit, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0, giveXP);
+				SpellCastResult result = SpellHelper.instance.applyStageToGround(stack, caster, world, mop.getBlockPos(), mop.sideHit, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0, giveXP);
 				if (result != SpellCastResult.SUCCESS){
 					return result;
 				}
 				ItemStack newItemStack = SpellUtils.instance.popStackStage(stack);
-				return SpellHelper.instance.applyStackStage(newItemStack, caster, target, mop.blockX, mop.blockY, mop.blockZ, mop.sideHit, world, true, giveXP, 0);
+				return SpellHelper.instance.applyStackStage(newItemStack, caster, target, mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ(), mop.sideHit, world, true, giveXP, 0);
 			}
 		}
 	}

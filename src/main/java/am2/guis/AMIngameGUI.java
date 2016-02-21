@@ -56,7 +56,7 @@ public class AMIngameGUI{
 		ItemStack ci = Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem();
 
 		boolean drawAMHud = !AMCore.config.showHudMinimally() || (ci != null && (ci.getItem() == ItemsCommonProxy.spellBook || ci.getItem() == ItemsCommonProxy.spell || ci.getItem() == ItemsCommonProxy.arcaneSpellbook || ci.getItem() instanceof IBoundItem));
-		ScaledResolution scaledresolution = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+		ScaledResolution scaledresolution = new ScaledResolution(mc);
 		int i = scaledresolution.getScaledWidth();
 		int j = scaledresolution.getScaledHeight();
 
@@ -70,17 +70,17 @@ public class AMIngameGUI{
 		if (drawAMHud)
 			RenderContingency(i, j);
 		if (drawAMHud)
-			RenderArsMagicaGUIItems(i, j, mc.fontRenderer);
+			RenderArsMagicaGUIItems(i, j, mc.fontRendererObj);
 		if (drawAMHud)
 			RenderAffinity(i, j);
-		RenderArmorStatus(i, j, mc, mc.fontRenderer);
+		RenderArmorStatus(i, j, mc, mc.fontRendererObj);
 		if (drawAMHud)
 			RenderMagicXP(i, j);
 
 		ItemStack item = mc.thePlayer.getCurrentEquippedItem();
 		if (item != null && item.getItem() instanceof ItemSpellBook){
 
-			RenderSpellBookUI(i, j, mc.fontRenderer, mc.thePlayer.getCurrentEquippedItem());
+			RenderSpellBookUI(i, j, mc.fontRendererObj, mc.thePlayer.getCurrentEquippedItem());
 		}
 
 		GL11.glPopAttrib();

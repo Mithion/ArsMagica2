@@ -84,9 +84,9 @@ public class RitualShapeHelper{
 		}
 	}
 
-	public void consumeRitualReagents(IRitualInteraction interaction, World world, int x, int y, int z){
+	public void consumeRitualReagents(IRitualInteraction interaction, World world, BlockPos pos){
 		int r = interaction.getReagentSearchRadius();
-		List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(x - r, y, z - r, x + r + 1, y + 1, z + r + 1));
+		List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos.getX() - r, pos.getY(), pos.getZ() - r, pos.getX() + r + 1, pos.getY() + 1, pos.getZ() + r + 1));
 		for (EntityItem item : items)
 			item.setDead();
 	}

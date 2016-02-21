@@ -19,6 +19,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -26,23 +28,19 @@ import java.util.Random;
 
 public class Flight implements ISpellComponent, IRitualInteraction{
 
-	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		return false;
-	}
+    @Override
+    public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+        return false;
+    }
 
-	@Override
+    @Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
 		if (target instanceof EntityLivingBase){
 			int duration = SpellUtils.instance.getModifiedInt_Mul(BuffList.default_buff_duration, stack, caster, target, world, 0, SpellModifiers.DURATION);
 			duration = SpellUtils.instance.modifyDurationBasedOnArmor(caster, duration);
-
-			int x = (int)Math.floor(target.posX);
-			int y = (int)Math.floor(target.posY);
-			int z = (int)Math.floor(target.posZ);
-			if (RitualShapeHelper.instance.checkForRitual(this, world, x, y, z) != null){
+			if (RitualShapeHelper.instance.checkForRitual(this, world, target.getPosition()) != null){
 				duration += (3600 * (SpellUtils.instance.countModifiers(SpellModifiers.BUFF_POWER, stack, 0) + 1));
-				RitualShapeHelper.instance.consumeRitualReagents(this, world, x, y, z);
+				RitualShapeHelper.instance.consumeRitualReagents(this, world, target.getPosition());
 			}
 
 			if (!world.isRemote)

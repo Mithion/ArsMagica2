@@ -11,6 +11,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -19,8 +21,8 @@ import java.util.Random;
 public class Mark implements ISpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		ExtendedProperties.For(caster).setMarkLocation(impactX, impactY, impactZ, caster.worldObj.provider.dimensionId);
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing side, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+		ExtendedProperties.For(caster).setMarkLocation(impactX, impactY, impactZ, caster.worldObj.provider.getDimensionId());
 		return true;
 	}
 
@@ -35,7 +37,7 @@ public class Mark implements ISpellComponent{
 				((EntityPlayer)caster).addChatMessage("Mark Cleared");
 			}
 		}else{*/
-		ExtendedProperties.For(caster).setMarkLocation(target.posX, target.posY, target.posZ, caster.worldObj.provider.dimensionId);
+		ExtendedProperties.For(caster).setMarkLocation(target.posX, target.posY, target.posZ, caster.worldObj.provider.getDimensionId());
 		/*if (caster instanceof EntityPlayer && world.isRemote){
 			((EntityPlayer)caster).addChatMessage("Mark Set");
 		}*/

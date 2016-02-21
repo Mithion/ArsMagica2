@@ -14,6 +14,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -22,13 +24,13 @@ import java.util.Random;
 public class HarvestPlants implements ISpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		Block block = world.getBlock(blockx, blocky, blockz);
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing side, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+		Block block = world.getBlockState(pos).getBlock();
 		if (!(block instanceof IGrowable)) return false;
 		if (!world.isRemote){
-			block.breakBlock(world, blockx, blocky, blockz, block, 0);
-			block.dropBlockAsItem(world, blockx, blocky, blockz, world.getBlockMetadata(blockx, blocky, blockz), Block.getIdFromBlock(block));
-			world.setBlock(blockx, blocky, blockz, Blocks.air);
+			block.breakBlock(world, pos, block.getStateFromMeta(0));
+			block.dropBlockAsItem(world, pos, world.getBlockState(pos).getBlock().getStateFromMeta(world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos))), Block.getIdFromBlock(block));
+			world.setBlockToAir(pos);
 		}
 		return true;
 	}

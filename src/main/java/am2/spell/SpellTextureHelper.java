@@ -2,12 +2,8 @@ package am2.spell;
 
 import am2.AMCore;
 import am2.LogHelper;
-import am2.texture.ResourceManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.init.Items;
-import net.minecraft.util.IIcon;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,33 +21,10 @@ import java.util.jar.JarFile;
 public class SpellTextureHelper{
 	public static final SpellTextureHelper instance = new SpellTextureHelper();
 
-	private IIcon[] icons;
 	private static final String iconsPath = "/assets/arsmagica2/textures/items/spells/icons/";
 	private static final String iconsPrefix = "/spells/icons/";
 
 	private SpellTextureHelper(){
-	}
-
-	public void loadAllIcons(IIconRegister register){
-		List<String> resources;
-		try{
-			resources = getResourceListing();
-			if (resources.size() == 0){
-				LogHelper.error("No spell IIcons found?!?");
-			}else{
-				LogHelper.info("Located %d spell IIcons", resources.size());
-			}
-			icons = new IIcon[resources.size()];
-			int count = 0;
-			for (String s : resources){
-				icons[count++] = ResourceManager.RegisterTexture(s, register);
-			}
-		}catch (Throwable e){
-			if (icons == null)
-				icons = new IIcon[0];
-			e.printStackTrace();
-		}
-
 	}
 
 	public static List<String> getResourceListing() throws IOException, URISyntaxException{
@@ -87,16 +60,5 @@ public class SpellTextureHelper{
 		}else{
 			return toReturn;
 		}
-	}
-
-	public IIcon getIcon(int index){
-		if (icons.length == 0)
-			return Items.diamond_sword.getIconFromDamage(0);
-		if (index < 0 || index >= icons.length) index = 0;
-		return icons[index];
-	}
-
-	public IIcon[] getAllIcons(){
-		return icons;
 	}
 }

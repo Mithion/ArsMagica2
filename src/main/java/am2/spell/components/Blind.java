@@ -19,6 +19,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -27,7 +29,7 @@ import java.util.Random;
 public class Blind implements ISpellComponent, IRitualInteraction{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing side, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		return false;
 	}
 
@@ -37,12 +39,10 @@ public class Blind implements ISpellComponent, IRitualInteraction{
 			int duration = SpellUtils.instance.getModifiedInt_Mul(BuffList.default_buff_duration, stack, caster, target, world, 0, SpellModifiers.DURATION);
 			duration = SpellUtils.instance.modifyDurationBasedOnArmor(caster, duration);
 
-			int x = (int)Math.floor(target.posX);
-			int y = (int)Math.floor(target.posY);
-			int z = (int)Math.floor(target.posZ);
-			if (RitualShapeHelper.instance.checkForRitual(this, world, x, y, z) != null){
+			BlockPos entityPos = target.getPosition();
+			if (RitualShapeHelper.instance.checkForRitual(this, world, entityPos) != null){
 				duration += (3600 * (SpellUtils.instance.countModifiers(SpellModifiers.BUFF_POWER, stack, 0) + 1));
-				RitualShapeHelper.instance.consumeRitualReagents(this, world, x, y, z);
+				RitualShapeHelper.instance.consumeRitualReagents(this, world, entityPos);
 			}
 
 			if (!world.isRemote)

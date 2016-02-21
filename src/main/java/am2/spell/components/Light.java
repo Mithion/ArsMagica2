@@ -23,6 +23,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -31,16 +33,16 @@ import java.util.Random;
 public class Light implements ISpellComponent, IRitualInteraction{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 
-		if (world.getBlock(blockx, blocky, blockz) == BlocksCommonProxy.obelisk){
-			ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, blockx, blocky, blockz);
+		if (world.getBlockState(pos) == BlocksCommonProxy.obelisk){
+			ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, pos);
 			if (reagents != null){
 				if (!world.isRemote){
-					RitualShapeHelper.instance.consumeRitualReagents(this, world, blockx, blocky, blockz);
-					RitualShapeHelper.instance.consumeRitualShape(this, world, blockx, blocky, blockz);
-					world.setBlock(blockx, blocky, blockz, BlocksCommonProxy.celestialPrism);
-					PowerNodeRegistry.For(world).registerPowerNode((IPowerNode)world.getTileEntity(blockx, blocky, blockz));
+					RitualShapeHelper.instance.consumeRitualReagents(this, world, pos);
+					RitualShapeHelper.instance.consumeRitualShape(this, world, pos);
+					world.setBlockState(pos, BlocksCommonProxy.celestialPrism.getDefaultState());
+					PowerNodeRegistry.For(world).registerPowerNode((IPowerNode)world.getTileEntity(pos));
 				}else{
 
 				}
@@ -49,36 +51,36 @@ public class Light implements ISpellComponent, IRitualInteraction{
 			}
 		}
 
-		if (world.getBlock(blockx, blocky, blockz) == Blocks.air) blockFace = -1;
-		if (blockFace != -1){
+		if (world.isAirBlock(pos)) blockFace = null;
+		if (blockFace != null){
 			switch (blockFace){
-			case 0:
-				blocky--;
+            case DOWN:
+				pos = pos.down();
 				break;
-			case 1:
-				blocky++;
+			case UP:
+				pos = pos.up();
 				break;
-			case 2:
-				blockz--;
+            case NORTH:
+				pos = pos.north();
 				break;
-			case 3:
-				blockz++;
+            case SOUTH:
+				pos = pos.south();
 				break;
-			case 4:
-				blockx--;
+            case EAST:
+				pos = pos.east();
 				break;
-			case 5:
-				blockx++;
+            case WEST:
+				pos = pos.west();
 				break;
 			}
 		}
 
-		if (world.getBlock(blockx, blocky, blockz) != Blocks.air){
+		if (!world.isAirBlock(pos)){
 			return false;
 		}
 
 		if (!world.isRemote){
-			world.setBlock(blockx, blocky, blockz, BlocksCommonProxy.blockMageTorch, getColorMeta(stack), 2);
+			world.setBlockState(pos, BlocksCommonProxy.blockMageTorch.getStateFromMeta(getColorMeta(stack)), 2);
 		}
 
 
@@ -100,7 +102,7 @@ public class Light implements ISpellComponent, IRitualInteraction{
 		}
 
 		for (int i = 0; i < 16; ++i){
-			if (((ItemDye)Items.dye).field_150922_c[i] == color){
+			if (((ItemDye)Items.dye).dyeColors[i] == color){
 				meta = i;
 				break;
 			}

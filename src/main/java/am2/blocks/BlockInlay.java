@@ -8,6 +8,8 @@ import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRailBase;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -24,6 +26,8 @@ import java.util.List;
 import java.util.Random;
 
 public class BlockInlay extends BlockRailBase{
+
+    public static final PropertyEnum<EnumRailDirection> SHAPE = PropertyEnum.<BlockRailBase.EnumRailDirection>create("shape", BlockRailBase.EnumRailDirection.class);
 
 	private final int material;
 
@@ -122,6 +126,11 @@ public class BlockInlay extends BlockRailBase{
         checkNeighbors(worldIn, pos);
     }
 
+    @Override
+    public IProperty<EnumRailDirection> getShapeProperty() {
+        return SHAPE;
+    }
+
     private void checkNeighbors(World world, BlockPos pos){ // FIXME this whole method is bad
         int x = pos.getX(), y = pos.getY(), z = pos.getZ();
 		int myMeta = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
@@ -157,35 +166,35 @@ public class BlockInlay extends BlockRailBase{
 		for (int i = 0; i <= 2; ++i){
 			for (int j = 0; j <= 2; ++j){
 				if (i == 1 && j == 1) continue;
-				allGood &= world.getBlockState(new BlockPos(pos.getX() + i, pos.getY(), pos.getZ() + j)).getBlock()== this; // FIXME ew
+				allGood &= world.getBlockState(new BlockPos(pos.getX() + i, pos.getY(), pos.getZ() + j)).getBlock() == this; // FIXME ew
 			}
 		}
 
 		if (allGood){
 			if (!world.isRemote){
-				if (!checkForIceEffigy(world, pos.getX(), pos.getY(), pos.getZ()))
-					checkForLightningEffigy(world, x, y, z);
+				if (!checkForIceEffigy(world, pos))
+					checkForLightningEffigy(world, pos);
 			}
 		}
 	}
 
-	private boolean checkForIceEffigy(World world, int x, int y, int z){
-		if (world.getBlock(x + 1, y, z + 1) == BlocksCommonProxy.AMOres && world.getBlockMetadata(x + 1, y, z + 1) == BlockAMOre.META_BLUE_TOPAZ_BLOCK){
-			if (world.getBlock(x + 1, y + 1, z + 1) == BlocksCommonProxy.AMOres && world.getBlockMetadata(x + 1, y + 1, z + 1) == BlockAMOre.META_BLUE_TOPAZ_BLOCK){
-				if (world.getBlock(x + 1, y + 2, z + 1) == Blocks.ice){
-					int iceMeta = world.getBlockMetadata(x + 1, y + 2, z + 1);
+	private boolean checkForIceEffigy(World world, BlockPos pos){
+		if (world.getBlockState(pos.add(1, 0, 1)) == BlocksCommonProxy.AMOres && world.getBlockState(pos.add(1, 0, 1)).getBlock().getMetaFromState(world.getBlockState(pos.add(1, 0, 1))) == BlockAMOre.META_BLUE_TOPAZ_BLOCK){
+			if (world.getBlockState(pos.add(1, 1, 1)) == BlocksCommonProxy.AMOres && world.getBlockMetadata(pos.add(1, 1, 1)) == BlockAMOre.META_BLUE_TOPAZ_BLOCK){
+				if (world.getBlockState(pos.add(1, 2, 1)) == Blocks.ice){
+					int iceMeta = world.getBlockState(pos.add(1, 2, 1)).getBlock().getMetaFromState(world.getBlockState(pos.add(1, 2, 1)));
 					if (iceMeta > 0){
-						AMCore.proxy.particleManager.RibbonFromPointToPoint(world, x + 1.5, y + 2, z + 1.5, x + 2, y + 3, z + 2);
+						AMCore.proxy.particleManager.RibbonFromPointToPoint(world, pos.getX() + 1.5, pos.getY() + 2, pos.getZ() + 1.5, pos.getX() + 2, pos.getY() + 3, pos.getZ() + 2);
 					}
 					if (iceMeta >= 3){
-						BossSpawnHelper.instance.onIceEffigyBuilt(world, x + 1, y, z + 1);
+						BossSpawnHelper.instance.onIceEffigyBuilt(world, pos.getX() + 1, pos.getY(), pos.getZ() + 1);
 					}else{
-						List<EntitySnowman> snowmen = world.getEntitiesWithinAABB(EntitySnowman.class, new AxisAlignedBB(x - 9, y - 2, z - 9, x + 10, y + 4, z + 10));
+						List<EntitySnowman> snowmen = world.getEntitiesWithinAABB(EntitySnowman.class, new AxisAlignedBB(pos.getX() - 9, pos.getY() - 2, pos.getZ() - 9, pos.getX() + 10, pos.getY() + 4, pos.getZ() + 10));
 						if (snowmen.size() > 0){
 							snowmen.get(0).attackEntityFrom(DamageSources.unsummon, 5000);
 							iceMeta++;
-							world.setBlockMetadataWithNotify(x + 1, y + 2, z + 1, iceMeta, 2);
-							AMCore.proxy.particleManager.BeamFromEntityToPoint(world, snowmen.get(0), x + 1.5, y + 2.5, z + 1.5);
+							//world.setBlockState(pos.add(1, 2, 1), iceMeta, 2);
+							AMCore.proxy.particleManager.BeamFromEntityToPoint(world, snowmen.get(0), pos.getX() + 1.5, pos.getY() + 2.5, pos.getZ() + 1.5);
 						}
 					}
 					return true;
@@ -195,7 +204,7 @@ public class BlockInlay extends BlockRailBase{
 		return false;
 	}
 
-	private boolean checkForLightningEffigy(World world, int x, int y, int z){
+	private boolean checkForLightningEffigy(World world, BlockPos pos){
 		if (!world.isRaining())
 			return false;
 
@@ -235,7 +244,7 @@ public class BlockInlay extends BlockRailBase{
 		return BlocksCommonProxy.commonBlockRenderID;
 	}
 
-	@Override
+	/*@Override
 	public void onMinecartPass(World world, EntityMinecart cart, int x, int y, int z){
 		if (cart == null) return;
 
@@ -314,5 +323,5 @@ public class BlockInlay extends BlockRailBase{
 				cart.getEntityData().setLong(minecartGoldInlayKey, time);
 			}
 		}
-	}
+	}*/
 }

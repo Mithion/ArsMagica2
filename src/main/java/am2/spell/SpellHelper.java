@@ -35,7 +35,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -49,7 +51,7 @@ public class SpellHelper{
 	private SpellHelper(){
 	}
 
-	public SpellCastResult applyStageToGround(ItemStack stack, EntityLivingBase caster, World world, int blockX, int blockY, int blockZ, int blockFace, double impactX, double impactY, double impactZ, int stage, boolean consumeMBR){
+	public SpellCastResult applyStageToGround(ItemStack stack, EntityLivingBase caster, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, int stage, boolean consumeMBR){
 		ISpellShape stageShape = SpellUtils.instance.getShapeForStage(stack, 0);
 		if (stageShape == null || stageShape == SkillManager.instance.missingShape){
 			return SpellCastResult.MALFORMED_SPELL_STACK;
@@ -63,10 +65,10 @@ public class SpellHelper{
 				continue;
 
 			//special logic for spell sealed doors
-			if (BlocksCommonProxy.spellSealedDoor.applyComponentToDoor(world, component, blockX, blockY, blockZ))
+			if (BlocksCommonProxy.spellSealedDoor.applyComponentToDoor(world, component, pos))
 				continue;
 
-			if (component.applyEffectBlock(stack, world, blockX, blockY, blockZ, blockFace, impactX, impactY, impactZ, caster)){
+			if (component.applyEffectBlock(stack, world, pos, blockFace, impactX, impactY, impactZ, caster)){
 				if (world.isRemote){
 					int color = -1;
 					if (SpellUtils.instance.modifierIsPresent(SpellModifiers.COLOR, stack, 0)){
@@ -79,7 +81,7 @@ public class SpellHelper{
 							}
 						}
 					}
-					component.spawnParticles(world, blockX, blockY, blockZ, caster, caster, world.rand, color);
+					component.spawnParticles(world, pos.getX(), pos.getY(), pos.getZ(), caster, caster, world.rand, color);
 				}
 				if (consumeMBR)
 					SpellUtils.instance.doAffinityShift(caster, component, stageShape);
@@ -165,7 +167,7 @@ public class SpellHelper{
 		return event;
 	}
 
-	public SpellCastResult applyStackStage(ItemStack stack, EntityLivingBase caster, EntityLivingBase target, double x, double y, double z, int side, World world, boolean consumeMBR, boolean giveXP, int ticksUsed){
+	public SpellCastResult applyStackStage(ItemStack stack, EntityLivingBase caster, EntityLivingBase target, double x, double y, double z, EnumFacing side, World world, boolean consumeMBR, boolean giveXP, int ticksUsed){
 
 		if (caster.isPotionActive(BuffList.silence.id))
 			return SpellCastResult.SILENCED;
@@ -215,10 +217,10 @@ public class SpellHelper{
 					writer.add(false);
 				}
 				writer.add(x).add(y).add(z);
-				writer.add(side);
+				//writer.add(side);
 				writer.add(ticksUsed);
 
-				AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.dimensionId, x, y, z, 32, AMPacketIDs.SPELL_CAST, writer.generate());
+				AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.getDimensionId(), x, y, z, 32, AMPacketIDs.SPELL_CAST, writer.generate());
 			}
 		}
 
@@ -268,7 +270,7 @@ public class SpellHelper{
 			return SpellCastResult.EFFECT_FAILED;
 		}
 
-		return applyStackStage(stack, caster, target, x, y, z, 0, world, consumeMBR, giveXP, ticks);
+		return applyStackStage(stack, caster, target, x, y, z, EnumFacing.DOWN, world, consumeMBR, giveXP, ticks);
 	}
 
 	public boolean attackTargetSpecial(ItemStack spellStack, Entity target, DamageSource damagesource, float magnitude){

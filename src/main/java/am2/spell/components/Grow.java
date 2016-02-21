@@ -12,6 +12,9 @@ import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleFloatUpward;
 import am2.particles.ParticleOrbitPoint;
 import am2.utility.DummyEntityPlayer;
+import jdk.nashorn.internal.codegen.Emitter;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
@@ -36,11 +39,11 @@ public class Grow implements ISpellComponent{
 			BlocksCommonProxy.cerublossom, BlocksCommonProxy.desertNova, BlocksCommonProxy.wakebloom, BlocksCommonProxy.aum, BlocksCommonProxy.tarmaRoot));
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing face,double impactX, double impactY, double impactZ, EntityLivingBase caster){
 
-		Block block = world.getBlock(blockx, blocky, blockz);
+		Block block = world.getBlockState(pos).getBlock();
 
-		BonemealEvent event = new BonemealEvent(DummyEntityPlayer.fromEntityLiving(caster), world, block, blockx, blocky, blockz);
+		BonemealEvent event = new BonemealEvent(DummyEntityPlayer.fromEntityLiving(caster), world, pos, block.getDefaultState());
 		if (MinecraftForge.EVENT_BUS.post(event)){
 			return false;
 		}
@@ -50,14 +53,14 @@ public class Grow implements ISpellComponent{
 
 		//EoD: Spawn AM2 flowers with 3% chance. This has to be the first one in the list to override all others
 		if (world.rand.nextInt(100) < 3 && block.isNormalCube() &&
-				(world.getBlock(blockx, blocky + 1, blockz).isAir(null, 0, 0, 0) || world.getBlock(blockx, blocky + 1, blockz) == Blocks.tallgrass)){
+				(world.isAirBlock(pos.up()) || world.getBlockState(pos.up()) == Blocks.tallgrass.getDefaultState())){
 			// shuffle the flower list every time we want to try to find one.
 			Collections.shuffle(growableAMflowers);
 
 			for (AMFlower flower : growableAMflowers){
-				if (flower.canGrowOn(world, blockx, blocky + 1, blockz)){
+				if (flower.canGrowOn(world, pos.up(), world.getBlockState(pos))){
 					if (!world.isRemote){
-						world.setBlock(blockx, blocky + 1, blockz, flower, 0, 2);
+						world.setBlockState(pos.up(), flower.getStateFromMeta(0), 2);
 					}
 					return true;
 				}
@@ -68,7 +71,7 @@ public class Grow implements ISpellComponent{
 		//Grow huge mushrooms 10% of the time.
 		if (block instanceof BlockMushroom){
 			if (!world.isRemote && world.rand.nextInt(10) < 1){
-				((BlockMushroom)block).func_149884_c(world, blockx, blocky, blockz, world.rand);
+				((BlockMushroom)block).grow(world, world.rand, pos, Blocks.brown_mushroom.getDefaultState()); // TODO fine tune
 			}
 
 			return true;
@@ -77,9 +80,9 @@ public class Grow implements ISpellComponent{
 
 		//If the spell is executed in water, check if we have space for a wakebloom above and create one 3% of the time.
 		if (block == Blocks.water){
-			if (world.getBlock(blockx, blocky + 1, blockz) == Blocks.air){
+			if (world.isAirBlock(pos.up())){
 				if (!world.isRemote && world.rand.nextInt(100) < 3){
-					world.setBlock(blockx, blocky + 1, blockz, BlocksCommonProxy.wakebloom);
+					world.setBlockState(pos.up(), BlocksCommonProxy.wakebloom.getDefaultState());
 				}
 				return true;
 			}
@@ -87,9 +90,9 @@ public class Grow implements ISpellComponent{
 
 		//EoD: If there is already tallgrass present, let's grow it further 20% of the time.
 		if (block == Blocks.tallgrass){
-			if (Blocks.tallgrass.canBlockStay(world, blockx, blocky + 1, blockz)){
+			if (Blocks.tallgrass.canBlockStay(world, pos.up(), Blocks.tallgrass.getDefaultState())){
 				if (!world.isRemote && world.rand.nextInt(10) < 2){
-					world.setBlock(blockx, blocky, blockz, Blocks.tallgrass, 1, 2);
+					world.setBlockState(pos, Blocks.tallgrass.getStateFromMeta(1), 2);
 				}
 				return true;
 			}
@@ -98,9 +101,9 @@ public class Grow implements ISpellComponent{
 		//EoD: If there is already deadbush present, let's revitalize it 20% of the time.
 		//     This works only on podzol in vanilla MC.
 		if (block == Blocks.deadbush){
-			if (Blocks.tallgrass.canBlockStay(world, blockx, blocky, blockz)){
+			if (Blocks.tallgrass.canBlockStay(world, pos, Blocks.tallgrass.getDefaultState())){
 				if (!world.isRemote && world.rand.nextInt(10) < 2){
-					world.setBlock(blockx, blocky, blockz, Blocks.tallgrass, 1, 2);
+                    world.setBlockState(pos, Blocks.tallgrass.getStateFromMeta(1), 2);
 				}
 				return true;
 			}
@@ -112,10 +115,10 @@ public class Grow implements ISpellComponent{
 			IGrowable igrowable = (IGrowable)block;
 			//AMCore.log.getLogger().info("Grow component found IGrowable");
 
-			if (igrowable.func_149851_a(world, blockx, blocky, blockz, world.isRemote)){
+			if (igrowable.canGrow(world, pos, world.getBlockState(pos), world.isRemote)){
 				if (!world.isRemote && world.rand.nextInt(10) < 3){
-					if (igrowable.func_149852_a(world, world.rand, blockx, blocky, blockz)){
-						igrowable.func_149853_b(world, world.rand, blockx, blocky, blockz);
+					if (igrowable.canUseBonemeal(world, world.rand, pos, world.getBlockState(pos))){
+						igrowable.grow(world, world.rand, pos, world.getBlockState(pos));
 					}
 				}
 				return true;

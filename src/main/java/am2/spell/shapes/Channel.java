@@ -13,6 +13,7 @@ import am2.spell.components.Repel;
 import am2.spell.components.Telekinesis;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class Channel implements ISpellShape{
@@ -23,7 +24,7 @@ public class Channel implements ISpellShape{
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount){
+	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
 		boolean shouldApplyEffect = useCount % 10 == 0 || SpellUtils.instance.componentIsPresent(stack, Telekinesis.class, 0) || SpellUtils.instance.componentIsPresent(stack, Attract.class, 0) || SpellUtils.instance.componentIsPresent(stack, Repel.class, 0);
 		if (shouldApplyEffect){
 			SpellCastResult result = SpellHelper.instance.applyStageToEntity(stack, caster, world, caster, 0, giveXP);
