@@ -138,7 +138,7 @@ public class AMEventHandler{
 	}
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void onEntityDeath(LivingDeathEvent event){
+	public void onEntityDeathChrono(LivingDeathEvent event){
 		EntityLivingBase soonToBeDead = event.entityLiving;
 		if (soonToBeDead.isPotionActive(BuffList.temporalAnchor.id)){
 			event.setCanceled(true);
@@ -150,7 +150,11 @@ public class AMEventHandler{
 			soonToBeDead.removePotionEffect(BuffList.temporalAnchor.id);
 			return;
 		}
+	}
 
+	@SubscribeEvent(priority = EventPriority.LOW)
+	public void onEntityDeath(LivingDeathEvent event){
+		EntityLivingBase soonToBeDead = event.entityLiving;
 		if (ExtendedProperties.For(soonToBeDead).getContingencyType() == ContingencyTypes.DEATH){
 			ExtendedProperties.For(soonToBeDead).procContingency();
 		}
