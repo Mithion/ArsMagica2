@@ -18,6 +18,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -26,12 +28,13 @@ import java.util.List;
 import java.util.Random;
 
 public class Telekinesis implements ISpellComponent{
-	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, enumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		return doTK_Extrapolated(stack, world, impactX, impactY, impactZ, caster);
-	}
 
-	@Override
+    @Override
+    public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+        return doTK_Extrapolated(stack, world, impactX, impactY, impactZ, caster);
+    }
+
+    @Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
 		return doTK_Extrapolated(stack, world, target.posX, target.posY, target.posZ, caster);
 	}
@@ -49,7 +52,7 @@ public class Telekinesis implements ISpellComponent{
 
 		double distance = 16;
 		int hDist = 3;
-		List<Entity> entities = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(impactX - distance, impactY - hDist, impactZ - distance, impactX + distance, impactY + hDist, impactZ + distance));
+		List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(impactX - distance, impactY - hDist, impactZ - distance, impactX + distance, impactY + hDist, impactZ + distance));
 		entities.addAll(world.getEntitiesWithinAABB(EntityXPOrb.class, new AxisAlignedBB(impactX - distance, impactY - hDist, impactZ - distance, impactX + distance, impactY + hDist, impactZ + distance)));
 		for (Entity e : entities){
 			if (e.ticksExisted < 20){

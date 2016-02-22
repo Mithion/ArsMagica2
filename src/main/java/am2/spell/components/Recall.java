@@ -21,7 +21,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
@@ -31,14 +33,12 @@ import java.util.Random;
 
 public class Recall implements ISpellComponent, IRitualInteraction{
 
-	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx,
-									int blocky, int blockz, enumFacing blockFace, double impactX,
-									double impactY, double impactZ, EntityLivingBase caster){
-		return false;
-	}
+    @Override
+    public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+        return false;
+    }
 
-	@Override
+    @Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
 
 		if (!(target instanceof EntityLivingBase)){
@@ -53,13 +53,9 @@ public class Recall implements ISpellComponent, IRitualInteraction{
 			return false;
 		}
 
-		int x = (int)Math.floor(target.posX);
-		int y = (int)Math.floor(target.posY);
-		int z = (int)Math.floor(target.posZ);
-
-		ItemStack[] ritualRunes = RitualShapeHelper.instance.checkForRitual(this, world, x, y, z, false);
+		ItemStack[] ritualRunes = RitualShapeHelper.instance.checkForRitual(this, world, target.getPosition(), false);
 		if (ritualRunes != null){
-			return handleRitualReagents(ritualRunes, world, x, y, z, caster, target);
+			return handleRitualReagents(ritualRunes, world, target.getPosition(), caster, target);
 		}
 
 		ExtendedProperties casterProperties = ExtendedProperties.For(caster);
@@ -78,7 +74,7 @@ public class Recall implements ISpellComponent, IRitualInteraction{
 		return true;
 	}
 
-	private boolean handleRitualReagents(ItemStack[] ritualRunes, World world, int x, int y, int z, EntityLivingBase caster, Entity target){
+	private boolean handleRitualReagents(ItemStack[] ritualRunes, World world, BlockPos pos, EntityLivingBase caster, Entity target){
 
 		boolean hasVinteumDust = false;
 		for (ItemStack stack : ritualRunes){
@@ -90,14 +86,14 @@ public class Recall implements ISpellComponent, IRitualInteraction{
 
 		if (!hasVinteumDust && ritualRunes.length == 3){
 			long key = KeystoneUtilities.instance.getKeyFromRunes(ritualRunes);
-			AMVector3 vector = AMCore.proxy.blocks.getNextKeystonePortalLocation(world, x, y, z, false, key);
-			if (vector == null || vector.equals(new AMVector3(x, y, z))){
+			AMVector3 vector = AMCore.proxy.blocks.getNextKeystonePortalLocation(world, pos, false, key);
+			if (vector == null || vector.equals(new AMVector3(pos.getX(), pos.getY(), pos.getZ()))){
 				if (caster instanceof EntityPlayer && !world.isRemote)
 					((EntityPlayer)caster).addChatMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.noMatchingGate")));
 				return false;
 			}else{
-				RitualShapeHelper.instance.consumeRitualReagents(this, world, x, y, z);
-				RitualShapeHelper.instance.consumeRitualShape(this, world, x, y, z);
+				RitualShapeHelper.instance.consumeRitualReagents(this, world, pos);
+				RitualShapeHelper.instance.consumeRitualShape(this, world, pos);
 				((EntityLivingBase)target).setPositionAndUpdate(vector.x, vector.y - target.height, vector.z);
 				return true;
 			}
@@ -120,11 +116,11 @@ public class Recall implements ISpellComponent, IRitualInteraction{
 					((EntityPlayer)caster).addChatMessage(new ChatComponentText("am2.tooltip.cantSummonSelf"));
 				return false;
 			}else{
-				RitualShapeHelper.instance.consumeRitualReagents(this, world, x, y, z);
-				if (target.worldObj.provider.dimensionId != caster.worldObj.provider.dimensionId){
-					DimensionUtilities.doDimensionTransfer(player, caster.worldObj.provider.dimensionId);
+				RitualShapeHelper.instance.consumeRitualReagents(this, world, pos);
+				if (target.worldObj.provider.getDimensionId() != caster.worldObj.provider.getDimensionId()){
+					DimensionUtilities.doDimensionTransfer(player, caster.worldObj.provider.getDimensionId());
 				}
-				((EntityLivingBase)target).setPositionAndUpdate(x, y, z);
+				((EntityLivingBase)target).setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
 				return true;
 			}
 		}

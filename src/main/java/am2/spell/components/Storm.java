@@ -15,7 +15,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -24,13 +26,13 @@ import java.util.Random;
 
 public class Storm implements ISpellComponent{
 
-	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, enumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		applyEffect(caster, world);
-		return true;
-	}
+    @Override
+    public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+        applyEffect(caster, world);
+        return true;
+    }
 
-	@Override
+    @Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
 		applyEffect(caster, world);
 		return true;
@@ -43,26 +45,28 @@ public class Storm implements ISpellComponent{
 				int xzradius = 50;
 				int random = world.rand.nextInt(100);
 				if (random < 20){
-					int randPosX = (int)caster.posX + world.rand.nextInt(xzradius * 2) - xzradius;
-					int randPosZ = (int)caster.posZ + world.rand.nextInt(xzradius * 2) - xzradius;
-					int posY = (int)caster.posY;
+                    BlockPos pos = caster.getPosition().add(world.rand.nextInt(xzradius * 2) - xzradius, 0, world.rand.nextInt(xzradius * 2) - xzradius);
 
-					while (!world.canBlockSeeTheSky(randPosX, posY, randPosZ)){
-						posY++;
+					while (!world.canBlockSeeSky(pos)){
+                        int y = 0;
+                        y++;
+						pos.up(y);
 					}
-					while (world.getBlock(randPosX, posY - 1, randPosZ) == Blocks.air){
-						posY--;
+					while (world.isAirBlock(pos.down())){
+                        int y = 0;
+                        y++;
+						pos.down(y);
 					}
 
-					EntityLightningBolt bolt = new EntityLightningBolt(world, randPosX, posY, randPosZ);
+					EntityLightningBolt bolt = new EntityLightningBolt(world, pos.getX(), pos.getY(), pos.getZ());
 					world.addWeatherEffect(bolt);
 				}else if (random < 80){
-					List<Entity> entities = world.getEntitiesWithinAABB(IMob.class, caster.boundingBox.expand(xzradius, 10D, xzradius));
+					List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, caster.getEntityBoundingBox().expand(xzradius, 10D, xzradius));
 					if (entities.size() <= 0){
 						return;
 					}
 					Entity target = entities.get(world.rand.nextInt(entities.size()));
-					if (target != null && world.canBlockSeeTheSky((int)target.posX, (int)target.posY, (int)target.posZ)){
+					if (target != null && world.canSeeSky(target.getPosition())){
 						if (caster instanceof EntityPlayer){
 							target.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)caster), 1);
 						}

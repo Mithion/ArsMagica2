@@ -13,22 +13,26 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
+import scala.reflect.internal.Trees;
 
 import java.util.EnumSet;
 import java.util.Random;
 
 public class RandomTeleport implements ISpellComponent{
 
-	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, enumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		return false;
-	}
+    @Override
+    public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+        return false;
+    }
 
-	@Override
+    @Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
 		AMVector3 rLoc = getRandomTeleportLocation(world, stack, caster, target);
 		return teleportTo(rLoc.x, rLoc.y, rLoc.z, target);
@@ -65,11 +69,11 @@ public class RandomTeleport implements ISpellComponent{
 		int k = MathHelper.floor_double(target.posZ);
 		Block l;
 
-		if (target.worldObj.blockExists(i, j, k)){
+		if (!target.worldObj.isAirBlock(new BlockPos(i, j, k))){
 			boolean targetBlockIsSolid = false;
 
 			while (!targetBlockIsSolid && j > 0){
-				l = target.worldObj.getBlock(i, j - 1, k);
+				l = target.worldObj.getBlockState(new BlockPos(i, j, k).down()).getBlock();
 
 				if (l != Blocks.air && l.getMaterial().blocksMovement()){
 					targetBlockIsSolid = true;
@@ -81,7 +85,7 @@ public class RandomTeleport implements ISpellComponent{
 
 			if (targetBlockIsSolid){
 				target.setPosition(target.posX, target.posY, target.posZ);
-				if (target.worldObj.getCollidingBoundingBoxes(target, target.boundingBox).isEmpty()){
+				if (target.worldObj.getCollidingBoundingBoxes(target, target.getEntityBoundingBox()).isEmpty()){
 					locationValid = true;
 				}
 			}
@@ -112,7 +116,7 @@ public class RandomTeleport implements ISpellComponent{
 
 	@Override
 	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
-		world.spawnParticle("portal", target.posX + (rand.nextDouble() - 0.5D) * target.width, target.posY + rand.nextDouble() * target.height - 0.25D, target.posZ + (rand.nextDouble() - 0.5D) * target.width, (rand.nextDouble() - 0.5D) * 2.0D, -rand.nextDouble(), (rand.nextDouble() - 0.5D) * 2.0D);
+		world.spawnParticle(EnumParticleTypes.PORTAL, target.posX + (rand.nextDouble() - 0.5D) * target.width, target.posY + rand.nextDouble() * target.height - 0.25D, target.posZ + (rand.nextDouble() - 0.5D) * target.width, (rand.nextDouble() - 0.5D) * 2.0D, -rand.nextDouble(), (rand.nextDouble() - 0.5D) * 2.0D);
 	}
 
 	@Override

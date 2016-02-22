@@ -17,6 +17,8 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -25,17 +27,17 @@ import java.util.Random;
 public class Rift implements ISpellComponent, IRitualInteraction{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, enumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 
-		if (world.getBlock(blockx, blocky, blockz) == Blocks.mob_spawner){
-			ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, blockx, blocky, blockz);
+		if (world.getBlockState(pos) == Blocks.mob_spawner){
+			ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, pos);
 			if (reagents != null){
 				if (!world.isRemote){
-					world.setBlockToAir(blockx, blocky, blockz);
-					RitualShapeHelper.instance.consumeRitualReagents(this, world, blockx, blocky, blockz);
-					RitualShapeHelper.instance.consumeRitualShape(this, world, blockx, blocky, blockz);
+					world.setBlockToAir(pos);
+					RitualShapeHelper.instance.consumeRitualReagents(this, world, pos);
+					RitualShapeHelper.instance.consumeRitualShape(this, world, pos);
 					EntityItem item = new EntityItem(world);
-					item.setPosition(blockx + 0.5, blocky + 0.5, blockz + 0.5);
+					item.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
 					item.setEntityItemStack(new ItemStack(BlocksCommonProxy.inertSpawner));
 					world.spawnEntityInWorld(item);
 				}else{
@@ -52,18 +54,18 @@ public class Rift implements ISpellComponent, IRitualInteraction{
 		EntityRiftStorage storage = new EntityRiftStorage(world);
 		int storageLevel = Math.min(1 + SpellUtils.instance.countModifiers(SpellModifiers.BUFF_POWER, stack, 0), 3);
 		storage.setStorageLevel(storageLevel);
-		if (blockFace == 1){
-			storage.setPosition(blockx + 0.5, blocky + 1.5, blockz + 0.5);
-		}else if (blockFace == 2){
-			storage.setPosition(blockx + 0.5, blocky + 0.5, blockz - 1.5);
-		}else if (blockFace == 3){
-			storage.setPosition(blockx + 0.5, blocky + 0.5, blockz + 1.5);
-		}else if (blockFace == 4){
-			storage.setPosition(blockx - 1.5, blocky + 0.5, blockz + 0.5);
-		}else if (blockFace == 5){
-			storage.setPosition(blockx + 1.5, blocky + 0.5, blockz + 0.5);
+		if (blockFace == EnumFacing.UP){
+			storage.setPosition(pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5);
+		}else if (blockFace == EnumFacing.NORTH){
+			storage.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() - 1.5);
+		}else if (blockFace == EnumFacing.SOUTH){
+			storage.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 1.5);
+		}else if (blockFace == EnumFacing.EAST){
+			storage.setPosition(pos.getX() - 1.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+		}else if (blockFace == EnumFacing.WEST){
+			storage.setPosition(pos.getX() + 1.5, pos.getY() + 0.5, pos.getZ() + 0.5);
 		}else{
-			storage.setPosition(blockx + 0.5, blocky - 1.5, blockz + 0.5);
+			storage.setPosition(pos.getX() + 0.5, pos.getY() - 1.5, pos.getZ() + 0.5);
 		}
 		world.spawnEntityInWorld(storage);
 		return true;

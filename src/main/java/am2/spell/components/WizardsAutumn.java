@@ -13,6 +13,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -36,7 +38,7 @@ public class WizardsAutumn implements ISpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, enumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing side, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 
 		if (!world.isRemote){
 			int radius = 2;
@@ -44,12 +46,12 @@ public class WizardsAutumn implements ISpellComponent{
 			for (int i = -radius; i <= radius; ++i){
 				for (int j = -radius; j <= radius; ++j){
 					for (int k = -radius; k <= radius; ++k){
-						Block block = world.getBlock(blockx + i, blocky + j, blockz + k);
-						int meta = world.getBlockMetadata(blockx + i, blocky + j, blockz + k);
-						if (block != null && block.isLeaves(world, blockx + i, blocky + j, blockz + k)){
-							if (block.removedByPlayer(world, DummyEntityPlayer.fromEntityLiving(caster), blockx + i, blocky + j, blockz + k)){
-								block.onBlockDestroyedByPlayer(world, blockx + i, blocky + j, blockz + k, meta);
-								block.harvestBlock(world, DummyEntityPlayer.fromEntityLiving(caster), blockx + i, blocky + j, blockz + k, meta);
+						Block block = world.getBlockState(pos.add(i, j, k)).getBlock();
+						int meta = world.getBlockState(pos.add(i, j, k)).getBlock().getMetaFromState(world.getBlockState(pos));
+						if (block != null && block.isLeaves(world, pos.add(i, j, k))){
+							if (block.removedByPlayer(world, pos.add(i, j, k), DummyEntityPlayer.fromEntityLiving(caster), true)){
+								block.onBlockDestroyedByPlayer(world, pos.add(i, j, k), world.getBlockState(pos).getBlock().getStateFromMeta(meta));
+								block.harvestBlock(world, DummyEntityPlayer.fromEntityLiving(caster), pos.add(i, j, k), world.getBlockState(pos).getBlock().getStateFromMeta(meta), world.getTileEntity(pos));
 								//TODO: play sound
 							}
 						}
@@ -62,7 +64,7 @@ public class WizardsAutumn implements ISpellComponent{
 
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
-		return applyEffectBlock(stack, world, (int)Math.floor(target.posX), (int)Math.floor(target.posY), (int)Math.floor(target.posZ), 0, target.posX, target.posY, target.posZ, caster);
+		return applyEffectBlock(stack, world, target.getPosition(), EnumFacing.DOWN, target.posX, target.posY, target.posZ, caster);
 	}
 
 	@Override

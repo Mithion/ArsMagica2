@@ -22,7 +22,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
@@ -135,24 +137,24 @@ public class Summon implements ISpellComponent{
 		return clazz;
 	}
 
-	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, enumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		if (!world.isRemote){
-			if (ExtendedProperties.For(caster).getCanHaveMoreSummons()){
-				if (summonCreature(stack, caster, caster, world, impactX, impactY, impactZ) == null){
-					return false;
-				}
-			}else{
-				if (caster instanceof EntityPlayer){
-					((EntityPlayer)caster).addChatMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.noMoreSummons")));
-				}
-			}
-		}
+    @Override
+    public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing facing, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+        if (!world.isRemote){
+            if (ExtendedProperties.For(caster).getCanHaveMoreSummons()){
+                if (summonCreature(stack, caster, caster, world, impactX, impactY, impactZ) == null){
+                    return false;
+                }
+            }else{
+                if (caster instanceof EntityPlayer){
+                    ((EntityPlayer)caster).addChatMessage(new ChatComponentText(StatCollector.translateToLocal("am2.tooltip.noMoreSummons")));
+                }
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
+    @Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
 
 		if (target instanceof EntityLivingBase && EntityUtilities.isSummon((EntityLivingBase)target))

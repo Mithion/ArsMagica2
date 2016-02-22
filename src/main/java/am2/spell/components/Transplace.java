@@ -20,6 +20,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -28,15 +30,15 @@ import java.util.Random;
 public class Transplace implements ISpellComponent, IRitualInteraction{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, enumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		Block block = world.getBlock(blockx, blocky, blockz);
+	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing side, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+		Block block = world.getBlockState(pos).getBlock();
 		if (!world.isRemote && caster instanceof EntityPlayer && block == BlocksCommonProxy.inertSpawner){
-			ItemStack[] items = RitualShapeHelper.instance.checkForRitual(this, world, blockx, blocky, blockz);
+			ItemStack[] items = RitualShapeHelper.instance.checkForRitual(this, world, pos);
 			if (items != null){
-				RitualShapeHelper.instance.consumeRitualReagents(this, world, blockx, blocky, blockz);
-				RitualShapeHelper.instance.consumeRitualShape(this, world, blockx, blocky, blockz);
-				world.setBlock(blockx, blocky, blockz, BlocksCommonProxy.otherworldAura);
-				TileEntity te = world.getTileEntity(blockx, blocky, blockz);
+				RitualShapeHelper.instance.consumeRitualReagents(this, world, pos);
+				RitualShapeHelper.instance.consumeRitualShape(this, world, pos);
+				world.setBlockState(pos, BlocksCommonProxy.otherworldAura.getDefaultState());
+				TileEntity te = world.getTileEntity(pos);
 				if (te != null && te instanceof TileEntityOtherworldAura){
 					((TileEntityOtherworldAura)te).setPlacedByUsername(((EntityPlayer)caster).getName());
 				}
