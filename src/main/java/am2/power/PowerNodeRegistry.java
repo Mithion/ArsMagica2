@@ -28,11 +28,11 @@ public class PowerNodeRegistry{
 		if (world == null)
 			return dummyRegistry;
 
-		if (dimensionPowerManagers.containsKey(world.provider.dimensionId)){
-			return dimensionPowerManagers.get(world.provider.dimensionId);
+		if (dimensionPowerManagers.containsKey(world.provider.getDimensionId())){
+			return dimensionPowerManagers.get(world.provider.getDimensionId());
 		}else{
 			PowerNodeRegistry reg = new PowerNodeRegistry();
-			dimensionPowerManagers.put(world.provider.dimensionId, reg);
+			dimensionPowerManagers.put(world.provider.getDimensionId(), reg);
 			return reg;
 		}
 
@@ -53,7 +53,7 @@ public class PowerNodeRegistry{
 		ChunkCoordIntPair chunk = getChunkFromNode(node);
 		HashMap<AMVector3, PowerNodeEntry> nodeList;
 		TileEntity te = ((TileEntity)node);
-		World world = te.getWorldObj();
+		World world = te.getWorld();
 
 		if (powerNodes.containsKey(chunk)){
 			nodeList = powerNodes.get(chunk);
@@ -84,7 +84,7 @@ public class PowerNodeRegistry{
 		PowerNodeEntry pnd = new PowerNodeEntry();
 
 		nodeList.put(nodeLoc, pnd);
-		LogHelper.trace("Successfully registered power node at {%d, %d, %d}", ((TileEntity)node).xCoord, ((TileEntity)node).yCoord, ((TileEntity)node).zCoord);
+		LogHelper.trace("Successfully registered power node at {%d, %d, %d}", ((TileEntity)node).getPos().getX(), ((TileEntity)node).getPos().getY(), ((TileEntity)node).getPos().getZ());
 
 		return pnd;
 	}
@@ -134,7 +134,7 @@ public class PowerNodeRegistry{
 
 		for (PowerTypes type : typesProvided){
 			LinkedList<AMVector3> powerPath = new LinkedList<AMVector3>();
-			PowerNodePathfinder pathfinder = new PowerNodePathfinder(((TileEntity)powerSource).getWorldObj(), sourceLocation, destLocation, type);
+			PowerNodePathfinder pathfinder = new PowerNodePathfinder(((TileEntity)powerSource).getWorld(), sourceLocation, destLocation, type);
 			List<AMVector3> path = pathfinder.compute(sourceLocation);
 			if (path == null)
 				continue;
@@ -185,7 +185,7 @@ public class PowerNodeRegistry{
 			return 0;
 		}
 
-		float requested = data.requestPower(((TileEntity)destination).getWorldObj(), type, amount, destination.getCapacity());
+		float requested = data.requestPower(((TileEntity)destination).getWorld(), type, amount, destination.getCapacity());
 
 		return requested;
 	}
@@ -320,13 +320,13 @@ public class PowerNodeRegistry{
 		ArrayList<IPowerNode> nodes = new ArrayList<IPowerNode>();
 		int deadNodesRemoved = 0;
 		for (AMVector3 vector : nodesToSearch.keySet()){
-			if (!world.checkChunksExist((int)vector.x, (int)vector.y, (int)vector.z, (int)vector.x, (int)vector.y, (int)vector.z)){
+			if (!world.isAreaLoaded(vector.toBlockPos(), vector.toBlockPos())){
 				continue;
 			}
-			Chunk chunk = world.getChunkFromBlockCoords((int)vector.x, (int)vector.z);
-			if (!chunk.isChunkLoaded)
+			Chunk chunk = world.getChunkFromBlockCoords(vector.toBlockPos());
+			if (!chunk.isLoaded())
 				continue;
-			TileEntity te = world.getTileEntity((int)vector.x, (int)vector.y, (int)vector.z);
+			TileEntity te = world.getTileEntity(vector.toBlockPos());
 			if (te == null || !(te instanceof IPowerNode)){
 				//opportune time to remove dead power nodes
 				removePowerNode(chunk.getChunkCoordIntPair(), vector);
@@ -375,11 +375,11 @@ public class PowerNodeRegistry{
 
 	private ChunkCoordIntPair getChunkFromNode(IPowerNode node){
 		TileEntity te = (TileEntity)node;
-		if (te.getWorldObj() == null)
+		if (te.getWorld() == null)
 			return null;
-		if (!te.getWorldObj().checkChunksExist(te.xCoord, 0, te.zCoord, te.xCoord, te.getWorldObj().getActualHeight(), te.zCoord))
-			return new ChunkCoordIntPair(te.xCoord >> 4, te.zCoord >> 4);
-		return te.getWorldObj().getChunkFromBlockCoords(te.xCoord, te.zCoord).getChunkCoordIntPair();
+		if (!te.getWorld().isAreaLoaded(te.getPos(), te.getWorld().getActualHeight()))
+			return new ChunkCoordIntPair(te.getPos().getX() >> 4, te.getPos().getZ() >> 4);
+		return te.getWorld().getChunkFromBlockCoords(te.getPos()).getChunkCoordIntPair();
 	}
 
 	private ChunkCoordIntPair getChunkFromPosition(World world, AMVector3 location){
@@ -459,16 +459,16 @@ public class PowerNodeRegistry{
 			TileEntity te1 = (TileEntity)o1;
 			TileEntity te2 = (TileEntity)o2;
 
-			if (te1.xCoord == te2.xCoord && te1.zCoord == te2.zCoord && te1.yCoord == te2.yCoord)
-				return 0;
+            if (te1.getPos().equals(te2.getPos()))
+                return 0;
 
-			if (te1.xCoord > te2.xCoord){
+			if (te1.getPos().getX() > te2.getPos().getZ()){
 				return 1;
 			}else{
-				if (te1.zCoord > te2.zCoord){
+				if (te1.getPos().getZ() > te2.getPos().getZ()){
 					return 1;
 				}else{
-					if (te1.yCoord > te2.yCoord){
+					if (te1.getPos().getY() > te2.getPos().getY()){
 						return 1;
 					}else{
 						return -1;

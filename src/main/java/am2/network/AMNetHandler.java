@@ -107,7 +107,7 @@ public class AMNetHandler{
 
 		byte[] data = new AMDataWriter().add(target.getEntityId()).add(velX).add(velY).add(velZ).generate();
 
-		sendPacketToAllClientsNear(world.provider.dimensionId, target.posX, target.posY, target.posZ, 50, AMPacketIDs.PLAYER_VELOCITY_ADD, data);
+		sendPacketToAllClientsNear(world.provider.getDimensionId(), target.posX, target.posY, target.posZ, 50, AMPacketIDs.PLAYER_VELOCITY_ADD, data);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -153,7 +153,7 @@ public class AMNetHandler{
 			writer.add(boss.getEntityId());
 			writer.add(boss.getCurrentAction().ordinal());
 
-			sendPacketToAllClientsNear(boss.worldObj.provider.dimensionId, boss.posX, boss.posY, boss.posZ, 64, AMPacketIDs.ENTITY_ACTION_UPDATE, writer.generate());
+			sendPacketToAllClientsNear(boss.worldObj.provider.getDimensionId(), boss.posX, boss.posY, boss.posZ, 64, AMPacketIDs.ENTITY_ACTION_UPDATE, writer.generate());
 		}
 	}
 
@@ -164,7 +164,7 @@ public class AMNetHandler{
 		else
 			writer.add(false);
 
-		sendPacketToAllClientsNear(world.provider.dimensionId, x, y, z, 64, AMPacketIDs.STAR_FALL, writer.generate());
+		sendPacketToAllClientsNear(world.provider.getDimensionId(), x, y, z, 64, AMPacketIDs.STAR_FALL, writer.generate());
 	}
 
 	public void sendSilverSkillPointPacket(EntityPlayerMP player){
@@ -180,28 +180,28 @@ public class AMNetHandler{
 		writer.add(caster.getEntityId());
 		writer.add(target.getEntityId());
 
-		sendPacketToAllClientsNear(world.provider.dimensionId, x, y, z, 64, AMPacketIDs.SPELL_APPLY_EFFECT, writer.generate());
+		sendPacketToAllClientsNear(world.provider.getDimensionId(), x, y, z, 64, AMPacketIDs.SPELL_APPLY_EFFECT, writer.generate());
 	}
 
 	public void sendHecateDeathToAllAround(EntityHecate hecate){
 		AMDataWriter writer = new AMDataWriter();
 		writer.add(hecate.posX).add(hecate.posY).add(hecate.posZ);
 
-		sendPacketToAllClientsNear(hecate.worldObj.provider.dimensionId, hecate.posX, hecate.posY, hecate.posZ, 32, AMPacketIDs.HECATE_DEATH, writer.generate());
+		sendPacketToAllClientsNear(hecate.worldObj.provider.getDimensionId(), hecate.posX, hecate.posY, hecate.posZ, 32, AMPacketIDs.HECATE_DEATH, writer.generate());
 	}
 
 	public void syncPowerPaths(IPowerNode node, EntityPlayerMP player){
 		AMDataWriter writer = new AMDataWriter();
-		if (((TileEntity)node).getWorldObj().isRemote){
+		if (((TileEntity)node).getWorld().isRemote){
 			writer.add((byte)0);
-			writer.add(((TileEntity)node).getWorldObj().provider.dimensionId);
-			writer.add(((TileEntity)node).xCoord);
-			writer.add(((TileEntity)node).yCoord);
-			writer.add(((TileEntity)node).zCoord);
+			writer.add(((TileEntity)node).getWorld().provider.getDimensionId());
+			writer.add(((TileEntity)node).getPos().getX());
+			writer.add(((TileEntity)node).getPos().getY());
+			writer.add(((TileEntity)node).getPos().getZ());
 
 			sendPacketToServer(AMPacketIDs.REQUEST_PWR_PATHS, writer.generate());
 		}else{
-			NBTTagCompound compound = PowerNodeRegistry.For(((TileEntity)node).getWorldObj()).getDataCompoundForNode(node);
+			NBTTagCompound compound = PowerNodeRegistry.For(((TileEntity)node).getWorld()).getDataCompoundForNode(node);
 			if (compound != null){
 				writer.add((byte)0);
 				writer.add(compound);
@@ -213,9 +213,9 @@ public class AMNetHandler{
 
 	public void sendImbueToServer(TileEntityArmorImbuer tileEntity, String hoveredID){
 		AMDataWriter writer = new AMDataWriter();
-		writer.add(tileEntity.xCoord);
-		writer.add(tileEntity.yCoord);
-		writer.add(tileEntity.zCoord);
+		writer.add(tileEntity.getPos().getX());
+		writer.add(tileEntity.getPos().getY());
+		writer.add(tileEntity.getPos().getZ());
 		writer.add(hoveredID);
 
 		sendPacketToServer(AMPacketIDs.IMBUE_ARMOR, writer.generate());
@@ -235,10 +235,9 @@ public class AMNetHandler{
 		AMDataWriter writer = new AMDataWriter();
 		writer.add((byte)1);
 		writer.add(powerData);
-		writer.add(te.xCoord);
-		writer.add(te.yCoord);
-		writer.add(te.zCoord);
-
+		writer.add(te.getPos().getX());
+        writer.add(te.getPos().getY());
+        writer.add(te.getPos().getZ());
 		sendPacketToClientPlayer(player, AMPacketIDs.REQUEST_PWR_PATHS, writer.generate());
 	}
 
@@ -273,20 +272,20 @@ public class AMNetHandler{
 
 	public void sendCalefactorCookUpdate(TileEntityCalefactor calefactor, byte[] data){
 		AMDataWriter writer = new AMDataWriter();
-		writer.add(calefactor.xCoord);
-		writer.add(calefactor.yCoord);
-		writer.add(calefactor.zCoord);
+		writer.add(calefactor.getPos().getX());
+		writer.add(calefactor.getPos().getY());
+		writer.add(calefactor.getPos().getZ());
 		writer.add(data);
-		sendPacketToAllClientsNear(calefactor.getWorldObj().provider.dimensionId, calefactor.xCoord, calefactor.yCoord, calefactor.zCoord, 32, AMPacketIDs.CALEFACTOR_DATA, writer.generate());
+		sendPacketToAllClientsNear(calefactor.getWorld().provider.getDimensionId(), calefactor.getPos().getX(), calefactor.getPos().getY(), calefactor.getPos().getZ(), 32, AMPacketIDs.CALEFACTOR_DATA, writer.generate());
 	}
 
 	public void sendObeliskUpdate(TileEntityObelisk obelisk, byte[] data){
 		AMDataWriter writer = new AMDataWriter();
-		writer.add(obelisk.xCoord);
-		writer.add(obelisk.yCoord);
-		writer.add(obelisk.zCoord);
+		writer.add(obelisk.getPos().getX());
+		writer.add(obelisk.getPos().getY());
+		writer.add(obelisk.getPos().getZ());
 		writer.add(data);
-		sendPacketToAllClientsNear(obelisk.getWorldObj().provider.dimensionId, obelisk.xCoord, obelisk.yCoord, obelisk.zCoord, 32, AMPacketIDs.OBELISK_DATA, writer.generate());
+		sendPacketToAllClientsNear(obelisk.getWorld().provider.getDimensionId(), obelisk.getPos().getX(), obelisk.getPos().getY(), obelisk.getPos().getZ(), 32, AMPacketIDs.OBELISK_DATA, writer.generate());
 	}
 
 	public void sendAffinityActivate(){

@@ -25,10 +25,10 @@ public class PowerNodePathfinder extends AStar<AMVector3>{
 	}
 
 	private IPowerNode getPowerNode(World world, AMVector3 location){
-		if (world.checkChunksExist((int)location.x, (int)location.y, (int)location.z, (int)location.x, (int)location.y, (int)location.z)){
-			Chunk chunk = world.getChunkFromBlockCoords((int)location.x, (int)location.z);
-			if (chunk.isChunkLoaded){
-				TileEntity te = world.getTileEntity((int)location.x, (int)location.y, (int)location.z);
+		if (world.isAreaLoaded(location.toBlockPos(), location.toBlockPos())){
+			Chunk chunk = world.getChunkFromBlockCoords(location.toBlockPos());
+			if (chunk.isLoaded()){
+				TileEntity te = world.getTileEntity(location.toBlockPos());
 				if (te instanceof IPowerNode)
 					return (IPowerNode)te;
 			}

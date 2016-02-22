@@ -40,7 +40,7 @@ public class ParticleFleeEntity extends ParticleController{
 			EntityLiving entityliving = (EntityLiving)target;
 			deltaY = posY - (entityliving.posY + (double)entityliving.getEyeHeight());
 		}else{
-			deltaY = (target.boundingBox.minY + target.boundingBox.maxY) / 2D - posY;
+			deltaY = (target.getEntityBoundingBox().minY + target.getEntityBoundingBox().maxY) / 2D - posY;
 		}
 		double horizontalDistance = MathHelper.sqrt_double(deltaX * deltaX + deltaZ * deltaZ);
 		float pitchRotation = (float)(-Math.atan2(deltaY, horizontalDistance));

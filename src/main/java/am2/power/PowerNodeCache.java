@@ -31,15 +31,15 @@ public class PowerNodeCache{
 
 	private File getFileFromChunk(World world, ChunkCoordIntPair chunk, boolean createNew){
 
-		File saveFolder = saveDirs.get(world.provider.dimensionId);
+		File saveFolder = saveDirs.get(world.provider.getDimensionId());
 		if (saveFolder == null){
 			ISaveHandler handler = world.getSaveHandler();
 			if (handler instanceof SaveHandler){
 				saveFolder = new File(((SaveHandler)handler).getWorldDirectory(), folder);
 				saveFolder.mkdirs();
-				saveFolder = new File(saveFolder, String.format("DIM%d", world.provider.dimensionId));
+				saveFolder = new File(saveFolder, String.format("DIM%d", world.provider.getDimensionId()));
 				saveFolder.mkdirs();
-				saveDirs.put(world.provider.dimensionId, saveFolder);
+				saveDirs.put(world.provider.getDimensionId(), saveFolder);
 			}else{
 				return null;
 			}
@@ -76,7 +76,7 @@ public class PowerNodeCache{
 	}
 
 	public NBTTagCompound getNBTForChunk(World world, ChunkCoordIntPair chunk){
-		RegionCoordinates rc = new RegionCoordinates(chunk, world.provider.dimensionId);
+		RegionCoordinates rc = new RegionCoordinates(chunk, world.provider.getDimensionId());
 		if (dataCache.containsKey(rc)){
 			NBTTagCompound compound = dataCache.get(rc);
 			if (compound.hasKey("AM2PowerData"))
@@ -88,7 +88,7 @@ public class PowerNodeCache{
 
 	private void SaveNBTToFile(World world, ChunkCoordIntPair chunk, NBTTagCompound compound, boolean flushImmediate){
 
-		RegionCoordinates rc = new RegionCoordinates(chunk, world.provider.dimensionId);
+		RegionCoordinates rc = new RegionCoordinates(chunk, world.provider.getDimensionId());
 
 		NBTTagCompound dataCompound = dataCache.get(rc);
 
@@ -127,7 +127,7 @@ public class PowerNodeCache{
 
 	private NBTTagCompound LoadNBTFromFile(World world, ChunkCoordIntPair chunk){
 
-		RegionCoordinates rc = new RegionCoordinates(chunk, world.provider.dimensionId);
+		RegionCoordinates rc = new RegionCoordinates(chunk, world.provider.getDimensionId());
 
 		NBTTagCompound dataCompound = dataCache.get(rc);
 
@@ -211,13 +211,13 @@ public class PowerNodeCache{
 		if (world.isRemote)
 			return;
 
-		LogHelper.trace("Saving all cached power data for DIM %d to disk", world.provider.dimensionId);
+		LogHelper.trace("Saving all cached power data for DIM %d to disk", world.provider.getDimensionId());
 
 		//cached data to file
 		Iterator<RegionCoordinates> it = dataCache.keySet().iterator();
 		while (it.hasNext()){
 			RegionCoordinates rc = it.next();
-			if (rc.dimension == world.provider.dimensionId){
+			if (rc.dimension == world.provider.getDimensionId()){
 				it.remove();
 			}
 		}
@@ -228,7 +228,7 @@ public class PowerNodeCache{
 			SaveNBTToFile(world, pair, saveData.get(pair), true);
 		}
 		PowerNodeRegistry.For(world).unloadAll();
-		saveDirs.remove(world.provider.dimensionId);
+		saveDirs.remove(world.provider.getDimensionId());
 	}
 
 	private String getPNDIdentifier(ChunkCoordIntPair chunk){

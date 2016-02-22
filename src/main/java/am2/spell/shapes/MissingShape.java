@@ -6,6 +6,7 @@ import am2.api.spell.enums.Affinity;
 import am2.api.spell.enums.SpellCastResult;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class MissingShape implements ISpellShape{
@@ -15,12 +16,12 @@ public class MissingShape implements ISpellShape{
 		return -1;
 	}
 
-	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount){
-		return SpellCastResult.EFFECT_FAILED;
-	}
+    @Override
+    public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount) {
+        return SpellCastResult.EFFECT_FAILED;
+    }
 
-	@Override
+    @Override
 	public boolean isChanneled(){
 		return false;
 	}

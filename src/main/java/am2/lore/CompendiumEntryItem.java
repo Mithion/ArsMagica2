@@ -77,7 +77,7 @@ public class CompendiumEntryItem extends CompendiumEntry{
 
 		String[] split = searchID.split(":");
 		if (split.length == 2){
-			return GameRegistry.findItemStack(split[0], split[1], 1);
+			//return GameRegistry.findItemStack(split[0], split[1], 1);
 		}else{
 			for (Item item : AMCore.instance.proxy.items.getArsMagicaItems()){
 				if (item.getUnlocalizedName() == null) continue;

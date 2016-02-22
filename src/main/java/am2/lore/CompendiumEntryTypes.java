@@ -59,7 +59,7 @@ public class CompendiumEntryTypes{
 		};
 	}
 
-	public void initTextures(){
+	/*public void initTextures(){
 		GUIDE.setRepresentIcon(ItemsCommonProxy.arcaneCompendium.getIconFromDamage(0));
 		MECHANIC.setRepresentIcon(ItemsCommonProxy.magitechGoggles.getIconFromDamage(0));
 		ITEM.setRepresentIcon(ItemsCommonProxy.essence.getIconFromDamage(ItemsCommonProxy.essence.META_ICE));
@@ -74,7 +74,7 @@ public class CompendiumEntryTypes{
 		BOSS.setRepresentIcon(AMGuiIcons.evilBook);
 
 		initialized = true;
-	}
+	}*/
 
 	public static CompendiumEntryType getForSection(String category, String node){
 		for (CompendiumEntryType type : instance.allValues()){

@@ -11,6 +11,7 @@ import am2.spell.SpellHelper;
 import am2.spell.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class Self implements ISpellShape{
@@ -21,14 +22,14 @@ public class Self implements ISpellShape{
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount){
+	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
 		SpellCastResult result = SpellHelper.instance.applyStageToEntity(stack, caster, world, caster, 0, giveXP);
 		if (result != SpellCastResult.SUCCESS){
 			return result;
 		}
 
 		ItemStack newItemStack = SpellUtils.instance.popStackStage(stack);
-		return SpellHelper.instance.applyStackStage(newItemStack, caster, target, x, y, z, 0, world, true, giveXP, 0);
+		return SpellHelper.instance.applyStackStage(newItemStack, caster, target, x, y, z, EnumFacing.DOWN, world, true, giveXP, 0);
 	}
 
 	@Override

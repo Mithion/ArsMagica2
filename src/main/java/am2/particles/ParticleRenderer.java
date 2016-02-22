@@ -1,5 +1,7 @@
 package am2.particles;
 
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraft.client.Minecraft;
@@ -16,7 +18,7 @@ import org.lwjgl.opengl.GL11;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ParticleRenderer{
+public class ParticleRenderer{ // TODO fix this stuff
 
 	public static String name = "am2-particle";
 	private final ArrayList<EntityFX> particles;
@@ -150,7 +152,7 @@ public class ParticleRenderer{
 	private void render(float partialTicks){
 		Minecraft.getMinecraft().mcProfiler.startSection(name + "-render");
 
-		EntityLivingBase player = Minecraft.getMinecraft().renderViewEntity;
+		Entity player = Minecraft.getMinecraft().getRenderViewEntity();
 		EntityFX.interpPosX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
 		EntityFX.interpPosY = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
 		EntityFX.interpPosZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
@@ -164,7 +166,7 @@ public class ParticleRenderer{
 		renderBlockParticles(partialTicks);
 
 		// bind the texture
-		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationItemsTexture);
+		//Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationItemsTexture);
 
 		//============================================================================================
 		// Standard Particles
@@ -186,11 +188,11 @@ public class ParticleRenderer{
 	}
 
 	private void renderStandardParticles(float partialTicks){
-		float rotationX = ActiveRenderInfo.rotationX;
-		float rotationZ = ActiveRenderInfo.rotationZ;
-		float rotationYZ = ActiveRenderInfo.rotationYZ;
-		float rotationXY = ActiveRenderInfo.rotationXY;
-		float rotationXZ = ActiveRenderInfo.rotationXZ;
+		float rotationX = ActiveRenderInfo.getRotationX();
+		float rotationZ = ActiveRenderInfo.getRotationZ();
+		float rotationYZ = ActiveRenderInfo.getRotationYZ();
+		float rotationXY = ActiveRenderInfo.getRotationXY();
+		float rotationXZ = ActiveRenderInfo.getRotationXZ();
 
 		// save the old gl state
 		GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
@@ -206,7 +208,7 @@ public class ParticleRenderer{
 		//GL11.glRotatef(180F - RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
 		//GL11.glRotatef(-RenderManager.instance.playerViewX, 1.0F, 0.0F, 0.0F);
 
-		Tessellator tessellator = Tessellator.instance;
+		/*WorldRenderer tessellator = Tessellator.getInstance().getWorldRenderer();
 		tessellator.startDrawingQuads();
 
 		for (EntityFX particle : particles){
@@ -215,18 +217,18 @@ public class ParticleRenderer{
 			particle.renderParticle(tessellator, partialTicks, rotationX, rotationXZ, rotationZ, rotationYZ, rotationXY);
 		}
 
-		tessellator.draw();
+		tessellator.draw();*/
 
 		// restore previous gl state
 		GL11.glPopAttrib();
 	}
 
 	private void renderBlockParticles(float partialTicks){
-		float rotationX = ActiveRenderInfo.rotationX;
-		float rotationZ = ActiveRenderInfo.rotationZ;
-		float rotationYZ = ActiveRenderInfo.rotationYZ;
-		float rotationXY = ActiveRenderInfo.rotationXY;
-		float rotationXZ = ActiveRenderInfo.rotationXZ;
+		float rotationX = ActiveRenderInfo.getRotationX();
+		float rotationZ = ActiveRenderInfo.getRotationZ();
+		float rotationYZ = ActiveRenderInfo.getRotationYZ();
+		float rotationXY = ActiveRenderInfo.getRotationXY();
+		float rotationXZ = ActiveRenderInfo.getRotationXZ();
 
 		// save the old gl state
 		GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
@@ -242,7 +244,7 @@ public class ParticleRenderer{
 		//GL11.glRotatef(180F - RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
 		//GL11.glRotatef(-RenderManager.instance.playerViewX, 1.0F, 0.0F, 0.0F);
 
-		Tessellator tessellator = Tessellator.instance;
+		/*Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
 
 		for (EntityFX particle : blocks){
@@ -251,18 +253,18 @@ public class ParticleRenderer{
 			particle.renderParticle(tessellator, partialTicks, rotationX, rotationXZ, rotationZ, rotationYZ, rotationXY);
 		}
 
-		tessellator.draw();
+		tessellator.draw();*/ // TODO FUCKING TESSELLATOR
 
 		// restore previous gl state
 		GL11.glPopAttrib();
 	}
 
 	private void renderRadiants(float partialTicks){
-		float rotationX = ActiveRenderInfo.rotationX;
-		float rotationZ = ActiveRenderInfo.rotationZ;
-		float rotationYZ = ActiveRenderInfo.rotationYZ;
-		float rotationXY = ActiveRenderInfo.rotationXY;
-		float rotationXZ = ActiveRenderInfo.rotationXZ;
+		float rotationX = ActiveRenderInfo.getRotationX();
+		float rotationZ = ActiveRenderInfo.getRotationZ();
+		float rotationYZ = ActiveRenderInfo.getRotationYZ();
+		float rotationXY = ActiveRenderInfo.getRotationXY();
+		float rotationXZ = ActiveRenderInfo.getRotationXZ();
 
 		// save the old gl state
 		GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
@@ -275,13 +277,13 @@ public class ParticleRenderer{
 		GL11.glDisable(GL11.GL_ALPHA_TEST);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glDepthMask(false);
-		Tessellator tessellator = Tessellator.instance;
+		/*Tessellator tessellator = Tessellator.instance;
 
 		for (EntityFX particle : radiants){
 			tessellator.setBrightness(particle.getBrightnessForRender(partialTicks));
 
 			particle.renderParticle(tessellator, partialTicks, rotationX, rotationXZ, rotationZ, rotationYZ, rotationXY);
-		}
+		}*/
 
 		// restore previous gl state
 		GL11.glPopAttrib();
@@ -296,13 +298,13 @@ public class ParticleRenderer{
 	}
 
 	private void renderArcs(float partialTicks){
-		float rotationX = ActiveRenderInfo.rotationX;
-		float rotationZ = ActiveRenderInfo.rotationZ;
-		float rotationYZ = ActiveRenderInfo.rotationYZ;
-		float rotationXY = ActiveRenderInfo.rotationXY;
-		float rotationXZ = ActiveRenderInfo.rotationXZ;
+		float rotationX = ActiveRenderInfo.getRotationX();
+		float rotationZ = ActiveRenderInfo.getRotationZ();
+		float rotationYZ = ActiveRenderInfo.getRotationYZ();
+		float rotationXY = ActiveRenderInfo.getRotationXY();
+		float rotationXZ = ActiveRenderInfo.getRotationXZ();
 
-		Tessellator tessellator = Tessellator.instance;
+		/*Tessellator tessellator = Tessellator.instance;
 
 		GL11.glDepthMask(false);
 		GL11.glEnable(3042);
@@ -313,7 +315,7 @@ public class ParticleRenderer{
 			tessellator.setBrightness(15728864);
 
 			particle.renderParticle(tessellator, partialTicks, rotationX, rotationXZ, rotationZ, rotationYZ, rotationXY);
-		}
+		}*/
 
 		GL11.glEnable(2884);
 		GL11.glDisable(3042);

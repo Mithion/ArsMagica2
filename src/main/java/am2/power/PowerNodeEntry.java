@@ -77,17 +77,17 @@ public class PowerNodeEntry{
 	private boolean validatePath(World world, LinkedList<AMVector3> path){
 		for (AMVector3 vec : path){
 			//power can't transfer through unloaded chunks!
-			Chunk chunk = world.getChunkFromBlockCoords((int)vec.x, (int)vec.z);
-			if (!chunk.isChunkLoaded)
+			Chunk chunk = world.getChunkFromBlockCoords(vec.toBlockPos());
+			if (!chunk.isLoaded())
 				return false;
-			TileEntity te = world.getTileEntity((int)vec.x, (int)vec.y, (int)vec.z);
+			TileEntity te = world.getTileEntity(vec.toBlockPos());
 			//if valid, continue the loop, otherwise return false.
 			if (te != null && te instanceof IPowerNode)
 				continue;
 
 			//set a marker block to say that a conduit or other power relay of some sort was here and is now not
-			if (!world.isRemote && world.isAirBlock((int)vec.x, (int)vec.y, (int)vec.z)){
-				world.setBlock((int)vec.x, (int)vec.y, (int)vec.z, BlocksCommonProxy.brokenLinkBlock);
+			if (!world.isRemote && world.isAirBlock(vec.toBlockPos())){
+				world.setBlockState(vec.toBlockPos(), BlocksCommonProxy.brokenLinkBlock.getDefaultState());
 			}
 
 			return false;
@@ -100,7 +100,7 @@ public class PowerNodeEntry{
 		if (!validatePath(world, path))
 			return 0f;
 		AMVector3 end = path.getLast();
-		TileEntity te = world.getTileEntity((int)end.x, (int)end.y, (int)end.z);
+		TileEntity te = world.getTileEntity(end.toBlockPos());
 		if (te != null && te instanceof IPowerNode){
 			if (((IPowerNode)te).canProvidePower(type)){
 				return PowerNodeRegistry.For(world).consumePower(((IPowerNode)te), type, amount);

@@ -11,6 +11,7 @@ import am2.spell.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class Projectile implements ISpellShape{
@@ -21,7 +22,7 @@ public class Projectile implements ISpellShape{
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount){
+	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
 		if (!world.isRemote){
 			double projectileSpeed = SpellUtils.instance.getModifiedDouble_Mul(SpellModifiers.SPEED, stack, caster, target, world, 0);
 			double projectileGravity = SpellUtils.instance.getModifiedDouble_Add(SpellModifiers.GRAVITY, stack, caster, target, world, 0);
