@@ -18,6 +18,8 @@ import net.minecraftforge.event.terraingen.TerrainGen;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.security.auth.callback.ConfirmationCallback;
+
 import static net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.LAKE;
 
 public class AM2WorldDecorator implements IWorldGenerator{
@@ -44,6 +46,11 @@ public class AM2WorldDecorator implements IWorldGenerator{
 	//pools
 	private final AM2PoolGen pools;
 	private final WorldGenEssenceLakes lakes;
+	
+	//config
+	private int witchChance = AMCore.config.getWitchwoodFrequency();
+	private int poolChance = AMCore.config.getPoolFrequency();
+	private int wakeChance = AMCore.config.getWakebloomFrequency();
 
 	public AM2WorldDecorator(){
 
@@ -115,15 +122,15 @@ public class AM2WorldDecorator implements IWorldGenerator{
 			}
 		}
 
-		if (biome != BiomeGenBase.ocean && typeValid && random.nextInt(10) < 7){
+		if (biome != BiomeGenBase.ocean && typeValid && random.nextInt(wakeChance) < 7){
 			generateFlowers(wakebloom, world, random, chunkX, chunkZ);
 		}
 
-		if (random.nextInt(35) == 0){
+		if (random.nextInt(witchChance) == 0){
 			generateTree(witchwoodTree, world, random, chunkX, chunkZ);
 		}
 
-		if (random.nextInt(25) == 0){
+		if (random.nextInt(poolChance) == 0){
 			generatePools(world, random, chunkX, chunkZ);
 		}
 

@@ -77,6 +77,11 @@ public class AMConfig extends Configuration{
 	private final String KEY_EnableWitchwoodForest = "Enable_Witchwood_Forests";
 
 	private final String KEY_allowCreativeTargets = "Allow_Creative_Targets";
+	
+	private final String KEY_WitchwoodFrequency = "WitchwoodFrequency";
+	private final String KEY_EssenceLakeFrequency = "EssenceLakeFrequency";
+	private final String KEY_WakebloomFrequency = "WakebloomFrequency";
+	private final String KEY_FlowerGenAttempts = "FlowerGenAttempts";
 
 	/**
 	 * Beta Particles
@@ -230,6 +235,11 @@ public class AMConfig extends Configuration{
 	private boolean allowCompendiumUpdates;
 	private boolean allowVersionChecks;
 	private boolean canDryadsDespawn;
+	
+	private int witchwoodFrequency;
+	private int poolFrequency;
+	private int wakebloomFrequency;
+	private int flowerGenAttempts;
 
 
 	public static final String DEFAULT_LANGUAGE = "en_US";
@@ -244,8 +254,8 @@ public class AMConfig extends Configuration{
 
 	public void init(){
 
-		PlayerSpellsDamageTerrain = get(CATEGORY_GENERAL, KEY_PlayerSpellsDamageTerrain, true).getBoolean(true);
-		NPCSpellsDamageTerrain = get(CATEGORY_GENERAL, KEY_NPCSpellsDamageTerrain, false).getBoolean(false);
+		PlayerSpellsDamageTerrain = get(CATEGORY_GENERAL, KEY_PlayerSpellsDamageTerrain, true, "Set to false to prevent terrain damage from player-casted spells.").getBoolean(true);
+		NPCSpellsDamageTerrain = get(CATEGORY_GENERAL, KEY_NPCSpellsDamageTerrain, false, "Set to false to prevent terrain damage from NPC-casted spells.").getBoolean(false);
 
 		DamageMultiplier = (float)get(CATEGORY_GENERAL, KEY_DamageMultiplier, 1.0, "How much the damage in Ars Magica is scaled.").getDouble(1.0);
 
@@ -291,7 +301,7 @@ public class AMConfig extends Configuration{
 		showXPAlways = get(CATEGORY_UI, KEY_ShowXPAlways, false).getBoolean(false);
 		showHudBars = get(CATEGORY_UI, KEY_ShowHUDBars, true).getBoolean(true);
 
-		witchwoodForestID = get(CATEGORY_GENERAL, KEY_WitchwoodForestBiomeID, 100).getInt();
+		witchwoodForestID = get(CATEGORY_GENERAL, KEY_WitchwoodForestBiomeID, 100, "The biome ID for Witchwood Forests. Change this if you run into issues with other mods that add biomes.").getInt();
 		witchwoodLeafParticles = get(CATEGORY_GENERAL, KEY_witchwoodLeavesFall, true, "Disable this if you experience low FPS in witchwood forests").getBoolean(true);
 		enableWitchwoodForest = get(CATEGORY_GENERAL, KEY_EnableWitchwoodForest, true, "Disable this if you prefer the witchwood forest to not generate").getBoolean(true);
 		witchwoodForestRarity = get(CATEGORY_GENERAL, KEY_WitchwoodForestRarity, 6, "Sets how rare witchwood forests are.  Lower is more rare.").getInt();
@@ -304,7 +314,7 @@ public class AMConfig extends Configuration{
 
 		forgeSmeltsVillagers = get(CATEGORY_GENERAL, KEY_ForgeSmeltsVillagers, true, "Set this to true to have the forge component smelt villagers into emeralds.  This counts as an attack and lowers your reputation.").getBoolean(true);
 
-		everstoneRepairRate = get(CATEGORY_GENERAL, KEY_EverstoneRepairRate, 180).getInt();
+		everstoneRepairRate = get(CATEGORY_GENERAL, KEY_EverstoneRepairRate, 180, "The time taken, in ticks, for an everstone to repair after breaking.").getInt();
 
 		stagedCompendium = get(CATEGORY_GENERAL, KEY_StagedCompendium, true, "Set this to false to have the compendium show everything, and not unlock as you go.").getBoolean(true);
 
@@ -328,6 +338,11 @@ public class AMConfig extends Configuration{
 		savePowerOnWorldSave = get(CATEGORY_GENERAL, KEY_SavePowerOnWorldSave, true, "Set this to false if you are experiencing tick lage due to AM2 saving power data alongside the world save.  This will instead cache the power data in memory to be saved later.  This comes with more risk in the event of a crash, and a larger memory footprint, but increased performance. Can be used alongside chunk unload save config. Power data is still always saved at world unload (server shutdown).").getBoolean(true);
 
 		canDryadsDespawn = get(CATEGORY_MOBS, KEY_CanDryadsDespawn, true, "Set this to false if you don't want dryads to despawn.").getBoolean(true);
+		
+		witchwoodFrequency = get(CATEGORY_GENERAL, KEY_WitchwoodFrequency, 35, "The chance of a witchwood tree generating. Lower numbers give more trees.").getInt(35);
+		poolFrequency = get(CATEGORY_GENERAL, KEY_EssenceLakeFrequency, 25, "The chance of an etherium pool generating. Lower numbers give more pools.").getInt(25);
+		wakebloomFrequency = get(CATEGORY_GENERAL, KEY_WakebloomFrequency, 10, "The chance of a wakebloom generating. Lower numbers give more wakeblooms, and anything less than 7 will attempt to generate in every ocean chunk.").getInt(10);
+		flowerGenAttempts = get(CATEGORY_GENERAL, KEY_FlowerGenAttempts, 8, "The number of flower generation attempts made per chunk. Higher numbers give more flowers, but can slow worldgen.").getInt(8);
 
 		enderAffinityAbilityCooldown = get(CATEGORY_GENERAL, KEY_EnderAffinityAbilityCooldown, 100, "Set this to the number of ticks between ender affinity teleports.").getInt();
 
@@ -654,6 +669,22 @@ public class AMConfig extends Configuration{
 
 	public boolean getAllowCreativeTargets(){
 		return this.allowCreativeTargets;
+	}
+	
+	public int getWitchwoodFrequency(){
+		return this.witchwoodFrequency;
+	}
+	
+	public int getPoolFrequency(){
+		return this.poolFrequency;
+	}
+	
+	public int getWakebloomFrequency(){
+		return this.wakebloomFrequency;
+	}
+	
+	public int getFlowerGenAttempts(){
+		return this.flowerGenAttempts;
 	}
 
 	//====================================================================================
