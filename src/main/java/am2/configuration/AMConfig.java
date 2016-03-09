@@ -82,7 +82,27 @@ public class AMConfig extends Configuration{
 	private final String KEY_EssenceLakeFrequency = "EssenceLakeFrequency";
 	private final String KEY_WakebloomFrequency = "WakebloomFrequency";
 	private final String KEY_FlowerGenAttempts = "FlowerGenAttempts";
-
+	
+	private final String KEY_VinteumMin = "VinteumMinHeight";
+	private final String KEY_VinteumMax = "VinteumMaxHeight";
+	private final String KEY_VinteumVein = "VinteumVeinSize";
+	private final String KEY_VinteumFreq = "VinteumFrequency";
+	
+	private final String KEY_ChimeriteMin = "ChimeriteMinHeight";
+	private final String KEY_ChimeriteMax = "ChimeriteMaxHeight";
+	private final String KEY_ChimeriteVein = "ChimeriteVeinSize";
+	private final String KEY_ChimeriteFreq = "ChimeriteFrequency";
+	
+	private final String KEY_TopazMin = "TopazMinHeight";
+	private final String KEY_TopazMax = "TopazMaxHeight";
+	private final String KEY_TopazVein = "TopazVeinSize";
+	private final String KEY_TopazFreq = "TopazFrequency";
+	
+	private final String KEY_SunstoneMin = "SunstoneMinHeight";
+	private final String KEY_SunstoneMax = "SunstoneMaxHeight";
+	private final String KEY_SunstoneVein = "SunstoneVeinSize";
+	private final String KEY_SunstoneFreq = "SunstoneFrequency";
+	
 	/**
 	 * Beta Particles
 	 **/
@@ -240,6 +260,26 @@ public class AMConfig extends Configuration{
 	private int poolFrequency;
 	private int wakebloomFrequency;
 	private int flowerGenAttempts;
+	
+	private int vinteumMinHeight;
+	private int vinteumMaxHeight;
+	private int vinteumVeinSize;
+	private int vinteumFrequency;
+	
+	private int chimeriteMinHeight;
+	private int chimeriteMaxHeight;
+	private int chimeriteVeinSize;
+	private int chimeriteFrequency;
+	
+	private int topazMinHeight;
+	private int topazMaxHeight;
+	private int topazVeinSize;
+	private int topazFrequency;
+	
+	private int sunstoneMinHeight;
+	private int sunstoneMaxHeight;
+	private int sunstoneVeinSize;
+	private int sunstoneFrequency;
 
 
 	public static final String DEFAULT_LANGUAGE = "en_US";
@@ -343,7 +383,27 @@ public class AMConfig extends Configuration{
 		poolFrequency = get(CATEGORY_GENERAL, KEY_EssenceLakeFrequency, 25, "The chance of an etherium pool generating. Lower numbers give more pools.").getInt(25);
 		wakebloomFrequency = get(CATEGORY_GENERAL, KEY_WakebloomFrequency, 10, "The chance of a wakebloom generating. Lower numbers give more wakeblooms, and anything less than 7 will attempt to generate in every ocean chunk.").getInt(10);
 		flowerGenAttempts = get(CATEGORY_GENERAL, KEY_FlowerGenAttempts, 8, "The number of flower generation attempts made per chunk. Higher numbers give more flowers, but can slow worldgen.").getInt(8);
-
+		
+		vinteumMinHeight = get(CATEGORY_GENERAL, KEY_VinteumMin, 10, "The minimum height for vinteum to generate.").getInt(10);
+		vinteumMaxHeight = get(CATEGORY_GENERAL, KEY_VinteumMax, 45, "The maximum height for vinteum to generate.").getInt(45);
+		vinteumVeinSize = get(CATEGORY_GENERAL, KEY_VinteumVein, 4, "The number of blocks in a vein of vinteum.").getInt(4);
+		vinteumFrequency = get(CATEGORY_GENERAL, KEY_VinteumFreq, 6, "The number of vinteum veins generated per chunk.").getInt(6);
+		
+		chimeriteMinHeight = get(CATEGORY_GENERAL, KEY_ChimeriteMin, 10, "The minimum height for chimerite to generate.").getInt(10);
+		chimeriteMaxHeight = get(CATEGORY_GENERAL, KEY_ChimeriteMax, 80, "The maximum height for chimerite to generate.").getInt(80);
+		chimeriteVeinSize = get(CATEGORY_GENERAL, KEY_ChimeriteVein, 6, "The number of blocks in a vein of chimerite.").getInt(6);
+		chimeriteFrequency = get(CATEGORY_GENERAL, KEY_ChimeriteFreq, 8, "The number of chimerite veins generated per chunk.").getInt(6);
+		
+		topazMinHeight = get(CATEGORY_GENERAL, KEY_TopazMin, 10, "The minimum height for topaz to generate.").getInt(10);
+		topazMaxHeight = get(CATEGORY_GENERAL, KEY_TopazMax, 80, "The maximum height for topaz to generate.").getInt(80);
+		topazVeinSize = get(CATEGORY_GENERAL, KEY_TopazVein, 6, "The number of blocks in a vein of topaz.").getInt(6);
+		topazFrequency = get(CATEGORY_GENERAL, KEY_TopazFreq, 8, "The number of topaz veins generated per chunk.").getInt(8);
+		
+		sunstoneMinHeight = get(CATEGORY_GENERAL, KEY_SunstoneMin, 5, "The minimum height for sunstone to generate.").getInt(5);
+		sunstoneMaxHeight = get(CATEGORY_GENERAL, KEY_SunstoneMax, 120, "The maximum height for sunstone to generate.").getInt(120);
+		sunstoneVeinSize = get(CATEGORY_GENERAL, KEY_SunstoneVein, 3, "The number of blocks in a vein of sunstone.").getInt(3);
+		sunstoneFrequency = get(CATEGORY_GENERAL, KEY_SunstoneFreq, 20, "The number of sunstone veins generated per chunk.").getInt(20);
+		
 		enderAffinityAbilityCooldown = get(CATEGORY_GENERAL, KEY_EnderAffinityAbilityCooldown, 100, "Set this to the number of ticks between ender affinity teleports.").getInt();
 
 		String digBlacklistString = get(CATEGORY_GENERAL, KEY_DigDisabledBlocks, "", "Comma-separated list of block IDs that dig cannot break.  If a block is flagged as unbreackable in code, Dig will already be unable to break it.  There is no need to set it here (eg, bedrock, etc.).  Dig also makes use of Forge block harvest checks.  This is mainly for fine-tuning.").getString();
@@ -685,6 +745,70 @@ public class AMConfig extends Configuration{
 	
 	public int getFlowerGenAttempts(){
 		return this.flowerGenAttempts;
+	}
+	
+	public int getVinteumMinHeight(){
+		return this.vinteumMinHeight;
+	}
+	
+	public int getVinteumMaxHeight(){
+		return this.vinteumMaxHeight;
+	}
+	
+	public int getVinteumVeinSize(){
+		return this.vinteumVeinSize;
+	}
+	
+	public int getVinteumFrequency(){
+		return this.vinteumFrequency;
+	}
+	
+	public int getChimeriteMinHeight(){
+		return this.chimeriteMinHeight;
+	}
+	
+	public int getChimeriteMaxHeight(){
+		return this.chimeriteMaxHeight;
+	}
+	
+	public int getChimeriteVeinSize(){
+		return this.chimeriteVeinSize;
+	}
+	
+	public int getChimeriteFrequency(){
+		return this.chimeriteFrequency;
+	}
+	
+	public int getTopazMinHeight(){
+		return this.vinteumMinHeight;
+	}
+	
+	public int getTopazMaxHeight(){
+		return this.vinteumMaxHeight;
+	}
+	
+	public int getTopazVeinSize(){
+		return this.vinteumVeinSize;
+	}
+	
+	public int getTopazFrequency(){
+		return this.vinteumFrequency;
+	}
+	
+	public int getSunstoneMinHeight(){
+		return this.sunstoneMinHeight;
+	}
+	
+	public int getSunstoneMaxHeight(){
+		return this.sunstoneMaxHeight;
+	}
+	
+	public int getSunstoneVeinSize(){
+		return this.sunstoneVeinSize;
+	}
+	
+	public int getSunstoneFrequency(){
+		return this.sunstoneFrequency;
 	}
 
 	//====================================================================================
