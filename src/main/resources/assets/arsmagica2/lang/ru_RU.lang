@@ -63,7 +63,7 @@ item.arsmagica2:enderEssence.name=Эссенция Края
 item.arsmagica2:essence_bag.name=Мешочек эссенции
 item.arsmagica2:evilBook.name=Зловещая книга
 item.arsmagica2:fireEssence.name=Огненная эссенция
-item.arsmagica2:fire_ears.name=§6Щупальце огня хранителя§f
+item.arsmagica2:fire_ears.name=§6Щупальце Хранителя Огня§f
 item.arsmagica2:flickerJar.name=Мерцающий кувшин: %s
 item.arsmagica2:grayRune.name=Серая руна
 item.arsmagica2:greaterfocus.name=Большой фокус
@@ -90,12 +90,12 @@ item.arsmagica2:lightningcharm.name=§6Амулет молний§f
 item.arsmagica2:limeRune.name=Лаймовая руна
 item.arsmagica2:liquidEssenceBucket.name=Ведро жидкого эфириума
 item.arsmagica2:magentaRune.name=Фиолетовая руна
-item.arsmagica2:magic_broom.name=магической метлы
+item.arsmagica2:magic_broom.name=Волшебная метла
 item.arsmagica2:magitechGoggles.name=Очки техномага
 item.arsmagica2:manaScepter.name=Скипетр маны
 item.arsmagica2:mana_boost_potion.name=Зелье наполненное эфириумом
 item.arsmagica2:mana_cake.name=Торт маны
-item.arsmagica2:mana_potion_epic.name=Очень большое зелье маны
+item.arsmagica2:mana_potion_epic.name=Эпическоезелье маны
 item.arsmagica2:mana_potion_greater.name=Большое зелье маны
 item.arsmagica2:mana_potion_legendary.name=Легендарное зелье маны
 item.arsmagica2:mana_potion_lesser.name=Малое зелье маны
@@ -262,11 +262,11 @@ am2.spell.beam=Луч
 am2.spell.binding=Связь
 am2.spell.chain=Цепь
 am2.spell.channel=Канал
-am2.spell.contingency_damage=Случайный эффект:: Урон
-am2.spell.contingency_death=Случайный эффект:: Смерть
-am2.spell.contingency_fall=Случайный эффект: Падение
-am2.spell.contingency_fire=Случайный эффект:: Огонь
-am2.spell.contingency_health=Случайный эффект:: Жизнь
+am2.spell.contingency_damage=Условие:: Урон
+am2.spell.contingency_death=Условие:: Смерть
+am2.spell.contingency_fall=Условие: Падение
+am2.spell.contingency_fire=Условие:: Огонь
+am2.spell.contingency_health=Условие:: Жизнь
 am2.spell.projectile=Снаряд
 am2.spell.rune=Руна
 am2.spell.self=На себя
@@ -286,8 +286,8 @@ am2.spell.fury=Ярость
 am2.spell.manalink=Соединение маны
 am2.spell.manashield=Щит маны
 am2.spell.moonrise=Восход луны
-am2.spell.placeblock=Положить книгу
-am2.spell.shrink=Shrink
+am2.spell.placeblock=Поставить блок
+am2.spell.shrink=Сжатие
 am2.spell.silence=Тишина
 am2.spell.wizardsautumn=Осень волшебника
 
@@ -311,13 +311,13 @@ am2.spell.entangle=Запутывание
 am2.spell.firedamage=Урон огнём
 am2.spell.flight=Полёт
 am2.spell.fling=Бросок
-am2.spell.forge=Forge
+am2.spell.forge=Плавка
 am2.spell.freeze=Замораживание
 am2.spell.frostdamage=Урон холодом
-am2.spell.gravitywell=Gravity Well
+am2.spell.gravitywell=Гравитационный колодец
 am2.spell.grow=Рост
 am2.spell.harvestplants=Собирать растения
-am2.spell.haste=Быстрота
+am2.spell.haste=Спешка
 am2.spell.heal=Лечение
 am2.spell.ignition=Воспламенение
 am2.spell.invisibility=Невидимость
@@ -347,13 +347,13 @@ am2.spell.slowfall=Замедленное падение
 am2.spell.storm=Шторм
 am2.spell.swiftswim=Быстрое плавание
 am2.spell.telekinesis=Телекинез
-am2.spell.transplace=Перемещение
+am2.spell.transplace=Перемена мест
 am2.spell.truesight=Истинное зрение
 am2.spell.waterbreathing=Подводное дыхание
 am2.spell.waterygrave=Подводная могила
 
 am2.spell.bounce=Отскок
-am2.spell.buffpower=Поглащение силы
+am2.spell.buffpower=Поглощение силы
 am2.spell.colour=Покраска
 am2.spell.damage=Урон
 am2.spell.dismembering=Расчленение
@@ -374,7 +374,7 @@ am2.spell.targetnonsolid=Цель: Нетвёрдые блоки
 am2.spell.velocityadded=Добавление скорости
 
 am2.spell.affinitygains=Сродство даёт усиление
-am2.spell.augmentedcasting=Улучшенное литьё
+am2.spell.augmentedcasting=Улучшенное использование заклинаний
 am2.spell.extrasummon=Дополнительный призыв
 am2.spell.magebandi=Поиск маны I
 am2.spell.magebandii=Поиск маны II
@@ -447,9 +447,9 @@ am2.tooltip.noMatchingPlayer=Подходящий игрок не найден.
 am2.tooltip.noPathFound=Путь не был найден между выбранными узлами.
 am2.tooltip.noSupportedPowertypes=Узел-источник не обеспечивает поддержку всех видов энергии, которые узел-назначения может использовать!
 am2.tooltip.nodePairToSelf=Вы не можете соединить узел с собой!
-am2.tooltip.nodesTooFar=Узлы слишком далеко друг от друга. Нельзя соеднить их!
+am2.tooltip.nodesTooFar=Узлы слишком далеко друг от друга. Нельзя соединить их!
 am2.tooltip.none=Нет
-am2.tooltip.notYourJournal=Это не Ваш журна!  Не заглядывать!
+am2.tooltip.notYourJournal=Это не Ваш журнал!  Не подглядывать!
 am2.tooltip.open=Открывается c помощью Shift-ПКМ
 am2.tooltip.partialSuccess=Пути были найдены для некоторых из доступных типов энергии, но не для всех.
 am2.tooltip.pctFull=Заполнена на %.2f
@@ -471,8 +471,8 @@ am2.tooltip.tc_nrv=Таумическое зрение (Требуется Thaum
 am2.tooltip.unattuned=Ненастроенная
 am2.tooltip.unowned=Страницы журнала пусты.
 am2.tooltip.upToDate=Ваша версия Ars Magica 2 обновлена.
-am2.tooltip.updateAvailable=Обновление мода доступно.  ЛКМ, чтобы получить ссылку для загрузки.  ПКМ, чтобы посмотреть изменения.
-am2.tooltip.uses=Осталось использований: 
+am2.tooltip.updateAvailable=Доступно обновление мода.  ЛКМ, чтобы получить ссылку для загрузки.  ПКМ, чтобы посмотреть изменения.
+am2.tooltip.uses=Осталось использований:
 am2.tooltip.water_orbs=§3Вода становится Вашим другом.§f
 am2.tooltip.winter_arm=§3Морозный холод.§f
 am2.tooltip.wtrbrth=Дыхание под водой
@@ -497,7 +497,7 @@ am2.gui.blue=Синий
 am2.gui.bluePoint=Синее очко
 am2.gui.bookOut=Удаление книги завершит рецепт заклинания.
 am2.gui.boots=Ботинки
-am2.gui.border=Border
+am2.gui.border=Границы
 am2.gui.buffTimers=Длительность
 am2.gui.burnout=Burnout
 am2.gui.burnoutNumeric=Числовое значение Burnout
@@ -544,7 +544,7 @@ am2.gui.manaNumeric=Числовое значение маны
 am2.gui.mbb=Поведение отображения
 am2.gui.minimalHud=Минимальный интерфейс
 am2.gui.minimalHudDesc=Если да, интерфейс AM будет показываться только тогда, когда заклинание,\nкнига заклинаний или посох экипированы.
-am2.gui.modifiedBy=Автор изменения: 
+am2.gui.modifiedBy=Автор изменения:
 am2.gui.modifies=Изменяет
 am2.gui.name=Имя
 am2.gui.nameRequired=Требуется имя
@@ -557,7 +557,7 @@ am2.gui.noneAffinity=Нет
 am2.gui.notLearned=не выучен
 am2.gui.numericValues=Числовые значения
 am2.gui.options=Опции
-am2.gui.or= или 
+am2.gui.or= или
 am2.gui.particleEmitter=Настроить излучатель частиц
 am2.gui.pause=Пауза
 am2.gui.positiveBuffs=Положительные эффекты
@@ -587,12 +587,12 @@ am2.gui.xpBar=Полоса опыта
 am2.gui.yes=Да
 
 #death messages
-am2.death.backfire=Заклинание %s имело не приятные последствия.
+am2.death.backfire=Заклинание %s имело неприятные последствия.
 am2.death.fire=%s загорелся.
 am2.death.frost=%s был заморожен.
 am2.death.lightning=%s получил электрический разряд.
-am2.death.wind=%s сдулся.
-am2.death.wtfboom=%s слишком сильно ударился об кактус, а потом утонул в лаве.
+am2.death.wind=%s сдуло.
+am2.death.wtfboom=%s слишком сильно ударился об кактус, а потом взорвался в лаве.
 
 #npc messages
 am2.npc.nopartyskill=Я знаю тебя?
@@ -605,12 +605,12 @@ am2.npc.partyrefuse=Вы должны стать более сильным, пр
 
 ##air
 am2.affinity.agile=Проворство
-am2.affinity.lightasafeather=Перо это свет
+am2.affinity.lightasafeather=Лёгкий как перышко
 
 ##arcane
 am2.affinity.clearcaster=Чистая аура
 am2.affinity.magicweakness=Магическая слабость
-am2.affinity.onewithmagic=Сфокусирование магии
+am2.affinity.onewithmagic=Концентрация
 
 ##earth
 am2.affinity.solidbones=Твёрдые Кости
@@ -624,7 +624,7 @@ am2.affinity.waterweakness=Устойчивость к воде
 
 ##fire
 am2.affinity.firepunch=Огненный шлепок
-am2.affinity.fireresistance=Слабость к Огню
+am2.affinity.fireresistance=Устойчивость к Огню
 am2.affinity.waterweakness=Слабость к воде
 
 ##ice
@@ -638,21 +638,22 @@ am2.affinity.pacifist=Пацифист
 
 ##water
 am2.affinity.antiendermen=Эндерман-откидывание
-am2.affinity.expandedlungs=Расширенная лёгкость
+am2.affinity.expandedlungs=Расширенные лёгкие
 am2.affinity.fireweakness=Слабость к огню
 am2.affinity.fluidity=Текучесть
-am2.affinity.swiftswim=Быстрое лето
+am2.affinity.swiftswim=Быстрый пловец
 
 ##nature
 am2.affinity.harvester=Комбайн
+am2.affinity.leaflike=Лист на ветру
 am2.affinity.photosynthesis=Фотосинтез
-am2.affinity.rooted=Коренноый
-am2.affinity.thorns=Шыпастая аура
+am2.affinity.rooted=Корни
+am2.affinity.thorns=Шипастая аура
 
 ##lightning
-am2.affinity.fulmination=Инициированный врзыр
-am2.affinity.reflexes=Рефлекты света
-am2.affinity.shortcircuit=Короткая схема
+am2.affinity.fulmination=Подрыв
+am2.affinity.reflexes=Отблески молнии
+am2.affinity.shortcircuit=Короткое замыкание
 am2.affinity.thunderpunch=Громовой шлепок
 
 
