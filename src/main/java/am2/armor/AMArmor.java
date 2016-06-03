@@ -93,7 +93,7 @@ public class AMArmor extends ItemArmor implements ISpecialArmor{
 	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot){
 		if (source == DamageSource.onFire){
 			stack.damageItem(damage * 7, entity);
-		}else if (source == DamageSource.fall || source == DamageSource.inWall || source == DamageSource.drown || source == DamageSource.starve){
+		}else if (source == DamageSource.fall || source == DamageSource.inWall || source == DamageSource.drown || source == DamageSource.starve || source == DamageSource.outOfWorld){
 			return;
 		}else if (source == DamageSource.magic){
 			stack.damageItem(damage * 7, entity);
