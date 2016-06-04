@@ -169,7 +169,7 @@ public class ItemRune extends ArsMagicaItem{
 	@Override
 	public Entity createEntity(World world, Entity location, ItemStack itemstack){
 		EntityItem runeEntity = new EntityItemRune(world, location.posX, location.posY, location.posZ, itemstack);
-		if (runeEntity instanceof EntityItem){
+		if (location instanceof EntityItem){
 			EntityItem item = (EntityItem)location;
 			runeEntity.delayBeforeCanPickup = item.delayBeforeCanPickup;
 			runeEntity.motionX = item.motionX;
