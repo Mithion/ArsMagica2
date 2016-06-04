@@ -163,7 +163,7 @@ public class ItemRune extends ArsMagicaItem{
 
 	@Override
 	public boolean hasCustomEntity(ItemStack stack){
-		return stack.stackSize == 1;
+		return true;
 	}
 
 	@Override
