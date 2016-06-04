@@ -35,6 +35,17 @@ public class RitualShapeHelper{
 
 			Collections.sort(items, new EntityItemComparator());
 
+			for (int i = 0; i < items.size(); i++){
+				EntityItem item = items.get(i);
+				if (item.getEntityItem().stackSize > 1){
+					EntityItem oneItem = new EntityItem(item.worldObj);
+					oneItem.setEntityItemStack(item.getEntityItem().copy());
+					oneItem.getEntityItem().stackSize = 1;
+					items.add(i, oneItem);
+					item.getEntityItem().stackSize--;
+				}
+			}
+
 			if (!itemsMustMatch || matchReagents((List<EntityItem>)items.clone(), reagents)){
 				ItemStack[] toReturn = new ItemStack[items.size()];
 				for (int i = 0; i < items.size(); ++i)
