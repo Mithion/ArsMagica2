@@ -15,6 +15,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -157,6 +159,24 @@ public class ItemRune extends ArsMagicaItem{
 		default:
 			return 0;
 		}
+	}
+
+	@Override
+	public boolean hasCustomEntity(ItemStack stack){
+		return true;
+	}
+
+	@Override
+	public Entity createEntity(World world, Entity location, ItemStack itemstack){
+		EntityItem runeEntity = new EntityItemRune(world, location.posX, location.posY, location.posZ, itemstack);
+		runeEntity.motionX = location.motionX;
+		runeEntity.motionY = location.motionY;
+		runeEntity.motionZ = location.motionZ;
+		if (location instanceof EntityItem){
+			EntityItem item = (EntityItem)location;
+			runeEntity.delayBeforeCanPickup = item.delayBeforeCanPickup;
+		}
+		return runeEntity;
 	}
 
 
