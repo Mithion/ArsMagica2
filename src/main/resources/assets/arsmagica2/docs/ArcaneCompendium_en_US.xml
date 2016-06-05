@@ -2092,11 +2092,16 @@
       <desc>
 				Drawing further on vinteum dust's ability to conduct
 				Etherium, a small group of brilliant magi created a frame
-				out of iron and gold which is capable of storing massive
-				amounts of Etherium. Mana batteries will
+				out of vinteum-infused chimerite which is capable of storing
+				massive amounts of Etherium. Mana batteries will
 				always provide power to connected devices, but they can
 				also request Etherium from the network
 				when given a redstone signal.
+				
+				Unfortunately, the process used to manufacture the battery
+				makes it somewhat volatile, causing it to lose all stored
+				Etherium if it is moved without the careful touch of a
+				mage's hand.
 			</desc>
       <relatedEntries></relatedEntries>
     </block>

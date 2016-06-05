@@ -58,14 +58,25 @@ public class BlockManaBattery extends PoweredBlock{
 	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
 		if (!super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9))
 			return true;
+		
+		if (par5EntityPlayer.isSneaking()){
+			//Cheating slightly.
+			if (!par1World.isRemote){
+				collect(par1World, par2, par3, par4);
+				par1World.setBlockToAir(par2, par3, par4);
+			}
+					
+		}else{
 
-		if (par1World.isRemote){
-			TileEntityManaBattery te = getTileEntity(par1World, par2, par3, par4);
-			if (te != null){
-				if (AMCore.config.colourblindMode()){
-					par5EntityPlayer.addChatMessage(new ChatComponentText(String.format("Charge Level: %.2f %% [%s]", PowerNodeRegistry.For(par1World).getPower(te, te.getPowerType()) / te.getCapacity() * 100, getColorNameFromPowerType(te.getPowerType()))));
-				}else{
-					par5EntityPlayer.addChatMessage(new ChatComponentText(String.format("Charge Level: %s%.2f \u00A7f%%", te.getPowerType().chatColor(), PowerNodeRegistry.For(par1World).getPower(te, te.getPowerType()) / te.getCapacity() * 100)));
+			if (par1World.isRemote){
+				TileEntityManaBattery te = getTileEntity(par1World, par2, par3, par4);
+				if (te != null){
+				
+						if (AMCore.config.colourblindMode()){
+							par5EntityPlayer.addChatMessage(new ChatComponentText(String.format("Charge Level: %.2f %% [%s]", PowerNodeRegistry.For(par1World).getPower(te, te.getPowerType()) / te.getCapacity() * 100, getColorNameFromPowerType(te.getPowerType()))));
+						}else{
+							par5EntityPlayer.addChatMessage(new ChatComponentText(String.format("Charge Level: %s%.2f \u00A7f%%", te.getPowerType().chatColor(), PowerNodeRegistry.For(par1World).getPower(te, te.getPowerType()) / te.getCapacity() * 100)));
+						}
 				}
 			}
 		}
@@ -111,7 +122,7 @@ public class BlockManaBattery extends PoweredBlock{
 
 	@Override
 	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion){
-		destroy(world, x, y, z);
+		//destroy(world, x, y, z);
 		super.onBlockExploded(world, x, y, z, explosion);
 	}
 
@@ -132,8 +143,9 @@ public class BlockManaBattery extends PoweredBlock{
 		super.onBlockPreDestroy(par1World, par2, par3, par4, par5);
 	}
 
-	private void destroy(World world, int i, int j, int k){
+	private void collect(World world, int i, int j, int k){
 		TileEntityManaBattery te = getTileEntity(world, i, j, k);
+
 		if (te != null && !world.isRemote){
 			float f = world.rand.nextFloat() * 0.8F + 0.1F;
 			float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
@@ -149,6 +161,7 @@ public class BlockManaBattery extends PoweredBlock{
 			if (!stack.stackTagCompound.hasKey("Lore"))
 				stack.stackTagCompound.setTag("Lore", new NBTTagList());
 
+			//"Lore" tag does not function currently.
 			NBTTagList tagList = new NBTTagList();
 			PowerTypes powerType = te.getPowerType();
 			float amt = PowerNodeRegistry.For(world).getPower(te, powerType);
@@ -162,6 +175,21 @@ public class BlockManaBattery extends PoweredBlock{
 			entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
 			world.spawnEntityInWorld(entityitem);
 		}
+	}
+	
+	private void destroy(World world, int i, int j, int k){
+		float f = world.rand.nextFloat() * 0.8F + 0.1F;
+		float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
+		float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
+		
+		ItemStack stack = new ItemStack(this);	
+		
+		EntityItem entityitem = new EntityItem(world, i + f, j + f1, k + f2, stack);
+		float f3 = 0.05F;
+		entityitem.motionX = (float)world.rand.nextGaussian() * f3;
+		entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
+		entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
+		world.spawnEntityInWorld(entityitem);
 	}
 
 	@Override
