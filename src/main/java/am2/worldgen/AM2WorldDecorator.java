@@ -18,6 +18,8 @@ import net.minecraftforge.event.terraingen.TerrainGen;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.security.auth.callback.ConfirmationCallback;
+
 import static net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.LAKE;
 
 public class AM2WorldDecorator implements IWorldGenerator{
@@ -44,6 +46,31 @@ public class AM2WorldDecorator implements IWorldGenerator{
 	//pools
 	private final AM2PoolGen pools;
 	private final WorldGenEssenceLakes lakes;
+	
+	//config
+	private int witchChance = AMCore.config.getWitchwoodFrequency();
+	private int poolChance = AMCore.config.getPoolFrequency();
+	private int wakeChance = AMCore.config.getWakebloomFrequency();
+	
+	private int vinteumMin = AMCore.config.getVinteumMinHeight();
+	private int vinteumMax = AMCore.config.getVinteumMaxHeight();
+	private int vinteumVein = AMCore.config.getVinteumVeinSize();
+	private int vinteumFrequency = AMCore.config.getVinteumFrequency();
+	
+	private int chimeriteMin = AMCore.config.getChimeriteMinHeight();
+	private int chimeriteMax = AMCore.config.getChimeriteMaxHeight();
+	private int chimeriteVein = AMCore.config.getChimeriteVeinSize();
+	private int chimeriteFrequency = AMCore.config.getChimeriteFrequency();
+	
+	private int topazMin = AMCore.config.getTopazMinHeight();
+	private int topazMax = AMCore.config.getTopazMaxHeight();
+	private int topazVein = AMCore.config.getTopazVeinSize();
+	private int topazFrequency = AMCore.config.getTopazFrequency();	
+	
+	private int sunstoneMin = AMCore.config.getSunstoneMinHeight();
+	private int sunstoneMax = AMCore.config.getSunstoneMaxHeight();
+	private int sunstoneVein = AMCore.config.getSunstoneVeinSize();
+	private int sunstoneFrequency = AMCore.config.getSunstoneFrequency();
 
 	public AM2WorldDecorator(){
 
@@ -52,10 +79,10 @@ public class AM2WorldDecorator implements IWorldGenerator{
 			dimensionBlacklist.add(i);
 		}
 
-		vinteum = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_VINTEUM_ORE, 4, Blocks.stone);
-		chimerite = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_CHIMERITE_ORE, 6, Blocks.stone);
-		blueTopaz = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_BLUE_TOPAZ_ORE, 6, Blocks.stone);
-		sunstone = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_SUNSTONE_ORE, 3, Blocks.lava);
+		vinteum = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_VINTEUM_ORE, vinteumVein, Blocks.stone);
+		chimerite = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_CHIMERITE_ORE, chimeriteVein, Blocks.stone);
+		blueTopaz = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_BLUE_TOPAZ_ORE, topazVein, Blocks.stone);
+		sunstone = new WorldGenMinable(BlocksCommonProxy.AMOres, BlocksCommonProxy.AMOres.META_SUNSTONE_ORE, sunstoneVein, Blocks.lava);
 
 		blueOrchid = new AM2FlowerGen(BlocksCommonProxy.cerublossom, 0);
 		desertNova = new AM2FlowerGen(BlocksCommonProxy.desertNova, 0);
@@ -94,10 +121,10 @@ public class AM2WorldDecorator implements IWorldGenerator{
 	}
 
 	public void generateOverworld(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider){
-		generateOre(vinteum, 6, world, random, 10, 45, chunkX, chunkZ);
-		generateOre(chimerite, 8, world, random, 10, 80, chunkX, chunkZ);
-		generateOre(blueTopaz, 8, world, random, 10, 80, chunkX, chunkZ);
-		generateOre(sunstone, 20, world, random, 5, 120, chunkX, chunkZ);
+		generateOre(vinteum, vinteumFrequency, world, random, vinteumMin, vinteumMax, chunkX, chunkZ);
+		generateOre(chimerite, chimeriteFrequency, world, random, chimeriteMin, chimeriteMax, chunkX, chunkZ);
+		generateOre(blueTopaz, topazFrequency, world, random, topazMin, topazMax, chunkX, chunkZ);
+		generateOre(sunstone, sunstoneFrequency, world, random, sunstoneMin, sunstoneMax, chunkX, chunkZ);
 
 		generateFlowers(blueOrchid, world, random, chunkX, chunkZ);
 		generateFlowers(desertNova, world, random, chunkX, chunkZ);
@@ -115,15 +142,15 @@ public class AM2WorldDecorator implements IWorldGenerator{
 			}
 		}
 
-		if (biome != BiomeGenBase.ocean && typeValid && random.nextInt(10) < 7){
+		if (biome != BiomeGenBase.ocean && typeValid && random.nextInt(wakeChance) < 7){
 			generateFlowers(wakebloom, world, random, chunkX, chunkZ);
 		}
 
-		if (random.nextInt(35) == 0){
+		if (random.nextInt(witchChance) == 0){
 			generateTree(witchwoodTree, world, random, chunkX, chunkZ);
 		}
 
-		if (random.nextInt(25) == 0){
+		if (random.nextInt(poolChance) == 0){
 			generatePools(world, random, chunkX, chunkZ);
 		}
 
