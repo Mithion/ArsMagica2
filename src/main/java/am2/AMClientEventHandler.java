@@ -181,14 +181,11 @@ public class AMClientEventHandler{
 		}else if (stack.getItem() instanceof ItemBlock){
 			if (((ItemBlock)stack.getItem()).field_150939_a == BlocksCommonProxy.manaBattery){
 				if (stack.hasTagCompound()){
-					NBTTagList list = stack.stackTagCompound.getTagList("Lore", Constants.NBT.TAG_COMPOUND);
-					if (list != null){
-						for (int i = 0; i < list.tagCount(); ++i){
-							NBTBase tag = list.getCompoundTagAt(i);
-							if (tag instanceof NBTTagString){
-								event.toolTip.add((((NBTTagString)tag).func_150285_a_()));
-							}
-						}
+					float batteryCharge = stack.stackTagCompound.getFloat("mana_battery_charge");
+					PowerTypes powerType = PowerTypes.getByID(stack.stackTagCompound.getInteger("mana_battery_powertype"));
+					if (batteryCharge != 0) {
+						// TODO localize this tooltip
+						event.toolTip.add(String.format("\u00A7r\u00A79Contains \u00A75%.2f %s%s \u00A79etherium", batteryCharge, powerType.chatColor(), powerType.name()));
 					}
 				}
 			}
