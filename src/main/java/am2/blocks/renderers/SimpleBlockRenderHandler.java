@@ -347,7 +347,7 @@ public class SimpleBlockRenderHandler implements ISimpleBlockRenderingHandler{
 			IBlockAccess old = renderer.blockAccess;
 			renderer.blockAccess = this.blockAccess;
 			this.blockAccess.setControllingTileEntity(te);
-			this.blockAccess.setFakeBlockAndMeta(BlocksCommonProxy.manaBattery, 0);
+			this.blockAccess.setFakeBlockAndMeta(BlocksCommonProxy.manaBattery, te.getPowerType().ID());
 			this.blockAccess.setOuterBlockAccess(world);
 			this.blockAccess.setOverrideCoords(x, y, z);
 			renderer.renderStandardBlock(BlocksCommonProxy.manaBattery, x, y, z);
