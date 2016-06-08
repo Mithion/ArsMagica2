@@ -774,6 +774,7 @@ public class BlocksCommonProxy{
 		OreDictionary.registerOre("witchwoodLog", witchwoodLog);
 		OreDictionary.registerOre("stairWitchwood", witchwoodStairs);
 		OreDictionary.registerOre("slabWitchwood", witchwoodSingleSlab);
+		OreDictionary.registerOre("treeLeaves", witchwoodLeaves);
 	}
 
 	private <T extends ItemBlock> void registerMultiTextureBlock(Block block, String unlocalizedName, T item){
