@@ -26,6 +26,7 @@ public class BlockWitchwoodLog extends BlockLog{
 		setHardness(3.0f);
 		setResistance(3.0f);
 		setHarvestLevel("axe", 2);
+		setStepSound(Block.soundTypeWood);
 	}
 
 	/**
