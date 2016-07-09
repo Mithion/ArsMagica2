@@ -218,7 +218,7 @@ public class ArcaneCompendium implements ILoreHelper{
 			return false;
 
 		try{
-			String txt = WebRequestUtils.sendPost("http://arcanacraft.qorconcept.com/mc/CompendiumVersioning.txt", new HashMap<String, String>());
+			String txt = WebRequestUtils.sendPost("https://arcanacraft.qorconcept.com/mc/CompendiumVersioning.txt", new HashMap<String, String>());
 			String[] lines = txt.replace("\r\n", "\n").split("\n");
 			for (String s : lines){
 				if (s.startsWith("#"))
@@ -252,7 +252,7 @@ public class ArcaneCompendium implements ILoreHelper{
 		try{
 			LogHelper.info("Checking Version.  MC Version: %s", MCVersion);
 			this.latestModVersion = this.modVersion;
-			String txt = WebRequestUtils.sendPost("http://arcanacraft.qorconcept.com/mc/AM2Versioning.txt", new HashMap<String, String>());
+			String txt = WebRequestUtils.sendPost("https://arcanacraft.qorconcept.com/mc/AM2Versioning.txt", new HashMap<String, String>());
 			String[] lines = txt.replace("\r\n", "\n").split("\n");
 			for (String s : lines){
 				if (s.startsWith("#"))
