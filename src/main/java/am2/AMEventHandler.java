@@ -463,7 +463,7 @@ public class AMEventHandler{
 
 		//leap buff
 		if (event.entityLiving.isPotionActive(BuffList.leap)){
-			int amplifier = event.entityLiving.getActivePotionEffect(BuffList.leap).getAmplifier() + 1;
+			int amplifier = event.entityLiving.getActivePotionEffect(BuffList.leap).getAmplifier();
 
 			switch (amplifier){
 			case BuffPowerLevel.Low:
