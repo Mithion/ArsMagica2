@@ -227,7 +227,7 @@ public class AMEventHandler{
 			double zVelocity = 0;
 
 			Vec3 vec = event.entityLiving.getLookVec().normalize();
-			switch (event.entityLiving.getActivePotionEffect(BuffList.leap).getAmplifier() + 1){
+			switch (event.entityLiving.getActivePotionEffect(BuffList.leap).getAmplifier()){
 			case BuffPowerLevel.Low:
 				yVelocity = 0.4;
 				xVelocity = velocityTarget.motionX * 1.08 * Math.abs(vec.xCoord);
