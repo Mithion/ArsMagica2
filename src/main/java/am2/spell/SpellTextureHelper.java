@@ -16,6 +16,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.security.CodeSource;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -59,7 +60,7 @@ public class SpellTextureHelper{
 		ArrayList<String> toReturn = new ArrayList<String>();
 		if (src != null){
 			URL jar = src.getLocation();
-			if (jar.getProtocol() == "jar"){
+			if (jar.getProtocol().equals("jar")){
 				String path = jar.toString().replace("jar:", "").replace("file:", "").replace("!/am2/AMCore.class", "").replace('/', File.separatorChar);
 				path = URLDecoder.decode(path, "UTF-8");
 				LogHelper.debug(path);
@@ -74,7 +75,7 @@ public class SpellTextureHelper{
 					}
 				}
 				jarFile.close();
-			}else if (jar.getProtocol() == "file"){
+			}else if (jar.getProtocol().equals("file")){
 				String path = jar.toURI().toString().replace("/am2/AMCore.class", iconsPath).replace("file:/", "").replace("%20", " ").replace("/", "\\");
 				File file = new File(path);
 				if (file.exists() && file.isDirectory()){
@@ -83,10 +84,10 @@ public class SpellTextureHelper{
 					}
 				}
 			}
-			return toReturn;
-		}else{
-			return toReturn;
 		}
+		Collections.sort(toReturn, String.CASE_INSENSITIVE_ORDER);
+
+		return toReturn;
 	}
 
 	public IIcon getIcon(int index){
