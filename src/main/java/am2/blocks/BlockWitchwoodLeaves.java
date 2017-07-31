@@ -30,6 +30,7 @@ public class BlockWitchwoodLeaves extends BlockLeaves{
 		setHardness(0.2F);
 		setLightOpacity(1);
 		this.setTickRandomly(true);
+		this.setStepSound(Block.soundTypeGrass);
 	}
 
 	@Override

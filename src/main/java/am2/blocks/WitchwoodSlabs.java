@@ -21,6 +21,7 @@ public class WitchwoodSlabs extends BlockWoodSlab{
 		this.setHardness(2.0f);
 		this.setResistance(2.0f);
 		this.setHarvestLevel("axe", 2);
+		this.setStepSound(Block.soundTypeWood);
 	}
 
 	@Override
