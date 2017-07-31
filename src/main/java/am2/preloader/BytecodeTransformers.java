@@ -11,6 +11,10 @@ import org.objectweb.asm.tree.*;
 import java.lang.reflect.Field;
 import java.util.Iterator;
 
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+
 public class BytecodeTransformers implements IClassTransformer{
 	
 	@Override
@@ -744,6 +748,22 @@ public class BytecodeTransformers implements IClassTransformer{
 	      ClassReader cr = new ClassReader(bytes);
 	      ClassNode cn = new ClassNode();
 	      cr.accept(cn, 0);
+
+		//debug
+		if (!is_obfuscated){
+			try{
+				ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+				cn.accept(cw);
+				File outDir = new File("asm/am2");
+				outDir.mkdirs();
+				DataOutputStream dout = new DataOutputStream(new FileOutputStream(new File(outDir, "SD1PacketEntityEffect_pre.class")));
+				dout.write(cw.toByteArray());
+				dout.flush();
+				dout.close();
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+		}
 	      
 	      // Minecraft r1.7.10:
 	      // S1DPacketEntityEffect.java --> in.class
@@ -828,6 +848,10 @@ public class BytecodeTransformers implements IClassTransformer{
 	      
 	      String method1_searchinstruction_function = "readByte";
 	      String method1_searchinstruction_desc = "()B";
+
+		  // method used to check if receiving a vanilla or AM2 packet
+		  String method1_checkinstruction_function = "readableBytes";
+		  String method1_checkinstruction_desc = "()I";
 	      
 	      // replacement class is the same
 	      String method1_replaceinstruction_function = "readInt";
@@ -848,6 +872,9 @@ public class BytecodeTransformers implements IClassTransformer{
 	      
 	      String method2_searchinstruction_function = "writeByte";
 	      String method2_searchinstruction_desc = "(I)Lio/netty/buffer/ByteBuf;";
+
+//		  String method2_checkinstruction_function = "writableBytes";
+//		  String method2_checkinstruction_desc = "()I";
 	      
 	      // replacement class is the same
 	      // so is the instruction, but we'll leave it as being explicitly defined just in case
@@ -940,11 +967,38 @@ public class BytecodeTransformers implements IClassTransformer{
 			      }
 			      
 			      if (target != null && target2 != null){
-				      MethodInsnNode new_readint = new MethodInsnNode(Opcodes.INVOKEVIRTUAL, method1_searchinstruction_owner.getVal(is_obfuscated), method1_replaceinstruction_function, method1_replaceinstruction_desc);
-				      FieldInsnNode new_potion_id_variable = new FieldInsnNode(Opcodes.PUTFIELD, classname, potionID_intvar_name, potionID_intvar_desc);
-				      
-				      mn.instructions.set(target, new_readint);
-				      mn.instructions.set(target2, new_potion_id_variable);
+			      	  InsnList new_if = new InsnList();
+					  new_if.add(new VarInsnNode(Opcodes.ALOAD, 1));
+					  new_if.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, method1_searchinstruction_owner.getVal(is_obfuscated), method1_checkinstruction_function, method1_checkinstruction_desc, false));
+					  new_if.add(new IntInsnNode(Opcodes.BIPUSH, 7));
+					  LabelNode elseLabel = new LabelNode();
+					  new_if.add(new JumpInsnNode(Opcodes.IF_ICMPNE, elseLabel));
+					  new_if.add(new VarInsnNode(Opcodes.ALOAD, 0));
+					  new_if.add(new VarInsnNode(Opcodes.ALOAD, 1));
+					  new_if.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, method1_searchinstruction_owner.getVal(is_obfuscated), method1_replaceinstruction_function, method1_replaceinstruction_desc, false));
+					  new_if.add(new FieldInsnNode(Opcodes.PUTFIELD, classname, potionID_intvar_name, potionID_intvar_desc));
+					  LabelNode endIfLabel = new LabelNode();
+					  new_if.add(new JumpInsnNode(Opcodes.GOTO, endIfLabel));
+					  new_if.add(elseLabel);
+					  new_if.add(new FrameNode(Opcodes.F_SAME, 0, null, 0, null));
+					  new_if.add(new VarInsnNode(Opcodes.ALOAD, 0));
+					  new_if.add(new VarInsnNode(Opcodes.ALOAD, 1));
+					  new_if.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, method1_searchinstruction_owner.getVal(is_obfuscated), method1_searchinstruction_function, method1_searchinstruction_desc, false));
+					  new_if.add(new FieldInsnNode(Opcodes.PUTFIELD, classname, potionID_intvar_name, potionID_intvar_desc));
+					  new_if.add(endIfLabel);
+					  new_if.add(new FrameNode(Opcodes.F_SAME, 0, null, 0, null));
+
+					  mn.instructions.insertBefore(target.getPrevious().getPrevious(), new_if);
+					  mn.instructions.remove(target.getPrevious().getPrevious()); // ALOAD 0
+					  mn.instructions.remove(target.getPrevious()); // ALOAD 1
+					  mn.instructions.remove(target);
+					  mn.instructions.remove(target2);
+
+//				      MethodInsnNode new_readint = new MethodInsnNode(Opcodes.INVOKEVIRTUAL, method1_searchinstruction_owner.getVal(is_obfuscated), method1_replaceinstruction_function, method1_replaceinstruction_desc);
+//				      FieldInsnNode new_potion_id_variable = new FieldInsnNode(Opcodes.PUTFIELD, classname, potionID_intvar_name, potionID_intvar_desc);
+//
+//				      mn.instructions.set(target, new_readint);
+//				      mn.instructions.set(target2, new_potion_id_variable);
 				      LogHelper.debug("Core: Success!  Replaced opcodes!");
 			      }
 		      } else if (mn.name.equals(method2_name.getVal(is_obfuscated)) && mn.desc.equals(method2_desc.getVal(is_obfuscated))){
@@ -968,9 +1022,37 @@ public class BytecodeTransformers implements IClassTransformer{
 			      }
 			      
 			      if (target != null && target2 != null){
+			      	  // I don't think this advanced packet logic is even needed, as a server running AM2 would require AM2 on the client anyway.
+//					  InsnList new_if = new InsnList();
+//					  new_if.add(new VarInsnNode(Opcodes.ALOAD, 1));
+//					  new_if.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, method2_searchinstruction_owner.getVal(is_obfuscated), method2_checkinstruction_function, method2_checkinstruction_desc, false));
+//					  new_if.add(new IntInsnNode(Opcodes.BIPUSH, 7));
+//					  LabelNode elseLabel = new LabelNode();
+//					  new_if.add(new JumpInsnNode(Opcodes.IF_ICMPNE, elseLabel));
+//					  new_if.add(new VarInsnNode(Opcodes.ALOAD, 1));
+//					  new_if.add(new VarInsnNode(Opcodes.ALOAD, 0));
+//					  new_if.add(new FieldInsnNode(Opcodes.GETFIELD, classname, potionID_intvar_name, potionID_intvar_desc));
+//					  new_if.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, method2_searchinstruction_owner.getVal(is_obfuscated), method2_replaceinstruction_function, method2_replaceinstruction_desc, false));
+//					  LabelNode endIfLabel = new LabelNode();
+//					  new_if.add(new JumpInsnNode(Opcodes.GOTO, endIfLabel));
+//					  new_if.add(elseLabel);
+//					  new_if.add(new FrameNode(Opcodes.F_SAME, 0, null, 0, null));
+//					  new_if.add(new VarInsnNode(Opcodes.ALOAD, 1));
+//					  new_if.add(new VarInsnNode(Opcodes.ALOAD, 0));
+//					  new_if.add(new FieldInsnNode(Opcodes.GETFIELD, classname, potionID_intvar_name, potionID_intvar_desc));
+//					  new_if.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, method2_searchinstruction_owner.getVal(is_obfuscated), method2_searchinstruction_function, method2_searchinstruction_desc, false));
+//					  new_if.add(endIfLabel);
+//					  new_if.add(new FrameNode(Opcodes.F_SAME, 0, null, 0, null));
+//
+//					  mn.instructions.insertBefore(target.getPrevious().getPrevious(), new_if);
+//					  mn.instructions.remove(target.getPrevious().getPrevious());
+//					  mn.instructions.remove(target.getPrevious());
+//					  mn.instructions.remove(target);
+//					  mn.instructions.remove(target2);
+
 				      FieldInsnNode new_potion_id_variable = new FieldInsnNode(Opcodes.GETFIELD, classname, potionID_intvar_name, potionID_intvar_desc);
 				      MethodInsnNode new_writeint = new MethodInsnNode(Opcodes.INVOKEVIRTUAL, method2_searchinstruction_owner.getVal(is_obfuscated), method2_replaceinstruction_function, method2_replaceinstruction_desc);
-				      
+
 				      mn.instructions.set(target, new_potion_id_variable);
 				      mn.instructions.set(target2, new_writeint);
 				      LogHelper.debug("Core: Success!  Replaced opcodes!");
@@ -988,6 +1070,21 @@ public class BytecodeTransformers implements IClassTransformer{
 
 	      ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 	      cn.accept(cw);
+
+		//debug
+		if (!is_obfuscated){
+			try{
+				File outDir = new File("asm/am2");
+				outDir.mkdirs();
+				DataOutputStream dout = new DataOutputStream(new FileOutputStream(new File(outDir, "SD1PacketEntityEffect_post.class")));
+				dout.write(cw.toByteArray());
+				dout.flush();
+				dout.close();
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+		}
+
 	      return cw.toByteArray();
 	}
 	
@@ -1089,6 +1186,10 @@ public class BytecodeTransformers implements IClassTransformer{
 	      // change from readUnsignedByte to readInt
 	      String method1_searchinstruction_function = "readUnsignedByte";
 	      String method1_searchinstruction_desc = "()S";
+
+		  // method used to check if receiving a vanilla or AM2 packet
+		  String method1_checkinstruction_function = "readableBytes";
+		  String method1_checkinstruction_desc = "()I";
 	      
 	      // replacement class is the same
 	      String method1_replaceinstruction_function = "readInt";
@@ -1137,9 +1238,37 @@ public class BytecodeTransformers implements IClassTransformer{
 			      }
 			      
 			      if (target != null){
-				      MethodInsnNode new_readint = new MethodInsnNode(Opcodes.INVOKEVIRTUAL, method1_searchinstruction_owner.getVal(is_obfuscated), method1_replaceinstruction_function, method1_replaceinstruction_desc);
-				      
-				      mn.instructions.set(target, new_readint);
+			      	  FieldInsnNode fieldNode = (FieldInsnNode)target.getNext();
+					  InsnList new_if = new InsnList();
+					  new_if.add(new VarInsnNode(Opcodes.ALOAD, 1));
+					  new_if.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, method1_searchinstruction_owner.getVal(is_obfuscated), method1_checkinstruction_function, method1_checkinstruction_desc, false));
+					  new_if.add(new IntInsnNode(Opcodes.BIPUSH, 8));
+					  LabelNode elseLabel = new LabelNode();
+					  new_if.add(new JumpInsnNode(Opcodes.IF_ICMPNE, elseLabel));
+					  new_if.add(new VarInsnNode(Opcodes.ALOAD, 0));
+					  new_if.add(new VarInsnNode(Opcodes.ALOAD, 1));
+					  new_if.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, method1_searchinstruction_owner.getVal(is_obfuscated), method1_replaceinstruction_function, method1_replaceinstruction_desc, false));
+					  new_if.add(fieldNode.clone(null));
+					  LabelNode endIfLabel = new LabelNode();
+					  new_if.add(new JumpInsnNode(Opcodes.GOTO, endIfLabel));
+					  new_if.add(elseLabel);
+					  new_if.add(new FrameNode(Opcodes.F_SAME, 0, null, 0, null));
+					  new_if.add(new VarInsnNode(Opcodes.ALOAD, 0));
+					  new_if.add(new VarInsnNode(Opcodes.ALOAD, 1));
+					  new_if.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, method1_searchinstruction_owner.getVal(is_obfuscated), method1_searchinstruction_function, method1_searchinstruction_desc, false));
+					  new_if.add(fieldNode.clone(null));
+					  new_if.add(endIfLabel);
+					  new_if.add(new FrameNode(Opcodes.F_SAME, 0, null, 0, null));
+
+					  mn.instructions.insertBefore(target.getPrevious().getPrevious(), new_if);
+					  mn.instructions.remove(target.getPrevious().getPrevious()); // ALOAD 0
+					  mn.instructions.remove(target.getPrevious()); // ALOAD 1
+					  mn.instructions.remove(target);
+					  mn.instructions.remove(fieldNode); // PUTFIELD
+
+//				      MethodInsnNode new_readint = new MethodInsnNode(Opcodes.INVOKEVIRTUAL, method1_searchinstruction_owner.getVal(is_obfuscated), method1_replaceinstruction_function, method1_replaceinstruction_desc);
+//
+//				      mn.instructions.set(target, new_readint);
 				      LogHelper.debug("Core: Success!  Replaced opcodes!");
 			      }
 		      } else if (mn.name.equals(method2_name.getVal(is_obfuscated)) && mn.desc.equals(method2_desc.getVal(is_obfuscated))){
