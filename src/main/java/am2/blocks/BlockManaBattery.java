@@ -3,11 +3,11 @@ package am2.blocks;
 import am2.AMCore;
 import am2.api.power.PowerTypes;
 import am2.blocks.tileentities.TileEntityManaBattery;
-import am2.entities.EntityDummyCaster;
 import am2.power.PowerNodeRegistry;
 import am2.texture.ResourceManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -17,16 +17,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -62,6 +58,7 @@ public class BlockManaBattery extends PoweredBlock{
 		if (par1World.isRemote){
 			TileEntityManaBattery te = getTileEntity(par1World, par2, par3, par4);
 			if (te != null){
+				// TODO localize these messages
 				if (AMCore.config.colourblindMode()){
 					par5EntityPlayer.addChatMessage(new ChatComponentText(String.format("Charge Level: %.2f %% [%s]", PowerNodeRegistry.For(par1World).getPower(te, te.getPowerType()) / te.getCapacity() * 100, getColorNameFromPowerType(te.getPowerType()))));
 				}else{
@@ -110,58 +107,31 @@ public class BlockManaBattery extends PoweredBlock{
 	}
 
 	@Override
-	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion){
-		destroy(world, x, y, z);
-		super.onBlockExploded(world, x, y, z, explosion);
-	}
-
-	@Override
-	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta){
-		destroy(world, x, y, z);
-	}
-
-	@Override
-	public void onBlockHarvested(World par1World, int par2, int par3, int par4, int par5, EntityPlayer par6EntityPlayer){
-		destroy(par1World, par2, par3, par4);
-		super.onBlockHarvested(par1World, par2, par3, par4, par5, par6EntityPlayer);
-	}
-
-	@Override
-	public void onBlockPreDestroy(World par1World, int par2, int par3, int par4, int par5){
-		//destroy(par1World, par2, par3, par4);
-		super.onBlockPreDestroy(par1World, par2, par3, par4, par5);
-	}
-
-	private void destroy(World world, int i, int j, int k){
+	public void breakBlock(World world, int i, int j, int k, Block theBlock, int metadata){
 		TileEntityManaBattery te = getTileEntity(world, i, j, k);
 		if (te != null && !world.isRemote){
-			float f = world.rand.nextFloat() * 0.8F + 0.1F;
-			float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
-			float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
-			int dmg = (int)((PowerNodeRegistry.For(world).getPower(te, te.getPowerType()) / te.getCapacity()) * 100);
-			if (dmg == 0) dmg = 1;
-			ItemStack stack = new ItemStack(this);
-			stack.damageItem(stack.getMaxDamage() - dmg, new EntityDummyCaster(world));
-			stack.stackTagCompound = new NBTTagCompound();
-			stack.stackTagCompound.setFloat("mana_battery_charge", PowerNodeRegistry.For(world).getPower(te, te.getPowerType()));
-			stack.stackTagCompound.setInteger("mana_battery_powertype", te.getPowerType().ID());
+			if (PowerNodeRegistry.For(world).getPower(te, te.getPowerType()) != 0.0f){
+				float f = world.rand.nextFloat() * 0.8F + 0.1F;
+				float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
+				float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
+				ItemStack stack = new ItemStack(this, 1, metadata);
+				// These currently don't do anything without a custom ItemBlock, so I'm removing them temporarily
+				// int dmg = (int)((PowerNodeRegistry.For(world).getPower(te, te.getPowerType()) / te.getCapacity()) * 100);
+				// if (dmg == 0) dmg = 1;
+				// stack.damageItem(stack.getMaxDamage() - dmg, new EntityDummyCaster(world));
+				stack.stackTagCompound = new NBTTagCompound();
+				stack.stackTagCompound.setFloat("mana_battery_charge", PowerNodeRegistry.For(world).getPower(te, te.getPowerType()));
+				stack.stackTagCompound.setInteger("mana_battery_powertype", te.getPowerType().ID());
 
-			if (!stack.stackTagCompound.hasKey("Lore"))
-				stack.stackTagCompound.setTag("Lore", new NBTTagList());
-
-			NBTTagList tagList = new NBTTagList();
-			PowerTypes powerType = te.getPowerType();
-			float amt = PowerNodeRegistry.For(world).getPower(te, powerType);
-			tagList.appendTag(new NBTTagString(String.format("Contains %.2f %s%s etherium", amt, powerType.chatColor(), powerType.name())));
-			stack.stackTagCompound.setTag("Lore", tagList);
-
-			EntityItem entityitem = new EntityItem(world, i + f, j + f1, k + f2, stack);
-			float f3 = 0.05F;
-			entityitem.motionX = (float)world.rand.nextGaussian() * f3;
-			entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
-			entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
-			world.spawnEntityInWorld(entityitem);
+				EntityItem entityitem = new EntityItem(world, i + f, j + f1, k + f2, stack);
+				float f3 = 0.05F;
+				entityitem.motionX = (float)world.rand.nextGaussian() * f3;
+				entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
+				entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
+				world.spawnEntityInWorld(entityitem);
+			}
 		}
+		super.breakBlock(world, i, j, k, theBlock, metadata);
 	}
 
 	@Override
@@ -188,27 +158,28 @@ public class BlockManaBattery extends PoweredBlock{
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List){
 		ItemStack stack = new ItemStack(this);
-		stack.stackTagCompound = new NBTTagCompound();
-		stack.stackTagCompound.setFloat("mana_battery_charge", new TileEntityManaBattery().getCapacity());
-
 		par3List.add(stack);
+		for (PowerTypes type : PowerTypes.all()){
+			stack = new ItemStack(this, 1, type.ID());
+			stack.stackTagCompound = new NBTTagCompound();
+			stack.stackTagCompound.setFloat("mana_battery_charge", new TileEntityManaBattery().getCapacity());
+			stack.stackTagCompound.setInteger("mana_battery_powertype", type.ID());
+			par3List.add(stack);
+		}
 	}
 
 	@Override
 	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z){
-		TileEntity te = blockAccess.getTileEntity(x, y, z);
-		if (te instanceof TileEntityManaBattery){
-			TileEntityManaBattery battery = (TileEntityManaBattery)te;
-			if (battery.getPowerType() == PowerTypes.DARK)
-				return 0x850e0e;
-			else if (battery.getPowerType() == PowerTypes.LIGHT)
-				return 0x61cfc3;
-			else if (battery.getPowerType() == PowerTypes.NEUTRAL)
-				return 0x2683d2;
-			else
-				return 0xFFFFFF;
-		}
-		return 0xFFFFFF;
+		int metadata = blockAccess.getBlockMetadata(x, y, z);
+		PowerTypes type = PowerTypes.getByID(metadata);
+		if (type == PowerTypes.DARK)
+			return 0x850e0e;
+		else if (type == PowerTypes.LIGHT)
+			return 0x61cfc3;
+		else if (type == PowerTypes.NEUTRAL)
+			return 0x2683d2;
+		else
+			return 0xFFFFFF;
 	}
 
 	@Override
@@ -219,10 +190,5 @@ public class BlockManaBattery extends PoweredBlock{
 	@Override
 	public int getRenderType(){
 		return BlocksCommonProxy.commonBlockRenderID;
-	}
-
-	@Override
-	public ArrayList<ItemStack> getDrops(World arg0, int arg1, int arg2, int arg3, int arg4, int arg5){
-		return new ArrayList<ItemStack>();
 	}
 }
