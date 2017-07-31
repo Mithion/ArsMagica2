@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 <compendium>
 	<version>1.0.4</version>
 		<shapes zeroItemText="你还不了解任何法术构型,也尚未学会它们!">
@@ -34,6 +34,7 @@
 						地把自己给点着的.
 						</desc>
 						<modifiedBy></modifiedBy>
+				</shape>
                 <shape id="Touch">
                         <name>接触法术</name>
                         <desc>
@@ -138,7 +139,7 @@
 						该法术结构当前尚不可用.
 						</desc>
 						<modifiedBy></modifiedBy>
-      					<relatedEntries>bindingCatalyst@0,bindingCatalyst@1,bindingCatalyst@2,bindingCatalyst@3,bindingCatalyst@4,bindingCatalyst@5</relatedEntries
+      					<relatedEntries>bindingCatalyst@0,bindingCatalyst@1,bindingCatalyst@2,bindingCatalyst@3,bindingCatalyst@4,bindingCatalyst@5</relatedEntries>
                 </shape>
                 <shape id="Wall">
 						<name>塑墙</name>
@@ -156,7 +157,6 @@
 						</desc>
 						<modifiedBy>RADIUS,DURATION,SPEED,GRAVITY,PIERCING</modifiedBy>
     		</shape>
-  </shapes>
         </shapes>
         <components zeroItemText="你尚未了解法术成分,也尚未学会它们!">
                 <component id="PhysicalDamage">
@@ -1870,7 +1870,6 @@
 				</desc>
 				<relatedEntries></relatedEntries>
                 </structure>
-				</structure>
     <ritual id="rituals_overview">
       <name>Rituals</name>
       <desc>Rituals are created using Wizard's Chalk and Warding Candles.  Arranging them in the correct pattern can enable you to do some truly powerful magic.  !d Rituals will usually require additional items to be thrown on the ground in order for the ritual to succeed.  These items can be thrown anywhere on the ground inside the radius of the Wizard's Chalk.  !d Once you have your ritual laid out, and your items thrown in, you will need to cast the proper spell in order to kick everything off.  The reagents will depend on the spell being cast,and order does matter.  For example, when throwing down runes to recall to a gateway using a ritual, the order of the runes will become the keystone combination. !d  The spell must target the exact center block of the ritual, on the same y-level as the chalk and candles.  This is usually a block placed in the center, or an entity standing in the middle.  !d  If it doesn't work, make sure you are in the middle of the chalk, that the layout is correct, and that you have the correct reagents for the correct ritual!</desc>
@@ -2147,7 +2146,6 @@
 						吸引,并且会周期性地催生附近的植物.
 						</desc>
                 </mob>
-				</mob>
     <mob id="MobDarkling">
       <name>Darkling</name>
       <desc>Darklings are small dog-like creatures that are found in the nether.  Their body becomes less visible during night, fading to near invsibility at midnight.  As dawn approaches, the Darklings will begin to gradually appear again until they become fully visible again for the day.</desc>
